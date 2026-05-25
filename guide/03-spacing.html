@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spacing · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+
+    nav { background: white; border-bottom: 1px solid #E2E8F0; padding: 16px 40px; display: flex; align-items: center; gap: 12px; }
+    nav a { text-decoration: none; color: #62748E; font-size: 0.85rem; }
+    nav a:hover { color: #2693EC; }
+    nav span { color: #CAD5E2; }
+    nav .title { font-weight: 700; color: #171717; font-size: 0.95rem; }
+
+    .page-header { background: white; border-bottom: 1px solid #E2E8F0; padding: 40px; }
+    .page-header h1 { font-size: 2rem; font-weight: 900; }
+    .page-header p  { color: #62748E; margin-top: 6px; font-size: 0.9rem; }
+
+    .content { padding: 40px; max-width: 900px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1;
+      margin: 40px 0 20px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;
+    }
+
+    .spacing-row {
+      background: white; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 20px 24px; margin-bottom: 10px;
+      display: grid; grid-template-columns: 120px 1fr 140px;
+      gap: 20px; align-items: center;
+    }
+
+    .spacing-label { }
+    .spacing-label .name { font-weight: 700; font-size: 0.95rem; }
+    .spacing-label .token { font-family: monospace; font-size: 0.72rem; color: #2693EC; margin-top: 2px; }
+
+    .spacing-bar-wrap {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .spacing-bar {
+      background: linear-gradient(90deg, #2693EC, #89D3DF);
+      border-radius: 4px; height: 28px;
+      display: flex; align-items: center; justify-content: flex-end; padding-right: 6px;
+      min-width: 4px;
+    }
+
+    .spacing-meta { text-align: right; }
+    .spacing-meta .px  { font-size: 1.1rem; font-weight: 700; color: #171717; }
+    .spacing-meta .rem { font-size: 0.72rem; color: #A1A1A1; margin-top: 2px; font-family: monospace; }
+    .spacing-meta .desc { font-size: 0.7rem; color: #737373; margin-top: 4px; }
+
+    /* Demo box section */
+    .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+
+    .demo-card {
+      background: white; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 24px; overflow: hidden;
+    }
+    .demo-card h3 { font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; color: #62748E; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .demo-box {
+      background: rgba(38, 147, 236, 0.08);
+      border: 1.5px dashed #2693EC;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 600; color: #2693EC;
+    }
+
+    .gap-demo { display: flex; flex-direction: column; gap: 8px; }
+    .gap-item {
+      height: 24px; background: rgba(38,147,236,0.15); border-radius:4px;
+      display: flex; align-items: center; padding: 0 8px;
+      font-size: 0.65rem; color: #2693EC; font-weight: 600;
+    }
+
+    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Home</a>
+  <span>/</span>
+  <span class="title">📏 Spacing</span>
+</nav>
+
+<div class="page-header">
+  <h1>📏 Spacing</h1>
+  <p>9 named spacing steps used for padding, margins and gaps throughout all components. Bars below are shown at actual pixel size.</p>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Spacing Scale</div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">micro</div>
+      <div class="token">--spacing-micro</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:4px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 4px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">4px</div>
+      <div class="rem">0.25rem</div>
+      <div class="desc">Icon-text gaps, tight groups</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">xs</div>
+      <div class="token">--spacing-xs</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:8px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 8px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">8px</div>
+      <div class="rem">0.5rem</div>
+      <div class="desc">Small gaps within components</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">sm</div>
+      <div class="token">--spacing-sm</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:12px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 12px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">12px</div>
+      <div class="rem">0.75rem</div>
+      <div class="desc">Component internal padding</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">md</div>
+      <div class="token">--spacing-md</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:16px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 16px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">16px</div>
+      <div class="rem">1rem</div>
+      <div class="desc">Standard padding and gaps</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">lg</div>
+      <div class="token">--spacing-lg</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:20px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 20px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">20px</div>
+      <div class="rem">1.25rem</div>
+      <div class="desc">Card padding, list item gaps</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">xl</div>
+      <div class="token">--spacing-xl</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:24px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 24px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">24px</div>
+      <div class="rem">1.5rem</div>
+      <div class="desc">Section spacing</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">2xl</div>
+      <div class="token">--spacing-2xl</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:28px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 28px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">28px</div>
+      <div class="rem">1.75rem</div>
+      <div class="desc">Between major sections</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">3xl</div>
+      <div class="token">--spacing-3xl</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:32px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 32px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">32px</div>
+      <div class="rem">2rem</div>
+      <div class="desc">Between layout regions</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">hero</div>
+      <div class="token">--spacing-hero</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:80px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 80px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">80px</div>
+      <div class="rem">5rem</div>
+      <div class="desc">Hero-scale top/bottom margins</div>
+    </div>
+  </div>
+
+  <div class="section-label">Live Examples — Spacing in Action</div>
+
+  <div class="demo-grid">
+
+    <!-- Padding example -->
+    <div class="demo-card">
+      <h3>Padding (inside a card)</h3>
+      <div style="border:1px solid #E2E8F0; border-radius:8px; position:relative; margin-top:8px;">
+        <div style="background:rgba(38,147,236,0.06); padding:20px; border-radius:8px;">
+          <div style="background:white; border:1px solid #E2E8F0; border-radius:6px; padding:16px; font-size:0.8rem; color:#171717; font-weight:600;">
+            Card content goes here
+          </div>
+        </div>
+        <div style="position:absolute; top:0; left:0; right:0; height:20px; background:rgba(38,147,236,0.15); border-radius:8px 8px 0 0; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:0.6rem; font-weight:700; color:#2693EC;">↕ lg (20px) padding top</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gap example -->
+    <div class="demo-card">
+      <h3>Gap (between list items)</h3>
+      <div class="gap-demo" style="gap:12px;">
+        <div class="gap-item">IronPDF — PDF generation</div>
+        <div style="height:12px; background:rgba(253,165,9,0.2); border-radius:3px; display:flex;align-items:center;justify-content:center;"><span style="font-size:0.6rem;font-weight:700;color:#D2890A;">sm gap — 12px</span></div>
+        <div class="gap-item">IronOCR — Text recognition</div>
+        <div style="height:12px; background:rgba(253,165,9,0.2); border-radius:3px; display:flex;align-items:center;justify-content:center;"><span style="font-size:0.6rem;font-weight:700;color:#D2890A;">sm gap — 12px</span></div>
+        <div class="gap-item">IronBarcode — Barcode reader</div>
+      </div>
+    </div>
+
+    <!-- Section spacing -->
+    <div class="demo-card" style="grid-column:span 2;">
+      <h3>Section Spacing — hero (80px)</h3>
+      <div style="background:linear-gradient(135deg,#F2F9FE,#F0F9FF); border-radius:8px; padding:20px; margin-top:8px;">
+        <div style="background:white; border-radius:6px; padding:16px; text-align:center; font-weight:700; font-size:0.85rem;">Section A</div>
+        <div style="height:80px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <div style="position:absolute;left:0;right:0;top:0;bottom:0; background:rgba(38,147,236,0.08); border-left:2px dashed #2693EC; border-right:2px dashed #2693EC;"></div>
+          <span style="font-size:0.72rem; font-weight:700; color:#2693EC; background:white; padding:4px 12px; border-radius:20px; border:1px solid #2693EC; z-index:1;">↕ hero — 80px between sections</span>
+        </div>
+        <div style="background:white; border-radius:6px; padding:16px; text-align:center; font-weight:700; font-size:0.85rem;">Section B</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>Iron Software Design System &nbsp;·&nbsp; Spacing &nbsp;·&nbsp; 2025</footer>
+</body>
+</html>

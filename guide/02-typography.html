@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typography · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+
+    nav { background: white; border-bottom: 1px solid #E2E8F0; padding: 16px 40px; display: flex; align-items: center; gap: 12px; }
+    nav a { text-decoration: none; color: #62748E; font-size: 0.85rem; }
+    nav a:hover { color: #2693EC; }
+    nav span { color: #CAD5E2; }
+    nav .title { font-weight: 700; color: #171717; font-size: 0.95rem; }
+
+    .page-header { background: white; border-bottom: 1px solid #E2E8F0; padding: 40px; }
+    .page-header h1 { font-size: 2rem; font-weight: 900; }
+    .page-header p  { color: #62748E; margin-top: 6px; font-size: 0.9rem; }
+
+    .content { padding: 40px; max-width: 960px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1;
+      margin: 40px 0 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .type-row {
+      background: white; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 28px 32px; margin-bottom: 12px;
+      display: grid; grid-template-columns: 1fr 200px;
+      gap: 24px; align-items: center;
+    }
+
+    .type-preview { overflow: hidden; }
+
+    .type-meta { border-left: 1px solid #E2E8F0; padding-left: 24px; }
+    .type-meta table { width: 100%; border-collapse: collapse; }
+    .type-meta td { padding: 3px 0; font-size: 0.72rem; vertical-align: top; }
+    .type-meta td:first-child { color: #A1A1A1; width: 90px; }
+    .type-meta td:last-child { color: #171717; font-weight: 600; font-family: monospace; }
+
+    .style-name {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #2693EC; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .style-name .tag {
+      background: #F0F9FF; color: #2693EC;
+      padding: 2px 8px; border-radius: 20px; font-size: 0.6rem;
+    }
+
+    .font-family-row {
+      background: white; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 32px; margin-bottom: 12px;
+      display: flex; gap: 40px; align-items: center;
+    }
+    .font-display-big { font-size: 3rem; font-weight: 900; line-height: 1; color: #171717; }
+    .font-body-big    { font-family: 'Montserrat',sans-serif; font-size: 3rem; font-weight: 700; line-height: 1; color: #171717; }
+    .font-meta { flex: 1; }
+    .font-meta h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .font-meta p  { font-size: 0.8rem; color: #737373; line-height: 1.6; }
+    .font-weights { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    .wt { padding: 4px 12px; border-radius: 20px; background: #F8FAFC; border: 1px solid #E2E8F0; font-size: 0.72rem; }
+
+    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Home</a>
+  <span>/</span>
+  <span class="title">🔤 Typography</span>
+</nav>
+
+<div class="page-header">
+  <h1>🔤 Typography</h1>
+  <p>All 12 text styles with live previews, font sizes, weights and line heights.</p>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Font Families</div>
+
+  <div class="font-family-row">
+    <div class="font-display-big" style="font-family:'Montserrat',sans-serif;">Gotham</div>
+    <div class="font-meta">
+      <h3>Gotham — Display Font</h3>
+      <p>Used for headlines, UI labels, buttons and navigation. Strong and structured — this is the voice of the brand.</p>
+      <div class="font-weights">
+        <span class="wt" style="font-weight:300;">Light 300</span>
+        <span class="wt" style="font-weight:500;">Medium 500</span>
+        <span class="wt" style="font-weight:700;">Bold 700</span>
+        <span class="wt" style="font-weight:900;">Black 900</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="font-family-row">
+    <div class="font-body-big">Montserrat</div>
+    <div class="font-meta">
+      <h3>Montserrat — Body Font</h3>
+      <p>Used for body copy, form fields, links and descriptions. Readable and friendly — this is the voice of the content.</p>
+      <div class="font-weights">
+        <span class="wt" style="font-weight:300;">Light 300</span>
+        <span class="wt" style="font-weight:400;">Regular 400</span>
+        <span class="wt" style="font-weight:500;">Medium 500</span>
+        <span class="wt" style="font-weight:700;">Bold 700</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Type Scale</div>
+
+  <!-- Display -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Display <span class="tag">Gotham · Black</span></div>
+      <div style="font-size:3rem; font-weight:900; line-height:3.6rem; font-family:'Montserrat',sans-serif; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">Iron Software</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>48px / 3rem</td></tr>
+        <tr><td>Line height</td><td>57.6px</td></tr>
+        <tr><td>Weight</td><td>900 — Black</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Hero sections</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- H1 -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">H1 — Heading 1 <span class="tag">Gotham · Black</span></div>
+      <div style="font-size:3rem; font-weight:900; line-height:3.6rem; font-family:'Montserrat',sans-serif; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">Page Title Here</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>48px / 3rem</td></tr>
+        <tr><td>Line height</td><td>57.6px</td></tr>
+        <tr><td>Weight</td><td>900 — Black</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Page titles</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- H2 -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">H2 — Heading 2 <span class="tag">Gotham · Medium</span></div>
+      <div style="font-size:2rem; font-weight:500; line-height:2.4rem; font-family:'Montserrat',sans-serif;">Section Heading</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>32px / 2rem</td></tr>
+        <tr><td>Line height</td><td>38.4px</td></tr>
+        <tr><td>Weight</td><td>500 — Medium</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Section titles</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- H3 -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">H3 — Heading 3 <span class="tag">Gotham · Bold</span></div>
+      <div style="font-size:1.5rem; font-weight:700; line-height:1.8rem; font-family:'Montserrat',sans-serif;">Card or Panel Title</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>24px / 1.5rem</td></tr>
+        <tr><td>Line height</td><td>28.8px</td></tr>
+        <tr><td>Weight</td><td>700 — Bold</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Card titles</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- H4 -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">H4 — Heading 4 <span class="tag">Gotham · Medium</span></div>
+      <div style="font-size:0.875rem; font-weight:500; line-height:1.225rem; font-family:'Montserrat',sans-serif; text-transform:uppercase; letter-spacing:0.05em;">Sub-section Label</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>14px / 0.875rem</td></tr>
+        <tr><td>Line height</td><td>19.6px</td></tr>
+        <tr><td>Weight</td><td>500 — Medium</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Labels, sub-heads</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Body LG -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Body Large <span class="tag">Montserrat · Regular</span></div>
+      <div style="font-size:1rem; font-weight:400; line-height:1.531rem;">Iron Software builds developer tools that save time and reduce complexity for engineering teams worldwide.</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>16px / 1rem</td></tr>
+        <tr><td>Line height</td><td>24.5px</td></tr>
+        <tr><td>Weight</td><td>400 — Regular</td></tr>
+        <tr><td>Font</td><td>Montserrat</td></tr>
+        <tr><td>Use for</td><td>Intro paragraphs</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Body <span class="tag">Montserrat · Regular</span></div>
+      <div style="font-size:0.875rem; font-weight:400; line-height:1.531rem;">Iron Software builds developer tools that save time and reduce complexity for engineering teams worldwide. Our products are trusted by Fortune 500 companies.</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>14px / 0.875rem</td></tr>
+        <tr><td>Line height</td><td>24.5px</td></tr>
+        <tr><td>Weight</td><td>400 — Regular</td></tr>
+        <tr><td>Font</td><td>Montserrat</td></tr>
+        <tr><td>Use for</td><td>Body copy</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Caption -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Caption <span class="tag">Gotham · Light</span></div>
+      <div style="font-size:0.75rem; font-weight:300; line-height:0.75rem; color:#737373; font-family:'Montserrat',sans-serif;">Helper text, disclaimers, image captions and metadata labels.</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>12px / 0.75rem</td></tr>
+        <tr><td>Line height</td><td>12px</td></tr>
+        <tr><td>Weight</td><td>300 — Light</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Captions, hints</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Btn -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Button (Small) <span class="tag">Gotham · Bold</span></div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <span style="font-size:0.75rem; font-weight:700; font-family:'Montserrat',sans-serif; background:#E01A59; color:white; padding:8px 20px; border-radius:40px;">Get Started</span>
+        <span style="font-size:0.75rem; font-weight:700; font-family:'Montserrat',sans-serif; background:transparent; color:#2693EC; padding:8px 20px; border-radius:42px; border:1.5px solid #2693EC;">Learn More</span>
+      </div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>12px / 0.75rem</td></tr>
+        <tr><td>Line height</td><td>18px</td></tr>
+        <tr><td>Weight</td><td>700 — Bold</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Small buttons</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Btn LG -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Button (Large) <span class="tag">Gotham · Bold</span></div>
+      <div>
+        <span style="font-size:0.875rem; font-weight:700; font-family:'Montserrat',sans-serif; background:#E01A59; color:white; padding:14px 28px; border-radius:40px; display:inline-block;">Download Free Trial</span>
+      </div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>14px / 0.875rem</td></tr>
+        <tr><td>Line height</td><td>18px</td></tr>
+        <tr><td>Weight</td><td>700 — Bold</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Primary CTA</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Link -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Link <span class="tag">Montserrat · Regular</span></div>
+      <div style="font-size:0.875rem; font-weight:400; line-height:1.531rem;">
+        <a href="#" style="color:#2693EC; text-decoration:underline;">Learn more about IronPDF →</a>
+      </div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>14px / 0.875rem</td></tr>
+        <tr><td>Line height</td><td>24.5px</td></tr>
+        <tr><td>Weight</td><td>400 — Regular</td></tr>
+        <tr><td>Font</td><td>Montserrat</td></tr>
+        <tr><td>Use for</td><td>Inline links</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Navigation <span class="tag">Gotham · Light</span></div>
+      <div style="display:flex; gap:32px; align-items:center;">
+        <span style="font-size:1rem; font-weight:300; font-family:'Montserrat',sans-serif; color:#171717;">Products</span>
+        <span style="font-size:1rem; font-weight:300; font-family:'Montserrat',sans-serif; color:#2693EC; border-bottom:2px solid #2693EC; padding-bottom:2px;">Docs</span>
+        <span style="font-size:1rem; font-weight:300; font-family:'Montserrat',sans-serif; color:#171717;">Pricing</span>
+      </div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>16px / 1rem</td></tr>
+        <tr><td>Line height</td><td>25.6px</td></tr>
+        <tr><td>Weight</td><td>300 — Light</td></tr>
+        <tr><td>Font</td><td>Gotham</td></tr>
+        <tr><td>Use for</td><td>Nav items</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer>Iron Software Design System &nbsp;·&nbsp; Typography &nbsp;·&nbsp; 2025</footer>
+</body>
+</html>

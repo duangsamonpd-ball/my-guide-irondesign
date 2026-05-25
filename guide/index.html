@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iron Software Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #F8FAFC;
+      color: #171717;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-badge {
+      width: 40px; height: 40px;
+      background: #E01A59;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 900; font-size: 18px;
+    }
+
+    header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
+    header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
+
+    .hero {
+      background: linear-gradient(135deg, #E01A59 0%, #2693EC 100%);
+      color: white;
+      padding: 64px 48px;
+      text-align: center;
+    }
+
+    .hero h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
+    .hero p  { font-size: 1.1rem; opacity: 0.9; max-width: 520px; margin: 0 auto 32px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+      padding: 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #E2E8F0;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: block;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .card-thumb {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 20px;
+    }
+
+    .card-body { padding: 20px; border-top: 1px solid #F1F5F9; }
+    .card-body h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .card-body p  { font-size: 0.8rem; color: #737373; line-height: 1.5; }
+
+    .tag {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #F1F5F9;
+      color: #62748E;
+    }
+
+    .tag-dev {
+      background: rgba(224, 26, 89, 0.08);
+      color: #E01A59;
+    }
+
+    /* Swatch preview */
+    .swatch { width: 28px; height: 60px; border-radius: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #A1A1A1;
+      font-size: 0.8rem;
+      border-top: 1px solid #E2E8F0;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-badge">IS</div>
+  <div>
+    <h1>Iron Software Design System</h1>
+    <p>Visual Token Reference — for everyone on the team</p>
+  </div>
+</header>
+
+<div class="hero">
+  <h2>Design Tokens, Visually</h2>
+  <p>Click any card below to explore colors, typography, spacing, and more — including a semantic token guide for developers.</p>
+</div>
+
+<div class="grid">
+
+  <!-- Colors -->
+  <a class="card" href="01-colors.html">
+    <div class="card-thumb" style="background: #F8FAFC;">
+      <div class="swatch" style="background:#E01A59;"></div>
+      <div class="swatch" style="background:#2693EC;"></div>
+      <div class="swatch" style="background:#FDA509;"></div>
+      <div class="swatch" style="background:#63C1A0;"></div>
+      <div class="swatch" style="background:#563B99;"></div>
+      <div class="swatch" style="background:#E5242A;"></div>
+    </div>
+    <div class="card-body">
+      <h3>🎨 Color Scale</h3>
+      <p>All 10 brand palettes with every shade from lightest to darkest.</p>
+      <span class="tag">10 palettes · 110 values</span>
+    </div>
+  </a>
+
+  <!-- Typography -->
+  <a class="card" href="02-typography.html">
+    <div class="card-thumb" style="background: #F8FAFC; flex-direction: column; align-items: flex-start; padding: 24px 28px; gap: 4px;">
+      <span style="font-size:1.6rem; font-weight:900; color:#171717; line-height:1.1;">Aa</span>
+      <span style="font-size:1rem; font-weight:700; color:#2693EC;">Heading</span>
+      <span style="font-size:0.75rem; color:#737373;">Body text goes here</span>
+      <span style="font-size:0.65rem; color:#A1A1A1;">Caption · Small · Nav</span>
+    </div>
+    <div class="card-body">
+      <h3>🔤 Typography</h3>
+      <p>Font families, sizes, weights and line heights for every text style.</p>
+      <span class="tag">Gotham · Montserrat · 12 styles</span>
+    </div>
+  </a>
+
+  <!-- Spacing -->
+  <a class="card" href="03-spacing.html">
+    <div class="card-thumb" style="background:#F8FAFC; align-items: flex-end; justify-content: center; gap: 4px; padding-bottom: 28px;">
+      <div style="width:8px; background:#2693EC; border-radius:4px 4px 0 0; height:16px;"></div>
+      <div style="width:8px; background:#2693EC; border-radius:4px 4px 0 0; height:24px;"></div>
+      <div style="width:8px; background:#2693EC; border-radius:4px 4px 0 0; height:32px;"></div>
+      <div style="width:8px; background:#2693EC; border-radius:4px 4px 0 0; height:48px;"></div>
+      <div style="width:8px; background:#2693EC; border-radius:4px 4px 0 0; height:64px;"></div>
+      <div style="width:8px; background:#2693EC; border-radius:4px 4px 0 0; height:80px;"></div>
+      <div style="width:8px; background:#2693EC; border-radius:4px 4px 0 0; height:100px;"></div>
+    </div>
+    <div class="card-body">
+      <h3>📏 Spacing</h3>
+      <p>Named spacing scale from micro (4px) to hero (80px) for gaps and padding.</p>
+      <span class="tag">9 steps · 4px–80px</span>
+    </div>
+  </a>
+
+  <!-- Border Radius -->
+  <a class="card" href="04-radius.html">
+    <div class="card-thumb" style="background:#F8FAFC; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      <div style="width:36px;height:36px;background:#E01A59;border-radius:0;"></div>
+      <div style="width:36px;height:36px;background:#E01A59;border-radius:4px;"></div>
+      <div style="width:36px;height:36px;background:#E01A59;border-radius:8px;"></div>
+      <div style="width:36px;height:36px;background:#E01A59;border-radius:20px;"></div>
+      <div style="width:36px;height:36px;background:#E01A59;border-radius:9999px;"></div>
+    </div>
+    <div class="card-body">
+      <h3>🔘 Border Radius</h3>
+      <p>From sharp squares to full pill shapes — including the signature CTA curve.</p>
+      <span class="tag">10 values · 0px–9999px</span>
+    </div>
+  </a>
+
+  <!-- Shadows -->
+  <a class="card" href="05-shadows.html">
+    <div class="card-thumb" style="background:#F1F5F9; gap: 14px;">
+      <div style="width:56px;height:56px;background:white;border-radius:8px;box-shadow:0 0 12px rgba(67,31,67,0.2);"></div>
+      <div style="width:56px;height:56px;background:white;border-radius:8px;box-shadow:0 2px 16px rgba(67,31,67,0.3);"></div>
+      <div style="width:56px;height:56px;background:white;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.4);"></div>
+    </div>
+    <div class="card-body">
+      <h3>🌑 Shadows</h3>
+      <p>Elevation layers for cards, dropdowns, modals and focus rings.</p>
+      <span class="tag">7 shadows · 3 elevations</span>
+    </div>
+  </a>
+
+  <!-- Components -->
+  <a class="card" href="06-components.html">
+    <div class="card-thumb" style="background:#F8FAFC; flex-direction:column; gap:10px;">
+      <div style="padding:10px 24px;background:#E01A59;color:white;border-radius:40px;font-size:0.75rem;font-weight:700;">Primary Button</div>
+      <div style="padding:8px 20px;border:1.5px solid #2693EC;color:#2693EC;border-radius:42px;font-size:0.75rem;font-weight:700;">Secondary</div>
+      <div style="padding:4px 14px;background:rgba(99,193,160,0.1);color:#53A085;border-radius:20px;font-size:0.7rem;font-weight:700;">Badge</div>
+    </div>
+    <div class="card-body">
+      <h3>🧩 Components</h3>
+      <p>Buttons, inputs, badges, cards and nav items with all token values applied.</p>
+      <span class="tag">Buttons · Inputs · Badges · Cards</span>
+    </div>
+  </a>
+
+  <!-- Semantic Guide -->
+  <a class="card" href="07-semantic-guide.html">
+    <div class="card-thumb" style="background:#171717; flex-direction:column; align-items:flex-start; padding:20px 24px; gap:6px;">
+      <div style="font-size:0.6rem; color:#737373; font-family:monospace; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">Semantic Tokens</div>
+      <div style="font-family:monospace; font-size:0.68rem; color:#A1A1A1;"><span style="color:#E01A59;">--color-primary</span> <span style="color:#737373;">→</span> <span style="color:#FDA509;">iron-pink-500</span></div>
+      <div style="font-family:monospace; font-size:0.68rem; color:#A1A1A1;"><span style="color:#2693EC;">--color-secondary</span> <span style="color:#737373;">→</span> <span style="color:#FDA509;">iron-blue-500</span></div>
+      <div style="font-family:monospace; font-size:0.68rem; color:#A1A1A1;"><span style="color:#63C1A0;">--color-success</span> <span style="color:#737373;">→</span> <span style="color:#FDA509;">iron-green-500</span></div>
+      <div style="font-family:monospace; font-size:0.68rem; color:#A1A1A1;"><span style="color:#FDA509;">--color-warning</span> <span style="color:#737373;">→</span> <span style="color:#FDA509;">iron-orange-500</span></div>
+    </div>
+    <div class="card-body">
+      <h3>🗺️ Semantic Guide</h3>
+      <p>How to use semantic tokens in code — the developer handoff reference for the whole team.</p>
+      <span class="tag tag-dev">Dev Handoff · Token Map · Code Examples</span>
+    </div>
+  </a>
+
+</div>
+
+<footer>
+  Iron Software Design System &nbsp;·&nbsp; Generated from Figma &amp; design tokens &nbsp;·&nbsp; 2025
+</footer>
+
+</body>
+</html>

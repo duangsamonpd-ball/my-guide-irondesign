@@ -1,0 +1,469 @@
+{
+  "color": {
+    "_source": "Figma / Iron-Software-Design-System — 02 Color Palette (node 84-1754)",
+
+    "primary": {
+      "default": {
+        "$value": "#E01A59",
+        "$type": "color",
+        "$description": "Iron Pink/500 — all primary CTAs and brand wordmark"
+      },
+      "hover": {
+        "$value": "#BA174B",
+        "$type": "color",
+        "$description": "Iron Pink/600 — press / hover state"
+      },
+      "active": {
+        "$value": "#94153D",
+        "$type": "color",
+        "$description": "Iron Pink/700 — active / pressed state"
+      },
+      "subtle": {
+        "$value": "#FADDE8",
+        "$type": "color",
+        "$description": "Iron Pink/100 — subtle background tint"
+      },
+      "on": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "Text colour on top of primary buttons"
+      }
+    },
+
+    "secondary": {
+      "default": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — secondary CTAs, alternative headline, link"
+      },
+      "hover": {
+        "$value": "#217BC4",
+        "$type": "color",
+        "$description": "Iron Blue/600 — press / hover state"
+      },
+      "active": {
+        "$value": "#1D629B",
+        "$type": "color",
+        "$description": "Iron Blue/700 — active / pressed state"
+      },
+      "subtle": {
+        "$value": "#DEEFFC",
+        "$type": "color",
+        "$description": "Iron Blue/100 — subtle background tint"
+      },
+      "on": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "Text colour on top of secondary buttons"
+      }
+    },
+
+    "accent": {
+      "1": {
+        "$value": "#FDA509",
+        "$type": "color",
+        "$description": "Iron Orange/500 — accent 1: highlights, promotions, badges"
+      },
+      "2": {
+        "$value": "#63C1A0",
+        "$type": "color",
+        "$description": "Iron Green/500 — accent 2: feature tags, positive highlights"
+      },
+      "3": {
+        "$value": "#89D3DF",
+        "$type": "color",
+        "$description": "Iron Sky/500 — accent 3: data-vis, illustration accents"
+      },
+      "4": {
+        "$value": "#563B99",
+        "$type": "color",
+        "$description": "Iron Purple/500 — accent 4: data-vis, premium / pro tiers"
+      }
+    },
+
+    "semantic": {
+      "success": {
+        "$value": "#63C1A0",
+        "$type": "color",
+        "$description": "Iron Green/500 — confirmations, success messages"
+      },
+      "success-hover": {
+        "$value": "#53A085",
+        "$type": "color",
+        "$description": "Iron Green/600"
+      },
+      "success-subtle": {
+        "$value": "#E8F6F1",
+        "$type": "color",
+        "$description": "Iron Green/100"
+      },
+      "warning": {
+        "$value": "#FDA509",
+        "$type": "color",
+        "$description": "Iron Orange/500 — warnings, pending states"
+      },
+      "warning-hover": {
+        "$value": "#D2890A",
+        "$type": "color",
+        "$description": "Iron Orange/600"
+      },
+      "warning-subtle": {
+        "$value": "#FFF2DA",
+        "$type": "color",
+        "$description": "Iron Orange/100"
+      },
+      "error": {
+        "$value": "#E5242A",
+        "$type": "color",
+        "$description": "Iron Red/500 — validation errors, destructive actions"
+      },
+      "error-hover": {
+        "$value": "#C91D23",
+        "$type": "color",
+        "$description": "Iron Red/600"
+      },
+      "error-subtle": {
+        "$value": "#FFE1E2",
+        "$type": "color",
+        "$description": "Iron Red/100"
+      },
+      "info": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — info banners, help text"
+      },
+      "info-hover": {
+        "$value": "#217BC4",
+        "$type": "color",
+        "$description": "Iron Blue/600"
+      },
+      "info-subtle": {
+        "$value": "#DEEFFC",
+        "$type": "color",
+        "$description": "Iron Blue/100"
+      }
+    },
+
+    "text": {
+      "_group": "text/default — Figma: text/default (light column)",
+      "heading": {
+        "$value": "#171717",
+        "$type": "color",
+        "$description": "Iron Neutral/900 — H1–H4, emphasized type (light)"
+      },
+      "heading-alt": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — brand/secondary — coloured headline accents, kickers (light)"
+      },
+      "body": {
+        "$value": "#404040",
+        "$type": "color",
+        "$description": "Iron Neutral/700 — default running text (light)"
+      },
+      "muted": {
+        "$value": "#A1A1A1",
+        "$type": "color",
+        "$description": "Iron Neutral/400 — placeholders, captions, disabled (light)"
+      },
+      "support": {
+        "$value": "#90A1B9",
+        "$type": "color",
+        "$description": "Iron Slate/400 — support headlines, caption titles (light)"
+      },
+      "on-primary": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "White — text on top of CTA buttons"
+      },
+      "link": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — brand/secondary — hyperlinks, anchor text"
+      },
+      "link-hover": {
+        "$value": "#E01A59",
+        "$type": "color",
+        "$description": "Iron Pink/500 — brand/primary — hovered / active link state"
+      }
+    },
+
+    "text-dark": {
+      "_group": "text/default — Figma: text/default (dark column)",
+      "heading": {
+        "$value": "#F5F5F5",
+        "$type": "color",
+        "$description": "Iron Neutral/100 — H1–H4 (dark)"
+      },
+      "heading-alt": {
+        "$value": "#FDA509",
+        "$type": "color",
+        "$description": "Iron Orange/500 — brand/accent 1 — coloured headline accents (dark)"
+      },
+      "body": {
+        "$value": "#D4D4D4",
+        "$type": "color",
+        "$description": "Iron Neutral/300 — running text (dark)"
+      },
+      "muted": {
+        "$value": "#737373",
+        "$type": "color",
+        "$description": "Iron Neutral/500 — placeholders, captions (dark)"
+      },
+      "support": {
+        "$value": "#CEA7C8",
+        "$type": "color",
+        "$description": "Iron Violet/300 — support headlines (dark)"
+      },
+      "link": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — same as light mode"
+      },
+      "link-hover": {
+        "$value": "#E01A59",
+        "$type": "color",
+        "$description": "Iron Pink/500 — same as light mode"
+      }
+    },
+
+    "text-on-color": {
+      "_group": "text/on color — Figma: text/on color (same both modes)",
+      "heading": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "White — headings inside coloured hero bands / surfaces"
+      },
+      "body": {
+        "$value": "#E5E5E5",
+        "$type": "color",
+        "$description": "Iron Neutral/200 — body copy inside coloured surfaces"
+      }
+    },
+
+    "surface": {
+      "_group": "surface — Figma: surface (light column)",
+      "background": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "white — main page background (light)"
+      },
+      "background-shade": {
+        "$value": "#F1F5F9",
+        "$type": "color",
+        "$description": "Iron Slate/100 — band fills, alternating sections (light)"
+      },
+      "card": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "white — card, modal, panel backgrounds (light)"
+      },
+      "card-alt": {
+        "$value": "#F2F9FE",
+        "$type": "color",
+        "$description": "Iron Blue/50 — alternative / feature highlight card (light)"
+      }
+    },
+
+    "surface-dark": {
+      "_group": "surface — Figma: surface (dark column)",
+      "background": {
+        "$value": "#351F31",
+        "$type": "color",
+        "$description": "Iron Violet/900 — main page background (dark)"
+      },
+      "background-shade": {
+        "$value": "#231721",
+        "$type": "color",
+        "$description": "Iron Violet/950 — band fills, alternating sections (dark)"
+      },
+      "card": {
+        "$value": "#4F2B49",
+        "$type": "color",
+        "$description": "Iron Violet/800 — card, modal, panel backgrounds (dark)"
+      },
+      "card-alt": {
+        "$value": "#231721",
+        "$type": "color",
+        "$description": "Iron Violet/950 — alternative / feature highlight card (dark)"
+      }
+    },
+
+    "border": {
+      "_group": "border — Figma: border (light column)",
+      "default": {
+        "$value": "#E2E8F0",
+        "$type": "color",
+        "$description": "Iron Slate/200 — dividers, input borders, card edges (light)"
+      },
+      "strong": {
+        "$value": "#CAD5E2",
+        "$type": "color",
+        "$description": "Iron Slate/300 — hover borders, strong dividers (light)"
+      },
+      "alternative": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — brand/secondary — focused inputs, active outlines (both modes)"
+      }
+    },
+
+    "border-dark": {
+      "_group": "border — Figma: border (dark column)",
+      "default": {
+        "$value": "#9D4F90",
+        "$type": "color",
+        "$description": "Iron Violet/500 — dividers, input borders, card edges (dark)"
+      },
+      "strong": {
+        "$value": "#BA84B1",
+        "$type": "color",
+        "$description": "Iron Violet/400 — hover borders, strong dividers (dark)"
+      },
+      "alternative": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — brand/secondary — same as light mode (dark)"
+      }
+    },
+    "neutral": {
+      "black":       { "$value": "#000000", "$type": "color" },
+      "charcoal":    { "$value": "#181818", "$type": "color" },
+      "slate-gray":  { "$value": "#484E4F", "$type": "color" },
+      "medium-gray": { "$value": "#525252", "$type": "color" },
+      "light-gray":  { "$value": "#6C757D", "$type": "color" },
+      "off-gray":    { "$value": "#ADB5BD", "$type": "color" },
+      "pale-gray":   { "$value": "#DEE2E6", "$type": "color" },
+      "white":       { "$value": "#FFFFFF", "$type": "color" }
+    },
+    "border": {
+      "light":  { "$value": "#DEE2E6", "$type": "color" },
+      "medium": { "$value": "#D9DBE9", "$type": "color" },
+      "slate":  { "$value": "#678CB1", "$type": "color" }
+    },
+    "surface": {
+      "light": { "$value": "#FFFFFF", "$type": "color" },
+      "dark":  { "$value": "#181818", "$type": "color" }
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "display": { "$value": "Gotham",     "$type": "fontFamily" },
+      "body":     { "$value": "Montserrat", "$type": "fontFamily" }
+    },
+    "fontWeight": {
+      "light":   { "$value": 300, "$type": "fontWeight" },
+      "regular": { "$value": 400, "$type": "fontWeight" },
+      "medium":  { "$value": 500, "$type": "fontWeight" },
+      "bold":    { "$value": 700, "$type": "fontWeight" },
+      "black":   { "$value": 900, "$type": "fontWeight" }
+    },
+    "fontSize": {
+      "display": { "$value": 48, "$type": "dimension" },
+      "h1":      { "$value": 48, "$type": "dimension" },
+      "h2":      { "$value": 32, "$type": "dimension" },
+      "h3":      { "$value": 24, "$type": "dimension" },
+      "h4":      { "$value": 14, "$type": "dimension" },
+      "body-lg": { "$value": 16, "$type": "dimension" },
+      "body":    { "$value": 14, "$type": "dimension" },
+      "caption": { "$value": 12, "$type": "dimension" },
+      "btn":     { "$value": 12, "$type": "dimension" },
+      "btn-lg":  { "$value": 14, "$type": "dimension" },
+      "link":    { "$value": 14, "$type": "dimension" },
+      "nav":     { "$value": 16, "$type": "dimension" }
+    },
+    "lineHeight": {
+      "display": { "$value": 57.6, "$type": "dimension" },
+      "h1":      { "$value": 57.6, "$type": "dimension" },
+      "h2":      { "$value": 38.4, "$type": "dimension" },
+      "h3":      { "$value": 28.8, "$type": "dimension" },
+      "h4":      { "$value": 19.6, "$type": "dimension" },
+      "body":    { "$value": 24.5, "$type": "dimension" },
+      "body-sm": { "$value": 25.6, "$type": "dimension" },
+      "caption": { "$value": 12,   "$type": "dimension" },
+      "btn":     { "$value": 18,   "$type": "dimension" },
+      "nav":     { "$value": 25.6, "$type": "dimension" }
+    }
+  },
+
+  "spacing": {
+    "micro": { "$value": 4,  "$type": "dimension" },
+    "xs":    { "$value": 8,  "$type": "dimension" },
+    "sm":    { "$value": 12, "$type": "dimension" },
+    "md":    { "$value": 16, "$type": "dimension" },
+    "lg":    { "$value": 20, "$type": "dimension" },
+    "xl":    { "$value": 24, "$type": "dimension" },
+    "2xl":   { "$value": 28, "$type": "dimension" },
+    "3xl":   { "$value": 32, "$type": "dimension" },
+    "hero":  { "$value": 80, "$type": "dimension" }
+  },
+
+  "borderRadius": {
+    "none":    { "$value": 0,    "$type": "dimension" },
+    "xs":      { "$value": 4,    "$type": "dimension" },
+    "sm":      { "$value": 8,    "$type": "dimension" },
+    "pill-sm": { "$value": 20,   "$type": "dimension" },
+    "pill":    { "$value": 33,   "$type": "dimension" },
+    "cta":     { "$value": 40,   "$type": "dimension", "$description": "★ Signature CTA radius" },
+    "cta-alt": { "$value": 42,   "$type": "dimension" },
+    "compact": { "$value": 64,   "$type": "dimension" },
+    "hero":    { "$value": 80,   "$type": "dimension" },
+    "full":    { "$value": 9999, "$type": "dimension" }
+  },
+
+  "shadow": {
+    "card": {
+      "$value": {
+        "offsetX": 0, "offsetY": 0, "blur": 12, "spread": 0,
+        "color": "rgba(67, 31, 67, 0.20)"
+      },
+      "$type": "shadow"
+    },
+    "float": {
+      "$value": {
+        "offsetX": 0, "offsetY": 2, "blur": 16, "spread": 0,
+        "color": "rgba(67, 31, 67, 0.30)"
+      },
+      "$type": "shadow"
+    },
+    "modal": {
+      "$value": {
+        "offsetX": 0, "offsetY": 8, "blur": 24, "spread": 0,
+        "color": "rgba(0, 0, 0, 0.40)"
+      },
+      "$type": "shadow"
+    },
+    "focus-blue": {
+      "$value": {
+        "offsetX": 0, "offsetY": 0, "blur": 0, "spread": 3,
+        "color": "rgba(42, 149, 213, 0.25)"
+      },
+      "$type": "shadow"
+    },
+    "focus-teal": {
+      "$value": {
+        "offsetX": 0, "offsetY": 0, "blur": 0, "spread": 3,
+        "color": "rgba(99, 193, 160, 0.25)"
+      },
+      "$type": "shadow"
+    },
+    "focus-magenta": {
+      "$value": {
+        "offsetX": 0, "offsetY": 0, "blur": 0, "spread": 3,
+        "color": "rgba(224, 26, 89, 0.25)"
+      },
+      "$type": "shadow"
+    }
+  },
+
+  "sizing": {
+    "btn-primary-height":   { "$value": 54,   "$type": "dimension" },
+    "btn-secondary-height": { "$value": 46,   "$type": "dimension" },
+    "input-height":         { "$value": 44,   "$type": "dimension" },
+    "nav-height":           { "$value": 40,   "$type": "dimension" },
+    "touch-min":            { "$value": 44,   "$type": "dimension" },
+    "touch-nav":            { "$value": 48,   "$type": "dimension" },
+    "container-max":        { "$value": 1440, "$type": "dimension" }
+  }
+}

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Scale &amp; Palette · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+
+    nav {
+      background: white; border-bottom: 1px solid #E2E8F0;
+      padding: 16px 40px; display: flex; align-items: center; gap: 12px;
+    }
+    nav a { text-decoration: none; color: #62748E; font-size: 0.85rem; }
+    nav a:hover { color: #2693EC; }
+    nav span { color: #CAD5E2; }
+    nav .title { font-weight: 700; color: #171717; font-size: 0.95rem; }
+
+    .page-header {
+      background: white; border-bottom: 1px solid #E2E8F0;
+      padding: 40px;
+    }
+    .page-header h1 { font-size: 2rem; font-weight: 900; }
+    .page-header p  { color: #62748E; margin-top: 6px; font-size: 0.9rem; }
+
+    .content { padding: 40px; max-width: 1200px; margin: 0 auto; }
+
+    .palette { margin-bottom: 48px; }
+    .palette-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px;
+    }
+    .palette-header h2 { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .palette-header .base-chip {
+      padding: 2px 10px; border-radius: 20px;
+      font-size: 0.65rem; font-weight: 700;
+      background: #F1F5F9; color: #62748E;
+    }
+    .palette-header .role-tag {
+      padding: 2px 10px; border-radius: 20px;
+      font-size: 0.65rem; font-weight: 700;
+      color: white;
+    }
+
+    .swatches { display: flex; gap: 4px; flex-wrap: wrap; }
+
+    .swatch {
+      flex: 1; min-width: 80px;
+      border-radius: 12px; overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s;
+      position: relative;
+    }
+    .swatch:hover { transform: scale(1.04); z-index: 2; }
+
+    .swatch-color {
+      height: 80px;
+      display: flex; align-items: flex-end; justify-content: flex-end;
+      padding: 6px 8px;
+    }
+
+    .swatch-color .step-label {
+      font-size: 0.6rem; font-weight: 700; opacity: 0.6; color: white;
+      mix-blend-mode: overlay;
+    }
+
+    .swatch-info {
+      background: white; border: 1px solid #E2E8F0;
+      border-top: none; padding: 8px 10px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .swatch-info .step { font-size: 0.7rem; font-weight: 700; color: #171717; }
+    .swatch-info .hex  { font-size: 0.65rem; color: #737373; font-family: monospace; }
+
+    .swatch.base .swatch-info { background: #F0F9FF; }
+    .swatch.base .step { color: #2693EC; }
+
+    .copy-toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      background: #171717; color: white; padding: 10px 20px;
+      border-radius: 40px; font-size: 0.8rem; font-weight: 600;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 100;
+    }
+    .copy-toast.show { opacity: 1; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1;
+      margin: 40px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+
+    /* ── Color Palette (Semantic Token Map) ───────────────────────────────── */
+    .palette-page-intro {
+      background: linear-gradient(135deg, #F0F9FF, #F9F4F8);
+      border: 1px solid #E2E8F0; border-radius: 14px;
+      padding: 24px 28px; margin-bottom: 40px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .palette-page-intro .icon { font-size: 2rem; line-height: 1; }
+    .palette-page-intro h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .palette-page-intro p  { font-size: 0.8rem; color: #62748E; line-height: 1.6; }
+
+    .palette-group { margin-bottom: 48px; }
+    .palette-group-header {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #A1A1A1;
+      margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .semantic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .semantic-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+    .sem-card {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid #E2E8F0;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .sem-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.10); }
+
+    .sem-color { height: 90px; }
+    .sem-body  { background: white; padding: 10px 12px; }
+    .sem-name  { font-size: 0.75rem; font-weight: 700; color: #171717; margin-bottom: 2px; }
+    .sem-hex   { font-family: monospace; font-size: 0.65rem; color: #2693EC; }
+    .sem-token { font-size: 0.6rem; color: #A1A1A1; margin-top: 2px; }
+    .sem-desc  { font-size: 0.65rem; color: #737373; margin-top: 6px; line-height: 1.4; }
+
+    /* Dark surface cards get inverted text */
+    .sem-card.dark-surface .sem-body { background: #1D293D; }
+    .sem-card.dark-surface .sem-name { color: #F1F5F9; }
+    .sem-card.dark-surface .sem-token { color: #62748E; }
+    .sem-card.dark-surface .sem-desc  { color: #90A1B9; }
+    .sem-card.dark-surface .sem-hex   { color: #89D3DF; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Home</a>
+  <span>/</span>
+  <span class="title">🎨 Color Scale &amp; Palette</span>
+</nav>
+
+<div class="page-header">
+  <h1>🎨 Color Scale</h1>
+  <p>10 palettes (50–950) + semantic token map. Click any swatch to copy its hex code. The <strong>highlighted step</strong> is the BASE color used by default.</p>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Brand Palettes</div>
+
+  <!-- Iron Pink -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Iron Pink</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#E01A59;">Primary · CTA · Marketing</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#FDF1F5','iron-pink-50')"><div class="swatch-color" style="background:#FDF1F5;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#FDF1F5</div></div></div>
+      <div class="swatch" onclick="copy('#FADDE8','iron-pink-100')"><div class="swatch-color" style="background:#FADDE8;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#FADDE8</div></div></div>
+      <div class="swatch" onclick="copy('#F6BACD','iron-pink-200')"><div class="swatch-color" style="background:#F6BACD;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#F6BACD</div></div></div>
+      <div class="swatch" onclick="copy('#F08DAC','iron-pink-300')"><div class="swatch-color" style="background:#F08DAC;"><span class="step-label">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#F08DAC</div></div></div>
+      <div class="swatch" onclick="copy('#E95F8B','iron-pink-400')"><div class="swatch-color" style="background:#E95F8B;"><span class="step-label">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#E95F8B</div></div></div>
+      <div class="swatch base" onclick="copy('#E01A59','iron-pink-500')"><div class="swatch-color" style="background:#E01A59;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#E01A59</div></div></div>
+      <div class="swatch" onclick="copy('#BA174B','iron-pink-600')"><div class="swatch-color" style="background:#BA174B;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#BA174B</div></div></div>
+      <div class="swatch" onclick="copy('#94153D','iron-pink-700')"><div class="swatch-color" style="background:#94153D;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#94153D</div></div></div>
+      <div class="swatch" onclick="copy('#6E122F','iron-pink-800')"><div class="swatch-color" style="background:#6E122F;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#6E122F</div></div></div>
+      <div class="swatch" onclick="copy('#471022','iron-pink-900')"><div class="swatch-color" style="background:#471022;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#471022</div></div></div>
+      <div class="swatch" onclick="copy('#2E0E18','iron-pink-950')"><div class="swatch-color" style="background:#2E0E18;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#2E0E18</div></div></div>
+    </div>
+  </div>
+
+  <!-- Iron Blue -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Iron Blue</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#2693EC;">Secondary · CTA · Links</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#F2F9FE','iron-blue-50')"><div class="swatch-color" style="background:#F2F9FE;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#F2F9FE</div></div></div>
+      <div class="swatch" onclick="copy('#DEEFFC','iron-blue-100')"><div class="swatch-color" style="background:#DEEFFC;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#DEEFFC</div></div></div>
+      <div class="swatch" onclick="copy('#BEDFF9','iron-blue-200')"><div class="swatch-color" style="background:#BEDFF9;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#BEDFF9</div></div></div>
+      <div class="swatch" onclick="copy('#93C9F6','iron-blue-300')"><div class="swatch-color" style="background:#93C9F6;"><span class="step-label" style="color:#333;">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#93C9F6</div></div></div>
+      <div class="swatch" onclick="copy('#67B3F2','iron-blue-400')"><div class="swatch-color" style="background:#67B3F2;"><span class="step-label">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#67B3F2</div></div></div>
+      <div class="swatch base" onclick="copy('#2693EC','iron-blue-500')"><div class="swatch-color" style="background:#2693EC;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#2693EC</div></div></div>
+      <div class="swatch" onclick="copy('#217BC4','iron-blue-600')"><div class="swatch-color" style="background:#217BC4;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#217BC4</div></div></div>
+      <div class="swatch" onclick="copy('#1D629B','iron-blue-700')"><div class="swatch-color" style="background:#1D629B;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#1D629B</div></div></div>
+      <div class="swatch" onclick="copy('#184A73','iron-blue-800')"><div class="swatch-color" style="background:#184A73;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#184A73</div></div></div>
+      <div class="swatch" onclick="copy('#13324B','iron-blue-900')"><div class="swatch-color" style="background:#13324B;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#13324B</div></div></div>
+      <div class="swatch" onclick="copy('#102230','iron-blue-950')"><div class="swatch-color" style="background:#102230;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#102230</div></div></div>
+    </div>
+  </div>
+
+  <!-- Iron Orange -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Iron Orange</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#FDA509; color:#333;">Accent Warning · Caution</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#FFFAF0','iron-orange-50')"><div class="swatch-color" style="background:#FFFAF0;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#FFFAF0</div></div></div>
+      <div class="swatch" onclick="copy('#FFF2DA','iron-orange-100')"><div class="swatch-color" style="background:#FFF2DA;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#FFF2DA</div></div></div>
+      <div class="swatch" onclick="copy('#FEE4B5','iron-orange-200')"><div class="swatch-color" style="background:#FEE4B5;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#FEE4B5</div></div></div>
+      <div class="swatch" onclick="copy('#FED284','iron-orange-300')"><div class="swatch-color" style="background:#FED284;"><span class="step-label" style="color:#333;">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#FED284</div></div></div>
+      <div class="swatch" onclick="copy('#FEC053','iron-orange-400')"><div class="swatch-color" style="background:#FEC053;"><span class="step-label" style="color:#333;">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#FEC053</div></div></div>
+      <div class="swatch base" onclick="copy('#FDA509','iron-orange-500')"><div class="swatch-color" style="background:#FDA509;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#FDA509</div></div></div>
+      <div class="swatch" onclick="copy('#D2890A','iron-orange-600')"><div class="swatch-color" style="background:#D2890A;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#D2890A</div></div></div>
+      <div class="swatch" onclick="copy('#A66E0A','iron-orange-700')"><div class="swatch-color" style="background:#A66E0A;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#A66E0A</div></div></div>
+      <div class="swatch" onclick="copy('#7B520B','iron-orange-800')"><div class="swatch-color" style="background:#7B520B;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#7B520B</div></div></div>
+      <div class="swatch" onclick="copy('#4F370B','iron-orange-900')"><div class="swatch-color" style="background:#4F370B;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#4F370B</div></div></div>
+      <div class="swatch" onclick="copy('#33240C','iron-orange-950')"><div class="swatch-color" style="background:#33240C;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#33240C</div></div></div>
+    </div>
+  </div>
+
+  <!-- Iron Green -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Iron Green</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#63C1A0;">Accent Success · Positive</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#F6FBF9','iron-green-50')"><div class="swatch-color" style="background:#F6FBF9;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#F6FBF9</div></div></div>
+      <div class="swatch" onclick="copy('#E8F6F1','iron-green-100')"><div class="swatch-color" style="background:#E8F6F1;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#E8F6F1</div></div></div>
+      <div class="swatch" onclick="copy('#D0ECE3','iron-green-200')"><div class="swatch-color" style="background:#D0ECE3;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#D0ECE3</div></div></div>
+      <div class="swatch" onclick="copy('#B1E0D0','iron-green-300')"><div class="swatch-color" style="background:#B1E0D0;"><span class="step-label" style="color:#333;">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#B1E0D0</div></div></div>
+      <div class="swatch" onclick="copy('#92D4BD','iron-green-400')"><div class="swatch-color" style="background:#92D4BD;"><span class="step-label" style="color:#333;">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#92D4BD</div></div></div>
+      <div class="swatch base" onclick="copy('#63C1A0','iron-green-500')"><div class="swatch-color" style="background:#63C1A0;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#63C1A0</div></div></div>
+      <div class="swatch" onclick="copy('#53A085','iron-green-600')"><div class="swatch-color" style="background:#53A085;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#53A085</div></div></div>
+      <div class="swatch" onclick="copy('#44806B','iron-green-700')"><div class="swatch-color" style="background:#44806B;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#44806B</div></div></div>
+      <div class="swatch" onclick="copy('#345F50','iron-green-800')"><div class="swatch-color" style="background:#345F50;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#345F50</div></div></div>
+      <div class="swatch" onclick="copy('#243F35','iron-green-900')"><div class="swatch-color" style="background:#243F35;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#243F35</div></div></div>
+      <div class="swatch" onclick="copy('#1A2924','iron-green-950')"><div class="swatch-color" style="background:#1A2924;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#1A2924</div></div></div>
+    </div>
+  </div>
+
+  <!-- Iron Sky -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Iron Sky</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#89D3DF; color:#333;">Accent Info</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#F8FCFD','iron-sky-50')"><div class="swatch-color" style="background:#F8FCFD;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#F8FCFD</div></div></div>
+      <div class="swatch" onclick="copy('#EDF8FA','iron-sky-100')"><div class="swatch-color" style="background:#EDF8FA;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#EDF8FA</div></div></div>
+      <div class="swatch" onclick="copy('#DCF2F5','iron-sky-200')"><div class="swatch-color" style="background:#DCF2F5;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#DCF2F5</div></div></div>
+      <div class="swatch" onclick="copy('#C4E9EF','iron-sky-300')"><div class="swatch-color" style="background:#C4E9EF;"><span class="step-label" style="color:#333;">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#C4E9EF</div></div></div>
+      <div class="swatch" onclick="copy('#ACE0E9','iron-sky-400')"><div class="swatch-color" style="background:#ACE0E9;"><span class="step-label" style="color:#333;">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#ACE0E9</div></div></div>
+      <div class="swatch base" onclick="copy('#89D3DF','iron-sky-500')"><div class="swatch-color" style="background:#89D3DF;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#89D3DF</div></div></div>
+      <div class="swatch" onclick="copy('#73AFB9','iron-sky-600')"><div class="swatch-color" style="background:#73AFB9;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#73AFB9</div></div></div>
+      <div class="swatch" onclick="copy('#5C8B93','iron-sky-700')"><div class="swatch-color" style="background:#5C8B93;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#5C8B93</div></div></div>
+      <div class="swatch" onclick="copy('#46686D','iron-sky-800')"><div class="swatch-color" style="background:#46686D;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#46686D</div></div></div>
+      <div class="swatch" onclick="copy('#2F4447','iron-sky-900')"><div class="swatch-color" style="background:#2F4447;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#2F4447</div></div></div>
+      <div class="swatch" onclick="copy('#202C2E','iron-sky-950')"><div class="swatch-color" style="background:#202C2E;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#202C2E</div></div></div>
+    </div>
+  </div>
+
+  <!-- Iron Purple -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Iron Purple</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#563B99;">Brand Accent</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#F5F3F9','iron-purple-50')"><div class="swatch-color" style="background:#F5F3F9;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#F5F3F9</div></div></div>
+      <div class="swatch" onclick="copy('#E6E2F0','iron-purple-100')"><div class="swatch-color" style="background:#E6E2F0;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#E6E2F0</div></div></div>
+      <div class="swatch" onclick="copy('#CCC4E0','iron-purple-200')"><div class="swatch-color" style="background:#CCC4E0;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#CCC4E0</div></div></div>
+      <div class="swatch" onclick="copy('#AB9DCC','iron-purple-300')"><div class="swatch-color" style="background:#AB9DCC;"><span class="step-label">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#AB9DCC</div></div></div>
+      <div class="swatch" onclick="copy('#8976B8','iron-purple-400')"><div class="swatch-color" style="background:#8976B8;"><span class="step-label">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#8976B8</div></div></div>
+      <div class="swatch base" onclick="copy('#563B99','iron-purple-500')"><div class="swatch-color" style="background:#563B99;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#563B99</div></div></div>
+      <div class="swatch" onclick="copy('#493380','iron-purple-600')"><div class="swatch-color" style="background:#493380;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#493380</div></div></div>
+      <div class="swatch" onclick="copy('#3B2A66','iron-purple-700')"><div class="swatch-color" style="background:#3B2A66;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#3B2A66</div></div></div>
+      <div class="swatch" onclick="copy('#2E224D','iron-purple-800')"><div class="swatch-color" style="background:#2E224D;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#2E224D</div></div></div>
+      <div class="swatch" onclick="copy('#211933','iron-purple-900')"><div class="swatch-color" style="background:#211933;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#211933</div></div></div>
+      <div class="swatch" onclick="copy('#161423','iron-purple-950')"><div class="swatch-color" style="background:#161423;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#161423</div></div></div>
+    </div>
+  </div>
+
+  <!-- Iron Violet -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Iron Violet</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#9D4F90;">Brand Accent</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#F9F4F8','iron-violet-50')"><div class="swatch-color" style="background:#F9F4F8;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#F9F4F8</div></div></div>
+      <div class="swatch" onclick="copy('#F0E5EE','iron-violet-100')"><div class="swatch-color" style="background:#F0E5EE;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#F0E5EE</div></div></div>
+      <div class="swatch" onclick="copy('#E2CADE','iron-violet-200')"><div class="swatch-color" style="background:#E2CADE;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#E2CADE</div></div></div>
+      <div class="swatch" onclick="copy('#CEA7C8','iron-violet-300')"><div class="swatch-color" style="background:#CEA7C8;"><span class="step-label">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#CEA7C8</div></div></div>
+      <div class="swatch" onclick="copy('#BA84B1','iron-violet-400')"><div class="swatch-color" style="background:#BA84B1;"><span class="step-label">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#BA84B1</div></div></div>
+      <div class="swatch base" onclick="copy('#9D4F90','iron-violet-500')"><div class="swatch-color" style="background:#9D4F90;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#9D4F90</div></div></div>
+      <div class="swatch" onclick="copy('#834378','iron-violet-600')"><div class="swatch-color" style="background:#834378;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#834378</div></div></div>
+      <div class="swatch" onclick="copy('#693760','iron-violet-700')"><div class="swatch-color" style="background:#693760;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#693760</div></div></div>
+      <div class="swatch" onclick="copy('#4F2B49','iron-violet-800')"><div class="swatch-color" style="background:#4F2B49;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#4F2B49</div></div></div>
+      <div class="swatch" onclick="copy('#351F31','iron-violet-900')"><div class="swatch-color" style="background:#351F31;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#351F31</div></div></div>
+      <div class="swatch" onclick="copy('#231721','iron-violet-950')"><div class="swatch-color" style="background:#231721;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#231721</div></div></div>
+    </div>
+  </div>
+
+  <!-- Iron Red -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Iron Red</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#E5242A;">Danger · Error · Destructive</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#FFF1F1','iron-red-50')"><div class="swatch-color" style="background:#FFF1F1;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#FFF1F1</div></div></div>
+      <div class="swatch" onclick="copy('#FFE1E2','iron-red-100')"><div class="swatch-color" style="background:#FFE1E2;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#FFE1E2</div></div></div>
+      <div class="swatch" onclick="copy('#FFC7C9','iron-red-200')"><div class="swatch-color" style="background:#FFC7C9;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#FFC7C9</div></div></div>
+      <div class="swatch" onclick="copy('#FF9DA1','iron-red-300')"><div class="swatch-color" style="background:#FF9DA1;"><span class="step-label">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#FF9DA1</div></div></div>
+      <div class="swatch" onclick="copy('#FF666D','iron-red-400')"><div class="swatch-color" style="background:#FF666D;"><span class="step-label">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#FF666D</div></div></div>
+      <div class="swatch base" onclick="copy('#E5242A','iron-red-500')"><div class="swatch-color" style="background:#E5242A;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#E5242A</div></div></div>
+      <div class="swatch" onclick="copy('#C91D23','iron-red-600')"><div class="swatch-color" style="background:#C91D23;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#C91D23</div></div></div>
+      <div class="swatch" onclick="copy('#A8181D','iron-red-700')"><div class="swatch-color" style="background:#A8181D;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#A8181D</div></div></div>
+      <div class="swatch" onclick="copy('#89171B','iron-red-800')"><div class="swatch-color" style="background:#89171B;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#89171B</div></div></div>
+      <div class="swatch" onclick="copy('#72181B','iron-red-900')"><div class="swatch-color" style="background:#72181B;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#72181B</div></div></div>
+      <div class="swatch" onclick="copy('#3D080A','iron-red-950')"><div class="swatch-color" style="background:#3D080A;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#3D080A</div></div></div>
+    </div>
+  </div>
+
+  <div class="section-label">Utility Palettes</div>
+
+  <!-- Iron Slate -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Slate</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#62748E;">UI Surfaces · Borders</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#F8FAFC','iron-slate-50')"><div class="swatch-color" style="background:#F8FAFC;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#F8FAFC</div></div></div>
+      <div class="swatch" onclick="copy('#F1F5F9','iron-slate-100')"><div class="swatch-color" style="background:#F1F5F9;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#F1F5F9</div></div></div>
+      <div class="swatch" onclick="copy('#E2E8F0','iron-slate-200')"><div class="swatch-color" style="background:#E2E8F0;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#E2E8F0</div></div></div>
+      <div class="swatch" onclick="copy('#CAD5E2','iron-slate-300')"><div class="swatch-color" style="background:#CAD5E2;"><span class="step-label" style="color:#333;">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#CAD5E2</div></div></div>
+      <div class="swatch" onclick="copy('#90A1B9','iron-slate-400')"><div class="swatch-color" style="background:#90A1B9;"><span class="step-label">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#90A1B9</div></div></div>
+      <div class="swatch base" onclick="copy('#62748E','iron-slate-500')"><div class="swatch-color" style="background:#62748E;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#62748E</div></div></div>
+      <div class="swatch" onclick="copy('#45556C','iron-slate-600')"><div class="swatch-color" style="background:#45556C;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#45556C</div></div></div>
+      <div class="swatch" onclick="copy('#314158','iron-slate-700')"><div class="swatch-color" style="background:#314158;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#314158</div></div></div>
+      <div class="swatch" onclick="copy('#1D293D','iron-slate-800')"><div class="swatch-color" style="background:#1D293D;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#1D293D</div></div></div>
+      <div class="swatch" onclick="copy('#0F172B','iron-slate-900')"><div class="swatch-color" style="background:#0F172B;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#0F172B</div></div></div>
+      <div class="swatch" onclick="copy('#020618','iron-slate-950')"><div class="swatch-color" style="background:#020618;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#020618</div></div></div>
+    </div>
+  </div>
+
+  <!-- Iron Neutral -->
+  <div class="palette">
+    <div class="palette-header">
+      <h2>Neutral</h2>
+      <span class="base-chip">BASE 500</span>
+      <span class="role-tag" style="background:#737373;">Text · Icons · Gray</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch" onclick="copy('#FAFAFA','iron-neutral-50')"><div class="swatch-color" style="background:#FAFAFA; border:1px solid #eee;"><span class="step-label" style="color:#333;">50</span></div><div class="swatch-info"><div class="step">50</div><div class="hex">#FAFAFA</div></div></div>
+      <div class="swatch" onclick="copy('#F5F5F5','iron-neutral-100')"><div class="swatch-color" style="background:#F5F5F5;"><span class="step-label" style="color:#333;">100</span></div><div class="swatch-info"><div class="step">100</div><div class="hex">#F5F5F5</div></div></div>
+      <div class="swatch" onclick="copy('#E5E5E5','iron-neutral-200')"><div class="swatch-color" style="background:#E5E5E5;"><span class="step-label" style="color:#333;">200</span></div><div class="swatch-info"><div class="step">200</div><div class="hex">#E5E5E5</div></div></div>
+      <div class="swatch" onclick="copy('#D4D4D4','iron-neutral-300')"><div class="swatch-color" style="background:#D4D4D4;"><span class="step-label" style="color:#333;">300</span></div><div class="swatch-info"><div class="step">300</div><div class="hex">#D4D4D4</div></div></div>
+      <div class="swatch" onclick="copy('#A1A1A1','iron-neutral-400')"><div class="swatch-color" style="background:#A1A1A1;"><span class="step-label">400</span></div><div class="swatch-info"><div class="step">400</div><div class="hex">#A1A1A1</div></div></div>
+      <div class="swatch base" onclick="copy('#737373','iron-neutral-500')"><div class="swatch-color" style="background:#737373;"><span class="step-label">★ 500</span></div><div class="swatch-info"><div class="step">500 BASE</div><div class="hex">#737373</div></div></div>
+      <div class="swatch" onclick="copy('#525252','iron-neutral-600')"><div class="swatch-color" style="background:#525252;"><span class="step-label">600</span></div><div class="swatch-info"><div class="step">600</div><div class="hex">#525252</div></div></div>
+      <div class="swatch" onclick="copy('#404040','iron-neutral-700')"><div class="swatch-color" style="background:#404040;"><span class="step-label">700</span></div><div class="swatch-info"><div class="step">700</div><div class="hex">#404040</div></div></div>
+      <div class="swatch" onclick="copy('#262626','iron-neutral-800')"><div class="swatch-color" style="background:#262626;"><span class="step-label">800</span></div><div class="swatch-info"><div class="step">800</div><div class="hex">#262626</div></div></div>
+      <div class="swatch" onclick="copy('#171717','iron-neutral-900')"><div class="swatch-color" style="background:#171717;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#171717</div></div></div>
+      <div class="swatch" onclick="copy('#0A0A0A','iron-neutral-950')"><div class="swatch-color" style="background:#0A0A0A;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#0A0A0A</div></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     02 — COLOR PALETTE  (Semantic Token Map)
+     Source: Figma node 84-1754
+     ══════════════════════════════════════════════════════════════════════════ -->
+<div style="background:#F1F5F9; border-top:3px solid #E2E8F0; margin-top:24px;">
+<div class="content" style="padding-top:48px;">
+
+  <div style="margin-bottom:8px;">
+    <span style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#2693EC;">02 — COLOR PALETTE</span>
+  </div>
+  <h2 style="font-size:1.75rem;font-weight:900;margin-bottom:8px;">Color Palette</h2>
+  <p style="font-size:0.88rem;color:#62748E;margin-bottom:40px;">Semantic Token Map — what role each color plays in a real design system.</p>
+
+  <div class="palette-page-intro">
+    <div class="icon">💡</div>
+    <div>
+      <h3>Raw scale vs. semantic token</h3>
+      <p>The <strong>Color Scale</strong> above lists every raw shade (50–950). This page maps those shades to <strong>meaningful roles</strong> — Primary, Heading, Background, etc. — so designers and developers always reach for the right color for the right job.</p>
+    </div>
+  </div>
+
+  <!-- ── BRAND & ACCENT ───────────────────────────────────────────────────── -->
+  <div class="palette-group">
+    <div class="palette-group-header">Brand &amp; Accent</div>
+    <div class="semantic-grid">
+
+      <div class="sem-card" onclick="copy('#E01A59','color.brand.primary')">
+        <div class="sem-color" style="background:#E01A59;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Primary (Iron Pink)</div>
+          <div class="sem-hex">#E01A59</div>
+          <div class="sem-token">iron-pink-500</div>
+          <div class="sem-desc">All primary CTAs and brand wordmark.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#BA174B','color.brand.primary-active')">
+        <div class="sem-color" style="background:#BA174B;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Primary active</div>
+          <div class="sem-hex">#BA174B</div>
+          <div class="sem-token">iron-pink-600</div>
+          <div class="sem-desc">Press / hover primary state.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#2693EC','color.brand.secondary')">
+        <div class="sem-color" style="background:#2693EC;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Secondary (Iron Blue)</div>
+          <div class="sem-hex">#2693EC</div>
+          <div class="sem-token">iron-blue-500</div>
+          <div class="sem-desc">Secondary CTAs, alternative headline, link.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#217BC4','color.brand.secondary-active')">
+        <div class="sem-color" style="background:#217BC4;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Secondary active</div>
+          <div class="sem-hex">#217BC4</div>
+          <div class="sem-token">iron-blue-600</div>
+          <div class="sem-desc">Press secondary state.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#FDA509','color.brand.orange')">
+        <div class="sem-color" style="background:#FDA509;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Iron Orange</div>
+          <div class="sem-hex">#FDA509</div>
+          <div class="sem-token">iron-orange-500</div>
+          <div class="sem-desc">Product color.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#63C1A0','color.brand.green')">
+        <div class="sem-color" style="background:#63C1A0;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Iron Green</div>
+          <div class="sem-hex">#63C1A0</div>
+          <div class="sem-token">iron-green-500</div>
+          <div class="sem-desc">Product color.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#89D3DF','color.brand.sky')">
+        <div class="sem-color" style="background:#89D3DF;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Iron Sky</div>
+          <div class="sem-hex">#89D3DF</div>
+          <div class="sem-token">iron-sky-500</div>
+          <div class="sem-desc">Product color.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#563B99','color.brand.purple')">
+        <div class="sem-color" style="background:#563B99;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Iron Purple</div>
+          <div class="sem-hex">#563B99</div>
+          <div class="sem-token">iron-purple-500</div>
+          <div class="sem-desc">Product color.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── TEXT / DEFAULT (Light Mode) ─────────────────────────────────────── -->
+  <div class="palette-group">
+    <div class="palette-group-header">Text / Default (Light Mode)</div>
+    <div class="semantic-grid cols-5">
+
+      <div class="sem-card" onclick="copy('#171717','color.text.heading')">
+        <div class="sem-color" style="background:#171717;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Heading</div>
+          <div class="sem-hex">#171717</div>
+          <div class="sem-token">iron-neutral-900</div>
+          <div class="sem-desc">Headlines and emphasized body type.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#404040','color.text.body')">
+        <div class="sem-color" style="background:#404040;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Body</div>
+          <div class="sem-hex">#404040</div>
+          <div class="sem-token">iron-neutral-700</div>
+          <div class="sem-desc">Default running text.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#A1A1A1','color.text.muted')">
+        <div class="sem-color" style="background:#A1A1A1;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Muted</div>
+          <div class="sem-hex">#A1A1A1</div>
+          <div class="sem-token">iron-neutral-400</div>
+          <div class="sem-desc">Placeholders, captions, disabled text.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#90A1B9','color.text.support')">
+        <div class="sem-color" style="background:#90A1B9;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Support</div>
+          <div class="sem-hex">#90A1B9</div>
+          <div class="sem-token">iron-slate-400</div>
+          <div class="sem-desc">Support headlines, caption title.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#FFFFFF','color.text.on-primary')">
+        <div class="sem-color" style="background:#FFFFFF; border-bottom:1px solid #E2E8F0;"></div>
+        <div class="sem-body">
+          <div class="sem-name">On Primary</div>
+          <div class="sem-hex" style="color:#171717;">#FFFFFF</div>
+          <div class="sem-token">white</div>
+          <div class="sem-desc">White text on CTA buttons.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── TEXT / DARK (Dark Mode) ──────────────────────────────────────────── -->
+  <div class="palette-group">
+    <div class="palette-group-header">Text / Dark (Dark Mode)</div>
+    <div class="semantic-grid" style="grid-template-columns: repeat(4, 1fr);">
+
+      <div class="sem-card" onclick="copy('#F5F5F5','color.text-dark.heading')">
+        <div class="sem-color" style="background:#F5F5F5; border-bottom:1px solid #E2E8F0;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Heading</div>
+          <div class="sem-hex" style="color:#171717;">#F5F5F5</div>
+          <div class="sem-token">iron-neutral-100</div>
+          <div class="sem-desc">Headlines and emphasized body type.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#D4D4D4','color.text-dark.body')">
+        <div class="sem-color" style="background:#D4D4D4;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Body</div>
+          <div class="sem-hex" style="color:#171717;">#D4D4D4</div>
+          <div class="sem-token">iron-neutral-300</div>
+          <div class="sem-desc">Default running text.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#737373','color.text-dark.muted')">
+        <div class="sem-color" style="background:#737373;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Muted</div>
+          <div class="sem-hex">#737373</div>
+          <div class="sem-token">iron-neutral-500</div>
+          <div class="sem-desc">Placeholders, captions, disabled text.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#CEA7C8','color.text-dark.support')">
+        <div class="sem-color" style="background:#CEA7C8;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Support</div>
+          <div class="sem-hex">#CEA7C8</div>
+          <div class="sem-token">iron-violet-300</div>
+          <div class="sem-desc">Support headlines, caption title.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SURFACE: LIGHT THEMES ────────────────────────────────────────────── -->
+  <div class="palette-group">
+    <div class="palette-group-header">Surface — Light Themes</div>
+    <div class="semantic-grid">
+
+      <div class="sem-card" onclick="copy('#FFFFFF','color.surface.background')">
+        <div class="sem-color" style="background:#FFFFFF; border-bottom:1px solid #E2E8F0;"></div>
+        <div class="sem-body">
+          <div class="sem-name">background</div>
+          <div class="sem-hex" style="color:#171717;">#FFFFFF</div>
+          <div class="sem-token">white</div>
+          <div class="sem-desc">Main page background.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#F1F5F9','color.surface.background-shade')">
+        <div class="sem-color" style="background:#F1F5F9;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Background shade</div>
+          <div class="sem-hex" style="color:#171717;">#F1F5F9</div>
+          <div class="sem-token">iron-slate-100</div>
+          <div class="sem-desc">Secondary surface / band fill.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#FFFFFF','color.surface.card')">
+        <div class="sem-color" style="background:#FFFFFF; border-bottom:1px solid #E2E8F0;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Card</div>
+          <div class="sem-hex" style="color:#171717;">#FFFFFF</div>
+          <div class="sem-token">white</div>
+          <div class="sem-desc">Card, modal, panel surface.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#F9F4F8','color.surface.card-alt')">
+        <div class="sem-color" style="background:#F9F4F8;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Card alt</div>
+          <div class="sem-hex" style="color:#171717;">#F9F4F8</div>
+          <div class="sem-token">iron-violet-50</div>
+          <div class="sem-desc">Alternative card, modal, panel surface.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#E2E8F0','color.surface.border')">
+        <div class="sem-color" style="background:#E2E8F0;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Border</div>
+          <div class="sem-hex" style="color:#171717;">#E2E8F0</div>
+          <div class="sem-token">iron-slate-200</div>
+          <div class="sem-desc">Dividers, input borders, cards.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#CAD5E2','color.surface.border-strong')">
+        <div class="sem-color" style="background:#CAD5E2;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Border strong</div>
+          <div class="sem-hex" style="color:#171717;">#CAD5E2</div>
+          <div class="sem-token">iron-slate-300</div>
+          <div class="sem-desc">Hover border.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SURFACE: DARK THEMES ─────────────────────────────────────────────── -->
+  <div class="palette-group">
+    <div class="palette-group-header">Surface — Dark Themes</div>
+    <div class="semantic-grid">
+
+      <div class="sem-card dark-surface" onclick="copy('#351F31','color.surface-dark.background')">
+        <div class="sem-color" style="background:#351F31;"></div>
+        <div class="sem-body">
+          <div class="sem-name">background</div>
+          <div class="sem-hex">#351F31</div>
+          <div class="sem-token">iron-violet-900</div>
+          <div class="sem-desc">Main page background.</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#231721','color.surface-dark.background-shade')">
+        <div class="sem-color" style="background:#231721;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Background shade</div>
+          <div class="sem-hex">#231721</div>
+          <div class="sem-token">iron-violet-950</div>
+          <div class="sem-desc">Secondary surface / band fill.</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#4F2B49','color.surface-dark.card')">
+        <div class="sem-color" style="background:#4F2B49;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Card</div>
+          <div class="sem-hex">#4F2B49</div>
+          <div class="sem-token">iron-violet-800</div>
+          <div class="sem-desc">Card, modal, panel surface.</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#2C0F28','color.surface-dark.card-alt')">
+        <div class="sem-color" style="background:#2C0F28;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Card alt</div>
+          <div class="sem-hex">#2C0F28</div>
+          <div class="sem-token">iron-violet-950+</div>
+          <div class="sem-desc">Alternative card, modal, panel surface.</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#351F31','color.surface-dark.border')">
+        <div class="sem-color" style="background:#351F31;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Border</div>
+          <div class="sem-hex">#351F31</div>
+          <div class="sem-token">iron-violet-900</div>
+          <div class="sem-desc">Dividers, input borders, cards.</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#231721','color.surface-dark.border-strong')">
+        <div class="sem-color" style="background:#231721;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Border strong</div>
+          <div class="sem-hex">#231721</div>
+          <div class="sem-token">iron-violet-950</div>
+          <div class="sem-desc">Hover border.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SEMANTIC ──────────────────────────────────────────────────────────── -->
+  <div class="palette-group">
+    <div class="palette-group-header">Semantic</div>
+    <div class="semantic-grid" style="grid-template-columns: repeat(4, 1fr);">
+
+      <div class="sem-card" onclick="copy('#63C1A0','color.semantic.success')">
+        <div class="sem-color" style="background:#63C1A0;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Success</div>
+          <div class="sem-hex">#63C1A0</div>
+          <div class="sem-token">iron-green-500</div>
+          <div class="sem-desc">Confirmations, success messages.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#FDA509','color.semantic.warning')">
+        <div class="sem-color" style="background:#FDA509;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Warning</div>
+          <div class="sem-hex">#FDA509</div>
+          <div class="sem-token">iron-orange-500</div>
+          <div class="sem-desc">Warnings, pending states.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#E5242A','color.semantic.error')">
+        <div class="sem-color" style="background:#E5242A;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Error</div>
+          <div class="sem-hex">#E5242A</div>
+          <div class="sem-token">iron-red-500</div>
+          <div class="sem-desc">Validation errors, delete actions.</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#2693EC','color.semantic.info')">
+        <div class="sem-color" style="background:#2693EC;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Info</div>
+          <div class="sem-hex">#2693EC</div>
+          <div class="sem-token">iron-blue-500</div>
+          <div class="sem-desc">Info banners, help text.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /.content -->
+</div><!-- /palette bg wrapper -->
+
+<div class="copy-toast" id="toast">Copied!</div>
+
+<footer>Iron Software Design System &nbsp;·&nbsp; Color Scale &amp; Palette &nbsp;·&nbsp; 2025</footer>
+
+<script>
+  function copy(hex, name) {
+    navigator.clipboard.writeText(hex).then(() => {
+      const t = document.getElementById('toast');
+      t.textContent = `Copied ${hex} (${name})`;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    });
+  }
+</script>
+</body>
+</html>

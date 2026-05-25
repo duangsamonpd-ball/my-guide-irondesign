@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semantic Color Guide · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; line-height: 1.6; }
+
+    nav { background: white; border-bottom: 1px solid #E2E8F0; padding: 16px 40px; display: flex; align-items: center; gap: 12px; }
+    nav a { text-decoration: none; color: #62748E; font-size: 0.85rem; }
+    nav a:hover { color: #E01A59; }
+    nav span { color: #CAD5E2; }
+    nav .title { font-weight: 700; color: #171717; font-size: 0.95rem; }
+
+    .page-header { background: white; border-bottom: 1px solid #E2E8F0; padding: 40px; }
+    .page-header h1 { font-size: 2rem; font-weight: 900; }
+    .page-header p  { color: #62748E; margin-top: 6px; font-size: 0.9rem; max-width: 600px; }
+
+    .content { padding: 40px; max-width: 1100px; margin: 0 auto; }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #A1A1A1;
+      margin: 56px 0 20px; padding-bottom: 8px;
+      border-bottom: 2px solid #E2E8F0;
+    }
+
+    /* ── Concept callout ── */
+    .concept-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px;
+    }
+    .concept-card {
+      border-radius: 14px; padding: 24px; border: 1px solid #E2E8F0;
+    }
+    .concept-card.bad  { background: #FFF1F1; border-color: #FFC7C9; }
+    .concept-card.good { background: #F6FBF9; border-color: #B1E0D0; }
+    .concept-card .label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+    .concept-card.bad  .label { color: #C91D23; }
+    .concept-card.good .label { color: #44806B; }
+    .concept-card p { font-size: 0.82rem; color: #62748E; margin-top: 8px; line-height: 1.6; }
+
+    /* ── Mapping table ── */
+    .mapping-table {
+      width: 100%; border-collapse: collapse;
+      background: white; border-radius: 14px; overflow: hidden;
+      border: 1px solid #E2E8F0; margin-bottom: 32px;
+      font-size: 0.82rem;
+    }
+    .mapping-table thead tr { background: #F8FAFC; }
+    .mapping-table th {
+      padding: 12px 16px; text-align: left;
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .mapping-table th.th-light { background: #FDFBF0; color: #997A00; border-bottom: 1px solid #E2E8F0; }
+    .mapping-table th.th-dark  { background: #1E1E2A; color: #89D3DF; border-bottom: 1px solid #2E2E3A; }
+    .mapping-table td { padding: 12px 16px; border-bottom: 1px solid #F1F5F9; vertical-align: middle; }
+    .mapping-table td.td-light { background: #FEFDF5; }
+    .mapping-table td.td-dark  { background: #1A1A26; }
+    .mapping-table tr:last-child td { border-bottom: none; }
+    .mapping-table tr:hover td.td-light { background: #FAF9E8; }
+    .mapping-table tr:hover td.td-dark  { background: #222230; }
+    .mapping-table tr:hover td:not(.td-light):not(.td-dark) { background: #FAFAFA; }
+
+    /* mode badge for light/dark column header */
+    .mode-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; padding: 2px 7px; border-radius: 20px;
+    }
+    .mode-badge.light { background: #FFF8CC; color: #8A6A00; }
+    .mode-badge.dark  { background: #2A2A40; color: #89D3DF; }
+
+    .color-dot {
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .dot {
+      width: 20px; height: 20px; border-radius: 5px;
+      border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0;
+    }
+
+    .token-pill {
+      font-family: monospace; font-size: 0.72rem;
+      background: #F1F5F9; color: #314158;
+      padding: 3px 8px; border-radius: 6px;
+      white-space: nowrap;
+    }
+    .token-pill.css  { background: #F0F9FF; color: #1D629B; }
+    .token-pill.tw   { background: #FFF1F1; color: #94153D; }
+
+    .role-badge {
+      font-size: 0.62rem; font-weight: 700; padding: 3px 8px;
+      border-radius: 20px; white-space: nowrap;
+    }
+
+    /* ── Code blocks ── */
+    .code-section { margin-bottom: 40px; }
+
+    .tab-bar {
+      display: flex; gap: 0; margin-bottom: 0;
+      border-bottom: none;
+    }
+    .tab-btn {
+      padding: 10px 20px; border-radius: 10px 10px 0 0;
+      font-size: 0.75rem; font-weight: 700; cursor: pointer;
+      border: 1px solid #2E2E3A; border-bottom: none;
+      background: #111118; color: #62748E;
+      transition: color 0.15s, background 0.15s;
+      user-select: none; display: flex; align-items: center; gap: 7px;
+    }
+    .tab-btn:hover:not(.active) { color: #A1A1A1; background: #16161F; }
+    .tab-btn.active { background: #1C1C28; color: #E2E8F0; border-color: #3A3A50; }
+    .tab-btn .lang-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+
+    .tab-panels { position: relative; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    pre {
+      background: #1C1C28; color: #E2E8F0;
+      padding: 28px 32px; border-radius: 0 12px 12px 12px;
+      font-size: 0.78rem; line-height: 1.9;
+      overflow-x: auto;
+      border: 1px solid #3A3A50;
+      border-top: 3px solid #E01A59;
+      margin: 0;
+    }
+    .tab-panel:first-child pre { border-top-left-radius: 0; }
+
+    /* copy button inside code block */
+    .code-wrap { position: relative; }
+    .copy-code-btn {
+      position: absolute; top: 10px; right: 12px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      color: #A1A1A1; font-size: 0.65rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 6px; cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .copy-code-btn:hover { background: rgba(255,255,255,0.16); color: white; }
+    .c-comment { color: #62748E; }
+    .c-key     { color: #89D3DF; }
+    .c-val     { color: #FDA509; }
+    .c-str     { color: #63C1A0; }
+    .c-tag     { color: #E01A59; }
+    .c-attr    { color: #9D4F90; }
+    .c-num     { color: #BA84B1; }
+
+    /* ── Do / Don't rules ── */
+    .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+    .rule-card { border-radius: 12px; overflow: hidden; border: 1px solid #E2E8F0; }
+    .rule-header { padding: 12px 16px; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .rule-header.do   { background: #F6FBF9; color: #44806B; border-bottom: 1px solid #D0ECE3; }
+    .rule-header.dont { background: #FFF1F1; color: #C91D23; border-bottom: 1px solid #FFC7C9; }
+    .rule-body { background: white; padding: 16px; }
+    .rule-body code { display: block; font-family: monospace; font-size: 0.75rem; padding: 8px 12px; border-radius: 6px; margin-top: 6px; }
+    .rule-body code.good { background: #F6FBF9; color: #345F50; }
+    .rule-body code.bad  { background: #FFF1F1; color: #A8181D; text-decoration: line-through; }
+    .rule-body p { font-size: 0.75rem; color: #737373; margin-top: 8px; }
+
+    /* ── Quick reference card ── */
+    .ref-card {
+      background: #171717; color: #E2E8F0;
+      border-radius: 16px; padding: 32px 36px;
+      margin-bottom: 40px;
+    }
+    .ref-card h3 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 20px; }
+    .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .ref-item { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 8px; background: rgba(255,255,255,0.05); }
+    .ref-dot  { width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+    .ref-info { min-width: 0; }
+    .ref-name { font-size: 0.72rem; font-weight: 700; color: white; }
+    .ref-token{ font-size: 0.6rem; color: #62748E; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .copy-toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      background: #171717; color: white; padding: 10px 20px;
+      border-radius: 40px; font-size: 0.8rem; font-weight: 600;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 100;
+    }
+    .copy-toast.show { opacity: 1; }
+
+    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Home</a>
+  <span>/</span>
+  <span class="title">🗺️ Semantic Color Guide</span>
+</nav>
+
+<div class="page-header">
+  <h1>🗺️ Semantic Color Guide for Developers</h1>
+  <p>How to use the design system's color tokens correctly in code — with Tailwind CSS classes, CSS custom properties, and real examples.</p>
+</div>
+
+<div class="content">
+
+  <!-- ── WHAT IS A SEMANTIC TOKEN ──────────────────────────────────────────── -->
+  <div class="section-label">What is a semantic token?</div>
+
+  <div class="concept-row">
+    <div class="concept-card bad">
+      <div class="label">❌ Raw value — avoid this</div>
+      <pre style="border-radius:8px; font-size:0.75rem; padding:14px; margin-top:8px;"><span class="c-comment">/* Hardcoded hex — breaks when brand changes */</span>
+<span class="c-key">background-color</span>: <span class="c-val">#E01A59</span>;
+<span class="c-key">border-color</span>: <span class="c-val">#BA174B</span>;</pre>
+      <p>If the brand colour changes, you'd need to hunt down every `#E01A59` across the whole codebase.</p>
+    </div>
+    <div class="concept-card good">
+      <div class="label">✅ Semantic token — use this</div>
+      <pre style="border-radius:8px; font-size:0.75rem; padding:14px; margin-top:8px;"><span class="c-comment">/* Named role — update once, works everywhere */</span>
+<span class="c-key">background-color</span>: <span class="c-str">var(--color-primary)</span>;
+<span class="c-key">border-color</span>: <span class="c-str">var(--color-primary-hover)</span>;</pre>
+      <p>The token name describes the <strong>purpose</strong>, not the value. Change the token once in <code>tokens.css</code> and everything updates.</p>
+    </div>
+  </div>
+
+  <!-- ── FULL MAPPING TABLE ────────────────────────────────────────────────── -->
+  <div class="section-label">Complete Semantic Mapping</div>
+
+  <!-- Brand -->
+  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">Brand & Interactive</p>
+  <table class="mapping-table">
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Color</th>
+        <th>Scale Token</th>
+        <th>CSS Variable</th>
+        <th>Tailwind Class</th>
+        <th>Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-badge" style="background:#FDF1F5;color:#E01A59;">Primary</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#E01A59;"></div>#E01A59</div></td>
+        <td><span class="token-pill">iron-pink-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-primary)')">--color-primary</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-primary-500')">bg-primary-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Primary CTAs, brand wordmark</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FDF1F5;color:#BA174B;">Primary hover</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#BA174B;"></div>#BA174B</div></td>
+        <td><span class="token-pill">iron-pink-600</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-primary-hover)')">--color-primary-hover</span></td>
+        <td><span class="token-pill tw" onclick="copyText('hover:bg-primary-600')">hover:bg-primary-600</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Button hover / press state</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F0F9FF;color:#2693EC;">Secondary</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#2693EC;"></div>#2693EC</div></td>
+        <td><span class="token-pill">iron-blue-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-secondary)')">--color-secondary</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-secondary-500')">bg-secondary-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Secondary CTAs, links, nav active</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F0F9FF;color:#217BC4;">Secondary hover</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#217BC4;"></div>#217BC4</div></td>
+        <td><span class="token-pill">iron-blue-600</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-secondary-hover)')">--color-secondary-hover</span></td>
+        <td><span class="token-pill tw" onclick="copyText('hover:bg-secondary-600')">hover:bg-secondary-600</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Secondary hover / press state</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FFF8E8;color:#C97C00;">Accent 1</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#FDA509;"></div>#FDA509</div></td>
+        <td><span class="token-pill">iron-orange-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-accent-1)')">--color-accent-1</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-warning-500')">bg-warning-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Highlights, promotions, badges</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F2FBF7;color:#3A8A6A;">Accent 2</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#63C1A0;"></div>#63C1A0</div></td>
+        <td><span class="token-pill">iron-green-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-accent-2)')">--color-accent-2</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-success-500')">bg-success-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Feature tags, positive highlights</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#EFF9FF;color:#1A7AC4;">Accent 3</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#36C6F4;"></div>#36C6F4</div></td>
+        <td><span class="token-pill">iron-sky-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-accent-3)')">--color-accent-3</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-sky-500')">bg-sky-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Data-vis, illustration accents</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F4F0FB;color:#563B99;">Accent 4</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#563B99;"></div>#563B99</div></td>
+        <td><span class="token-pill">iron-purple-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-accent-4)')">--color-accent-4</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-purple-500')">bg-purple-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Data-vis, premium / pro tiers</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Semantic -->
+  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">Semantic States</p>
+  <table class="mapping-table">
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Color</th>
+        <th>Scale Token</th>
+        <th>CSS Variable</th>
+        <th>Tailwind Class</th>
+        <th>Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-badge" style="background:#F6FBF9;color:#44806B;">Success</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#63C1A0;"></div>#63C1A0</div></td>
+        <td><span class="token-pill">iron-green-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-success)')">--color-success</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-success-500')">bg-success-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Confirmations, success messages</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FFFAF0;color:#D2890A;">Warning</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#FDA509;"></div>#FDA509</div></td>
+        <td><span class="token-pill">iron-orange-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-warning)')">--color-warning</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-warning-500')">bg-warning-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Warnings, pending states</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FFF1F1;color:#C91D23;">Danger</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#E5242A;"></div>#E5242A</div></td>
+        <td><span class="token-pill">iron-red-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-danger)')">--color-danger</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-danger-500')">bg-danger-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Errors, destructive actions</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F0F9FF;color:#2693EC;">Info</span></td>
+        <td><div class="color-dot"><div class="dot" style="background:#2693EC;"></div>#2693EC</div></td>
+        <td><span class="token-pill">iron-blue-500</span></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-info)')">--color-info</span></td>
+        <td><span class="token-pill tw" onclick="copyText('bg-info-500')">bg-info-500</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Info banners, help text, tooltips</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Text / default — light + dark -->
+  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Text / Default</p>
+  <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Light mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-text-*</code> · Dark mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-text-dark-*</code></p>
+  <table class="mapping-table">
+    <thead>
+      <tr>
+        <th style="width:110px;">Role</th>
+        <th class="th-light">☀ Light — Color &amp; Scale</th>
+        <th class="th-dark">🌙 Dark — Color &amp; Scale</th>
+        <th>CSS Variable</th>
+        <th>Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#171717;">heading</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#171717;"></div><span>#171717 <span style="color:#A1A1A1;">neutral/900</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#F5F5F5;border-color:rgba(0,0,0,0.2);"></div><span style="color:#C8C8D8;">#F5F5F5 <span style="color:#5A5A7A;">neutral/100</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-heading)')">--color-text-heading</span></td>
+        <td style="color:#737373;font-size:0.75rem;">H1–H4, emphasized type</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#EFF9FF;color:#2693EC;">heading-alt</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span>#2693EC <span style="color:#A1A1A1;">brand/secondary</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#FDA509;"></div><span style="color:#C8C8D8;">#FDA509 <span style="color:#5A5A7A;">brand/accent 1</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-heading-alt)')">--color-text-heading-alt</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Coloured headline accents, kickers</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#404040;">body</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#404040;"></div><span>#404040 <span style="color:#A1A1A1;">neutral/700</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#D4D4D4;border-color:rgba(0,0,0,0.15);"></div><span style="color:#C8C8D8;">#D4D4D4 <span style="color:#5A5A7A;">neutral/300</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-body)')">--color-text-body</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Default running text, paragraphs</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#A1A1A1;">muted</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#A1A1A1;"></div><span>#A1A1A1 <span style="color:#A1A1A1;">neutral/400</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#737373;"></div><span style="color:#C8C8D8;">#737373 <span style="color:#5A5A7A;">neutral/500</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-muted)')">--color-text-muted</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Placeholders, captions, disabled</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#90A1B9;">support</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#90A1B9;"></div><span>#90A1B9 <span style="color:#A1A1A1;">slate/400</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#CEA7C8;"></div><span style="color:#C8C8D8;">#CEA7C8 <span style="color:#5A5A7A;">iron-violet/300</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-support)')">--color-text-support</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Support headlines, caption titles</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#E01A59;color:#fff;">on primary</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid #E2E8F0;"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border-color:rgba(0,0,0,0.3);"></div><span style="color:#C8C8D8;">#FFFFFF <span style="color:#5A5A7A;">white</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-primary)')">--color-text-on-primary</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Text on top of CTA buttons</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#EFF9FF;color:#2693EC;">link</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span>#2693EC <span style="color:#A1A1A1;">brand/secondary</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span style="color:#C8C8D8;">#2693EC <span style="color:#5A5A7A;">brand/secondary</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-link)')">--color-text-link</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Hyperlinks, anchor text</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FDF1F5;color:#E01A59;">link hover</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E01A59;"></div><span>#E01A59 <span style="color:#A1A1A1;">brand/primary</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#E01A59;"></div><span style="color:#C8C8D8;">#E01A59 <span style="color:#5A5A7A;">brand/primary</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-link-hover)')">--color-text-link-hover</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Hovered / active link state</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Text / on color -->
+  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Text / On Color</p>
+  <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Text placed directly on a coloured surface (e.g. inside a coloured hero band or card).</p>
+  <table class="mapping-table">
+    <thead>
+      <tr>
+        <th style="width:110px;">Role</th>
+        <th class="th-light">☀ Light — Color &amp; Scale</th>
+        <th class="th-dark">🌙 Dark — Color &amp; Scale</th>
+        <th>CSS Variable</th>
+        <th>Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-badge" style="background:#2C2C40;color:#fff;">heading</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid #E2E8F0;"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border-color:rgba(0,0,0,0.3);"></div><span style="color:#C8C8D8;">#FFFFFF <span style="color:#5A5A7A;">white</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-color-heading)')">--color-text-on-color-heading</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Headings inside coloured hero bands</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#2C2C40;color:#D4D4D4;">body</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E5E5E5;border:1px solid #D5D5D5;"></div><span>#E5E5E5 <span style="color:#A1A1A1;">neutral/200</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#E5E5E5;border-color:rgba(0,0,0,0.15);"></div><span style="color:#C8C8D8;">#E5E5E5 <span style="color:#5A5A7A;">neutral/200</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-color-body)')">--color-text-on-color-body</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Body copy inside coloured surfaces</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Surfaces — light + dark -->
+  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Surface</p>
+  <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Light mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-bg-*</code> · Dark mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-bg-dark-*</code></p>
+  <table class="mapping-table">
+    <thead>
+      <tr>
+        <th style="width:120px;">Role</th>
+        <th class="th-light">☀ Light — Color &amp; Scale</th>
+        <th class="th-dark">🌙 Dark — Color &amp; Scale</th>
+        <th>CSS Variable</th>
+        <th>Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">background</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid #D5D5D5;"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#351F31;"></div><span style="color:#C8C8D8;">#351F31 <span style="color:#5A5A7A;">iron-violet/900</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-bg-base)')">--color-bg-base</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Main page background</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F1F5F9;color:#62748E;">bg shade</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F1F5F9;"></div><span>#F1F5F9 <span style="color:#A1A1A1;">slate/100</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#231721;"></div><span style="color:#C8C8D8;">#231721 <span style="color:#5A5A7A;">iron-violet/950</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-bg-shade)')">--color-bg-shade</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Band fills, alternating sections</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">card</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid #D5D5D5;"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#4F2B49;"></div><span style="color:#C8C8D8;">#4F2B49 <span style="color:#5A5A7A;">iron-violet/800</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-bg-card)')">--color-bg-card</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Card, modal, panel backgrounds</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F2F9FE;color:#1D629B;">card alt</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F2F9FE;border:1px solid #D5D5D5;"></div><span>#F2F9FE <span style="color:#A1A1A1;">iron-blue/50</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#231721;"></div><span style="color:#C8C8D8;">#231721 <span style="color:#5A5A7A;">iron-violet/950</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-bg-card-alt)')">--color-bg-card-alt</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Alternative / feature highlight card</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Borders — light + dark -->
+  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Border</p>
+  <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Light mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-border-*</code> · Dark mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-border-dark-*</code></p>
+  <table class="mapping-table">
+    <thead>
+      <tr>
+        <th style="width:120px;">Role</th>
+        <th class="th-light">☀ Light — Color &amp; Scale</th>
+        <th class="th-dark">🌙 Dark — Color &amp; Scale</th>
+        <th>CSS Variable</th>
+        <th>Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">default</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E2E8F0;"></div><span>#E2E8F0 <span style="color:#A1A1A1;">slate/200</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#9D4F90;"></div><span style="color:#C8C8D8;">#9D4F90 <span style="color:#5A5A7A;">iron-violet/500</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-border)')">--color-border</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Dividers, input borders, card edges</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">strong</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#CAD5E2;"></div><span>#CAD5E2 <span style="color:#A1A1A1;">slate/300</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#BA84B1;"></div><span style="color:#C8C8D8;">#BA84B1 <span style="color:#5A5A7A;">iron-violet/400</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-border-strong)')">--color-border-strong</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Hover borders, strong dividers</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#EFF9FF;color:#2693EC;">alternative</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span>#2693EC <span style="color:#A1A1A1;">brand/secondary</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span style="color:#C8C8D8;">#2693EC <span style="color:#5A5A7A;">brand/secondary</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-border-alt)')">--color-border-alt</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Focused inputs, active outlines, links</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── CODE EXAMPLES ─────────────────────────────────────────────────────── -->
+  <div class="section-label">Code Examples</div>
+
+  <div class="code-section">
+
+    <!-- Tab bar -->
+    <div class="tab-bar" role="tablist">
+      <button class="tab-btn active" role="tab" aria-selected="true"  onclick="switchTab(event,'tab-tailwind')" id="btn-tailwind">
+        <span class="lang-dot" style="background:#38BDF8;"></span>Tailwind CSS
+      </button>
+      <button class="tab-btn"        role="tab" aria-selected="false" onclick="switchTab(event,'tab-css')"      id="btn-css">
+        <span class="lang-dot" style="background:#7C83FD;"></span>CSS / SCSS
+      </button>
+      <button class="tab-btn"        role="tab" aria-selected="false" onclick="switchTab(event,'tab-react')"    id="btn-react">
+        <span class="lang-dot" style="background:#61DAFB;"></span>React + Tailwind
+      </button>
+      <button class="tab-btn"        role="tab" aria-selected="false" onclick="switchTab(event,'tab-tokens')"   id="btn-tokens">
+        <span class="lang-dot" style="background:#FDA509;"></span>Token Variables
+      </button>
+    </div>
+
+    <!-- Panels -->
+    <div class="tab-panels">
+
+      <!-- 1 · Tailwind CSS -->
+      <div class="tab-panel active code-wrap" id="tab-tailwind" role="tabpanel">
+        <button class="copy-code-btn" onclick="copyBlock('tab-tailwind')">Copy</button>
+        <pre><span class="c-comment">&lt;!-- ✅ PRIMARY BUTTON --&gt;</span>
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"bg-primary-500 hover:bg-primary-600 text-white
+         font-bold rounded-cta px-xl h-btn-primary
+         focus:outline-none focus:shadow-focus-magenta"</span>&gt;
+  Download Free Trial
+&lt;/<span class="c-tag">button</span>&gt;
+
+<span class="c-comment">&lt;!-- ✅ SECONDARY BUTTON --&gt;</span>
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"border border-secondary-500 text-secondary-500
+         hover:bg-secondary-500 hover:text-white
+         font-bold rounded-cta-alt px-xl h-btn-secondary
+         focus:outline-none focus:shadow-focus-blue"</span>&gt;
+  Learn More
+&lt;/<span class="c-tag">button</span>&gt;
+
+<span class="c-comment">&lt;!-- ✅ SUCCESS BADGE --&gt;</span>
+&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"bg-success-100 text-success-700 font-bold rounded-pill-sm px-sm py-1"</span>&gt;
+  ✓ Active
+&lt;/<span class="c-tag">span</span>&gt;
+
+<span class="c-comment">&lt;!-- ✅ DANGER ALERT --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"bg-danger-100 border border-danger-200 text-danger-700 rounded-xs px-md py-sm"</span>&gt;
+  Invalid email address.
+&lt;/<span class="c-tag">div</span>&gt;
+
+<span class="c-comment">&lt;!-- ✅ CARD --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"bg-white border border-iron-slate-200 rounded-sm shadow-card
+         hover:shadow-card-hover transition-shadow"</span>&gt;
+  ...
+&lt;/<span class="c-tag">div</span>&gt;
+
+<span class="c-comment">&lt;!-- ✅ DARK MODE SURFACE --&gt;</span>
+&lt;<span class="c-tag">body</span> <span class="c-attr">class</span>=<span class="c-str">"dark"</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"bg-iron-violet-900 text-iron-neutral-100"</span>&gt;
+    &lt;<span class="c-tag">h1</span> <span class="c-attr">class</span>=<span class="c-str">"text-iron-neutral-100"</span>&gt;Dark heading&lt;/<span class="c-tag">h1</span>&gt;
+    &lt;<span class="c-tag">p</span>  <span class="c-attr">class</span>=<span class="c-str">"text-iron-neutral-300"</span>&gt;Body text&lt;/<span class="c-tag">p</span>&gt;
+  &lt;/<span class="c-tag">div</span>&gt;
+&lt;/<span class="c-tag">body</span>&gt;</pre>
+      </div>
+
+      <!-- 2 · CSS / SCSS -->
+      <div class="tab-panel code-wrap" id="tab-css" role="tabpanel">
+        <button class="copy-code-btn" onclick="copyBlock('tab-css')">Copy</button>
+        <pre><span class="c-comment">/* ✅ PRIMARY BUTTON */</span>
+.<span class="c-key">btn-primary</span> {
+  <span class="c-attr">background-color</span>: <span class="c-str">var(--color-primary)</span>;        <span class="c-comment">/* #E01A59  iron-pink-500 */</span>
+  <span class="c-attr">color</span>:            <span class="c-str">var(--color-text-on-primary)</span>; <span class="c-comment">/* #FFFFFF */</span>
+  <span class="c-attr">border-radius</span>:    <span class="c-str">var(--radius-cta)</span>;            <span class="c-comment">/* 40px */</span>
+  <span class="c-attr">height</span>:           <span class="c-str">var(--size-btn-primary)</span>;      <span class="c-comment">/* 54px */</span>
+}
+.<span class="c-key">btn-primary</span>:hover  { <span class="c-attr">background-color</span>: <span class="c-str">var(--color-primary-hover)</span>; }  <span class="c-comment">/* #BA174B */</span>
+.<span class="c-key">btn-primary</span>:focus  { <span class="c-attr">box-shadow</span>: <span class="c-str">var(--shadow-focus-magenta)</span>; }
+
+<span class="c-comment">/* ✅ SECONDARY BUTTON */</span>
+.<span class="c-key">btn-secondary</span> {
+  <span class="c-attr">background</span>:    <span class="c-str">transparent</span>;
+  <span class="c-attr">color</span>:         <span class="c-str">var(--color-secondary)</span>;       <span class="c-comment">/* #2693EC  iron-blue-500 */</span>
+  <span class="c-attr">border</span>:        <span class="c-num">1.5px</span> solid <span class="c-str">var(--color-secondary)</span>;
+  <span class="c-attr">border-radius</span>: <span class="c-str">var(--radius-cta-alt)</span>;         <span class="c-comment">/* 42px */</span>
+}
+.<span class="c-key">btn-secondary</span>:focus { <span class="c-attr">box-shadow</span>: <span class="c-str">var(--shadow-focus-blue)</span>; }
+
+<span class="c-comment">/* ✅ INPUT FIELD */</span>
+.<span class="c-key">input</span> {
+  <span class="c-attr">border</span>:     <span class="c-num">1px</span> solid <span class="c-str">var(--color-border)</span>;       <span class="c-comment">/* slate-200 */</span>
+  <span class="c-attr">color</span>:         <span class="c-str">var(--color-text-body)</span>;         <span class="c-comment">/* neutral-700 */</span>
+  <span class="c-attr">border-radius</span>: <span class="c-str">var(--radius-xs)</span>;                <span class="c-comment">/* 4px */</span>
+}
+.<span class="c-key">input</span>::placeholder { <span class="c-attr">color</span>: <span class="c-str">var(--color-text-muted)</span>; }
+.<span class="c-key">input</span>:focus {
+  <span class="c-attr">border-color</span>: <span class="c-str">var(--color-border-alt)</span>;          <span class="c-comment">/* #2693EC  blue */</span>
+  <span class="c-attr">box-shadow</span>:   <span class="c-str">var(--shadow-focus-blue)</span>;
+}
+.<span class="c-key">input</span>.error  { <span class="c-attr">border-color</span>: <span class="c-str">var(--color-border-error)</span>; } <span class="c-comment">/* #E5242A */</span>
+
+<span class="c-comment">/* ✅ DARK MODE — override at root */</span>
+[<span class="c-attr">data-theme</span>=<span class="c-str">"dark"</span>] {
+  --<span class="c-key">color-text-heading</span>: <span class="c-str">var(--color-text-dark-heading)</span>;   <span class="c-comment">/* #F5F5F5 */</span>
+  --<span class="c-key">color-text-body</span>:    <span class="c-str">var(--color-text-dark-body)</span>;      <span class="c-comment">/* #D4D4D4 */</span>
+  --<span class="c-key">color-bg-base</span>:      <span class="c-str">var(--color-bg-dark)</span>;             <span class="c-comment">/* #351F31 */</span>
+  --<span class="c-key">color-bg-shade</span>:     <span class="c-str">var(--color-bg-dark-shade)</span>;       <span class="c-comment">/* #231721 */</span>
+  --<span class="c-key">color-bg-card</span>:      <span class="c-str">var(--color-bg-dark-card)</span>;        <span class="c-comment">/* #4F2B49 */</span>
+  --<span class="c-key">color-border</span>:       <span class="c-str">var(--color-border-dark)</span>;         <span class="c-comment">/* violet-500 */</span>
+}</pre>
+      </div>
+
+      <!-- 3 · React + Tailwind -->
+      <div class="tab-panel code-wrap" id="tab-react" role="tabpanel">
+        <button class="copy-code-btn" onclick="copyBlock('tab-react')">Copy</button>
+        <pre><span class="c-comment">// ✅ Typed Button component — semantic tokens via Tailwind</span>
+<span class="c-key">const</span> variantMap = {
+  primary:   <span class="c-val">'bg-primary-500 hover:bg-primary-600 focus:shadow-focus-magenta text-white'</span>,
+  secondary: <span class="c-val">'border-2 border-secondary-500 text-secondary-500'</span>
+           + <span class="c-val">' hover:bg-secondary-500 hover:text-white focus:shadow-focus-blue'</span>,
+  danger:    <span class="c-val">'bg-danger-500 hover:bg-danger-600 focus:shadow-focus-red text-white'</span>,
+};
+
+<span class="c-key">export function</span> <span class="c-str">Button</span>({ variant = <span class="c-val">'primary'</span>, disabled, children }) {
+  <span class="c-key">return</span> (
+    &lt;<span class="c-tag">button</span>
+      <span class="c-attr">disabled</span>={disabled}
+      <span class="c-attr">className</span>=<span class="c-str">{`
+        ${variantMap[variant]}
+        font-bold rounded-cta px-xl h-btn-primary
+        transition-colors focus:outline-none
+        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+      `}</span>
+    &gt;
+      {children}
+    &lt;/<span class="c-tag">button</span>&gt;
+  );
+}
+
+<span class="c-comment">// Usage</span>
+&lt;<span class="c-tag">Button</span> <span class="c-attr">variant</span>=<span class="c-str">"primary"</span>&gt;Download Free Trial&lt;/<span class="c-tag">Button</span>&gt;
+&lt;<span class="c-tag">Button</span> <span class="c-attr">variant</span>=<span class="c-str">"secondary"</span>&gt;Learn More&lt;/<span class="c-tag">Button</span>&gt;
+&lt;<span class="c-tag">Button</span> <span class="c-attr">variant</span>=<span class="c-str">"danger"</span>&gt;Delete Account&lt;/<span class="c-tag">Button</span>&gt;
+
+<span class="c-comment">// ✅ Card component</span>
+<span class="c-key">export function</span> <span class="c-str">Card</span>({ children }) {
+  <span class="c-key">return</span> (
+    &lt;<span class="c-tag">div</span> <span class="c-attr">className</span>=<span class="c-str">"bg-white dark:bg-iron-violet-800
+                  border border-iron-slate-200 dark:border-iron-violet-500
+                  rounded-sm shadow-card hover:shadow-card-hover
+                  transition-shadow"</span>&gt;
+      {children}
+    &lt;/<span class="c-tag">div</span>&gt;
+  );
+}</pre>
+      </div>
+
+      <!-- 4 · Token Variables cheatsheet -->
+      <div class="tab-panel code-wrap" id="tab-tokens" role="tabpanel">
+        <button class="copy-code-btn" onclick="copyBlock('tab-tokens')">Copy</button>
+        <pre><span class="c-comment">/* ─────────────────────────────────────────────────
+   Iron Software — Key Semantic Token Cheatsheet
+   Import once:  @import './tokens.css';
+   ───────────────────────────────────────────────── */</span>
+
+<span class="c-comment">/* Brand */</span>
+--<span class="c-key">color-primary</span>:           <span class="c-val">#E01A59</span>;   <span class="c-comment">/* iron-pink-500   — primary CTAs */</span>
+--<span class="c-key">color-primary-hover</span>:     <span class="c-val">#BA174B</span>;   <span class="c-comment">/* iron-pink-600 */</span>
+--<span class="c-key">color-secondary</span>:         <span class="c-val">#2693EC</span>;   <span class="c-comment">/* iron-blue-500   — secondary / links */</span>
+--<span class="c-key">color-secondary-hover</span>:   <span class="c-val">#217BC4</span>;   <span class="c-comment">/* iron-blue-600 */</span>
+
+<span class="c-comment">/* Accents */</span>
+--<span class="c-key">color-accent-1</span>:          <span class="c-val">#FDA509</span>;   <span class="c-comment">/* iron-orange-500 */</span>
+--<span class="c-key">color-accent-2</span>:          <span class="c-val">#63C1A0</span>;   <span class="c-comment">/* iron-green-500 */</span>
+--<span class="c-key">color-accent-3</span>:          <span class="c-val">#89D3DF</span>;   <span class="c-comment">/* iron-sky-500 */</span>
+--<span class="c-key">color-accent-4</span>:          <span class="c-val">#563B99</span>;   <span class="c-comment">/* iron-purple-500 */</span>
+
+<span class="c-comment">/* Semantic states */</span>
+--<span class="c-key">color-success</span>:           <span class="c-val">#63C1A0</span>;   <span class="c-comment">/* iron-green-500 */</span>
+--<span class="c-key">color-warning</span>:           <span class="c-val">#FDA509</span>;   <span class="c-comment">/* iron-orange-500 */</span>
+--<span class="c-key">color-danger</span>:            <span class="c-val">#E5242A</span>;   <span class="c-comment">/* iron-red-500 */</span>
+--<span class="c-key">color-info</span>:              <span class="c-val">#2693EC</span>;   <span class="c-comment">/* iron-blue-500 */</span>
+
+<span class="c-comment">/* Text — light / dark */</span>
+--<span class="c-key">color-text-heading</span>:      <span class="c-val">#171717</span>;   <span class="c-comment">/* neutral-900  ↔  dark: #F5F5F5 */</span>
+--<span class="c-key">color-text-heading-alt</span>:  <span class="c-val">#2693EC</span>;   <span class="c-comment">/* blue          ↔  dark: #FDA509 */</span>
+--<span class="c-key">color-text-body</span>:         <span class="c-val">#404040</span>;   <span class="c-comment">/* neutral-700   ↔  dark: #D4D4D4 */</span>
+--<span class="c-key">color-text-muted</span>:        <span class="c-val">#A1A1A1</span>;   <span class="c-comment">/* neutral-400   ↔  dark: #737373 */</span>
+--<span class="c-key">color-text-link</span>:         <span class="c-val">#2693EC</span>;   <span class="c-comment">/* same both modes */</span>
+--<span class="c-key">color-text-link-hover</span>:   <span class="c-val">#E01A59</span>;   <span class="c-comment">/* same both modes */</span>
+
+<span class="c-comment">/* Surfaces — light / dark */</span>
+--<span class="c-key">color-bg-base</span>:           <span class="c-val">#FFFFFF</span>;   <span class="c-comment">/* ↔  dark: #351F31 violet-900 */</span>
+--<span class="c-key">color-bg-shade</span>:          <span class="c-val">#F1F5F9</span>;   <span class="c-comment">/* ↔  dark: #231721 violet-950 */</span>
+--<span class="c-key">color-bg-card</span>:           <span class="c-val">#FFFFFF</span>;   <span class="c-comment">/* ↔  dark: #4F2B49 violet-800 */</span>
+--<span class="c-key">color-bg-card-alt</span>:       <span class="c-val">#F2F9FE</span>;   <span class="c-comment">/* iron-blue-50  ↔  dark: #231721 */</span>
+
+<span class="c-comment">/* Borders — light / dark */</span>
+--<span class="c-key">color-border</span>:            <span class="c-val">#E2E8F0</span>;   <span class="c-comment">/* slate-200     ↔  dark: #9D4F90 violet-500 */</span>
+--<span class="c-key">color-border-strong</span>:     <span class="c-val">#CAD5E2</span>;   <span class="c-comment">/* slate-300     ↔  dark: #BA84B1 violet-400 */</span>
+--<span class="c-key">color-border-alt</span>:        <span class="c-val">#2693EC</span>;   <span class="c-comment">/* brand/secondary — same both modes */</span></pre>
+      </div>
+
+    </div><!-- /tab-panels -->
+  </div><!-- /code-section -->
+
+  <!-- ── DO / DON'T ─────────────────────────────────────────────────────────── -->
+  <div class="section-label">Rules — Do's &amp; Don'ts</div>
+
+  <div class="rules-grid">
+
+    <div class="rule-card">
+      <div class="rule-header do">✅ DO — Use semantic tokens</div>
+      <div class="rule-body">
+        <code class="good">color: var(--color-text-body);</code>
+        <code class="good">bg-primary-500 hover:bg-primary-600</code>
+        <code class="good">border-color: var(--color-border);</code>
+        <p>Tokens describe purpose. When the brand updates, you change <strong>one file</strong>, not hundreds.</p>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-header dont">❌ DON'T — Hardcode raw values</div>
+      <div class="rule-body">
+        <code class="bad">color: #404040;</code>
+        <code class="bad">bg-[#E01A59] hover:bg-[#BA174B]</code>
+        <code class="bad">border-color: #E2E8F0;</code>
+        <p>Raw hex codes are invisible to the design system. They break silently when the palette changes.</p>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-header do">✅ DO — Match token to purpose</div>
+      <div class="rule-body">
+        <code class="good">/* Delete button → danger */
+bg-danger-500 hover:bg-danger-600</code>
+        <code class="good">/* Success toast → success */
+bg-success-100 text-success-700</code>
+        <p>Pick the token whose <strong>name matches what the UI is communicating</strong> to the user.</p>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-header dont">❌ DON'T — Swap roles for aesthetics</div>
+      <div class="rule-body">
+        <code class="bad">/* Error message in warning colour */
+bg-warning-100 text-warning-700</code>
+        <code class="bad">/* Primary CTA in secondary colour */
+bg-secondary-500</code>
+        <p>If you use warning colour for an error, screen readers and colour-blind users get the wrong signal.</p>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-header do">✅ DO — Use scale for one-offs</div>
+      <div class="rule-body">
+        <code class="good">/* Subtle tint on a feature section */
+bg-iron-pink-50
+
+/* Chart series colour */
+fill: var(--iron-purple-400);</code>
+        <p>For decorative or data-vis uses where no semantic role fits, raw scale tokens (<code>iron-*</code>) are fine.</p>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-header dont">❌ DON'T — Invent new colours</div>
+      <div class="rule-body">
+        <code class="bad">/* Not in the design system */
+background: #FF5733;
+color: #3A86FF;</code>
+        <p>Every colour must come from the token file. New colours need a design review and a token entry first.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── QUICK REFERENCE ───────────────────────────────────────────────────── -->
+  <div class="section-label">Quick Reference Card</div>
+  <p style="font-size:0.82rem;color:#62748E;margin-bottom:20px;">Click any token to copy it to clipboard.</p>
+
+  <div class="ref-card">
+    <h3>Iron Software — Semantic Color Tokens</h3>
+    <div class="ref-grid">
+      <div class="ref-item" onclick="copyText('var(--color-primary)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#E01A59;"></div>
+        <div class="ref-info"><div class="ref-name">Primary</div><div class="ref-token">--color-primary · iron-pink-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-primary-hover)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#BA174B;"></div>
+        <div class="ref-info"><div class="ref-name">Primary hover</div><div class="ref-token">--color-primary-hover · iron-pink-600</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-primary-subtle)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#FADDE8; border-color:rgba(0,0,0,0.1);"></div>
+        <div class="ref-info"><div class="ref-name">Primary subtle</div><div class="ref-token">--color-primary-subtle · iron-pink-100</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-secondary)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#2693EC;"></div>
+        <div class="ref-info"><div class="ref-name">Secondary</div><div class="ref-token">--color-secondary · iron-blue-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-secondary-hover)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#217BC4;"></div>
+        <div class="ref-info"><div class="ref-name">Secondary hover</div><div class="ref-token">--color-secondary-hover · iron-blue-600</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-secondary-subtle)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#DEEFFC; border-color:rgba(0,0,0,0.1);"></div>
+        <div class="ref-info"><div class="ref-name">Secondary subtle</div><div class="ref-token">--color-secondary-subtle · iron-blue-100</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-success)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#63C1A0;"></div>
+        <div class="ref-info"><div class="ref-name">Success</div><div class="ref-token">--color-success · iron-green-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-warning)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#FDA509;"></div>
+        <div class="ref-info"><div class="ref-name">Warning</div><div class="ref-token">--color-warning · iron-orange-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-danger)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#E5242A;"></div>
+        <div class="ref-info"><div class="ref-name">Danger</div><div class="ref-token">--color-danger · iron-red-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-accent-1)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#FDA509;"></div>
+        <div class="ref-info"><div class="ref-name">Accent 1</div><div class="ref-token">--color-accent-1 · iron-orange-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-accent-2)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#63C1A0;"></div>
+        <div class="ref-info"><div class="ref-name">Accent 2</div><div class="ref-token">--color-accent-2 · iron-green-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-accent-3)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#89D3DF;"></div>
+        <div class="ref-info"><div class="ref-name">Accent 3</div><div class="ref-token">--color-accent-3 · iron-sky-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-accent-4)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#563B99;"></div>
+        <div class="ref-info"><div class="ref-name">Accent 4</div><div class="ref-token">--color-accent-4 · iron-purple-500</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-text-heading)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#171717;"></div>
+        <div class="ref-info"><div class="ref-name">Text heading</div><div class="ref-token">--color-text-heading · neutral-900</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-text-body)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#404040;"></div>
+        <div class="ref-info"><div class="ref-name">Text body</div><div class="ref-token">--color-text-body · neutral-700</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-text-muted)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#A1A1A1;"></div>
+        <div class="ref-info"><div class="ref-name">Text muted</div><div class="ref-token">--color-text-muted · neutral-400</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-bg-base)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#FFFFFF; border-color:rgba(255,255,255,0.2);"></div>
+        <div class="ref-info"><div class="ref-name">Background</div><div class="ref-token">--color-bg-base · white</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-bg-shade)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#F1F5F9; border-color:rgba(255,255,255,0.2);"></div>
+        <div class="ref-info"><div class="ref-name">BG shade</div><div class="ref-token">--color-bg-shade · slate-100</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-bg-card-alt)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#F2F9FE; border-color:rgba(255,255,255,0.2);"></div>
+        <div class="ref-info"><div class="ref-name">Card alt</div><div class="ref-token">--color-bg-card-alt · iron-blue-50</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-border)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#E2E8F0; border-color:rgba(255,255,255,0.2);"></div>
+        <div class="ref-info"><div class="ref-name">Border</div><div class="ref-token">--color-border · slate-200</div></div>
+      </div>
+      <div class="ref-item" onclick="copyText('var(--color-border-alt)')" style="cursor:pointer;" title="Click to copy">
+        <div class="ref-dot" style="background:#2693EC;"></div>
+        <div class="ref-info"><div class="ref-name">Border alt</div><div class="ref-token">--color-border-alt · iron-blue-500</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FILE LOCATIONS ────────────────────────────────────────────────────── -->
+  <div class="section-label">Where to find the token files</div>
+
+  <div style="background:white; border:1px solid #E2E8F0; border-radius:14px; overflow:hidden; margin-bottom:40px;">
+    <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
+      <thead>
+        <tr style="background:#F8FAFC;">
+          <th style="padding:12px 20px; text-align:left; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0;">File</th>
+          <th style="padding:12px 20px; text-align:left; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0;">Path</th>
+          <th style="padding:12px 20px; text-align:left; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0;">Use for</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #F1F5F9;">
+          <td style="padding:14px 20px; font-weight:700;">tailwind.config.js</td>
+          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">05_platforms/web/tailwind/tailwind.config.js</td>
+          <td style="padding:14px 20px; color:#737373;">Tailwind projects — import into your config</td>
+        </tr>
+        <tr style="border-bottom:1px solid #F1F5F9;">
+          <td style="padding:14px 20px; font-weight:700;">tokens.css</td>
+          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">05_platforms/web/tailwind/tokens.css</td>
+          <td style="padding:14px 20px; color:#737373;">Any CSS/SCSS project — import once at root</td>
+        </tr>
+        <tr style="border-bottom:1px solid #F1F5F9;">
+          <td style="padding:14px 20px; font-weight:700;">tokens.w3c.json</td>
+          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">01_tokens/source/tokens.w3c.json</td>
+          <td style="padding:14px 20px; color:#737373;">Source of truth — W3C Design Token format</td>
+        </tr>
+        <tr>
+          <td style="padding:14px 20px; font-weight:700;">colors.css</td>
+          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">05_platforms/web/tailwind/colors.css</td>
+          <td style="padding:14px 20px; color:#737373;">Raw scale only (50–950) — for standalone use</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="copy-toast" id="toast">Copied!</div>
+
+<footer>Iron Software Design System &nbsp;·&nbsp; Semantic Color Guide &nbsp;·&nbsp; 2025</footer>
+
+<script>
+  /* ── toast helper ── */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  /* ── copy a token name / value ── */
+  function copyText(val) {
+    navigator.clipboard.writeText(val).then(() => showToast(`Copied: ${val}`));
+  }
+
+  /* ── tab switching ── */
+  function switchTab(evt, targetId) {
+    // deactivate all tabs & panels inside the same .code-section
+    const section = evt.currentTarget.closest('.code-section');
+    section.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    section.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+    // activate clicked tab and matching panel
+    evt.currentTarget.classList.add('active');
+    evt.currentTarget.setAttribute('aria-selected', 'true');
+    section.querySelector('#' + targetId).classList.add('active');
+  }
+
+  /* ── copy entire code block ── */
+  function copyBlock(panelId) {
+    const panel = document.getElementById(panelId);
+    const text  = panel.querySelector('pre').innerText;
+    navigator.clipboard.writeText(text).then(() => showToast('Code copied!'));
+  }
+</script>
+</body>
+</html>

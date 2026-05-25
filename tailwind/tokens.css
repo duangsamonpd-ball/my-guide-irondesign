@@ -1,0 +1,468 @@
+/**
+ * Iron Software Design System — CSS Custom Properties (Full Token Set)
+ * Source: tokens.w3c.json + tokens.legacy.json + Figma Color Scale
+ *
+ * Import once at the root of your project:
+ *   @import './tokens.css';
+ *
+ * Then consume anywhere:
+ *   background: var(--color-primary);
+ *   font-size:  var(--font-size-h2);
+ *   padding:    var(--spacing-md);
+ */
+
+:root {
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     1. COLOR SCALES  (Figma / 01 - Color Scale, Tailwind 50–950 convention)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Iron Pink ─────────────────────────────────── */
+  --iron-pink-50:  #FDF1F5;
+  --iron-pink-100: #FADDE8;
+  --iron-pink-200: #F6BACD;
+  --iron-pink-300: #F08DAC;
+  --iron-pink-400: #E95F8B;
+  --iron-pink-500: #E01A59; /* BASE */
+  --iron-pink-600: #BA174B;
+  --iron-pink-700: #94153D;
+  --iron-pink-800: #6E122F;
+  --iron-pink-900: #471022;
+  --iron-pink-950: #2E0E18;
+
+  /* ── Iron Blue ─────────────────────────────────── */
+  --iron-blue-50:  #F2F9FE;
+  --iron-blue-100: #DEEFFC;
+  --iron-blue-200: #BEDFF9;
+  --iron-blue-300: #93C9F6;
+  --iron-blue-400: #67B3F2;
+  --iron-blue-500: #2693EC; /* BASE */
+  --iron-blue-600: #217BC4;
+  --iron-blue-700: #1D629B;
+  --iron-blue-800: #184A73;
+  --iron-blue-900: #13324B;
+  --iron-blue-950: #102230;
+
+  /* ── Iron Orange ───────────────────────────────── */
+  --iron-orange-50:  #FFFAF0;
+  --iron-orange-100: #FFF2DA;
+  --iron-orange-200: #FEE4B5;
+  --iron-orange-300: #FED284;
+  --iron-orange-400: #FEC053;
+  --iron-orange-500: #FDA509; /* BASE */
+  --iron-orange-600: #D2890A;
+  --iron-orange-700: #A66E0A;
+  --iron-orange-800: #7B520B;
+  --iron-orange-900: #4F370B;
+  --iron-orange-950: #33240C;
+
+  /* ── Iron Green ────────────────────────────────── */
+  --iron-green-50:  #F6FBF9;
+  --iron-green-100: #E8F6F1;
+  --iron-green-200: #D0ECE3;
+  --iron-green-300: #B1E0D0;
+  --iron-green-400: #92D4BD;
+  --iron-green-500: #63C1A0; /* BASE */
+  --iron-green-600: #53A085;
+  --iron-green-700: #44806B;
+  --iron-green-800: #345F50;
+  --iron-green-900: #243F35;
+  --iron-green-950: #1A2924;
+
+  /* ── Iron Sky ──────────────────────────────────── */
+  --iron-sky-50:  #F8FCFD;
+  --iron-sky-100: #EDF8FA;
+  --iron-sky-200: #DCF2F5;
+  --iron-sky-300: #C4E9EF;
+  --iron-sky-400: #ACE0E9;
+  --iron-sky-500: #89D3DF; /* BASE */
+  --iron-sky-600: #73AFB9;
+  --iron-sky-700: #5C8B93;
+  --iron-sky-800: #46686D;
+  --iron-sky-900: #2F4447;
+  --iron-sky-950: #202C2E;
+
+  /* ── Iron Purple ───────────────────────────────── */
+  --iron-purple-50:  #F5F3F9;
+  --iron-purple-100: #E6E2F0;
+  --iron-purple-200: #CCC4E0;
+  --iron-purple-300: #AB9DCC;
+  --iron-purple-400: #8976B8;
+  --iron-purple-500: #563B99; /* BASE */
+  --iron-purple-600: #493380;
+  --iron-purple-700: #3B2A66;
+  --iron-purple-800: #2E224D;
+  --iron-purple-900: #211933;
+  --iron-purple-950: #161423;
+
+  /* ── Iron Violet ───────────────────────────────── */
+  --iron-violet-50:  #F9F4F8;
+  --iron-violet-100: #F0E5EE;
+  --iron-violet-200: #E2CADE;
+  --iron-violet-300: #CEA7C8;
+  --iron-violet-400: #BA84B1;
+  --iron-violet-500: #9D4F90; /* BASE */
+  --iron-violet-600: #834378;
+  --iron-violet-700: #693760;
+  --iron-violet-800: #4F2B49;
+  --iron-violet-900: #351F31;
+  --iron-violet-950: #231721;
+
+  /* ── Iron Red ──────────────────────────────────── */
+  --iron-red-50:  #FFF1F1;
+  --iron-red-100: #FFE1E2;
+  --iron-red-200: #FFC7C9;
+  --iron-red-300: #FF9DA1;
+  --iron-red-400: #FF666D;
+  --iron-red-500: #E5242A; /* BASE */
+  --iron-red-600: #C91D23;
+  --iron-red-700: #A8181D;
+  --iron-red-800: #89171B;
+  --iron-red-900: #72181B;
+  --iron-red-950: #3D080A;
+
+  /* ── Iron Slate — UI surfaces, borders ─────────── */
+  --iron-slate-50:  #F8FAFC;
+  --iron-slate-100: #F1F5F9;
+  --iron-slate-200: #E2E8F0;
+  --iron-slate-300: #CAD5E2;
+  --iron-slate-400: #90A1B9;
+  --iron-slate-500: #62748E; /* BASE */
+  --iron-slate-600: #45556C;
+  --iron-slate-700: #314158;
+  --iron-slate-800: #1D293D;
+  --iron-slate-900: #0F172B;
+  --iron-slate-950: #020618;
+
+  /* ── Iron Neutral — text, icons, gray backgrounds ─ */
+  --iron-neutral-50:  #FAFAFA;
+  --iron-neutral-100: #F5F5F5;
+  --iron-neutral-200: #E5E5E5;
+  --iron-neutral-300: #D4D4D4;
+  --iron-neutral-400: #A1A1A1;
+  --iron-neutral-500: #737373; /* BASE */
+  --iron-neutral-600: #525252;
+  --iron-neutral-700: #404040;
+  --iron-neutral-800: #262626;
+  --iron-neutral-900: #171717;
+  --iron-neutral-950: #0A0A0A;
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     2. SEMANTIC COLOR ALIASES
+     Source of truth: Figma / 02 - Color Palette (node 84-1754)
+     Use these in components — never reference raw scale steps directly.
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* Primary = Iron Pink/500 — all primary CTAs, brand wordmark */
+  --color-primary:          var(--iron-pink-500);   /* #E01A59 */
+  --color-primary-hover:    var(--iron-pink-600);   /* #BA174B */
+  --color-primary-active:   var(--iron-pink-700);   /* #94153D */
+  --color-primary-subtle:   var(--iron-pink-100);   /* #FADDE8 */
+  --color-primary-on:       #FFFFFF;
+
+  /* Secondary = Iron Blue/500 — secondary CTAs, alternative headline, link */
+  --color-secondary:          var(--iron-blue-500); /* #2693EC */
+  --color-secondary-hover:    var(--iron-blue-600); /* #217BC4 */
+  --color-secondary-active:   var(--iron-blue-700); /* #1D629B */
+  --color-secondary-subtle:   var(--iron-blue-100); /* #DEEFFC */
+  --color-secondary-on:       #FFFFFF;
+
+  /* Success = Iron Green/500 — confirmations, success messages */
+  --color-success:          var(--iron-green-500);  /* #63C1A0 */
+  --color-success-hover:    var(--iron-green-600);  /* #53A085 */
+  --color-success-subtle:   var(--iron-green-100);  /* #E8F6F1 */
+  --color-success-on:       #FFFFFF;
+
+  /* Warning = Iron Orange/500 — warnings, pending states */
+  --color-warning:          var(--iron-orange-500); /* #FDA509 */
+  --color-warning-hover:    var(--iron-orange-600); /* #D2890A */
+  --color-warning-subtle:   var(--iron-orange-100); /* #FFF2DA */
+  --color-warning-on:       #FFFFFF;
+
+  /* Danger = Iron Red/500 — validation errors, destructive actions */
+  --color-danger:           var(--iron-red-500);    /* #E5242A */
+  --color-danger-hover:     var(--iron-red-600);    /* #C91D23 */
+  --color-danger-subtle:    var(--iron-red-100);    /* #FFE1E2 */
+  --color-danger-on:        #FFFFFF;
+
+  /* Info = Iron Blue/500 — info banners, help text */
+  --color-info:             var(--iron-blue-500);   /* #2693EC */
+  --color-info-hover:       var(--iron-blue-600);   /* #217BC4 */
+  --color-info-subtle:      var(--iron-blue-100);   /* #DEEFFC */
+  --color-info-on:          #FFFFFF;
+
+  /* Accents — Figma: accent 1–4 (highlights, data-vis, product illustration) */
+  --color-accent-1:         var(--iron-orange-500); /* #FDA509 — iron-orange/500 */
+  --color-accent-2:         var(--iron-green-500);  /* #63C1A0 — iron-green/500  */
+  --color-accent-3:         var(--iron-sky-500);    /* #89D3DF — iron-sky/500    */
+  --color-accent-4:         var(--iron-purple-500); /* #563B99 — iron-purple/500 */
+
+  /* ── Text / Default — Light Mode (Figma: text/default) ── */
+  --color-text-heading:         var(--iron-neutral-900); /* #171717 — H1–H4, emphasized type */
+  --color-text-heading-alt:     var(--iron-blue-500);    /* #2693EC — Coloured headline accents, kickers */
+  --color-text-body:            var(--iron-neutral-700); /* #404040 — Default running text */
+  --color-text-muted:           var(--iron-neutral-400); /* #A1A1A1 — Placeholders, captions, disabled */
+  --color-text-support:         var(--iron-slate-400);   /* #90A1B9 — Support headlines, caption titles */
+  --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons */
+  --color-text-link:            var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text */
+  --color-text-link-hover:      var(--iron-pink-500);    /* #E01A59 — Hovered / active link state */
+
+  /* ── Text / Default — Dark Mode (Figma: text/default dark column) ── */
+  --color-text-dark-heading:     var(--iron-neutral-100);  /* #F5F5F5 — neutral/100 */
+  --color-text-dark-heading-alt: var(--iron-orange-500);   /* #FDA509 — brand/accent 1 */
+  --color-text-dark-body:        var(--iron-neutral-300);  /* #D4D4D4 — neutral/300 */
+  --color-text-dark-muted:       var(--iron-neutral-500);  /* #737373 — neutral/500 */
+  --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
+  --color-text-dark-link:        var(--iron-blue-500);     /* #2693EC — same as light */
+  --color-text-dark-link-hover:  var(--iron-pink-500);     /* #E01A59 — same as light */
+
+  /* ── Text / On Color (text on coloured surfaces — same both modes) ── */
+  --color-text-on-color-heading: #FFFFFF;                  /* white */
+  --color-text-on-color-body:    var(--iron-neutral-200);  /* #E5E5E5 — neutral/200 */
+
+  /* ── Surfaces — Light Theme (Figma: surface, light column) ── */
+  --color-bg-base:          #FFFFFF;                  /* white — main page background */
+  --color-bg-shade:         var(--iron-slate-100);    /* #F1F5F9 — slate/100 — band fills, alternating sections */
+  --color-bg-card:          #FFFFFF;                  /* white — card, modal, panel backgrounds */
+  --color-bg-card-alt:      var(--iron-blue-50);      /* #F2F9FE — iron-blue/50 — alternative / feature highlight card */
+
+  /* ── Surfaces — Dark Theme (Figma: surface, dark column) ── */
+  --color-bg-dark:          var(--iron-violet-900);   /* #351F31 — iron-violet/900 — main page background */
+  --color-bg-dark-shade:    var(--iron-violet-950);   /* #231721 — iron-violet/950 — band fills, alternating sections */
+  --color-bg-dark-card:     var(--iron-violet-800);   /* #4F2B49 — iron-violet/800 — card, modal, panel backgrounds */
+  --color-bg-dark-card-alt: var(--iron-violet-950);   /* #231721 — iron-violet/950 — alternative / feature highlight card */
+
+  /* ── Borders — Light Theme (Figma: border, light column) ── */
+  --color-border:           var(--iron-slate-200);    /* #E2E8F0 — slate/200 — dividers, input borders, card edges */
+  --color-border-strong:    var(--iron-slate-300);    /* #CAD5E2 — slate/300 — hover borders, strong dividers */
+  --color-border-alt:       var(--iron-blue-500);     /* #2693EC — brand/secondary — focused inputs, active outlines */
+  --color-border-focus:     var(--iron-blue-500);     /* #2693EC — focus ring (accessibility) */
+  --color-border-error:     var(--iron-red-500);      /* #E5242A — error state border */
+
+  /* ── Borders — Dark Theme (Figma: border, dark column) ── */
+  --color-border-dark:        var(--iron-violet-500); /* #9D4F90 — iron-violet/500 — dividers, input borders */
+  --color-border-dark-strong: var(--iron-violet-400); /* #BA84B1 — iron-violet/400 — hover borders, strong dividers */
+  --color-border-dark-alt:    var(--iron-blue-500);   /* #2693EC — brand/secondary — same as light mode */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     3. TYPOGRAPHY
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --font-display: 'Gotham', sans-serif;
+  --font-body:    'Montserrat', sans-serif;
+
+  --font-weight-light:   300;
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-bold:    700;
+  --font-weight-black:   900;
+
+  --font-size-display:  3rem;      /* 48px */
+  --font-size-h1:       3rem;      /* 48px */
+  --font-size-h2:       2rem;      /* 32px */
+  --font-size-h3:       1.5rem;    /* 24px */
+  --font-size-h4:       0.875rem;  /* 14px */
+  --font-size-body-lg:  1rem;      /* 16px */
+  --font-size-body:     0.875rem;  /* 14px */
+  --font-size-body-sm:  1rem;      /* 16px */
+  --font-size-caption:  0.75rem;   /* 12px */
+  --font-size-btn:      0.75rem;   /* 12px */
+  --font-size-btn-lg:   0.875rem;  /* 14px */
+  --font-size-link:     0.875rem;  /* 14px */
+  --font-size-nav:      1rem;      /* 16px */
+
+  --line-height-display:  3.6rem;    /* 57.6px */
+  --line-height-h1:       3.6rem;    /* 57.6px */
+  --line-height-h2:       2.4rem;    /* 38.4px */
+  --line-height-h3:       1.8rem;    /* 28.8px */
+  --line-height-h4:       1.225rem;  /* 19.6px */
+  --line-height-body-lg:  1.531rem;  /* 24.5px */
+  --line-height-body:     1.531rem;  /* 24.5px */
+  --line-height-body-sm:  1.6rem;    /* 25.6px */
+  --line-height-caption:  0.75rem;   /* 12px */
+  --line-height-btn:      1.125rem;  /* 18px */
+  --line-height-btn-lg:   1.125rem;  /* 18px */
+  --line-height-link:     1.531rem;  /* 24.5px */
+  --line-height-nav:      1.6rem;    /* 25.6px */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     4. SPACING
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --spacing-micro: 0.25rem;   /*  4px — icon-text gaps, tight groups */
+  --spacing-xs:    0.5rem;    /*  8px — small spacing within components */
+  --spacing-sm:    0.75rem;   /* 12px — component internal padding */
+  --spacing-md:    1rem;      /* 16px — standard padding and gaps */
+  --spacing-lg:    1.25rem;   /* 20px — card padding, list item gaps */
+  --spacing-xl:    1.5rem;    /* 24px — section spacing */
+  --spacing-2xl:   1.75rem;   /* 28px — between major sections */
+  --spacing-3xl:   2rem;      /* 32px — between layout regions */
+  --spacing-hero:  5rem;      /* 80px — hero-scale top/bottom margins */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     5. BORDER RADIUS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --radius-none:    0px;
+  --radius-xs:      0.25rem;   /*  4px — inputs, small controls */
+  --radius-sm:      0.5rem;    /*  8px — feature cards, secondary containers */
+  --radius-pill-sm: 1.25rem;   /* 20px — badges, small pills */
+  --radius-pill:    2.0625rem; /* 33px — secondary action buttons */
+  --radius-cta:     2.5rem;    /* 40px — ★ primary large CTA */
+  --radius-cta-alt: 2.625rem;  /* 42px — alternative secondary CTA */
+  --radius-compact: 4rem;      /* 64px — destructive / compact buttons */
+  --radius-hero:    5rem;      /* 80px — hero cards, feature highlights */
+  --radius-full:    9999px;    /* Perfect circle / pill */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     6. SHADOWS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --shadow-card:          0 0 12px 0 rgba(67, 31, 67, 0.20);   /* Raised — feature cards */
+  --shadow-float:         0 2px 16px 0 rgba(67, 31, 67, 0.30); /* Floating — dropdowns, sticky headers */
+  --shadow-modal:         0 8px 24px 0 rgba(0, 0, 0, 0.40);    /* Modal / dialogs */
+  --shadow-card-hover:    0 4px 12px 0 rgba(24, 24, 24, 0.08); /* Card hover state */
+  --shadow-focus-blue:    0 0 0 3px rgba(42, 149, 213, 0.25);  /* Focus ring — primary */
+  --shadow-focus-teal:    0 0 0 3px rgba(99, 193, 160, 0.25);  /* Focus ring — secondary */
+  --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);   /* Focus ring — destructive */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     7. SIZING / COMPONENT DIMENSIONS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --size-btn-primary:   3.375rem;  /* 54px */
+  --size-btn-secondary: 2.875rem;  /* 46px */
+  --size-input:         2.75rem;   /* 44px */
+  --size-nav:           2.5rem;    /* 40px */
+  --size-touch-min:     2.75rem;   /* 44px — minimum touch target */
+  --size-touch-nav:     3rem;      /* 48px — mobile nav icons */
+  --size-container-max: 90rem;     /* 1440px */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     8. BORDERS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --border-width-default:    1px;
+  --border-width-focus:      2px;
+  --border-width-nav-active: 2px;
+  --border-style-default:    solid;
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     9. OPACITY
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --opacity-disabled:     0.5;
+  --opacity-hover-ghost:  0.9;
+  --opacity-hover-footer: 0.8;
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     10. BREAKPOINTS  (reference only — use in media queries or JS)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --breakpoint-xs: 320px;   /* Mobile */
+  --breakpoint-sm: 480px;   /* Tablet */
+  --breakpoint-md: 768px;   /* Tablet Large */
+  --breakpoint-lg: 1024px;  /* Desktop */
+  --breakpoint-xl: 1440px;  /* Desktop XL */
+
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TYPOGRAPHY UTILITY CLASSES
+   Ready-to-use text styles matching the design system's type scale.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.text-display {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-black);
+  font-size:     var(--font-size-display);
+  line-height:   var(--line-height-display);
+}
+
+.text-h1 {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-black);
+  font-size:     var(--font-size-h1);
+  line-height:   var(--line-height-h1);
+}
+
+.text-h2 {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-medium);
+  font-size:     var(--font-size-h2);
+  line-height:   var(--line-height-h2);
+}
+
+.text-h3 {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-bold);
+  font-size:     var(--font-size-h3);
+  line-height:   var(--line-height-h3);
+}
+
+.text-h4 {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-medium);
+  font-size:     var(--font-size-h4);
+  line-height:   var(--line-height-h4);
+}
+
+.text-body-lg {
+  font-family:   var(--font-body);
+  font-weight:   var(--font-weight-regular);
+  font-size:     var(--font-size-body-lg);
+  line-height:   var(--line-height-body-lg);
+}
+
+.text-body {
+  font-family:   var(--font-body);
+  font-weight:   var(--font-weight-regular);
+  font-size:     var(--font-size-body);
+  line-height:   var(--line-height-body);
+}
+
+.text-caption {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-light);
+  font-size:     var(--font-size-caption);
+  line-height:   var(--line-height-caption);
+}
+
+.text-btn {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-bold);
+  font-size:     var(--font-size-btn);
+  line-height:   var(--line-height-btn);
+}
+
+.text-btn-lg {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-bold);
+  font-size:     var(--font-size-btn-lg);
+  line-height:   var(--line-height-btn-lg);
+}
+
+.text-link {
+  font-family:   var(--font-body);
+  font-weight:   var(--font-weight-regular);
+  font-size:     var(--font-size-link);
+  line-height:   var(--line-height-link);
+  color:         var(--color-text-link);
+}
+
+.text-nav {
+  font-family:   var(--font-display);
+  font-weight:   var(--font-weight-light);
+  font-size:     var(--font-size-nav);
+  line-height:   var(--line-height-nav);
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shadows · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F1F5F9; color: #171717; }
+
+    nav { background: white; border-bottom: 1px solid #E2E8F0; padding: 16px 40px; display: flex; align-items: center; gap: 12px; }
+    nav a { text-decoration: none; color: #62748E; font-size: 0.85rem; }
+    nav a:hover { color: #2693EC; }
+    nav span { color: #CAD5E2; }
+    nav .title { font-weight: 700; color: #171717; font-size: 0.95rem; }
+
+    .page-header { background: white; border-bottom: 1px solid #E2E8F0; padding: 40px; }
+    .page-header h1 { font-size: 2rem; font-weight: 900; }
+    .page-header p  { color: #62748E; margin-top: 6px; font-size: 0.9rem; }
+
+    .content { padding: 40px; max-width: 1000px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1;
+      margin: 40px 0 24px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;
+    }
+
+    .shadow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
+
+    .shadow-card {
+      background: white; border-radius: 16px; padding: 32px 24px;
+      text-align: center; border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .shadow-shape {
+      width: 100px; height: 100px;
+      background: white; border-radius: 12px;
+      margin: 0 auto 20px;
+    }
+
+    .shadow-elevation {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1; margin-bottom: 6px;
+    }
+    .shadow-name  { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .shadow-token { font-family: monospace; font-size: 0.7rem; color: #2693EC; margin-bottom: 8px; }
+    .shadow-value { font-family: monospace; font-size: 0.65rem; color: #A1A1A1; line-height: 1.5; }
+    .shadow-desc  { font-size: 0.72rem; color: #737373; margin-top: 10px; line-height: 1.4; background: #F8FAFC; padding: 8px 12px; border-radius: 8px; }
+
+    /* Focus ring section */
+    .focus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+
+    .focus-card {
+      background: white; border-radius: 12px; padding: 24px;
+      text-align: center; border: 1px solid #E2E8F0;
+    }
+
+    .focus-btn {
+      padding: 10px 20px; border-radius: 40px;
+      font-weight: 700; font-size: 0.8rem;
+      cursor: default; display: inline-block; margin-bottom: 12px;
+    }
+
+    .focus-card h4 { font-size: 0.75rem; font-weight: 700; color: #62748E; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .focus-card .token { font-family: monospace; font-size: 0.65rem; color: #A1A1A1; }
+
+    /* Elevation diagram */
+    .elevation-diagram {
+      background: white; border-radius: 16px; padding: 32px 40px;
+      display: flex; align-items: flex-end; justify-content: center; gap: 40px;
+      margin-top: 8px; min-height: 220px;
+    }
+
+    .el-item { text-align: center; }
+    .el-box {
+      background: white; border-radius: 10px; margin: 0 auto 12px;
+    }
+    .el-label { font-size: 0.72rem; font-weight: 700; color: #62748E; }
+    .el-use   { font-size: 0.65rem; color: #A1A1A1; margin-top: 4px; }
+
+    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Home</a>
+  <span>/</span>
+  <span class="title">🌑 Shadows</span>
+</nav>
+
+<div class="page-header">
+  <h1>🌑 Shadows</h1>
+  <p>7 shadows across 3 elevation levels, plus colour-matched focus rings for accessibility. A darker page background is used here so you can see the shadows clearly.</p>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Elevation Shadows</div>
+
+  <div class="shadow-grid">
+
+    <div class="shadow-card" style="box-shadow:none;">
+      <div class="shadow-shape" style="box-shadow:0 0 12px 0 rgba(67,31,67,0.20);"></div>
+      <div class="shadow-elevation">Elevation 1</div>
+      <div class="shadow-name">card</div>
+      <div class="shadow-token">--shadow-card</div>
+      <div class="shadow-value">0 0 12px 0<br>rgba(67, 31, 67, 0.20)</div>
+      <div class="shadow-desc">Raised containers — feature cards, product tiles</div>
+    </div>
+
+    <div class="shadow-card" style="box-shadow:none;">
+      <div class="shadow-shape" style="box-shadow:0 4px 12px 0 rgba(24,24,24,0.08);"></div>
+      <div class="shadow-elevation">Elevation 1b</div>
+      <div class="shadow-name">card-hover</div>
+      <div class="shadow-token">--shadow-card-hover</div>
+      <div class="shadow-value">0 4px 12px 0<br>rgba(24, 24, 24, 0.08)</div>
+      <div class="shadow-desc">Card hover state — softer, neutral elevation</div>
+    </div>
+
+    <div class="shadow-card" style="box-shadow:none;">
+      <div class="shadow-shape" style="box-shadow:0 2px 16px 0 rgba(67,31,67,0.30);"></div>
+      <div class="shadow-elevation">Elevation 2</div>
+      <div class="shadow-name">float</div>
+      <div class="shadow-token">--shadow-float</div>
+      <div class="shadow-value">0 2px 16px 0<br>rgba(67, 31, 67, 0.30)</div>
+      <div class="shadow-desc">Floating elements — dropdowns, sticky headers, popovers</div>
+    </div>
+
+    <div class="shadow-card" style="box-shadow:none;">
+      <div class="shadow-shape" style="box-shadow:0 8px 24px 0 rgba(0,0,0,0.40);"></div>
+      <div class="shadow-elevation">Elevation 3</div>
+      <div class="shadow-name">modal</div>
+      <div class="shadow-token">--shadow-modal</div>
+      <div class="shadow-value">0 8px 24px 0<br>rgba(0, 0, 0, 0.40)</div>
+      <div class="shadow-desc">Highest level — modals, dialogs, lightbox overlays</div>
+    </div>
+
+  </div>
+
+  <!-- Elevation diagram -->
+  <div class="section-label">Visual Elevation Hierarchy</div>
+
+  <div class="elevation-diagram">
+    <div class="el-item">
+      <div class="el-box" style="width:80px;height:40px;box-shadow:none;border:1px solid #E2E8F0;"></div>
+      <div class="el-label">Flat</div>
+      <div class="el-use">Page surface</div>
+    </div>
+    <div class="el-item">
+      <div class="el-box" style="width:80px;height:60px;box-shadow:0 0 12px rgba(67,31,67,0.2);"></div>
+      <div class="el-label">card</div>
+      <div class="el-use">Cards</div>
+    </div>
+    <div class="el-item">
+      <div class="el-box" style="width:80px;height:80px;box-shadow:0 2px 16px rgba(67,31,67,0.3);"></div>
+      <div class="el-label">float</div>
+      <div class="el-use">Dropdowns</div>
+    </div>
+    <div class="el-item">
+      <div class="el-box" style="width:80px;height:110px;box-shadow:0 8px 24px rgba(0,0,0,0.4);"></div>
+      <div class="el-label">modal</div>
+      <div class="el-use">Dialogs</div>
+    </div>
+  </div>
+
+  <div class="section-label">Focus Rings (Accessibility)</div>
+  <p style="font-size:0.82rem; color:#62748E; margin-bottom:20px;">Focus rings appear when a user navigates with keyboard. Each button colour has a matching ring so it's always visible — this is a WCAG accessibility requirement.</p>
+
+  <div class="focus-grid">
+
+    <div class="focus-card">
+      <div class="focus-btn" style="background:#E01A59; color:white; box-shadow:0 0 0 3px rgba(224,26,89,0.25);">Primary Button</div>
+      <h4>focus-magenta</h4>
+      <div class="token">--shadow-focus-magenta</div>
+      <div style="font-size:0.65rem;color:#A1A1A1;margin-top:4px;">iron-pink-500 · Primary CTA<br>rgba(224, 26, 89, 0.25) · spread: 3px</div>
+    </div>
+
+    <div class="focus-card">
+      <div class="focus-btn" style="background:#2693EC; color:white; box-shadow:0 0 0 3px rgba(42,149,213,0.25);">Secondary Button</div>
+      <h4>focus-blue</h4>
+      <div class="token">--shadow-focus-blue</div>
+      <div style="font-size:0.65rem;color:#A1A1A1;margin-top:4px;">iron-blue-500 · Secondary / Info<br>rgba(42, 149, 213, 0.25) · spread: 3px</div>
+    </div>
+
+    <div class="focus-card">
+      <div class="focus-btn" style="background:#E5242A; color:white; box-shadow:0 0 0 3px rgba(229,36,42,0.25);">Destructive</div>
+      <h4>focus-red</h4>
+      <div class="token">--shadow-focus-red</div>
+      <div style="font-size:0.65rem;color:#A1A1A1;margin-top:4px;">iron-red-500 · Danger actions<br>rgba(229, 36, 42, 0.25) · spread: 3px</div>
+    </div>
+
+  </div>
+
+  <div style="background:#FFF8E8; border:1px solid #FEC053; border-radius:10px; padding:16px 20px; margin-top:24px;">
+    <strong style="font-size:0.82rem;">💡 Why do focus rings matter?</strong>
+    <p style="font-size:0.78rem; color:#62748E; margin-top:6px; line-height:1.6;">Users who can't use a mouse navigate websites with the keyboard. Focus rings show them which element is currently selected — like a cursor for keyboard users. Without them, the site becomes inaccessible.</p>
+  </div>
+
+</div>
+
+<footer>Iron Software Design System &nbsp;·&nbsp; Shadows &nbsp;·&nbsp; 2025</footer>
+</body>
+</html>
