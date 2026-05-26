@@ -394,7 +394,6 @@
     "md":      { "$value": 16,  "$type": "dimension", "$description": "Standard padding and gaps" },
     "lg":      { "$value": 20,  "$type": "dimension", "$description": "Card padding, list item gaps" },
     "xl":      { "$value": 24,  "$type": "dimension", "$description": "Section spacing" },
-    "2xl":     { "$value": 28,  "$type": "dimension", "$description": "Between major sections" },
     "3xl":     { "$value": 32,  "$type": "dimension", "$description": "Between layout regions" },
     "4xl":     { "$value": 48,  "$type": "dimension", "$description": "Large section padding" },
     "5xl":     { "$value": 64,  "$type": "dimension", "$description": "Page-level padding, feature sections" },
