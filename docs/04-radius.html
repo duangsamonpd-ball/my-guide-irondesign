@@ -27,6 +27,7 @@
       margin: 40px 0 24px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;
     }
 
+    /* ── Scale grid ── */
     .radius-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -42,23 +43,40 @@
       width: 80px; height: 80px;
       background: linear-gradient(135deg, #2693EC, #E01A59);
       margin: 0 auto 16px;
-      display: flex; align-items: center; justify-content: center;
     }
 
-    .radius-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .radius-name  { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
     .radius-value { font-family: monospace; font-size: 0.75rem; color: #2693EC; margin-bottom: 6px; }
     .radius-token { font-family: monospace; font-size: 0.65rem; color: #A1A1A1; }
-    .radius-desc { font-size: 0.7rem; color: #737373; margin-top: 8px; line-height: 1.4; }
+    .radius-desc  { font-size: 0.7rem; color: #737373; margin-top: 8px; line-height: 1.4; }
 
-    .star-badge {
-      background: #FDA509; color: white; font-size: 0.6rem; font-weight: 700;
-      padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 8px;
+    /* ── Visual scale bar ── */
+    .scale-bar-section {
+      background: white; border: 1px solid #E2E8F0; border-radius: 16px;
+      padding: 32px 40px; margin-bottom: 0; overflow-x: auto;
+    }
+    .scale-bar-row {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 14px;
+    }
+    .scale-bar-row:last-child { margin-bottom: 0; }
+    .scale-bar-label {
+      font-family: monospace; font-size: 0.72rem; font-weight: 700;
+      color: #314158; width: 110px; flex-shrink: 0;
+    }
+    .scale-bar-track {
+      flex: 1; height: 36px; background: #F1F5F9; border-radius: 4px;
+      overflow: hidden; position: relative;
+    }
+    .scale-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2693EC, #E01A59);
+    }
+    .scale-bar-px {
+      font-size: 0.65rem; color: #A1A1A1; font-family: monospace; flex-shrink: 0; width: 40px;
     }
 
-    /* Button demo */
-    .btn-demo { margin-top: 40px; }
+    /* ── Context demos ── */
     .btn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-
     .btn-card {
       background: white; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px;
     }
@@ -82,7 +100,7 @@
 
 <div class="page-header">
   <h1>🔘 Border Radius</h1>
-  <p>10 corner radius values — from sharp squares to full pills. The ★ CTA radius is Iron Software's signature button shape.</p>
+  <p>10 corner radius values — from sharp squares to full pills, using a consistent size-based naming scale.</p>
 </div>
 
 <div class="content">
@@ -95,130 +113,194 @@
       <div class="radius-shape" style="border-radius:0;"></div>
       <div class="radius-name">none</div>
       <div class="radius-value">0px</div>
-      <div class="radius-token">--radius-none</div>
-      <div class="radius-desc">Cards, containers — sharp corners</div>
+      <div class="radius-token">--rounded-none</div>
+      <div class="radius-desc">Sharp corners, dividers</div>
+    </div>
+
+    <div class="radius-card">
+      <div class="radius-shape" style="border-radius:2px;"></div>
+      <div class="radius-name">xs</div>
+      <div class="radius-value">2px</div>
+      <div class="radius-token">--rounded-xs</div>
+      <div class="radius-desc">Tooltips, small tags</div>
     </div>
 
     <div class="radius-card">
       <div class="radius-shape" style="border-radius:4px;"></div>
-      <div class="radius-name">xs</div>
+      <div class="radius-name">sm</div>
       <div class="radius-value">4px</div>
-      <div class="radius-token">--radius-xs</div>
+      <div class="radius-token">--rounded-sm</div>
       <div class="radius-desc">Inputs, small controls</div>
     </div>
 
     <div class="radius-card">
+      <div class="radius-shape" style="border-radius:6px;"></div>
+      <div class="radius-name">md</div>
+      <div class="radius-value">6px</div>
+      <div class="radius-token">--rounded-md</div>
+      <div class="radius-desc">Dropdowns, popovers</div>
+    </div>
+
+    <div class="radius-card">
       <div class="radius-shape" style="border-radius:8px;"></div>
-      <div class="radius-name">sm</div>
+      <div class="radius-name">lg</div>
       <div class="radius-value">8px</div>
-      <div class="radius-token">--radius-sm</div>
+      <div class="radius-token">--rounded-lg</div>
       <div class="radius-desc">Feature cards, secondary containers</div>
     </div>
 
     <div class="radius-card">
-      <div class="radius-shape" style="border-radius:20px;"></div>
-      <div class="radius-name">pill-sm</div>
-      <div class="radius-value">20px</div>
-      <div class="radius-token">--radius-pill-sm</div>
-      <div class="radius-desc">Badges, small pills, chips</div>
+      <div class="radius-shape" style="border-radius:12px;"></div>
+      <div class="radius-name">xl</div>
+      <div class="radius-value">12px</div>
+      <div class="radius-token">--rounded-xl</div>
+      <div class="radius-desc">Modals, panels, large cards</div>
     </div>
 
     <div class="radius-card">
-      <div class="radius-shape" style="border-radius:33px;"></div>
-      <div class="radius-name">pill</div>
-      <div class="radius-value">33px</div>
-      <div class="radius-token">--radius-pill</div>
-      <div class="radius-desc">Secondary action buttons</div>
-    </div>
-
-    <div class="radius-card">
-      <div class="star-badge">★ Signature</div>
-      <div class="radius-shape" style="border-radius:40px;"></div>
-      <div class="radius-name">cta</div>
-      <div class="radius-value">40px</div>
-      <div class="radius-token">--radius-cta</div>
-      <div class="radius-desc">Primary large CTA — Iron's signature button shape</div>
-    </div>
-
-    <div class="radius-card">
-      <div class="radius-shape" style="border-radius:42px;"></div>
-      <div class="radius-name">cta-alt</div>
-      <div class="radius-value">42px</div>
-      <div class="radius-token">--radius-cta-alt</div>
-      <div class="radius-desc">Alternative secondary CTA</div>
-    </div>
-
-    <div class="radius-card">
-      <div class="radius-shape" style="border-radius:64px;"></div>
-      <div class="radius-name">compact</div>
-      <div class="radius-value">64px</div>
-      <div class="radius-token">--radius-compact</div>
-      <div class="radius-desc">Destructive / compact buttons</div>
-    </div>
-
-    <div class="radius-card">
-      <div class="radius-shape" style="border-radius:80px;"></div>
-      <div class="radius-name">hero</div>
-      <div class="radius-value">80px</div>
-      <div class="radius-token">--radius-hero</div>
+      <div class="radius-shape" style="border-radius:16px;"></div>
+      <div class="radius-name">2xl</div>
+      <div class="radius-value">16px</div>
+      <div class="radius-token">--rounded-2xl</div>
       <div class="radius-desc">Hero cards, feature highlights</div>
+    </div>
+
+    <div class="radius-card">
+      <div class="radius-shape" style="border-radius:24px;"></div>
+      <div class="radius-name">3xl</div>
+      <div class="radius-value">24px</div>
+      <div class="radius-token">--rounded-3xl</div>
+      <div class="radius-desc">Buttons, large containers</div>
+    </div>
+
+    <div class="radius-card">
+      <div class="radius-shape" style="border-radius:32px;"></div>
+      <div class="radius-name">4xl</div>
+      <div class="radius-value">32px</div>
+      <div class="radius-token">--rounded-4xl</div>
+      <div class="radius-desc">CTA buttons, pill shapes</div>
     </div>
 
     <div class="radius-card">
       <div class="radius-shape" style="border-radius:9999px;"></div>
       <div class="radius-name">full</div>
       <div class="radius-value">9999px</div>
-      <div class="radius-token">--radius-full</div>
+      <div class="radius-token">--rounded-full</div>
       <div class="radius-desc">Perfect circle or infinite pill</div>
     </div>
 
   </div>
 
-  <div class="section-label">Buttons — Radius in Context</div>
+  <!-- Visual scale bar -->
+  <div class="section-label">Visual Scale</div>
+
+  <div class="scale-bar-section">
+
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-none</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:0%;border-radius:0;"></div></div>
+      <div class="scale-bar-px">0px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-xs</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:8%;border-radius:2px;"></div></div>
+      <div class="scale-bar-px">2px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-sm</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:16%;border-radius:4px;"></div></div>
+      <div class="scale-bar-px">4px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-md</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:24%;border-radius:6px;"></div></div>
+      <div class="scale-bar-px">6px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-lg</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:32%;border-radius:8px;"></div></div>
+      <div class="scale-bar-px">8px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-xl</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:44%;border-radius:12px;"></div></div>
+      <div class="scale-bar-px">12px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-2xl</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:58%;border-radius:16px;"></div></div>
+      <div class="scale-bar-px">16px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-3xl</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:74%;border-radius:24px;"></div></div>
+      <div class="scale-bar-px">24px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-4xl</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:90%;border-radius:32px;"></div></div>
+      <div class="scale-bar-px">32px</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">rounded-full</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;border-radius:9999px;"></div></div>
+      <div class="scale-bar-px">9999px</div>
+    </div>
+
+  </div>
+
+  <!-- Context demos -->
+  <div class="section-label">Radius in Context</div>
 
   <div class="btn-grid">
 
     <div class="btn-card">
-      <h4>Primary CTA (cta — 40px)</h4>
-      <div class="btn-example" style="border-radius:40px;">Download Free Trial</div>
-      <div class="btn-caption">Used for main call-to-action buttons</div>
-    </div>
-
-    <div class="btn-card">
-      <h4>Secondary (cta-alt — 42px)</h4>
-      <div class="btn-example" style="background:transparent; color:#2693EC; border:1.5px solid #2693EC; border-radius:42px;">Learn More</div>
-      <div class="btn-caption">Used for outlined secondary actions</div>
-    </div>
-
-    <div class="btn-card">
-      <h4>Destructive (compact — 64px)</h4>
-      <div class="btn-example" style="background:#E5242A; border-radius:64px;">Delete Account</div>
-      <div class="btn-caption">Used for danger / destructive actions</div>
-    </div>
-
-    <div class="btn-card">
-      <h4>Badge (pill-sm — 20px)</h4>
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
-        <span style="background:rgba(99,193,160,0.12);color:#53A085;border-radius:20px;padding:5px 14px;font-size:0.75rem;font-weight:700;">Success</span>
-        <span style="background:rgba(253,165,9,0.12);color:#D2890A;border-radius:20px;padding:5px 14px;font-size:0.75rem;font-weight:700;">Warning</span>
-        <span style="background:rgba(229,36,42,0.12);color:#C91D23;border-radius:20px;padding:5px 14px;font-size:0.75rem;font-weight:700;">Error</span>
-      </div>
-      <div class="btn-caption">Used for status badges and chips</div>
-    </div>
-
-    <div class="btn-card">
-      <h4>Input Field (xs — 4px)</h4>
+      <h4>Input Field (sm — 4px)</h4>
       <div style="border:1px solid #E2E8F0; border-radius:4px; padding:10px 14px; font-size:0.82rem; color:#A1A1A1;">Enter your email address</div>
-      <div class="btn-caption">Used for form inputs and text fields</div>
+      <div class="btn-caption">--rounded-sm · Form inputs &amp; text fields</div>
     </div>
 
     <div class="btn-card">
-      <h4>Feature Card (sm — 8px)</h4>
+      <h4>Dropdown / Popover (md — 6px)</h4>
+      <div style="border:1px solid #E2E8F0; border-radius:6px; padding:12px 16px; box-shadow:0 2px 16px rgba(67,31,67,0.12);">
+        <div style="font-size:0.78rem;color:#171717;font-weight:600;">Menu item</div>
+        <div style="font-size:0.78rem;color:#737373;margin-top:6px;">Another item</div>
+      </div>
+      <div class="btn-caption">--rounded-md · Dropdowns, popovers</div>
+    </div>
+
+    <div class="btn-card">
+      <h4>Feature Card (lg — 8px)</h4>
       <div style="border:1px solid #E2E8F0; border-radius:8px; padding:16px; box-shadow:0 0 12px rgba(67,31,67,0.15);">
         <div style="font-weight:700;font-size:0.82rem;">IronPDF</div>
         <div style="font-size:0.72rem;color:#737373;margin-top:4px;">Generate PDFs with C# or Python</div>
       </div>
-      <div class="btn-caption">Used for product cards</div>
+      <div class="btn-caption">--rounded-lg · Product cards</div>
+    </div>
+
+    <div class="btn-card">
+      <h4>Modal / Panel (xl — 12px)</h4>
+      <div style="border:1px solid #E2E8F0; border-radius:12px; padding:16px; background:#F8FAFC;">
+        <div style="font-weight:700;font-size:0.82rem;margin-bottom:6px;">Dialog Title</div>
+        <div style="font-size:0.72rem;color:#737373;">Modal content goes here.</div>
+      </div>
+      <div class="btn-caption">--rounded-xl · Modals, panels</div>
+    </div>
+
+    <div class="btn-card">
+      <h4>CTA Button (4xl — 32px)</h4>
+      <div class="btn-example" style="border-radius:32px;">Download Free Trial</div>
+      <div class="btn-caption">--rounded-4xl · Primary CTA buttons</div>
+    </div>
+
+    <div class="btn-card">
+      <h4>Badge (full — 9999px)</h4>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:rgba(99,193,160,0.12);color:#53A085;border-radius:9999px;padding:5px 14px;font-size:0.75rem;font-weight:700;">Success</span>
+        <span style="background:rgba(253,165,9,0.12);color:#D2890A;border-radius:9999px;padding:5px 14px;font-size:0.75rem;font-weight:700;">Warning</span>
+        <span style="background:rgba(229,36,42,0.12);color:#C91D23;border-radius:9999px;padding:5px 14px;font-size:0.75rem;font-weight:700;">Error</span>
+      </div>
+      <div class="btn-caption">--rounded-full · Badges, chips, status pills</div>
     </div>
 
   </div>

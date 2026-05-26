@@ -400,16 +400,17 @@
   },
 
   "borderRadius": {
-    "none":    { "$value": 0,    "$type": "dimension" },
-    "xs":      { "$value": 4,    "$type": "dimension" },
-    "sm":      { "$value": 8,    "$type": "dimension" },
-    "pill-sm": { "$value": 20,   "$type": "dimension" },
-    "pill":    { "$value": 33,   "$type": "dimension" },
-    "cta":     { "$value": 40,   "$type": "dimension", "$description": "★ Signature CTA radius" },
-    "cta-alt": { "$value": 42,   "$type": "dimension" },
-    "compact": { "$value": 64,   "$type": "dimension" },
-    "hero":    { "$value": 80,   "$type": "dimension" },
-    "full":    { "$value": 9999, "$type": "dimension" }
+    "_source": "Figma / rounded variables",
+    "none": { "$value": 0,    "$type": "dimension", "$description": "Sharp corners, dividers" },
+    "xs":   { "$value": 2,    "$type": "dimension", "$description": "Tooltips, small tags" },
+    "sm":   { "$value": 4,    "$type": "dimension", "$description": "Inputs, small controls" },
+    "md":   { "$value": 6,    "$type": "dimension", "$description": "Dropdowns, popovers" },
+    "lg":   { "$value": 8,    "$type": "dimension", "$description": "Feature cards, secondary containers" },
+    "xl":   { "$value": 12,   "$type": "dimension", "$description": "Modals, panels, large cards" },
+    "2xl":  { "$value": 16,   "$type": "dimension", "$description": "Hero cards, feature highlights" },
+    "3xl":  { "$value": 24,   "$type": "dimension", "$description": "Buttons, large containers" },
+    "4xl":  { "$value": 32,   "$type": "dimension", "$description": "CTA buttons, pill shapes" },
+    "full": { "$value": 9999, "$type": "dimension", "$description": "Perfect circle or infinite pill" }
   },
 
   "shadow": {
