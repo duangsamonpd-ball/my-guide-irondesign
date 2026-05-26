@@ -401,6 +401,14 @@
     "section": { "$value": 120, "$type": "dimension", "$description": "Full-page section breaks, hero bands" }
   },
 
+  "borderWidth": {
+    "_source": "Figma / border-width variables",
+    "1": { "$value": 1, "$type": "dimension", "$description": "Hairline — default dividers, inputs" },
+    "2": { "$value": 2, "$type": "dimension", "$description": "Regular — focus rings, active nav" },
+    "4": { "$value": 4, "$type": "dimension", "$description": "Medium — emphasis, selected states" },
+    "8": { "$value": 8, "$type": "dimension", "$description": "Heavy — decorative accents, callouts" }
+  },
+
   "borderRadius": {
     "_source": "Figma / rounded variables",
     "none": { "$value": 0,    "$type": "dimension", "$description": "Sharp corners, dividers" },

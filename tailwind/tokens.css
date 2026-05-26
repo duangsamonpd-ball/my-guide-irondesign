@@ -351,9 +351,16 @@
      8. BORDERS
      ═══════════════════════════════════════════════════════════════════════════ */
 
-  --border-width-default:    1px;
-  --border-width-focus:      2px;
-  --border-width-nav-active: 2px;
+  /* ── Primitive scale ── */
+  --border-width-1: 1px;   /* Hairline — default dividers, inputs */
+  --border-width-2: 2px;   /* Regular — focus rings, active nav */
+  --border-width-4: 4px;   /* Medium — emphasis, selected states */
+  --border-width-8: 8px;   /* Heavy — decorative accents, callouts */
+
+  /* ── Semantic aliases ── */
+  --border-width-default:    var(--border-width-1);
+  --border-width-focus:      var(--border-width-2);
+  --border-width-nav-active: var(--border-width-2);
   --border-style-default:    solid;
 
 
