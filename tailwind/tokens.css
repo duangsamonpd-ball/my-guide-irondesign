@@ -298,9 +298,12 @@
   --spacing-md:    1rem;      /* 16px — standard padding and gaps */
   --spacing-lg:    1.25rem;   /* 20px — card padding, list item gaps */
   --spacing-xl:    1.5rem;    /* 24px — section spacing */
-  --spacing-2xl:   1.75rem;   /* 28px — between major sections */
-  --spacing-3xl:   2rem;      /* 32px — between layout regions */
-  --spacing-hero:  5rem;      /* 80px — hero-scale top/bottom margins */
+  --spacing-2xl:    1.75rem;  /* 28px — between major sections */
+  --spacing-3xl:    2rem;     /* 32px — between layout regions */
+  --spacing-4xl:    3rem;     /* 48px — large section padding */
+  --spacing-5xl:    4rem;     /* 64px — page-level padding, feature sections */
+  --spacing-hero:   5rem;     /* 80px — hero-scale top/bottom margins */
+  --spacing-section:7.5rem;   /* 120px — full-page section breaks, hero bands */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════

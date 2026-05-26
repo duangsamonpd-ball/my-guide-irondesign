@@ -90,7 +90,7 @@
 
 <div class="page-header">
   <h1>📏 Spacing</h1>
-  <p>9 named spacing steps used for padding, margins and gaps throughout all components. Bars below are shown at actual pixel size.</p>
+  <p>12 named spacing steps used for padding, margins and gaps throughout all components. Bars below are shown at actual pixel size.</p>
 </div>
 
 <div class="content">
@@ -227,6 +227,38 @@
 
   <div class="spacing-row">
     <div class="spacing-label">
+      <div class="name">4xl</div>
+      <div class="token">--spacing-4xl</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:48px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 48px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">48px</div>
+      <div class="rem">3rem</div>
+      <div class="desc">Large section padding</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
+      <div class="name">5xl</div>
+      <div class="token">--spacing-5xl</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:64px;"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 64px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">64px</div>
+      <div class="rem">4rem</div>
+      <div class="desc">Page-level padding, feature sections</div>
+    </div>
+  </div>
+
+  <div class="spacing-row">
+    <div class="spacing-label">
       <div class="name">hero</div>
       <div class="token">--spacing-hero</div>
     </div>
@@ -238,6 +270,22 @@
       <div class="px">80px</div>
       <div class="rem">5rem</div>
       <div class="desc">Hero-scale top/bottom margins</div>
+    </div>
+  </div>
+
+  <div class="spacing-row" style="border-left: 3px solid #E01A59;">
+    <div class="spacing-label">
+      <div class="name">section</div>
+      <div class="token">--spacing-section</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:120px; background: linear-gradient(90deg, #E01A59, #FDA509);"></div>
+      <span style="font-size:0.7rem;color:#A1A1A1;">← 120px</span>
+    </div>
+    <div class="spacing-meta">
+      <div class="px">120px</div>
+      <div class="rem">7.5rem</div>
+      <div class="desc">Full-page section breaks, hero bands</div>
     </div>
   </div>
 
@@ -274,14 +322,29 @@
 
     <!-- Section spacing -->
     <div class="demo-card" style="grid-column:span 2;">
-      <h3>Section Spacing — hero (80px)</h3>
-      <div style="background:linear-gradient(135deg,#F2F9FE,#F0F9FF); border-radius:8px; padding:20px; margin-top:8px;">
-        <div style="background:white; border-radius:6px; padding:16px; text-align:center; font-weight:700; font-size:0.85rem;">Section A</div>
-        <div style="height:80px; display:flex; align-items:center; justify-content:center; position:relative;">
-          <div style="position:absolute;left:0;right:0;top:0;bottom:0; background:rgba(38,147,236,0.08); border-left:2px dashed #2693EC; border-right:2px dashed #2693EC;"></div>
-          <span style="font-size:0.72rem; font-weight:700; color:#2693EC; background:white; padding:4px 12px; border-radius:20px; border:1px solid #2693EC; z-index:1;">↕ hero — 80px between sections</span>
+      <h3>Section Spacing — hero (80px) &amp; section (120px)</h3>
+      <div style="background:linear-gradient(135deg,#F2F9FE,#F0F9FF); border-radius:8px; padding:20px; margin-top:8px; display:flex; gap:24px;">
+
+        <div style="flex:1;">
+          <div style="font-size:0.65rem;font-weight:700;color:#2693EC;text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em;">hero — 80px</div>
+          <div style="background:white; border-radius:6px; padding:12px; text-align:center; font-weight:700; font-size:0.8rem;">Section A</div>
+          <div style="height:80px; display:flex; align-items:center; justify-content:center; position:relative;">
+            <div style="position:absolute;left:0;right:0;top:0;bottom:0; background:rgba(38,147,236,0.08); border-left:2px dashed #2693EC; border-right:2px dashed #2693EC;"></div>
+            <span style="font-size:0.65rem; font-weight:700; color:#2693EC; background:white; padding:3px 10px; border-radius:20px; border:1px solid #2693EC; z-index:1;">↕ 80px</span>
+          </div>
+          <div style="background:white; border-radius:6px; padding:12px; text-align:center; font-weight:700; font-size:0.8rem;">Section B</div>
         </div>
-        <div style="background:white; border-radius:6px; padding:16px; text-align:center; font-weight:700; font-size:0.85rem;">Section B</div>
+
+        <div style="flex:1;">
+          <div style="font-size:0.65rem;font-weight:700;color:#E01A59;text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em;">section — 120px</div>
+          <div style="background:white; border-radius:6px; padding:12px; text-align:center; font-weight:700; font-size:0.8rem;">Hero Band A</div>
+          <div style="height:120px; display:flex; align-items:center; justify-content:center; position:relative;">
+            <div style="position:absolute;left:0;right:0;top:0;bottom:0; background:rgba(224,26,89,0.06); border-left:2px dashed #E01A59; border-right:2px dashed #E01A59;"></div>
+            <span style="font-size:0.65rem; font-weight:700; color:#E01A59; background:white; padding:3px 10px; border-radius:20px; border:1px solid #E01A59; z-index:1;">↕ 120px</span>
+          </div>
+          <div style="background:white; border-radius:6px; padding:12px; text-align:center; font-weight:700; font-size:0.8rem;">Hero Band B</div>
+        </div>
+
       </div>
     </div>
 

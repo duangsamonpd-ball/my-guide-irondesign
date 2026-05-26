@@ -388,15 +388,18 @@
   },
 
   "spacing": {
-    "micro": { "$value": 4,  "$type": "dimension" },
-    "xs":    { "$value": 8,  "$type": "dimension" },
-    "sm":    { "$value": 12, "$type": "dimension" },
-    "md":    { "$value": 16, "$type": "dimension" },
-    "lg":    { "$value": 20, "$type": "dimension" },
-    "xl":    { "$value": 24, "$type": "dimension" },
-    "2xl":   { "$value": 28, "$type": "dimension" },
-    "3xl":   { "$value": 32, "$type": "dimension" },
-    "hero":  { "$value": 80, "$type": "dimension" }
+    "micro":   { "$value": 4,   "$type": "dimension", "$description": "Icon-text gaps, tight groups" },
+    "xs":      { "$value": 8,   "$type": "dimension", "$description": "Small spacing within components" },
+    "sm":      { "$value": 12,  "$type": "dimension", "$description": "Component internal padding" },
+    "md":      { "$value": 16,  "$type": "dimension", "$description": "Standard padding and gaps" },
+    "lg":      { "$value": 20,  "$type": "dimension", "$description": "Card padding, list item gaps" },
+    "xl":      { "$value": 24,  "$type": "dimension", "$description": "Section spacing" },
+    "2xl":     { "$value": 28,  "$type": "dimension", "$description": "Between major sections" },
+    "3xl":     { "$value": 32,  "$type": "dimension", "$description": "Between layout regions" },
+    "4xl":     { "$value": 48,  "$type": "dimension", "$description": "Large section padding" },
+    "5xl":     { "$value": 64,  "$type": "dimension", "$description": "Page-level padding, feature sections" },
+    "hero":    { "$value": 80,  "$type": "dimension", "$description": "Hero-scale top/bottom margins" },
+    "section": { "$value": 120, "$type": "dimension", "$description": "Full-page section breaks, hero bands" }
   },
 
   "borderRadius": {
