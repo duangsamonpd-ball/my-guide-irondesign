@@ -144,7 +144,21 @@
     .sem-card.dark-surface .sem-token { color: #62748E; }
     .sem-card.dark-surface .sem-desc  { color: #90A1B9; }
     .sem-card.dark-surface .sem-hex   { color: #89D3DF; }
-  </style>
+  
+    /* ── Mobile responsive ── */
+    @media (max-width: 640px) {
+      nav { padding: 12px 16px; }
+      nav .title { font-size: 0.82rem; }
+      .page-header { padding: 20px 16px; }
+      .page-header h1 { font-size: 1.4rem; }
+      .content { padding: 16px; }
+      .section-label { margin: 24px 0 14px; }
+      .swatch { min-width: 60px; }
+      .swatch-color { height: 60px; }
+      .semantic-grid.cols-5 { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+      footer { padding: 24px 16px; }
+    }
+</style>
 </head>
 <body>
 
