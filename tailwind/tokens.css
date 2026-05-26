@@ -358,12 +358,36 @@
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     9. OPACITY
+     9. OPACITY  (Figma / opacity variables — 0–100 in steps of 5)
      ═══════════════════════════════════════════════════════════════════════════ */
 
-  --opacity-disabled:     0.5;
-  --opacity-hover-ghost:  0.9;
-  --opacity-hover-footer: 0.8;
+  /* ── Full scale ── */
+  --opacity-0:   0;     /*   0% — fully transparent */
+  --opacity-5:   0.05;  /*   5% */
+  --opacity-10:  0.10;  /*  10% */
+  --opacity-15:  0.15;  /*  15% */
+  --opacity-20:  0.20;  /*  20% */
+  --opacity-25:  0.25;  /*  25% */
+  --opacity-30:  0.30;  /*  30% */
+  --opacity-35:  0.35;  /*  35% */
+  --opacity-40:  0.40;  /*  40% */
+  --opacity-45:  0.45;  /*  45% */
+  --opacity-50:  0.50;  /*  50% — half */
+  --opacity-55:  0.55;  /*  55% */
+  --opacity-60:  0.60;  /*  60% */
+  --opacity-65:  0.65;  /*  65% */
+  --opacity-70:  0.70;  /*  70% */
+  --opacity-75:  0.75;  /*  75% */
+  --opacity-80:  0.80;  /*  80% */
+  --opacity-85:  0.85;  /*  85% */
+  --opacity-90:  0.90;  /*  90% */
+  --opacity-95:  0.95;  /*  95% */
+  --opacity-100: 1;     /* 100% — fully opaque */
+
+  /* ── Semantic aliases ── */
+  --opacity-disabled:     var(--opacity-50);  /* Disabled states */
+  --opacity-hover-ghost:  var(--opacity-90);  /* Ghost button hover */
+  --opacity-hover-footer: var(--opacity-80);  /* Footer link hover */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════

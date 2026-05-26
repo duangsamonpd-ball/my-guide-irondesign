@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opacity · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+
+    nav { background: white; border-bottom: 1px solid #E2E8F0; padding: 16px 40px; display: flex; align-items: center; gap: 12px; }
+    nav a { text-decoration: none; color: #62748E; font-size: 0.85rem; }
+    nav a:hover { color: #2693EC; }
+    nav span { color: #CAD5E2; }
+    nav .title { font-weight: 700; color: #171717; font-size: 0.95rem; }
+
+    .page-header { background: white; border-bottom: 1px solid #E2E8F0; padding: 40px; }
+    .page-header h1 { font-size: 2rem; font-weight: 900; }
+    .page-header p  { color: #62748E; margin-top: 6px; font-size: 0.9rem; }
+
+    .content { padding: 40px; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1;
+      margin: 40px 0 24px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;
+    }
+
+    /* ── Scale grid ── */
+    .opacity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .opacity-card {
+      background: white; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 20px 16px; text-align: center;
+    }
+
+    .opacity-swatch-wrap {
+      width: 72px; height: 72px; margin: 0 auto 14px;
+      border-radius: 10px;
+      /* Checkerboard background to show transparency */
+      background-image:
+        linear-gradient(45deg, #CBD5E1 25%, transparent 25%),
+        linear-gradient(-45deg, #CBD5E1 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #CBD5E1 75%),
+        linear-gradient(-45deg, transparent 75%, #CBD5E1 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .opacity-swatch {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #2693EC, #E01A59);
+      border-radius: 10px;
+    }
+
+    .opacity-name  { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+    .opacity-value { font-family: monospace; font-size: 0.72rem; color: #2693EC; margin-bottom: 4px; }
+    .opacity-token { font-family: monospace; font-size: 0.62rem; color: #A1A1A1; }
+
+    /* ── Visual scale bar ── */
+    .scale-bar-section {
+      background: white; border: 1px solid #E2E8F0; border-radius: 16px;
+      padding: 32px 40px; overflow-x: auto;
+    }
+    .scale-bar-row {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 10px;
+    }
+    .scale-bar-row:last-child { margin-bottom: 0; }
+    .scale-bar-label {
+      font-family: monospace; font-size: 0.72rem; font-weight: 700;
+      color: #314158; width: 110px; flex-shrink: 0;
+    }
+    .scale-bar-track {
+      flex: 1; height: 28px; background: #F1F5F9; border-radius: 4px;
+      overflow: hidden; position: relative;
+    }
+    .scale-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2693EC, #E01A59);
+    }
+    .scale-bar-pct {
+      font-size: 0.65rem; color: #A1A1A1; font-family: monospace; flex-shrink: 0; width: 36px; text-align: right;
+    }
+
+    /* ── Context demos ── */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .demo-card {
+      background: white; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px;
+    }
+    .demo-card h4 { font-size: 0.75rem; font-weight: 700; color: #62748E; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+    .demo-caption { font-size: 0.7rem; color: #A1A1A1; margin-top: 10px; text-align: center; }
+
+    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Home</a>
+  <span>/</span>
+  <span class="title">🔆 Opacity</span>
+</nav>
+
+<div class="page-header">
+  <h1>🔆 Opacity</h1>
+  <p>21 opacity steps from 0% (fully transparent) to 100% (fully opaque), in increments of 5.</p>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Opacity Scale</div>
+
+  <div class="opacity-grid">
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0;"></div></div>
+      <div class="opacity-name">opacity-0</div>
+      <div class="opacity-value">0</div>
+      <div class="opacity-token">--opacity-0</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.05;"></div></div>
+      <div class="opacity-name">opacity-5</div>
+      <div class="opacity-value">0.05</div>
+      <div class="opacity-token">--opacity-5</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.10;"></div></div>
+      <div class="opacity-name">opacity-10</div>
+      <div class="opacity-value">0.10</div>
+      <div class="opacity-token">--opacity-10</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.15;"></div></div>
+      <div class="opacity-name">opacity-15</div>
+      <div class="opacity-value">0.15</div>
+      <div class="opacity-token">--opacity-15</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.20;"></div></div>
+      <div class="opacity-name">opacity-20</div>
+      <div class="opacity-value">0.20</div>
+      <div class="opacity-token">--opacity-20</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.25;"></div></div>
+      <div class="opacity-name">opacity-25</div>
+      <div class="opacity-value">0.25</div>
+      <div class="opacity-token">--opacity-25</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.30;"></div></div>
+      <div class="opacity-name">opacity-30</div>
+      <div class="opacity-value">0.30</div>
+      <div class="opacity-token">--opacity-30</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.35;"></div></div>
+      <div class="opacity-name">opacity-35</div>
+      <div class="opacity-value">0.35</div>
+      <div class="opacity-token">--opacity-35</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.40;"></div></div>
+      <div class="opacity-name">opacity-40</div>
+      <div class="opacity-value">0.40</div>
+      <div class="opacity-token">--opacity-40</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.45;"></div></div>
+      <div class="opacity-name">opacity-45</div>
+      <div class="opacity-value">0.45</div>
+      <div class="opacity-token">--opacity-45</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.50;"></div></div>
+      <div class="opacity-name">opacity-50</div>
+      <div class="opacity-value">0.50</div>
+      <div class="opacity-token">--opacity-50</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.55;"></div></div>
+      <div class="opacity-name">opacity-55</div>
+      <div class="opacity-value">0.55</div>
+      <div class="opacity-token">--opacity-55</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.60;"></div></div>
+      <div class="opacity-name">opacity-60</div>
+      <div class="opacity-value">0.60</div>
+      <div class="opacity-token">--opacity-60</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.65;"></div></div>
+      <div class="opacity-name">opacity-65</div>
+      <div class="opacity-value">0.65</div>
+      <div class="opacity-token">--opacity-65</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.70;"></div></div>
+      <div class="opacity-name">opacity-70</div>
+      <div class="opacity-value">0.70</div>
+      <div class="opacity-token">--opacity-70</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.75;"></div></div>
+      <div class="opacity-name">opacity-75</div>
+      <div class="opacity-value">0.75</div>
+      <div class="opacity-token">--opacity-75</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.80;"></div></div>
+      <div class="opacity-name">opacity-80</div>
+      <div class="opacity-value">0.80</div>
+      <div class="opacity-token">--opacity-80</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.85;"></div></div>
+      <div class="opacity-name">opacity-85</div>
+      <div class="opacity-value">0.85</div>
+      <div class="opacity-token">--opacity-85</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.90;"></div></div>
+      <div class="opacity-name">opacity-90</div>
+      <div class="opacity-value">0.90</div>
+      <div class="opacity-token">--opacity-90</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:0.95;"></div></div>
+      <div class="opacity-name">opacity-95</div>
+      <div class="opacity-value">0.95</div>
+      <div class="opacity-token">--opacity-95</div>
+    </div>
+
+    <div class="opacity-card">
+      <div class="opacity-swatch-wrap"><div class="opacity-swatch" style="opacity:1;"></div></div>
+      <div class="opacity-name">opacity-100</div>
+      <div class="opacity-value">1</div>
+      <div class="opacity-token">--opacity-100</div>
+    </div>
+
+  </div>
+
+  <!-- Visual scale bar -->
+  <div class="section-label">Visual Scale</div>
+
+  <div class="scale-bar-section">
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-0</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0;"></div></div>
+      <div class="scale-bar-pct">0%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-5</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.05;"></div></div>
+      <div class="scale-bar-pct">5%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-10</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.10;"></div></div>
+      <div class="scale-bar-pct">10%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-15</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.15;"></div></div>
+      <div class="scale-bar-pct">15%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-20</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.20;"></div></div>
+      <div class="scale-bar-pct">20%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-25</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.25;"></div></div>
+      <div class="scale-bar-pct">25%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-30</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.30;"></div></div>
+      <div class="scale-bar-pct">30%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-35</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.35;"></div></div>
+      <div class="scale-bar-pct">35%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-40</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.40;"></div></div>
+      <div class="scale-bar-pct">40%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-45</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.45;"></div></div>
+      <div class="scale-bar-pct">45%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-50</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.50;"></div></div>
+      <div class="scale-bar-pct">50%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-55</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.55;"></div></div>
+      <div class="scale-bar-pct">55%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-60</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.60;"></div></div>
+      <div class="scale-bar-pct">60%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-65</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.65;"></div></div>
+      <div class="scale-bar-pct">65%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-70</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.70;"></div></div>
+      <div class="scale-bar-pct">70%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-75</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.75;"></div></div>
+      <div class="scale-bar-pct">75%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-80</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.80;"></div></div>
+      <div class="scale-bar-pct">80%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-85</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.85;"></div></div>
+      <div class="scale-bar-pct">85%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-90</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.90;"></div></div>
+      <div class="scale-bar-pct">90%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-95</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:0.95;"></div></div>
+      <div class="scale-bar-pct">95%</div>
+    </div>
+    <div class="scale-bar-row">
+      <div class="scale-bar-label">opacity-100</div>
+      <div class="scale-bar-track"><div class="scale-bar-fill" style="width:100%;opacity:1;"></div></div>
+      <div class="scale-bar-pct">100%</div>
+    </div>
+  </div>
+
+  <!-- Context demos -->
+  <div class="section-label">Semantic Aliases</div>
+
+  <div class="demo-grid">
+
+    <div class="demo-card">
+      <h4>Disabled State (50%)</h4>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="padding:10px 20px; background:#E01A59; color:white; font-weight:700; font-size:0.8rem; border-radius:32px; opacity:1;">Active</div>
+        <div style="padding:10px 20px; background:#E01A59; color:white; font-weight:700; font-size:0.8rem; border-radius:32px; opacity:0.5; cursor:not-allowed;">Disabled</div>
+      </div>
+      <div class="demo-caption">--opacity-disabled → --opacity-50</div>
+    </div>
+
+    <div class="demo-card">
+      <h4>Ghost Button Hover (90%)</h4>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="padding:10px 20px; border:1.5px solid #2693EC; color:#2693EC; font-weight:700; font-size:0.8rem; border-radius:32px; opacity:1;">Default</div>
+        <div style="padding:10px 20px; border:1.5px solid #2693EC; color:#2693EC; font-weight:700; font-size:0.8rem; border-radius:32px; opacity:0.9;">Hover</div>
+      </div>
+      <div class="demo-caption">--opacity-hover-ghost → --opacity-90</div>
+    </div>
+
+    <div class="demo-card">
+      <h4>Overlay / Scrim (40%)</h4>
+      <div style="position:relative; border-radius:8px; overflow:hidden; height:70px;">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#2693EC,#E01A59);"></div>
+        <div style="position:absolute;inset:0;background:#171717;opacity:0.4;"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;">Modal Overlay</div>
+      </div>
+      <div class="demo-caption">--opacity-40 · Backdrop scrim</div>
+    </div>
+
+    <div class="demo-card">
+      <h4>Subtle Tint (10%)</h4>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:rgba(224,26,89,1); opacity:0.10; border-radius:8px; padding:8px 14px; font-size:0.75rem; font-weight:700; color:#E01A59;">Tag</span>
+        <div style="background:#E01A59; border-radius:8px; padding:8px 14px; font-size:0.75rem; font-weight:700; color:#E01A59; opacity:0.10;">Tag</div>
+        <div style="background:#E01A59; border-radius:8px; padding:8px 14px; font-size:0.75rem; font-weight:700; color:white;">Solid</div>
+      </div>
+      <div class="demo-caption">--opacity-10 · Subtle background tints</div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>Iron Software Design System &nbsp;·&nbsp; Opacity &nbsp;·&nbsp; 2025</footer>
+</body>
+</html>
