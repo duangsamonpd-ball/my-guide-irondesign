@@ -17,13 +17,9 @@
     nav a:hover { color: #2693EC; }
     nav span { color: #CAD5E2; }
     nav .title { font-weight: 700; color: #171717; font-size: 0.95rem; }
-
-    .page-header {
-      background: white; border-bottom: 1px solid #E2E8F0;
-      padding: 40px;
-    }
-    .page-header h1 { font-size: 2rem; font-weight: 900; }
-    .page-header p  { color: #62748E; margin-top: 6px; font-size: 0.9rem; }
+    .logo-badge { width: 40px; height: 40px; flex-shrink: 0; }
+    header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
+    header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
 
     .content { padding: 40px; max-width: 1200px; margin: 0 auto; }
 
@@ -148,8 +144,6 @@
     /* ── Mobile responsive ── */
     @media (max-width: 640px) {
       header { padding: 12px 20px; }
-      .page-header { padding: 20px 16px; }
-      .page-header h1 { font-size: 1.4rem; }
       .content { padding: 16px; }
       .section-label { margin: 24px 0 14px; }
       .swatch { min-width: 60px; }
@@ -234,13 +228,11 @@
   <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu">
     <span></span><span></span><span></span>
   </button>
-  <a href="index.html" class="header-brand">
-    <img src="assets/logo.svg" alt="Iron Software" style="width:40px;height:40px;display:block;">
-    <div>
-      <h1>Iron Software Design System</h1>
-      <p>Visual Token Reference — for everyone on the team</p>
-    </div>
-  </a>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div>
+    <h1>Iron Software Design System</h1>
+    <p>Visual Token Reference — for everyone on the team</p>
+  </div>
 </header>
 <div class="layout">
   <aside class="sidebar" id="sidebar">
@@ -264,12 +256,6 @@
     </nav>
   </aside>
   <div class="main-content">
-
-<div class="page-header">
-  <h1>🎨 Color Scale</h1>
-  <p>10 palettes (50–950) + semantic token map. Click any swatch to copy its hex code. The <strong>highlighted step</strong> is the BASE color used by default.</p>
-</div>
-
 <div class="content">
 
   <div class="section-label">Brand Palettes</div>
