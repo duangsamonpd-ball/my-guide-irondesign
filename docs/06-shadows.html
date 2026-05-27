@@ -165,24 +165,8 @@
     .sidebar::-webkit-scrollbar-track { background: transparent; }
     .sidebar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
 
-    /* ── Sidebar brand ── */
-    .sidebar-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 20px 18px 16px;
-      border-bottom: 1px solid #F1F5F9;
-      text-decoration: none;
-    }
-    .sidebar-brand span {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #171717;
-      letter-spacing: -0.01em;
-    }
-
     /* ── Nav ── */
-    .sidebar-nav { padding: 8px 0 24px; }
+    .sidebar-nav { padding: 8px 0 24px; display: flex; flex-direction: column; }
 
     .sidebar-category {
       font-size: 0.58rem;
@@ -253,6 +237,31 @@
       .sidebar.open { transform: translateX(0); }
     }
 
+  
+    /* ── Page title ── */
+    .page-title {
+      padding: 36px 40px 28px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .page-title h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #171717;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .page-title p {
+      font-size: 0.85rem;
+      color: #62748E;
+      line-height: 1.6;
+      max-width: 680px;
+    }
+    @media (max-width: 640px) {
+      .page-title { padding: 24px 16px 20px; }
+      .page-title h1 { font-size: 1.2rem; }
+    }
   </style>
 </head>
 <body>
@@ -269,14 +278,11 @@
 </header>
 <div class="layout">
   <aside class="sidebar" id="sidebar">
-    <a href="index.html" class="sidebar-brand">
-      <img src="assets/logo.svg" alt="Iron Software" width="30" height="30">
-      <span>Iron Design System</span>
-    </a>
     <nav class="sidebar-nav">
       <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
       <div class="sidebar-category">Foundations</div>
-      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Scale</a>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
       <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
       <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
       <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
@@ -288,8 +294,14 @@
       <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
     </nav>
   </aside>
+
 <div class="main-content">
 <div class="content">
+  <div class="page-title">
+    <h1>🌑 Shadow</h1>
+    <p>Elevation layers for cards, dropdowns, modals and focus rings. Use the right shadow level to communicate depth and hierarchy.</p>
+  </div>
+
 
   <div class="section-label">Elevation Shadows</div>
 

@@ -3,20 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Color Scale &amp; Palette · Iron Software DS</title>
+  <title>Color Palette · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
-
-    nav {
-      background: white; border-bottom: 1px solid #E2E8F0;
-      padding: 16px 40px; display: flex; align-items: center; gap: 12px;
+    header {
+      background: #fff; border-bottom: 1px solid #E2E8F0;
+      padding: 24px 48px; display: flex; align-items: center; gap: 16px;
     }
-    nav a { text-decoration: none; color: #62748E; font-size: 0.85rem; }
-    nav a:hover { color: #2693EC; }
-    nav span { color: #CAD5E2; }
-    nav .title { font-weight: 700; color: #171717; font-size: 0.95rem; }
     .logo-badge { width: 40px; height: 40px; flex-shrink: 0; }
     header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
     header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
@@ -226,24 +221,8 @@
     .sidebar::-webkit-scrollbar-track { background: transparent; }
     .sidebar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
 
-    /* ── Sidebar brand ── */
-    .sidebar-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 20px 18px 16px;
-      border-bottom: 1px solid #F1F5F9;
-      text-decoration: none;
-    }
-    .sidebar-brand span {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #171717;
-      letter-spacing: -0.01em;
-    }
-
     /* ── Nav ── */
-    .sidebar-nav { padding: 8px 0 24px; }
+    .sidebar-nav { padding: 8px 0 24px; display: flex; flex-direction: column; }
 
     .sidebar-category {
       font-size: 0.58rem;
@@ -314,6 +293,31 @@
       .sidebar.open { transform: translateX(0); }
     }
 
+  
+    /* ── Page title ── */
+    .page-title {
+      padding: 36px 40px 28px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .page-title h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #171717;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .page-title p {
+      font-size: 0.85rem;
+      color: #62748E;
+      line-height: 1.6;
+      max-width: 680px;
+    }
+    @media (max-width: 640px) {
+      .page-title { padding: 24px 16px 20px; }
+      .page-title h1 { font-size: 1.2rem; }
+    }
   </style>
 </head>
 <body>
@@ -330,14 +334,11 @@
 </header>
 <div class="layout">
   <aside class="sidebar" id="sidebar">
-    <a href="index.html" class="sidebar-brand">
-      <img src="assets/logo.svg" alt="Iron Software" width="30" height="30">
-      <span>Iron Design System</span>
-    </a>
     <nav class="sidebar-nav">
       <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
       <div class="sidebar-category">Foundations</div>
-      <a href="01-colors.html" class="sidebar-link active"><i class="sidebar-icon">🎨</i>Color Scale</a>
+      <a href="01-colors.html" class="sidebar-link active"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
       <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
       <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
       <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
@@ -349,8 +350,14 @@
       <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
     </nav>
   </aside>
+
 <div class="main-content">
 <div class="content">
+  <div class="page-title">
+    <h1>🎨 Color Scale</h1>
+    <p>All 10 brand palettes with every shade from 50 to 950. Click any swatch to copy its hex code. The <strong>highlighted step</strong> is the BASE color used by default.</p>
+  </div>
+
 
   <div class="section-label">Brand Palettes</div>
 
@@ -578,411 +585,10 @@
 
 </div>
 
-<!-- ══════════════════════════════════════════════════════════════════════════
-     02 — COLOR PALETTE  (Semantic Token Map)
-     Source: Figma node 84-1754
-     ══════════════════════════════════════════════════════════════════════════ -->
-<div style="background:#F1F5F9; border-top:3px solid #E2E8F0; margin-top:24px;">
-<div class="content" style="padding-top:48px;">
-
-  <div style="margin-bottom:8px;">
-    <span style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#2693EC;">02 — COLOR PALETTE</span>
-  </div>
-  <h2 style="font-size:1.75rem;font-weight:900;margin-bottom:8px;">Color Palette</h2>
-  <p style="font-size:0.88rem;color:#62748E;margin-bottom:40px;">Semantic Token Map — what role each color plays in a real design system.</p>
-
-  <div class="palette-page-intro">
-    <div class="icon">💡</div>
-    <div>
-      <h3>Raw scale vs. semantic token</h3>
-      <p>The <strong>Color Scale</strong> above lists every raw shade (50–950). This page maps those shades to <strong>meaningful roles</strong> — Primary, Heading, Background, etc. — so designers and developers always reach for the right color for the right job.</p>
-    </div>
-  </div>
-
-  <!-- ── BRAND & ACCENT ───────────────────────────────────────────────────── -->
-  <div class="palette-group">
-    <div class="palette-group-header">Brand &amp; Accent</div>
-    <div class="semantic-grid">
-
-      <div class="sem-card" onclick="copy('#E01A59','color.brand.primary')">
-        <div class="sem-color" style="background:#E01A59;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Primary (Iron Pink)</div>
-          <div class="sem-hex">#E01A59</div>
-          <div class="sem-token">iron-pink-500</div>
-          <div class="sem-desc">All primary CTAs and brand wordmark.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#BA174B','color.brand.primary-active')">
-        <div class="sem-color" style="background:#BA174B;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Primary active</div>
-          <div class="sem-hex">#BA174B</div>
-          <div class="sem-token">iron-pink-600</div>
-          <div class="sem-desc">Press / hover primary state.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#2693EC','color.brand.secondary')">
-        <div class="sem-color" style="background:#2693EC;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Secondary (Iron Blue)</div>
-          <div class="sem-hex">#2693EC</div>
-          <div class="sem-token">iron-blue-500</div>
-          <div class="sem-desc">Secondary CTAs, alternative headline, link.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#217BC4','color.brand.secondary-active')">
-        <div class="sem-color" style="background:#217BC4;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Secondary active</div>
-          <div class="sem-hex">#217BC4</div>
-          <div class="sem-token">iron-blue-600</div>
-          <div class="sem-desc">Press secondary state.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#FDA509','color.brand.orange')">
-        <div class="sem-color" style="background:#FDA509;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Iron Orange</div>
-          <div class="sem-hex">#FDA509</div>
-          <div class="sem-token">iron-orange-500</div>
-          <div class="sem-desc">Product color.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#63C1A0','color.brand.green')">
-        <div class="sem-color" style="background:#63C1A0;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Iron Green</div>
-          <div class="sem-hex">#63C1A0</div>
-          <div class="sem-token">iron-green-500</div>
-          <div class="sem-desc">Product color.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#89D3DF','color.brand.sky')">
-        <div class="sem-color" style="background:#89D3DF;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Iron Sky</div>
-          <div class="sem-hex">#89D3DF</div>
-          <div class="sem-token">iron-sky-500</div>
-          <div class="sem-desc">Product color.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#563B99','color.brand.purple')">
-        <div class="sem-color" style="background:#563B99;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Iron Purple</div>
-          <div class="sem-hex">#563B99</div>
-          <div class="sem-token">iron-purple-500</div>
-          <div class="sem-desc">Product color.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── TEXT / DEFAULT (Light Mode) ─────────────────────────────────────── -->
-  <div class="palette-group">
-    <div class="palette-group-header">Text / Default (Light Mode)</div>
-    <div class="semantic-grid cols-5">
-
-      <div class="sem-card" onclick="copy('#171717','color.text.heading')">
-        <div class="sem-color" style="background:#171717;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Heading</div>
-          <div class="sem-hex">#171717</div>
-          <div class="sem-token">iron-neutral-900</div>
-          <div class="sem-desc">Headlines and emphasized body type.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#404040','color.text.body')">
-        <div class="sem-color" style="background:#404040;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Body</div>
-          <div class="sem-hex">#404040</div>
-          <div class="sem-token">iron-neutral-700</div>
-          <div class="sem-desc">Default running text.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#A1A1A1','color.text.muted')">
-        <div class="sem-color" style="background:#A1A1A1;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Muted</div>
-          <div class="sem-hex">#A1A1A1</div>
-          <div class="sem-token">iron-neutral-400</div>
-          <div class="sem-desc">Placeholders, captions, disabled text.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#90A1B9','color.text.support')">
-        <div class="sem-color" style="background:#90A1B9;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Support</div>
-          <div class="sem-hex">#90A1B9</div>
-          <div class="sem-token">iron-slate-400</div>
-          <div class="sem-desc">Support headlines, caption title.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#FFFFFF','color.text.on-primary')">
-        <div class="sem-color" style="background:#FFFFFF; border-bottom:1px solid #E2E8F0;"></div>
-        <div class="sem-body">
-          <div class="sem-name">On Primary</div>
-          <div class="sem-hex" style="color:#171717;">#FFFFFF</div>
-          <div class="sem-token">white</div>
-          <div class="sem-desc">White text on CTA buttons.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── TEXT / DARK (Dark Mode) ──────────────────────────────────────────── -->
-  <div class="palette-group">
-    <div class="palette-group-header">Text / Dark (Dark Mode)</div>
-    <div class="semantic-grid" style="grid-template-columns: repeat(4, 1fr);">
-
-      <div class="sem-card" onclick="copy('#F5F5F5','color.text-dark.heading')">
-        <div class="sem-color" style="background:#F5F5F5; border-bottom:1px solid #E2E8F0;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Heading</div>
-          <div class="sem-hex" style="color:#171717;">#F5F5F5</div>
-          <div class="sem-token">iron-neutral-100</div>
-          <div class="sem-desc">Headlines and emphasized body type.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#D4D4D4','color.text-dark.body')">
-        <div class="sem-color" style="background:#D4D4D4;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Body</div>
-          <div class="sem-hex" style="color:#171717;">#D4D4D4</div>
-          <div class="sem-token">iron-neutral-300</div>
-          <div class="sem-desc">Default running text.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#737373','color.text-dark.muted')">
-        <div class="sem-color" style="background:#737373;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Muted</div>
-          <div class="sem-hex">#737373</div>
-          <div class="sem-token">iron-neutral-500</div>
-          <div class="sem-desc">Placeholders, captions, disabled text.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#CEA7C8','color.text-dark.support')">
-        <div class="sem-color" style="background:#CEA7C8;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Support</div>
-          <div class="sem-hex">#CEA7C8</div>
-          <div class="sem-token">iron-violet-300</div>
-          <div class="sem-desc">Support headlines, caption title.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── SURFACE: LIGHT THEMES ────────────────────────────────────────────── -->
-  <div class="palette-group">
-    <div class="palette-group-header">Surface — Light Themes</div>
-    <div class="semantic-grid">
-
-      <div class="sem-card" onclick="copy('#FFFFFF','color.surface.background')">
-        <div class="sem-color" style="background:#FFFFFF; border-bottom:1px solid #E2E8F0;"></div>
-        <div class="sem-body">
-          <div class="sem-name">background</div>
-          <div class="sem-hex" style="color:#171717;">#FFFFFF</div>
-          <div class="sem-token">white</div>
-          <div class="sem-desc">Main page background.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#F1F5F9','color.surface.background-shade')">
-        <div class="sem-color" style="background:#F1F5F9;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Background shade</div>
-          <div class="sem-hex" style="color:#171717;">#F1F5F9</div>
-          <div class="sem-token">iron-slate-100</div>
-          <div class="sem-desc">Secondary surface / band fill.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#FFFFFF','color.surface.card')">
-        <div class="sem-color" style="background:#FFFFFF; border-bottom:1px solid #E2E8F0;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Card</div>
-          <div class="sem-hex" style="color:#171717;">#FFFFFF</div>
-          <div class="sem-token">white</div>
-          <div class="sem-desc">Card, modal, panel surface.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#F2F9FE','color.surface.card-alt')">
-        <div class="sem-color" style="background:#F2F9FE;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Card alt</div>
-          <div class="sem-hex" style="color:#171717;">#F2F9FE</div>
-          <div class="sem-token">iron-blue-50</div>
-          <div class="sem-desc">Alternative card, modal, panel surface.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#E2E8F0','color.surface.border')">
-        <div class="sem-color" style="background:#E2E8F0;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Border</div>
-          <div class="sem-hex" style="color:#171717;">#E2E8F0</div>
-          <div class="sem-token">iron-slate-200</div>
-          <div class="sem-desc">Dividers, input borders, cards.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#CAD5E2','color.surface.border-strong')">
-        <div class="sem-color" style="background:#CAD5E2;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Border strong</div>
-          <div class="sem-hex" style="color:#171717;">#CAD5E2</div>
-          <div class="sem-token">iron-slate-300</div>
-          <div class="sem-desc">Hover border.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── SURFACE: DARK THEMES ─────────────────────────────────────────────── -->
-  <div class="palette-group">
-    <div class="palette-group-header">Surface — Dark Themes</div>
-    <div class="semantic-grid">
-
-      <div class="sem-card dark-surface" onclick="copy('#351F31','color.surface-dark.background')">
-        <div class="sem-color" style="background:#351F31;"></div>
-        <div class="sem-body">
-          <div class="sem-name">background</div>
-          <div class="sem-hex">#351F31</div>
-          <div class="sem-token">iron-violet-900</div>
-          <div class="sem-desc">Main page background.</div>
-        </div>
-      </div>
-
-      <div class="sem-card dark-surface" onclick="copy('#231721','color.surface-dark.background-shade')">
-        <div class="sem-color" style="background:#231721;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Background shade</div>
-          <div class="sem-hex">#231721</div>
-          <div class="sem-token">iron-violet-950</div>
-          <div class="sem-desc">Secondary surface / band fill.</div>
-        </div>
-      </div>
-
-      <div class="sem-card dark-surface" onclick="copy('#4F2B49','color.surface-dark.card')">
-        <div class="sem-color" style="background:#4F2B49;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Card</div>
-          <div class="sem-hex">#4F2B49</div>
-          <div class="sem-token">iron-violet-800</div>
-          <div class="sem-desc">Card, modal, panel surface.</div>
-        </div>
-      </div>
-
-      <div class="sem-card dark-surface" onclick="copy('#231721','color.surface-dark.card-alt')">
-        <div class="sem-color" style="background:#231721;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Card alt</div>
-          <div class="sem-hex">#231721</div>
-          <div class="sem-token">iron-violet-950</div>
-          <div class="sem-desc">Alternative card, modal, panel surface.</div>
-        </div>
-      </div>
-
-      <div class="sem-card dark-surface" onclick="copy('#351F31','color.surface-dark.border')">
-        <div class="sem-color" style="background:#351F31;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Border</div>
-          <div class="sem-hex">#351F31</div>
-          <div class="sem-token">iron-violet-900</div>
-          <div class="sem-desc">Dividers, input borders, cards.</div>
-        </div>
-      </div>
-
-      <div class="sem-card dark-surface" onclick="copy('#231721','color.surface-dark.border-strong')">
-        <div class="sem-color" style="background:#231721;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Border strong</div>
-          <div class="sem-hex">#231721</div>
-          <div class="sem-token">iron-violet-950</div>
-          <div class="sem-desc">Hover border.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── SEMANTIC ──────────────────────────────────────────────────────────── -->
-  <div class="palette-group">
-    <div class="palette-group-header">Semantic</div>
-    <div class="semantic-grid" style="grid-template-columns: repeat(4, 1fr);">
-
-      <div class="sem-card" onclick="copy('#63C1A0','color.semantic.success')">
-        <div class="sem-color" style="background:#63C1A0;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Success</div>
-          <div class="sem-hex">#63C1A0</div>
-          <div class="sem-token">iron-green-500</div>
-          <div class="sem-desc">Confirmations, success messages.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#FDA509','color.semantic.warning')">
-        <div class="sem-color" style="background:#FDA509;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Warning</div>
-          <div class="sem-hex">#FDA509</div>
-          <div class="sem-token">iron-orange-500</div>
-          <div class="sem-desc">Warnings, pending states.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#E5242A','color.semantic.error')">
-        <div class="sem-color" style="background:#E5242A;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Error</div>
-          <div class="sem-hex">#E5242A</div>
-          <div class="sem-token">iron-red-500</div>
-          <div class="sem-desc">Validation errors, delete actions.</div>
-        </div>
-      </div>
-
-      <div class="sem-card" onclick="copy('#2693EC','color.semantic.info')">
-        <div class="sem-color" style="background:#2693EC;"></div>
-        <div class="sem-body">
-          <div class="sem-name">Info</div>
-          <div class="sem-hex">#2693EC</div>
-          <div class="sem-token">iron-blue-500</div>
-          <div class="sem-desc">Info banners, help text.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</div><!-- /.content -->
-</div><!-- /palette bg wrapper -->
 
 <div class="copy-toast" id="toast">Copied!</div>
 
-<footer>Iron Software Design System &nbsp;·&nbsp; Color Scale &amp; Palette &nbsp;·&nbsp; 2025</footer>
+<footer>Iron Software Design System &nbsp;·&nbsp; Color Palette &nbsp;·&nbsp; 2025</footer>
   </div><!-- /main-content -->
 </div><!-- /layout -->
 
