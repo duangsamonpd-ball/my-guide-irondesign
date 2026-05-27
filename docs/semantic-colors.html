@@ -98,7 +98,7 @@
     /* ─────────────────────────────────────────────
        SIDEBAR & LAYOUT
     ───────────────────────────────────────────── */
-    .hamburger {
+    .hamburger { margin-left: auto;
       display: none; flex-direction: column; justify-content: center;
       gap: 5px; background: none; border: none; cursor: pointer;
       padding: 6px 4px; flex-shrink: 0; margin-right: 4px;
@@ -154,7 +154,7 @@
     .sidebar-overlay.open { display: block; }
 
     @media (max-width: 768px) {
-      .hamburger { display: flex; }
+      .hamburger { margin-left: auto; display: flex; }
       .sidebar {
         position: fixed; top: 0; left: 0; height: 100vh;
         transform: translateX(-100%);
@@ -168,14 +168,14 @@
 <body>
 
 <header>
-  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu">
-    <span></span><span></span><span></span>
-  </button>
   <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
   <div>
     <h1>Iron Software Design System</h1>
     <p>Visual Token Reference — for everyone on the team</p>
   </div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
 <div class="layout">
