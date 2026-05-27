@@ -80,59 +80,149 @@
       footer { padding: 24px 16px; }
     }
 
-    /* ── Sidebar & Layout ─────────────────────────────────────── */
+    
+    
+    
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+
+    
+
+    
+    
+
+    
+  
+    /* ─────────────────────────────────────────────
+       SIDEBAR & LAYOUT
+    ───────────────────────────────────────────── */
     .hamburger {
-      display: none; flex-direction: column; justify-content: center;
-      gap: 5px; background: none; border: none; cursor: pointer;
-      padding: 6px 4px; flex-shrink: 0; margin-right: 2px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 4px;
+      flex-shrink: 0;
+      margin-right: 4px;
+      border-radius: 6px;
+      transition: background 0.15s;
     }
+    .hamburger:hover { background: #F1F5F9; }
     .hamburger span {
-      display: block; width: 20px; height: 2px;
-      background: #62748E; border-radius: 2px; transition: background 0.2s;
+      display: block;
+      width: 20px; height: 2px;
+      background: #62748E;
+      border-radius: 2px;
+      transition: background 0.2s;
     }
     .hamburger:hover span { background: #2693EC; }
 
-    .layout { display: flex; }
+    .layout { display: flex; min-height: calc(100vh - 89px); }
 
+    /* ── Sidebar shell ── */
     .sidebar {
-      width: 240px; flex-shrink: 0;
-      background: white; border-right: 1px solid #E2E8F0;
-      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      width: 248px;
+      flex-shrink: 0;
+      background: #FFFFFF;
+      border-right: 1px solid #E2E8F0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #E2E8F0 transparent;
     }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
 
+    /* ── Sidebar brand ── */
     .sidebar-brand {
-      display: flex; align-items: center; gap: 10px;
-      padding: 18px 20px 16px; border-bottom: 1px solid #F1F5F9;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 18px 16px;
+      border-bottom: 1px solid #F1F5F9;
       text-decoration: none;
     }
-    .sidebar-brand span { font-size: 0.85rem; font-weight: 700; color: #171717; }
+    .sidebar-brand span {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #171717;
+      letter-spacing: -0.01em;
+    }
 
-    .sidebar-nav { padding: 10px 0; }
+    /* ── Nav ── */
+    .sidebar-nav { padding: 8px 0 24px; }
 
     .sidebar-category {
-      font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: #A1A1A1; padding: 14px 20px 5px;
+      font-size: 0.58rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #A1A1A1;
+      padding: 18px 18px 5px;
     }
 
     .sidebar-link {
-      display: flex; align-items: center; gap: 9px;
-      padding: 9px 20px; font-size: 0.82rem; font-weight: 500;
-      color: #62748E; text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px 8px 15px;
+      font-size: 0.81rem;
+      font-weight: 500;
+      color: #62748E;
+      text-decoration: none;
       border-left: 3px solid transparent;
-      transition: color 0.15s, background 0.15s, border-color 0.15s;
+      transition: color 0.14s, background 0.14s, border-color 0.14s;
+      margin: 1px 8px 1px 0;
+      border-radius: 0 8px 8px 0;
     }
-    .sidebar-link:hover { color: #2693EC; background: #F8FAFC; }
+    .sidebar-link:hover {
+      color: #1a7acc;
+      background: #F0F9FF;
+    }
     .sidebar-link.active {
-      color: #2693EC; background: #F0F9FF;
-      border-left-color: #2693EC; font-weight: 700;
+      color: #2693EC;
+      background: #EBF5FD;
+      border-left-color: #2693EC;
+      font-weight: 700;
     }
-    .sidebar-icon { width: 18px; text-align: center; flex-shrink: 0; font-style: normal; }
+    .sidebar-icon {
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+      font-style: normal;
+      font-size: 0.85rem;
+    }
 
     .main-content { flex: 1; min-width: 0; overflow: hidden; }
 
+    /* ── Mobile overlay ── */
     .sidebar-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(15,23,43,0.45); z-index: 40;
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 43, 0.45);
+      z-index: 40;
       backdrop-filter: blur(2px);
     }
     .sidebar-overlay.open { display: block; }
@@ -140,14 +230,18 @@
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .sidebar {
-        position: fixed; top: 0; left: 0; height: 100vh;
+        position: fixed;
+        top: 0; left: 0;
+        height: 100vh;
         transform: translateX(-100%);
-        transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
-        z-index: 60; box-shadow: 4px 0 28px rgba(15,23,43,0.18);
-        width: 260px;
+        transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 60;
+        box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
+        width: 264px;
       }
       .sidebar.open { transform: translateX(0); }
     }
+
   </style>
 </head>
 <body>
@@ -165,25 +259,25 @@
 <div class="layout">
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-brand">
-      <img src="assets/logo.svg" alt="Iron Software" width="32" height="32">
-      <span>Iron DS</span>
+      <img src="assets/logo.svg" alt="Iron Software" width="30" height="30">
+      <span>Iron Design System</span>
     </a>
     <nav class="sidebar-nav">
       <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
       <div class="sidebar-category">Foundations</div>
       <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Scale</a>
       <a href="02-typography.html" class="sidebar-link active"><i class="sidebar-icon">🔤</i>Typography</a>
-      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📏</i>Spacing</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
       <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
       <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
-      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadows</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
       <div class="sidebar-category">Components</div>
       <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Components</a>
       <div class="sidebar-category">Reference</div>
       <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
     </nav>
   </aside>
-  <div class="main-content">
+<div class="main-content">
 <div class="content">
 
   <div class="section-label">Font Families</div>
@@ -442,7 +536,6 @@
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <script>
-  /* ── Sidebar toggle ── */
   function openSidebar() {
     document.getElementById('sidebar').classList.add('open');
     document.getElementById('sidebar-overlay').classList.add('open');
