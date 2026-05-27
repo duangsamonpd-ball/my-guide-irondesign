@@ -117,6 +117,7 @@
       width: 248px; flex-shrink: 0;
       background: #FFFFFF; border-right: 1px solid #E2E8F0;
       position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      display: flex; flex-direction: column;
       scrollbar-width: thin; scrollbar-color: #E2E8F0 transparent;
     }
     .sidebar::-webkit-scrollbar { width: 4px; }
@@ -163,6 +164,16 @@
       }
       .sidebar.open { transform: translateX(0); }
     }
+  
+    .sidebar-version {
+      padding: 16px 18px;
+      border-top: 1px solid #F1F5F9;
+      margin-top: auto;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #A1A1A1;
+      letter-spacing: 0.03em;
+    }
   </style>
 </head>
 <body>
@@ -195,6 +206,7 @@
       <div class="sidebar-category">Reference</div>
       <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
     </nav>
+    <div class="sidebar-version">v1.0.0</div>
   </aside>
 
   <div class="main-content">
