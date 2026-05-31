@@ -193,33 +193,33 @@ module.exports = {
 
       // ── 4. TYPOGRAPHY ───────────────────────────────────────────────────────
       fontFamily: {
-        display: ['Gotham', 'sans-serif'],      // Headlines, UI labels
-        body:    ['Montserrat', 'sans-serif'],  // Body copy, forms, nav
+        display: ['Outfit', 'sans-serif'],  // Hero / logo / display text
+        body:    ['Inter', 'sans-serif'],   // H1–H6, body, paragraphs, UI
+        mono:    ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'], // Code
       },
 
       fontWeight: {
-        light:   '300',
-        regular: '400',
-        medium:  '500',
-        bold:    '700',
-        black:   '900',
+        light:     '300',
+        regular:   '400',
+        medium:    '500',
+        semibold:  '600',
+        bold:      '700',
+        extrabold: '800',
+        black:     '900',
       },
 
       fontSize: {
-        // [fontSize, { lineHeight }]
-        'display': ['3rem',    { lineHeight: '3.6rem'  }],  // 48px / 57.6px
-        'h1':      ['3rem',    { lineHeight: '3.6rem'  }],  // 48px / 57.6px
-        'h2':      ['2rem',    { lineHeight: '2.4rem'  }],  // 32px / 38.4px
-        'h3':      ['1.5rem',  { lineHeight: '1.8rem'  }],  // 24px / 28.8px
-        'h4':      ['0.875rem',{ lineHeight: '1.225rem'}],  // 14px / 19.6px
-        'body-lg': ['1rem',    { lineHeight: '1.531rem'}],  // 16px / 24.5px
-        'body':    ['0.875rem',{ lineHeight: '1.531rem'}],  // 14px / 24.5px
-        'body-sm': ['1rem',    { lineHeight: '1.6rem'  }],  // 16px / 25.6px
-        'caption': ['0.75rem', { lineHeight: '0.75rem' }],  // 12px / 12px
-        'btn':     ['0.75rem', { lineHeight: '1.125rem'}],  // 12px / 18px
-        'btn-lg':  ['0.875rem',{ lineHeight: '1.125rem'}],  // 14px / 18px
-        'link':    ['0.875rem',{ lineHeight: '1.531rem'}],  // 14px / 24.5px
-        'nav':     ['1rem',    { lineHeight: '1.6rem'  }],  // 16px / 25.6px
+        // [fontSize, { lineHeight, letterSpacing }]
+        'display':  ['3rem',       { lineHeight: '1.05', letterSpacing: '-0.02em'  }], // 48px — Outfit, hero only
+        'h1':       ['2.25rem',    { lineHeight: '1.1',  letterSpacing: '-0.015em' }], // 36px — Inter
+        'h2':       ['1.75rem',    { lineHeight: '1.2',  letterSpacing: '-0.01em'  }], // 28px — Inter
+        'h3':       ['1.5rem',     { lineHeight: '1.3'                             }], // 24px — Inter
+        'h4':       ['1.25rem',    { lineHeight: '1.4'                             }], // 20px — Inter
+        'body-lg':  ['1.125rem',   { lineHeight: '1.6'                             }], // 18px — Inter, lead paragraph
+        'body':     ['1rem',       { lineHeight: '1.7'                             }], // 16px — Inter, default
+        'caption':  ['0.875rem',   { lineHeight: '1.5'                             }], // 14px — Inter, secondary colour
+        'overline': ['0.8125rem',  { lineHeight: '1.4',  letterSpacing: '0.08em'   }], // 13px — Inter, uppercase + accent
+        'code':     ['0.875rem',   { lineHeight: '1.6'                             }], // 14px — mono
       },
 
       // ── 5. SPACING ──────────────────────────────────────────────────────────

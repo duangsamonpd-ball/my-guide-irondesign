@@ -512,5 +512,78 @@
     "touch-min":            { "$value": 44,   "$type": "dimension" },
     "touch-nav":            { "$value": 48,   "$type": "dimension" },
     "container-max":        { "$value": 1440, "$type": "dimension" }
+  },
+
+  "typography": {
+    "_source": "Iron Software Design System — Type Scale v1.0",
+
+    "font-family": {
+      "display": { "$value": "Outfit, sans-serif",  "$type": "fontFamily", "$description": "Hero sections and logo wordmark only. Outfit's geometric weight gives brand impact at large sizes." },
+      "body":    { "$value": "Inter, sans-serif",   "$type": "fontFamily", "$description": "All headings (H1–H6), body text, captions, overlines and UI labels. Inter optimises for readability at small-to-medium sizes." },
+      "mono":    { "$value": "ui-monospace, SFMono-Regular, Menlo, monospace", "$type": "fontFamily", "$description": "Inline and block code. Falls back to the platform system monospace." }
+    },
+
+    "font-weight": {
+      "light":     { "$value": 300, "$type": "fontWeight", "$description": "Rarely used — decorative or de-emphasised text only." },
+      "regular":   { "$value": 400, "$type": "fontWeight", "$description": "Default weight for all body copy." },
+      "medium":    { "$value": 500, "$type": "fontWeight", "$description": "Slightly emphasised text, active nav items." },
+      "semibold":  { "$value": 600, "$type": "fontWeight", "$description": "H4 — small labels and nested card headings. Distinguished from body-large by weight alone." },
+      "bold":      { "$value": 700, "$type": "fontWeight", "$description": "H2, H3 — section and card headings. Also overline." },
+      "extrabold": { "$value": 800, "$type": "fontWeight", "$description": "H1 — primary page heading. Heavier than bold but lighter than black for sustained reading." },
+      "black":     { "$value": 900, "$type": "fontWeight", "$description": "Display only — maximum impact at hero scale." }
+    },
+
+    "scale": {
+      "display": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.display}", "fontSize": "48px", "fontWeight": 900, "lineHeight": 1.05, "letterSpacing": "-0.02em" },
+        "$description": "Use once per page, hero sections only. Creates visual impact — not structural hierarchy. On the landing page this wraps the H1 semantically."
+      },
+      "h1": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "36px", "fontWeight": 800, "lineHeight": 1.1, "letterSpacing": "-0.015em" },
+        "$description": "Main page heading. One per page — critical for SEO and screen reader navigation. Used on inner pages where Display is absent."
+      },
+      "h2": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "28px", "fontWeight": 700, "lineHeight": 1.2, "letterSpacing": "-0.01em" },
+        "$description": "Primary section heading. Can appear multiple times. Almost always paired with an Overline label above it."
+      },
+      "h3": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "24px", "fontWeight": 700, "lineHeight": 1.3, "letterSpacing": "0" },
+        "$description": "Sub-section heading or card/feature title. Most frequently used heading level."
+      },
+      "h4": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "20px", "fontWeight": 600, "lineHeight": 1.4, "letterSpacing": "0" },
+        "$description": "Small label or nested card heading. Same size as body-large — differentiate with weight (600 vs 400) not size alone."
+      },
+      "body-large": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "18px", "fontWeight": 400, "lineHeight": 1.6, "letterSpacing": "0" },
+        "$description": "Lead paragraph directly below a large heading. Use 1–2 sentences max — sets context before standard body copy."
+      },
+      "body": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "16px", "fontWeight": 400, "lineHeight": 1.7, "letterSpacing": "0" },
+        "$description": "Default body text. All running copy, descriptions, list items and form text. The baseline of the type system."
+      },
+      "caption": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 400, "lineHeight": 1.5, "letterSpacing": "0" },
+        "$description": "Secondary / helper text — captions, footnotes, metadata labels, timestamps. Always render in a secondary colour (--color-text-muted)."
+      },
+      "overline": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "13px", "fontWeight": 700, "lineHeight": 1.4, "letterSpacing": "0.08em", "textTransform": "uppercase" },
+        "$description": "Category label above a heading. Always uppercase, always accent colour. Pair with H2 or H3 — never use standalone."
+      },
+      "code": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.mono}", "fontSize": "14px", "fontWeight": 400, "lineHeight": 1.6, "letterSpacing": "0" },
+        "$description": "Inline and block code. Render on a light background (--color-surface-code) with a thin border. Never use a proportional font for code."
+      }
+    }
   }
 }
