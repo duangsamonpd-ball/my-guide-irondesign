@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Color Palette · Iron Software DS</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+    body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #171717; }
     header {
       background: #fff; border-bottom: 1px solid #E2E8F0;
       padding: 24px 48px; display: flex; align-items: center; gap: 16px;
@@ -88,6 +88,53 @@
     }
 
     footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+
+    /* ── The Shade Scale ──────────────────────────────────────────────────── */
+    .shade-intro { margin-bottom: 32px; }
+    .shade-intro h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.25rem; font-weight: 900; line-height: 1.05;
+      letter-spacing: -0.02em; color: #171717; margin-bottom: 6px;
+    }
+    .shade-intro p { font-size: 0.95rem; color: #62748E; }
+
+    .shade-row {
+      display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap;
+    }
+    .shade-chip {
+      flex: 1; min-width: 70px; height: 84px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 600;
+    }
+
+    .shade-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .shade-card {
+      border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden;
+      background: white;
+    }
+    .shade-card-head {
+      padding: 22px 24px; font-size: 0.95rem; font-weight: 600;
+      text-align: center;
+    }
+    .shade-card-body { padding: 20px 24px; }
+    .shade-card-body h4 {
+      font-size: 0.95rem; font-weight: 700; color: #171717; margin-bottom: 8px;
+    }
+    .shade-card-body p {
+      font-size: 0.85rem; color: #62748E; line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .shade-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .shade-grid { grid-template-columns: 1fr; }
+      .shade-intro h2 { font-size: 1.6rem; }
+    }
 
     /* ── Color Palette (Semantic Token Map) ───────────────────────────────── */
     .palette-page-intro {
@@ -592,6 +639,82 @@
       <div class="swatch" onclick="copy('#171717','iron-neutral-900')"><div class="swatch-color" style="background:#171717;"><span class="step-label">900</span></div><div class="swatch-info"><div class="step">900</div><div class="hex">#171717</div></div></div>
       <div class="swatch" onclick="copy('#0A0A0A','iron-neutral-950')"><div class="swatch-color" style="background:#0A0A0A;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#0A0A0A</div></div></div>
     </div>
+  </div>
+
+  <!-- ══ THE SHADE SCALE ══════════════════════════════════════════════════ -->
+  <div class="section-label">The Shade Scale</div>
+
+  <div class="shade-intro">
+    <h2>The Shade Scale</h2>
+    <p>What each number means and when to use it</p>
+  </div>
+
+  <!-- Scale row: 50 → 950 (Slate) -->
+  <div class="shade-row">
+    <div class="shade-chip" style="background:#F8FAFC; color:#45556C;">50</div>
+    <div class="shade-chip" style="background:#F1F5F9; color:#45556C;">100</div>
+    <div class="shade-chip" style="background:#E2E8F0; color:#45556C;">200</div>
+    <div class="shade-chip" style="background:#CAD5E2; color:#45556C;">300</div>
+    <div class="shade-chip" style="background:#90A1B9; color:#fff;">400</div>
+    <div class="shade-chip" style="background:#62748E; color:#fff;">500</div>
+    <div class="shade-chip" style="background:#45556C; color:#fff;">600</div>
+    <div class="shade-chip" style="background:#314158; color:#fff;">700</div>
+    <div class="shade-chip" style="background:#1D293D; color:#fff;">800</div>
+    <div class="shade-chip" style="background:#0F172B; color:#fff;">900</div>
+    <div class="shade-chip" style="background:#020618; color:#fff;">950</div>
+  </div>
+
+  <!-- Usage cards -->
+  <div class="shade-grid">
+
+    <div class="shade-card">
+      <div class="shade-card-head" style="background:#F8FAFC; color:#171717;">50–100 lightest</div>
+      <div class="shade-card-body">
+        <h4>Background &amp; Tints</h4>
+        <p>So light they're almost invisible. Use for card backgrounds, table stripes, info banners, hover states on white.</p>
+      </div>
+    </div>
+
+    <div class="shade-card">
+      <div class="shade-card-head" style="background:#E2E8F0; color:#171717;">200–300 soft</div>
+      <div class="shade-card-body">
+        <h4>Borders, Dividers &amp; Tags</h4>
+        <p>Visible but not aggressive. Perfect for borders, dividers, subtle badges, and decorative underlines.</p>
+      </div>
+    </div>
+
+    <div class="shade-card">
+      <div class="shade-card-head" style="background:#90A1B9; color:#171717;">400 mid-light</div>
+      <div class="shade-card-body">
+        <h4>Secondary Actions &amp; Icons</h4>
+        <p>Lighter variant of the main color. Works for secondary buttons, icon fills, link underlines, and active states in dark mode.</p>
+      </div>
+    </div>
+
+    <div class="shade-card">
+      <div class="shade-card-head" style="background:#62748E; color:#fff;">500 pure</div>
+      <div class="shade-card-body">
+        <h4>Primary Buttons &amp; Links</h4>
+        <p>The "true" color. This is your main CTA button, primary link, and brand highlight. Most recognizable shade of each color.</p>
+      </div>
+    </div>
+
+    <div class="shade-card">
+      <div class="shade-card-head" style="background:#314158; color:#fff;">600–700 deep</div>
+      <div class="shade-card-body">
+        <h4>Hover &amp; Active States</h4>
+        <p>Darker step of the primary. Use for hover: on buttons, pressed states, focused inputs, and sidebar nav items.</p>
+      </div>
+    </div>
+
+    <div class="shade-card">
+      <div class="shade-card-head" style="background:#1D293D; color:#fff;">800–950 darkest</div>
+      <div class="shade-card-body">
+        <h4>Dark Backgrounds &amp; Body Text</h4>
+        <p>Near-black versions of each hue. Use for dark mode surfaces, deep nav bars, and high-contrast body text on white.</p>
+      </div>
+    </div>
+
   </div>
 
 </div>
