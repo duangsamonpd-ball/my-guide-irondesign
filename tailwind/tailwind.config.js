@@ -193,38 +193,41 @@ module.exports = {
 
       // ── 4. TYPOGRAPHY ───────────────────────────────────────────────────────
       fontFamily: {
-        body: ['Montserrat', 'sans-serif'],  // All content + UI text
-        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'], // Code
+        // 'sans' overrides Tailwind's built-in sans; 'body' is the project alias
+        sans: ['Montserrat', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        body: ['Montserrat', 'sans-serif'],
+        mono: ['SF Mono', 'Cascadia Code', 'Consolas', 'Roboto Mono', 'monospace'],
       },
 
       fontWeight: {
-        regular:   '400',  // body, caption, body-lg
-        medium:    '500',  // nav
-        semibold:  '600',  // H4, buttons
-        bold:      '700',  // H3, overline, nav active / group label
-        extrabold: '800',  // H2
-        black:     '900',  // H1
+        regular:   '400',
+        medium:    '500',
+        semibold:  '600',
+        bold:      '700',
+        extrabold: '800',
+        black:     '900',
       },
 
       fontSize: {
-        // ── Content scale — [fontSize, { lineHeight, letterSpacing }]
-        'h1-hero':   ['3rem',      { lineHeight: '1.05', letterSpacing: '-0.025em' }], // 48px — hero modifier
-        'h1':        ['2.5rem',    { lineHeight: '1.1',  letterSpacing: '-0.02em'  }], // 40px — page title
-        'h2':        ['1.875rem',  { lineHeight: '1.2',  letterSpacing: '-0.015em' }], // 30px — section heading
-        'h3':        ['1.5rem',    { lineHeight: '1.3',  letterSpacing: '-0.01em'  }], // 24px — card / feature
-        'h4':        ['1.25rem',   { lineHeight: '1.4'                             }], // 20px — sub-label
-        'body-lg':   ['1.125rem',  { lineHeight: '1.6'                             }], // 18px — lead paragraph
-        'body':      ['1rem',      { lineHeight: '1.7'                             }], // 16px — default
-        'caption':   ['0.875rem',  { lineHeight: '1.5'                             }], // 14px — supporting text
-        'overline':  ['0.8125rem', { lineHeight: '1.4',  letterSpacing: '0.08em'   }], // 13px — uppercase, accent
-        'code':      ['0.875rem',  { lineHeight: '1.6'                             }], // 14px — mono
-        // ── UI scale — content sizes, own weight + line-height 1
-        'btn-lg':    ['1rem',      { lineHeight: '1',    letterSpacing: '0.01em'   }], // 16px — hero / primary CTA
-        'btn':       ['0.875rem',  { lineHeight: '1',    letterSpacing: '0.01em'   }], // 14px — standard button
-        'btn-sm':    ['0.75rem',   { lineHeight: '1',    letterSpacing: '0.02em'   }], // 12px — compact / table
-        'nav':       ['1rem',      { lineHeight: '1'                              }], // 16px — main nav (700 active)
-        'nav-drop':  ['0.875rem',  { lineHeight: '1.3'                            }], // 14px — dropdown / footer
-        'nav-group': ['0.75rem',   { lineHeight: '1.4',  letterSpacing: '0.06em'   }], // 12px — group label, uppercase
+        // ── Content scale — [size (px), { lineHeight (px), letterSpacing (px), fontWeight }]
+        // Line heights follow Figma space scale (n×4); tracking follows Figma tracking scale.
+        'h1-hero': ['48px', { lineHeight: '48px', letterSpacing: '-0.8px', fontWeight: '900' }],
+        'h1':      ['40px', { lineHeight: '48px', letterSpacing: '-0.8px', fontWeight: '900' }],
+        'h2':      ['30px', { lineHeight: '36px', letterSpacing: '-0.4px', fontWeight: '800' }],
+        'h3':      ['24px', { lineHeight: '32px', letterSpacing: '-0.4px', fontWeight: '700' }],
+        'h4':      ['20px', { lineHeight: '28px',                          fontWeight: '600' }],
+        'body-lg': ['18px', { lineHeight: '28px',                          fontWeight: '400' }],
+        'body':    ['16px', { lineHeight: '28px',                          fontWeight: '400' }],
+        'caption': ['14px', { lineHeight: '20px',                          fontWeight: '400' }],
+        'overline':['13px', { lineHeight: '16px', letterSpacing: '1.6px',  fontWeight: '700' }],
+        'code':    ['14px', { lineHeight: '24px',                          fontWeight: '400' }],
+        // ── UI scale — content sizes, own weight, line-height 1 (centred via padding)
+        'btn-lg':   ['16px', { lineHeight: '1',    letterSpacing: '0px',   fontWeight: '600' }],
+        'btn':      ['14px', { lineHeight: '1',    letterSpacing: '0px',   fontWeight: '600' }],
+        'btn-sm':   ['12px', { lineHeight: '1',    letterSpacing: '0.4px', fontWeight: '600' }],
+        'nav':      ['16px', { lineHeight: '1',                             fontWeight: '500' }],
+        'nav-sub':  ['14px', { lineHeight: '20px',                          fontWeight: '500' }],
+        'nav-label':['12px', { lineHeight: '16px', letterSpacing: '0.8px', fontWeight: '700' }],
       },
 
       // ── 5. SPACING ──────────────────────────────────────────────────────────

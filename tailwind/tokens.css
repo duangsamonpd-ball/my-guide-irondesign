@@ -250,64 +250,79 @@
      3. TYPOGRAPHY
      ═══════════════════════════════════════════════════════════════════════════ */
 
-  --font-body:    'Montserrat', sans-serif;  /* All content + UI text */
-  --font-mono:    'ui-monospace', 'SFMono-Regular', 'Menlo', monospace; /* Code */
+  --font-sans:    'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body:    'Montserrat', sans-serif;   /* alias — use either */
+  --font-mono:    "SF Mono", "Cascadia Code", Consolas, "Roboto Mono", monospace;
 
   /* Accent — NuGet blue. Retheme overlines & emphasis from one place. */
   --c-accent: #185FA5;
 
+  /* ── Scale weights (per level) ── */
+  --fw-h1:        900;
+  --fw-h2:        800;
+  --fw-h3:        700;
+  --fw-h4:        600;
+  --fw-body:      400;
+  --fw-overline:  700;
+  --fw-btn:       600;
+  --fw-nav:       500;
+  --fw-nav-active:700;
+  --fw-nav-label: 700;
+
+  /* ── Named weight scale (generic) ── */
   --font-weight-regular:   400;
-  --font-weight-medium:    500;  /* nav */
-  --font-weight-semibold:  600;  /* H4, buttons */
-  --font-weight-bold:      700;  /* H3, overline, nav active/group */
-  --font-weight-extrabold: 800;  /* H2 */
-  --font-weight-black:     900;  /* H1 */
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+  --font-weight-black:     900;
 
-  /* ── Content scale ── */
-  --font-size-h1-hero:  3rem;       /* 48px — hero modifier on H1, homepage only */
-  --font-size-h1:       2.5rem;     /* 40px — page title, 1 per page */
-  --font-size-h2:       1.875rem;   /* 30px — section heading */
-  --font-size-h3:       1.5rem;     /* 24px — card / feature title */
-  --font-size-h4:       1.25rem;    /* 20px — sub-label (= body-lg, split by weight) */
-  --font-size-body-lg:  1.125rem;   /* 18px — lead / intro paragraph */
-  --font-size-body:     1rem;       /* 16px — default running text */
-  --font-size-caption:  0.875rem;   /* 14px — supporting text, secondary colour */
-  --font-size-overline: 0.8125rem;  /* 13px — uppercase category label, accent */
-  --font-size-code:     0.875rem;   /* 14px — inline & block code, mono */
+  /* ── Font sizes — content scale ── */
+  --font-size-h1-hero:  48px;   /* hero modifier on H1, homepage only */
+  --font-size-h1:       40px;   /* page title, 1 per page */
+  --font-size-h2:       30px;   /* section heading */
+  --font-size-h3:       24px;   /* card / feature title */
+  --font-size-h4:       20px;   /* sub-label (= body-lg size, split by weight) */
+  --font-size-body-lg:  18px;   /* lead / intro paragraph */
+  --font-size-body:     16px;   /* default running text */
+  --font-size-caption:  14px;   /* supporting text, secondary colour */
+  --font-size-overline: 13px;   /* uppercase category label, accent */
+  --font-size-code:     14px;   /* inline & block code, mono */
 
-  /* ── UI scale (buttons, nav) — content sizes, own weight + lh ── */
-  --font-size-btn-lg:   1rem;       /* 16px — hero / primary CTA */
-  --font-size-btn:      0.875rem;   /* 14px — standard button */
-  --font-size-btn-sm:   0.75rem;    /* 12px — compact / table action */
-  --font-size-nav:      1rem;       /* 16px — main nav link */
-  --font-size-nav-drop: 0.875rem;   /* 14px — dropdown / footer / sidebar */
-  --font-size-nav-group:0.75rem;    /* 12px — menu / footer group label */
+  /* ── Font sizes — UI scale (buttons, nav) ── */
+  --font-size-btn-lg:    16px;  /* hero / primary CTA */
+  --font-size-btn:       14px;  /* standard button */
+  --font-size-btn-sm:    12px;  /* compact / table action */
+  --font-size-nav:       16px;  /* main nav link */
+  --font-size-nav-drop:  14px;  /* dropdown / footer / sidebar */
+  --font-size-nav-group: 12px;  /* menu / footer group label */
 
-  /* ── Line heights ── */
-  --line-height-h1-hero:  1.05;
-  --line-height-h1:       1.1;
-  --line-height-h2:       1.2;
-  --line-height-h3:       1.3;
-  --line-height-h4:       1.4;
-  --line-height-body-lg:  1.6;
-  --line-height-body:     1.7;
-  --line-height-caption:  1.5;
-  --line-height-overline: 1.4;
-  --line-height-code:     1.6;
-  --line-height-btn:      1;     /* single-line — center via padding */
+  /* ── Line heights — px, Figma space scale (n×4) ──
+     token 4=16 · 5=20 · 6=24 · 7=28 · 8=32 · 9=36 · 12=48        */
+  --line-height-h1-hero:  48px;  /* token 12 */
+  --line-height-h1:       48px;  /* token 12 */
+  --line-height-h2:       36px;  /* token 9  */
+  --line-height-h3:       32px;  /* token 8  */
+  --line-height-h4:       28px;  /* token 7  */
+  --line-height-body-lg:  28px;  /* token 7  */
+  --line-height-body:     28px;  /* token 7  */
+  --line-height-caption:  20px;  /* token 5  */
+  --line-height-overline: 16px;  /* token 4  */
+  --line-height-code:     24px;  /* token 6  */
+  --line-height-btn:      1;     /* single-line — vertical centre via padding */
   --line-height-nav:      1;
-  --line-height-nav-drop: 1.3;   /* may wrap to two lines */
+  --line-height-nav-drop: 20px;  /* token 5 — may wrap to two lines */
 
-  /* ── Letter spacing ── */
-  --letter-spacing-h1-hero:  -0.025em;
-  --letter-spacing-h1:       -0.02em;
-  --letter-spacing-h2:       -0.015em;
-  --letter-spacing-h3:       -0.01em;
-  --letter-spacing-overline: 0.08em;
-  --letter-spacing-btn-lg:   0.01em;
-  --letter-spacing-btn:      0.01em;
-  --letter-spacing-btn-sm:   0.02em;
-  --letter-spacing-nav-group:0.06em;
+  /* ── Letter spacing — px, Figma tracking scale ──
+     tighter -0.8 · tight -0.4 · normal 0 · wide 0.4 · wider 0.8 · widest 1.6 */
+  --letter-spacing-h1-hero:  -0.8px;   /* tighter */
+  --letter-spacing-h1:       -0.8px;   /* tighter */
+  --letter-spacing-h2:       -0.4px;   /* tight   */
+  --letter-spacing-h3:       -0.4px;   /* tight   */
+  --letter-spacing-overline:  1.6px;   /* widest  */
+  --letter-spacing-btn:        0px;    /* normal  */
+  --letter-spacing-btn-sm:    0.4px;   /* wide    */
+  --letter-spacing-nav-label: 0.8px;   /* wider   */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
