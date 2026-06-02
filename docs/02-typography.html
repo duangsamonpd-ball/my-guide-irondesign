@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Typography · Iron Software DS</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #171717; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 
     header {
       background: #fff; border-bottom: 1px solid #E2E8F0;
@@ -58,8 +58,8 @@
       padding: 32px; margin-bottom: 12px;
       display: flex; gap: 40px; align-items: center;
     }
-    .font-display-big { font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 900; line-height: 1; color: #171717; }
-    .font-body-big    { font-family: 'Inter', sans-serif; font-size: 3rem; font-weight: 700; line-height: 1; color: #171717; }
+    .font-display-big { font-family: 'Montserrat', sans-serif; font-size: 3rem; font-weight: 900; line-height: 1; color: #171717; }
+    .font-body-big    { font-family: 'Montserrat', sans-serif; font-size: 3rem; font-weight: 700; line-height: 1; color: #171717; }
     .font-meta { flex: 1; }
     .font-meta h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
     .font-meta p  { font-size: 0.8rem; color: #737373; line-height: 1.6; }
@@ -303,71 +303,56 @@
   </div>
 
 
-  <div class="section-label">Font Families</div>
+  <div class="section-label">Font Family</div>
 
   <div class="font-family-row">
-    <div class="font-display-big">Outfit</div>
+    <div class="font-display-big">Montserrat</div>
     <div class="font-meta">
-      <h3>Outfit — Display</h3>
-      <p>Hero sections and logo wordmark only. Geometric weight creates brand impact at large sizes — not used for body or UI text.</p>
+      <h3>Montserrat — Content &amp; UI</h3>
+      <p>One family for everything: nine content levels (H1 → Code) and six UI levels (buttons, nav). Ships the full 100–900 weight range, so every weight below is real — no fake-bold. Hierarchy is driven by weight <em>and</em> size together, stepping 900 / 800 / 700 / 600 so each level stays distinct.</p>
       <div class="font-weights">
-        <span class="wt" style="font-family:'Outfit',sans-serif; font-weight:400;">Regular 400</span>
-        <span class="wt" style="font-family:'Outfit',sans-serif; font-weight:500;">Medium 500</span>
-        <span class="wt" style="font-family:'Outfit',sans-serif; font-weight:700;">Bold 700</span>
-        <span class="wt" style="font-family:'Outfit',sans-serif; font-weight:900;">Black 900</span>
+        <span class="wt" style="font-weight:400;">Regular 400</span>
+        <span class="wt" style="font-weight:500;">Medium 500</span>
+        <span class="wt" style="font-weight:600;">Semibold 600</span>
+        <span class="wt" style="font-weight:700;">Bold 700</span>
+        <span class="wt" style="font-weight:800;">Extrabold 800</span>
+        <span class="wt" style="font-weight:900;">Black 900</span>
       </div>
     </div>
   </div>
 
-  <div class="font-family-row">
-    <div class="font-body-big">Inter</div>
-    <div class="font-meta">
-      <h3>Inter — Headings, Body &amp; UI</h3>
-      <p>All headings (H1–H4), body copy, captions, overlines and UI labels. Optimised for screen readability at small-to-medium sizes.</p>
-      <div class="font-weights">
-        <span class="wt" style="font-family:'Inter',sans-serif; font-weight:400;">Regular 400</span>
-        <span class="wt" style="font-family:'Inter',sans-serif; font-weight:500;">Medium 500</span>
-        <span class="wt" style="font-family:'Inter',sans-serif; font-weight:600;">Semibold 600</span>
-        <span class="wt" style="font-family:'Inter',sans-serif; font-weight:700;">Bold 700</span>
-        <span class="wt" style="font-family:'Inter',sans-serif; font-weight:800;">Extrabold 800</span>
-      </div>
-    </div>
-  </div>
+  <div class="section-label">Content Scale</div>
 
-  <div class="section-label">Type Scale</div>
-
-  <!-- Display -->
+  <!-- H1 hero -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">Display <span class="tag">Outfit · Black</span></div>
-      <div style="font-size:3rem; font-weight:900; line-height:1.05; letter-spacing:-0.02em; font-family:'Outfit',sans-serif; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">Iron Software</div>
+      <div class="style-name">H1 · hero <span class="tag">Montserrat · Black</span></div>
+      <div style="font-size:3rem; font-weight:900; line-height:1.05; letter-spacing:-0.025em; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">Explore our C# libraries</div>
     </div>
     <div class="type-meta">
       <table>
         <tr><td>Size</td><td>48px / 3rem</td></tr>
         <tr><td>Line height</td><td>1.05</td></tr>
         <tr><td>Weight</td><td>900 — Black</td></tr>
-        <tr><td>Tracking</td><td>-0.02em</td></tr>
-        <tr><td>Font</td><td>Outfit</td></tr>
-        <tr><td>Use for</td><td>Hero only — once per page</td></tr>
+        <tr><td>Tracking</td><td>-0.025em</td></tr>
+        <tr><td>Use for</td><td>Homepage hero — a modifier on H1, not a separate level</td></tr>
       </table>
     </div>
   </div>
 
-  <!-- H1 -->
+  <!-- H1 default -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">H1 — Heading 1 <span class="tag">Inter · Extrabold</span></div>
-      <div style="font-size:2.25rem; font-weight:800; line-height:1.1; letter-spacing:-0.015em; font-family:'Inter',sans-serif; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">Page Title Here</div>
+      <div class="style-name">H1 · default <span class="tag">Montserrat · Black</span></div>
+      <div style="font-size:2.5rem; font-weight:900; line-height:1.1; letter-spacing:-0.02em; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">Page Title Here</div>
     </div>
     <div class="type-meta">
       <table>
-        <tr><td>Size</td><td>36px / 2.25rem</td></tr>
+        <tr><td>Size</td><td>40px / 2.5rem</td></tr>
         <tr><td>Line height</td><td>1.1</td></tr>
-        <tr><td>Weight</td><td>800 — Extrabold</td></tr>
-        <tr><td>Tracking</td><td>-0.015em</td></tr>
-        <tr><td>Font</td><td>Inter</td></tr>
-        <tr><td>Use for</td><td>Main page heading — 1 per page</td></tr>
+        <tr><td>Weight</td><td>900 — Black</td></tr>
+        <tr><td>Tracking</td><td>-0.02em</td></tr>
+        <tr><td>Use for</td><td>Page title — exactly 1 per page (SEO / a11y)</td></tr>
       </table>
     </div>
   </div>
@@ -375,17 +360,16 @@
   <!-- H2 -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">H2 — Heading 2 <span class="tag">Inter · Bold</span></div>
-      <div style="font-size:1.75rem; font-weight:700; line-height:1.2; letter-spacing:-0.01em; font-family:'Inter',sans-serif;">Section Heading</div>
+      <div class="style-name">H2 <span class="tag">Montserrat · Extrabold</span></div>
+      <div style="font-size:1.875rem; font-weight:800; line-height:1.2; letter-spacing:-0.015em;">Why Iron Suite?</div>
     </div>
     <div class="type-meta">
       <table>
-        <tr><td>Size</td><td>28px / 1.75rem</td></tr>
+        <tr><td>Size</td><td>30px / 1.875rem</td></tr>
         <tr><td>Line height</td><td>1.2</td></tr>
-        <tr><td>Weight</td><td>700 — Bold</td></tr>
-        <tr><td>Tracking</td><td>-0.01em</td></tr>
-        <tr><td>Font</td><td>Inter</td></tr>
-        <tr><td>Use for</td><td>Section headings — pair with Overline</td></tr>
+        <tr><td>Weight</td><td>800 — Extrabold</td></tr>
+        <tr><td>Tracking</td><td>-0.015em</td></tr>
+        <tr><td>Use for</td><td>Major section headings — pair with Overline</td></tr>
       </table>
     </div>
   </div>
@@ -393,16 +377,16 @@
   <!-- H3 -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">H3 — Heading 3 <span class="tag">Inter · Bold</span></div>
-      <div style="font-size:1.5rem; font-weight:700; line-height:1.3; font-family:'Inter',sans-serif;">Card or Feature Title</div>
+      <div class="style-name">H3 <span class="tag">Montserrat · Bold</span></div>
+      <div style="font-size:1.5rem; font-weight:700; line-height:1.3; letter-spacing:-0.01em;">Cross-platform</div>
     </div>
     <div class="type-meta">
       <table>
         <tr><td>Size</td><td>24px / 1.5rem</td></tr>
         <tr><td>Line height</td><td>1.3</td></tr>
         <tr><td>Weight</td><td>700 — Bold</td></tr>
-        <tr><td>Font</td><td>Inter</td></tr>
-        <tr><td>Use for</td><td>Card titles — most used heading</td></tr>
+        <tr><td>Tracking</td><td>-0.01em</td></tr>
+        <tr><td>Use for</td><td>Card / feature titles — most used heading</td></tr>
       </table>
     </div>
   </div>
@@ -410,16 +394,15 @@
   <!-- H4 -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">H4 — Heading 4 <span class="tag">Inter · Semibold</span></div>
-      <div style="font-size:1.25rem; font-weight:600; line-height:1.4; font-family:'Inter',sans-serif;">Nested Card Label</div>
+      <div class="style-name">H4 <span class="tag">Montserrat · Semibold</span></div>
+      <div style="font-size:1.25rem; font-weight:600; line-height:1.4;">Up &amp; running in 5 mins</div>
     </div>
     <div class="type-meta">
       <table>
         <tr><td>Size</td><td>20px / 1.25rem</td></tr>
         <tr><td>Line height</td><td>1.4</td></tr>
         <tr><td>Weight</td><td>600 — Semibold</td></tr>
-        <tr><td>Font</td><td>Inter</td></tr>
-        <tr><td>Use for</td><td>Small labels, nested card headings</td></tr>
+        <tr><td>Use for</td><td>Sub-labels — = Body large, split by weight</td></tr>
       </table>
     </div>
   </div>
@@ -427,16 +410,15 @@
   <!-- Body LG -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">Body Large <span class="tag">Inter · Regular</span></div>
-      <div style="font-size:1.125rem; font-weight:400; line-height:1.6; font-family:'Inter',sans-serif;">Iron Software builds developer tools that save time and reduce complexity for engineering teams worldwide.</div>
+      <div class="style-name">Body large <span class="tag">Montserrat · Regular</span></div>
+      <div style="font-size:1.125rem; font-weight:400; line-height:1.6;">Streamline your .NET business system development with a full suite of document libraries.</div>
     </div>
     <div class="type-meta">
       <table>
         <tr><td>Size</td><td>18px / 1.125rem</td></tr>
         <tr><td>Line height</td><td>1.6</td></tr>
         <tr><td>Weight</td><td>400 — Regular</td></tr>
-        <tr><td>Font</td><td>Inter</td></tr>
-        <tr><td>Use for</td><td>Lead paragraph — 1–2 sentences under large headings</td></tr>
+        <tr><td>Use for</td><td>Lead / intro paragraph — 1–2 sentences</td></tr>
       </table>
     </div>
   </div>
@@ -444,16 +426,15 @@
   <!-- Body -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">Body <span class="tag">Inter · Regular</span></div>
-      <div style="font-size:1rem; font-weight:400; line-height:1.7; font-family:'Inter',sans-serif;">Iron Software builds developer tools that save time and reduce complexity for engineering teams worldwide. Our products are trusted by Fortune 500 companies.</div>
+      <div class="style-name">Body <span class="tag">Montserrat · Regular</span></div>
+      <div style="font-size:1rem; font-weight:400; line-height:1.7;">Iron Software builds developer tools that save time and reduce complexity for engineering teams worldwide. Our products are trusted by single developers, start-ups, and Fortune 500 companies.</div>
     </div>
     <div class="type-meta">
       <table>
         <tr><td>Size</td><td>16px / 1rem</td></tr>
         <tr><td>Line height</td><td>1.7</td></tr>
         <tr><td>Weight</td><td>400 — Regular</td></tr>
-        <tr><td>Font</td><td>Inter</td></tr>
-        <tr><td>Use for</td><td>All body copy — the default</td></tr>
+        <tr><td>Use for</td><td>The default for all running text</td></tr>
       </table>
     </div>
   </div>
@@ -461,16 +442,15 @@
   <!-- Caption -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">Caption <span class="tag">Inter · Regular</span></div>
-      <div style="font-size:0.875rem; font-weight:400; line-height:1.5; color:#A1A1A1; font-family:'Inter',sans-serif;">Helper text, disclaimers, image captions and metadata labels.</div>
+      <div class="style-name">Caption <span class="tag">Montserrat · Regular</span></div>
+      <div style="font-size:0.875rem; font-weight:400; line-height:1.5; color:#62748E;">Trusted by single developers, start-ups, and NASA engineers.</div>
     </div>
     <div class="type-meta">
       <table>
         <tr><td>Size</td><td>14px / 0.875rem</td></tr>
         <tr><td>Line height</td><td>1.5</td></tr>
         <tr><td>Weight</td><td>400 — Regular</td></tr>
-        <tr><td>Font</td><td>Inter</td></tr>
-        <tr><td>Use for</td><td>Captions, footnotes, metadata — secondary colour</td></tr>
+        <tr><td>Use for</td><td>Captions, meta, footnotes — secondary colour</td></tr>
       </table>
     </div>
   </div>
@@ -478,17 +458,16 @@
   <!-- Overline -->
   <div class="type-row">
     <div class="type-preview">
-      <div class="style-name">Overline <span class="tag">Inter · Bold</span></div>
-      <div style="font-size:0.8125rem; font-weight:700; line-height:1.4; letter-spacing:0.08em; text-transform:uppercase; color:#2693EC; font-family:'Inter',sans-serif;">Our Products</div>
+      <div class="style-name">Overline <span class="tag">Montserrat · Bold</span></div>
+      <div style="font-size:0.8125rem; font-weight:700; line-height:1.4; letter-spacing:0.08em; text-transform:uppercase; color:#185FA5;">Document Editing</div>
     </div>
     <div class="type-meta">
       <table>
         <tr><td>Size</td><td>13px / 0.8125rem</td></tr>
         <tr><td>Line height</td><td>1.4</td></tr>
         <tr><td>Weight</td><td>700 — Bold</td></tr>
-        <tr><td>Tracking</td><td>+0.08em</td></tr>
-        <tr><td>Font</td><td>Inter</td></tr>
-        <tr><td>Use for</td><td>Category label above H2/H3 — always accent colour</td></tr>
+        <tr><td>Tracking</td><td>+0.08em · uppercase</td></tr>
+        <tr><td>Use for</td><td>Category label above H2/H3 — accent (NuGet blue)</td></tr>
       </table>
     </div>
   </div>
@@ -497,7 +476,7 @@
   <div class="type-row">
     <div class="type-preview">
       <div class="style-name">Code <span class="tag">Mono · Regular</span></div>
-      <div style="font-size:0.875rem; font-weight:400; line-height:1.6; font-family:ui-monospace,'SFMono-Regular','Menlo',monospace; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:6px; padding:10px 14px; color:#171717;">background-color: var(--color-primary);</div>
+      <div style="font-size:0.875rem; font-weight:400; line-height:1.6; font-family:ui-monospace,'SFMono-Regular','Menlo',monospace; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:6px; padding:10px 14px; color:#171717;">var pdf = renderer.RenderHtmlAsPdf(html);</div>
     </div>
     <div class="type-meta">
       <table>
@@ -505,7 +484,114 @@
         <tr><td>Line height</td><td>1.6</td></tr>
         <tr><td>Weight</td><td>400 — Regular</td></tr>
         <tr><td>Font</td><td>System mono</td></tr>
-        <tr><td>Use for</td><td>Inline &amp; block code — light bg + thin border</td></tr>
+        <tr><td>Use for</td><td>C# inline &amp; block code — light bg + thin border</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-label">UI Scale — Buttons &amp; Navigation</div>
+  <p style="font-size:0.85rem; color:#62748E; margin:-4px 0 20px; max-width:680px;">UI text reuses the 16 / 14 / 12&nbsp;px content sizes but sets its own weight (600 buttons, 500 nav) and a tight line-height of 1, so it reads as interactive rather than as prose.</p>
+
+  <!-- Button large -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Button · large <span class="tag">Montserrat · Semibold</span></div>
+      <div><span style="display:inline-block; font-size:1rem; font-weight:600; line-height:1; letter-spacing:0.01em; background:#E01A59; color:#fff; padding:14px 26px; border-radius:40px;">Get started free</span></div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>16px / 1rem</td></tr>
+        <tr><td>Line height</td><td>1.0</td></tr>
+        <tr><td>Weight</td><td>600 — Semibold</td></tr>
+        <tr><td>Tracking</td><td>0.01em</td></tr>
+        <tr><td>Use for</td><td>Hero &amp; primary page CTAs</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Button default -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Button · default <span class="tag">Montserrat · Semibold</span></div>
+      <div><span style="display:inline-block; font-size:0.875rem; font-weight:600; line-height:1; letter-spacing:0.01em; background:transparent; color:#2693EC; padding:10px 18px; border-radius:42px; border:1.5px solid #2693EC;">Learn more</span></div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>14px / 0.875rem</td></tr>
+        <tr><td>Line height</td><td>1.0</td></tr>
+        <tr><td>Weight</td><td>600 — Semibold</td></tr>
+        <tr><td>Tracking</td><td>0.01em</td></tr>
+        <tr><td>Use for</td><td>Standard buttons in cards and sections</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Button small -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Button · small <span class="tag">Montserrat · Semibold</span></div>
+      <div><span style="display:inline-block; font-size:0.75rem; font-weight:600; line-height:1; letter-spacing:0.02em; background:#F1F5F9; color:#314158; padding:8px 14px; border-radius:20px;">Copy code</span></div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>12px / 0.75rem</td></tr>
+        <tr><td>Line height</td><td>1.0</td></tr>
+        <tr><td>Weight</td><td>600 — Semibold</td></tr>
+        <tr><td>Tracking</td><td>0.02em</td></tr>
+        <tr><td>Use for</td><td>Compact, inline &amp; table actions (≥40px tap target)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Nav primary -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Nav · primary <span class="tag">Montserrat · Medium</span></div>
+      <div style="display:flex; gap:28px; align-items:center;">
+        <span style="font-size:1rem; font-weight:500; line-height:1; color:#171717;">Products</span>
+        <span style="font-size:1rem; font-weight:700; line-height:1; color:#185FA5;">Docs</span>
+        <span style="font-size:1rem; font-weight:500; line-height:1; color:#171717;">Pricing</span>
+      </div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>16px / 1rem</td></tr>
+        <tr><td>Line height</td><td>1.0</td></tr>
+        <tr><td>Weight</td><td>500 — Medium (700 active)</td></tr>
+        <tr><td>Use for</td><td>Main nav links — active uses accent + bold</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Nav dropdown -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Nav · dropdown <span class="tag">Montserrat · Medium</span></div>
+      <div style="font-size:0.875rem; font-weight:500; line-height:1.3; color:#314158;">IronPDF — C# PDF Library</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>14px / 0.875rem</td></tr>
+        <tr><td>Line height</td><td>1.3</td></tr>
+        <tr><td>Weight</td><td>500 — Medium</td></tr>
+        <tr><td>Use for</td><td>Dropdown items, footer links, sidebar entries</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Nav group label -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Nav · group label <span class="tag">Montserrat · Bold</span></div>
+      <div style="font-size:0.75rem; font-weight:700; line-height:1.4; letter-spacing:0.06em; text-transform:uppercase; color:#62748E;">Document Tools</div>
+    </div>
+    <div class="type-meta">
+      <table>
+        <tr><td>Size</td><td>12px / 0.75rem</td></tr>
+        <tr><td>Line height</td><td>1.4</td></tr>
+        <tr><td>Weight</td><td>700 — Bold</td></tr>
+        <tr><td>Tracking</td><td>0.06em · uppercase</td></tr>
+        <tr><td>Use for</td><td>Category headers in menus &amp; footer columns</td></tr>
       </table>
     </div>
   </div>

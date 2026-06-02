@@ -193,33 +193,38 @@ module.exports = {
 
       // ── 4. TYPOGRAPHY ───────────────────────────────────────────────────────
       fontFamily: {
-        display: ['Outfit', 'sans-serif'],  // Hero / logo / display text
-        body:    ['Inter', 'sans-serif'],   // H1–H6, body, paragraphs, UI
-        mono:    ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'], // Code
+        body: ['Montserrat', 'sans-serif'],  // All content + UI text
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'], // Code
       },
 
       fontWeight: {
-        light:     '300',
-        regular:   '400',
-        medium:    '500',
-        semibold:  '600',
-        bold:      '700',
-        extrabold: '800',
-        black:     '900',
+        regular:   '400',  // body, caption, body-lg
+        medium:    '500',  // nav
+        semibold:  '600',  // H4, buttons
+        bold:      '700',  // H3, overline, nav active / group label
+        extrabold: '800',  // H2
+        black:     '900',  // H1
       },
 
       fontSize: {
-        // [fontSize, { lineHeight, letterSpacing }]
-        'display':  ['3rem',       { lineHeight: '1.05', letterSpacing: '-0.02em'  }], // 48px — Outfit, hero only
-        'h1':       ['2.25rem',    { lineHeight: '1.1',  letterSpacing: '-0.015em' }], // 36px — Inter
-        'h2':       ['1.75rem',    { lineHeight: '1.2',  letterSpacing: '-0.01em'  }], // 28px — Inter
-        'h3':       ['1.5rem',     { lineHeight: '1.3'                             }], // 24px — Inter
-        'h4':       ['1.25rem',    { lineHeight: '1.4'                             }], // 20px — Inter
-        'body-lg':  ['1.125rem',   { lineHeight: '1.6'                             }], // 18px — Inter, lead paragraph
-        'body':     ['1rem',       { lineHeight: '1.7'                             }], // 16px — Inter, default
-        'caption':  ['0.875rem',   { lineHeight: '1.5'                             }], // 14px — Inter, secondary colour
-        'overline': ['0.8125rem',  { lineHeight: '1.4',  letterSpacing: '0.08em'   }], // 13px — Inter, uppercase + accent
-        'code':     ['0.875rem',   { lineHeight: '1.6'                             }], // 14px — mono
+        // ── Content scale — [fontSize, { lineHeight, letterSpacing }]
+        'h1-hero':   ['3rem',      { lineHeight: '1.05', letterSpacing: '-0.025em' }], // 48px — hero modifier
+        'h1':        ['2.5rem',    { lineHeight: '1.1',  letterSpacing: '-0.02em'  }], // 40px — page title
+        'h2':        ['1.875rem',  { lineHeight: '1.2',  letterSpacing: '-0.015em' }], // 30px — section heading
+        'h3':        ['1.5rem',    { lineHeight: '1.3',  letterSpacing: '-0.01em'  }], // 24px — card / feature
+        'h4':        ['1.25rem',   { lineHeight: '1.4'                             }], // 20px — sub-label
+        'body-lg':   ['1.125rem',  { lineHeight: '1.6'                             }], // 18px — lead paragraph
+        'body':      ['1rem',      { lineHeight: '1.7'                             }], // 16px — default
+        'caption':   ['0.875rem',  { lineHeight: '1.5'                             }], // 14px — supporting text
+        'overline':  ['0.8125rem', { lineHeight: '1.4',  letterSpacing: '0.08em'   }], // 13px — uppercase, accent
+        'code':      ['0.875rem',  { lineHeight: '1.6'                             }], // 14px — mono
+        // ── UI scale — content sizes, own weight + line-height 1
+        'btn-lg':    ['1rem',      { lineHeight: '1',    letterSpacing: '0.01em'   }], // 16px — hero / primary CTA
+        'btn':       ['0.875rem',  { lineHeight: '1',    letterSpacing: '0.01em'   }], // 14px — standard button
+        'btn-sm':    ['0.75rem',   { lineHeight: '1',    letterSpacing: '0.02em'   }], // 12px — compact / table
+        'nav':       ['1rem',      { lineHeight: '1'                              }], // 16px — main nav (700 active)
+        'nav-drop':  ['0.875rem',  { lineHeight: '1.3'                            }], // 14px — dropdown / footer
+        'nav-group': ['0.75rem',   { lineHeight: '1.4',  letterSpacing: '0.06em'   }], // 12px — group label, uppercase
       },
 
       // ── 5. SPACING ──────────────────────────────────────────────────────────

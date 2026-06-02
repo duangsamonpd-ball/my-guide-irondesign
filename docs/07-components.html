@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Components · Iron Software DS</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
@@ -51,11 +51,11 @@
     .spec-table td:first-child { color: #A1A1A1; width: 80px; }
     .spec-table td:last-child { color: #171717; font-weight: 600; font-family: monospace; font-size: 0.65rem; }
 
-    /* Buttons */
-    .btn { cursor: default; display: inline-flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; border: none; outline: none; }
-    .btn-primary   { background: #E01A59; color: white; font-size: 0.875rem; padding: 0 24px; height: 54px; border-radius: 40px; }
-    .btn-secondary { background: transparent; color: #2693EC; font-size: 0.875rem; padding: 0 20px; height: 46px; border-radius: 42px; border: 1.5px solid #2693EC; }
-    .btn-danger    { background: #E01A59; color: white; font-size: 0.875rem; padding: 0 20px; height: 46px; border-radius: 64px; }
+    /* Buttons — UI token: weight 600, line-height 1, tight tracking */
+    .btn { cursor: default; display: inline-flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 600; line-height: 1; letter-spacing: 0.01em; border: none; outline: none; }
+    .btn-primary   { background: #E01A59; color: white; font-size: 1rem;     padding: 0 26px; height: 54px; border-radius: 40px; }  /* Button · large — 16px */
+    .btn-secondary { background: transparent; color: #2693EC; font-size: 0.875rem; padding: 0 20px; height: 46px; border-radius: 42px; border: 1.5px solid #2693EC; }  /* Button · default — 14px */
+    .btn-danger    { background: #E01A59; color: white; font-size: 0.875rem; padding: 0 20px; height: 46px; border-radius: 64px; }  /* Button · default — 14px */
     .btn:hover { opacity: 0.88; }
 
     /* Input */
@@ -90,8 +90,8 @@
 
     /* Nav */
     .nav-bar { background: white; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0 20px; display: flex; align-items: center; gap: 4px; height: 52px; }
-    .nav-item { padding: 0 16px; height: 100%; display: flex; align-items: center; font-size: 0.88rem; font-weight: 300; cursor: default; position: relative; }
-    .nav-item.active { color: #2693EC; font-weight: 500; }  /* nav uses secondary (iron-blue) */
+    .nav-item { padding: 0 16px; height: 100%; display: flex; align-items: center; font-size: 1rem; font-weight: 500; line-height: 1; cursor: default; position: relative; }  /* Nav · primary — 16px / 500 */
+    .nav-item.active { color: #2693EC; font-weight: 700; }  /* active — 700 + accent */
     .nav-item.active::after { content:''; position:absolute; bottom:0; left:16px; right:16px; height:2px; background:#2693EC; border-radius:2px 2px 0 0; }
     .nav-item:hover { color: #2693EC; }
 
@@ -350,7 +350,8 @@
           <tr><td>Height</td><td>54px</td></tr>
           <tr><td>Padding</td><td>0 24px</td></tr>
           <tr><td>Radius</td><td>40px (cta)</td></tr>
-          <tr><td>Font</td><td>Gotham Bold 14px</td></tr>
+          <tr><td>Font</td><td>Montserrat Semibold 16px</td></tr>
+          <tr><td>Tracking</td><td>0.01em · lh 1</td></tr>
           <tr><td>Color</td><td>iron-pink-500</td></tr>
           <tr><td>Focus</td><td>shadow-focus-magenta</td></tr>
         </table>
@@ -372,7 +373,8 @@
         <table>
           <tr><td>Height</td><td>46px</td></tr>
           <tr><td>Radius</td><td>42px (cta-alt)</td></tr>
-          <tr><td>Font</td><td>Gotham Bold 14px</td></tr>
+          <tr><td>Font</td><td>Montserrat Semibold 14px</td></tr>
+          <tr><td>Tracking</td><td>0.01em · lh 1</td></tr>
           <tr><td>Color</td><td>iron-blue-500</td></tr>
           <tr><td>Style</td><td>Outlined</td></tr>
           <tr><td>Focus</td><td>shadow-focus-blue</td></tr>
@@ -395,7 +397,8 @@
         <table>
           <tr><td>Height</td><td>46px</td></tr>
           <tr><td>Radius</td><td>64px (compact)</td></tr>
-          <tr><td>Font</td><td>Gotham Bold 14px</td></tr>
+          <tr><td>Font</td><td>Montserrat Semibold 14px</td></tr>
+          <tr><td>Tracking</td><td>0.01em · lh 1</td></tr>
           <tr><td>Color</td><td>iron-red-500</td></tr>
           <tr><td>Focus</td><td>shadow-focus-magenta</td></tr>
         </table>
@@ -458,7 +461,7 @@
         <table>
           <tr><td>Padding</td><td>4px 12px</td></tr>
           <tr><td>Radius</td><td>20px (pill-sm)</td></tr>
-          <tr><td>Font</td><td>Gotham Bold 12px</td></tr>
+          <tr><td>Font</td><td>Montserrat Bold 12px</td></tr>
           <tr><td>BG opacity</td><td>12%</td></tr>
         </table>
       </div>
@@ -533,7 +536,7 @@
           <span class="nav-item">Blog</span>
           <span class="nav-item">Support</span>
           <div style="flex:1;"></div>
-          <button class="btn btn-primary" style="height:36px; font-size:0.72rem; padding:0 16px; border-radius:40px;">Get Started</button>
+          <button class="btn btn-primary" style="height:36px; font-size:0.75rem; letter-spacing:0.02em; padding:0 16px; border-radius:40px;">Get Started</button>
         </div>
         <div style="display:grid; grid-template-columns:1fr 200px; gap:32px; margin-top:24px;">
           <div></div>
@@ -541,8 +544,8 @@
             <table>
               <tr><td>Height</td><td>40px</td></tr>
               <tr><td>Padding</td><td>0 16px per item</td></tr>
-              <tr><td>Font</td><td>Gotham Light 16px</td></tr>
-              <tr><td>Active</td><td>iron-blue-500</td></tr>
+              <tr><td>Font</td><td>Montserrat Medium 16px</td></tr>
+              <tr><td>Active</td><td>700 · iron-blue-500</td></tr>
               <tr><td>Indicator</td><td>2px border-bottom</td></tr>
             </table>
           </div>
