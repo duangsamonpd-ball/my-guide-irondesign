@@ -277,25 +277,40 @@
   --font-weight-extrabold: 800;
   --font-weight-black:     900;
 
-  /* ── Font sizes — content scale ── */
-  --font-size-h1-hero:  48px;   /* hero modifier on H1, homepage only */
-  --font-size-h1:       40px;   /* page title, 1 per page */
-  --font-size-h2:       30px;   /* section heading */
-  --font-size-h3:       24px;   /* card / feature title */
-  --font-size-h4:       20px;   /* sub-label (= body-lg size, split by weight) */
-  --font-size-body-lg:  18px;   /* lead / intro paragraph */
-  --font-size-body:     16px;   /* default running text */
-  --font-size-caption:  14px;   /* supporting text, secondary colour */
-  --font-size-overline: 13px;   /* uppercase category label, accent */
-  --font-size-code:     14px;   /* inline & block code, mono */
+  /* ── Font-size scale (primitive) — Figma variables, t-shirt names ── */
+  --font-size-xs:   12px;
+  --font-size-sm:   14px;
+  --font-size-base: 16px;
+  --font-size-lg:   18px;
+  --font-size-xl:   20px;
+  --font-size-2xl:  24px;
+  --font-size-3xl:  30px;
+  --font-size-4xl:  36px;
+  --font-size-5xl:  40px;
+  --font-size-6xl:  48px;
+  --font-size-7xl:  60px;
+  --font-size-8xl:  72px;
+  --font-size-9xl:  96px;
 
-  /* ── Font sizes — UI scale (buttons, nav) ── */
-  --font-size-btn-lg:    16px;  /* hero / primary CTA */
-  --font-size-btn:       14px;  /* standard button */
-  --font-size-btn-sm:    12px;  /* compact / table action */
-  --font-size-nav:       16px;  /* main nav link */
-  --font-size-nav-sub:   14px;  /* dropdown / footer / sidebar */
-  --font-size-nav-label: 12px;  /* menu / footer group label */
+  /* ── Font sizes — content scale (semantic → primitive) ── */
+  --font-size-h1-hero:  var(--font-size-6xl);   /* 48px — hero modifier on H1, homepage only */
+  --font-size-h1:       var(--font-size-5xl);   /* 40px — page title, 1 per page */
+  --font-size-h2:       var(--font-size-3xl);   /* 30px — section heading */
+  --font-size-h3:       var(--font-size-2xl);   /* 24px — card / feature title */
+  --font-size-h4:       var(--font-size-xl);    /* 20px — sub-label (= body-lg, split by weight) */
+  --font-size-body-lg:  var(--font-size-lg);    /* 18px — lead / intro paragraph */
+  --font-size-body:     var(--font-size-base);  /* 16px — default running text */
+  --font-size-caption:  var(--font-size-sm);    /* 14px — supporting text, secondary colour */
+  --font-size-overline: var(--font-size-sm);    /* 14px — uppercase category label, accent */
+  --font-size-code:     var(--font-size-sm);    /* 14px — inline & block code, mono */
+
+  /* ── Font sizes — UI scale (semantic → primitive) ── */
+  --font-size-btn-lg:    var(--font-size-base);  /* 16px — hero / primary CTA */
+  --font-size-btn:       var(--font-size-sm);    /* 14px — standard button */
+  --font-size-btn-sm:    var(--font-size-xs);    /* 12px — compact / table action */
+  --font-size-nav:       var(--font-size-base);  /* 16px — main nav link */
+  --font-size-nav-sub:   var(--font-size-sm);    /* 14px — dropdown / footer / sidebar */
+  --font-size-nav-label: var(--font-size-xs);    /* 12px — menu / footer group label */
 
   /* ── Line heights — px, Figma space scale (n×4) ──
      token 4=16 · 5=20 · 6=24 · 7=28 · 8=32 · 9=36 · 12=48        */
@@ -320,7 +335,7 @@
   --letter-spacing-h1:       -0.8px;   /* tighter */
   --letter-spacing-h2:       -0.4px;   /* tight   */
   --letter-spacing-h3:       -0.4px;   /* tight   */
-  --letter-spacing-overline:  1.6px;   /* widest  */
+  --letter-spacing-overline:  0.8px;   /* wider   */
   --letter-spacing-btn:        0px;    /* normal  */
   --letter-spacing-btn-sm:    0.4px;   /* wide    */
   --letter-spacing-nav-label: 0.8px;   /* wider   */

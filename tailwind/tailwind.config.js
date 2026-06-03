@@ -166,6 +166,23 @@ const semanticColors = {
   info:      ironColors['iron-blue'],
 };
 
+// ── Font-size scale (primitive) — Figma variables, t-shirt names ─────────────
+const fontSize = {
+  'xs':   '12px',
+  'sm':   '14px',
+  'base': '16px',
+  'lg':   '18px',
+  'xl':   '20px',
+  '2xl':  '24px',
+  '3xl':  '30px',
+  '4xl':  '36px',
+  '5xl':  '40px',
+  '6xl':  '48px',
+  '7xl':  '60px',
+  '8xl':  '72px',
+  '9xl':  '96px',
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 module.exports = {
@@ -209,25 +226,27 @@ module.exports = {
       },
 
       fontSize: {
-        // ── Content scale — [size (px), { lineHeight (px), letterSpacing (px), fontWeight }]
+        // ── Primitive scale (xs–9xl) — Figma variables ──
+        ...fontSize,
+        // ── Content scale (semantic → primitive) — [size, { lineHeight, letterSpacing, fontWeight }]
         // Line heights follow Figma space scale (n×4); tracking follows Figma tracking scale.
-        'h1-hero': ['48px', { lineHeight: '48px', letterSpacing: '-0.8px', fontWeight: '900' }],
-        'h1':      ['40px', { lineHeight: '48px', letterSpacing: '-0.8px', fontWeight: '900' }],
-        'h2':      ['30px', { lineHeight: '36px', letterSpacing: '-0.4px', fontWeight: '800' }],
-        'h3':      ['24px', { lineHeight: '32px', letterSpacing: '-0.4px', fontWeight: '700' }],
-        'h4':      ['20px', { lineHeight: '28px',                          fontWeight: '600' }],
-        'body-lg': ['18px', { lineHeight: '28px',                          fontWeight: '400' }],
-        'body':    ['16px', { lineHeight: '28px',                          fontWeight: '400' }],
-        'caption': ['14px', { lineHeight: '20px',                          fontWeight: '400' }],
-        'overline':['13px', { lineHeight: '16px', letterSpacing: '1.6px',  fontWeight: '700' }],
-        'code':    ['14px', { lineHeight: '24px',                          fontWeight: '400' }],
+        'h1-hero': [fontSize['6xl'], { lineHeight: '48px', letterSpacing: '-0.8px', fontWeight: '900' }],
+        'h1':      [fontSize['5xl'], { lineHeight: '48px', letterSpacing: '-0.8px', fontWeight: '900' }],
+        'h2':      [fontSize['3xl'], { lineHeight: '36px', letterSpacing: '-0.4px', fontWeight: '800' }],
+        'h3':      [fontSize['2xl'], { lineHeight: '32px', letterSpacing: '-0.4px', fontWeight: '700' }],
+        'h4':      [fontSize['xl'],  { lineHeight: '28px',                          fontWeight: '600' }],
+        'body-lg': [fontSize['lg'],  { lineHeight: '28px',                          fontWeight: '400' }],
+        'body':    [fontSize['base'],{ lineHeight: '28px',                          fontWeight: '400' }],
+        'caption': [fontSize['sm'],  { lineHeight: '20px',                          fontWeight: '400' }],
+        'overline':[fontSize['sm'],  { lineHeight: '16px', letterSpacing: '0.8px',  fontWeight: '700' }],
+        'code':    [fontSize['sm'],  { lineHeight: '24px',                          fontWeight: '400' }],
         // ── UI scale — content sizes, own weight, line-height 1 (centred via padding)
-        'btn-lg':   ['16px', { lineHeight: '1',    letterSpacing: '0px',   fontWeight: '600' }],
-        'btn':      ['14px', { lineHeight: '1',    letterSpacing: '0px',   fontWeight: '600' }],
-        'btn-sm':   ['12px', { lineHeight: '1',    letterSpacing: '0.4px', fontWeight: '600' }],
-        'nav':      ['16px', { lineHeight: '1',                             fontWeight: '500' }],
-        'nav-sub':  ['14px', { lineHeight: '20px',                          fontWeight: '500' }],
-        'nav-label':['12px', { lineHeight: '16px', letterSpacing: '0.8px', fontWeight: '700' }],
+        'btn-lg':   [fontSize['base'],{ lineHeight: '1',    letterSpacing: '0px',   fontWeight: '600' }],
+        'btn':      [fontSize['sm'],  { lineHeight: '1',    letterSpacing: '0px',   fontWeight: '600' }],
+        'btn-sm':   [fontSize['xs'],  { lineHeight: '1',    letterSpacing: '0.4px', fontWeight: '600' }],
+        'nav':      [fontSize['base'],{ lineHeight: '1',                             fontWeight: '500' }],
+        'nav-sub':  [fontSize['sm'],  { lineHeight: '20px',                          fontWeight: '500' }],
+        'nav-label':[fontSize['xs'],  { lineHeight: '16px', letterSpacing: '0.8px', fontWeight: '700' }],
       },
 
       // ── 5. SPACING ──────────────────────────────────────────────────────────
