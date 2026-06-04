@@ -410,7 +410,15 @@
           "value": "24",
           "type": "lineHeights"
         },
+        "btn-lg": {
+          "value": "100%",
+          "type": "lineHeights"
+        },
         "btn": {
+          "value": "16",
+          "type": "lineHeights"
+        },
+        "btn-sm": {
           "value": "100%",
           "type": "lineHeights"
         },
@@ -563,9 +571,9 @@
       "button-large": {
         "value": {
           "fontFamily": "{typography.fontFamily.body}",
-          "fontWeight": "{typography.fontWeight.semibold}",
+          "fontWeight": "{typography.fontWeight.bold}",
           "fontSize": "{typography.fontSize.btn-lg}",
-          "lineHeight": "{typography.lineHeight.btn}",
+          "lineHeight": "{typography.lineHeight.btn-lg}",
           "letterSpacing": "{typography.letterSpacing.btn}"
         },
         "type": "typography"
@@ -585,7 +593,7 @@
           "fontFamily": "{typography.fontFamily.body}",
           "fontWeight": "{typography.fontWeight.semibold}",
           "fontSize": "{typography.fontSize.btn-sm}",
-          "lineHeight": "{typography.lineHeight.btn}",
+          "lineHeight": "{typography.lineHeight.btn-sm}",
           "letterSpacing": "{typography.letterSpacing.btn-sm}"
         },
         "type": "typography"

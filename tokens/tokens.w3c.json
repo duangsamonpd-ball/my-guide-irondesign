@@ -585,13 +585,13 @@
     "ui": {
       "button-large": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "16px", "fontWeight": 600, "lineHeight": 1, "letterSpacing": "0px" },
-        "$description": "Hero and primary page CTAs. Weight 600 reads as an action. Line-height 1 — vertical centring via padding (~14×26px). Matches Body size but heavier/tighter."
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "16px", "fontWeight": 700, "lineHeight": 1, "letterSpacing": "0px" },
+        "$description": "Hero and primary page CTAs. Weight 700 (bold) reads as a strong action. Line-height 1 — vertical centring via padding (~14×26px). Matches Body size but heavier/tighter."
       },
       "button-default": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 600, "lineHeight": 1, "letterSpacing": "0px" },
-        "$description": "Standard buttons in cards and sections. Everyday button size, padding ~10×18px. Matches Caption size but heavier."
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 600, "lineHeight": "16px", "letterSpacing": "0px" },
+        "$description": "Standard buttons in cards and sections. Everyday button size, padding ~10×18px. Line-height 16px (token 4 / leading-4). Matches Caption size but heavier."
       },
       "button-small": {
         "$type": "typography",

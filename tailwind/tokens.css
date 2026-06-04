@@ -264,7 +264,8 @@
   --fw-h4:        600;
   --fw-body:      400;
   --fw-overline:  700;
-  --fw-btn:       600;
+  --fw-btn-lg:    700;  /* Button · large — bold CTA */
+  --fw-btn:       600;  /* Button · default / small — semibold */
   --fw-nav:       500;
   --fw-nav-active:700;
   --fw-nav-label: 700;
@@ -338,7 +339,9 @@
   --line-height-caption:  var(--leading-5);   /* 20px */
   --line-height-overline: var(--leading-4);   /* 16px */
   --line-height-code:     var(--leading-6);   /* 24px */
-  --line-height-btn:       1;                 /* single-line — outside px scale (= 100%) */
+  --line-height-btn-lg:    1;                 /* Button · large — single-line (= 100%) */
+  --line-height-btn:       var(--leading-4);  /* Button · default — 16px */
+  --line-height-btn-sm:    1;                 /* Button · small — single-line (= 100%) */
   --line-height-nav:       1;                 /* single-line — outside px scale (= 100%) */
   --line-height-nav-sub:   var(--leading-5);  /* 20px — may wrap to two lines */
   --line-height-nav-label: var(--leading-4);  /* 16px */

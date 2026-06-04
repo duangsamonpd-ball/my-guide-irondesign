@@ -263,8 +263,8 @@ module.exports = {
         'overline':[fontSize['sm'],  { lineHeight: leading[4],  letterSpacing: '0.8px',  fontWeight: '700' }],
         'code':    [fontSize['sm'],  { lineHeight: leading[6],                           fontWeight: '400' }],
         // ── UI scale — content sizes, own weight, line-height 1 (centred via padding)
-        'btn-lg':   [fontSize['base'],{ lineHeight: '1',         letterSpacing: '0px',   fontWeight: '600' }],
-        'btn':      [fontSize['sm'],  { lineHeight: '1',         letterSpacing: '0px',   fontWeight: '600' }],
+        'btn-lg':   [fontSize['base'],{ lineHeight: '1',         letterSpacing: '0px',   fontWeight: '700' }],
+        'btn':      [fontSize['sm'],  { lineHeight: leading[4],  letterSpacing: '0px',   fontWeight: '600' }],
         'btn-sm':   [fontSize['xs'],  { lineHeight: '1',         letterSpacing: '0.4px', fontWeight: '600' }],
         'nav':      [fontSize['base'],{ lineHeight: '1',                                 fontWeight: '500' }],
         'nav-sub':  [fontSize['sm'],  { lineHeight: leading[5],                          fontWeight: '500' }],
