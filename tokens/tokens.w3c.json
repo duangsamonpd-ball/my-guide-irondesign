@@ -497,55 +497,87 @@
       "black":     { "$value": 900, "$type": "fontWeight", "$description": "H1 (default and hero) — heaviest level." }
     },
 
+    "size": {
+      "xs":   { "$value": "12px", "$type": "dimension" },
+      "sm":   { "$value": "14px", "$type": "dimension" },
+      "base": { "$value": "16px", "$type": "dimension" },
+      "lg":   { "$value": "18px", "$type": "dimension" },
+      "xl":   { "$value": "20px", "$type": "dimension" },
+      "2xl":  { "$value": "24px", "$type": "dimension" },
+      "3xl":  { "$value": "30px", "$type": "dimension" },
+      "4xl":  { "$value": "36px", "$type": "dimension" },
+      "5xl":  { "$value": "40px", "$type": "dimension" },
+      "6xl":  { "$value": "48px", "$type": "dimension" },
+      "7xl":  { "$value": "60px", "$type": "dimension" },
+      "8xl":  { "$value": "72px", "$type": "dimension" },
+      "9xl":  { "$value": "96px", "$type": "dimension" }
+    },
+
+    "leading": {
+      "3":  { "$value": "12px",  "$type": "dimension" },
+      "4":  { "$value": "16px",  "$type": "dimension" },
+      "5":  { "$value": "20px",  "$type": "dimension" },
+      "6":  { "$value": "24px",  "$type": "dimension" },
+      "7":  { "$value": "28px",  "$type": "dimension" },
+      "8":  { "$value": "32px",  "$type": "dimension" },
+      "9":  { "$value": "36px",  "$type": "dimension" },
+      "10": { "$value": "40px",  "$type": "dimension" },
+      "12": { "$value": "48px",  "$type": "dimension" },
+      "15": { "$value": "60px",  "$type": "dimension" },
+      "18": { "$value": "72px",  "$type": "dimension" },
+      "24": { "$value": "96px",  "$type": "dimension" },
+      "32": { "$value": "128px", "$type": "dimension" }
+    },
+
     "scale": {
       "h1-hero": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "48px", "fontWeight": 900, "lineHeight": 1.05, "letterSpacing": "-0.025em" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "48px", "fontWeight": 900, "lineHeight": "48px", "letterSpacing": "-0.8px" },
         "$description": "Hero variant of H1 — still a real <h1>. A size modifier (h1.hero) used once on the homepage hero for maximum impact. No separate non-semantic Display level."
       },
       "h1": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "40px", "fontWeight": 900, "lineHeight": 1.1, "letterSpacing": "-0.02em" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "40px", "fontWeight": 900, "lineHeight": "48px", "letterSpacing": "-0.8px" },
         "$description": "The page's main title — exactly one per page. Largest level; carries SEO/screen-reader meaning. Inner pages use this; homepage adds the hero modifier."
       },
       "h2": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "30px", "fontWeight": 800, "lineHeight": 1.2, "letterSpacing": "-0.015em" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "30px", "fontWeight": 800, "lineHeight": "36px", "letterSpacing": "-0.4px" },
         "$description": "Major section headings within a page. Used every time a new top-level content block begins. Often paired with an Overline above."
       },
       "h3": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "24px", "fontWeight": 700, "lineHeight": 1.3, "letterSpacing": "-0.01em" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "24px", "fontWeight": 700, "lineHeight": "32px", "letterSpacing": "-0.4px" },
         "$description": "Sub-headings within a section, or card / feature titles. The most frequently used heading because of the many feature cards."
       },
       "h4": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "20px", "fontWeight": 600, "lineHeight": 1.4 },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "20px", "fontWeight": 600, "lineHeight": "28px" },
         "$description": "Small labels and sub-sub-headings inside multi-level cards. Equals Body large (20px) — separate by weight (600 vs 400), avoid placing adjacent."
       },
       "body-large": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "18px", "fontWeight": 400, "lineHeight": 1.6 },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "18px", "fontWeight": 400, "lineHeight": "28px" },
         "$description": "Lead / intro paragraphs sitting under a major heading. A sub-hero tagline or section's first line. Keep to one or two sentences."
       },
       "body": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "16px", "fontWeight": 400, "lineHeight": 1.7 },
-        "$description": "The default for all running text. Line-height 1.7 set high for comfortable reading. Baseline for anything that isn't a heading."
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "16px", "fontWeight": 400, "lineHeight": "28px" },
+        "$description": "The default for all running text. Line-height 28px (token 7) for comfortable reading. Baseline for anything that isn't a heading."
       },
       "caption": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 400, "lineHeight": 1.5 },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 400, "lineHeight": "20px" },
         "$description": "Supporting text, one step smaller — captions, meta, footnotes, trust badges. Uses the secondary colour so it recedes."
       },
       "overline": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "13px", "fontWeight": 700, "lineHeight": 1.4, "letterSpacing": "0.08em", "textTransform": "uppercase" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 700, "lineHeight": "16px", "letterSpacing": "0.8px", "textTransform": "uppercase" },
         "$description": "Uppercase category label above a major heading. Accent colour with wider tracking so all-caps stays readable. Almost always paired with H2/H3."
       },
       "code": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.mono}", "fontSize": "14px", "fontWeight": 400, "lineHeight": 1.6 },
+        "$value": { "fontFamily": "{typography.font-family.mono}", "fontSize": "14px", "fontWeight": 400, "lineHeight": "24px" },
         "$description": "C# code, inline and block. Always monospace, light background, thin border to separate from prose."
       }
     },
@@ -553,17 +585,17 @@
     "ui": {
       "button-large": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "16px", "fontWeight": 600, "lineHeight": 1, "letterSpacing": "0.01em" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "16px", "fontWeight": 600, "lineHeight": 1, "letterSpacing": "0px" },
         "$description": "Hero and primary page CTAs. Weight 600 reads as an action. Line-height 1 — vertical centring via padding (~14×26px). Matches Body size but heavier/tighter."
       },
       "button-default": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 600, "lineHeight": 1, "letterSpacing": "0.01em" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 600, "lineHeight": 1, "letterSpacing": "0px" },
         "$description": "Standard buttons in cards and sections. Everyday button size, padding ~10×18px. Matches Caption size but heavier."
       },
       "button-small": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 600, "lineHeight": 1, "letterSpacing": "0.02em" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 600, "lineHeight": 1, "letterSpacing": "0.4px" },
         "$description": "Compact, inline, and table actions. Wider tracking keeps bold legible. On mobile keep tappable area ≥40px tall via padding."
       },
       "nav-primary": {
@@ -573,12 +605,12 @@
       },
       "nav-dropdown": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 500, "lineHeight": 1.3 },
-        "$description": "Dropdown items, footer links, sidebar entries. Line-height 1.3 (not 1) because these can wrap to two lines."
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 500, "lineHeight": "20px" },
+        "$description": "Dropdown items, footer links, sidebar entries. Line-height 20px (not 1) because these can wrap to two lines."
       },
       "nav-group-label": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 700, "lineHeight": 1.4, "letterSpacing": "0.06em", "textTransform": "uppercase" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 700, "lineHeight": "16px", "letterSpacing": "0.8px", "textTransform": "uppercase" },
         "$description": "Category headers inside menus and footer columns. Like Overline but tighter tracking and a neutral colour — organises rather than draws attention."
       }
     }
