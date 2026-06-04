@@ -312,22 +312,36 @@
   --font-size-nav-sub:   var(--font-size-sm);    /* 14px — dropdown / footer / sidebar */
   --font-size-nav-label: var(--font-size-xs);    /* 12px — menu / footer group label */
 
-  /* ── Line heights — px, Figma space scale (n×4) ──
-     token 4=16 · 5=20 · 6=24 · 7=28 · 8=32 · 9=36 · 12=48        */
-  --line-height-h1-hero:  48px;  /* token 12 */
-  --line-height-h1:       48px;  /* token 12 */
-  --line-height-h2:       36px;  /* token 9  */
-  --line-height-h3:       32px;  /* token 8  */
-  --line-height-h4:       28px;  /* token 7  */
-  --line-height-body-lg:  28px;  /* token 7  */
-  --line-height-body:     28px;  /* token 7  */
-  --line-height-caption:  20px;  /* token 5  */
-  --line-height-overline: 16px;  /* token 4  */
-  --line-height-code:     24px;  /* token 6  */
-  --line-height-btn:       1;     /* single-line — vertical centre via padding */
-  --line-height-nav:       1;
-  --line-height-nav-sub:   20px;  /* token 5 — may wrap to two lines */
-  --line-height-nav-label: 16px;  /* token 4 — matches Tailwind nav-label */
+  /* ── Leading scale (primitive) — Figma "font / leading", name = px ÷ 4 ── */
+  --leading-3:   12px;
+  --leading-4:   16px;
+  --leading-5:   20px;
+  --leading-6:   24px;
+  --leading-7:   28px;
+  --leading-8:   32px;
+  --leading-9:   36px;
+  --leading-10:  40px;
+  --leading-12:  48px;
+  --leading-15:  60px;
+  --leading-18:  72px;
+  --leading-24:  96px;
+  --leading-32: 128px;
+
+  /* ── Line heights (semantic → leading primitive) ── */
+  --line-height-h1-hero:  var(--leading-12);  /* 48px */
+  --line-height-h1:       var(--leading-12);  /* 48px */
+  --line-height-h2:       var(--leading-9);   /* 36px */
+  --line-height-h3:       var(--leading-8);   /* 32px */
+  --line-height-h4:       var(--leading-7);   /* 28px */
+  --line-height-body-lg:  var(--leading-7);   /* 28px */
+  --line-height-body:     var(--leading-7);   /* 28px */
+  --line-height-caption:  var(--leading-5);   /* 20px */
+  --line-height-overline: var(--leading-4);   /* 16px */
+  --line-height-code:     var(--leading-6);   /* 24px */
+  --line-height-btn:       1;                 /* single-line — outside px scale (= 100%) */
+  --line-height-nav:       1;                 /* single-line — outside px scale (= 100%) */
+  --line-height-nav-sub:   var(--leading-5);  /* 20px — may wrap to two lines */
+  --line-height-nav-label: var(--leading-4);  /* 16px */
 
   /* ── Letter spacing — px, Figma tracking scale ──
      tighter -0.8 · tight -0.4 · normal 0 · wide 0.4 · wider 0.8 · widest 1.6 */
