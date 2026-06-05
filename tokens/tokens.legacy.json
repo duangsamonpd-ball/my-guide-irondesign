@@ -476,6 +476,10 @@
           "value": "0.4px",
           "type": "letterSpacing"
         },
+        "caption-sm": {
+          "value": "0.4px",
+          "type": "letterSpacing"
+        },
         "nav-label": {
           "value": "0.4px",
           "type": "letterSpacing"
@@ -564,9 +568,10 @@
       "caption-sm": {
         "value": {
           "fontFamily": "{typography.fontFamily.body}",
-          "fontWeight": "{typography.fontWeight.regular}",
+          "fontWeight": "{typography.fontWeight.medium}",
           "fontSize": "{typography.fontSize.caption-sm}",
-          "lineHeight": "{typography.lineHeight.caption-sm}"
+          "lineHeight": "{typography.lineHeight.caption-sm}",
+          "letterSpacing": "{typography.letterSpacing.caption-sm}"
         },
         "type": "typography"
       },

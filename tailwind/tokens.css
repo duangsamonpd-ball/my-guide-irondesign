@@ -264,6 +264,7 @@
   --fw-h4:        800;
   --fw-body:      400;
   --fw-overline:  700;
+  --fw-caption-sm:500;  /* Caption SM — medium, tooltip / footer */
   --fw-btn-lg:    700;  /* Button · large — bold CTA */
   --fw-btn:       600;  /* Button · default / small — semibold */
   --fw-nav:       500;
@@ -358,6 +359,7 @@
   --letter-spacing-overline:  0.8px;   /* wider   */
   --letter-spacing-btn:        0px;    /* normal  */
   --letter-spacing-btn-sm:    0.4px;   /* wide    */
+  --letter-spacing-caption-sm:0.4px;   /* wide    */
   --letter-spacing-nav-label: 0.4px;   /* wide    */
 
 

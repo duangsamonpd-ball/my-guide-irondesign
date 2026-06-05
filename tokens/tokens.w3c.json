@@ -572,8 +572,8 @@
       },
       "caption-sm": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 400, "lineHeight": "16px" },
-        "$description": "Smallest text — tooltips and footer fine print. 12px / line-height 16px (token 4). Use sparingly and only in a secondary colour."
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 500, "lineHeight": "16px", "letterSpacing": "0.4px" },
+        "$description": "Smallest text — tooltips and footer fine print. 12px / 500 / line-height 16px (token 4) / tracking 0.4px keeps it legible. Use sparingly and only in a secondary colour."
       },
       "overline": {
         "$type": "typography",
