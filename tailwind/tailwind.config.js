@@ -256,10 +256,11 @@ module.exports = {
         'h1':      [fontSize['5xl'], { lineHeight: leading[12], letterSpacing: '-0.8px', fontWeight: '900' }],
         'h2':      [fontSize['3xl'], { lineHeight: leading[9],  letterSpacing: '-0.4px', fontWeight: '800' }],
         'h3':      [fontSize['2xl'], { lineHeight: leading[8],  letterSpacing: '-0.4px', fontWeight: '700' }],
-        'h4':      [fontSize['xl'],  { lineHeight: leading[7],                           fontWeight: '600' }],
+        'h4':      [fontSize['xl'],  { lineHeight: leading[7],  letterSpacing: '-0.4px', fontWeight: '800' }],
         'body-lg': [fontSize['lg'],  { lineHeight: leading[7],                           fontWeight: '400' }],
         'body':    [fontSize['base'],{ lineHeight: leading[7],                           fontWeight: '400' }],
         'caption': [fontSize['sm'],  { lineHeight: leading[5],                           fontWeight: '400' }],
+        'caption-sm':[fontSize['xs'],{ lineHeight: leading[4],                           fontWeight: '400' }],
         'overline':[fontSize['sm'],  { lineHeight: leading[4],  letterSpacing: '0.8px',  fontWeight: '700' }],
         'code':    [fontSize['sm'],  { lineHeight: leading[6],                           fontWeight: '400' }],
         // ── UI scale — content sizes, own weight, line-height 1 (centred via padding)
@@ -268,7 +269,7 @@ module.exports = {
         'btn-sm':   [fontSize['xs'],  { lineHeight: '1',         letterSpacing: '0.4px', fontWeight: '600' }],
         'nav':      [fontSize['base'],{ lineHeight: '1',                                 fontWeight: '500' }],
         'nav-sub':  [fontSize['sm'],  { lineHeight: leading[5],                          fontWeight: '500' }],
-        'nav-label':[fontSize['xs'],  { lineHeight: leading[4],  letterSpacing: '0.8px', fontWeight: '700' }],
+        'nav-label':[fontSize['xs'],  { lineHeight: leading[4],  letterSpacing: '0.4px', fontWeight: '700' }],
       },
 
       // ── 5. SPACING ──────────────────────────────────────────────────────────

@@ -552,8 +552,8 @@
       },
       "h4": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "20px", "fontWeight": 600, "lineHeight": "28px" },
-        "$description": "Small labels and sub-sub-headings inside multi-level cards. Equals Body large (20px) — separate by weight (600 vs 400), avoid placing adjacent."
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "20px", "fontWeight": 800, "lineHeight": "28px", "letterSpacing": "-0.4px" },
+        "$description": "Card titles and sub-sub-headings inside multi-level cards. Equals Body large (20px) — separated by weight (800 vs 400) and tight tracking."
       },
       "body-large": {
         "$type": "typography",
@@ -569,6 +569,11 @@
         "$type": "typography",
         "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "14px", "fontWeight": 400, "lineHeight": "20px" },
         "$description": "Supporting text, one step smaller — captions, meta, footnotes, trust badges. Uses the secondary colour so it recedes."
+      },
+      "caption-sm": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 400, "lineHeight": "16px" },
+        "$description": "Smallest text — tooltips and footer fine print. 12px / line-height 16px (token 4). Use sparingly and only in a secondary colour."
       },
       "overline": {
         "$type": "typography",
@@ -610,7 +615,7 @@
       },
       "nav-group-label": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 700, "lineHeight": "16px", "letterSpacing": "0.8px", "textTransform": "uppercase" },
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 700, "lineHeight": "16px", "letterSpacing": "0.4px", "textTransform": "uppercase" },
         "$description": "Category headers inside menus and footer columns. Like Overline but tighter tracking and a neutral colour — organises rather than draws attention."
       }
     }

@@ -261,7 +261,7 @@
   --fw-h1:        900;
   --fw-h2:        800;
   --fw-h3:        700;
-  --fw-h4:        600;
+  --fw-h4:        800;
   --fw-body:      400;
   --fw-overline:  700;
   --fw-btn-lg:    700;  /* Button · large — bold CTA */
@@ -302,6 +302,7 @@
   --font-size-body-lg:  var(--font-size-lg);    /* 18px — lead / intro paragraph */
   --font-size-body:     var(--font-size-base);  /* 16px — default running text */
   --font-size-caption:  var(--font-size-sm);    /* 14px — supporting text, secondary colour */
+  --font-size-caption-sm: var(--font-size-xs);  /* 12px — tooltip, footer fine print */
   --font-size-overline: var(--font-size-sm);    /* 14px — uppercase category label, accent */
   --font-size-code:     var(--font-size-sm);    /* 14px — inline & block code, mono */
 
@@ -336,7 +337,8 @@
   --line-height-h4:       var(--leading-7);   /* 28px */
   --line-height-body-lg:  var(--leading-7);   /* 28px */
   --line-height-body:     var(--leading-7);   /* 28px */
-  --line-height-caption:  var(--leading-5);   /* 20px */
+  --line-height-caption:    var(--leading-5);   /* 20px */
+  --line-height-caption-sm: var(--leading-4);   /* 16px */
   --line-height-overline: var(--leading-4);   /* 16px */
   --line-height-code:     var(--leading-6);   /* 24px */
   --line-height-btn-lg:    1;                 /* Button · large — single-line (= 100%) */
@@ -352,10 +354,11 @@
   --letter-spacing-h1:       -0.8px;   /* tighter */
   --letter-spacing-h2:       -0.4px;   /* tight   */
   --letter-spacing-h3:       -0.4px;   /* tight   */
+  --letter-spacing-h4:       -0.4px;   /* tight — card title */
   --letter-spacing-overline:  0.8px;   /* wider   */
   --letter-spacing-btn:        0px;    /* normal  */
   --letter-spacing-btn-sm:    0.4px;   /* wide    */
-  --letter-spacing-nav-label: 0.8px;   /* wider   */
+  --letter-spacing-nav-label: 0.4px;   /* wide    */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════

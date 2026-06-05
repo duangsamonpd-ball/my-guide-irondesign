@@ -282,6 +282,10 @@
           "value": "14",
           "type": "fontSizes"
         },
+        "caption-sm": {
+          "value": "12",
+          "type": "fontSizes"
+        },
         "overline": {
           "value": "14",
           "type": "fontSizes"
@@ -402,6 +406,10 @@
           "value": "20",
           "type": "lineHeights"
         },
+        "caption-sm": {
+          "value": "16",
+          "type": "lineHeights"
+        },
         "overline": {
           "value": "16",
           "type": "lineHeights"
@@ -452,6 +460,10 @@
           "value": "-0.4px",
           "type": "letterSpacing"
         },
+        "h4": {
+          "value": "-0.4px",
+          "type": "letterSpacing"
+        },
         "overline": {
           "value": "0.8px",
           "type": "letterSpacing"
@@ -465,7 +477,7 @@
           "type": "letterSpacing"
         },
         "nav-label": {
-          "value": "0.8px",
+          "value": "0.4px",
           "type": "letterSpacing"
         }
       }
@@ -515,9 +527,10 @@
       "h4": {
         "value": {
           "fontFamily": "{typography.fontFamily.body}",
-          "fontWeight": "{typography.fontWeight.semibold}",
+          "fontWeight": "{typography.fontWeight.extrabold}",
           "fontSize": "{typography.fontSize.h4}",
-          "lineHeight": "{typography.lineHeight.h4}"
+          "lineHeight": "{typography.lineHeight.h4}",
+          "letterSpacing": "{typography.letterSpacing.h4}"
         },
         "type": "typography"
       },
@@ -545,6 +558,15 @@
           "fontWeight": "{typography.fontWeight.regular}",
           "fontSize": "{typography.fontSize.caption}",
           "lineHeight": "{typography.lineHeight.caption}"
+        },
+        "type": "typography"
+      },
+      "caption-sm": {
+        "value": {
+          "fontFamily": "{typography.fontFamily.body}",
+          "fontWeight": "{typography.fontWeight.regular}",
+          "fontSize": "{typography.fontSize.caption-sm}",
+          "lineHeight": "{typography.lineHeight.caption-sm}"
         },
         "type": "typography"
       },
