@@ -149,7 +149,7 @@
       "heading": {
         "$value": "#171717",
         "$type": "color",
-        "$description": "Iron Neutral/900 — H1–H4, emphasized type (light)"
+        "$description": "Neutral/900 — H1–H4, emphasized type (light)"
       },
       "heading-alt": {
         "$value": "#2693EC",
@@ -159,17 +159,17 @@
       "body": {
         "$value": "#262626",
         "$type": "color",
-        "$description": "Iron Neutral/800 — default running text (light)"
+        "$description": "Neutral/800 — default running text (light)"
       },
       "muted": {
         "$value": "#A1A1A1",
         "$type": "color",
-        "$description": "Iron Neutral/400 — placeholders, captions, disabled (light)"
+        "$description": "Neutral/400 — placeholders, captions, disabled (light)"
       },
       "support": {
         "$value": "#90A1B9",
         "$type": "color",
-        "$description": "Iron Slate/400 — support headlines, caption titles (light)"
+        "$description": "Slate/400 — support headlines, caption titles (light)"
       },
       "on-primary": {
         "$value": "#FFFFFF",
@@ -193,7 +193,7 @@
       "heading": {
         "$value": "#F5F5F5",
         "$type": "color",
-        "$description": "Iron Neutral/100 — H1–H4 (dark)"
+        "$description": "Neutral/100 — H1–H4 (dark)"
       },
       "heading-alt": {
         "$value": "#FDA509",
@@ -203,12 +203,12 @@
       "body": {
         "$value": "#D4D4D4",
         "$type": "color",
-        "$description": "Iron Neutral/300 — running text (dark)"
+        "$description": "Neutral/300 — running text (dark)"
       },
       "muted": {
         "$value": "#737373",
         "$type": "color",
-        "$description": "Iron Neutral/500 — placeholders, captions (dark)"
+        "$description": "Neutral/500 — placeholders, captions (dark)"
       },
       "support": {
         "$value": "#CEA7C8",
@@ -237,7 +237,7 @@
       "body": {
         "$value": "#E5E5E5",
         "$type": "color",
-        "$description": "Iron Neutral/200 — body copy inside coloured surfaces"
+        "$description": "Neutral/200 — body copy inside coloured surfaces"
       }
     },
 
@@ -251,7 +251,7 @@
       "background-shade": {
         "$value": "#F1F5F9",
         "$type": "color",
-        "$description": "Iron Slate/100 — band fills, alternating sections (light)"
+        "$description": "Slate/100 — band fills, alternating sections (light)"
       },
       "card": {
         "$value": "#FFFFFF",
@@ -294,12 +294,12 @@
       "default": {
         "$value": "#E2E8F0",
         "$type": "color",
-        "$description": "Iron Slate/200 — dividers, input borders, card edges (light)"
+        "$description": "Slate/200 — dividers, input borders, card edges (light)"
       },
       "strong": {
         "$value": "#CAD5E2",
         "$type": "color",
-        "$description": "Iron Slate/300 — hover borders, strong dividers (light)"
+        "$description": "Slate/300 — hover borders, strong dividers (light)"
       },
       "alternative": {
         "$value": "#2693EC",
@@ -390,7 +390,7 @@
         "color": "rgba(15, 23, 43, 0.12)"
       },
       "$type": "shadow",
-      "$description": "Elevation 1 — iron-slate-900 at 12%"
+      "$description": "Elevation 1 — slate-900 at 12%"
     },
     "card-hover": {
       "$value": {
@@ -398,7 +398,7 @@
         "color": "rgba(15, 23, 43, 0.08)"
       },
       "$type": "shadow",
-      "$description": "Elevation 1b hover — iron-slate-900 at 8%"
+      "$description": "Elevation 1b hover — slate-900 at 8%"
     },
     "float": {
       "$value": {
@@ -406,7 +406,7 @@
         "color": "rgba(15, 23, 43, 0.20)"
       },
       "$type": "shadow",
-      "$description": "Elevation 2 — iron-slate-900 at 20%"
+      "$description": "Elevation 2 — slate-900 at 20%"
     },
     "modal": {
       "$value": {
@@ -414,7 +414,7 @@
         "color": "rgba(15, 23, 43, 0.32)"
       },
       "$type": "shadow",
-      "$description": "Elevation 3 — iron-slate-900 at 32%"
+      "$description": "Elevation 3 — slate-900 at 32%"
     },
     "focus-blue": {
       "$value": {

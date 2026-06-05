@@ -113,7 +113,7 @@ const ironColors = {
     950: '#3D080A',
   },
   // Utility — UI surfaces, borders, structural backgrounds
-  'iron-slate': {
+  'slate': {
     50:  '#F8FAFC',
     100: '#F1F5F9',
     200: '#E2E8F0',
@@ -127,7 +127,7 @@ const ironColors = {
     950: '#020618',
   },
   // Utility — text, icons, pure gray
-  'iron-neutral': {
+  'neutral': {
     50:  '#FAFAFA',
     100: '#F5F5F5',
     200: '#E5E5E5',

@@ -814,16 +814,16 @@
 &lt;/<span class="c-tag">div</span>&gt;
 
 <span class="c-comment">&lt;!-- ✅ CARD --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"bg-white border border-iron-slate-200 rounded-sm shadow-card
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"bg-white border border-slate-200 rounded-sm shadow-card
          hover:shadow-card-hover transition-shadow"</span>&gt;
   ...
 &lt;/<span class="c-tag">div</span>&gt;
 
 <span class="c-comment">&lt;!-- ✅ DARK MODE SURFACE --&gt;</span>
 &lt;<span class="c-tag">body</span> <span class="c-attr">class</span>=<span class="c-str">"dark"</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"bg-iron-violet-900 text-iron-neutral-100"</span>&gt;
-    &lt;<span class="c-tag">h1</span> <span class="c-attr">class</span>=<span class="c-str">"text-iron-neutral-100"</span>&gt;Dark heading&lt;/<span class="c-tag">h1</span>&gt;
-    &lt;<span class="c-tag">p</span>  <span class="c-attr">class</span>=<span class="c-str">"text-iron-neutral-300"</span>&gt;Body text&lt;/<span class="c-tag">p</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"bg-iron-violet-900 text-neutral-100"</span>&gt;
+    &lt;<span class="c-tag">h1</span> <span class="c-attr">class</span>=<span class="c-str">"text-neutral-100"</span>&gt;Dark heading&lt;/<span class="c-tag">h1</span>&gt;
+    &lt;<span class="c-tag">p</span>  <span class="c-attr">class</span>=<span class="c-str">"text-neutral-300"</span>&gt;Body text&lt;/<span class="c-tag">p</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
 &lt;/<span class="c-tag">body</span>&gt;</pre>
       </div>
@@ -910,7 +910,7 @@
 <span class="c-key">export function</span> <span class="c-str">Card</span>({ children }) {
   <span class="c-key">return</span> (
     &lt;<span class="c-tag">div</span> <span class="c-attr">className</span>=<span class="c-str">"bg-white dark:bg-iron-violet-800
-                  border border-iron-slate-200 dark:border-iron-violet-500
+                  border border-slate-200 dark:border-iron-violet-500
                   rounded-sm shadow-card hover:shadow-card-hover
                   transition-shadow"</span>&gt;
       {children}
