@@ -201,7 +201,7 @@
   /* ── Text / Default — Light Mode (Figma: text/default) ── */
   --color-text-heading:         var(--iron-neutral-900); /* #171717 — H1–H4, emphasized type */
   --color-text-heading-alt:     var(--iron-blue-500);    /* #2693EC — Coloured headline accents, kickers */
-  --color-text-body:            var(--iron-neutral-700); /* #404040 — Default running text */
+  --color-text-body:            var(--iron-neutral-800); /* #262626 — Default running text */
   --color-text-muted:           var(--iron-neutral-400); /* #A1A1A1 — Placeholders, captions, disabled */
   --color-text-support:         var(--iron-slate-400);   /* #90A1B9 — Support headlines, caption titles */
   --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons */

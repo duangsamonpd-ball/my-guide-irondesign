@@ -157,9 +157,9 @@
         "$description": "Iron Blue/500 — brand/secondary — coloured headline accents, kickers (light)"
       },
       "body": {
-        "$value": "#404040",
+        "$value": "#262626",
         "$type": "color",
-        "$description": "Iron Neutral/700 — default running text (light)"
+        "$description": "Iron Neutral/800 — default running text (light)"
       },
       "muted": {
         "$value": "#A1A1A1",
