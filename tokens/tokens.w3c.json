@@ -485,7 +485,7 @@
 
     "font-family": {
       "body": { "$value": "Montserrat, sans-serif", "$type": "fontFamily", "$description": "All content and UI text. Ships the full 100–900 range, so every weight here is real (no fake-bold)." },
-      "mono": { "$value": "ui-monospace, SFMono-Regular, Menlo, monospace", "$type": "fontFamily", "$description": "Inline and block code. Falls back to the platform system monospace." }
+      "mono": { "$value": "Roboto Mono, SF Mono, Cascadia Code, Consolas, monospace", "$type": "fontFamily", "$description": "Inline and block code. Figma specifies Roboto Mono; falls back to the platform system monospace." }
     },
 
     "font-weight": {
@@ -555,10 +555,20 @@
         "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "20px", "fontWeight": 800, "lineHeight": "28px", "letterSpacing": "-0.4px" },
         "$description": "Card titles and sub-sub-headings inside multi-level cards. Equals Body large (20px) — separated by weight (800 vs 400) and tight tracking."
       },
+      "title-large": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "18px", "fontWeight": 700, "lineHeight": "28px" },
+        "$description": "A titled heading at body-large size — heavier than Body large, lighter than H4. Section intro labels or named headings inside running content."
+      },
       "body-large": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "18px", "fontWeight": 400, "lineHeight": "28px" },
-        "$description": "Lead / intro paragraphs sitting under a major heading. A sub-hero tagline or section's first line. Keep to one or two sentences."
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "18px", "fontWeight": 500, "lineHeight": "28px" },
+        "$description": "Lead / intro paragraphs sitting under a major heading. Medium 500 (Figma) gives the lead sentence more presence than body without being a heading."
+      },
+      "quote": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "18px", "fontWeight": 500, "lineHeight": "28px", "fontStyle": "italic" },
+        "$description": "Pull quotes, testimonials, blockquotes. Same size/weight as Body large but italic — visually distinct without a separate size."
       },
       "body": {
         "$type": "typography",

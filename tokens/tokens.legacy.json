@@ -164,7 +164,7 @@
           "description": "All content and UI text — full 100–900 range"
         },
         "mono": {
-          "value": "SF Mono, Cascadia Code, Consolas, Roboto Mono, monospace",
+          "value": "Roboto Mono, SF Mono, Cascadia Code, Consolas, monospace",
           "type": "fontFamilies",
           "description": "Inline and block code"
         }
@@ -270,7 +270,15 @@
           "value": "20",
           "type": "fontSizes"
         },
+        "title-lg": {
+          "value": "18",
+          "type": "fontSizes"
+        },
         "body-lg": {
+          "value": "18",
+          "type": "fontSizes"
+        },
+        "quote": {
           "value": "18",
           "type": "fontSizes"
         },
@@ -394,7 +402,15 @@
           "value": "28",
           "type": "lineHeights"
         },
+        "title-lg": {
+          "value": "28",
+          "type": "lineHeights"
+        },
         "body-lg": {
+          "value": "28",
+          "type": "lineHeights"
+        },
+        "quote": {
           "value": "28",
           "type": "lineHeights"
         },
@@ -538,10 +554,19 @@
         },
         "type": "typography"
       },
+      "title-large": {
+        "value": {
+          "fontFamily": "{typography.fontFamily.body}",
+          "fontWeight": "{typography.fontWeight.bold}",
+          "fontSize": "{typography.fontSize.title-lg}",
+          "lineHeight": "{typography.lineHeight.title-lg}"
+        },
+        "type": "typography"
+      },
       "body-lg": {
         "value": {
           "fontFamily": "{typography.fontFamily.body}",
-          "fontWeight": "{typography.fontWeight.regular}",
+          "fontWeight": "{typography.fontWeight.medium}",
           "fontSize": "{typography.fontSize.body-lg}",
           "lineHeight": "{typography.lineHeight.body-lg}"
         },
@@ -572,6 +597,16 @@
           "fontSize": "{typography.fontSize.caption-sm}",
           "lineHeight": "{typography.lineHeight.caption-sm}",
           "letterSpacing": "{typography.letterSpacing.caption-sm}"
+        },
+        "type": "typography"
+      },
+      "quote": {
+        "value": {
+          "fontFamily": "{typography.fontFamily.body}",
+          "fontWeight": "{typography.fontWeight.medium}",
+          "fontSize": "{typography.fontSize.quote}",
+          "lineHeight": "{typography.lineHeight.quote}",
+          "fontStyle": "italic"
         },
         "type": "typography"
       },

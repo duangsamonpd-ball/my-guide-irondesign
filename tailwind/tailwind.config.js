@@ -230,7 +230,7 @@ module.exports = {
         // 'sans' overrides Tailwind's built-in sans; 'body' is the project alias
         sans: ['Montserrat', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
         body: ['Montserrat', 'sans-serif'],
-        mono: ['SF Mono', 'Cascadia Code', 'Consolas', 'Roboto Mono', 'monospace'],
+        mono: ['Roboto Mono', 'SF Mono', 'Cascadia Code', 'Consolas', 'monospace'],
       },
 
       fontWeight: {
@@ -257,7 +257,9 @@ module.exports = {
         'h2':      [fontSize['3xl'], { lineHeight: leading[9],  letterSpacing: '-0.4px', fontWeight: '800' }],
         'h3':      [fontSize['2xl'], { lineHeight: leading[8],  letterSpacing: '-0.4px', fontWeight: '700' }],
         'h4':      [fontSize['xl'],  { lineHeight: leading[7],  letterSpacing: '-0.4px', fontWeight: '800' }],
-        'body-lg': [fontSize['lg'],  { lineHeight: leading[7],                           fontWeight: '400' }],
+        'title-lg':[fontSize['lg'],  { lineHeight: leading[7],                           fontWeight: '700' }],
+        'body-lg': [fontSize['lg'],  { lineHeight: leading[7],                           fontWeight: '500' }],
+        'quote':   [fontSize['lg'],  { lineHeight: leading[7],                           fontWeight: '500' }],
         'body':    [fontSize['base'],{ lineHeight: leading[7],                           fontWeight: '400' }],
         'caption': [fontSize['sm'],  { lineHeight: leading[5],                           fontWeight: '400' }],
         'caption-sm':[fontSize['xs'],{ lineHeight: leading[4],  letterSpacing: '0.4px', fontWeight: '500' }],

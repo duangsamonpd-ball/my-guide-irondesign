@@ -252,7 +252,7 @@
 
   --font-sans:    'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body:    'Montserrat', sans-serif;   /* alias — use either */
-  --font-mono:    "SF Mono", "Cascadia Code", Consolas, "Roboto Mono", monospace;
+  --font-mono:    'Roboto Mono', "SF Mono", "Cascadia Code", Consolas, monospace;  /* Figma: Roboto Mono */
 
   /* Accent — NuGet blue. Retheme overlines & emphasis from one place. */
   --c-accent: #185FA5;
@@ -262,6 +262,9 @@
   --fw-h2:        800;
   --fw-h3:        700;
   --fw-h4:        800;
+  --fw-title-lg:  700;  /* Title · Large — section intro title */
+  --fw-body-lg:   500;  /* Body large — Medium (Figma) */
+  --fw-quote:     500;  /* Quote — Medium italic */
   --fw-body:      400;
   --fw-overline:  700;
   --fw-caption-sm:500;  /* Caption SM — medium, tooltip / footer */
@@ -299,8 +302,10 @@
   --font-size-h1:       var(--font-size-5xl);   /* 40px — page title, 1 per page */
   --font-size-h2:       var(--font-size-3xl);   /* 30px — section heading */
   --font-size-h3:       var(--font-size-2xl);   /* 24px — card / feature title */
-  --font-size-h4:       var(--font-size-xl);    /* 20px — sub-label (= body-lg, split by weight) */
+  --font-size-h4:       var(--font-size-xl);    /* 20px — card title (split from body-lg by weight) */
+  --font-size-title-lg: var(--font-size-lg);    /* 18px — section intro title */
   --font-size-body-lg:  var(--font-size-lg);    /* 18px — lead / intro paragraph */
+  --font-size-quote:    var(--font-size-lg);    /* 18px — pull quote / blockquote (italic) */
   --font-size-body:     var(--font-size-base);  /* 16px — default running text */
   --font-size-caption:  var(--font-size-sm);    /* 14px — supporting text, secondary colour */
   --font-size-caption-sm: var(--font-size-xs);  /* 12px — tooltip, footer fine print */
@@ -336,7 +341,9 @@
   --line-height-h2:       var(--leading-9);   /* 36px */
   --line-height-h3:       var(--leading-8);   /* 32px */
   --line-height-h4:       var(--leading-7);   /* 28px */
+  --line-height-title-lg: var(--leading-7);   /* 28px */
   --line-height-body-lg:  var(--leading-7);   /* 28px */
+  --line-height-quote:    var(--leading-7);   /* 28px */
   --line-height-body:     var(--leading-7);   /* 28px */
   --line-height-caption:    var(--leading-5);   /* 20px */
   --line-height-caption-sm: var(--leading-4);   /* 16px */
