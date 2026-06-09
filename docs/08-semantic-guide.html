@@ -631,6 +631,20 @@
         <td style="color:#737373;font-size:0.75rem;">Text on top of CTA buttons</td>
       </tr>
       <tr>
+        <td><span class="role-badge" style="background:#EFF9FF;color:#2693EC;">on action tertiary</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span>#2693EC <span style="color:#A1A1A1;">brand/secondary</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span style="color:#C8C8D8;">#2693EC <span style="color:#5A5A7A;">brand/secondary</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-action-tertiary)')">--color-text-on-action-tertiary</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Text on tertiary / ghost action</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FDF1F5;color:#E01A59;">on action tertiary hover</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E01A59;"></div><span>#E01A59 <span style="color:#A1A1A1;">brand/primary</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#E01A59;"></div><span style="color:#C8C8D8;">#E01A59 <span style="color:#5A5A7A;">brand/primary</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-action-tertiary-hover)')">--color-text-on-action-tertiary-hover</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Hovered tertiary action</td>
+      </tr>
+      <tr>
         <td><span class="role-badge" style="background:#EFF9FF;color:#2693EC;">link</span></td>
         <td class="td-light"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span>#2693EC <span style="color:#A1A1A1;">brand/secondary</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span style="color:#C8C8D8;">#2693EC <span style="color:#5A5A7A;">brand/secondary</span></span></div></td>
@@ -757,6 +771,79 @@
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span style="color:#C8C8D8;">#2693EC <span style="color:#5A5A7A;">brand/secondary</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-border-alt)')">--color-border-alt</span></td>
         <td style="color:#737373;font-size:0.75rem;">Focused inputs, active outlines, links</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#EFF9FF;color:#2693EC;">selected</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span>#2693EC <span style="color:#A1A1A1;">iron-blue/500</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span style="color:#C8C8D8;">#2693EC <span style="color:#5A5A7A;">iron-blue/500</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-border-selected)')">--color-border-selected</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Selected item outline</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Buttons — light + dark -->
+  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Button</p>
+  <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Button fills. Most map to brand colours; <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">black</code> uses neutral in light mode and <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-button-dark-*</code> (iron-violet) in dark.</p>
+  <table class="mapping-table">
+    <thead>
+      <tr>
+        <th style="width:140px;">Role</th>
+        <th class="th-light">☀ Light — Color &amp; Scale</th>
+        <th class="th-dark">🌙 Dark — Color &amp; Scale</th>
+        <th>CSS Variable</th>
+        <th>Use for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-badge" style="background:#FDF1F5;color:#E01A59;">primary</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E01A59;"></div><span>#E01A59 <span style="color:#A1A1A1;">brand/primary</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#E01A59;"></div><span style="color:#C8C8D8;">#E01A59 <span style="color:#5A5A7A;">brand/primary</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-button-primary)')">--color-button-primary</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Primary button fill</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FDF1F5;color:#BA174B;">primary hover</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#BA174B;"></div><span>#BA174B <span style="color:#A1A1A1;">brand/primary-dark</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#BA174B;"></div><span style="color:#C8C8D8;">#BA174B <span style="color:#5A5A7A;">brand/primary-dark</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-button-primary-hover)')">--color-button-primary-hover</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Primary button hover</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#EFF9FF;color:#2693EC;">secondary</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span>#2693EC <span style="color:#A1A1A1;">brand/secondary</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span style="color:#C8C8D8;">#2693EC <span style="color:#5A5A7A;">brand/secondary</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-button-secondary)')">--color-button-secondary</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Secondary button fill</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#EFF9FF;color:#217BC4;">secondary hover</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#217BC4;"></div><span>#217BC4 <span style="color:#A1A1A1;">brand/secondary-dark</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#217BC4;"></div><span style="color:#C8C8D8;">#217BC4 <span style="color:#5A5A7A;">brand/secondary-dark</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-button-secondary-hover)')">--color-button-secondary-hover</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Secondary button hover</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">tertiary</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid #E2E8F0;"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border-color:rgba(0,0,0,0.3);"></div><span style="color:#C8C8D8;">#FFFFFF <span style="color:#5A5A7A;">white</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-button-tertiary)')">--color-button-tertiary</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Ghost / tertiary button fill</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#171717;color:#fff;">black</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#171717;"></div><span>#171717 <span style="color:#A1A1A1;">neutral/900</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#834378;"></div><span style="color:#C8C8D8;">#834378 <span style="color:#5A5A7A;">iron-violet/600</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-button-black)')">--color-button-black</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Dark / high-contrast button (dark mode → --color-button-dark-black)</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#0A0A0A;color:#fff;">black hover</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#0A0A0A;"></div><span>#0A0A0A <span style="color:#A1A1A1;">neutral/950</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#9D4F90;"></div><span style="color:#C8C8D8;">#9D4F90 <span style="color:#5A5A7A;">iron-violet/500</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-button-black-hover)')">--color-button-black-hover</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Black button hover (dark mode → --color-button-dark-black-hover)</td>
       </tr>
     </tbody>
   </table>

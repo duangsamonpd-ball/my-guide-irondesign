@@ -2,156 +2,389 @@
   "global": {
     "color": {
       "primary": {
-        "sky-blue": {
-          "value": "#2A95D5",
+        "default": {
+          "value": "#E01A59",
           "type": "color",
-          "description": "Primary brand color — main CTA, links, interactive elements"
+          "description": "Iron Pink/500 — primary CTAs, brand wordmark"
         },
-        "cobalt-blue": {
-          "value": "#1683D1",
+        "hover": {
+          "value": "#BA174B",
           "type": "color",
-          "description": "Hover state for primary — deeper shade on interaction"
+          "description": "Iron Pink/600 — primary-dark / hover"
         },
-        "accent-blue": {
-          "value": "#0D6EFD",
+        "active": {
+          "value": "#94153D",
           "type": "color",
-          "description": "Vibrant primary variant for secondary CTAs"
+          "description": "Iron Pink/700 — active / pressed"
+        },
+        "subtle": {
+          "value": "#FADDE6",
+          "type": "color",
+          "description": "Iron Pink/100 — subtle background tint"
+        },
+        "on": {
+          "value": "#FFFFFF",
+          "type": "color",
+          "description": "white — text on primary"
+        }
+      },
+      "secondary": {
+        "default": {
+          "value": "#2693EC",
+          "type": "color",
+          "description": "Iron Blue/500 — secondary CTAs, links"
+        },
+        "hover": {
+          "value": "#217BC4",
+          "type": "color",
+          "description": "Iron Blue/600 — secondary-dark / hover"
+        },
+        "active": {
+          "value": "#1D629B",
+          "type": "color",
+          "description": "Iron Blue/700 — active / pressed"
+        },
+        "subtle": {
+          "value": "#DEEFFC",
+          "type": "color",
+          "description": "Iron Blue/100 — subtle background tint"
+        },
+        "on": {
+          "value": "#FFFFFF",
+          "type": "color",
+          "description": "white — text on secondary"
         }
       },
       "accent": {
-        "magenta": {
-          "value": "#E01A59",
-          "type": "color",
-          "description": "High-impact destructive / urgent actions"
-        },
-        "teal": {
-          "value": "#63C1A0",
-          "type": "color",
-          "description": "Secondary actions, success, positive states"
-        },
-        "gold": {
+        "1": {
           "value": "#FDA509",
           "type": "color",
-          "description": "Warning, caution, attention states"
+          "description": "Iron Orange/500 — accent 1"
+        },
+        "2": {
+          "value": "#63C1A0",
+          "type": "color",
+          "description": "Iron Green/500 — accent 2"
+        },
+        "3": {
+          "value": "#89D3DF",
+          "type": "color",
+          "description": "Iron Sky/500 — accent 3"
+        },
+        "4": {
+          "value": "#563B99",
+          "type": "color",
+          "description": "Iron Purple/500 — accent 4"
         }
       },
       "semantic": {
         "success": {
-          "value": "{color.accent.teal}",
+          "value": "#63C1A0",
           "type": "color",
-          "description": "Positive completion, approval"
+          "description": "Iron Green/500"
+        },
+        "success-hover": {
+          "value": "#53A085",
+          "type": "color",
+          "description": "Iron Green/600"
+        },
+        "success-subtle": {
+          "value": "#E8F6F1",
+          "type": "color",
+          "description": "Iron Green/100"
         },
         "warning": {
-          "value": "{color.accent.gold}",
+          "value": "#FDA509",
           "type": "color",
-          "description": "Caution, attention-requiring states"
+          "description": "Iron Orange/500"
+        },
+        "warning-hover": {
+          "value": "#D2890A",
+          "type": "color",
+          "description": "Iron Orange/600"
+        },
+        "warning-subtle": {
+          "value": "#FFF2DA",
+          "type": "color",
+          "description": "Iron Orange/100"
         },
         "error": {
-          "value": "#DC3545",
+          "value": "#E5242A",
           "type": "color",
-          "description": "Destructive, error feedback"
+          "description": "Iron Red/500"
+        },
+        "error-hover": {
+          "value": "#C91D23",
+          "type": "color",
+          "description": "Iron Red/600"
+        },
+        "error-subtle": {
+          "value": "#FFE1E2",
+          "type": "color",
+          "description": "Iron Red/100"
         },
         "info": {
-          "value": "{color.primary.sky-blue}",
+          "value": "#2693EC",
           "type": "color",
-          "description": "Informational states"
+          "description": "Iron Blue/500"
+        },
+        "info-hover": {
+          "value": "#217BC4",
+          "type": "color",
+          "description": "Iron Blue/600"
+        },
+        "info-subtle": {
+          "value": "#DEEFFC",
+          "type": "color",
+          "description": "Iron Blue/100"
         }
       },
-      "neutral": {
-        "black": {
-          "value": "#000000",
+      "text": {
+        "heading": {
+          "value": "#171717",
           "type": "color",
-          "description": "Highest contrast — rare usage"
+          "description": "Neutral/900 — H1–H4, emphasized (light)"
         },
-        "charcoal": {
-          "value": "#181818",
+        "heading-alt": {
+          "value": "#2693EC",
           "type": "color",
-          "description": "Primary text / dark theme foundation"
+          "description": "Iron Blue/500 — coloured headline accents (light)"
         },
-        "slate-gray": {
-          "value": "#484E4F",
+        "body": {
+          "value": "#262626",
           "type": "color",
-          "description": "Secondary text"
+          "description": "Neutral/800 — running text (light)"
         },
-        "medium-gray": {
-          "value": "#525252",
+        "muted": {
+          "value": "#A1A1A1",
           "type": "color",
-          "description": "Tertiary text, subdued UI"
+          "description": "Neutral/400 — placeholders, captions (light)"
         },
-        "light-gray": {
-          "value": "#6C757D",
+        "support": {
+          "value": "#90A1B9",
           "type": "color",
-          "description": "Disabled states, low-priority text"
+          "description": "Slate/400 — support headlines (light)"
         },
-        "off-gray": {
-          "value": "#ADB5BD",
-          "type": "color",
-          "description": "Placeholders, very light text"
-        },
-        "pale-gray": {
-          "value": "#DEE2E6",
-          "type": "color",
-          "description": "Borders, dividers on light backgrounds"
-        },
-        "white": {
+        "on-primary": {
           "value": "#FFFFFF",
           "type": "color",
-          "description": "Background / text on dark contexts"
+          "description": "white — text on CTA buttons (Figma: on action)"
+        },
+        "on-action-tertiary": {
+          "value": "#2693EC",
+          "type": "color",
+          "description": "Iron Blue/500 — text on tertiary / ghost action"
+        },
+        "on-action-tertiary-hover": {
+          "value": "#E01A59",
+          "type": "color",
+          "description": "Iron Pink/500 — hovered tertiary action"
+        },
+        "link": {
+          "value": "#2693EC",
+          "type": "color",
+          "description": "Iron Blue/500 — hyperlinks"
+        },
+        "link-hover": {
+          "value": "#E01A59",
+          "type": "color",
+          "description": "Iron Pink/500 — hovered link"
+        }
+      },
+      "text-dark": {
+        "heading": {
+          "value": "#F5F5F5",
+          "type": "color",
+          "description": "Neutral/100 (dark)"
+        },
+        "heading-alt": {
+          "value": "#FDA509",
+          "type": "color",
+          "description": "Iron Orange/500 — accent 1 (dark)"
+        },
+        "body": {
+          "value": "#D4D4D4",
+          "type": "color",
+          "description": "Neutral/300 (dark)"
+        },
+        "muted": {
+          "value": "#737373",
+          "type": "color",
+          "description": "Neutral/500 (dark)"
+        },
+        "support": {
+          "value": "#CEA7C8",
+          "type": "color",
+          "description": "Iron Violet/300 (dark)"
+        },
+        "link": {
+          "value": "#2693EC",
+          "type": "color",
+          "description": "Iron Blue/500 — same as light"
+        },
+        "link-hover": {
+          "value": "#E01A59",
+          "type": "color",
+          "description": "Iron Pink/500 — same as light"
+        }
+      },
+      "text-on-color": {
+        "heading": {
+          "value": "#FFFFFF",
+          "type": "color",
+          "description": "white — headings on coloured surfaces"
+        },
+        "body": {
+          "value": "#E5E5E5",
+          "type": "color",
+          "description": "Neutral/200 — body on coloured surfaces"
         }
       },
       "surface": {
-        "light": {
+        "background": {
           "value": "#FFFFFF",
           "type": "color",
-          "description": "Primary light surface background"
+          "description": "white — main page background (light)"
         },
-        "dark": {
-          "value": "#181818",
+        "background-shade": {
+          "value": "#F1F5F9",
           "type": "color",
-          "description": "Dark mode background foundation"
+          "description": "Slate/100 — band fills (light)"
+        },
+        "card": {
+          "value": "#FFFFFF",
+          "type": "color",
+          "description": "white — card / modal / panel (light)"
+        },
+        "card-alt": {
+          "value": "#F2F9FE",
+          "type": "color",
+          "description": "Iron Blue/50 — alternative card (light)"
+        }
+      },
+      "surface-dark": {
+        "background": {
+          "value": "#351F31",
+          "type": "color",
+          "description": "Iron Violet/900 (dark)"
+        },
+        "background-shade": {
+          "value": "#231721",
+          "type": "color",
+          "description": "Iron Violet/950 (dark)"
+        },
+        "card": {
+          "value": "#4F2B49",
+          "type": "color",
+          "description": "Iron Violet/800 (dark)"
+        },
+        "card-alt": {
+          "value": "#231721",
+          "type": "color",
+          "description": "Iron Violet/950 (dark)"
         }
       },
       "border": {
-        "light": {
-          "value": "#DEE2E6",
+        "default": {
+          "value": "#E2E8F0",
           "type": "color",
-          "description": "Subtle borders on light backgrounds"
+          "description": "Slate/200 — dividers, input borders (light)"
         },
-        "medium": {
-          "value": "#D9DBE9",
+        "strong": {
+          "value": "#CAD5E2",
           "type": "color",
-          "description": "Enhanced borders and dividers"
+          "description": "Slate/300 — hover borders (light)"
         },
-        "slate": {
-          "value": "#678CB1",
+        "alternative": {
+          "value": "#2693EC",
           "type": "color",
-          "description": "Card and container division on hover"
+          "description": "Iron Blue/500 — active outlines"
+        },
+        "focused": {
+          "value": "#2693EC",
+          "type": "color",
+          "description": "Iron Blue/500 — focus ring"
+        },
+        "selected": {
+          "value": "#2693EC",
+          "type": "color",
+          "description": "Iron Blue/500 — selected item outline"
+        },
+        "danger": {
+          "value": "#E5242A",
+          "type": "color",
+          "description": "Iron Red/500 — error border"
         }
       },
-      "interactive": {
-        "btn-primary-bg": {
-          "value": "{color.primary.sky-blue}",
-          "type": "color"
+      "border-dark": {
+        "default": {
+          "value": "#9D4F90",
+          "type": "color",
+          "description": "Iron Violet/500 (dark)"
         },
-        "btn-primary-bg-hover": {
-          "value": "{color.primary.cobalt-blue}",
-          "type": "color"
+        "strong": {
+          "value": "#BA84B1",
+          "type": "color",
+          "description": "Iron Violet/400 (dark)"
         },
-        "btn-secondary-bg": {
-          "value": "{color.accent.teal}",
-          "type": "color"
+        "alternative": {
+          "value": "#2693EC",
+          "type": "color",
+          "description": "Iron Blue/500 — same as light"
+        }
+      },
+      "button": {
+        "primary": {
+          "value": "#E01A59",
+          "type": "color",
+          "description": "brand/primary — iron-pink/500"
         },
-        "btn-secondary-bg-hover": {
-          "value": "#55B08F",
-          "type": "color"
+        "primary-hover": {
+          "value": "#BA174B",
+          "type": "color",
+          "description": "brand/primary-dark — iron-pink/600"
         },
-        "btn-destructive-bg": {
-          "value": "{color.accent.magenta}",
-          "type": "color"
+        "secondary": {
+          "value": "#2693EC",
+          "type": "color",
+          "description": "brand/secondary — iron-blue/500"
         },
-        "btn-destructive-bg-hover": {
-          "value": "#C2154A",
-          "type": "color"
+        "secondary-hover": {
+          "value": "#217BC4",
+          "type": "color",
+          "description": "brand/secondary-dark — iron-blue/600"
+        },
+        "tertiary": {
+          "value": "#FFFFFF",
+          "type": "color",
+          "description": "white — ghost / tertiary"
+        },
+        "tertiary-hover": {
+          "value": "#FFFFFF",
+          "type": "color",
+          "description": "white"
+        },
+        "black": {
+          "value": "#171717",
+          "type": "color",
+          "description": "neutral/900"
+        },
+        "black-hover": {
+          "value": "#0A0A0A",
+          "type": "color",
+          "description": "neutral/950"
+        }
+      },
+      "button-dark": {
+        "black": {
+          "value": "#834378",
+          "type": "color",
+          "description": "iron-violet/600 (dark)"
+        },
+        "black-hover": {
+          "value": "#9D4F90",
+          "type": "color",
+          "description": "iron-violet/500 (dark)"
         }
       }
     },

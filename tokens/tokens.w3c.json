@@ -174,7 +174,17 @@
       "on-primary": {
         "$value": "#FFFFFF",
         "$type": "color",
-        "$description": "White — text on top of CTA buttons"
+        "$description": "White — text on top of CTA buttons (Figma: on action)"
+      },
+      "on-action-tertiary": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — text on tertiary / ghost action"
+      },
+      "on-action-tertiary-hover": {
+        "$value": "#E01A59",
+        "$type": "color",
+        "$description": "Iron Pink/500 — hovered tertiary action"
       },
       "link": {
         "$value": "#2693EC",
@@ -305,6 +315,11 @@
         "$value": "#2693EC",
         "$type": "color",
         "$description": "Iron Blue/500 — brand/secondary — focused inputs, active outlines (both modes)"
+      },
+      "selected": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — selected item outline (both modes)"
       }
     },
 
@@ -326,24 +341,22 @@
         "$description": "Iron Blue/500 — brand/secondary — same as light mode (dark)"
       }
     },
-    "neutral": {
-      "black":       { "$value": "#000000", "$type": "color" },
-      "charcoal":    { "$value": "#181818", "$type": "color" },
-      "slate-gray":  { "$value": "#484E4F", "$type": "color" },
-      "medium-gray": { "$value": "#525252", "$type": "color" },
-      "light-gray":  { "$value": "#6C757D", "$type": "color" },
-      "off-gray":    { "$value": "#ADB5BD", "$type": "color" },
-      "pale-gray":   { "$value": "#DEE2E6", "$type": "color" },
-      "white":       { "$value": "#FFFFFF", "$type": "color" }
+    "button": {
+      "_group": "button — Figma: button (light column)",
+      "primary":         { "$value": "#E01A59", "$type": "color", "$description": "brand/primary — iron-pink/500" },
+      "primary-hover":   { "$value": "#BA174B", "$type": "color", "$description": "brand/primary-dark — iron-pink/600" },
+      "secondary":       { "$value": "#2693EC", "$type": "color", "$description": "brand/secondary — iron-blue/500" },
+      "secondary-hover": { "$value": "#217BC4", "$type": "color", "$description": "brand/secondary-dark — iron-blue/600" },
+      "tertiary":        { "$value": "#FFFFFF", "$type": "color", "$description": "white — ghost / tertiary fill" },
+      "tertiary-hover":  { "$value": "#FFFFFF", "$type": "color", "$description": "white" },
+      "black":           { "$value": "#171717", "$type": "color", "$description": "neutral/900" },
+      "black-hover":     { "$value": "#0A0A0A", "$type": "color", "$description": "neutral/950" }
     },
-    "border": {
-      "light":  { "$value": "#DEE2E6", "$type": "color" },
-      "medium": { "$value": "#D9DBE9", "$type": "color" },
-      "slate":  { "$value": "#678CB1", "$type": "color" }
-    },
-    "surface": {
-      "light": { "$value": "#FFFFFF", "$type": "color" },
-      "dark":  { "$value": "#181818", "$type": "color" }
+
+    "button-dark": {
+      "_group": "button — Figma: button (dark column) — only black differs",
+      "black":       { "$value": "#834378", "$type": "color", "$description": "iron-violet/600" },
+      "black-hover": { "$value": "#9D4F90", "$type": "color", "$description": "iron-violet/500" }
     }
   },
 

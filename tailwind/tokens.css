@@ -198,13 +198,29 @@
   --color-accent-3:         var(--iron-sky-500);    /* #89D3DF — iron-sky/500    */
   --color-accent-4:         var(--iron-purple-500); /* #563B99 — iron-purple/500 */
 
+  /* ── Buttons (Figma: button) ── */
+  --color-button-primary:          var(--iron-pink-500);   /* #E01A59 — brand/primary */
+  --color-button-primary-hover:    var(--iron-pink-600);   /* #BA174B — brand/primary-dark */
+  --color-button-secondary:        var(--iron-blue-500);   /* #2693EC — brand/secondary */
+  --color-button-secondary-hover:  var(--iron-blue-600);   /* #217BC4 — brand/secondary-dark */
+  --color-button-tertiary:         #FFFFFF;                 /* white — ghost / tertiary fill */
+  --color-button-tertiary-hover:   #FFFFFF;                 /* white */
+  --color-button-black:            var(--neutral-900);      /* #171717 — neutral/900 */
+  --color-button-black-hover:      var(--neutral-950);      /* #0A0A0A — neutral/950 */
+
+  /* ── Buttons — Dark Theme (only black differs) ── */
+  --color-button-dark-black:       var(--iron-violet-600);  /* #834378 — iron-violet/600 */
+  --color-button-dark-black-hover: var(--iron-violet-500);  /* #9D4F90 — iron-violet/500 */
+
   /* ── Text / Default — Light Mode (Figma: text/default) ── */
   --color-text-heading:         var(--neutral-900); /* #171717 — H1–H4, emphasized type */
   --color-text-heading-alt:     var(--iron-blue-500);    /* #2693EC — Coloured headline accents, kickers */
   --color-text-body:            var(--neutral-800); /* #262626 — Default running text */
   --color-text-muted:           var(--neutral-400); /* #A1A1A1 — Placeholders, captions, disabled */
   --color-text-support:         var(--slate-400);   /* #90A1B9 — Support headlines, caption titles */
-  --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons */
+  --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons (Figma: on action) */
+  --color-text-on-action-tertiary:       var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
+  --color-text-on-action-tertiary-hover: var(--iron-pink-500); /* #E01A59 — hovered tertiary action */
   --color-text-link:            var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text */
   --color-text-link-hover:      var(--iron-pink-500);    /* #E01A59 — Hovered / active link state */
 
@@ -238,7 +254,8 @@
   --color-border-strong:    var(--slate-300);    /* #CAD5E2 — slate/300 — hover borders, strong dividers */
   --color-border-alt:       var(--iron-blue-500);     /* #2693EC — brand/secondary — focused inputs, active outlines */
   --color-border-focus:     var(--iron-blue-500);     /* #2693EC — focus ring (accessibility) */
-  --color-border-error:     var(--iron-red-500);      /* #E5242A — error state border */
+  --color-border-selected:  var(--iron-blue-500);     /* #2693EC — selected item outline */
+  --color-border-error:     var(--iron-red-500);      /* #E5242A — error state border (Figma: danger) */
 
   /* ── Borders — Dark Theme (Figma: border, dark column) ── */
   --color-border-dark:        var(--iron-violet-500); /* #9D4F90 — iron-violet/500 — dividers, input borders */
