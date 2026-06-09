@@ -10,7 +10,7 @@
 const ironColors = {
   'iron-pink': {
     50:  '#FDF1F5',
-    100: '#FADDE8',
+    100: '#FADDE6',
     200: '#F6BACD',
     300: '#F08DAC',
     400: '#E95F8B',

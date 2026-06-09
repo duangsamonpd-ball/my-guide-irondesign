@@ -19,7 +19,7 @@
         "$description": "Iron Pink/700 — active / pressed state"
       },
       "subtle": {
-        "$value": "#FADDE8",
+        "$value": "#FADDE6",
         "$type": "color",
         "$description": "Iron Pink/100 — subtle background tint"
       },

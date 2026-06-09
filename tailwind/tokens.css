@@ -19,7 +19,7 @@
 
   /* ── Iron Pink ─────────────────────────────────── */
   --iron-pink-50:  #FDF1F5;
-  --iron-pink-100: #FADDE8;
+  --iron-pink-100: #FADDE6;
   --iron-pink-200: #F6BACD;
   --iron-pink-300: #F08DAC;
   --iron-pink-400: #E95F8B;
@@ -158,7 +158,7 @@
   --color-primary:          var(--iron-pink-500);   /* #E01A59 */
   --color-primary-hover:    var(--iron-pink-600);   /* #BA174B */
   --color-primary-active:   var(--iron-pink-700);   /* #94153D */
-  --color-primary-subtle:   var(--iron-pink-100);   /* #FADDE8 */
+  --color-primary-subtle:   var(--iron-pink-100);   /* #FADDE6 */
   --color-primary-on:       #FFFFFF;
 
   /* Secondary = Iron Blue/500 — secondary CTAs, alternative headline, link */
