@@ -527,6 +527,10 @@
           "value": "12",
           "type": "fontSizes"
         },
+        "label": {
+          "value": "14",
+          "type": "fontSizes"
+        },
         "overline": {
           "value": "14",
           "type": "fontSizes"
@@ -657,6 +661,10 @@
         },
         "caption-sm": {
           "value": "16",
+          "type": "lineHeights"
+        },
+        "label": {
+          "value": "20",
           "type": "lineHeights"
         },
         "overline": {
@@ -830,6 +838,15 @@
           "fontSize": "{typography.fontSize.caption-sm}",
           "lineHeight": "{typography.lineHeight.caption-sm}",
           "letterSpacing": "{typography.letterSpacing.caption-sm}"
+        },
+        "type": "typography"
+      },
+      "label": {
+        "value": {
+          "fontFamily": "{typography.fontFamily.body}",
+          "fontWeight": "{typography.fontWeight.medium}",
+          "fontSize": "{typography.fontSize.label}",
+          "lineHeight": "{typography.lineHeight.label}"
         },
         "type": "typography"
       },
