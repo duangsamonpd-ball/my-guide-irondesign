@@ -94,6 +94,19 @@
       --text-4xl:  2.25rem;   /* 36 */
       --text-5xl:  2.5rem;    /* 40 */
       --text-6xl:  3rem;      /* 48 */
+
+      /* Leading (line-height) scale — Iron Software tokens */
+      --leading-none: 1;
+      --leading-4: 16px;  --leading-5: 20px;  --leading-6: 24px;
+      --leading-7: 28px;  --leading-8: 32px;  --leading-9: 36px;
+      --leading-10: 40px; --leading-12: 48px;
+
+      /* Tracking (letter-spacing) scale — Iron Software tokens */
+      --tracking-tighter: -0.8px; /* H1 */
+      --tracking-tight:   -0.4px; /* H2–H4 */
+      --tracking-normal:   0px;
+      --tracking-wide:     0.4px; /* caption-sm, nav-label */
+      --tracking-wider:    0.8px; /* overline */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -112,20 +125,20 @@
 
     /* ── Type ramp — exact Iron Software typography tokens (size / weight / line-height / tracking) ── */
     h1,h2,h3,h4 { color: var(--text-heading); }
-    .h1 { font-size: var(--text-5xl);   font-weight: 900; line-height: 48px; letter-spacing: -0.8px; }  /* token h1 — 40px */
-    .h2 { font-size: var(--text-3xl); font-weight: 800; line-height: 36px; letter-spacing: -0.4px; }  /* token h2 — 30px */
-    .h3 { font-size: var(--text-2xl);   font-weight: 700; line-height: 32px; letter-spacing: -0.4px; }  /* token h3 — 24px */
-    .h4 { font-size: var(--text-xl);  font-weight: 800; line-height: 28px; letter-spacing: -0.4px; }  /* token h4 — 20px */
-    .lead { font-size: var(--text-lg); font-weight: 500; line-height: 28px; }  /* token body-large — 18px */
+    .h1 { font-size: var(--text-5xl);   font-weight: 900; line-height: var(--leading-12); letter-spacing: var(--tracking-tighter); }  /* token h1 — 40px */
+    .h2 { font-size: var(--text-3xl); font-weight: 800; line-height: var(--leading-9); letter-spacing: var(--tracking-tight); }  /* token h2 — 30px */
+    .h3 { font-size: var(--text-2xl);   font-weight: 700; line-height: var(--leading-8); letter-spacing: var(--tracking-tight); }  /* token h3 — 24px */
+    .h4 { font-size: var(--text-xl);  font-weight: 800; line-height: var(--leading-7); letter-spacing: var(--tracking-tight); }  /* token h4 — 20px */
+    .lead { font-size: var(--text-lg); font-weight: 500; line-height: var(--leading-7); }  /* token body-large — 18px */
     .overline {
-      font-size: var(--text-sm); font-weight: 700; letter-spacing: 0.8px;
+      font-size: var(--text-sm); font-weight: 700; letter-spacing: var(--tracking-wider);
       text-transform: uppercase; color: var(--secondary-active);
     }
 
     /* ── Buttons ── */
     .btn {
       display: inline-flex; align-items: center; gap: var(--space-sm);
-      font-weight: 700; font-size: var(--text-base); line-height: 1;
+      font-weight: 700; font-size: var(--text-base); line-height: var(--leading-none);
       padding: var(--space-md) var(--space-2xl); border-radius: var(--r-4xl);
       border: 1.5px solid transparent; cursor: pointer;
       transition: background .16s, color .16s, border-color .16s, transform .16s;
@@ -154,7 +167,7 @@
     .section-head { text-align: center; margin: 0 auto var(--space-4xl); }
     /* section titles use the H2 token (30px) directly — no size override */
     /* subtitle = Body large (18px / Medium 500 / 28px line-height) */
-    .section-head p { color: var(--text-support); font-size: var(--text-lg); font-weight: 500; line-height: 28px; max-width: 820px; margin: var(--space-md) auto 0; }
+    .section-head p { color: var(--text-support); font-size: var(--text-lg); font-weight: 500; line-height: var(--leading-7); max-width: 820px; margin: var(--space-md) auto 0; }
 
     /* ===================================================================
        1. TOP NAV
@@ -163,20 +176,20 @@
       position: absolute; top: 0; left: 0; right: 0; z-index: 30;
     }
     .topnav .wrap { display: flex; align-items: center; gap: var(--space-2xl); height: 76px; }
-    .brand { display: flex; align-items: center; gap: var(--space-sm); font-weight: 800; color: #fff; font-size: var(--text-base); letter-spacing: .3px; }
+    .brand { display: flex; align-items: center; gap: var(--space-sm); font-weight: 800; color: #fff; font-size: var(--text-base); letter-spacing: var(--tracking-wide); }
     .brand-logo { height: 30px; width: auto; display: block; }
-    .brand .hash { color: #fff; font-size: var(--text-xl); line-height: 1; transform: skewX(-8deg); font-weight: 900; }
+    .brand .hash { color: #fff; font-size: var(--text-xl); line-height: var(--leading-none); transform: skewX(-8deg); font-weight: 900; }
     .brand b { font-weight: 900; }
     .brand span { font-weight: 500; opacity: .85; }
     .navlinks { display: flex; gap: var(--space-xl); margin-left: var(--space-xs); }
     .navlinks a {
-      color: #fff; font-size: var(--text-sm); font-weight: 700; letter-spacing: .4px;
+      color: #fff; font-size: var(--text-sm); font-weight: 700; letter-spacing: var(--tracking-wide);
       text-transform: uppercase; opacity: .92; display: inline-flex; align-items: center; gap: var(--space-micro);
     }
     .navlinks a:hover { opacity: 1; color: var(--secondary-subtle); }
     .navlinks .caret { font-size: var(--text-xs); opacity: .8; }
     .nav-right { margin-left: auto; display: flex; align-items: center; gap: var(--space-lg); }
-    .nav-right a { color: #fff; font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
+    .nav-right a { color: #fff; font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wide); }
     .nav-hamburger { display: none; background: none; border: 0; cursor: pointer; flex-direction: column; gap: var(--space-micro); margin-left: auto; }
     .nav-hamburger span { width: 24px; height: 2px; background: #fff; border-radius: 2px; }
 
@@ -194,7 +207,7 @@
       background-repeat: no-repeat, no-repeat;
     }
     .hero .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr auto; gap: var(--space-3xl); align-items: center; padding-top: var(--space-section); padding-bottom: var(--space-hero); }
-    .hero h1 { color: #fff; font-size: clamp(var(--text-4xl), 4.4vw, var(--text-6xl)); font-weight: 900; letter-spacing: -1px; line-height: 1.08; }
+    .hero h1 { color: #fff; font-size: clamp(var(--text-4xl), 4.4vw, var(--text-6xl)); font-weight: 900; letter-spacing: var(--tracking-tighter); line-height: 1.08; }
     .hero h1 em { font-style: normal; color: #fff; }
     .hero p { font-size: var(--text-lg); font-weight: 500; opacity: .92; margin: var(--space-lg) 0 var(--space-2xl); max-width: 520px; }
     .hero-sub { font-size: var(--text-sm) !important; opacity: .8 !important; }
@@ -231,10 +244,10 @@
     }
     .product-cell:hover { background: var(--bg-shade-2); }
     .product-logo { width: 74px; height: 74px; margin: 0 auto var(--space-md); object-fit: contain; }
-    .product-name { font-weight: 700; font-size: var(--text-base); color: var(--text-heading); letter-spacing: .3px; }  /* IRON — Bold */
+    .product-name { font-weight: 700; font-size: var(--text-base); color: var(--text-heading); letter-spacing: var(--tracking-wide); }  /* IRON — Bold */
     .product-name .suffix { font-weight: 400; }  /* PDF — Regular */
     .product-cell ul { list-style: none; margin-top: var(--space-sm); }
-    .product-cell li { font-size: var(--text-sm); font-weight: 400; line-height: 20px; color: var(--text-support); }  /* Caption token */
+    .product-cell li { font-size: var(--text-sm); font-weight: 400; line-height: var(--leading-5); color: var(--text-support); }  /* Caption token */
 
     /* ===================================================================
        4. WHY IRON SUITE (dark band)
@@ -257,7 +270,7 @@
     .feature { display: grid; grid-template-columns: 48px 1fr; gap: var(--space-md); }
     .feature .ficon { width: 48px; height: 48px; object-fit: contain; display: block; }
     .feature h4 { color: #fff; font-size: var(--text-base); font-weight: 700; margin-bottom: var(--space-xs); }
-    .feature p { color: rgba(255,255,255,.78); font-size: var(--text-sm); line-height: 1.55; }
+    .feature p { color: rgba(255,255,255,.78); font-size: var(--text-sm); line-height: var(--leading-5); }
     .platform-icons { display: flex; gap: var(--space-sm); margin-top: var(--space-sm); font-size: var(--text-base); opacity: .85; }
     .why-cta { text-align: center; margin: var(--space-3xl) 0; }
     .why-strip {
@@ -265,7 +278,7 @@
       display: flex; align-items: center; justify-content: center; gap: var(--space-lg);
       padding: var(--space-xl) 0; flex-wrap: wrap; font-size: var(--text-sm);
     }
-    .why-strip .suite-logo { font-weight: 900; letter-spacing: .5px; display: inline-flex; gap: var(--space-xs); align-items: center; }
+    .why-strip .suite-logo { font-weight: 900; letter-spacing: var(--tracking-wide); display: inline-flex; gap: var(--space-xs); align-items: center; }
     .why-strip .sep { opacity: .4; }
     .pill-outline { border: 1px solid rgba(255,255,255,.3); border-radius: var(--r-full); padding: var(--space-xs) var(--space-md); font-size: var(--text-xs); display: inline-flex; gap: var(--space-xs); align-items: center; }
     .why-shape { height: 70px; background: linear-gradient(180deg,#185088, #185088); clip-path: polygon(0 0, 50% 70%, 100% 0, 100% 0, 0 0); }
@@ -291,20 +304,20 @@
     .info-card .ic { width: 40px; height: 40px; border-radius: var(--r-lg); background: var(--card-alt); color: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: var(--text-xl); margin-bottom: var(--space-md); }
     .info-card .ic-row { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
     .info-card .ic-row h4 { margin: 0; }
-    .info-card p { color: var(--text-support); font-size: var(--text-base); line-height: 1.6; margin-bottom: var(--space-lg); flex: 1; }
+    .info-card p { color: var(--text-support); font-size: var(--text-base); line-height: var(--leading-7); margin-bottom: var(--space-lg); flex: 1; }
     .info-card .link-arrow { margin-top: auto; }
 
     /* ===================================================================
        6. SAVINGS BAND
     =================================================================== */
     .savings { background: var(--card-alt); border-radius: var(--r-3xl); padding: var(--space-3xl); display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--space-3xl); align-items: center; }
-    .savings h3 { font-size: var(--text-2xl); font-weight: 800; letter-spacing: -.4px; }
+    .savings h3 { font-size: var(--text-2xl); font-weight: 800; letter-spacing: var(--tracking-tight); }
     .savings > div:first-child p { color: var(--text-support); margin-top: var(--space-sm); font-size: var(--text-base); }
     .stat-card { background: var(--card); border-radius: var(--r-2xl); box-shadow: var(--sh-card); display: grid; grid-template-columns: repeat(3, 1fr); }
     .stat-card .stat { padding: var(--space-xl) var(--space-xl); position: relative; }
     /* vertical divider, inset 24px from top & bottom */
     .stat-card .stat:not(:last-child)::after { content: ""; position: absolute; top: 24px; bottom: 24px; right: 0; width: 1px; background: var(--border); }
-    .stat .num { font-size: var(--text-4xl); font-weight: 900; color: var(--text-heading); letter-spacing: -1px; }
+    .stat .num { font-size: var(--text-4xl); font-weight: 900; color: var(--text-heading); letter-spacing: var(--tracking-tighter); }
     .stat .num .hl { color: var(--secondary); }   /* figure is blue, unit suffix stays black */
     .stat .sub { font-size: var(--text-sm); color: var(--text-support); margin-top: var(--space-xs); }
     .stat .sub b { color: var(--text-heading); display: block; font-weight: 700; }
@@ -321,12 +334,12 @@
     .logo-row { display: flex; gap: var(--space-2xl); align-items: center; margin-top: var(--space-lg); flex-wrap: wrap; }
     .logo-row img { height: 48px; width: auto; display: block; }
     .big-metric { background: var(--card-alt); border-radius: var(--r-2xl); padding: var(--space-md) var(--space-xl); text-align: right; }
-    .big-metric .v { font-size: var(--text-5xl); font-weight: 900; color: var(--secondary); letter-spacing: -1px; }
+    .big-metric .v { font-size: var(--text-5xl); font-weight: 900; color: var(--secondary); letter-spacing: var(--tracking-tighter); }
     .big-metric .l { font-size: var(--text-xs); color: var(--text-support); }
     .chart { margin-top: var(--space-xl); }
     .chart svg { width: 100%; height: auto; display: block; }
     .growth-caption { text-align: center; color: var(--text-support); font-size: var(--text-sm); margin-top: var(--space-md); }
-    .growth-outro { text-align: center; color: var(--text-support); font-size: var(--text-base); line-height: 1.7; margin: var(--space-3xl) auto 0; max-width: 960px; }
+    .growth-outro { text-align: center; color: var(--text-support); font-size: var(--text-base); line-height: var(--leading-7); margin: var(--space-3xl) auto 0; max-width: 960px; }
     .growth-outro b { color: var(--text-heading); font-weight: 700; }
 
     /* ===================================================================
@@ -341,10 +354,10 @@
       border-radius: var(--r-2xl); padding: var(--space-2xl);
       display: flex; flex-direction: column; flex: 1;
     }
-    .tcard q { display: block; font-style: italic; color: var(--text-body); font-size: var(--text-lg); font-weight: 500; line-height: 28px; quotes: '"' '"'; }  /* Quote token */
+    .tcard q { display: block; font-style: italic; color: var(--text-body); font-size: var(--text-lg); font-weight: 500; line-height: var(--leading-7); quotes: '"' '"'; }  /* Quote token */
     .tcard .who { display: flex; align-items: center; gap: var(--space-sm); margin-top: auto; padding-top: var(--space-xl); }
     .tcard .who .avatar { width: 40px; height: 40px; flex-shrink: 0; }
-    .tcard .who .meta b { font-size: var(--text-sm); color: var(--text-heading); display: block; line-height: 1.3; }
+    .tcard .who .meta b { font-size: var(--text-sm); color: var(--text-heading); display: block; line-height: var(--leading-5); }
     .tcard .who .meta small { font-size: var(--text-sm); color: var(--text-muted); }
     .tcard .who .link-arrow { margin-left: auto; font-size: var(--text-sm); white-space: nowrap; }
 
@@ -355,7 +368,7 @@
       display: flex; flex-direction: column;
     }
     .tfeatured .ftop { padding: var(--space-2xl) var(--space-2xl) 0; }
-    .tfeatured q { display: block; font-style: italic; color: var(--text-body); font-size: var(--text-lg); font-weight: 500; line-height: 28px; quotes: '"' '"'; }  /* Quote token */
+    .tfeatured q { display: block; font-style: italic; color: var(--text-body); font-size: var(--text-lg); font-weight: 500; line-height: var(--leading-7); quotes: '"' '"'; }  /* Quote token */
     .tfeatured .ftop .link-arrow { margin-top: var(--space-lg); }
     .tfeatured .fbottom { position: relative; margin-top: var(--space-xl); flex: 1; min-height: 240px; }
     .tfeatured .photo { /* featured portrait — transparent cutout, anchored bottom-right */
@@ -368,7 +381,7 @@
       display: flex; align-items: center; gap: var(--space-sm);
     }
     .tfeatured .who .avatar { width: 40px; height: 40px; flex-shrink: 0; }
-    .tfeatured .who .meta b { font-size: var(--text-base); color: var(--text-heading); display: block; line-height: 1.3; }
+    .tfeatured .who .meta b { font-size: var(--text-base); color: var(--text-heading); display: block; line-height: var(--leading-5); }
     .tfeatured .who .meta small { font-size: var(--text-sm); color: var(--text-support); }
 
     /* ===================================================================
@@ -377,15 +390,15 @@
     /* heading + avatar row, centred as one wide unit (not capped at 720) */
     .support-head { display: flex; align-items: center; justify-content: center; gap: var(--space-xl); flex-wrap: nowrap; margin-bottom: var(--space-md); }
     .support-head .h2 { margin: 0; }
-    .support-sub { text-align: center; color: var(--text-support); font-size: var(--text-base); line-height: 1.55; max-width: 820px; margin: 0 auto var(--space-4xl); }
+    .support-sub { text-align: center; color: var(--text-support); font-size: var(--text-base); line-height: var(--leading-7); max-width: 820px; margin: 0 auto var(--space-4xl); }
     .avatar-stack { display: inline-flex; flex-shrink: 0; }
     .avatar-stack .avatar { width: 60px; height: 60px; margin-left: -16px; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(15,23,43,0.10); }
     .avatar-stack .avatar:first-child { margin-left: 0; }
     .support-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2xl); }
     .sstat { display: grid; grid-template-columns: 56px 1fr; gap: var(--space-md); align-items: center; }
     .sstat .si { width: 56px; height: 56px; border-radius: var(--r-xl); background: var(--bg-shade); display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); }
-    .sstat .v { font-size: var(--text-2xl); font-weight: 900; color: var(--secondary); letter-spacing: -.5px; }
-    .sstat .l { font-size: var(--text-sm); color: var(--text-support); line-height: 1.4; }
+    .sstat .v { font-size: var(--text-2xl); font-weight: 900; color: var(--secondary); letter-spacing: var(--tracking-tight); }
+    .sstat .l { font-size: var(--text-sm); color: var(--text-support); line-height: var(--leading-5); }
 
     /* ===================================================================
        10. WE SHIP EVERY MONTH
@@ -456,7 +469,7 @@
     .fb-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--space-xl); padding: var(--space-lg) 0; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.08); }
     .fb-ratings { display: flex; gap: var(--space-lg); }
     .rating { display: flex; align-items: center; gap: var(--space-xs); }
-    .rating .stars { color: var(--accent-orange); font-size: var(--text-xs); letter-spacing: 1px; }
+    .rating .stars { color: var(--accent-orange); font-size: var(--text-xs); letter-spacing: var(--tracking-wider); }
     .rating .score { font-weight: 800; color: #fff; font-size: var(--text-sm); }
     .fb-company { display: flex; align-items: center; gap: var(--space-md); font-size: var(--text-sm); }
     .fb-company .f-suite-logo { font-size: var(--text-base); }
