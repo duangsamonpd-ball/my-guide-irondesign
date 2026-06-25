@@ -1,3 +1,6 @@
 .DS_Store
 ._*
 node_modules/
+
+# local Figma reference exports (not committed)
+design-refs/
