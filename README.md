@@ -11,7 +11,7 @@
 [![Font](https://img.shields.io/badge/type-Montserrat%20%2B%20Roboto%20Mono-63C1A0?style=flat-square)](docs/02-typography.html)
 [![License](https://img.shields.io/badge/internal-Iron%20Software-185FA5?style=flat-square)](#)
 
-[**🎨 Live Documentation**](https://duangsamonpd-ball.github.io/my-guide-irondesign/) · [**Colors**](https://duangsamonpd-ball.github.io/my-guide-irondesign/01-colors.html) · [**Typography**](https://duangsamonpd-ball.github.io/my-guide-irondesign/02-typography.html) · [**Components**](https://duangsamonpd-ball.github.io/my-guide-irondesign/07-components.html) · [**Semantic Guide**](https://duangsamonpd-ball.github.io/my-guide-irondesign/08-semantic-guide.html)
+[**🎨 Live Documentation**](https://duangsamonpd-ball.github.io/my-guide-irondesign/) · [**🏠 Homepage Demo**](https://duangsamonpd-ball.github.io/my-guide-irondesign/homepage.html) · [**Colors**](https://duangsamonpd-ball.github.io/my-guide-irondesign/01-colors.html) · [**Typography**](https://duangsamonpd-ball.github.io/my-guide-irondesign/02-typography.html) · [**Components**](https://duangsamonpd-ball.github.io/my-guide-irondesign/07-components.html) · [**Semantic Guide**](https://duangsamonpd-ball.github.io/my-guide-irondesign/08-semantic-guide.html)
 
 </div>
 
@@ -47,7 +47,22 @@ The single reference for every design decision at Iron Software — colors, typo
 | 🧩 **Components** | [`07-components.html`](docs/07-components.html) | Buttons, inputs, badges, cards, nav |
 | 🗺️ **Semantic Guide** | [`08-semantic-guide.html`](docs/08-semantic-guide.html) | Dev handoff — token map, code examples, downloads |
 
-**By the numbers:** `110` raw color shades · `76` semantic color tokens · `19` type styles · `13`-step font-size & leading scales.
+**By the numbers:** `110` raw color shades · `76` semantic color tokens · `20` type styles · `13`-step font-size & leading scales.
+
+---
+
+## 🏠 Homepage demo — the system in action
+
+The proof that the tokens compose into a real product page: [`docs/homepage.html`](docs/homepage.html) is a complete Iron Software marketing homepage built **entirely from the design tokens** — zero hard-coded values.
+
+[**▶ View the live homepage demo**](https://duangsamonpd-ball.github.io/my-guide-irondesign/homepage.html)
+
+- **13 sections** — hero · product grid · Why Iron Suite · audiences · savings stats · 140M growth chart · testimonials · support · monthly releases · 1% For The Planet · CTA · mega-footer
+- **100% token-driven** — every colour, font-size, weight, line-height, tracking, spacing, radius and shadow is a CSS variable (`var(--text-3xl)` · `var(--space-hero)` · `var(--leading-7)` · `var(--tracking-tight)` …)
+- **Responsive layout** — 1440 design frame → 1280 container → 24px gutter, fluid down to mobile
+- **Real brand assets** — product logos, partner logos, photography and a dotted world map (`docs/assets/`)
+
+> A working reference for how to consume the system end-to-end — open the file and every value traces back to a token in `:root`.
 
 ---
 
@@ -129,6 +144,7 @@ slate/200                  --color-border                  dividers
 | Quote | 18px | 500 Medium *italic* | 28 | — |
 | Body | 16px | 400 Regular | 28 | — |
 | Caption | 14px | 400 Regular | 20 | — |
+| Label | 14px | 500 Medium | 20 | — |
 | Caption SM | 12px | 500 Medium | 16 | 0.4 |
 | Overline | 14px | 700 Bold · UPPER | 16 | 0.8 |
 | Code | 14px | Roboto Mono | 24 | — |
@@ -151,14 +167,15 @@ slate/200                  --color-border                  dividers
 ```
 iron-design-system/
 ├── docs/                      # GitHub Pages site (the visual documentation)
-│   ├── index.html             #   Landing page
+│   ├── index.html             #   Landing page (links every guide + demo)
+│   ├── homepage.html          #   🏠 Full homepage demo — built 100% from tokens
 │   ├── 01-colors.html         #   🎨 Color Palette + Shade Scale
 │   ├── semantic-colors.html   #   🎯 Semantic Colors
 │   ├── 02-typography.html     #   🔤 Typography
 │   ├── 03-spacing.html …      #   📐 Spacing, Borders, Opacity, Shadows
 │   ├── 07-components.html      #   🧩 Components
 │   ├── 08-semantic-guide.html #   🗺️ Dev handoff + token downloads
-│   └── assets/logo.svg
+│   └── assets/                #   logos, product art, photos, world map
 │
 ├── tailwind/
 │   ├── tokens.css             # ⭐ All CSS custom properties (colors + type + spacing …)
