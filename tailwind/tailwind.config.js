@@ -314,6 +314,18 @@ module.exports = {
         'focus-magenta':  '0 0 0 3px rgba(224, 26, 89, 0.25)',    // Focus ring — destructive
       },
 
+      // ── 7b. BLUR (glassmorphism surfaces, backdrops, overlays) ──────────────
+      blur: {
+        'none': '0px',
+        'xs':   '4px',
+        'sm':   '8px',
+        'md':   '12px',
+        'lg':   '16px',
+        'xl':   '24px',
+        '2xl':  '40px',
+        '3xl':  '64px',
+      },
+
       // ── 8. SIZING / MIN-MAX ─────────────────────────────────────────────────
       height: {
         'btn-primary':   '3.375rem', // 54px

@@ -452,6 +452,17 @@
     }
   },
 
+  "blur": {
+    "none": { "$value": 0,  "$type": "dimension", "$description": "No blur" },
+    "xs":   { "$value": 4,  "$type": "dimension", "$description": "Subtle frost" },
+    "sm":   { "$value": 8,  "$type": "dimension", "$description": "Light glass" },
+    "md":   { "$value": 12, "$type": "dimension", "$description": "Standard glass surface" },
+    "lg":   { "$value": 16, "$type": "dimension", "$description": "Strong glass / overlay" },
+    "xl":   { "$value": 24, "$type": "dimension", "$description": "Heavy backdrop blur" },
+    "2xl":  { "$value": 40, "$type": "dimension", "$description": "Modal scrim blur" },
+    "3xl":  { "$value": 64, "$type": "dimension", "$description": "Full-screen frosted backdrop" }
+  },
+
   "opacity": {
     "_source": "Figma / opacity variables — 0–100 in steps of 5",
     "0":   { "$value": 0,    "$type": "number", "$description": "Fully transparent" },

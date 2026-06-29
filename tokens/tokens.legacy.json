@@ -1025,6 +1025,41 @@
       }
     },
 
+    "blur": {
+      "none": {
+        "value": "0",
+        "type": "dimension"
+      },
+      "xs": {
+        "value": "4",
+        "type": "dimension"
+      },
+      "sm": {
+        "value": "8",
+        "type": "dimension"
+      },
+      "md": {
+        "value": "12",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": "16",
+        "type": "dimension"
+      },
+      "xl": {
+        "value": "24",
+        "type": "dimension"
+      },
+      "2xl": {
+        "value": "40",
+        "type": "dimension"
+      },
+      "3xl": {
+        "value": "64",
+        "type": "dimension"
+      }
+    },
+
     "sizing": {
       "btn-primary-height":   { "value": "54", "type": "sizing" },
       "btn-secondary-height": { "value": "46", "type": "sizing" },
