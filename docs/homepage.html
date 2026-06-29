@@ -311,15 +311,14 @@
        6. SAVINGS BAND
     =================================================================== */
     .savings { background: var(--card-alt); border-radius: var(--r-3xl); padding: var(--space-3xl); display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--space-3xl); align-items: center; }
-    .savings h3 { font-size: var(--text-2xl); font-weight: 800; letter-spacing: var(--tracking-tight); }
-    .savings > div:first-child p { color: var(--text-support); margin-top: var(--space-sm); font-size: var(--text-base); }
+    .savings > div:first-child p { color: var(--text-support); margin-top: var(--space-sm); font-size: var(--text-base); line-height: var(--leading-7); }
     .stat-card { background: var(--card); border-radius: var(--r-2xl); box-shadow: var(--sh-card); display: grid; grid-template-columns: repeat(3, 1fr); }
     .stat-card .stat { padding: var(--space-xl) var(--space-xl); position: relative; }
-    /* vertical divider, inset 24px from top & bottom */
-    .stat-card .stat:not(:last-child)::after { content: ""; position: absolute; top: 24px; bottom: 24px; right: 0; width: 1px; background: var(--border); }
-    .stat .num { font-size: var(--text-4xl); font-weight: 900; color: var(--text-heading); letter-spacing: var(--tracking-tighter); }
-    .stat .num .hl { color: var(--secondary); }   /* figure is blue, unit suffix stays black */
-    .stat .sub { font-size: var(--text-sm); color: var(--text-support); margin-top: var(--space-xs); }
+    /* vertical divider, inset top & bottom by --space-xl */
+    .stat-card .stat:not(:last-child)::after { content: ""; position: absolute; top: var(--space-xl); bottom: var(--space-xl); right: 0; width: 1px; background: var(--border); }
+    .stat .num { font-size: var(--text-4xl); font-weight: 900; line-height: var(--leading-10); color: var(--text-heading); letter-spacing: var(--tracking-tighter); }
+    .stat .num .hl { color: var(--secondary); }
+    .stat .sub { font-size: var(--text-sm); line-height: var(--leading-5); color: var(--text-support); margin-top: var(--space-xs); }
     .stat .sub b { color: var(--text-heading); display: block; font-weight: 700; }
 
     /* ===================================================================
@@ -683,7 +682,7 @@
   <div class="wrap">
     <div class="savings">
       <div>
-        <h3>See what Iron Suite saves your team in hours and dollars</h3>
+        <h3 class="h3">See what Iron Suite saves your team in hours and dollars</h3>
         <p>How much is building document functionality in-house actually costing you? Find out in under a minute.</p>
       </div>
       <div class="stat-card">
