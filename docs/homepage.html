@@ -32,7 +32,8 @@
       --accent-green:  #63C1A0;
       --accent-sky:    #89D3DF;
       --accent-purple: #563B99;
-      --accent-navy:   #0B2A4A;
+      --accent-navy:        #0B2A4A;
+      --accent-green-subtle:#D0ECE3; /* Iron Green 200 — badge bg */
 
       /* Text */
       --text-heading: #171717;
@@ -419,13 +420,16 @@
        10. WE SHIP EVERY MONTH
     =================================================================== */
     .ship { background: var(--bg-shade); }
-    .badge-pill { display: inline-flex; align-items: center; gap: var(--space-xs); background: var(--accent-green); color: #0c3d2c; background: #E8F6F1; color: #1f6b50; font-weight: 700; font-size: var(--text-xs); padding: var(--space-xs) var(--space-md); border-radius: var(--r-full); }
+    .ship .section-head p { color: var(--text-body); }
+    .badge-pill { display: inline-flex; align-items: center; gap: var(--space-xs); background: var(--accent-green-subtle); border: 1px solid var(--accent-green); color: var(--text-heading); font-weight: 500; font-size: var(--text-xs); letter-spacing: var(--tracking-wide); padding: var(--space-xs) var(--space-md); border-radius: var(--r-full); }
     .badge-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); }
-    .release-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-lg); }
-    .release-card { background: var(--card); border-radius: var(--r-2xl); box-shadow: var(--sh-card); padding: var(--space-xl) var(--space-lg); text-align: center; transition: transform .16s, box-shadow .16s; }
-    .release-card:hover { transform: translateY(-3px); box-shadow: var(--sh-hover); }
-    .release-card .product-logo { width: 56px; height: 56px; margin-bottom: var(--space-sm); }
-    .release-card .ver { color: var(--secondary); font-weight: 700; font-size: var(--text-sm); margin-top: var(--space-micro); }
+    .release-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-xl); }
+    .release-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--space-md); text-align: center; transition: transform .16s, box-shadow .16s, border-color .16s; }
+    .release-card:hover { transform: translateY(-3px); box-shadow: var(--sh-hover); border-color: var(--border-strong); }
+    .release-card .product-logo { width: var(--space-4xl); height: var(--space-4xl); margin-bottom: var(--space-micro); }
+    .release-card .product-name { font-size: var(--text-lg); letter-spacing: var(--tracking-tight); }
+    .release-card .product-name .suffix { font-weight: 400; }
+    .release-card .ver { color: var(--text-link); font-weight: 600; font-size: var(--text-sm); margin-top: var(--space-xs); }
     .ship-cta { text-align: center; margin-top: var(--space-3xl); }
 
     /* ===================================================================
@@ -933,16 +937,16 @@
 <script>
   /* ── Product data ── */
   const PRODUCTS = [
-    { iron:'PDF',        color:'#E01A59', logo:'logo-01-pdf.svg',  lines:['# Create, read, and edit PDFs','# HTML to PDF for .NET'] },
-    { iron:'WORD',       color:'#2693EC', logo:'logo-02-word.svg', lines:['# Edit Word files in .NET','# No Office Interop required'] },
-    { iron:'XL',         color:'#63C1A0', logo:'logo-03-xl.svg',   lines:['# Edit Excel files in .NET','# No Office Interop required'] },
-    { iron:'PPT',        color:'#FDA509', logo:'logo-04-ppt.svg',  lines:['# Edit Powerpoint files in .NET','# No Office Interop required'] },
-    { iron:'OCR',        color:'#89D3DF', logo:'logo-05-ocr.svg',  lines:['# OCR text recognition for .NET','# Image to text in 127 languages'] },
-    { iron:'BARCODE',    color:'#63C1A0', logo:'logo-06-bc.svg',   lines:['# Read and write QR & Barcode for .NET'] },
-    { iron:'QR',         color:'#563B99', logo:'logo-07-qr.svg',   lines:['# Read and write QR codes with ML detection'] },
-    { iron:'ZIP',        color:'#E01A59', logo:'logo-08-zip.svg',  lines:['# Zip and unzip archives','# Supports ZIP, TAR, GZIP, BZIP2'] },
-    { iron:'PRINT',      color:'#FDA509', logo:'logo-09-prt.svg',  lines:['# Add printing to .NET apps','# Print silently or with dialog'] },
-    { iron:'WEBSCRAPER', color:'#FDA509', logo:'logo-010-ws.svg',  lines:['# Web content scraper for .NET','# Extract text & data'] },
+    { iron:'PDF',        color:'var(--primary)',        logo:'logo-01-pdf.svg',  lines:['# Create, read, and edit PDFs','# HTML to PDF for .NET'] },
+    { iron:'WORD',       color:'var(--accent-sky)',     logo:'logo-02-word.svg', lines:['# Edit Word files in .NET','# No Office Interop required'] },
+    { iron:'XL',         color:'var(--accent-green)',   logo:'logo-03-xl.svg',   lines:['# Edit Excel files in .NET','# No Office Interop required'] },
+    { iron:'PPT',        color:'var(--primary)',        logo:'logo-04-ppt.svg',  lines:['# Edit Powerpoint files in .NET','# No Office Interop required'] },
+    { iron:'OCR',        color:'var(--accent-sky)',     logo:'logo-05-ocr.svg',  lines:['# OCR text recognition for .NET','# Image to text in 127 languages'] },
+    { iron:'BARCODE',    color:'var(--accent-green)',   logo:'logo-06-bc.svg',   lines:['# Read and write QR & Barcode for .NET'] },
+    { iron:'QR',         color:'var(--accent-green)',   logo:'logo-07-qr.svg',   lines:['# Read and write QR codes with ML detection'] },
+    { iron:'ZIP',        color:'var(--accent-orange)',  logo:'logo-08-zip.svg',  lines:['# Zip and unzip archives','# Supports ZIP, TAR, GZIP, BZIP2'] },
+    { iron:'PRINT',      color:'var(--accent-orange)',  logo:'logo-09-prt.svg',  lines:['# Add printing to .NET apps','# Print silently or with dialog'] },
+    { iron:'WEBSCRAPER', color:'var(--accent-orange)',  logo:'logo-010-ws.svg',  lines:['# Web content scraper for .NET','# Extract text & data'] },
   ];
 
   function logoIMG(p) {
