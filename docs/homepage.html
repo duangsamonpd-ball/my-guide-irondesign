@@ -175,22 +175,23 @@
     .topnav {
       position: absolute; top: 0; left: 0; right: 0; z-index: 30;
     }
-    .topnav .wrap { display: flex; align-items: center; gap: var(--space-2xl); height: 40px; }
-    .brand { display: flex; align-items: center; gap: var(--space-xs); color: #fff; }
+    .topnav .wrap { display: flex; align-items: center; gap: var(--space-xl); height: 40px; }
+    .brand { display: flex; align-items: center; gap: var(--space-micro); color: #fff; }
     .brand-logo { height: 15px; width: auto; display: block; flex-shrink: 0; }
-    /* "Iron" → Nav label token: --text-sm / 700 / --tracking-wide / uppercase */
-    .brand-iron { font-size: var(--text-sm); font-weight: 700; letter-spacing: var(--tracking-wide); text-transform: uppercase; line-height: var(--leading-4); }
-    /* "Software" → 12px / Regular / --leading-4 / --tracking-normal / uppercase */
+    /* "IRON" → Nav label: --text-xs / 700 / --tracking-wide / uppercase / --leading-4 */
+    .brand-iron { font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--tracking-wide); text-transform: uppercase; line-height: var(--leading-4); }
+    /* "SOFTWARE" → --text-xs / Regular / --leading-4 / --tracking-normal / uppercase */
     .brand-sw { font-size: var(--text-xs); font-weight: 400; letter-spacing: var(--tracking-normal); text-transform: uppercase; line-height: var(--leading-4); }
-    .navlinks { display: flex; gap: var(--space-xl); margin-left: var(--space-xs); }
+    .navlinks { display: flex; gap: var(--space-md); margin-left: var(--space-xs); }
     .navlinks a {
-      color: #fff; font-size: var(--text-sm); font-weight: 700; letter-spacing: var(--tracking-wide);
-      text-transform: uppercase; opacity: .92; display: inline-flex; align-items: center; gap: var(--space-micro);
+      color: #fff; font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--tracking-wide);
+      line-height: var(--leading-4); text-transform: uppercase; opacity: .92;
+      display: inline-flex; align-items: center; gap: var(--space-micro);
     }
     .navlinks a:hover { opacity: 1; color: var(--secondary-subtle); }
     .navlinks .caret { font-size: var(--text-xs); opacity: .8; }
     .nav-right { margin-left: auto; display: flex; align-items: center; gap: var(--space-lg); }
-    .nav-right a { color: #fff; font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+    .nav-right a { color: #fff; font-size: var(--text-xs); font-weight: 700; line-height: var(--leading-4); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
     .nav-hamburger { display: none; background: none; border: 0; cursor: pointer; flex-direction: column; gap: var(--space-micro); margin-left: auto; }
     .nav-hamburger span { width: 24px; height: 2px; background: #fff; border-radius: 2px; }
 
