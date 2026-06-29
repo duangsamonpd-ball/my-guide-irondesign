@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Button · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+
+    /* ── Button-relevant design tokens (this page is 100% token-driven) ── */
+    :root {
+      --color-primary:        #E01A59;
+      --color-primary-hover:  #BA174B;
+      --color-secondary:      #2693EC;
+      --color-secondary-hover:#217BC4;
+      --color-primary-on:     #FFFFFF;
+      --color-text-heading:   #171717;
+      --color-text-body:      #262626;
+      --color-text-support:   #62748E;
+      --color-border:         #E2E8F0;
+      --color-border-strong:  #CAD5E2;
+      --neutral-900:          #171717;
+      --neutral-800:          #262626;
+      --primary-subtle:       #FADDE6;
+      --secondary-subtle:     #DEEFFC;
+      --font-size-btn-lg:     16px;
+      --font-size-btn:        14px;
+      --font-size-btn-sm:     12px;
+      --fw-btn-lg:            700;
+      --fw-btn:              600;
+      --rounded-cta:          40px;
+      --size-btn-lg:          54px;
+      --size-btn-md:          46px;
+      --size-btn-sm:          36px;
+      --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);
+      --space-sm:             12px;
+      --space-md:             16px;
+      --space-lg:             20px;
+    }
+
+    header {
+      background: #fff; border-bottom: 1px solid #E2E8F0;
+      padding: 24px 48px; display: flex; align-items: center; gap: 16px;
+    }
+    .logo-badge { width: 40px; height: 40px; flex-shrink: 0; }
+    header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
+    header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
+
+    /* ── Sidebar / layout (shared docs shell) ── */
+    .hamburger { margin-left: auto; display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px 4px; flex-shrink: 0; border-radius: 6px; transition: background 0.15s; }
+    .hamburger:hover { background: #F1F5F9; }
+    .hamburger span { display: block; width: 20px; height: 2px; background: #62748E; border-radius: 2px; }
+    .layout { display: flex; min-height: calc(100vh - 89px); }
+    .sidebar { width: 248px; flex-shrink: 0; background: #FFFFFF; border-right: 1px solid #E2E8F0; position: sticky; top: 0; height: 100vh; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #E2E8F0 transparent; display:flex; flex-direction:column; }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
+    .sidebar-nav { padding: 8px 0 24px; display: flex; flex-direction: column; }
+    .sidebar-category { font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #A1A1A1; padding: 18px 18px 5px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 8px 18px 8px 15px; font-size: 0.81rem; font-weight: 500; color: #62748E; text-decoration: none; border-left: 3px solid transparent; transition: color 0.14s, background 0.14s, border-color 0.14s; margin: 1px 8px 1px 0; border-radius: 0 8px 8px 0; }
+    .sidebar-link:hover { color: #1a7acc; background: #F0F9FF; }
+    .sidebar-link.active { color: #2693EC; background: #EBF5FD; border-left-color: #2693EC; font-weight: 700; }
+    .sidebar-link.sub { padding-left: 38px; font-size: 0.78rem; }
+    .sidebar-icon { width: 18px; text-align: center; flex-shrink: 0; font-style: normal; font-size: 0.85rem; }
+    .sidebar-version { padding: 16px 18px; border-top: 1px solid #F1F5F9; margin-top: auto; font-size: 0.68rem; font-weight: 700; color: #A1A1A1; letter-spacing: 0.03em; }
+    .main-content { flex: 1; min-width: 0; overflow: hidden; }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,43,0.45); z-index: 40; backdrop-filter: blur(2px); }
+    .sidebar-overlay.open { display: block; }
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .sidebar { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); transition: transform 0.26s cubic-bezier(0.4,0,0.2,1); z-index: 60; box-shadow: 4px 0 32px rgba(15,23,43,0.15); width: 264px; }
+      .sidebar.open { transform: translateX(0); }
+    }
+
+    .content { padding: 0 0 60px; max-width: 940px; margin: 0 auto; }
+    .page-title { padding: 40px 40px 28px; }
+    .crumb { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #A1A1A1; margin-bottom: 10px; }
+    .crumb a { color: #2693EC; text-decoration: none; }
+    .page-title h1 { font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; color: #171717; margin-bottom: 8px; }
+    .page-title .lead { font-size: 0.95rem; color: #62748E; line-height: 1.6; max-width: 640px; }
+    .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+    .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
+    .chip.new { background:#EBF9F3; color:#2E9468; }
+
+    /* ── Section ── */
+    .sect { padding: 0 40px; margin-top: 44px; }
+    .sect-h { font-size: 1.05rem; font-weight: 800; color:#171717; margin-bottom: 4px; display:flex; align-items:center; gap:8px; }
+    .sect-sub { font-size: 0.82rem; color:#62748E; line-height:1.6; margin-bottom: 18px; }
+
+    /* ── Preview canvas (shadcn-style) ── */
+    .canvas {
+      border: 1px solid #E2E8F0; border-radius: 14px; background: #fff;
+      padding: 44px; display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap;
+      background-image: radial-gradient(#EEF1F5 1px, transparent 1px); background-size: 16px 16px;
+    }
+    .canvas.left { justify-content: flex-start; }
+
+    /* ── Variant / spec grid ── */
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
+    .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 16px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
+    .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; }
+    .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
+
+    /* ════════════ BUTTON COMPONENT (token-driven) ════════════ */
+    .btn {
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: 'Montserrat', sans-serif; border: 1.5px solid transparent; outline: none;
+      border-radius: var(--rounded-cta); white-space: nowrap;
+      transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
+    }
+    /* sizes */
+    .btn--lg { height: var(--size-btn-lg); padding: 0 26px; font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
+    .btn--md { height: var(--size-btn-md); padding: 0 20px; font-size: var(--font-size-btn); font-weight: var(--fw-btn); letter-spacing: 0; }
+    .btn--sm { height: var(--size-btn-sm); padding: 0 16px; font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn); letter-spacing: 0.4px; }
+    /* variants */
+    .btn--primary   { background: var(--color-primary); color: var(--color-primary-on); }
+    .btn--primary:hover   { background: var(--color-primary-hover); }
+    .btn--secondary { background: var(--color-secondary); color: var(--color-primary-on); }
+    .btn--secondary:hover { background: var(--color-secondary-hover); }
+    .btn--tertiary  { background: var(--neutral-900); color: var(--color-primary-on); }
+    .btn--tertiary:hover  { background: var(--neutral-800); }
+    .btn--outline   { background: transparent; color: var(--color-primary); border-color: var(--color-primary); }
+    .btn--outline:hover   { background: var(--primary-subtle); }
+    .btn--ghost     { background: transparent; color: var(--color-primary); }
+    .btn--ghost:hover     { background: var(--primary-subtle); }
+    /* states */
+    .btn:focus-visible, .btn.is-focus { box-shadow: var(--shadow-focus-magenta); }
+    .btn[disabled], .btn.is-disabled { opacity: .45; cursor: not-allowed; }
+    .btn .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn .ico { font-size: 0.9em; }
+
+    /* ── Anatomy ── */
+    .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
+    .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+    .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; }
+    .atag b { color:#E01A59; }
+
+    /* ── Token table ── */
+    .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
+    .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
+    .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; }
+    .tok tr:last-child td { border-bottom:none; }
+    .tok td.prop { color:#62748E; width:120px; }
+    .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; }
+    .tok td.val { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#171717; font-weight:600; }
+
+    /* ── Code block ── */
+    .code-wrap { position:relative; }
+    .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
+    .code-wrap .copy { position:absolute; top:12px; right:12px; font-size:0.64rem; font-weight:700; color:#fff; background:rgba(255,255,255,0.12); border:none; border-radius:7px; padding:6px 12px; cursor:pointer; transition:background .15s; }
+    .code-wrap .copy:hover { background:rgba(255,255,255,0.24); }
+    .c-tag{color:#89D3DF;} .c-attr{color:#FDA509;} .c-str{color:#63C1A0;} .c-com{color:#737373;} .c-key{color:#E95F8B;}
+
+    /* ── Do / Don't ── */
+    .dd { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .dd .card { border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+    .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
+    .dd .do  .top { background:#EBF9F3; color:#2E9468; }
+    .dd .dont .top { background:#FDEEF0; color:#C91D23; }
+    .dd .body { padding:20px; display:flex; align-items:center; justify-content:center; min-height:96px; background:#FCFCFD; }
+    .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
+
+    footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
+
+    @media (max-width:640px){
+      header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;}
+      .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:28px;}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div>
+    <h1>Iron Software Design System</h1>
+    <p>Visual Token Reference — for everyone on the team</p>
+  </div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+      <a href="component-button.html" class="sidebar-link sub active"><i class="sidebar-icon">🔘</i>Button</a>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+
+  <div class="main-content">
+    <div class="content">
+
+      <div class="page-title">
+        <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Button</div>
+        <h1>Button</h1>
+        <p class="lead">Triggers an action or event — the primary way users move through the product. Built entirely from design tokens, so colour, size, weight, radius and focus all stay in sync with Figma.</p>
+        <div class="meta-chips">
+          <span class="chip">5 variants</span>
+          <span class="chip">3 sizes</span>
+          <span class="chip">5 states</span>
+          <span class="chip new">Token-driven</span>
+        </div>
+      </div>
+
+      <!-- ── Preview ── -->
+      <div class="sect">
+        <div class="sect-h">Preview</div>
+        <div class="canvas">
+          <button class="btn btn--lg btn--primary">Download Free Trial</button>
+          <button class="btn btn--lg btn--outline">Learn more</button>
+          <button class="btn btn--lg btn--ghost">Docs <span class="ico">→</span></button>
+        </div>
+      </div>
+
+      <!-- ── Variants ── -->
+      <div class="sect">
+        <div class="sect-h">Variants</div>
+        <div class="sect-sub">Five semantic variants. <b>Primary</b> for the one main action per view; the rest support it.</div>
+        <div class="grid">
+          <div class="cell"><button class="btn btn--md btn--primary">Primary</button><div class="lbl">Primary<small>button/primary</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--secondary">Secondary</button><div class="lbl">Secondary<small>button/secondary</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--tertiary">Tertiary</button><div class="lbl">Tertiary<small>button/black</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--outline">Outline</button><div class="lbl">Outline<small>border + primary</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--ghost">Ghost</button><div class="lbl">Ghost<small>text only</small></div></div>
+        </div>
+      </div>
+
+      <!-- ── Sizes ── -->
+      <div class="sect">
+        <div class="sect-h">Sizes</div>
+        <div class="sect-sub">Three heights. Size sets font-size, weight, padding and tracking together via the UI type scale.</div>
+        <div class="canvas left">
+          <button class="btn btn--lg btn--primary">Large</button>
+          <button class="btn btn--md btn--primary">Default</button>
+          <button class="btn btn--sm btn--primary">Small</button>
+        </div>
+        <table class="tok" style="margin-top:14px;">
+          <thead><tr><th>Size</th><th>Height</th><th>Font</th><th>Weight</th><th>Tracking</th></tr></thead>
+          <tbody>
+            <tr><td class="prop">Large</td><td class="val">54px</td><td class="val">16px</td><td class="val">700</td><td class="val">0</td></tr>
+            <tr><td class="prop">Default</td><td class="val">46px</td><td class="val">14px</td><td class="val">600</td><td class="val">0</td></tr>
+            <tr><td class="prop">Small</td><td class="val">36px</td><td class="val">12px</td><td class="val">600</td><td class="val">0.4px</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── States ── -->
+      <div class="sect">
+        <div class="sect-h">States</div>
+        <div class="sect-sub">Every interactive state maps to a token — hover/active shift colour, focus shows the focus ring, disabled drops opacity.</div>
+        <div class="grid">
+          <div class="cell"><button class="btn btn--md btn--primary">Default</button><div class="lbl">Default</div></div>
+          <div class="cell"><button class="btn btn--md btn--primary" style="background:var(--color-primary-hover);">Hover</button><div class="lbl">Hover<small>primary-hover</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--primary is-focus">Focus</button><div class="lbl">Focus<small>focus ring</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--primary is-disabled" disabled>Disabled</button><div class="lbl">Disabled<small>opacity .45</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--primary"><span class="spin"></span>Loading</button><div class="lbl">Loading<small>spinner</small></div></div>
+        </div>
+      </div>
+
+      <!-- ── Anatomy ── -->
+      <div class="sect">
+        <div class="sect-h">Anatomy</div>
+        <div class="sect-sub">The parts of a button and the token each one is bound to.</div>
+        <div class="anatomy">
+          <button class="btn btn--lg btn--primary"><span class="ico">↓</span> Download Free Trial</button>
+          <div class="anatomy-tags">
+            <span class="atag">height → <b>--size-btn-lg</b></span>
+            <span class="atag">fill → <b>--color-button-primary</b></span>
+            <span class="atag">label → <b>--font-size-btn-lg</b> / <b>--fw-btn-lg</b></span>
+            <span class="atag">radius → <b>--rounded-cta</b></span>
+            <span class="atag">icon gap → <b>--space-xs</b></span>
+            <span class="atag">focus → <b>--shadow-focus-magenta</b></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Token reference ── -->
+      <div class="sect">
+        <div class="sect-h">Token Reference</div>
+        <div class="sect-sub">Primary / Large. Every value resolves to a design token — never hard-coded.</div>
+        <table class="tok">
+          <thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td class="prop">Background</td><td class="token">--color-button-primary</td><td class="val">#E01A59</td></tr>
+            <tr><td class="prop">Background · hover</td><td class="token">--color-button-primary-hover</td><td class="val">#BA174B</td></tr>
+            <tr><td class="prop">Label colour</td><td class="token">--color-primary-on</td><td class="val">#FFFFFF</td></tr>
+            <tr><td class="prop">Font size</td><td class="token">--font-size-btn-lg</td><td class="val">16px</td></tr>
+            <tr><td class="prop">Font weight</td><td class="token">--fw-btn-lg</td><td class="val">700</td></tr>
+            <tr><td class="prop">Height</td><td class="token">--size-btn-lg</td><td class="val">54px</td></tr>
+            <tr><td class="prop">Radius</td><td class="token">--rounded-cta</td><td class="val">40px</td></tr>
+            <tr><td class="prop">Padding X</td><td class="token">--space-lg + 6</td><td class="val">26px</td></tr>
+            <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-magenta</td><td class="val">0 0 0 3px · 25%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── Code ── -->
+      <div class="sect">
+        <div class="sect-h">Code</div>
+        <div class="sect-sub">Copy-and-own — plain HTML + CSS variables. No framework required.</div>
+        <div class="code-wrap">
+          <button class="copy" onclick="copyCode(this)">Copy</button>
+<pre id="code"><span class="c-com">&lt;!-- markup --&gt;</span>
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--lg btn--primary"</span>&gt;Download Free Trial&lt;/<span class="c-tag">button</span>&gt;
+
+<span class="c-com">/* styling — all values are tokens */</span>
+<span class="c-key">.btn</span> {
+  display: inline-flex; align-items: center; gap: <span class="c-str">var(--space-xs)</span>;
+  border-radius: <span class="c-str">var(--rounded-cta)</span>;
+}
+<span class="c-key">.btn--lg</span> {
+  height: <span class="c-str">var(--size-btn-lg)</span>;          <span class="c-com">/* 54px */</span>
+  padding: 0 26px;
+  font-size: <span class="c-str">var(--font-size-btn-lg)</span>;   <span class="c-com">/* 16px */</span>
+  font-weight: <span class="c-str">var(--fw-btn-lg)</span>;        <span class="c-com">/* 700  */</span>
+}
+<span class="c-key">.btn--primary</span> {
+  background: <span class="c-str">var(--color-button-primary)</span>;
+  color: <span class="c-str">var(--color-primary-on)</span>;
+}
+<span class="c-key">.btn--primary</span>:hover  { background: <span class="c-str">var(--color-button-primary-hover)</span>; }
+<span class="c-key">.btn--primary</span>:focus-visible { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }</pre>
+        </div>
+      </div>
+
+      <!-- ── Do / Don't ── -->
+      <div class="sect">
+        <div class="sect-h">Guidelines</div>
+        <div class="dd">
+          <div class="card do">
+            <div class="top">✓ Do</div>
+            <div class="body"><button class="btn btn--md btn--primary">Get started</button></div>
+            <ul>
+              <li>One <b>Primary</b> button per view — the single main action.</li>
+              <li>Pair with Outline / Ghost for secondary actions.</li>
+              <li>Keep labels short, verb-first ("Download", "Start trial").</li>
+            </ul>
+          </div>
+          <div class="card dont">
+            <div class="top">✗ Don't</div>
+            <div class="body" style="gap:10px;">
+              <button class="btn btn--md btn--primary">Save</button>
+              <button class="btn btn--md btn--primary">Cancel</button>
+            </div>
+            <ul>
+              <li>Don't stack two Primary buttons — they compete.</li>
+              <li>Don't hard-code colours; always use the button tokens.</li>
+              <li>Don't shrink the tap target below ~40px tall on mobile.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer>Iron Software Design System &nbsp;·&nbsp; Button component &nbsp;·&nbsp; 2025</footer>
+    </div><!-- /content -->
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<script>
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function copyCode(btn){
+    const txt=document.getElementById('code').innerText;
+    navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);});
+  }
+</script>
+</body>
+</html>
