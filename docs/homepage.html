@@ -202,7 +202,7 @@
       position: relative; color: var(--on-color); overflow: hidden; isolation: isolate;
       /* real Alpenglow mountain photo + dark overlay (darker on the left for text legibility) */
       background-image:
-        linear-gradient(100deg, rgba(11,28,50,0.86) 0%, rgba(11,28,50,0.55) 40%, rgba(40,25,55,0.22) 72%, rgba(40,25,55,0.12) 100%),
+        /* linear-gradient(100deg, rgba(11,28,50,0.86) 0%, rgba(11,28,50,0.55) 40%, rgba(40,25,55,0.22) 72%, rgba(40,25,55,0.12) 100%), */
         url('assets/Alpenglow-Mountain-Scape%204.png');
       background-size: cover, cover;
       background-position: center, center top;
@@ -316,7 +316,7 @@
       display: flex; flex-direction: column;
     }
     .info-card:hover { box-shadow: var(--sh-hover); transform: translateY(-3px); border-color: var(--border-strong); }
-    .info-card .ic { width: 40px; height: 40px; border-radius: var(--r-lg); background: var(--card-alt); color: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: var(--text-xl); margin-bottom: var(--space-md); }
+    .info-card .ic { width: 40px; height: 40px; flex-shrink: 0; object-fit: contain; }
     .info-card .ic-row { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
     .info-card .ic-row h4 { margin: 0; }
     .info-card p { color: var(--text-support); font-size: var(--text-base); line-height: var(--leading-7); margin-bottom: var(--space-lg); flex: 1; }
@@ -668,32 +668,32 @@
     </div>
     <div class="card-grid">
       <div class="info-card">
-        <div class="ic-row"><span class="ic">💻</span><h4 class="h4">.NET &amp; C# Developers</h4></div>
+        <div class="ic-row"><img class="ic" src="assets/icon%20card-why%201.svg" alt=""><h4 class="h4">.NET &amp; C# Developers</h4></div>
         <p>Drop-in via NuGet. Works on .NET 10 down to Framework. Minimal configuration, production-grade output from day one.</p>
         <a class="link-arrow" href="#">Start 30-day free trial <span class="arr">→</span></a>
       </div>
       <div class="info-card">
-        <div class="ic-row"><span class="ic">🚀</span><h4 class="h4">Startups &amp; Scale-ups</h4></div>
+        <div class="ic-row"><img class="ic" src="assets/icon%20card-why%202.svg" alt=""><h4 class="h4">Startups &amp; Scale-ups</h4></div>
         <p>Fast to integrate, simple to license. Our Startup Impact Grant gives qualifying teams access to Iron Suite at no cost while they find their footing.</p>
         <a class="link-arrow" href="#">Apply for our Start-up Grant <span class="arr">→</span></a>
       </div>
       <div class="info-card">
-        <div class="ic-row"><span class="ic">🏢</span><h4 class="h4">Enterprise Teams</h4></div>
+        <div class="ic-row"><img class="ic" src="assets/icon%20card-why%203.svg" alt=""><h4 class="h4">Enterprise Teams</h4></div>
         <p>Finance, healthcare, government, and legal teams rely on Iron Software for audit-ready licensing, air-gapped deployment, and SLA-backed support.</p>
         <a class="link-arrow" href="#">Explore Iron Suite Enterprise <span class="arr">→</span></a>
       </div>
       <div class="info-card">
-        <div class="ic-row"><span class="ic">👥</span><h4 class="h4">Development Teams</h4></div>
+        <div class="ic-row"><img class="ic" src="assets/icon%20card-why%204.svg" alt=""><h4 class="h4">Development Teams</h4></div>
         <p>Iron Suite's single-key licensing lets teams standardise across projects. One procurement conversation. All 10 libraries. Every developer covered.</p>
         <a class="link-arrow" href="#">Explore Iron Suite Docs <span class="arr">→</span></a>
       </div>
       <div class="info-card">
-        <div class="ic-row"><span class="ic">📦</span><h4 class="h4">ISVs &amp; MSPs</h4></div>
+        <div class="ic-row"><img class="ic" src="assets/icon%20card-why%205.svg" alt=""><h4 class="h4">ISVs &amp; MSPs</h4></div>
         <p>Royalty-free redistribution licensing means you can embed Iron libraries directly in your own software products without per-seat fees.</p>
         <a class="link-arrow" href="#">Join our partners program <span class="arr">→</span></a>
       </div>
       <div class="info-card">
-        <div class="ic-row"><span class="ic">🛡️</span><h4 class="h4">Regulated Industries</h4></div>
+        <div class="ic-row"><img class="ic" src="assets/icon%20card-why%206.svg" alt=""><h4 class="h4">Regulated Industries</h4></div>
         <p>HIPAA-adjacent workflows, financial document generation, government form processing — IronSecureDoc and Iron Suite are built for compliance-sensitive environments.</p>
         <a class="link-arrow" href="#">Read our industry whitepapers <span class="arr">→</span></a>
       </div>
