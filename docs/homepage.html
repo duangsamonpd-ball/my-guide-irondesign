@@ -209,13 +209,14 @@
       background-repeat: no-repeat, no-repeat;
     }
     .hero .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr auto; gap: var(--space-3xl); align-items: center; padding-top: var(--space-section); padding-bottom: var(--space-hero); }
+    .hero-logo { height: 28px; width: auto; display: block; margin-bottom: var(--space-2xl); }
     .hero h1 { color: var(--on-color); font-size: clamp(var(--text-4xl), 4.4vw, var(--text-6xl)); font-weight: 900; letter-spacing: var(--tracking-tighter); line-height: 1.08; }
     .hero h1 em { font-style: normal; color: var(--on-color); }
-    .hero p { font-size: var(--text-lg); font-weight: 500; opacity: .92; margin: var(--space-lg) 0 var(--space-2xl); max-width: 520px; }
-    .hero-sub { font-size: var(--text-sm) !important; opacity: .8 !important; }
+    .hero p { font-size: var(--text-lg); font-weight: 400; color: var(--on-color-body); line-height: var(--leading-7); margin: var(--space-sm) 0 var(--space-2xl); max-width: 520px; }
+    .hero p .bold { font-weight: 700; }
     /* right column: donate pill above the video card */
     .hero-right { display: flex; flex-direction: column; gap: var(--space-md); }
-    .hero-donate { align-self: flex-end; display: inline-flex; align-items: center; gap: var(--space-sm); padding: var(--space-micro) 0; font-size: var(--text-sm); color: rgba(255,255,255,.9); white-space: nowrap; }
+    .hero-donate { align-self: flex-end; display: inline-flex; align-items: center; gap: var(--space-sm); padding: var(--space-micro) 0; font-size: var(--text-xs); font-weight: 500; line-height: var(--leading-4); letter-spacing: var(--tracking-wide); color: var(--on-color-body); white-space: nowrap; }
     .hero-donate img { height: 22px; width: auto; display: block; }
     /* video / "What is IronSuite" card — real thumbnail, native 476×268 */
     .hero-card {
@@ -566,8 +567,9 @@
 <header class="hero">
   <div class="wrap">
     <div>
+      <img class="hero-logo" src="assets/Iron%20-%20logo.svg" alt="Iron Software">
       <h1>The C# libraries your <em>documents run on</em></h1>
-      <p>Streamline your .NET Business System Development.<br>10 Software Products — One Integrated Suite.</p>
+      <p>Streamline your .NET Business System Development.<br><span class="bold">10 Software Products — One Integrated Suite.</span></p>
       <a href="#products" class="btn btn-primary">Explore Iron Suite <span class="arr">→</span></a>
     </div>
     <div class="hero-right">
