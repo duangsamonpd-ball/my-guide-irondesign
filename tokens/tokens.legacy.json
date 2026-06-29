@@ -264,22 +264,22 @@
       },
       "surface-dark": {
         "background": {
-          "value": "#351F31",
+          "value": "#391C39",
           "type": "color",
           "description": "Iron Violet/900 (dark)"
         },
         "background-shade": {
-          "value": "#231721",
+          "value": "#260F27",
           "type": "color",
           "description": "Iron Violet/950 (dark)"
         },
         "card": {
-          "value": "#4F2B49",
+          "value": "#522950",
           "type": "color",
           "description": "Iron Violet/800 (dark)"
         },
         "card-alt": {
-          "value": "#231721",
+          "value": "#260F27",
           "type": "color",
           "description": "Iron Violet/950 (dark)"
         }
@@ -377,7 +377,7 @@
       },
       "button-dark": {
         "black": {
-          "value": "#834378",
+          "value": "#84427C",
           "type": "color",
           "description": "iron-violet/600 (dark)"
         },

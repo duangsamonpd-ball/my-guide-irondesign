@@ -278,22 +278,22 @@
     "surface-dark": {
       "_group": "surface — Figma: surface (dark column)",
       "background": {
-        "$value": "#351F31",
+        "$value": "#391C39",
         "$type": "color",
         "$description": "Iron Violet/900 — main page background (dark)"
       },
       "background-shade": {
-        "$value": "#231721",
+        "$value": "#260F27",
         "$type": "color",
         "$description": "Iron Violet/950 — band fills, alternating sections (dark)"
       },
       "card": {
-        "$value": "#4F2B49",
+        "$value": "#522950",
         "$type": "color",
         "$description": "Iron Violet/800 — card, modal, panel backgrounds (dark)"
       },
       "card-alt": {
-        "$value": "#231721",
+        "$value": "#260F27",
         "$type": "color",
         "$description": "Iron Violet/950 — alternative / feature highlight card (dark)"
       }
@@ -355,7 +355,7 @@
 
     "button-dark": {
       "_group": "button — Figma: button (dark column) — only black differs",
-      "black":       { "$value": "#834378", "$type": "color", "$description": "iron-violet/600" },
+      "black":       { "$value": "#84427C", "$type": "color", "$description": "iron-violet/600" },
       "black-hover": { "$value": "#9D4F90", "$type": "color", "$description": "iron-violet/500" }
     }
   },
