@@ -1,0 +1,15 @@
+<svg width="1440" height="32" viewBox="0 0 1440 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1440" height="32" fill="#E5E5E5"/>
+<g id="Homepage 1">
+<rect width="1440" height="7975.58" transform="translate(0 -532.576)" fill="white"/>
+<g id="Hero end" clip-path="url(#clip0_0_1)">
+<rect width="1440" height="32" fill="white"/>
+<path id="Intersect" d="M1440 0.00196358C1218.9 20.6006 975.548 32 720.01 32C464.465 32 221.104 20.5998 0 0H1440V0.00196358Z" fill="#0A0311"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_1">
+<rect width="1440" height="32" fill="white"/>
+</clipPath>
+</defs>
+</svg>
