@@ -1,0 +1,22 @@
+<svg width="1440" height="373" viewBox="0 0 1440 373" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1440" height="373" fill="#E5E5E5"/>
+<g id="Homepage 1">
+<rect width="1440" height="7975.58" transform="translate(0 -160)" fill="white"/>
+<g id="Hero" clip-path="url(#clip0_0_1)">
+<g id="Hero bg">
+<g id="Sub Background" style="mix-blend-mode:multiply">
+<rect width="1440" height="373" fill="url(#paint0_linear_0_1)"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_1" x1="720" y1="0" x2="720" y2="320.905" gradientUnits="userSpaceOnUse">
+<stop stop-opacity="0"/>
+<stop offset="1" stop-color="#21081E"/>
+</linearGradient>
+<clipPath id="clip0_0_1">
+<rect width="1440" height="532.576" fill="white" transform="translate(0 -160)"/>
+</clipPath>
+</defs>
+</svg>
