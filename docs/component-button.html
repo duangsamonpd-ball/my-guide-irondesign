@@ -11,33 +11,35 @@
 
     /* ── Button-relevant design tokens (this page is 100% token-driven) ── */
     :root {
-      --color-primary:        #E01A59;
-      --color-primary-hover:  #BA174B;
-      --color-secondary:      #2693EC;
-      --color-secondary-hover:#217BC4;
-      --color-primary-on:     #FFFFFF;
-      --color-text-heading:   #171717;
-      --color-text-body:      #262626;
-      --color-text-support:   #90A1B9;
-      --color-border:         #E2E8F0;
-      --color-border-strong:  #CAD5E2;
-      --neutral-900:          #171717;
-      --neutral-950:          #0A0A0A;
-      --primary-subtle:       #FADDE6;
-      --secondary-subtle:     #DEEFFC;
-      --font-size-btn-lg:     16px;
-      --font-size-btn:        14px;
-      --font-size-btn-sm:     12px;
-      --fw-btn-lg:            700;
-      --fw-btn:              600;
-      --rounded-cta:          40px;
-      --size-btn-lg:          54px;
-      --size-btn-md:          46px;
-      --size-btn-sm:          36px;
-      --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);
-      --space-sm:             12px;
-      --space-md:             16px;
-      --space-lg:             20px;
+      --color-primary:           #E01A59;
+      --color-primary-hover:     #BA174B;
+      --color-secondary:         #2693EC;
+      --color-secondary-hover:   #217BC4;
+      --color-primary-on:        #FFFFFF;
+      --color-button-black:      #171717;   /* tertiary fill (button/black) */
+      --color-on-tertiary:       #2693EC;   /* outline / ghost / ondark text (text/on-action-tertiary) */
+      --color-on-tertiary-hover: #E01A59;   /* → pink on hover (text/on-action-tertiary-hover) */
+      --color-text-heading:      #171717;
+      --color-text-body:         #262626;
+      --color-text-support:      #90A1B9;
+      --color-border:            #E2E8F0;   /* outline border (border/default) */
+      --color-border-strong:     #CAD5E2;   /* outline hover border (border/strong) */
+      --color-border-focused:    #2693EC;   /* focus border (border/focused) */
+      --ghost-hover:             rgba(0,0,0,0.05);       /* transparent/black/5 */
+      --ondark-tint:             rgba(255,255,255,0.04); /* transparent/white tint on dark */
+      --font-size-btn-lg:        16px;
+      --font-size-btn:           14px;
+      --font-size-btn-sm:        12px;
+      --fw-btn-lg:               700;
+      --fw-btn:                  600;
+      --rounded-cta:             9999px;     /* rounded-full pill */
+      --size-btn-lg:             56px;
+      --size-btn-md:             48px;
+      --size-btn-sm:             40px;
+      --focus-ring-white:        inset 0 0 0 2px #FFFFFF;  /* solid-button focus ring */
+      --space-sm:                12px;
+      --space-md:                16px;
+      --space-lg:                20px;
     }
 
     header {
@@ -105,7 +107,7 @@
     /* ════════════ BUTTON COMPONENT (token-driven) ════════════ */
     .btn {
       cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      font-family: 'Montserrat', sans-serif; border: 1.5px solid transparent; outline: none;
+      font-family: 'Montserrat', sans-serif; border: 2px solid transparent; outline: none;
       border-radius: var(--rounded-cta); white-space: nowrap;
       transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
     }
@@ -113,20 +115,28 @@
     .btn--lg { height: var(--size-btn-lg); padding: 0 26px; font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
     .btn--md { height: var(--size-btn-md); padding: 0 20px; font-size: var(--font-size-btn); font-weight: var(--fw-btn); letter-spacing: 0; }
     .btn--sm { height: var(--size-btn-sm); padding: 0 16px; font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn); letter-spacing: 0.4px; }
-    /* variants */
+    /* variants — solid */
     .btn--primary   { background: var(--color-primary); color: var(--color-primary-on); }
     .btn--primary:hover   { background: var(--color-primary-hover); }
     .btn--secondary { background: var(--color-secondary); color: var(--color-primary-on); }
     .btn--secondary:hover { background: var(--color-secondary-hover); }
-    .btn--tertiary  { background: var(--neutral-900); color: var(--color-primary-on); }
-    .btn--tertiary:hover  { background: var(--neutral-950); }
-    .btn--outline   { background: transparent; color: var(--color-primary); border-color: var(--color-primary); }
-    .btn--outline:hover   { background: var(--primary-subtle); }
-    .btn--ghost     { background: transparent; color: var(--color-primary); }
-    .btn--ghost:hover     { background: var(--primary-subtle); }
-    /* states */
-    .btn:focus-visible, .btn.is-focus { box-shadow: var(--shadow-focus-magenta); }
-    .btn[disabled], .btn.is-disabled { opacity: .45; cursor: not-allowed; }
+    .btn--tertiary  { background: var(--color-button-black); color: var(--color-primary-on); }
+    .btn--tertiary:hover  { background: var(--color-primary); }   /* black → pink */
+    /* variants — outline / ghost (blue text → pink on hover) */
+    .btn--outline   { background: #fff; color: var(--color-on-tertiary); border-color: var(--color-border); }
+    .btn--outline:hover   { border-color: var(--color-border-strong); color: var(--color-on-tertiary-hover); }
+    .btn--ondark    { background: var(--ondark-tint); color: var(--color-on-tertiary); border-color: var(--color-border); backdrop-filter: blur(4px); }
+    .btn--ondark:hover    { color: var(--color-on-tertiary-hover); }
+    .btn--ghost     { background: transparent; color: var(--color-on-tertiary); }
+    .btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
+    /* states — focus: white ring on solid, blue border on outline/ghost/ondark */
+    .btn--primary:focus-visible, .btn--primary.is-focus,
+    .btn--secondary:focus-visible, .btn--secondary.is-focus,
+    .btn--tertiary:focus-visible, .btn--tertiary.is-focus { box-shadow: var(--focus-ring-white); }
+    .btn--outline:focus-visible, .btn--outline.is-focus,
+    .btn--ondark:focus-visible, .btn--ondark.is-focus,
+    .btn--ghost:focus-visible, .btn--ghost.is-focus { border-color: var(--color-border-focused); }
+    .btn[disabled], .btn.is-disabled { opacity: .5; cursor: not-allowed; }
     .btn .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .btn .ico { font-size: 0.9em; }
@@ -217,9 +227,9 @@
         <h1>Button</h1>
         <p class="lead">Triggers an action or event — the primary way users move through the product. Built entirely from design tokens, so colour, size, weight, radius and focus all stay in sync with Figma.</p>
         <div class="meta-chips">
-          <span class="chip">5 variants</span>
+          <span class="chip">6 variants</span>
           <span class="chip">3 sizes</span>
-          <span class="chip">5 states</span>
+          <span class="chip">4 states</span>
           <span class="chip new">Token-driven</span>
         </div>
       </div>
@@ -237,12 +247,13 @@
       <!-- ── Variants ── -->
       <div class="sect">
         <div class="sect-h">Variants</div>
-        <div class="sect-sub">Five semantic variants. <b>Primary</b> for the one main action per view; the rest support it.</div>
+        <div class="sect-sub">Six semantic variants. <b>Primary</b> for the one main action per view; the rest support it. Outline / Ghost / On-dark use <b>blue</b> text that turns <b>pink</b> on hover.</div>
         <div class="grid">
           <div class="cell"><button class="btn btn--md btn--primary">Primary</button><div class="lbl">Primary<small>button/primary</small></div></div>
           <div class="cell"><button class="btn btn--md btn--secondary">Secondary</button><div class="lbl">Secondary<small>button/secondary</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--tertiary">Tertiary</button><div class="lbl">Tertiary<small>button/black</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--outline">Outline</button><div class="lbl">Outline<small>border + primary</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--tertiary">Tertiary</button><div class="lbl">Tertiary<small>button/black → pink</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--outline">Outline</button><div class="lbl">Outline<small>border/default</small></div></div>
+          <div class="cell" style="background:#1D293D;border-color:#334155;"><button class="btn btn--md btn--ondark">On-dark</button><div class="lbl" style="color:#CAD5E2;">Outline · on-dark<small style="color:#90A1B9;">transparent + blur</small></div></div>
           <div class="cell"><button class="btn btn--md btn--ghost">Ghost</button><div class="lbl">Ghost<small>text only</small></div></div>
         </div>
       </div>
@@ -259,9 +270,9 @@
         <table class="tok" style="margin-top:14px;">
           <thead><tr><th>Size</th><th>Height</th><th>Font</th><th>Weight</th><th>Tracking</th></tr></thead>
           <tbody>
-            <tr><td class="prop">Large</td><td class="val">54px</td><td class="val">16px</td><td class="val">700</td><td class="val">0</td></tr>
-            <tr><td class="prop">Default</td><td class="val">46px</td><td class="val">14px</td><td class="val">600</td><td class="val">0</td></tr>
-            <tr><td class="prop">Small</td><td class="val">36px</td><td class="val">12px</td><td class="val">600</td><td class="val">0.4px</td></tr>
+            <tr><td class="prop">Large</td><td class="val">56px</td><td class="val">16px</td><td class="val">700</td><td class="val">0</td></tr>
+            <tr><td class="prop">Default</td><td class="val">48px</td><td class="val">14px</td><td class="val">600</td><td class="val">0</td></tr>
+            <tr><td class="prop">Small</td><td class="val">40px</td><td class="val">12px</td><td class="val">600</td><td class="val">0.4px</td></tr>
           </tbody>
         </table>
       </div>
@@ -269,13 +280,14 @@
       <!-- ── States ── -->
       <div class="sect">
         <div class="sect-h">States</div>
-        <div class="sect-sub">Every interactive state maps to a token — hover/active shift colour, focus shows the focus ring, disabled drops opacity.</div>
+        <div class="sect-sub">Four states from Figma — <b>default · hover · focus · disabled</b>. Solid buttons focus with a 2px white inner ring; outline / ghost focus with a blue border. (Loading is a UI extra.)</div>
         <div class="grid">
           <div class="cell"><button class="btn btn--md btn--primary">Default</button><div class="lbl">Default</div></div>
           <div class="cell"><button class="btn btn--md btn--primary" style="background:var(--color-primary-hover);">Hover</button><div class="lbl">Hover<small>primary-hover</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--primary is-focus">Focus</button><div class="lbl">Focus<small>focus ring</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--primary is-disabled" disabled>Disabled</button><div class="lbl">Disabled<small>opacity .45</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--primary"><span class="spin"></span>Loading</button><div class="lbl">Loading<small>spinner</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--primary is-focus">Focus</button><div class="lbl">Focus<small>white ring 2px</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--primary is-disabled" disabled>Disabled</button><div class="lbl">Disabled<small>opacity .5</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--ghost is-focus">Focus</button><div class="lbl">Ghost focus<small>border/focused</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--primary"><span class="spin"></span>Loading</button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
         </div>
       </div>
 
@@ -291,7 +303,7 @@
             <span class="atag">label → <b>--font-size-btn-lg</b> / <b>--fw-btn-lg</b></span>
             <span class="atag">radius → <b>--rounded-cta</b></span>
             <span class="atag">icon gap → <b>--space-xs</b></span>
-            <span class="atag">focus → <b>--shadow-focus-magenta</b></span>
+            <span class="atag">focus → <b>--focus-ring-white</b></span>
           </div>
         </div>
       </div>
@@ -308,10 +320,10 @@
             <tr><td class="prop">Label colour</td><td class="token">--color-primary-on</td><td class="val">#FFFFFF</td></tr>
             <tr><td class="prop">Font size</td><td class="token">--font-size-btn-lg</td><td class="val">16px</td></tr>
             <tr><td class="prop">Font weight</td><td class="token">--fw-btn-lg</td><td class="val">700</td></tr>
-            <tr><td class="prop">Height</td><td class="token">--size-btn-lg</td><td class="val">54px</td></tr>
-            <tr><td class="prop">Radius</td><td class="token">--rounded-cta</td><td class="val">40px</td></tr>
+            <tr><td class="prop">Height</td><td class="token">--size-btn-lg</td><td class="val">56px</td></tr>
+            <tr><td class="prop">Radius</td><td class="token">--rounded-cta</td><td class="val">9999px (full)</td></tr>
             <tr><td class="prop">Padding X</td><td class="token">--space-lg + 6</td><td class="val">26px</td></tr>
-            <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-magenta</td><td class="val">0 0 0 3px · 25%</td></tr>
+            <tr><td class="prop">Focus ring</td><td class="token">--focus-ring-white</td><td class="val">inset 0 0 0 2px #FFF</td></tr>
           </tbody>
         </table>
       </div>
@@ -331,7 +343,7 @@
   border-radius: <span class="c-str">var(--rounded-cta)</span>;
 }
 <span class="c-key">.btn--lg</span> {
-  height: <span class="c-str">var(--size-btn-lg)</span>;          <span class="c-com">/* 54px */</span>
+  height: <span class="c-str">var(--size-btn-lg)</span>;          <span class="c-com">/* 56px */</span>
   padding: 0 26px;
   font-size: <span class="c-str">var(--font-size-btn-lg)</span>;   <span class="c-com">/* 16px */</span>
   font-weight: <span class="c-str">var(--fw-btn-lg)</span>;        <span class="c-com">/* 700  */</span>
@@ -341,7 +353,12 @@
   color: <span class="c-str">var(--color-primary-on)</span>;
 }
 <span class="c-key">.btn--primary</span>:hover  { background: <span class="c-str">var(--color-button-primary-hover)</span>; }
-<span class="c-key">.btn--primary</span>:focus-visible { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }</pre>
+<span class="c-key">.btn--primary</span>:focus-visible { box-shadow: <span class="c-str">var(--focus-ring-white)</span>; }
+
+<span class="c-com">/* outline / ghost: blue text → pink on hover */</span>
+<span class="c-key">.btn--outline</span> { background: #fff; color: <span class="c-str">var(--color-on-tertiary)</span>; border-color: <span class="c-str">var(--color-border)</span>; }
+<span class="c-key">.btn--outline</span>:hover { color: <span class="c-str">var(--color-on-tertiary-hover)</span>; border-color: <span class="c-str">var(--color-border-strong)</span>; }
+<span class="c-key">.btn--tertiary</span>:hover { background: <span class="c-str">var(--color-primary)</span>; }   <span class="c-com">/* black → pink */</span>
         </div>
       </div>
 
