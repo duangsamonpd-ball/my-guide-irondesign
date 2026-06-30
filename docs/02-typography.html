@@ -190,6 +190,9 @@
       border-left-color: #2693EC;
       font-weight: 700;
     }
+    .sidebar-tree { margin: 2px 0 2px 28px; border-left: 1.5px solid #E5EAF0; display: flex; flex-direction: column; }
+    .sidebar-tree .sidebar-link { margin: 1px 8px 1px -1.5px; padding: 7px 12px 7px 15px; font-size: 0.78rem; border-left: 1.5px solid transparent; border-radius: 0 8px 8px 0; }
+    .sidebar-tree .sidebar-link.active { border-left-color: #2693EC; background: #EBF5FD; }
     .sidebar-icon {
       width: 18px;
       text-align: center;
@@ -288,7 +291,15 @@
       <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
       <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
       <div class="sidebar-category">Components</div>
-      <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Components</a>
+      <div class="sidebar-tree">
+        <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+        <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
+        <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
+        <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
+        <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
+      </div>
       <div class="sidebar-category">Reference</div>
       <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
     </nav>
