@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radio · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+    :root {
+      --color-secondary:#2693EC; --color-secondary-on:#FFFFFF; --color-danger:#E5242A;
+      --color-text-heading:#171717; --color-text-support:#62748E; --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-card-alt:#F2F9FE;
+      --rounded-xl:10px; --rounded-full:9999px; --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25);
+      --size-box:18px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px; --space-xs:8px;
+    }
+    header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
+    .logo-badge { width:40px; height:40px; flex-shrink:0; }
+    header h1 { font-size:1.25rem; font-weight:700; } header p { font-size:0.8rem; color:#737373; margin-top:2px; }
+    .hamburger { margin-left:auto; display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:6px 4px; border-radius:6px; }
+    .hamburger span { display:block; width:20px; height:2px; background:#62748E; border-radius:2px; }
+    .layout { display:flex; min-height:calc(100vh - 89px); }
+    .sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
+    .sidebar::-webkit-scrollbar{width:4px;} .sidebar::-webkit-scrollbar-thumb{background:#E2E8F0;border-radius:4px;}
+    .sidebar-nav { padding:8px 0 24px; display:flex; flex-direction:column; }
+    .sidebar-category { font-size:0.58rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:#A1A1A1; padding:18px 18px 5px; }
+    .sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+    .sidebar-link:hover { color:#1a7acc; background:#F0F9FF; }
+    .sidebar-link.active { color:#2693EC; background:#EBF5FD; border-left-color:#2693EC; font-weight:700; }
+    .sidebar-link.sub { padding-left:38px; font-size:0.78rem; }
+    .sidebar-icon { width:18px; text-align:center; flex-shrink:0; font-style:normal; font-size:0.85rem; }
+    .sidebar-version { padding:16px 18px; border-top:1px solid #F1F5F9; margin-top:auto; font-size:0.68rem; font-weight:700; color:#A1A1A1; }
+    .main-content { flex:1; min-width:0; overflow:hidden; }
+    .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+    .sidebar-overlay.open { display:block; }
+    @media (max-width:768px){ .hamburger{display:flex;} .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} .sidebar.open{transform:translateX(0);} }
+    .content { padding:0 0 60px; max-width:940px; margin:0 auto; }
+    .page-title { padding:40px 40px 28px; }
+    .crumb { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#A1A1A1; margin-bottom:10px; } .crumb a { color:#2693EC; text-decoration:none; }
+    .page-title h1 { font-size:2rem; font-weight:900; letter-spacing:-0.5px; margin-bottom:8px; }
+    .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
+    .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+    .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; } .chip.new { background:#EBF9F3; color:#2E9468; }
+    .sect { padding:0 40px; margin-top:44px; } .sect-h { font-size:1.05rem; font-weight:800; margin-bottom:4px; } .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
+    .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:40px; display:flex; gap:28px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
+    .canvas.col { flex-direction:column; align-items:flex-start; gap:16px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; }
+    .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 18px 16px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+    .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; } .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
+    .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
+    .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
+    .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; } .tok tr:last-child td { border-bottom:none; }
+    .tok td.prop { color:#62748E; width:170px; } .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; } .tok td.val { font-family:'Roboto Mono',monospace; font-size:0.72rem; font-weight:600; }
+    .code-wrap { position:relative; } .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
+    .code-wrap .copy { position:absolute; top:12px; right:12px; font-size:0.64rem; font-weight:700; color:#fff; background:rgba(255,255,255,0.12); border:none; border-radius:7px; padding:6px 12px; cursor:pointer; } .code-wrap .copy:hover { background:rgba(255,255,255,0.24); }
+    .c-tag{color:#89D3DF;} .c-attr{color:#FDA509;} .c-str{color:#63C1A0;} .c-com{color:#737373;} .c-key{color:#E95F8B;}
+    .dd { display:grid; grid-template-columns:1fr 1fr; gap:16px; } .dd .card { border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+    .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; } .dd .do .top { background:#EBF9F3; color:#2E9468; } .dd .dont .top { background:#FDEEF0; color:#C91D23; }
+    .dd .body { padding:22px; background:#FCFCFD; } .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
+    .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
+    .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; } .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; } .atag b { color:#2693EC; }
+    footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
+
+    /* ════ RADIO (token-driven) ════ */
+    .rdo { display:inline-flex; align-items:flex-start; gap:var(--space-xs); cursor:pointer; user-select:none; }
+    .rdo input { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
+    .rdo .dot { width:var(--size-box); height:var(--size-box); flex-shrink:0; margin-top:1px; border:1.5px solid var(--color-border-strong); border-radius:var(--rounded-full); background:#fff; display:inline-flex; align-items:center; justify-content:center; transition:border-color .15s, box-shadow .15s; }
+    .rdo .dot::after { content:''; width:8px; height:8px; border-radius:var(--rounded-full); background:var(--color-secondary); transform:scale(0); transition:transform .15s; }
+    .rdo input:checked + .dot { border-color:var(--color-secondary); }
+    .rdo input:checked + .dot::after { transform:scale(1); }
+    .rdo input:focus-visible + .dot, .rdo.is-focus .dot { box-shadow:var(--shadow-focus-blue); }
+    .rdo .txt { display:flex; flex-direction:column; }
+    .rdo .txt .label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); line-height:1.3; }
+    .rdo .txt .desc { font-size:var(--font-size-caption); color:var(--color-text-support); margin-top:3px; line-height:1.5; max-width:360px; }
+    .rdo.invalid .dot { border-color:var(--color-danger); }
+    .rdo.invalid input:checked + .dot::after { background:var(--color-danger); }
+    .rdo.disabled { cursor:not-allowed; opacity:.5; }
+    .rdo-card { border:1.5px solid var(--color-border); border-radius:var(--rounded-xl); padding:14px 16px; transition:border-color .15s, background .15s; cursor:pointer; max-width:400px; }
+    .rdo-card:hover { border-color:var(--color-border-strong); }
+    .rdo-card:has(input:checked) { border-color:var(--color-secondary); background:var(--color-bg-card-alt); }
+
+    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
+  </style>
+</head>
+<body>
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div><h1>Iron Software Design System</h1><p>Visual Token Reference — for everyone on the team</p></div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+      <a href="component-button.html" class="sidebar-link sub"><i class="sidebar-icon">🔘</i>Button</a>
+      <a href="component-checkbox.html" class="sidebar-link sub"><i class="sidebar-icon">☑️</i>Checkbox</a>
+      <a href="component-input.html" class="sidebar-link sub"><i class="sidebar-icon">⌨️</i>Input</a>
+      <a href="component-radio.html" class="sidebar-link sub active"><i class="sidebar-icon">⦿</i>Radio</a>
+      <a href="component-select.html" class="sidebar-link sub"><i class="sidebar-icon">🔽</i>Select</a>
+      <a href="component-badge.html" class="sidebar-link sub"><i class="sidebar-icon">🏷️</i>Badge</a>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+  <div class="main-content"><div class="content">
+
+    <div class="page-title">
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Radio</div>
+      <h1>Radio</h1>
+      <p class="lead">Lets the user pick exactly one option from a set. Same token language as Checkbox, but circular and mutually exclusive. The groups below are live — only one can be on at a time.</p>
+      <div class="meta-chips"><span class="chip">4 states</span><span class="chip">group · card</span><span class="chip new">Token-driven</span></div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Preview</div>
+      <div class="canvas col" style="max-width:420px;margin:0 auto;">
+        <label class="rdo"><input type="radio" name="plan" checked><span class="dot"></span><span class="txt"><span class="label">Starter</span><span class="desc">For individuals getting started.</span></span></label>
+        <label class="rdo"><input type="radio" name="plan"><span class="dot"></span><span class="txt"><span class="label">Pro</span><span class="desc">For growing teams that ship daily.</span></span></label>
+        <label class="rdo"><input type="radio" name="plan"><span class="dot"></span><span class="txt"><span class="label">Enterprise</span><span class="desc">Advanced controls &amp; support.</span></span></label>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">States</div>
+      <div class="sect-sub">Selected fills the inner dot with <b>secondary</b>; invalid uses a <b>danger</b> ring; disabled drops opacity.</div>
+      <div class="grid">
+        <div class="cell"><label class="rdo"><input type="radio" name="s1"><span class="dot"></span><span class="txt"><span class="label">Option</span></span></label><div class="lbl">Unselected<small>border-strong</small></div></div>
+        <div class="cell"><label class="rdo"><input type="radio" name="s2" checked><span class="dot"></span><span class="txt"><span class="label">Option</span></span></label><div class="lbl">Selected<small>secondary dot</small></div></div>
+        <div class="cell"><label class="rdo disabled"><input type="radio" name="s3" disabled><span class="dot"></span><span class="txt"><span class="label">Option</span></span></label><div class="lbl">Disabled<small>opacity .5</small></div></div>
+        <div class="cell"><label class="rdo invalid"><input type="radio" name="s4"><span class="dot"></span><span class="txt"><span class="label">Option</span></span></label><div class="lbl">Invalid<small>danger ring</small></div></div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Card group</div>
+      <div class="sect-sub">For prominent, selectable options — the whole card is the target and highlights when chosen.</div>
+      <div class="canvas col" style="gap:12px;max-width:420px;margin:0 auto;">
+        <label class="rdo rdo-card"><input type="radio" name="bill" checked><span class="dot"></span><span class="txt"><span class="label">Monthly</span><span class="desc">$29 / month, cancel anytime.</span></span></label>
+        <label class="rdo rdo-card"><input type="radio" name="bill"><span class="dot"></span><span class="txt"><span class="label">Yearly</span><span class="desc">$290 / year — two months free.</span></span></label>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Anatomy</div>
+      <div class="anatomy">
+        <label class="rdo"><input type="radio" name="an" checked><span class="dot"></span><span class="txt"><span class="label">Selected option</span><span class="desc">With a supporting description.</span></span></label>
+        <div class="anatomy-tags">
+          <span class="atag">ring → <b>--size-box</b> (18px)</span>
+          <span class="atag">shape → <b>--rounded-full</b></span>
+          <span class="atag">dot fill → <b>--color-secondary</b></span>
+          <span class="atag">border → <b>--color-border-strong</b></span>
+          <span class="atag">label → <b>--font-size-label</b></span>
+          <span class="atag">focus → <b>--shadow-focus-blue</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Token Reference</div>
+      <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
+        <tr><td class="prop">Ring size</td><td class="token">--size-box</td><td class="val">18px</td></tr>
+        <tr><td class="prop">Shape</td><td class="token">--rounded-full</td><td class="val">9999px</td></tr>
+        <tr><td class="prop">Border (off)</td><td class="token">--color-border-strong</td><td class="val">#CAD5E2</td></tr>
+        <tr><td class="prop">Dot / ring (on)</td><td class="token">--color-secondary</td><td class="val">#2693EC</td></tr>
+        <tr><td class="prop">Border (invalid)</td><td class="token">--color-danger</td><td class="val">#E5242A</td></tr>
+        <tr><td class="prop">Card fill (on)</td><td class="token">--color-bg-card-alt</td><td class="val">#F2F9FE</td></tr>
+        <tr><td class="prop">Label</td><td class="token">--font-size-label / --fw-label</td><td class="val">14px / 500</td></tr>
+        <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-blue</td><td class="val">0 0 0 3px · 25%</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="sect"><div class="sect-h">Code</div>
+      <div class="code-wrap"><button class="copy" onclick="copyCode(this)">Copy</button>
+<pre id="code">&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"rdo"</span>&gt;
+  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"radio"</span> <span class="c-attr">name</span>=<span class="c-str">"plan"</span> <span class="c-attr">checked</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dot"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Starter&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">label</span>&gt;
+
+<span class="c-key">.rdo .dot</span> {
+  width: <span class="c-str">var(--size-box)</span>; border-radius: <span class="c-str">var(--rounded-full)</span>;
+  border: 1.5px solid <span class="c-str">var(--color-border-strong)</span>;
+}
+<span class="c-key">.rdo input:checked + .dot</span> { border-color: <span class="c-str">var(--color-secondary)</span>; }
+<span class="c-key">.rdo input:checked + .dot::after</span> {        <span class="c-com">/* inner dot */</span>
+  background: <span class="c-str">var(--color-secondary)</span>; transform: scale(1);
+}</pre>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Guidelines</div>
+      <div class="dd">
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><label class="rdo"><input type="radio" name="g1" checked><span class="dot"></span><span class="txt"><span class="label">One per group</span></span></label></div>
+          <ul><li>Use for <b>one-of-many</b> — exactly one selected at a time.</li><li>Always give the group a shared <code>name</code>.</li><li>List 2–6 options; beyond that, use a Select.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><label class="rdo"><input type="radio" name="g2"><span class="dot"></span><span class="txt"><span class="label">Toggle me</span></span></label></div>
+          <ul><li>Don't use a radio for an on/off setting — that's a toggle.</li><li>Don't allow multiple selections — that's a checkbox.</li><li>Don't hard-code the selected colour; use the token.</li></ul></div>
+      </div>
+    </div>
+
+    <footer>Iron Software Design System &nbsp;·&nbsp; Radio component &nbsp;·&nbsp; 2025</footer>
+  </div></div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<script>
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function copyCode(btn){const t=document.getElementById('code').innerText;navigator.clipboard.writeText(t).then(()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);});}
+</script>
+</body>
+</html>

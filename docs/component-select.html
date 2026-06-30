@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+    :root {
+      --color-secondary:#2693EC; --color-danger:#E5242A; --color-primary:#E01A59;
+      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#62748E; --color-text-muted:#A1A1A1;
+      --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF; --color-bg-shade:#F1F5F9; --color-bg-card-alt:#F2F9FE;
+      --rounded-md:6px; --rounded-lg:8px; --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-float:0 2px 16px rgba(15,23,43,0.18);
+      --size-input:44px; --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px; --space-xs:8px;
+    }
+    header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
+    .logo-badge { width:40px; height:40px; flex-shrink:0; }
+    header h1 { font-size:1.25rem; font-weight:700; } header p { font-size:0.8rem; color:#737373; margin-top:2px; }
+    .hamburger { margin-left:auto; display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:6px 4px; border-radius:6px; }
+    .hamburger span { display:block; width:20px; height:2px; background:#62748E; border-radius:2px; }
+    .layout { display:flex; min-height:calc(100vh - 89px); }
+    .sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
+    .sidebar::-webkit-scrollbar{width:4px;} .sidebar::-webkit-scrollbar-thumb{background:#E2E8F0;border-radius:4px;}
+    .sidebar-nav { padding:8px 0 24px; display:flex; flex-direction:column; }
+    .sidebar-category { font-size:0.58rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:#A1A1A1; padding:18px 18px 5px; }
+    .sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+    .sidebar-link:hover { color:#1a7acc; background:#F0F9FF; }
+    .sidebar-link.active { color:#2693EC; background:#EBF5FD; border-left-color:#2693EC; font-weight:700; }
+    .sidebar-link.sub { padding-left:38px; font-size:0.78rem; }
+    .sidebar-icon { width:18px; text-align:center; flex-shrink:0; font-style:normal; font-size:0.85rem; }
+    .sidebar-version { padding:16px 18px; border-top:1px solid #F1F5F9; margin-top:auto; font-size:0.68rem; font-weight:700; color:#A1A1A1; }
+    .main-content { flex:1; min-width:0; overflow:hidden; }
+    .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+    .sidebar-overlay.open { display:block; }
+    @media (max-width:768px){ .hamburger{display:flex;} .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} .sidebar.open{transform:translateX(0);} }
+    .content { padding:0 0 60px; max-width:940px; margin:0 auto; }
+    .page-title { padding:40px 40px 28px; }
+    .crumb { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#A1A1A1; margin-bottom:10px; } .crumb a { color:#2693EC; text-decoration:none; }
+    .page-title h1 { font-size:2rem; font-weight:900; letter-spacing:-0.5px; margin-bottom:8px; }
+    .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
+    .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+    .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; } .chip.new { background:#EBF9F3; color:#2E9468; }
+    .sect { padding:0 40px; margin-top:44px; } .sect-h { font-size:1.05rem; font-weight:800; margin-bottom:4px; } .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
+    .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:44px 40px; display:flex; gap:28px; align-items:flex-start; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; min-height:230px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; align-items:start; }
+    .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
+    .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; } .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
+    .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
+    .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
+    .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; } .tok tr:last-child td { border-bottom:none; }
+    .tok td.prop { color:#62748E; width:170px; } .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; } .tok td.val { font-family:'Roboto Mono',monospace; font-size:0.72rem; font-weight:600; }
+    .code-wrap { position:relative; } .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
+    .code-wrap .copy { position:absolute; top:12px; right:12px; font-size:0.64rem; font-weight:700; color:#fff; background:rgba(255,255,255,0.12); border:none; border-radius:7px; padding:6px 12px; cursor:pointer; } .code-wrap .copy:hover { background:rgba(255,255,255,0.24); }
+    .c-tag{color:#89D3DF;} .c-attr{color:#FDA509;} .c-str{color:#63C1A0;} .c-com{color:#737373;} .c-key{color:#E95F8B;}
+    .dd { display:grid; grid-template-columns:1fr 1fr; gap:16px; } .dd .card { border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+    .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; } .dd .do .top { background:#EBF9F3; color:#2E9468; } .dd .dont .top { background:#FDEEF0; color:#C91D23; }
+    .dd .body { padding:22px; background:#FCFCFD; } .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
+    .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
+    .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; } .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; } .atag b { color:#2693EC; }
+    footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
+
+    /* ════ SELECT (token-driven) ════ */
+    .sel { position:relative; width:100%; max-width:280px; }
+    .sel-label { display:block; font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); margin-bottom:6px; }
+    .sel-trigger { width:100%; height:var(--size-input); border:1.5px solid var(--color-border); border-radius:var(--rounded-md); background:var(--color-bg-base); padding:0 14px; display:flex; align-items:center; justify-content:space-between; gap:10px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); cursor:pointer; outline:none; transition:border-color .15s, box-shadow .15s; }
+    .sel-trigger:hover { border-color:var(--color-border-strong); }
+    .sel-trigger.is-placeholder { color:var(--color-text-muted); }
+    .sel-trigger .chev { color:var(--color-text-support); transition:transform .18s; font-size:0.8rem; }
+    .sel.open .sel-trigger { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
+    .sel.open .sel-trigger .chev { transform:rotate(180deg); }
+    .sel.error .sel-trigger { border-color:var(--color-danger); }
+    .sel.disabled .sel-trigger { background:var(--color-bg-shade); color:var(--color-text-muted); cursor:not-allowed; }
+    .sel-menu { position:absolute; top:calc(100% + 6px); left:0; right:0; background:#fff; border:1px solid var(--color-border); border-radius:var(--rounded-lg); box-shadow:var(--shadow-float); padding:6px; z-index:5; display:none; }
+    .sel.open .sel-menu { display:block; }
+    .sel-opt { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 12px; border-radius:var(--rounded-md); font-size:var(--font-size-body); color:var(--color-text-body); cursor:pointer; }
+    .sel-opt:hover { background:var(--color-bg-shade); }
+    .sel-opt.selected { background:var(--color-bg-card-alt); color:var(--color-secondary); font-weight:600; }
+    .sel-opt .ck { color:var(--color-secondary); opacity:0; } .sel-opt.selected .ck { opacity:1; }
+    .sel-hint { font-size:var(--font-size-caption); color:var(--color-text-support); margin-top:6px; }
+    .sel-err { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; margin-top:6px; }
+
+    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
+  </style>
+</head>
+<body>
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div><h1>Iron Software Design System</h1><p>Visual Token Reference — for everyone on the team</p></div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+      <a href="component-button.html" class="sidebar-link sub"><i class="sidebar-icon">🔘</i>Button</a>
+      <a href="component-checkbox.html" class="sidebar-link sub"><i class="sidebar-icon">☑️</i>Checkbox</a>
+      <a href="component-input.html" class="sidebar-link sub"><i class="sidebar-icon">⌨️</i>Input</a>
+      <a href="component-radio.html" class="sidebar-link sub"><i class="sidebar-icon">⦿</i>Radio</a>
+      <a href="component-select.html" class="sidebar-link sub active"><i class="sidebar-icon">🔽</i>Select</a>
+      <a href="component-badge.html" class="sidebar-link sub"><i class="sidebar-icon">🏷️</i>Badge</a>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+  <div class="main-content"><div class="content">
+
+    <div class="page-title">
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Select</div>
+      <h1>Select</h1>
+      <p class="lead">A trigger that opens a menu to pick one value from a longer list — countries, plans, statuses. Click the trigger below to open it; the chevron flips and the chosen option is ticked.</p>
+      <div class="meta-chips"><span class="chip">5 states</span><span class="chip">trigger + menu</span><span class="chip new">Token-driven</span></div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Preview</div>
+      <div class="canvas">
+        <div class="sel" id="sel-demo">
+          <label class="sel-label">Country</label>
+          <button class="sel-trigger" onclick="toggleSel('sel-demo')"><span id="sel-demo-val">United States</span><span class="chev">▾</span></button>
+          <div class="sel-menu">
+            <div class="sel-opt selected" onclick="pickSel('sel-demo',this)">United States <span class="ck">✓</span></div>
+            <div class="sel-opt" onclick="pickSel('sel-demo',this)">United Kingdom <span class="ck">✓</span></div>
+            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Thailand <span class="ck">✓</span></div>
+            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Germany <span class="ck">✓</span></div>
+            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Japan <span class="ck">✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">States</div>
+      <div class="sect-sub">Default → placeholder → focus/open → error → disabled.</div>
+      <div class="grid">
+        <div class="cell"><div class="sel"><button class="sel-trigger"><span>Pro plan</span><span class="chev">▾</span></button></div><div class="lbl">Default</div></div>
+        <div class="cell"><div class="sel"><button class="sel-trigger is-placeholder"><span>Select a plan…</span><span class="chev">▾</span></button></div><div class="lbl">Placeholder<small>text-muted</small></div></div>
+        <div class="cell"><div class="sel open" style="position:static;"><button class="sel-trigger"><span>Pro plan</span><span class="chev">▾</span></button></div><div class="lbl">Open / Focus<small>secondary ring</small></div></div>
+        <div class="cell"><div class="sel error"><button class="sel-trigger is-placeholder"><span>Select a plan…</span><span class="chev">▾</span></button></div><div class="lbl">Error<small>danger border</small></div></div>
+        <div class="cell"><div class="sel disabled"><button class="sel-trigger" disabled><span>Locked</span><span class="chev">▾</span></button></div><div class="lbl">Disabled</div></div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Menu &amp; options</div>
+      <div class="sect-sub">The open menu floats on <code>--shadow-float</code>; the selected row is tinted and ticked, hover uses the shade token.</div>
+      <div class="canvas" style="align-items:flex-start;">
+        <div class="sel open" style="position:static;max-width:260px;">
+          <button class="sel-trigger"><span>Pro plan</span><span class="chev">▾</span></button>
+          <div class="sel-menu" style="position:static;margin-top:8px;display:block;">
+            <div class="sel-opt">Starter <span class="ck">✓</span></div>
+            <div class="sel-opt selected">Pro plan <span class="ck">✓</span></div>
+            <div class="sel-opt">Enterprise <span class="ck">✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Anatomy</div>
+      <div class="anatomy">
+        <div class="sel" style="max-width:260px;"><button class="sel-trigger"><span>Selected value</span><span class="chev">▾</span></button></div>
+        <div class="anatomy-tags">
+          <span class="atag">height → <b>--size-input</b> (44px)</span>
+          <span class="atag">border → <b>--color-border</b></span>
+          <span class="atag">radius → <b>--rounded-md</b></span>
+          <span class="atag">open ring → <b>--color-secondary</b></span>
+          <span class="atag">menu shadow → <b>--shadow-float</b></span>
+          <span class="atag">selected row → <b>--color-bg-card-alt</b></span>
+          <span class="atag">hover row → <b>--color-bg-shade</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Token Reference</div>
+      <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
+        <tr><td class="prop">Trigger height</td><td class="token">--size-input</td><td class="val">44px</td></tr>
+        <tr><td class="prop">Border</td><td class="token">--color-border</td><td class="val">#E2E8F0</td></tr>
+        <tr><td class="prop">Border · open</td><td class="token">--color-secondary</td><td class="val">#2693EC</td></tr>
+        <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-blue</td><td class="val">0 0 0 3px · 25%</td></tr>
+        <tr><td class="prop">Radius</td><td class="token">--rounded-md / --rounded-lg</td><td class="val">6 / 8px</td></tr>
+        <tr><td class="prop">Menu shadow</td><td class="token">--shadow-float</td><td class="val">0 2px 16px · 18%</td></tr>
+        <tr><td class="prop">Option · hover</td><td class="token">--color-bg-shade</td><td class="val">#F1F5F9</td></tr>
+        <tr><td class="prop">Option · selected</td><td class="token">--color-bg-card-alt</td><td class="val">#F2F9FE</td></tr>
+        <tr><td class="prop">Placeholder</td><td class="token">--color-text-muted</td><td class="val">#A1A1A1</td></tr>
+        <tr><td class="prop">Border · error</td><td class="token">--color-danger</td><td class="val">#E5242A</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="sect"><div class="sect-h">Code</div>
+      <div class="code-wrap"><button class="copy" onclick="copyCode(this)">Copy</button>
+<pre id="code">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel"</span>&gt;
+  &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"sel-trigger"</span>&gt;&lt;<span class="c-tag">span</span>&gt;United States&lt;/<span class="c-tag">span</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"chev"</span>&gt;▾&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">button</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-menu"</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt selected"</span>&gt;United States &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ck"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span>&gt;Thailand&lt;/<span class="c-tag">div</span>&gt;
+  &lt;/<span class="c-tag">div</span>&gt;
+&lt;/<span class="c-tag">div</span>&gt;
+
+<span class="c-key">.sel.open .sel-trigger</span> { border-color: <span class="c-str">var(--color-secondary)</span>; box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }
+<span class="c-key">.sel-menu</span> { box-shadow: <span class="c-str">var(--shadow-float)</span>; border-radius: <span class="c-str">var(--rounded-lg)</span>; }
+<span class="c-key">.sel-opt.selected</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; color: <span class="c-str">var(--color-secondary)</span>; }</pre>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Guidelines</div>
+      <div class="dd">
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="sel" style="max-width:220px;"><button class="sel-trigger"><span>Thailand</span><span class="chev">▾</span></button></div></div>
+          <ul><li>Use when there are <b>more than ~6 options</b>.</li><li>Always show the current value in the trigger.</li><li>Keep option labels short and scannable.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="sel" style="max-width:220px;"><button class="sel-trigger is-placeholder"><span>Yes / No</span><span class="chev">▾</span></button></div></div>
+          <ul><li>Don't use a Select for 2–3 options — use Radio.</li><li>Don't open the menu without a visible chevron cue.</li><li>Don't hard-code the menu shadow; use <code>--shadow-float</code>.</li></ul></div>
+      </div>
+    </div>
+
+    <footer>Iron Software Design System &nbsp;·&nbsp; Select component &nbsp;·&nbsp; 2025</footer>
+  </div></div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<script>
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function copyCode(btn){const t=document.getElementById('code').innerText;navigator.clipboard.writeText(t).then(()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);});}
+  function toggleSel(id){document.getElementById(id).classList.toggle('open');}
+  function pickSel(id,opt){const s=document.getElementById(id);s.querySelectorAll('.sel-opt').forEach(o=>o.classList.remove('selected'));opt.classList.add('selected');document.getElementById(id+'-val').textContent=opt.textContent.replace('✓','').trim();s.classList.remove('open');}
+  document.addEventListener('click',e=>{if(!e.target.closest('.sel')){document.querySelectorAll('.sel.open').forEach(s=>{if(s.id) s.classList.remove('open');});}});
+</script>
+</body>
+</html>
