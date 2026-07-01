@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logo · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+
+    header {
+      background: #fff; border-bottom: 1px solid #E2E8F0;
+      padding: 24px 48px; display: flex; align-items: center; gap: 16px;
+    }
+    .logo-badge { width: 40px; height: 40px; flex-shrink: 0; }
+    header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
+    header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
+
+    .content { padding: 40px; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1;
+      margin: 40px 0 24px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;
+    }
+    .section-label:first-child { margin-top: 0; }
+
+    /* ─────────────────────────────────────────
+       PRIMARY MARK / CLEAR SPACE
+    ───────────────────────────────────────── */
+    .mark-row { display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-start; }
+
+    .clearspace-box {
+      width: 240px; height: 240px;
+      border: 1.5px dashed #CBD5E1; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff; flex-shrink: 0;
+    }
+    .clearspace-box img { width: 120px; height: 120px; }
+    .mark-caption { font-size: 0.75rem; color: #737373; line-height: 1.5; max-width: 240px; margin-top: 12px; }
+
+    .minsize-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 16px; }
+    .minsize-row { display: flex; gap: 28px; align-items: flex-end; }
+    .minsize-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .minsize-item img { display: block; }
+    .minsize-label { font-size: 0.7rem; font-weight: 700; }
+    .minsize-label.bad { color: #C91D23; }
+    .minsize-label.good { color: #53A085; }
+
+    /* ─────────────────────────────────────────
+       WORDMARK LOCKUP
+    ───────────────────────────────────────── */
+    .lockup-grid { display: flex; gap: 40px; flex-wrap: wrap; }
+    .lockup-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 32px 36px; }
+    .lockup-brand { display: flex; align-items: center; gap: 14px; }
+    .lockup-brand img { width: 56px; height: 56px; }
+    .lockup-brand .brand-text { font-size: 1.9rem; letter-spacing: -0.02em; }
+    .lockup-brand .brand-text b { font-weight: 700; color: #171717; }
+    .lockup-brand .brand-text span { font-weight: 400; color: #E01A59; }
+    .lockup-desc { font-size: 0.75rem; color: #737373; margin-top: 14px; max-width: 260px; line-height: 1.5; }
+
+    /* ─────────────────────────────────────────
+       COLOR SPECIFICATIONS
+    ───────────────────────────────────────── */
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .color-card {
+      height: 170px; border-radius: 12px; border: 1px solid #E2E8F0;
+      display: flex; align-items: center; justify-content: center; gap: 14px;
+    }
+    .color-card img { width: 40px; height: 40px; }
+    .color-card .brand-text { font-size: 1.15rem; }
+    .color-card .brand-text b { font-weight: 700; }
+    .color-card .brand-text span { font-weight: 400; }
+    .color-caption { font-size: 0.72rem; color: #737373; margin-top: 10px; line-height: 1.5; }
+
+    .mono-white { filter: brightness(0) invert(1); }
+
+    /* ─────────────────────────────────────────
+       PRODUCT LOCKUPS
+    ───────────────────────────────────────── */
+    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 40px; }
+    .product-row { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #F1F5F9; }
+    .product-row img { width: 48px; height: 48px; flex-shrink: 0; }
+    .product-name { font-size: 1.15rem; letter-spacing: -0.01em; }
+    .product-name b { font-weight: 700; color: #171717; }
+    .product-lang { font-size: 0.95rem; color: #171717; font-weight: 400; }
+    .product-edition { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; color: #737373; margin-top: 2px; }
+    @media (max-width: 720px) { .product-grid { grid-template-columns: 1fr; } }
+
+    /* ─────────────────────────────────────────
+       DON'TS
+    ───────────────────────────────────────── */
+    .donts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+    .dont-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; }
+    .dont-example {
+      height: 160px; position: relative; display: flex; align-items: center; justify-content: center;
+      border-bottom: 1px solid #F1F5F9; overflow: hidden;
+    }
+    .dont-badge {
+      position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; border-radius: 50%;
+      background: #D92D20; color: #fff; font-size: 0.7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dont-body { padding: 16px 18px 20px; }
+    .dont-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
+    .dont-desc { font-size: 0.72rem; color: #737373; line-height: 1.5; }
+    .dont-brand { display: flex; align-items: center; gap: 10px; }
+    .dont-brand img { width: 36px; height: 36px; }
+    .dont-brand .brand-text { font-size: 1.05rem; }
+    .dont-brand .brand-text b { font-weight: 700; color: #171717; }
+    .dont-brand .brand-text span { font-weight: 400; color: #E01A59; }
+
+    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+
+    /* ─────────────────────────────────────────
+       SIDEBAR & LAYOUT
+    ───────────────────────────────────────── */
+    .hamburger { margin-left: auto;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 4px;
+      flex-shrink: 0;
+      margin-right: 4px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .hamburger:hover { background: #F1F5F9; }
+    .hamburger span {
+      display: block;
+      width: 20px; height: 2px;
+      background: #62748E;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .hamburger:hover span { background: #2693EC; }
+
+    .layout { display: flex; min-height: calc(100vh - 89px); }
+
+    .sidebar {
+      width: 248px;
+      flex-shrink: 0;
+      background: #FFFFFF;
+      border-right: 1px solid #E2E8F0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #E2E8F0 transparent;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
+
+    .sidebar-nav { padding: 8px 0 24px; display: flex; flex-direction: column; }
+
+    .sidebar-category {
+      font-size: 0.58rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #A1A1A1;
+      padding: 18px 18px 5px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px 8px 15px;
+      font-size: 0.81rem;
+      font-weight: 500;
+      color: #62748E;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: color 0.14s, background 0.14s, border-color 0.14s;
+      margin: 1px 8px 1px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .sidebar-link:hover {
+      color: #1a7acc;
+      background: #F0F9FF;
+    }
+    .sidebar-link.active {
+      color: #2693EC;
+      background: #EBF5FD;
+      border-left-color: #2693EC;
+      font-weight: 700;
+    }
+    .sidebar-tree { display: flex; flex-direction: column; }
+    .sidebar-icon {
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+      font-style: normal;
+      font-size: 0.85rem;
+    }
+
+    .main-content { flex: 1; min-width: 0; overflow: hidden; }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 43, 0.45);
+      z-index: 40;
+      backdrop-filter: blur(2px);
+    }
+    .sidebar-overlay.open { display: block; }
+
+    @media (max-width: 768px) {
+      .hamburger { margin-left: auto; display: flex; }
+      .sidebar {
+        position: fixed;
+        top: 0; left: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+        transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 60;
+        box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
+        width: 264px;
+      }
+      .sidebar.open { transform: translateX(0); }
+    }
+
+    .page-title {
+      padding: 36px 40px 28px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .page-title h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #171717;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .page-title p {
+      font-size: 0.85rem;
+      color: #62748E;
+      line-height: 1.6;
+      max-width: 680px;
+    }
+    @media (max-width: 640px) {
+      .page-title { padding: 24px 16px 20px; }
+      .page-title h1 { font-size: 1.2rem; }
+      .content { padding: 16px; }
+      .mark-row { gap: 20px; }
+      .lockup-grid { gap: 20px; }
+    }
+
+    .sidebar-version {
+      padding: 16px 18px;
+      border-top: 1px solid #F1F5F9;
+      margin-top: auto;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #A1A1A1;
+      letter-spacing: 0.03em;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div>
+    <h1>Iron Software Design System</h1>
+    <p>Visual Token Reference — for everyone on the team</p>
+  </div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="logo.html" class="sidebar-link active"><i class="sidebar-icon">✳️</i>Logo</a>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <div class="sidebar-tree">
+        <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+        <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
+        <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
+        <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
+        <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
+      </div>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+
+<div class="main-content">
+<div class="content">
+  <div class="page-title">
+    <h1>✳️ Logo</h1>
+    <p>The Iron Software mark is the foundation of every product identity across the suite. This page documents the primary mark, wordmark lockup, color rules, product-specific lockups, and common misuse to avoid.</p>
+  </div>
+
+  <!-- ═══════════════════════════ PRIMARY MARK ═══════════════════════════ -->
+
+  <div class="section-label">Clear Space &amp; Minimum Size</div>
+
+  <div class="mark-row">
+    <div>
+      <div class="clearspace-box">
+        <img src="assets/logo.svg" alt="Iron Software mark">
+      </div>
+      <p class="mark-caption">Clear space = height of one mark segment (X). Keep this zone free of text, edges, and other logos.</p>
+    </div>
+
+    <div>
+      <div class="minsize-title">Minimum size</div>
+      <div class="minsize-row">
+        <div class="minsize-item">
+          <img src="assets/logo.svg" style="width:16px;height:16px;" alt="16px">
+          <span class="minsize-label bad">16px — too small</span>
+        </div>
+        <div class="minsize-item">
+          <img src="assets/logo.svg" style="width:24px;height:24px;" alt="24px">
+          <span class="minsize-label good">24px — minimum</span>
+        </div>
+        <div class="minsize-item">
+          <img src="assets/logo.svg" style="width:48px;height:48px;" alt="48px">
+          <span class="minsize-label good">48px — comfortable</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ WORDMARK LOCKUP ═══════════════════════════ -->
+
+  <div class="section-label">Wordmark Lockup</div>
+
+  <div class="lockup-grid">
+    <div class="lockup-card">
+      <div class="lockup-brand">
+        <img src="assets/logo.svg" alt="Iron Software mark">
+        <span class="brand-text"><b>IRON</b><span>SOFTWARE</span></span>
+      </div>
+      <p class="lockup-desc">Primary lockup — corporate &amp; cross-product contexts. Icon and wordmark keep fixed relative position and spacing.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ COLOR SPECIFICATIONS ═══════════════════════════ -->
+
+  <div class="section-label">Color Specifications</div>
+
+  <div class="color-grid">
+    <div>
+      <div class="color-card" style="background:#fff;">
+        <img src="assets/logo.svg" alt="">
+        <span class="brand-text"><b>IRON</b><span style="color:#E01A59;">SOFTWARE</span></span>
+      </div>
+      <p class="color-caption">Light backgrounds — full color mark</p>
+    </div>
+    <div>
+      <div class="color-card" style="background:#171717;">
+        <img class="mono-white" src="assets/logo.svg" alt="">
+        <span class="brand-text" style="color:#fff;"><b style="color:#fff;">IRON</b><span style="color:#fff;">SOFTWARE</span></span>
+      </div>
+      <p class="color-caption">Dark backgrounds — mono white mark</p>
+    </div>
+    <div>
+      <div class="color-card" style="background:#E01A59;">
+        <img class="mono-white" src="assets/logo.svg" alt="">
+        <span class="brand-text" style="color:#fff;"><b style="color:#fff;">IRON</b><span style="color:#fff;">SOFTWARE</span></span>
+      </div>
+      <p class="color-caption">Brand-color backgrounds — mono white, check contrast first</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ PRODUCT LOCKUPS ═══════════════════════════ -->
+
+  <div class="section-label">Product-Specific Lockups</div>
+
+  <div class="product-grid">
+    <div class="product-row">
+      <img src="assets/logo-01-pdf.svg" alt="IronPDF">
+      <div><span class="product-name"><b>IRON</b><span style="color:#E01A59;">PDF</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-01-pdf.svg" alt="IronPDF Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#E01A59;">PDF</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-02-word.svg" alt="IronWord">
+      <div><span class="product-name"><b>IRON</b><span style="color:#89D3DF;">WORD</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-02-word.svg" alt="IronWord Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#89D3DF;">WORD</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-03-xl.svg" alt="IronXL">
+      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">XL</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-03-xl.svg" alt="IronXL Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">XL</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-04-ppt.svg" alt="IronPPT">
+      <div><span class="product-name"><b>IRON</b><span style="color:#E01A59;">PPT</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-04-ppt.svg" alt="IronPPT Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#E01A59;">PPT</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-07-qr.svg" alt="IronQR">
+      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">QR</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-07-qr.svg" alt="IronQR Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">QR</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-05-ocr.svg" alt="IronOCR">
+      <div><span class="product-name"><b>IRON</b><span style="color:#89D3DF;">OCR</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-05-ocr.svg" alt="IronOCR Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#89D3DF;">OCR</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-06-bc.svg" alt="IronBarcode">
+      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">BARCODE</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-06-bc.svg" alt="IronBarcode Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">BARCODE</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-09-prt.svg" alt="IronPrint">
+      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">PRINT</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-09-prt.svg" alt="IronPrint Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">PRINT</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-08-zip.svg" alt="IronZip">
+      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">ZIP</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-08-zip.svg" alt="IronZip Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">ZIP</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+
+    <div class="product-row">
+      <img src="assets/logo-010-ws.svg" alt="IronWebScraper">
+      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">WEBSCRAPER</span></span><div class="product-edition">CLASSIC</div></div>
+    </div>
+    <div class="product-row">
+      <img src="assets/logo-010-ws.svg" alt="IronWebScraper Universal">
+      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">WEBSCRAPER</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ DON'TS ═══════════════════════════ -->
+
+  <div class="section-label">Don'ts</div>
+
+  <div class="donts-grid">
+
+    <div class="dont-card">
+      <div class="dont-example">
+        <div class="dont-badge">✕</div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:28px;">
+          <span class="brand-text" style="font-size:1.05rem;"><b style="font-weight:700;">IRON</b><span style="color:#E01A59;">SOFTWARE</span></span>
+          <img src="assets/logo.svg" style="width:32px;height:32px;" alt="">
+        </div>
+      </div>
+      <div class="dont-body">
+        <div class="dont-title">Don't rearrange elements</div>
+        <div class="dont-desc">Keep the mark and wordmark in fixed relative position — never split or reorder them.</div>
+      </div>
+    </div>
+
+    <div class="dont-card">
+      <div class="dont-example">
+        <div class="dont-badge">✕</div>
+        <div class="dont-brand">
+          <img src="assets/logo.svg" style="filter: hue-rotate(220deg) saturate(1.4);" alt="">
+          <span class="brand-text"><b>IRON</b><span style="color:#16A34A;">SOFTWARE</span></span>
+        </div>
+      </div>
+      <div class="dont-body">
+        <div class="dont-title">Don't recolor the mark</div>
+        <div class="dont-desc">Only use approved brand color tokens — never arbitrary or off-brand hues.</div>
+      </div>
+    </div>
+
+    <div class="dont-card">
+      <div class="dont-example">
+        <div class="dont-badge">✕</div>
+        <div class="dont-brand" style="filter: drop-shadow(6px 8px 6px rgba(0,0,0,0.45));">
+          <img src="assets/logo.svg" alt="">
+          <span class="brand-text"><b>IRON</b><span style="color:#E01A59;">SOFTWARE</span></span>
+        </div>
+      </div>
+      <div class="dont-body">
+        <div class="dont-title">Don't add effects</div>
+        <div class="dont-desc">No drop shadows, glows, gradients, or bevels on the mark or wordmark.</div>
+      </div>
+    </div>
+
+    <div class="dont-card">
+      <div class="dont-example" style="background:linear-gradient(115deg,#E01A59,#2693EC,#FDA509,#63C1A0,#331433);">
+        <div class="dont-badge">✕</div>
+        <div class="dont-brand">
+          <img src="assets/logo.svg" alt="">
+          <span class="brand-text"><b>IRON</b><span style="color:#E01A59;">SOFTWARE</span></span>
+        </div>
+      </div>
+      <div class="dont-body">
+        <div class="dont-title">Don't use busy backgrounds</div>
+        <div class="dont-desc">Avoid photos, patterns, or gradients that fight the mark for attention.</div>
+      </div>
+    </div>
+
+    <div class="dont-card">
+      <div class="dont-example" style="background:#EE5586;">
+        <div class="dont-badge">✕</div>
+        <div class="dont-brand">
+          <img class="mono-white" src="assets/logo.svg" style="opacity:0.75;" alt="">
+          <span class="brand-text"><b style="color:#F6C6D3;">IRON</b><span style="color:#F6C6D3;">SOFTWARE</span></span>
+        </div>
+      </div>
+      <div class="dont-body">
+        <div class="dont-title">Don't use low contrast</div>
+        <div class="dont-desc">Always check contrast against the background — the mark must stay legible.</div>
+      </div>
+    </div>
+
+    <div class="dont-card">
+      <div class="dont-example">
+        <div class="dont-badge">✕</div>
+        <div class="dont-brand">
+          <img src="assets/logo.svg" style="width:60px;height:24px;" alt="">
+          <span class="brand-text"><b>IRON</b><span style="color:#E01A59;">SOFTWARE</span></span>
+        </div>
+      </div>
+      <div class="dont-body">
+        <div class="dont-title">Don't distort proportions</div>
+        <div class="dont-desc">Never stretch or squash the mark — scale it uniformly only.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>Iron Software Design System &nbsp;·&nbsp; Logo &nbsp;·&nbsp; 2025</footer>
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<script>
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebar-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+</script>
+</body>
+</html>
