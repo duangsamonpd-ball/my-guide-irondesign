@@ -296,28 +296,21 @@
         <div class="sect-sub">Copy-and-own — a native input + a styled box. Accessible and framework-free.</div>
         <div class="code-wrap">
           <button class="copy" onclick="copyCode(this)">Copy</button>
-<pre id="code"><span class="c-com">&lt;!-- markup --&gt;</span>
-&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"cbx"</span>&gt;
+<pre id="code">&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"cbx"</span>&gt;
   &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"checkbox"</span> <span class="c-attr">checked</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"box"</span>&gt;&lt;<span class="c-tag">svg</span>&gt;…✓…&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"box"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
   &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Accept terms and conditions&lt;/<span class="c-tag">span</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;By clicking this checkbox…&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;By clicking this checkbox you agree.&lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">label</span>&gt;
 
-<span class="c-com">/* styling — all values are tokens */</span>
-<span class="c-key">.cbx .box</span> {
-  width: <span class="c-str">var(--size-box)</span>; height: <span class="c-str">var(--size-box)</span>;
-  border: 1.5px solid <span class="c-str">var(--color-border-strong)</span>;
-  border-radius: <span class="c-str">var(--rounded-sm)</span>;
-}
-<span class="c-key">.cbx input:checked + .box</span> {
-  background: <span class="c-str">var(--color-secondary)</span>;
-  border-color: <span class="c-str">var(--color-secondary)</span>;
-}
-<span class="c-key">.cbx input:focus-visible + .box</span> { box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }
-<span class="c-key">.cbx.invalid .box</span> { border-color: <span class="c-str">var(--color-danger)</span>; }</pre>
+<span class="c-com">&lt;!-- invalid state --&gt;</span>
+&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"cbx invalid"</span>&gt;
+  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"checkbox"</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"box"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Required&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">label</span>&gt;</pre>
         </div>
       </div>
 

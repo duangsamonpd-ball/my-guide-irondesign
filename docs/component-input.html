@@ -204,16 +204,12 @@
   &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;We'll never share your email.&lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">label</span>&gt;
 
-<span class="c-key">.input</span> {
-  height: <span class="c-str">var(--size-input)</span>;
-  border: 1.5px solid <span class="c-str">var(--color-border)</span>;
-  border-radius: <span class="c-str">var(--rounded-md)</span>;
-}
-<span class="c-key">.input</span>:focus {
-  border-color: <span class="c-str">var(--color-secondary)</span>;
-  box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>;
-}
-<span class="c-key">.input.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }</pre>
+<span class="c-com">&lt;!-- error state --&gt;</span>
+&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input error"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">value</span>=<span class="c-str">"not-an-email"</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;Enter a valid email address.&lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">label</span>&gt;</pre>
       </div>
     </div>
 

@@ -374,34 +374,28 @@
       <!-- ── Code ── -->
       <div class="sect">
         <div class="sect-h">Code</div>
-        <div class="sect-sub">Copy-and-own — plain HTML + CSS variables. No framework required.</div>
+        <div class="sect-sub">Copy-and-own HTML — styling comes from the design-system tokens. No framework required.</div>
         <div class="code-wrap">
           <button class="copy" onclick="copyCode(this)">Copy</button>
-<pre id="code"><span class="c-com">&lt;!-- markup --&gt;</span>
-&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--lg btn--primary"</span>&gt;Download Free Trial&lt;/<span class="c-tag">button</span>&gt;
+<pre id="code"><span class="c-com">&lt;!-- variants · size = btn--lg / btn--md / btn--sm --&gt;</span>
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--primary"</span>&gt;Primary&lt;/<span class="c-tag">button</span>&gt;
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--secondary"</span>&gt;Secondary&lt;/<span class="c-tag">button</span>&gt;
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--tertiary"</span>&gt;Tertiary&lt;/<span class="c-tag">button</span>&gt;
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--outline"</span>&gt;Outline&lt;/<span class="c-tag">button</span>&gt;
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--ondark"</span>&gt;On-dark&lt;/<span class="c-tag">button</span>&gt;
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--ghost"</span>&gt;Ghost&lt;/<span class="c-tag">button</span>&gt;
 
-<span class="c-com">/* styling — all values are tokens */</span>
-<span class="c-key">.btn</span> {
-  display: inline-flex; align-items: center; gap: <span class="c-str">var(--space-xs)</span>;
-  border-radius: <span class="c-str">var(--rounded-cta)</span>;
-}
-<span class="c-key">.btn--lg</span> {
-  height: <span class="c-str">var(--size-btn-lg)</span>;          <span class="c-com">/* 56px */</span>
-  padding: 0 26px;
-  font-size: <span class="c-str">var(--font-size-btn-lg)</span>;   <span class="c-com">/* 16px */</span>
-  font-weight: <span class="c-str">var(--fw-btn-lg)</span>;        <span class="c-com">/* 700  */</span>
-}
-<span class="c-key">.btn--primary</span> {
-  background: <span class="c-str">var(--color-button-primary)</span>;
-  color: <span class="c-str">var(--color-primary-on)</span>;
-}
-<span class="c-key">.btn--primary</span>:hover  { background: <span class="c-str">var(--color-button-primary-hover)</span>; }
-<span class="c-key">.btn--primary</span>:focus-visible { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }
+<span class="c-com">&lt;!-- disabled --&gt;</span>
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--primary"</span> <span class="c-attr">disabled</span>&gt;Disabled&lt;/<span class="c-tag">button</span>&gt;
 
-<span class="c-com">/* outline / ghost: blue text → pink on hover */</span>
-<span class="c-key">.btn--outline</span> { background: #fff; color: <span class="c-str">var(--color-on-tertiary)</span>; border-color: <span class="c-str">var(--color-border)</span>; }
-<span class="c-key">.btn--outline</span>:hover { color: <span class="c-str">var(--color-on-tertiary-hover)</span>; border-color: <span class="c-str">var(--color-border-strong)</span>; }
-<span class="c-key">.btn--tertiary</span>:hover { background: <span class="c-str">var(--color-primary)</span>; }   <span class="c-com">/* black → pink */</span>
+<span class="c-com">&lt;!-- NuGet download CTA --&gt;</span>
+&lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn-nuget"</span>&gt;
+  &lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"nuget-ico"</span>&gt;<span class="c-com">&lt;!-- icon --&gt;</span>&lt;/<span class="c-tag">svg</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"nuget-txt"</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"nuget-title"</span>&gt;Free NuGet Download&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"nuget-sub"</span>&gt;Total download 19,002,577&lt;/<span class="c-tag">span</span>&gt;
+  &lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">button</span>&gt;</pre>
         </div>
       </div>
 
