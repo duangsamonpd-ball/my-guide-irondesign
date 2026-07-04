@@ -313,7 +313,7 @@
     .section-head p.aud-sub { max-width: 980px; }   /* wide enough to keep line 1 on one line before the <br> */
     .section-head p.prod-sub { max-width: none; white-space: nowrap; }  /* one line while it fits (~940px+) */
     /* below ~940px the one-liner would overflow → allow it to wrap */
-    @media (max-width: 940px) { .section-head p.prod-sub { white-space: normal; max-width: 720px; } }
+    @media (max-width: 1100px) { .section-head p.prod-sub { white-space: normal; max-width: 820px; } }
     .avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
     .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xl); }
     .info-card {
@@ -522,6 +522,8 @@
       .growth-card { height: auto; }
       .growth-top { position: relative; top: auto; left: auto; right: auto; margin-bottom: var(--space-2xl); }
       .chart { min-height: 260px; }
+      /* Support subtitle wraps before it overflows (~950px sentence at 18px) */
+      .support-sub { white-space: normal; max-width: 820px; }
     }
 
     /* ── 1000px: wide-tablet grid collapse ──────────────────────── */
