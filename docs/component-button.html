@@ -36,8 +36,9 @@
       --size-btn-lg:             56px;
       --size-btn-md:             48px;
       --size-btn-sm:             40px;
-      --focus-ring-white:        inset 0 0 0 2px #FFFFFF;  /* solid-button focus ring */
-      --shadow-focus-magenta:    0 0 0 3px rgba(224,26,89,0.25);  /* NuGet CTA focus ring (primary @25%) */
+      --shadow-focus-magenta:    0 0 0 3px rgba(224,26,89,0.25);   /* primary + NuGet focus halo (pink @25%) */
+      --focus-ring-blue:         0 0 0 3px rgba(38,147,236,0.25);  /* secondary / outline / ondark focus halo */
+      --focus-ring-white:        0 0 0 3px rgba(255,255,255,0.25); /* tertiary focus halo (on dark fill) */
       --space-xs:                8px;
       --space-sm:                12px;
       --space-md:                16px;
@@ -132,13 +133,13 @@
     .btn--ondark:hover    { color: var(--color-on-tertiary-hover); }
     .btn--ghost     { background: transparent; color: var(--color-on-tertiary); }
     .btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
-    /* states — focus: white ring on solid, blue border on outline/ghost/ondark */
-    .btn--primary:focus-visible, .btn--primary.is-focus,
-    .btn--secondary:focus-visible, .btn--secondary.is-focus,
-    .btn--tertiary:focus-visible, .btn--tertiary.is-focus { box-shadow: var(--focus-ring-white); }
-    .btn--outline:focus-visible, .btn--outline.is-focus,
-    .btn--ondark:focus-visible, .btn--ondark.is-focus,
-    .btn--ghost:focus-visible, .btn--ghost.is-focus { border-color: var(--color-border-focused); }
+    /* states — focus: coloured 3px halo matching the button (Figma: drop-shadow 25% · spread 3) */
+    .btn--primary:focus-visible,   .btn--primary.is-focus   { box-shadow: var(--shadow-focus-magenta); }
+    .btn--secondary:focus-visible, .btn--secondary.is-focus { box-shadow: var(--focus-ring-blue); }
+    .btn--tertiary:focus-visible,  .btn--tertiary.is-focus  { box-shadow: var(--focus-ring-white); }
+    .btn--outline:focus-visible,   .btn--outline.is-focus   { box-shadow: var(--focus-ring-blue); }
+    .btn--ondark:focus-visible,    .btn--ondark.is-focus    { box-shadow: var(--focus-ring-blue); border-color: rgba(255,255,255,0.3); }
+    .btn--ghost:focus-visible,     .btn--ghost.is-focus     { border-color: var(--color-border-focused); }
     .btn[disabled], .btn.is-disabled { opacity: .5; cursor: not-allowed; }
     .btn .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -301,11 +302,11 @@
       <!-- ── States ── -->
       <div class="sect">
         <div class="sect-h">States</div>
-        <div class="sect-sub">Four states from Figma — <b>default · hover · focus · disabled</b>. Solid buttons focus with a 2px white inner ring; outline / ghost focus with a blue border. (Loading is a UI extra.)</div>
+        <div class="sect-sub">Four states from Figma — <b>default · hover · focus · disabled</b>. Focus shows a 3px coloured halo matching the button (pink · blue · white @25%); ghost focus uses a blue border. (Loading is a UI extra.)</div>
         <div class="grid">
           <div class="cell"><button class="btn btn--md btn--primary">Default</button><div class="lbl">Default</div></div>
           <div class="cell"><button class="btn btn--md btn--primary" style="background:var(--color-primary-hover);">Hover</button><div class="lbl">Hover<small>primary-hover</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--primary is-focus">Focus</button><div class="lbl">Focus<small>white ring 2px</small></div></div>
+          <div class="cell"><button class="btn btn--md btn--primary is-focus">Focus</button><div class="lbl">Focus<small>pink halo</small></div></div>
           <div class="cell"><button class="btn btn--md btn--primary is-disabled" disabled>Disabled</button><div class="lbl">Disabled<small>opacity .5</small></div></div>
           <div class="cell"><button class="btn btn--md btn--ghost is-focus">Focus</button><div class="lbl">Ghost focus<small>border/focused</small></div></div>
           <div class="cell"><button class="btn btn--md btn--primary"><span class="spin"></span>Loading</button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
@@ -345,7 +346,7 @@
             <span class="atag">label → <b>--font-size-btn-lg</b> / <b>--fw-btn-lg</b></span>
             <span class="atag">radius → <b>--rounded-cta</b></span>
             <span class="atag">icon gap → <b>--space-xs</b></span>
-            <span class="atag">focus → <b>--focus-ring-white</b></span>
+            <span class="atag">focus → <b>--shadow-focus-magenta</b></span>
           </div>
         </div>
       </div>
@@ -365,7 +366,7 @@
             <tr><td class="prop">Height</td><td class="token">--size-btn-lg</td><td class="val">56px</td></tr>
             <tr><td class="prop">Radius</td><td class="token">--rounded-cta</td><td class="val">9999px (full)</td></tr>
             <tr><td class="prop">Padding X</td><td class="token">--space-lg + 6</td><td class="val">26px</td></tr>
-            <tr><td class="prop">Focus ring</td><td class="token">--focus-ring-white</td><td class="val">inset 0 0 0 2px #FFF</td></tr>
+            <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-magenta</td><td class="val">0 0 0 3px · pink 25%</td></tr>
           </tbody>
         </table>
       </div>
@@ -395,7 +396,7 @@
   color: <span class="c-str">var(--color-primary-on)</span>;
 }
 <span class="c-key">.btn--primary</span>:hover  { background: <span class="c-str">var(--color-button-primary-hover)</span>; }
-<span class="c-key">.btn--primary</span>:focus-visible { box-shadow: <span class="c-str">var(--focus-ring-white)</span>; }
+<span class="c-key">.btn--primary</span>:focus-visible { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }
 
 <span class="c-com">/* outline / ghost: blue text → pink on hover */</span>
 <span class="c-key">.btn--outline</span> { background: #fff; color: <span class="c-str">var(--color-on-tertiary)</span>; border-color: <span class="c-str">var(--color-border)</span>; }
