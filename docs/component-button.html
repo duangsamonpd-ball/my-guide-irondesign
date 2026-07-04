@@ -37,9 +37,12 @@
       --size-btn-md:             48px;
       --size-btn-sm:             40px;
       --focus-ring-white:        inset 0 0 0 2px #FFFFFF;  /* solid-button focus ring */
+      --shadow-focus-magenta:    0 0 0 3px rgba(224,26,89,0.25);  /* NuGet CTA focus ring (primary @25%) */
+      --space-xs:                8px;
       --space-sm:                12px;
       --space-md:                16px;
       --space-lg:                20px;
+      --space-2xl:               32px;
     }
 
     header {
@@ -140,6 +143,23 @@
     .btn .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .btn .ico { font-size: 0.9em; }
+
+    /* ── NuGet Download CTA (special primary, 2-line + icon) ── */
+    .btn-nuget {
+      display: inline-flex; align-items: center; gap: var(--space-xs); cursor: pointer;
+      height: var(--size-btn-lg); padding: 0 var(--space-2xl);
+      border: none; outline: none; border-radius: var(--rounded-cta);
+      background: var(--color-primary); color: var(--color-primary-on);
+      font-family: 'Montserrat', sans-serif; white-space: nowrap;
+      transition: background .15s, box-shadow .15s;
+    }
+    .btn-nuget:hover { background: var(--color-primary-hover); }
+    .btn-nuget:focus-visible, .btn-nuget.is-focus { box-shadow: var(--shadow-focus-magenta); }
+    .btn-nuget[disabled], .btn-nuget.is-disabled { opacity: .5; cursor: not-allowed; }
+    .btn-nuget .nuget-ico { width: 26px; height: 26px; flex-shrink: 0; }
+    .btn-nuget .nuget-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+    .btn-nuget .nuget-title { font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); }
+    .btn-nuget .nuget-sub { font-size: var(--font-size-btn-sm); font-weight: 500; opacity: .9; }
 
     /* ── Anatomy ── */
     .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
@@ -289,6 +309,27 @@
           <div class="cell"><button class="btn btn--md btn--primary is-disabled" disabled>Disabled</button><div class="lbl">Disabled<small>opacity .5</small></div></div>
           <div class="cell"><button class="btn btn--md btn--ghost is-focus">Focus</button><div class="lbl">Ghost focus<small>border/focused</small></div></div>
           <div class="cell"><button class="btn btn--md btn--primary"><span class="spin"></span>Loading</button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
+        </div>
+      </div>
+
+      <!-- ── NuGet Download CTA ── -->
+      <div class="sect">
+        <div class="sect-h">NuGet Download <span class="chip new" style="margin-left:4px;">special</span></div>
+        <div class="sect-sub">A large primary CTA with the NuGet icon and a two-line label (title + live install count). Same <b>button/primary</b> fill and pink focus ring as Primary — 56px pill.</div>
+        <div class="canvas">
+          <button class="btn-nuget">
+            <svg class="nuget-ico" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/>
+              <path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/>
+            </svg>
+            <span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">Total download 19,002,577</span></span>
+          </button>
+        </div>
+        <div class="grid" style="margin-top:14px;grid-template-columns:1fr 1fr;">
+          <div class="cell"><button class="btn-nuget" style=""><svg class="nuget-ico" viewBox="0 0 28 28" fill="none"><path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/><path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/></svg><span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">19,002,577</span></span></button><div class="lbl">Default<small>button/primary</small></div></div>
+          <div class="cell"><button class="btn-nuget" style="background:var(--color-primary-hover);"><svg class="nuget-ico" viewBox="0 0 28 28" fill="none"><path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/><path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/></svg><span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">19,002,577</span></span></button><div class="lbl">Hover<small>primary-hover</small></div></div>
+          <div class="cell"><button class="btn-nuget is-focus" style=""><svg class="nuget-ico" viewBox="0 0 28 28" fill="none"><path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/><path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/></svg><span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">19,002,577</span></span></button><div class="lbl">Focus<small>magenta ring</small></div></div>
+          <div class="cell"><button class="btn-nuget is-disabled" disabled style=""><svg class="nuget-ico" viewBox="0 0 28 28" fill="none"><path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/><path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/></svg><span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">19,002,577</span></span></button><div class="lbl">Disabled<small>opacity .5</small></div></div>
         </div>
       </div>
 
