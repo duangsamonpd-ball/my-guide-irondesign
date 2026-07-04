@@ -350,7 +350,21 @@
   function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
   function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
-  function copyCode(btn){const txt=document.getElementById('code').innerText;navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);});}
+  function showToast(msg){
+    let el=document.getElementById('ds-toast');
+    if(!el){el=document.createElement('div');el.id='ds-toast';document.body.appendChild(el);
+      el.style.cssText='position:fixed;left:50%;bottom:32px;transform:translate(-50%,20px);background:#171717;color:#fff;font-family:Montserrat,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:.01em;padding:11px 18px;border-radius:9999px;box-shadow:0 8px 28px rgba(15,23,43,0.28);z-index:200;opacity:0;transition:opacity .22s ease,transform .22s ease;display:flex;align-items:center;gap:8px;pointer-events:none;';}
+    el.innerHTML='<span style="color:#3DDC97;font-weight:800;">✓</span>'+msg;
+    setTimeout(()=>{el.style.opacity='1';el.style.transform='translate(-50%,0)';},20);
+    clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,20px)';},1700);
+  }
+  function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+  function copyCode(btn){
+    const txt=document.getElementById('code').innerText;
+    const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
+    else{fallbackCopy(txt,done);}
+  }
 </script>
 </body>
 </html>
