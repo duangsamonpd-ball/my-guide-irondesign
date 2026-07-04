@@ -199,6 +199,13 @@
       header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;}
       .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:28px;}
     }
+      .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
+    .code-tab:hover{color:#E5E5E5;}
+    .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
+    .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
+    .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
+    .code-wrap .code-pane.active{display:block;}
   </style>
 </head>
 <body>
@@ -376,8 +383,12 @@
         <div class="sect-h">Code</div>
         <div class="sect-sub">Copy-and-own HTML — styling comes from the design-system tokens. No framework required.</div>
         <div class="code-wrap">
-          <button class="copy" onclick="copyCode(this)">Copy</button>
-<pre id="code"><span class="c-com">&lt;!-- variants · size = btn--lg / btn--md / btn--sm --&gt;</span>
+          <div class="code-tabs">
+            <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
+            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="copy" onclick="copyCode(this)">Copy</button>
+          </div>
+<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- variants · size = btn--lg / btn--md / btn--sm --&gt;</span>
 &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--primary"</span>&gt;Primary&lt;/<span class="c-tag">button</span>&gt;
 &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--secondary"</span>&gt;Secondary&lt;/<span class="c-tag">button</span>&gt;
 &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn--md btn--tertiary"</span>&gt;Tertiary&lt;/<span class="c-tag">button</span>&gt;
@@ -396,6 +407,22 @@
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"nuget-sub"</span>&gt;Total download 19,002,577&lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">button</span>&gt;</pre>
+<pre class="code-pane" data-lang="css"><span class="c-key">.btn</span> {
+  display: inline-flex; align-items: center; gap: <span class="c-str">var(--space-xs)</span>;
+  border-radius: <span class="c-str">var(--rounded-cta)</span>;
+}
+<span class="c-key">.btn--lg</span> {
+  height: <span class="c-str">var(--size-btn-lg)</span>;          <span class="c-com">/* 56px */</span>
+  padding: 0 26px;
+  font-size: <span class="c-str">var(--font-size-btn-lg)</span>;  <span class="c-com">/* 16px */</span>
+  font-weight: <span class="c-str">var(--fw-btn-lg)</span>;       <span class="c-com">/* 700 */</span>
+}
+<span class="c-key">.btn--primary</span> { background: <span class="c-str">var(--color-primary)</span>; color: <span class="c-str">var(--color-primary-on)</span>; }
+<span class="c-key">.btn--primary:hover</span> { background: <span class="c-str">var(--color-primary-hover)</span>; }
+<span class="c-key">.btn--primary:focus-visible</span> { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }
+<span class="c-key">.btn--outline</span> { background: #fff; color: <span class="c-str">var(--color-on-tertiary)</span>; border-color: <span class="c-str">var(--color-border)</span>; }
+<span class="c-key">.btn--outline:hover</span> { color: <span class="c-str">var(--color-on-tertiary-hover)</span>; border-color: <span class="c-str">var(--color-border-strong)</span>; }
+<span class="c-key">.btn--tertiary:hover</span> { background: <span class="c-str">var(--color-primary)</span>; }   <span class="c-com">/* black -&gt; pink */</span></pre>
         </div>
       </div>
 
@@ -446,9 +473,10 @@
     setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);
     clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);
   }
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
   function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
   function copyCode(btn){
-    const txt=document.getElementById('code').innerText;
+    const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;
     const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
     else{fallbackCopy(txt,done);}

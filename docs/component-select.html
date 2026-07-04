@@ -82,6 +82,13 @@
     .sel-err { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; margin-top:6px; }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
+      .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
+    .code-tab:hover{color:#E5E5E5;}
+    .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
+    .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
+    .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
+    .code-wrap .code-pane.active{display:block;}
   </style>
 </head>
 <body>
@@ -199,8 +206,13 @@
     </div>
 
     <div class="sect"><div class="sect-h">Code</div>
-      <div class="code-wrap"><button class="copy" onclick="copyCode(this)">Copy</button>
-<pre id="code">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel"</span>&gt;
+      <div class="code-wrap">
+          <div class="code-tabs">
+            <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
+            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="copy" onclick="copyCode(this)">Copy</button>
+          </div>
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel"</span>&gt;
   &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"sel-trigger"</span>&gt;
     &lt;<span class="c-tag">span</span>&gt;United States&lt;/<span class="c-tag">span</span>&gt;
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"chev"</span>&gt;▾&lt;/<span class="c-tag">span</span>&gt;
@@ -211,7 +223,15 @@
     &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span>&gt;Japan&lt;/<span class="c-tag">div</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;</pre>
-      </div>
+<pre class="code-pane" data-lang="css"><span class="c-key">.sel-trigger</span> {
+  height: <span class="c-str">var(--size-input)</span>;
+  border: 1.5px solid <span class="c-str">var(--color-border)</span>;
+  border-radius: <span class="c-str">var(--rounded-md)</span>;
+}
+<span class="c-key">.sel.open .sel-trigger</span> { border-color: <span class="c-str">var(--color-secondary)</span>; box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }
+<span class="c-key">.sel-menu</span> { box-shadow: <span class="c-str">var(--shadow-float)</span>; border-radius: <span class="c-str">var(--rounded-lg)</span>; }
+<span class="c-key">.sel-opt.selected</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; color: <span class="c-str">var(--color-secondary)</span>; }</pre>
+        </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
@@ -239,9 +259,10 @@
     setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);
     clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);
   }
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
   function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
   function copyCode(btn){
-    const txt=document.getElementById('code').innerText;
+    const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;
     const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
     else{fallbackCopy(txt,done);}

@@ -87,6 +87,13 @@
     .badge.sq { border-radius:var(--rounded-sm); }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
+      .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
+    .code-tab:hover{color:#E5E5E5;}
+    .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
+    .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
+    .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
+    .code-wrap .code-pane.active{display:block;}
   </style>
 </head>
 <body>
@@ -198,8 +205,13 @@
     </div>
 
     <div class="sect"><div class="sect-h">Code</div>
-      <div class="code-wrap"><button class="copy" onclick="copyCode(this)">Copy</button>
-<pre id="code"><span class="c-com">&lt;!-- colours: success / warning / danger / info / neutral --&gt;</span>
+      <div class="code-wrap">
+          <div class="code-tabs">
+            <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
+            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="copy" onclick="copyCode(this)">Copy</button>
+          </div>
+<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- colours: success / warning / danger / info / neutral --&gt;</span>
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--success"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"bdot"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;Active&lt;/<span class="c-tag">span</span>&gt;
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--warning"</span>&gt;Pending&lt;/<span class="c-tag">span</span>&gt;
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--danger"</span>&gt;Failed&lt;/<span class="c-tag">span</span>&gt;
@@ -207,7 +219,16 @@
 <span class="c-com">&lt;!-- solid + squared --&gt;</span>
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge solid badge--info"</span>&gt;Beta&lt;/<span class="c-tag">span</span>&gt;
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--neutral sq"</span>&gt;Draft&lt;/<span class="c-tag">span</span>&gt;</pre>
-      </div>
+<pre class="code-pane" data-lang="css"><span class="c-key">.badge</span> {
+  font-size: <span class="c-str">var(--font-size-badge)</span>; font-weight: <span class="c-str">var(--fw-badge)</span>;
+  border-radius: <span class="c-str">var(--rounded-full)</span>; padding: 5px 10px;
+}
+<span class="c-key">.badge--success</span> {        <span class="c-com">/* subtle */</span>
+  background: <span class="c-str">var(--color-success-subtle)</span>;
+  color: <span class="c-str">var(--color-success)</span>;
+}
+<span class="c-key">.badge.solid.badge--success</span> { background: <span class="c-str">var(--color-success-solid)</span>; color: #fff; }</pre>
+        </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
@@ -235,9 +256,10 @@
     setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);
     clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);
   }
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
   function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
   function copyCode(btn){
-    const txt=document.getElementById('code').innerText;
+    const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;
     const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
     else{fallbackCopy(txt,done);}
