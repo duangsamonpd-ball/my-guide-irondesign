@@ -750,7 +750,7 @@
             <img src="assets/WWF.svg" alt="WWF">
           </div>
         </div>
-        <div class="big-metric"><div class="v">140M+</div><div class="l">NuGet Downloads</div></div>
+        <div class="big-metric"><div class="v" id="gCounter">0M+</div><div class="l">NuGet Downloads</div></div>
       </div>
       <div class="chart" id="growth-chart"></div>
       <div class="growth-caption">Exponential growth since launch</div>
@@ -1023,22 +1023,26 @@
             <stop stop-color="#AEC3D7" stop-opacity="0"/>
             <stop offset="0.5" stop-color="#AEC3D7"/>
           </linearGradient>
+          <!-- Clip mask for left→right reveal animation on area fill -->
+          <clipPath id="gClip">
+            <rect id="gClipRect" x="0" y="0" width="0" height="360"/>
+          </clipPath>
         </defs>
 
         <!-- Area fill under the exponential curve -->
-        <path d="M1.5 260L231.915 258.89L459.903 255.699L688.701 249.155C862.148 240.858 971.572 185.923 1045.24 117.367L1045.24 290L1.5 290Z" fill="url(#gArea)"/>
+        <path id="gAreaFill" clip-path="url(#gClip)" d="M1.5 260L231.915 258.89L459.903 255.699L688.701 249.155C862.148 240.858 971.572 185.923 1045.24 117.367L1045.24 290L1.5 290Z" fill="url(#gArea)"/>
 
         <!-- Dashed vertical grid lines (12 years, from Line chart.svg) -->
         ${grid}
 
         <!-- Smooth exponential curve (from Line chart.svg) -->
-        <path d="M1.5 260L231.915 258.89L459.903 255.699L688.701 249.155C862.148 240.858 971.572 185.923 1045.24 117.367" stroke="url(#gCurve)" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" fill="none"/>
+        <path id="gLine" d="M1.5 260L231.915 258.89L459.903 255.699L688.701 249.155C862.148 240.858 971.572 185.923 1045.24 117.367" stroke="url(#gCurve)" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" fill="none"/>
 
         <!-- Dashed arrow continuation past 2026 (from Line chart.svg) -->
-        <path d="${dashedArrow}" fill="#2693EC"/>
+        <path id="gArrow" d="${dashedArrow}" fill="#2693EC" opacity="0"/>
 
         <!-- 2026 data-point dot (rounded rect with white border, from Line chart.svg) -->
-        <rect x="1084.53" y="62" width="13.06" height="12" rx="6" fill="#2693EC" stroke="white" stroke-width="4"/>
+        <rect id="gDot" x="1084.53" y="62" width="13.06" height="12" rx="6" fill="#2693EC" stroke="white" stroke-width="4" opacity="0"/>
 
         <!-- X-axis arrow (from Arrow.svg, offset to y=290) -->
         <path d="M1136 295.77L1126 290.001V301.547L1136 295.77ZM0 295.77V296.77H1127V295.77V294.77H0V295.77Z" fill="url(#gAxis)"/>
@@ -1047,6 +1051,43 @@
         <!-- Year labels  (13px/500 → near --text-sm, #62748E → text-support) -->
         ${labels}
       </svg>`;
+
+    /* ── Scroll-triggered draw animation ── */
+    const chartEl  = document.getElementById('growth-chart');
+    const linePath = chartEl.querySelector('#gLine');
+    const clipRect = chartEl.querySelector('#gClipRect');
+    const gArrow   = chartEl.querySelector('#gArrow');
+    const gDot     = chartEl.querySelector('#gDot');
+    const gCounter = document.getElementById('gCounter');
+
+    const ANIM_MS = 1800, CLIP_W = 1138, TARGET = 140;
+    const len = linePath.getTotalLength();
+    linePath.style.strokeDasharray  = len;
+    linePath.style.strokeDashoffset = len;
+    linePath.style.transition = `stroke-dashoffset ${ANIM_MS}ms cubic-bezier(0.25,0.46,0.45,0.94)`;
+
+    function runAnim() {
+      linePath.style.strokeDashoffset = '0';
+      let t0 = null;
+      (function step(ts) {
+        if (!t0) t0 = ts;
+        const p = Math.min((ts - t0) / ANIM_MS, 1);
+        const e = p < 0.5 ? 2*p*p : -1+(4-2*p)*p;
+        clipRect.setAttribute('width', e * CLIP_W);
+        gCounter.textContent = Math.round(e * TARGET) + 'M+';
+        if (p < 1) { requestAnimationFrame(step); }
+        else {
+          gArrow.style.transition = 'opacity 0.4s ease';
+          gDot.style.transition   = 'opacity 0.4s ease';
+          gArrow.style.opacity    = '1';
+          gDot.style.opacity      = '1';
+        }
+      })(performance.now());
+    }
+
+    new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting) { runAnim(); obs.disconnect(); }
+    }, { threshold: 0.25 }).observe(chartEl);
   })();
 
   /* ── Mobile nav (open/close toggle) ── */
