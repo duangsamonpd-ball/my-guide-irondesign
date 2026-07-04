@@ -552,11 +552,14 @@
       .topnav.open .navlinks { order: 3; padding-top: var(--space-md); }
       .topnav.open .nav-right { order: 4; padding-top: var(--space-md); margin-top: var(--space-micro); border-top: 1px solid rgba(255,255,255,.12); }
 
-      /* Hero */
-      .hero .wrap { grid-template-columns: 1fr; gap: var(--space-2xl); }
+      /* Hero — single-column: center the text column */
+      .hero .wrap { grid-template-columns: 1fr; gap: var(--space-2xl); text-align: center; }
+      .hero p { max-width: 100%; }
+      .hero-logo { margin-left: auto; margin-right: auto; }
+      .hero .btn-primary { margin: 0 auto; }
       .hero-right { align-items: center; }
       .hero-donate { align-self: center; }
-      .hero-card { width: 100%; max-width: 480px; margin: 0 auto; }
+      .hero-card { width: 100%; max-width: 540px; margin: 0 auto; }
 
       /* Grids */
       .product-grid { grid-template-columns: repeat(3, 1fr); }
@@ -587,6 +590,10 @@
       .section-pad { padding: var(--space-4xl) 0; }
       .section-head { margin-bottom: var(--space-2xl); }
       .section-head p { font-size: var(--text-base); }
+
+      /* Hero — fix "10 Software Products" bold text */
+      .hero p br { display: none; }
+      .hero p .bold { display: block; margin-top: var(--space-xs); font-size: var(--text-sm); }
 
       /* Typography scale */
       .h2 { font-size: var(--text-2xl); line-height: var(--leading-8); }
