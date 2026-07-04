@@ -140,8 +140,8 @@
     .btn {
       display: inline-flex; align-items: center; gap: var(--space-sm);
       font-weight: 700; font-size: var(--text-base); line-height: var(--leading-none);
-      padding: var(--space-md) var(--space-2xl); border-radius: var(--r-4xl);
-      border: 1.5px solid transparent; cursor: pointer;
+      padding: var(--space-md) var(--space-2xl); border-radius: var(--r-full);
+      border: 2px solid transparent; cursor: pointer;
       transition: background .16s, color .16s, border-color .16s, transform .16s;
     }
     .btn .arr { transition: transform .16s; }
@@ -149,10 +149,14 @@
     .btn-primary { background: var(--primary); color: var(--on-color); }
     .btn-primary:hover { background: var(--primary-hover); }
     .btn-secondary-outline { background: transparent; color: var(--secondary); border-color: var(--border-strong); }
-    .btn-secondary-outline:hover { border-color: var(--secondary); background: var(--card-alt); }
+    .btn-secondary-outline:hover { border-color: var(--secondary); background: var(--card-alt); color: var(--primary); }
     .btn-dark { background: var(--text-heading); color: var(--on-color); }
-    .btn-dark:hover { background: var(--footer-bg); }
+    .btn-dark:hover { background: var(--primary); }
     .btn-sm { padding: var(--space-sm) var(--space-lg); font-size: var(--text-sm); font-weight: 600; }
+    /* focus rings — coloured halo per Button component (25%, spread 3) */
+    .btn:focus-visible { outline: none; }
+    .btn-primary:focus-visible, .btn-dark:focus-visible { box-shadow: 0 0 0 3px rgba(224,26,89,.25); }
+    .btn-secondary-outline:focus-visible { box-shadow: 0 0 0 3px rgba(38,147,236,.25); }
     .link-arrow {
       display: inline-flex; align-items: center; gap: var(--space-xs);
       color: var(--text-link); font-weight: 700; font-size: var(--text-base);
@@ -474,6 +478,7 @@
     .footer-top .f-actions { display: flex; gap: var(--space-md); flex-wrap: wrap; }
     .btn-outline-dark { background: transparent; color: var(--on-color); border-color: rgba(255,255,255,.25); }
     .btn-outline-dark:hover { border-color: var(--on-color); }
+    .btn-ghost-light:focus-visible, .btn-outline-dark:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(255,255,255,.4); }
     .f-products { list-style: none; display: grid; gap: var(--space-sm); }
     .f-products li { font-size: var(--text-sm); color: rgba(255,255,255,.65); }
     .f-products b { color: var(--on-color); font-weight: 800; }
