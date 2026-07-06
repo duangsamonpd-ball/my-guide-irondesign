@@ -491,11 +491,17 @@
     .btn-text-light { background: none; border: none; color: var(--on-color); font-size: var(--text-sm); font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-xs); cursor: pointer; opacity: .8; transition: opacity .16s; padding: 0; }
     .btn-text-light:hover { opacity: 1; }
     .f-products { list-style: none; display: flex; flex-direction: column; gap: var(--space-xs); }
-    .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: var(--leading-7); }
+    .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: var(--leading-7); gap: var(--space-micro); border-radius: var(--r-md); padding: var(--space-micro) var(--space-xs); margin: 0 calc(-1 * var(--space-xs)); cursor: pointer; transition: background .16s; }
+    .fp-row:hover { background: rgba(255,255,255,.06); }
+    .fp-logo { width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; }
+    .fp-logo img { width: 24px; height: 24px; display: block; opacity: 0; transition: opacity .16s; }
+    .fp-row:hover .fp-logo img { opacity: 1; }
     .fp-name { font-size: var(--text-xl); font-weight: 800; letter-spacing: var(--tracking-tight); color: var(--on-color); display: flex; align-items: baseline; }
     .fp-name .suffix { font-weight: 400; }
-    .fp-sep { font-size: var(--text-base); color: rgba(255,255,255,.85); margin: 0 var(--space-xs); }
-    .fp-desc { font-size: var(--text-base); color: rgba(255,255,255,.65); }
+    .fp-sep { font-size: var(--text-base); color: rgba(255,255,255,.4); margin: 0 var(--space-micro); transition: color .16s; }
+    .fp-row:hover .fp-sep { color: var(--on-color); }
+    .fp-desc { font-size: var(--text-base); color: rgba(255,255,255,.45); transition: color .16s; }
+    .fp-row:hover .fp-desc { color: var(--on-color-body); }
 
     .footer-bottom { background: var(--footer-bg); color: rgba(255,255,255,.7); }
     .fb-row { display: flex; align-items: center; justify-content: space-between; padding: var(--space-lg) 0; gap: var(--space-md); flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,.08); }
@@ -1041,16 +1047,16 @@
       <div class="ft-divider"></div>
       <div class="ft-right">
         <ul class="f-products">
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PDF</span></span><span class="fp-sep">-</span><span class="fp-desc">Create, read, and edit PDFs. HTML to PDF for .NET.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-sky)">WORD</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit DOCX Word Files. No Office Interop required.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">XL</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit Excel &amp; CSV files. No Office Interop required.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PTT</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit Powerpoint files. No Office Interop required.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-sky)">OCR</span></span><span class="fp-sep">-</span><span class="fp-desc">OCR (extract text from images) in 127 languages.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">BARCODE</span></span><span class="fp-sep">-</span><span class="fp-desc">Read and write QR &amp; Barcodes.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">QR</span></span><span class="fp-sep">-</span><span class="fp-desc">Read and write QR codes.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">ZIP</span></span><span class="fp-sep">-</span><span class="fp-desc">Zip and unzip archives.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">PRINT</span></span><span class="fp-sep">-</span><span class="fp-desc">Print documents in .NET applications.</span></li>
-          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">WEBSCRAPER</span></span><span class="fp-sep">-</span><span class="fp-desc">Scrape structured data from websites.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PDF</span></span><span class="fp-sep">-</span><span class="fp-desc">Create, read, and edit PDFs. HTML to PDF for .NET.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-sky)">WORD</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit DOCX Word Files. No Office Interop required.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">XL</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit Excel &amp; CSV files. No Office Interop required.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PTT</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit Powerpoint files. No Office Interop required.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-sky)">OCR</span></span><span class="fp-sep">-</span><span class="fp-desc">OCR (extract text from images) in 127 languages.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">BARCODE</span></span><span class="fp-sep">-</span><span class="fp-desc">Read and write QR &amp; Barcodes.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">QR</span></span><span class="fp-sep">-</span><span class="fp-desc">Read and write QR codes.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">ZIP</span></span><span class="fp-sep">-</span><span class="fp-desc">Zip and unzip archives.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">PRINT</span></span><span class="fp-sep">-</span><span class="fp-desc">Print documents in .NET applications.</span></li>
+          <li class="fp-row"><span class="fp-logo"><img src="assets/hash-white%20color.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">WEBSCRAPER</span></span><span class="fp-sep">-</span><span class="fp-desc">Scrape structured data from websites.</span></li>
         </ul>
       </div>
     </div>
