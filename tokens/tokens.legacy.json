@@ -355,36 +355,36 @@
           "description": "brand/secondary-dark — iron-blue/600"
         },
         "tertiary": {
-          "value": "#FFFFFF",
+          "value": "#171717",
           "type": "color",
-          "description": "white — ghost / tertiary"
+          "description": "neutral/900 — solid dark button"
         },
         "tertiary-hover": {
+          "value": "#E01A59",
+          "type": "color",
+          "description": "button/primary — black → pink"
+        },
+        "outline": {
+          "value": "#FFFFFF",
+          "type": "color",
+          "description": "white — outline / ghost fill"
+        },
+        "outline-hover": {
           "value": "#FFFFFF",
           "type": "color",
           "description": "white"
-        },
-        "black": {
-          "value": "#171717",
-          "type": "color",
-          "description": "neutral/900"
-        },
-        "black-hover": {
-          "value": "#0A0A0A",
-          "type": "color",
-          "description": "neutral/950"
         }
       },
       "button-dark": {
-        "black": {
-          "value": "#84427C",
+        "outline": {
+          "value": "#260F27",
           "type": "color",
-          "description": "iron-violet/600 (dark)"
+          "description": "iron-violet/950 (dark)"
         },
-        "black-hover": {
-          "value": "#9D4F90",
+        "outline-hover": {
+          "value": "#391C39",
           "type": "color",
-          "description": "iron-violet/500 (dark)"
+          "description": "iron-violet/900 (dark)"
         }
       }
     },

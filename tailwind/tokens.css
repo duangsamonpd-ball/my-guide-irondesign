@@ -203,14 +203,14 @@
   --color-button-primary-hover:    var(--iron-pink-600);   /* #BA174B — brand/primary-dark */
   --color-button-secondary:        var(--iron-blue-500);   /* #2693EC — brand/secondary */
   --color-button-secondary-hover:  var(--iron-blue-600);   /* #217BC4 — brand/secondary-dark */
-  --color-button-tertiary:         #FFFFFF;                 /* white — ghost / tertiary fill */
-  --color-button-tertiary-hover:   #FFFFFF;                 /* white */
-  --color-button-black:            var(--neutral-900);      /* #171717 — neutral/900 */
-  --color-button-black-hover:      var(--neutral-950);      /* #0A0A0A — neutral/950 */
+  --color-button-tertiary:         var(--neutral-900);      /* #171717 — neutral/900 (solid dark button) */
+  --color-button-tertiary-hover:   var(--iron-pink-500);    /* #E01A59 — button/primary (black → pink) */
+  --color-button-outline:          #FFFFFF;                 /* white — outline / ghost fill */
+  --color-button-outline-hover:    #FFFFFF;                 /* white */
 
-  /* ── Buttons — Dark Theme (only black differs) ── */
-  --color-button-dark-black:       var(--iron-violet-600);  /* #84427C — iron-violet/600 */
-  --color-button-dark-black-hover: var(--iron-violet-500);  /* #9D4F90 — iron-violet/500 */
+  /* ── Buttons — Dark Purple mode (only outline differs) ── */
+  --color-button-dark-outline:       var(--iron-violet-950); /* #260F27 — iron-violet/950 */
+  --color-button-dark-outline-hover: var(--iron-violet-900); /* #391C39 — iron-violet/900 */
 
   /* ── Text / Default — Light Mode (Figma: text/default) ── */
   --color-text-heading:         var(--neutral-900); /* #171717 — H1–H4, emphasized type */

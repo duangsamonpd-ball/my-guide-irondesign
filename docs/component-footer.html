@@ -16,8 +16,8 @@
       --on-color-body:#E5E5E5;                /* text/on color/body */
       --on-color-support:#CEA7C8;             /* text/default/support @ Dark Purple (iron-violet/300) */
       --on-color-dim:#F5F5F5;                 /* text/default/heading @ Dark Purple */
-      --button-black:#84427C;                 /* button/black @ Dark Purple (iron-violet/600) — CTA fill */
-      --button-black-hover:#9D4F90;           /* button/black hover @ Dark Purple (iron-violet/500) */
+      --button-tertiary:#171717;                 /* button/tertiary — neutral/900 (solid dark CTA, both modes) */
+      --button-tertiary-hover:#E01A59;           /* button/tertiary-hover — button/primary (black → pink) */
       --accent-sky:#89D3DF; --accent-green:#63C1A0; --accent-orange:#FDA509;
       --footer-bg-2:#171717;
       --r-full:9999px;
@@ -92,7 +92,7 @@
     .ft-actions { display:flex; align-items:center; gap:var(--space-2xl); flex-wrap:wrap; }
     .btn { display:inline-flex; align-items:center; gap:var(--space-sm); font-weight:700; font-size:var(--text-base); line-height:var(--leading-none); padding:var(--space-md) var(--space-2xl); border-radius:var(--r-full); border:2px solid transparent; cursor:pointer; text-decoration:none; white-space:nowrap; transition:background .16s; }
     .btn .arr { transition:transform .16s; } .btn:hover .arr { transform:translateX(3px); }
-    .btn-dark { background:var(--button-black); color:var(--on-color); } .btn-dark:hover { background:var(--button-black-hover); }
+    .btn-dark { background:var(--button-tertiary); color:var(--on-color); } .btn-dark:hover { background:var(--button-tertiary-hover); }
     .btn-dark:focus-visible { outline:none; box-shadow:0 0 0 3px rgba(255,255,255,.4); }
     .btn-text-light { background:none; border:none; color:var(--on-color); font-size:var(--text-base); font-weight:700; display:inline-flex; align-items:center; gap:var(--space-sm); cursor:pointer; padding:0; transition:opacity .16s; } .btn-text-light:hover { opacity:.8; }
     .f-products { list-style:none; display:flex; flex-direction:column; gap:6px; }
@@ -244,7 +244,7 @@
         <tr><td class="prop">Background art</td><td class="token">assets/Rainbow.svg</td><td class="val">cover</td></tr>
         <tr><td class="prop">Text</td><td class="token">--on-color</td><td class="val">#FFFFFF</td></tr>
         <tr><td class="prop">Muted text</td><td class="token">--on-color-support (text/default/support)</td><td class="val">#CEA7C8</td></tr>
-        <tr><td class="prop">CTA · primary</td><td class="token">--button-black → hover (button/black)</td><td class="val">#84427C → #9D4F90</td></tr>
+        <tr><td class="prop">CTA · tertiary</td><td class="token">--button-tertiary → hover (button/tertiary)</td><td class="val">#171717 → #E01A59</td></tr>
         <tr><td class="prop">Headline / product</td><td class="token">--text-3xl / --text-lg</td><td class="val">30 / 18px</td></tr>
         <tr><td class="prop">Divider</td><td class="token">rgba(255,255,255,.10)</td><td class="val">2px</td></tr>
         <tr><td class="prop">Radius (CTA)</td><td class="token">--r-full</td><td class="val">9999px</td></tr>
@@ -290,8 +290,8 @@
 }
 <span class="c-key">.ft-inner</span> { max-width: <span class="c-str">var(--maxw)</span>; margin: 0 auto; display: flex; }
 <span class="c-key">.ft-divider</span> { width: 2px; background: rgba(255,255,255,.10); }
-<span class="c-key">.btn-dark</span> { background: <span class="c-str">var(--button-black)</span>; color: <span class="c-str">var(--on-color)</span>; border-radius: <span class="c-str">var(--r-full)</span>; }
-<span class="c-key">.btn-dark</span>:hover { background: <span class="c-str">var(--button-black-hover)</span>; }   <span class="c-com">/* Dark Purple mode */</span>
+<span class="c-key">.btn-dark</span> { background: <span class="c-str">var(--button-tertiary)</span>; color: <span class="c-str">var(--on-color)</span>; border-radius: <span class="c-str">var(--r-full)</span>; }
+<span class="c-key">.btn-dark</span>:hover { background: <span class="c-str">var(--button-tertiary-hover)</span>; }   <span class="c-com">/* button/tertiary → pink */</span>
 <span class="c-key">.fp-name</span> { font-size: <span class="c-str">var(--text-lg)</span>; font-weight: 800; color: <span class="c-str">var(--on-color)</span>; }
 <span class="c-key">.fp-name .suffix</span> { font-weight: 400; }        <span class="c-com">/* brand-coloured product suffix */</span>
 <span class="c-key">.fp-row</span>:hover <span class="c-key">.fp-logo</span> img { opacity: 1; }      <span class="c-com">/* icon fades in */</span>
