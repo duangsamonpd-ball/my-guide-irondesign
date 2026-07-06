@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Footer · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
+    :root{
+      --iron-violet-950:#260F27; --footer-bg:#260F27;
+      --primary:#E01A59; --primary-hover:#BA174B; --secondary:#2693EC;
+      --on-color:#FFFFFF; --on-color-body:#E5E5E5; --on-color-support:rgba(255,255,255,0.5); --on-color-dim:rgba(255,255,255,0.9);
+      --accent-sky:#89D3DF; --accent-green:#63C1A0; --accent-orange:#FDA509;
+      --text-heading:#171717; --footer-bg-2:#171717;
+      --r-full:9999px;
+      --space-micro:4px; --space-xs:8px; --space-sm:12px; --space-md:16px; --space-lg:20px; --space-xl:24px; --space-2xl:32px; --space-3xl:48px; --space-4xl:64px; --space-hero:80px;
+      --text-xs:12px; --text-sm:14px; --text-base:16px; --text-lg:18px; --text-xl:20px; --text-3xl:30px;
+      --leading-none:1; --leading-7:28px;
+      --tracking-tight:-0.4px; --tracking-wide:0.4px; --tracking-wider:0.8px;
+      --maxw:1280px; --card-alt:#F2F9FE; --border-strong:#CAD5E2;
+    }
+    header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
+    .logo-badge { width:40px; height:40px; flex-shrink:0; }
+    header h1 { font-size:1.25rem; font-weight:700; } header p { font-size:0.8rem; color:#737373; margin-top:2px; }
+    .hamburger { margin-left:auto; display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:6px 4px; border-radius:6px; }
+    .hamburger span { display:block; width:20px; height:2px; background:#62748E; border-radius:2px; }
+    .layout { display:flex; min-height:calc(100vh - 89px); }
+    .sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
+    .sidebar::-webkit-scrollbar{width:4px;} .sidebar::-webkit-scrollbar-thumb{background:#E2E8F0;border-radius:4px;}
+    .sidebar-nav { padding:8px 0 24px; display:flex; flex-direction:column; }
+    .sidebar-category { font-size:0.58rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:#A1A1A1; padding:18px 18px 5px; }
+    .sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+    .sidebar-link:hover { color:#1a7acc; background:#F0F9FF; }
+    .sidebar-link.active { color:#2693EC; background:#EBF5FD; border-left-color:#2693EC; font-weight:700; }
+    .sidebar-tree { display:flex; flex-direction:column; }
+    .sidebar-icon { width:18px; text-align:center; flex-shrink:0; font-style:normal; font-size:0.85rem; }
+    .sidebar-version { padding:16px 18px; border-top:1px solid #F1F5F9; margin-top:auto; font-size:0.68rem; font-weight:700; color:#A1A1A1; }
+    .main-content { flex:1; min-width:0; overflow:hidden; }
+    .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+    .sidebar-overlay.open { display:block; }
+    @media (max-width:768px){ .hamburger{display:flex;} .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} .sidebar.open{transform:translateX(0);} }
+    .content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+    .page-title { padding:40px 40px 28px; }
+    .crumb { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#A1A1A1; margin-bottom:10px; } .crumb a { color:#2693EC; text-decoration:none; }
+    .page-title h1 { font-size:2rem; font-weight:900; letter-spacing:-0.5px; margin-bottom:8px; }
+    .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:680px; }
+    .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+    .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; } .chip.new { background:#EBF9F3; color:#2E9468; }
+    .sect { padding:0 40px; margin-top:44px; } .sect-h { font-size:1.05rem; font-weight:800; margin-bottom:4px; display:flex; align-items:center; gap:8px; } .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; max-width:760px; }
+    .var-label { font-size:0.68rem; font-weight:700; color:#62748E; margin:10px 0 16px; } .var-label small { font-weight:500; color:#A1A1A1; font-family:'Roboto Mono',monospace; }
+    .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
+    .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
+    .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; } .tok tr:last-child td { border-bottom:none; }
+    .tok td.prop { color:#62748E; } .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; } .tok td.val { font-family:'Roboto Mono',monospace; font-size:0.72rem; font-weight:600; }
+    .dd { display:grid; grid-template-columns:1fr 1fr; gap:16px; } .dd .card { border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+    .dd .card .top { padding:12px 16px; font-size:0.74rem; font-weight:800; display:flex; align-items:center; gap:7px; } .dd .suite .top { background:#F3E9F1; color:#84427C; } .dd .default .top { background:#EBF5FD; color:#185FA5; }
+    .dd .body { padding:16px; font-size:0.78rem; color:#62748E; line-height:1.6; }
+    /* code + tabs + toast (shared) */
+    .code-wrap { position:relative; } .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
+    .code-wrap .copy { position:absolute; top:12px; right:12px; font-size:0.64rem; font-weight:700; color:#fff; background:rgba(255,255,255,0.12); border:none; border-radius:7px; padding:6px 12px; cursor:pointer; } .code-wrap .copy:hover { background:rgba(255,255,255,0.24); }
+    .c-tag{color:#89D3DF;} .c-attr{color:#FDA509;} .c-str{color:#63C1A0;} .c-com{color:#737373;} .c-key{color:#E95F8B;}
+    .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
+    .code-tab:hover{color:#E5E5E5;} .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
+    .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
+    .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;} .code-wrap .code-pane.active{display:block;}
+    footer.docfoot { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
+
+    /* ════════ PRODUCT FOOTER component (source: homepage.html footer-top) ════════ */
+    .fp-card { border:1px solid #E2E8F0; border-radius:16px; overflow:hidden; }
+    .footer-top { background-color:var(--footer-bg); background-image:url('assets/Rainbow.svg'); background-size:cover; background-position:center; color:var(--on-color); position:relative; overflow:hidden; }
+    .ft-inner { max-width:var(--maxw); margin:0 auto; display:flex; align-items:stretch; padding:var(--space-3xl) 0; }
+    .ft-left { flex:1; padding:0 var(--space-3xl); display:flex; flex-direction:column; }
+    .ft-divider { background:rgba(255,255,255,.10); width:2px; flex-shrink:0; align-self:stretch; }
+    .ft-right { flex:1; padding:0 var(--space-3xl); }
+    .ft-donate { display:flex; align-items:center; justify-content:flex-end; gap:var(--space-xs); font-size:var(--text-xs); font-weight:500; color:var(--on-color); letter-spacing:var(--tracking-wide); }
+    .ft-donate img { height:30px; width:auto; display:block; }
+    .ft-main { display:flex; flex-direction:column; gap:var(--space-2xl); padding-top:var(--space-3xl); }
+    .ft-text { display:flex; flex-direction:column; gap:var(--space-md); }
+    .f-suite-logo { font-weight:700; font-size:var(--text-3xl); display:flex; align-items:center; gap:var(--space-micro); }
+    .f-suite-logo img { height:30px; width:auto; display:block; }
+    .ft-headline { font-weight:700; font-size:var(--text-3xl); color:var(--on-color); line-height:1.2; }
+    .ft-tagline { font-size:var(--text-xl); font-weight:700; line-height:var(--leading-7); }
+    .ft-actions { display:flex; align-items:center; gap:var(--space-2xl); flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:var(--space-sm); font-weight:700; font-size:var(--text-base); line-height:var(--leading-none); padding:var(--space-md) var(--space-2xl); border-radius:var(--r-full); border:2px solid transparent; cursor:pointer; text-decoration:none; transition:background .16s; }
+    .btn .arr { transition:transform .16s; } .btn:hover .arr { transform:translateX(3px); }
+    .btn-dark { background:var(--text-heading); color:var(--on-color); } .btn-dark:hover { background:var(--primary); }
+    .btn-dark:focus-visible { outline:none; box-shadow:0 0 0 3px rgba(224,26,89,.25); }
+    .btn-text-light { background:none; border:none; color:var(--on-color); font-size:var(--text-base); font-weight:700; display:inline-flex; align-items:center; gap:var(--space-sm); cursor:pointer; padding:0; transition:opacity .16s; } .btn-text-light:hover { opacity:.8; }
+    .f-products { list-style:none; display:flex; flex-direction:column; gap:6px; }
+    .fp-row { display:flex; align-items:center; white-space:nowrap; line-height:1.5; gap:var(--space-micro); cursor:pointer; }
+    .fp-logo { width:22px; height:22px; flex-shrink:0; display:flex; align-items:center; }
+    .fp-logo img { width:22px; height:22px; display:block; opacity:0; transition:opacity .2s; }
+    .fp-row:hover .fp-logo img, .fp-row.is-hover .fp-logo img { opacity:1; }
+    .fp-name { font-size:var(--text-lg); font-weight:800; letter-spacing:var(--tracking-tight); color:var(--on-color); display:flex; align-items:baseline; }
+    .fp-name .suffix { font-weight:400; }
+    .fp-sep { font-size:var(--text-sm); color:var(--on-color-support); margin:0 var(--space-micro); transition:color .2s; }
+    .fp-row:hover .fp-sep, .fp-row.is-hover .fp-sep { color:var(--on-color); }
+    .fp-desc { font-size:var(--text-sm); color:var(--on-color-support); transition:color .2s; }
+    .fp-row:hover .fp-desc, .fp-row.is-hover .fp-desc { color:var(--on-color-body); }
+    /* sub-component demo cards (dark) */
+    .hover-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .hover-card { background:var(--footer-bg); border:1px solid #3A2A3C; border-radius:14px; padding:24px; }
+    .hover-card .hc-lbl { font-size:0.66rem; font-weight:700; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:0.08em; margin-top:16px; }
+    /* anatomy legend */
+    .anat-legend { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+    .anat-item { display:flex; gap:10px; align-items:flex-start; font-size:0.8rem; color:#45556C; line-height:1.5; }
+    .anat-num { flex-shrink:0; width:20px; height:20px; border-radius:50%; background:#171717; color:#fff; font-size:0.66rem; font-weight:800; display:flex; align-items:center; justify-content:center; }
+    @media (max-width:900px){ .dd,.hover-cards{grid-template-columns:1fr;} }
+    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .ft-inner{flex-direction:column;gap:32px;} .ft-divider{display:none;} }
+  </style>
+</head>
+<body>
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div><h1>Iron Software Design System</h1><p>Visual Token Reference — for everyone on the team</p></div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <div class="sidebar-tree">
+        <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+        <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
+        <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
+        <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
+        <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
+        <a href="component-footer.html" class="sidebar-link active"><i class="sidebar-icon">🦶</i>Product Footer</a>
+      </div>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+  <div class="main-content"><div class="content">
+
+    <div class="page-title">
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Product Footer</div>
+      <h1>Product Footer</h1>
+      <p class="lead">A site-wide footer promotion. Two variants — <b>Suite</b> showcases the full Iron Suite brand; <b>Default</b> frames a specific product as part of the suite. Each product link is the <b>Product hover</b> sub-component.</p>
+      <div class="meta-chips"><span class="chip">2 variants</span><span class="chip">1 sub-component</span><span class="chip">1440 × 480</span><span class="chip new">Token-driven</span></div>
+    </div>
+
+    <!-- Preview / Suite -->
+    <div class="sect">
+      <div class="sect-h">Variants</div>
+      <div class="sect-sub">Both share the layout, CTAs and product list — only the left headline changes.</div>
+
+      <div class="var-label">Suite &nbsp;<small>Property 1=Suite — homepage &amp; generic landing pages</small></div>
+      <div class="fp-card">
+        <div class="footer-top"><div class="ft-inner">
+          <div class="ft-left">
+            <div class="ft-donate">Every Iron Suite Donates <img src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet"></div>
+            <div class="ft-main">
+              <div class="ft-text">
+                <div class="f-suite-logo"><img src="assets/hash-white%20color.svg" alt=""><span><span style="color:var(--on-color);font-weight:700">IRON</span><span style="color:var(--primary);font-weight:400">SUITE</span></span></div>
+                <p class="ft-tagline"><span style="color:var(--on-color-dim)">10 .NET API products</span><span style="color:var(--on-color-support)"> for your office documents</span></p>
+              </div>
+              <div class="ft-actions">
+                <a href="#" class="btn btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
+                <a href="#" class="btn-text-light">🔑 Start Free Trial <span class="arr">→</span></a>
+              </div>
+            </div>
+          </div>
+          <div class="ft-divider"></div>
+          <div class="ft-right"><ul class="f-products" id="plist-a"></ul></div>
+        </div></div>
+      </div>
+
+      <div class="var-label" style="margin-top:32px;">Default &nbsp;<small>Property 1=Default — individual product pages (cross-sell)</small></div>
+      <div class="fp-card">
+        <div class="footer-top"><div class="ft-inner">
+          <div class="ft-left">
+            <div class="ft-donate">Every Iron Suite Donates <img src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet"></div>
+            <div class="ft-main">
+              <div class="ft-text">
+                <div class="ft-headline">IronPDF is a part of <span style="color:var(--on-color);font-weight:700">IRON</span><span style="color:var(--primary);font-weight:400">SUITE</span></div>
+                <p class="ft-tagline"><span style="color:var(--on-color-dim)">10 .NET API products</span><span style="color:var(--on-color-support)"> for your office documents</span></p>
+              </div>
+              <div class="ft-actions">
+                <a href="#" class="btn btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
+                <a href="#" class="btn-text-light">🔑 Start Free Trial <span class="arr">→</span></a>
+              </div>
+            </div>
+          </div>
+          <div class="ft-divider"></div>
+          <div class="ft-right"><ul class="f-products" id="plist-b"></ul></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Sub-component -->
+    <div class="sect">
+      <div class="sect-h">Sub-component — Product hover</div>
+      <div class="sect-sub">Every product link is built from this. On hover the product icon fades in, the name suffix keeps its brand colour, and the description brightens.</div>
+      <div class="hover-cards">
+        <div class="hover-card">
+          <ul class="f-products"><li class="fp-row"><span class="fp-logo"><img src="assets/logo.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PDF</span></span><span class="fp-sep">-</span><span class="fp-desc">Create, read, and edit PDFs.</span></li></ul>
+          <div class="hc-lbl">Default</div>
+        </div>
+        <div class="hover-card">
+          <ul class="f-products"><li class="fp-row is-hover"><span class="fp-logo"><img src="assets/logo.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PDF</span></span><span class="fp-sep">-</span><span class="fp-desc">Create, read, and edit PDFs.</span></li></ul>
+          <div class="hc-lbl">Hover — icon in, description brightens</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Anatomy -->
+    <div class="sect">
+      <div class="sect-h">Anatomy</div>
+      <div class="sect-sub">Three structural zones.</div>
+      <div class="anat-legend">
+        <div class="anat-item"><span class="anat-num">1</span><div><b>Variant content area</b> — the left headline; changes between Suite (brand logo) and Default (“<i>[Product]</i> is a part of IRONSUITE”).</div></div>
+        <div class="anat-item"><span class="anat-num">2</span><div><b>CTAs</b> — Tertiary <code>.btn-dark</code> “Get Full 10 products Suite” + Ghost <code>.btn-text-light</code> “Start Free Trial”.</div></div>
+        <div class="anat-item"><span class="anat-num">3</span><div><b>Product links</b> — the 10-item list, each an instance of the <b>Product hover</b> sub-component.</div></div>
+      </div>
+    </div>
+
+    <!-- Token reference -->
+    <div class="sect">
+      <div class="sect-h">Token Reference</div>
+      <table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
+        <tr><td class="prop">Background</td><td class="token">--footer-bg (iron-violet/950)</td><td class="val">#260F27</td></tr>
+        <tr><td class="prop">Background art</td><td class="token">assets/Rainbow.svg</td><td class="val">cover</td></tr>
+        <tr><td class="prop">Text</td><td class="token">--on-color</td><td class="val">#FFFFFF</td></tr>
+        <tr><td class="prop">Muted text</td><td class="token">--on-color-support</td><td class="val">white 50%</td></tr>
+        <tr><td class="prop">CTA · primary</td><td class="token">--text-heading → hover --primary</td><td class="val">#171717 → #E01A59</td></tr>
+        <tr><td class="prop">Headline / product</td><td class="token">--text-3xl / --text-lg</td><td class="val">30 / 18px</td></tr>
+        <tr><td class="prop">Divider</td><td class="token">rgba(255,255,255,.10)</td><td class="val">2px</td></tr>
+        <tr><td class="prop">Radius (CTA)</td><td class="token">--r-full</td><td class="val">9999px</td></tr>
+      </tbody></table>
+    </div>
+
+    <!-- Code -->
+    <div class="sect">
+      <div class="sect-h">Code</div>
+      <div class="sect-sub">Copy-and-own — HTML markup, or the token-bound CSS. Product rows are the reusable <code>.fp-row</code>.</div>
+      <div class="code-wrap">
+        <div class="code-tabs">
+          <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
+          <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+          <button class="copy" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"footer-top"</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-inner"</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-left"</span>&gt;
+      <span class="c-com">&lt;!-- Suite: brand logo | Default: "[Product] is a part of IRONSUITE" --&gt;</span>
+      &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"f-suite-logo"</span>&gt;IRONSUITE&lt;/<span class="c-tag">div</span>&gt;
+      &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"ft-tagline"</span>&gt;10 .NET API products…&lt;/<span class="c-tag">p</span>&gt;
+      &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-actions"</span>&gt;
+        &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn-dark"</span>&gt;Get Full 10 products Suite&lt;/<span class="c-tag">a</span>&gt;
+        &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"btn-text-light"</span>&gt;Start Free Trial&lt;/<span class="c-tag">a</span>&gt;
+      &lt;/<span class="c-tag">div</span>&gt;
+    &lt;/<span class="c-tag">div</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-divider"</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
+    &lt;<span class="c-tag">ul</span> <span class="c-attr">class</span>=<span class="c-str">"f-products"</span>&gt;
+      <span class="c-com">&lt;!-- × 10 Product hover rows --&gt;</span>
+      &lt;<span class="c-tag">li</span> <span class="c-attr">class</span>=<span class="c-str">"fp-row"</span>&gt;
+        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"fp-logo"</span>&gt;&lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"logo.svg"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"fp-name"</span>&gt;IRON&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"suffix"</span>&gt;PDF&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"fp-sep"</span>&gt;-&lt;/<span class="c-tag">span</span>&gt;
+        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"fp-desc"</span>&gt;Create, read, and edit PDFs.&lt;/<span class="c-tag">span</span>&gt;
+      &lt;/<span class="c-tag">li</span>&gt;
+    &lt;/<span class="c-tag">ul</span>&gt;
+  &lt;/<span class="c-tag">div</span>&gt;
+&lt;/<span class="c-tag">div</span>&gt;</pre>
+<pre class="code-pane" data-lang="css"><span class="c-key">.footer-top</span> {
+  background: <span class="c-str">var(--footer-bg)</span> url(assets/Rainbow.svg) center/cover;
+  color: <span class="c-str">var(--on-color)</span>;
+}
+<span class="c-key">.ft-inner</span> { max-width: <span class="c-str">var(--maxw)</span>; margin: 0 auto; display: flex; }
+<span class="c-key">.ft-divider</span> { width: 2px; background: rgba(255,255,255,.10); }
+<span class="c-key">.btn-dark</span> { background: <span class="c-str">var(--text-heading)</span>; color: <span class="c-str">var(--on-color)</span>; border-radius: <span class="c-str">var(--r-full)</span>; }
+<span class="c-key">.btn-dark</span>:hover { background: <span class="c-str">var(--primary)</span>; }   <span class="c-com">/* black -> pink */</span>
+<span class="c-key">.fp-name</span> { font-size: <span class="c-str">var(--text-lg)</span>; font-weight: 800; color: <span class="c-str">var(--on-color)</span>; }
+<span class="c-key">.fp-name .suffix</span> { font-weight: 400; }        <span class="c-com">/* brand-coloured product suffix */</span>
+<span class="c-key">.fp-row</span>:hover <span class="c-key">.fp-logo</span> img { opacity: 1; }      <span class="c-com">/* icon fades in */</span>
+<span class="c-key">.fp-row</span>:hover <span class="c-key">.fp-desc</span> { color: <span class="c-str">var(--on-color-body)</span>; }</pre>
+      </div>
+    </div>
+
+    <!-- Guidelines -->
+    <div class="sect">
+      <div class="sect-h">When to use</div>
+      <div class="dd">
+        <div class="card suite"><div class="top">◆ Suite</div><div class="body">Use on the <b>homepage</b> and product-agnostic landing pages. Highlights the full 10-product Iron Suite brand — ideal when no single product is the focus.</div></div>
+        <div class="card default"><div class="top">● Default</div><div class="body">Use on <b>individual product pages</b> (IronPDF, IronWord…). The headline names the current product and cross-sells the broader suite.</div></div>
+      </div>
+    </div>
+
+    <footer class="docfoot">Iron Software Design System &nbsp;·&nbsp; Product Footer component &nbsp;·&nbsp; 2025</footer>
+  </div></div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<script>
+  const PRODUCTS=[
+    ['PDF','var(--primary)','Create, read, and edit PDFs. HTML to PDF for .NET.'],
+    ['WORD','var(--accent-sky)','Edit DOCX Word Files. No Office Interop required.'],
+    ['XL','var(--accent-green)','Edit Excel &amp; CSV files. No Office Interop required.'],
+    ['PTT','var(--primary)','Edit Powerpoint files. No Office Interop required.'],
+    ['OCR','var(--accent-sky)','OCR (extract text from images) in 127 languages.'],
+    ['BARCODE','var(--accent-green)','Read and write QR &amp; Barcodes.'],
+    ['QR','var(--accent-green)','Read and write QR codes.'],
+    ['ZIP','var(--accent-orange)','Zip and unzip archives.'],
+    ['PRINT','var(--accent-orange)','Print documents in .NET applications.'],
+    ['WEBSCRAPER','var(--accent-orange)','Scrape structured data from websites.'],
+  ];
+  function rows(){return PRODUCTS.map(p=>`<li class="fp-row"><span class="fp-logo"><img src="assets/logo.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:${p[1]}">${p[0]}</span></span><span class="fp-sep">-</span><span class="fp-desc">${p[2]}</span></li>`).join('');}
+  document.getElementById('plist-a').innerHTML=rows();
+  document.getElementById('plist-b').innerHTML=rows();
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
+  function showToast(msg){let el=document.getElementById('ds-toast');if(!el){el=document.createElement('div');el.id='ds-toast';document.body.appendChild(el);el.style.cssText='position:fixed;right:32px;bottom:32px;transform:translateY(20px);background:#171717;color:#fff;font-family:Montserrat,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:.01em;padding:11px 18px;border-radius:9999px;box-shadow:0 8px 28px rgba(15,23,43,0.28);z-index:200;opacity:0;transition:opacity .22s ease,transform .22s ease;display:flex;align-items:center;gap:8px;pointer-events:none;';}el.innerHTML='<span style="color:#3DDC97;font-weight:800;">✓</span>'+msg;setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);}
+  function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+  function copyCode(btn){const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}else{fallbackCopy(txt,done);}}
+</script>
+</body>
+</html>
