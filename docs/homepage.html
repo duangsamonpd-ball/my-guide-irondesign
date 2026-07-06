@@ -41,8 +41,9 @@
       --text-muted:   #A1A1A1;
       --text-support: #62748E;
       --text-link:    #2693EC;
-      --on-color:     #FFFFFF;
-      --on-color-body:#E5E5E5;
+      --on-color:         #FFFFFF;
+      --on-color-support: #90A1B9;
+      --on-color-body:    #E5E5E5;
 
       /* Surface */
       --bg:            #FFFFFF;
@@ -491,16 +492,15 @@
     .btn-text-light { background: none; border: none; color: var(--on-color); font-size: var(--text-sm); font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-xs); cursor: pointer; opacity: .8; transition: opacity .16s; padding: 0; }
     .btn-text-light:hover { opacity: 1; }
     .f-products { list-style: none; display: flex; flex-direction: column; gap: var(--space-xs); }
-    .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: var(--leading-7); gap: var(--space-micro); border-radius: var(--r-md); padding: var(--space-micro) var(--space-xs); margin: 0 calc(-1 * var(--space-xs)); cursor: pointer; transition: background .16s; }
-    .fp-row:hover { background: rgba(255,255,255,.06); }
+    .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: var(--leading-7); gap: var(--space-micro); cursor: pointer; }
     .fp-logo { width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; }
-    .fp-logo img { width: 24px; height: 24px; display: block; opacity: 0; transition: opacity .16s; }
+    .fp-logo img { width: 24px; height: 24px; display: block; opacity: 0; transition: opacity .2s; }
     .fp-row:hover .fp-logo img { opacity: 1; }
     .fp-name { font-size: var(--text-xl); font-weight: 800; letter-spacing: var(--tracking-tight); color: var(--on-color); display: flex; align-items: baseline; }
     .fp-name .suffix { font-weight: 400; }
-    .fp-sep { font-size: var(--text-base); color: rgba(255,255,255,.4); margin: 0 var(--space-micro); transition: color .16s; }
+    .fp-sep { font-size: var(--text-base); color: var(--on-color-support); margin: 0 var(--space-micro); transition: color .2s; }
     .fp-row:hover .fp-sep { color: var(--on-color); }
-    .fp-desc { font-size: var(--text-base); color: rgba(255,255,255,.45); transition: color .16s; }
+    .fp-desc { font-size: var(--text-base); color: var(--on-color-support); transition: color .2s; }
     .fp-row:hover .fp-desc { color: var(--on-color-body); }
 
     .footer-bottom { background: var(--footer-bg); color: rgba(255,255,255,.7); }
