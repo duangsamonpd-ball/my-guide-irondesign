@@ -473,24 +473,29 @@
        13. FOOTER
     =================================================================== */
     .footer-top { background-color: var(--footer-bg); background-image: url('assets/Rainbow.svg'); background-size: cover; background-position: center; color: var(--on-color); position: relative; overflow: hidden; }
-    .ft-inner { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
-    .ft-left { background: transparent; padding: var(--space-4xl) var(--space-3xl); display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-3xl); }
-    .ft-right { background: transparent; padding: var(--space-4xl) var(--space-3xl); border-left: 1px solid rgba(255,255,255,.12); }
-    .ft-donate { display: inline-flex; align-items: center; gap: var(--space-sm); font-size: var(--text-xs); font-weight: 500; color: rgba(255,255,255,.7); letter-spacing: var(--tracking-wide); }
-    .ft-donate img { height: 22px; width: auto; display: block; }
-    .f-suite-logo { font-weight: 900; font-size: var(--text-xl); display: flex; align-items: center; gap: var(--space-sm); }
-    .ft-bottom { display: flex; flex-direction: column; gap: var(--space-md); }
-    .ft-tagline { color: rgba(255,255,255,.7); font-size: var(--text-base); margin: var(--space-sm) 0 var(--space-xl); }
-    .ft-actions { display: flex; gap: var(--space-md); flex-wrap: wrap; align-items: center; }
+    .ft-inner { max-width: var(--maxw); margin: 0 auto; display: flex; align-items: stretch; }
+    .ft-left { background: transparent; flex: 5; padding: var(--space-4xl) var(--space-3xl); display: flex; flex-direction: column; justify-content: space-between; }
+    .ft-divider { background: rgba(255,255,255,.10); width: 2px; flex-shrink: 0; align-self: stretch; }
+    .ft-right { background: transparent; flex: 7; padding: var(--space-4xl) var(--space-3xl); }
+    .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-xs); font-size: var(--text-xs); font-weight: 500; color: rgba(255,255,255,.7); letter-spacing: var(--tracking-wide); }
+    .ft-donate img { height: 32px; width: auto; display: block; }
+    .ft-main { display: flex; flex-direction: column; gap: var(--space-3xl); }
+    .ft-text { display: flex; flex-direction: column; gap: var(--space-md); }
+    .f-suite-logo { font-weight: 900; font-size: var(--text-3xl); display: flex; align-items: center; gap: var(--space-micro); }
+    .f-suite-logo img { height: 32px; width: auto; display: block; }
+    .ft-tagline { color: rgba(255,255,255,.7); font-size: var(--text-xl); font-weight: 700; line-height: var(--leading-7); }
+    .ft-actions { display: flex; align-items: center; justify-content: space-between; }
     .btn-outline-dark { background: transparent; color: var(--on-color); border-color: rgba(255,255,255,.25); }
     .btn-outline-dark:hover { border-color: var(--on-color); }
     .btn-ghost-light:focus-visible, .btn-outline-dark:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(255,255,255,.4); }
     .btn-text-light { background: none; border: none; color: var(--on-color); font-size: var(--text-sm); font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-xs); cursor: pointer; opacity: .8; transition: opacity .16s; padding: 0; }
     .btn-text-light:hover { opacity: 1; }
-    .f-products { list-style: none; display: grid; gap: var(--space-sm); }
-    .f-products li { font-size: var(--text-sm); color: rgba(255,255,255,.6); }
-    .f-products b { color: var(--on-color); font-weight: 800; }
-    .f-products .suffix { font-weight: 800; }
+    .f-products { list-style: none; display: flex; flex-direction: column; gap: var(--space-xs); }
+    .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: var(--leading-7); }
+    .fp-name { font-size: var(--text-xl); font-weight: 800; letter-spacing: var(--tracking-tight); color: var(--on-color); display: flex; align-items: baseline; }
+    .fp-name .suffix { font-weight: 800; }
+    .fp-sep { font-size: var(--text-base); color: rgba(255,255,255,.85); margin: 0 var(--space-xs); }
+    .fp-desc { font-size: var(--text-base); color: rgba(255,255,255,.65); }
 
     .footer-bottom { background: var(--footer-bg); color: rgba(255,255,255,.7); }
     .fb-row { display: flex; align-items: center; justify-content: space-between; padding: var(--space-lg) 0; gap: var(--space-md); flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,.08); }
@@ -588,8 +593,9 @@
       .env-strip { padding: var(--space-lg) var(--space-xl); }
 
       /* Footer */
-      .ft-inner { grid-template-columns: 1fr; }
-      .ft-right { border-left: none; border-top: 1px solid rgba(255,255,255,.08); }
+      .ft-inner { flex-direction: column; }
+      .ft-divider { width: auto; height: 2px; align-self: auto; }
+      .ft-actions { justify-content: flex-start; gap: var(--space-xl); }
     }
 
     /* ── 620px: mobile ──────────────────────────────────────────── */
@@ -688,7 +694,7 @@
 
       /* Footer */
       .ft-left, .ft-right { padding: var(--space-2xl) var(--space-xl); }
-      .ft-right .f-products { grid-template-columns: 1fr; }
+      .fp-row { white-space: normal; flex-wrap: wrap; }
       .fb-ratings { flex-direction: column; gap: var(--space-xs); }
       .fb-company { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
     }
@@ -1018,30 +1024,33 @@
         <div class="ft-donate">
           Every Iron Suite Donates <img src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet">
         </div>
-        <div class="ft-bottom">
-          <div class="f-suite-logo">
-            <img src="assets/hash-white%20color.svg" alt="" style="height:22px;width:auto;">
-            <span><span style="color:var(--on-color);font-weight:900">IRON</span><span style="color:var(--primary);font-weight:900">SUITE</span></span>
+        <div class="ft-main">
+          <div class="ft-text">
+            <div class="f-suite-logo">
+              <img src="assets/hash-white%20color.svg" alt="">
+              <span><span style="color:var(--on-color);font-weight:900">IRON</span><span style="color:var(--primary);font-weight:900">SUITE</span></span>
+            </div>
+            <p class="ft-tagline">10 .NET API products for your office documents</p>
           </div>
-          <p class="ft-tagline">10 .NET API products for your office documents</p>
           <div class="ft-actions">
             <a href="#products" class="btn btn-dark btn-sm">Get Full 10 products Suite <span class="arr">→</span></a>
             <a href="#" class="btn-text-light">🔑 Start Free Trial <span class="arr">→</span></a>
           </div>
         </div>
       </div>
+      <div class="ft-divider"></div>
       <div class="ft-right">
         <ul class="f-products">
-          <li><b>IRON<span class="suffix" style="color:var(--primary)">PDF</span></b> - Create, read, and edit PDFs. HTML to PDF for .NET.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--secondary)">WORD</span></b> - Edit DOCX Word Files. No Office Interop required.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--accent-green)">XL</span></b> - Edit Excel &amp; CSV files. No Office Interop required.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--accent-orange)">PPT</span></b> - Edit Powerpoint files. No Office Interop required.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--accent-sky)">OCR</span></b> - OCR (extract text from images) in 127 languages.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--accent-green)">BARCODE</span></b> - Read and write QR &amp; Barcodes.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--accent-purple)">QR</span></b> - Read and write QR codes.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--primary)">ZIP</span></b> - Zip and unzip archives.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--accent-orange)">PRINT</span></b> - Print documents in .NET applications.</li>
-          <li><b>IRON<span class="suffix" style="color:var(--accent-orange)">WEBSCRAPER</span></b> - Scrape structured data from websites.</li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PDF</span></span><span class="fp-sep">-</span><span class="fp-desc">Create, read, and edit PDFs. HTML to PDF for .NET.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-sky)">WORD</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit DOCX Word Files. No Office Interop required.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">XL</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit Excel &amp; CSV files. No Office Interop required.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PTT</span></span><span class="fp-sep">-</span><span class="fp-desc">Edit Powerpoint files. No Office Interop required.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-sky)">OCR</span></span><span class="fp-sep">-</span><span class="fp-desc">OCR (extract text from images) in 127 languages.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">BARCODE</span></span><span class="fp-sep">-</span><span class="fp-desc">Read and write QR &amp; Barcodes.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-green)">QR</span></span><span class="fp-sep">-</span><span class="fp-desc">Read and write QR codes.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">ZIP</span></span><span class="fp-sep">-</span><span class="fp-desc">Zip and unzip archives.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">PRINT</span></span><span class="fp-sep">-</span><span class="fp-desc">Print documents in .NET applications.</span></li>
+          <li class="fp-row"><span class="fp-name">IRON<span class="suffix" style="color:var(--accent-orange)">WEBSCRAPER</span></span><span class="fp-sep">-</span><span class="fp-desc">Scrape structured data from websites.</span></li>
         </ul>
       </div>
     </div>
