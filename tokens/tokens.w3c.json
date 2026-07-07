@@ -489,8 +489,9 @@
   },
 
   "sizing": {
-    "btn-primary-height":   { "$value": 54,   "$type": "dimension" },
-    "btn-secondary-height": { "$value": 46,   "$type": "dimension" },
+    "btn-primary-height":   { "$value": 56,   "$type": "dimension", "$description": "Large button" },
+    "btn-secondary-height": { "$value": 48,   "$type": "dimension", "$description": "Default button" },
+    "btn-small-height":     { "$value": 36,   "$type": "dimension", "$description": "Small button (Figma updated 2026-07-07, was 40)" },
     "input-height":         { "$value": 44,   "$type": "dimension" },
     "nav-height":           { "$value": 40,   "$type": "dimension" },
     "touch-min":            { "$value": 44,   "$type": "dimension" },

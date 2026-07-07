@@ -454,8 +454,9 @@
      7. SIZING / COMPONENT DIMENSIONS
      ═══════════════════════════════════════════════════════════════════════════ */
 
-  --size-btn-primary:   3.375rem;  /* 54px */
-  --size-btn-secondary: 2.875rem;  /* 46px */
+  --size-btn-primary:   3.5rem;    /* 56px — Large */
+  --size-btn-secondary: 3rem;      /* 48px — Default */
+  --size-btn-small:     2.25rem;   /* 36px — Small (Figma updated 2026-07-07, was 40px) */
   --size-input:         2.75rem;   /* 44px */
   --size-nav:           2.5rem;    /* 40px */
   --size-touch-min:     2.75rem;   /* 44px — minimum touch target */
