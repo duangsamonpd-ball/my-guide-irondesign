@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tooltip · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+    :root {
+      --tt-bg:#262626; --tt-title:#FFFFFF; --tt-body:#E5E5E5; --tt-link:#2693EC; --tt-arrow:#0A0A0A;
+      --tt-radius:4px; --tt-shadow:0 4px 16px rgba(0,0,0,.25);
+      --tt-w:200px; --tt-w-max:350px;
+      --space-xs:8px; --space-sm:12px; --space-md:16px;
+    }
+    header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
+    .logo-badge { width:40px; height:40px; flex-shrink:0; }
+    header h1 { font-size:1.25rem; font-weight:700; } header p { font-size:0.8rem; color:#737373; margin-top:2px; }
+    .hamburger { margin-left:auto; display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:6px 4px; border-radius:6px; }
+    .hamburger span { display:block; width:20px; height:2px; background:#62748E; border-radius:2px; }
+    .layout { display:flex; min-height:calc(100vh - 89px); }
+    .sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
+    .sidebar::-webkit-scrollbar{width:4px;} .sidebar::-webkit-scrollbar-thumb{background:#E2E8F0;border-radius:4px;}
+    .sidebar-nav { padding:8px 0 24px; display:flex; flex-direction:column; }
+    .sidebar-category { font-size:0.58rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:#A1A1A1; padding:18px 18px 5px; }
+    .sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+    .sidebar-link:hover { color:#1a7acc; background:#F0F9FF; }
+    .sidebar-link.active { color:#2693EC; background:#EBF5FD; border-left-color:#2693EC; font-weight:700; }
+    .sidebar-tree { display: flex; flex-direction: column; }
+    .sidebar-icon { width:18px; text-align:center; flex-shrink:0; font-style:normal; font-size:0.85rem; }
+    .sidebar-version { padding:16px 18px; border-top:1px solid #F1F5F9; margin-top:auto; font-size:0.68rem; font-weight:700; color:#A1A1A1; }
+    .main-content { flex:1; min-width:0; overflow:hidden; }
+    .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+    .sidebar-overlay.open { display:block; }
+    @media (max-width:768px){ .hamburger{display:flex;} .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} .sidebar.open{transform:translateX(0);} }
+    .content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+    .page-title { padding:40px 40px 28px; }
+    .crumb { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#A1A1A1; margin-bottom:10px; } .crumb a { color:#2693EC; text-decoration:none; }
+    .page-title h1 { font-size:2rem; font-weight:900; letter-spacing:-0.5px; margin-bottom:8px; }
+    .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:680px; }
+    .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+    .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; } .chip.new { background:#EBF9F3; color:#2E9468; }
+    .sect { padding:0 40px; margin-top:44px; } .sect-h { font-size:1.05rem; font-weight:800; margin-bottom:4px; } .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
+    .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:56px 40px; display:flex; gap:56px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
+    .canvas.left { justify-content:flex-start; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+    .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 16px 18px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; position:relative; }
+    .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; } .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
+    .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
+    .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
+    .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; } .tok tr:last-child td { border-bottom:none; }
+    .tok td.prop { color:#62748E; } .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; } .tok td.val { font-family:'Roboto Mono',monospace; font-size:0.72rem; font-weight:600; }
+    .tok .sw { display:inline-block; width:12px; height:12px; border-radius:3px; border:1px solid rgba(0,0,0,0.15); margin-right:7px; vertical-align:-1px; }
+    .code-wrap { position:relative; } .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
+    .code-wrap .copy { position:absolute; top:12px; right:12px; font-size:0.64rem; font-weight:700; color:#fff; background:rgba(255,255,255,0.12); border:none; border-radius:7px; padding:6px 12px; cursor:pointer; } .code-wrap .copy:hover { background:rgba(255,255,255,0.24); }
+    .c-tag{color:#89D3DF;} .c-attr{color:#FDA509;} .c-str{color:#63C1A0;} .c-com{color:#737373;} .c-key{color:#E95F8B;}
+    .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
+    .code-tab:hover{color:#E5E5E5;} .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
+    .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
+    .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;} .code-wrap .code-pane.active{display:block;}
+    .dd { display:grid; grid-template-columns:1fr 1fr; gap:16px; } .dd .card { border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+    .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; } .dd .do .top { background:#EBF9F3; color:#2E9468; } .dd .dont .top { background:#FDEEF0; color:#C91D23; }
+    .dd .body { padding:22px; background:#FCFCFD; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; min-height:60px; } .dd ul { margin:0 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
+    .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:70px 34px 44px; display:flex; flex-direction:column; align-items:center; gap:26px; }
+    .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; } .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; } .atag b { color:#2E9468; }
+    footer.docfoot { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
+    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:44px 20px;gap:32px;} }
+
+    /* ════════════ TOOLTIP (token-driven) ════════════ */
+    .tt { position:relative; display:inline-block; }
+    .tt-trigger { font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:600; color:#45556C; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:8px; padding:9px 16px; cursor:pointer; }
+    .tt-bubble { position:absolute; width:var(--tt-w); background:var(--tt-bg); border-radius:var(--tt-radius); box-shadow:var(--tt-shadow); display:none; flex-direction:column; z-index:20; text-align:left; }
+    .tt.show-on-hover:hover .tt-bubble, .tt-bubble.force-show { display:flex; }
+    .tt-bubble.max { width:var(--tt-w-max); }
+    .tt-bubble.above { bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); }
+    .tt-bubble.below { top:calc(100% + 10px); left:50%; transform:translateX(-50%); }
+    .tt-bubble.right { left:calc(100% + 10px); top:50%; transform:translateY(-50%); }
+    .tt-bubble.left  { right:calc(100% + 10px); top:50%; transform:translateY(-50%); }
+    .tt-title { padding:8px 16px; font-size:14px; font-weight:700; color:var(--tt-title); line-height:1.3; }
+    .tt-body { padding:12px 16px 16px; font-size:12px; font-weight:400; color:var(--tt-body); line-height:1.5; margin-top:-8px; }
+    .tt-link { display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:600; color:var(--tt-link); text-decoration:none; padding:0 16px 12px; margin-top:-8px; }
+    .tt-arrow { position:absolute; width:0; height:0; }
+    .tt-arrow.arrow-bottom { left:50%; transform:translateX(-50%); bottom:-6px; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid var(--tt-arrow); }
+    .tt-arrow.arrow-top    { left:50%; transform:translateX(-50%); top:-6px; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:6px solid var(--tt-arrow); }
+    .tt-arrow.arrow-left   { top:50%; transform:translateY(-50%); left:-6px; border-top:6px solid transparent; border-bottom:6px solid transparent; border-right:6px solid var(--tt-arrow); }
+    .tt-arrow.arrow-right  { top:50%; transform:translateY(-50%); right:-6px; border-top:6px solid transparent; border-bottom:6px solid transparent; border-left:6px solid var(--tt-arrow); }
+  </style>
+</head>
+<body>
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div><h1>Iron Software Design System</h1><p>Visual Token Reference — for everyone on the team</p></div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <div class="sidebar-tree">
+        <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+        <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
+        <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
+        <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
+        <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
+        <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
+        <a href="component-tooltip.html" class="sidebar-link active"><i class="sidebar-icon">💬</i>Tooltip</a>
+      </div>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+  <div class="main-content"><div class="content">
+
+    <div class="page-title">
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Tooltip</div>
+      <h1>Tooltip</h1>
+      <p class="lead">A short piece of contextual text that appears on hover or focus, next to an element. Four placements and an optional link — hover a trigger below to see it live.</p>
+      <div class="meta-chips"><span class="chip">2 variants</span><span class="chip">4 placements</span><span class="chip">2 widths</span><span class="chip new">Token-driven</span></div>
+    </div>
+
+    <!-- Preview -->
+    <div class="sect"><div class="sect-h">Preview</div>
+      <div class="sect-sub">Hover the button to see the tooltip appear.</div>
+      <div class="canvas">
+        <span class="tt show-on-hover">
+          <button class="tt-trigger">Hover me</button>
+          <span class="tt-bubble above">
+            <span class="tt-arrow arrow-bottom"></span>
+            <span class="tt-title">Title</span>
+            <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+          </span>
+        </span>
+        <span class="tt show-on-hover">
+          <button class="tt-trigger">With a link</button>
+          <span class="tt-bubble above">
+            <span class="tt-arrow arrow-bottom"></span>
+            <span class="tt-title">Per-seat licensing</span>
+            <span class="tt-body">Counts unique developers, not machines.</span>
+            <a href="#" class="tt-link">Learn more <span>→</span></a>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Variants -->
+    <div class="sect"><div class="sect-h">Variants</div>
+      <div class="sect-sub">Two variants — <b>Default</b> is title + body only; <b>With link</b> adds a "Learn more" action for tooltips that point to more detail.</div>
+      <div class="grid">
+        <div class="cell">
+          <span class="tt"><span class="tt-bubble force-show above" style="position:static;transform:none;">
+            <span class="tt-title">Title</span>
+            <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+          </span></span>
+          <div class="lbl">Default<small>Property 1=Default</small></div>
+        </div>
+        <div class="cell">
+          <span class="tt"><span class="tt-bubble force-show above" style="position:static;transform:none;">
+            <span class="tt-title">Per-seat licensing</span>
+            <span class="tt-body">Counts unique developers, not machines.</span>
+            <a href="#" class="tt-link">Learn more <span>→</span></a>
+          </span></span>
+          <div class="lbl">With link<small>Property 1=With link</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placement -->
+    <div class="sect"><div class="sect-h">Placement</div>
+      <div class="sect-sub">Four placements, chosen by available space around the trigger. Toggle exactly one <code>Show arrow-*</code> property per instance.</div>
+      <div class="grid">
+        <div class="cell" style="padding-top:70px;">
+          <span class="tt"><span class="tt-bubble force-show above" style="position:absolute;top:auto;bottom:auto;">
+            <span class="tt-arrow arrow-bottom"></span>
+            <span class="tt-title">Title</span>
+            <span class="tt-body">Tooltip above the trigger.</span>
+          </span></span>
+          <div class="lbl">Top<small>Show arrow-bottom</small></div>
+        </div>
+        <div class="cell" style="padding-top:70px;">
+          <span class="tt"><span class="tt-bubble force-show above" style="position:absolute;top:auto;bottom:auto;">
+            <span class="tt-arrow arrow-top"></span>
+            <span class="tt-title">Title</span>
+            <span class="tt-body">Tooltip below the trigger.</span>
+          </span></span>
+          <div class="lbl">Bottom<small>Show arrow-top</small></div>
+        </div>
+        <div class="cell" style="padding-top:70px;">
+          <span class="tt"><span class="tt-bubble force-show above" style="position:absolute;top:auto;bottom:auto;">
+            <span class="tt-arrow arrow-right"></span>
+            <span class="tt-title">Title</span>
+            <span class="tt-body">Tooltip to the left of the trigger.</span>
+          </span></span>
+          <div class="lbl">Left<small>Show arrow-right</small></div>
+        </div>
+        <div class="cell" style="padding-top:70px;">
+          <span class="tt"><span class="tt-bubble force-show above" style="position:absolute;top:auto;bottom:auto;">
+            <span class="tt-arrow arrow-left"></span>
+            <span class="tt-title">Title</span>
+            <span class="tt-body">Tooltip to the right of the trigger.</span>
+          </span></span>
+          <div class="lbl">Right<small>Show arrow-left</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sizes -->
+    <div class="sect"><div class="sect-h">Sizes</div>
+      <div class="sect-sub">Default width is 200px for short copy. Switch to max-width (350px) when the body text needs more room.</div>
+      <div class="canvas left" style="gap:40px;">
+        <span class="tt"><span class="tt-bubble force-show above" style="position:static;transform:none;">
+          <span class="tt-title">Default</span>
+          <span class="tt-body">Short copy fits in 200px.</span>
+        </span></span>
+        <span class="tt"><span class="tt-bubble force-show max above" style="position:static;transform:none;">
+          <span class="tt-title">Max-width</span>
+          <span class="tt-body">Use the 350px max-width variant when the message needs a full sentence or two to stay readable — like this one.</span>
+        </span></span>
+      </div>
+      <table class="tok" style="margin-top:14px;">
+        <thead><tr><th>Size</th><th>Width</th><th>Use for</th></tr></thead>
+        <tbody>
+          <tr><td class="prop">Default</td><td class="val">200px</td><td class="prop">Short labels, single short sentence</td></tr>
+          <tr><td class="prop">Max-width</td><td class="val">350px</td><td class="prop">Longer explanations, two short sentences</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Anatomy -->
+    <div class="sect"><div class="sect-h">Anatomy</div>
+      <div class="anatomy">
+        <span class="tt"><span class="tt-bubble force-show above" style="position:static;transform:none;">
+          <span class="tt-arrow arrow-bottom"></span>
+          <span class="tt-title">Title</span>
+          <span class="tt-body">Supplementary, non-critical detail goes here.</span>
+          <a href="#" class="tt-link">Learn more <span>→</span></a>
+        </span></span>
+        <div class="anatomy-tags">
+          <span class="atag">fill → <b>neutral/800 #262626</b></span>
+          <span class="atag">radius → <b>--rounded-sm</b></span>
+          <span class="atag">shadow → <b>0 4px 16px rgba(0,0,0,.25)</b></span>
+          <span class="atag">title → <b>14px / 700</b></span>
+          <span class="atag">body → <b>12px / 400</b></span>
+          <span class="atag">link → <b>12px / 600 · button/secondary</b></span>
+          <span class="atag">arrow → <b>6×12 · neutral/950</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Token Reference -->
+    <div class="sect"><div class="sect-h">Token Reference</div>
+      <table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
+        <tr><td class="prop">Background</td><td class="token">--tt-bg (neutral/800)</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
+        <tr><td class="prop">Title text</td><td class="token">--tt-title (text/on color/heading)</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td></tr>
+        <tr><td class="prop">Body text</td><td class="token">--tt-body (text/on color/body)</td><td class="val"><span class="sw" style="background:#E5E5E5"></span>#E5E5E5</td></tr>
+        <tr><td class="prop">Link text</td><td class="token">--tt-link (button/secondary)</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Arrow</td><td class="token">--tt-arrow (neutral/950)</td><td class="val"><span class="sw" style="background:#0A0A0A"></span>#0A0A0A</td></tr>
+        <tr><td class="prop">Radius</td><td class="token">--tt-radius (--rounded-sm)</td><td class="val">4px</td></tr>
+        <tr><td class="prop">Shadow</td><td class="token">--tt-shadow</td><td class="val">0 4px 16px · black 25%</td></tr>
+        <tr><td class="prop">Width</td><td class="token">--tt-w / --tt-w-max</td><td class="val">200px / 350px</td></tr>
+        <tr><td class="prop">Title padding</td><td class="token" colspan="1">8px 16px</td><td class="val">--space-xs --space-md</td></tr>
+        <tr><td class="prop">Body padding</td><td class="token" colspan="1">12px 16px 16px</td><td class="val">--space-sm --space-md --space-md</td></tr>
+      </tbody></table>
+    </div>
+
+    <!-- Code -->
+    <div class="sect"><div class="sect-h">Code</div>
+      <div class="sect-sub">Copy-and-own — HTML markup, or the token-bound CSS. Show exactly one <code>.tt-arrow</code> per instance.</div>
+      <div class="code-wrap">
+        <div class="code-tabs">
+          <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
+          <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+          <button class="copy" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt show-on-hover"</span>&gt;
+  &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"tt-trigger"</span>&gt;Hover me&lt;/<span class="c-tag">button</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-bubble above"</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-arrow arrow-bottom"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-title"</span>&gt;Title&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-body"</span>&gt;Supplementary detail here.&lt;/<span class="c-tag">span</span>&gt;
+    <span class="c-com">&lt;!-- optional --&gt;</span>
+    &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tt-link"</span> <span class="c-attr">href</span>=<span class="c-str">"#"</span>&gt;Learn more →&lt;/<span class="c-tag">a</span>&gt;
+  &lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">span</span>&gt;</pre>
+<pre class="code-pane" data-lang="css"><span class="c-key">.tt-bubble</span> {
+  width: <span class="c-str">var(--tt-w)</span>;                 <span class="c-com">/* .max => var(--tt-w-max) */</span>
+  background: <span class="c-str">var(--tt-bg)</span>;
+  border-radius: <span class="c-str">var(--tt-radius)</span>;
+  box-shadow: <span class="c-str">var(--tt-shadow)</span>;
+}
+<span class="c-key">.tt-title</span> { padding: 8px 16px; font-size: 14px; font-weight: 700; color: <span class="c-str">var(--tt-title)</span>; }
+<span class="c-key">.tt-body</span>  { padding: 12px 16px 16px; font-size: 12px; color: <span class="c-str">var(--tt-body)</span>; }
+<span class="c-key">.tt-link</span>  { font-size: 12px; font-weight: 600; color: <span class="c-str">var(--tt-link)</span>; }
+<span class="c-key">.tt-arrow.arrow-bottom</span> {   <span class="c-com">/* tooltip above trigger */</span>
+  border-top: 6px solid <span class="c-str">var(--tt-arrow)</span>;
+  border-left: 6px solid transparent; border-right: 6px solid transparent;
+}</pre>
+      </div>
+    </div>
+
+    <!-- Guidelines -->
+    <div class="sect"><div class="sect-h">Do &amp; Don't</div>
+      <div class="dd">
+        <div class="card do"><div class="top">✓ Do</div>
+          <ul>
+            <li>Use tooltips to surface supplementary, non-critical information.</li>
+            <li>Keep tooltip text concise — one to two short sentences maximum.</li>
+            <li>Position the tooltip close to its trigger element.</li>
+          </ul>
+        </div>
+        <div class="card dont"><div class="top">✗ Don't</div>
+          <ul>
+            <li>Don't place critical or required information inside a tooltip — it may never be seen.</li>
+            <li>Don't use long paragraphs or multiple lines of dense text.</li>
+            <li>Don't rely on tooltips for mobile interactions where hover is unavailable.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <footer class="docfoot">Iron Software Design System &nbsp;·&nbsp; Tooltip component &nbsp;·&nbsp; 2026</footer>
+  </div></div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<script>
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function showToast(msg){
+    let el=document.getElementById('ds-toast');
+    if(!el){el=document.createElement('div');el.id='ds-toast';document.body.appendChild(el);
+      el.style.cssText='position:fixed;right:32px;bottom:32px;transform:translateY(20px);background:#171717;color:#fff;font-family:Montserrat,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:.01em;padding:11px 18px;border-radius:9999px;box-shadow:0 8px 28px rgba(15,23,43,0.28);z-index:200;opacity:0;transition:opacity .22s ease,transform .22s ease;display:flex;align-items:center;gap:8px;pointer-events:none;';}
+    el.innerHTML='<span style="color:#3DDC97;font-weight:800;">✓</span>'+msg;
+    setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);
+    clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);
+  }
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
+  function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+  function copyCode(btn){
+    const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;
+    const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
+    else{fallbackCopy(txt,done);}
+  }
+</script>
+</body>
+</html>
