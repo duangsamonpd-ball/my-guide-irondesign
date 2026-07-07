@@ -56,6 +56,10 @@
       --footer-bg:     var(--iron-violet-950);
       --footer-bg-2:   #171717;  /* Neutral 900 */
       --footer-left-gradient: linear-gradient(160deg, #6B3900 0%, #3A1C00 32%, #1A0C00 58%, #171717 85%);
+      --glass-white-10: rgba(255,255,255,0.10); /* frosted glass overlay — hero icon bubbles, footer divider */
+      --glass-black-20: rgba(0,0,0,0.20);       /* bubble hover bg */
+      --why-end:        #1D629B;                 /* why-section wave divider fill — iron-blue/700 */
+      --iron-blue-950:  #102230;                 /* why-section gradient start — Figma iron-blue/950 */
 
       /* Border */
       --border:        #E2E8F0;  /* Slate 200 */
@@ -254,6 +258,29 @@
     =================================================================== */
     .hero-end { line-height: 0; display: block; }
     .hero-end img { width: 100%; display: block; }
+    .why-end { line-height: 0; display: block; }
+    .why-end svg { width: 100%; display: block; }
+    .why-end path { fill: var(--why-end); }
+
+    /* ===================================================================
+       2c. PRODUCT ICON STRIP — Figma node 2248-1968
+    =================================================================== */
+    .pis-wrap { position: relative; z-index: 2; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter) var(--space-3xl); }
+    .pis-row { display: flex; align-items: flex-start; justify-content: center; gap: var(--space-3xl); flex-wrap: wrap; }
+    .pis-item { display: flex; flex-direction: column; align-items: center; gap: var(--space-md); position: relative; width: var(--space-4xl); flex-shrink: 0; }
+    .pis-bubble { width: 64px; height: 64px; background: var(--glass-white-10); border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; transition: background .2s, box-shadow .2s; }
+    .pis-item:hover .pis-bubble { background: var(--glass-black-20); box-shadow: 0 0 0 2px var(--secondary); }
+    .pis-bubble img { width: 48px; height: 48px; display: block; }
+    .pis-label { font-size: var(--text-xs); display: flex; align-items: baseline; white-space: nowrap; transition: opacity .15s; }
+    .pis-item:hover .pis-label { opacity: 0; }
+    .pis-iron { font-weight: 700; color: var(--on-color); }
+    .pis-suffix { font-weight: 400; }
+    /* Tooltip — Figma node 2249-1390 */
+    .pis-tooltip { position: absolute; top: var(--space-4xl); left: 50%; transform: translateX(-50%); filter: drop-shadow(0 2px 8px rgba(15,23,43,0.20)); opacity: 0; pointer-events: none; transition: opacity .15s; z-index: 10; }
+    .pis-item:hover .pis-tooltip { opacity: 1; }
+    .pis-tt-caret { width: 12px; height: 6px; margin: 0 auto; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--text-body); }
+    .pis-tt-head { background: var(--text-body); border: 1px solid var(--text-muted); border-bottom: none; padding: var(--space-xs) var(--space-md); font-size: var(--text-xs); text-align: center; border-radius: var(--r-sm) var(--r-sm) 0 0; white-space: nowrap; }
+    .pis-tt-body { background: var(--bg-shade); padding: var(--space-xs) var(--space-md); text-align: center; font-size: var(--text-xs); font-weight: 500; line-height: var(--leading-4); letter-spacing: var(--tracking-wide); color: var(--text-heading); border-radius: 0 0 var(--r-sm) var(--r-sm); white-space: nowrap; }
 
     /* ===================================================================
        3. PRODUCT GRID
@@ -279,34 +306,57 @@
     =================================================================== */
     .rainbow-bar { height: 6px; background: linear-gradient(90deg,var(--secondary),var(--accent-purple),#9D4F90,var(--primary),var(--accent-orange),var(--accent-green),var(--accent-sky)); }
     .why {
-      background-color: var(--accent-navy);
+      background-color: var(--iron-blue-950);
       background-image:
-        url('assets/Sub-bg.svg'),                                              /* wave pattern at the bottom */
-        linear-gradient(180deg, var(--accent-navy) 0%, #123a63 55%, #185088 100%);
+        url('assets/Sub-bg.svg'),
+        linear-gradient(180deg, var(--iron-blue-950) 0%, var(--secondary) 100%);
       background-repeat: no-repeat, no-repeat;
       background-position: bottom center, top center;
       background-size: 100% auto, 100% 100%;
       color: var(--on-color); padding: var(--space-hero) 0 0;
     }
     .why .section-head h2 { color: var(--on-color); }
-    .why .section-head p { color: rgba(255,255,255,.82); }
-    .why .section-head p b { color: var(--on-color); }
-    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl) var(--space-3xl); }
+    .why .section-head p { color: var(--on-color-body); }
+    .why .section-head p b { color: var(--on-color); font-weight: 600; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); }
     .feature { display: grid; grid-template-columns: 48px 1fr; gap: var(--space-md); }
     .feature .ficon { width: 48px; height: 48px; object-fit: contain; display: block; }
-    .feature h4 { color: var(--on-color); font-size: var(--text-base); font-weight: 700; margin-bottom: var(--space-xs); }
-    .feature p { color: rgba(255,255,255,.78); font-size: var(--text-sm); line-height: var(--leading-5); }
-    .platform-icons { display: flex; gap: var(--space-sm); margin-top: var(--space-sm); font-size: var(--text-base); opacity: .85; }
-    .why-cta { text-align: center; margin: var(--space-3xl) 0; }
-    .why-strip {
-      border-top: 1px solid rgba(255,255,255,.14);
-      display: flex; align-items: center; justify-content: center; gap: var(--space-lg);
-      padding: var(--space-xl) 0; flex-wrap: wrap; font-size: var(--text-sm);
+    .feature h4 { color: var(--on-color); font-size: var(--text-lg); font-weight: 700; line-height: var(--leading-7); margin-bottom: var(--space-xs); }
+    .feature p { color: var(--on-color-body); font-size: var(--text-base); line-height: var(--leading-7); }
+    .feature .free-trial { color: var(--on-color); text-decoration: underline; }
+    .platform-icons { display: flex; gap: var(--space-sm); margin-top: var(--space-sm); align-items: center; font-size: var(--text-base); opacity: .85; }
+    .platform-icons img { height: 16px; width: auto; display: block; }
+    /* Explore + pill at bottom of Why section */
+    .why-explore {
+      display: flex; flex-direction: column; align-items: center;
+      gap: var(--space-3xl); padding: var(--space-3xl) 0;
     }
-    .why-strip .suite-logo { font-weight: 900; letter-spacing: var(--tracking-wide); display: inline-flex; gap: var(--space-xs); align-items: center; }
-    .why-strip .sep { opacity: .4; }
-    .pill-outline { border: 1px solid rgba(255,255,255,.3); border-radius: var(--r-full); padding: var(--space-xs) var(--space-md); font-size: var(--text-xs); display: inline-flex; gap: var(--space-xs); align-items: center; }
-    .why-shape { height: 70px; background: linear-gradient(180deg,#185088, #185088); clip-path: polygon(0 0, 50% 70%, 100% 0, 100% 0, 0 0); }
+    .why-pill {
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: var(--r-xl);
+      padding: var(--space-sm) var(--space-md);
+      display: inline-flex; align-items: center; gap: var(--space-xl);
+    }
+    .why-pill-brand { display: inline-flex; align-items: center; gap: 12px; }
+    .why-pill-hash { height: 24px; width: auto; display: block; }
+    .why-pill-name {
+      font-weight: 800; font-size: var(--text-xl);
+      color: var(--on-color); letter-spacing: var(--tracking-tight);
+      line-height: var(--leading-7);
+    }
+    .why-pill-sep {
+      display: inline-block; width: 1px; height: 12px;
+      background: var(--on-color); opacity: 0.4;
+    }
+    .why-pill-full { font-weight: 700; font-size: var(--text-base); color: var(--on-color); line-height: var(--leading-7); }
+    .why-pill-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.30); flex-shrink: 0; }
+    .why-pill-donate { display: inline-flex; align-items: center; gap: var(--space-xs); }
+    .why-pill-donate-text {
+      font-size: var(--text-xs); font-weight: 500;
+      color: var(--on-color); line-height: var(--leading-4);
+      letter-spacing: var(--tracking-wide); text-align: right;
+    }
+    .why-pill-1pct { height: 32px; width: auto; display: block; }
 
     /* ===================================================================
        5. AUDIENCES (Loved by builders / Trusted by enterprises)
@@ -478,7 +528,7 @@
     .footer-top { background-color: var(--footer-bg); background-image: url('assets/Rainbow.svg'); background-size: cover; background-position: center; color: var(--on-color); position: relative; overflow: hidden; }
     .ft-inner { max-width: var(--maxw); margin: 0 auto; display: flex; align-items: stretch; padding: var(--space-4xl) 0; }
     .ft-left { background: transparent; flex: 1; padding: 0 var(--space-3xl); display: flex; flex-direction: column; }
-    .ft-divider { background: rgba(255,255,255,.10); width: 2px; flex-shrink: 0; align-self: stretch; }
+    .ft-divider { background: var(--glass-white-10); width: 2px; flex-shrink: 0; align-self: stretch; }
     .ft-right { background: transparent; flex: 1; padding: 0 var(--space-3xl); }
     .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-xs); font-size: var(--text-xs); font-weight: 500; color: var(--on-color); letter-spacing: var(--tracking-wide); }
     .ft-donate img { height: 32px; width: auto; display: block; }
@@ -575,6 +625,8 @@
 
       /* Hero — single-column: center the text column */
       .hero .wrap { grid-template-columns: 1fr; gap: var(--space-2xl); text-align: center; }
+      /* Product icon strip — tighten gap on tablet */
+      .pis-row { gap: var(--space-xl); }
       .hero p { max-width: 100%; }
       .hero-logo { margin-left: auto; margin-right: auto; }
       .hero .btn-primary { margin: 0 auto; }
@@ -682,10 +734,17 @@
       .hero h1 { font-size: clamp(var(--text-2xl), 8vw, var(--text-4xl)); }
       .hero p { font-size: var(--text-base); }
       .hero-card { max-width: 100%; }
+      /* Product icon strip — compact on small phones */
+      .pis-row { gap: var(--space-md); }
+      .pis-bubble { width: 48px; height: 48px; }
+      .pis-bubble img { width: 36px; height: 36px; }
 
       /* Why */
       .feature-grid { gap: var(--space-xl) var(--space-lg); }
-      .why-strip { flex-direction: column; gap: var(--space-sm); text-align: center; }
+      .why-pill { flex-direction: column; gap: var(--space-md); }
+      .why-pill-brand { flex-wrap: wrap; justify-content: center; }
+      .why-pill-divider { width: 80%; height: 1px; }
+      .why-pill-donate { justify-content: center; }
 
       /* Growth */
       .growth-top { flex-direction: column; align-items: center; gap: var(--space-lg); }
@@ -749,6 +808,102 @@
       </div>
     </div>
   </div>
+
+  <!-- Product icon strip — Figma node 2248-1968 / hover 2249-1390 -->
+  <div class="pis-wrap">
+    <div class="pis-row">
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-01-pdf.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--primary)">PDF</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--primary)">PDF</span></div>
+          <div class="pis-tt-body">Create, read, and edit PDFs</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-02-word.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-sky)">WORD</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-sky)">WORD</span></div>
+          <div class="pis-tt-body">Edit DOCX Word files</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-03-xl.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-green)">XL</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-green)">XL</span></div>
+          <div class="pis-tt-body">Edit Excel &amp; CSV files</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-04-ppt.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--primary)">PPT</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--primary)">PPT</span></div>
+          <div class="pis-tt-body">Edit Powerpoint files</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-05-ocr.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-sky)">OCR</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-sky)">OCR</span></div>
+          <div class="pis-tt-body">OCR text recognition for .NET</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-06-bc.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-green)">BARCODE</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-green)">BARCODE</span></div>
+          <div class="pis-tt-body">Read and write QR &amp; Barcodes</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-07-qr.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-green)">QR</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-green)">QR</span></div>
+          <div class="pis-tt-body">Read and write QR codes</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-09-prt.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-orange)">PRINT</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-orange)">PRINT</span></div>
+          <div class="pis-tt-body">Print documents in .NET</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-08-zip.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-orange)">ZIP</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-orange)">ZIP</span></div>
+          <div class="pis-tt-body">Zip and unzip archives</div>
+        </div>
+      </div>
+      <div class="pis-item">
+        <div class="pis-bubble"><img src="assets/logo-010-ws.svg" alt="" loading="lazy"></div>
+        <span class="pis-label"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-orange)">WEBSCRAPER</span></span>
+        <div class="pis-tooltip">
+          <div class="pis-tt-caret"></div>
+          <div class="pis-tt-head"><span class="pis-iron">IRON</span><span class="pis-suffix" style="color:var(--accent-orange)">WEBSCRAPER</span></div>
+          <div class="pis-tt-body">Scrape data from websites</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
 
 <!-- ============ 2b. HERO END ============ -->
@@ -798,18 +953,38 @@
       </div>
       <div class="feature">
         <img class="ficon" src="assets/Icon-money%20back.svg" alt="">
-        <div><h4>Money-Back Guarantee</h4><p>30 days, no questions asked. We're confident in our product. Start free trial.</p></div>
+        <div>
+          <h4>Money-Back Guarantee</h4>
+          <p>30 days, no questions asked.<br>We're confident in our product.<br><a href="#" class="free-trial">Start free trial →</a></p>
+        </div>
       </div>
     </div>
-    <div class="why-cta"><a href="#products" class="btn btn-dark">Explore Iron Suite <span class="arr">→</span></a></div>
-  </div>
-  <div class="why-strip">
-    <span class="suite-logo">#&nbsp; IRON SUITE</span>
-    <span class="sep">—</span>
-    <span>Full 10 products Suite</span>
-    <span class="pill-outline">Every Iron Suite Donates <b>1% FOR THE PLANET</b></span>
+    <div class="why-explore">
+      <a href="#products" class="btn btn-dark">Explore Iron Suite <span class="arr">→</span></a>
+      <div class="why-pill">
+        <div class="why-pill-brand">
+          <img class="why-pill-hash" src="assets/hash-white%20color.svg" alt="">
+          <span class="why-pill-name">IRON SUITE</span>
+          <span class="why-pill-sep" aria-hidden="true"></span>
+          <span class="why-pill-full">Full 10 products Suite</span>
+        </div>
+        <div class="why-pill-divider" aria-hidden="true"></div>
+        <div class="why-pill-donate">
+          <span class="why-pill-donate-text">Every Iron Suite Donates</span>
+          <img class="why-pill-1pct" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% for the Planet">
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
+<!-- ============ 4c. WHY END ============ -->
+<div class="why-end" aria-hidden="true">
+  <svg viewBox="0 0 1440 32" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <rect width="1440" height="32" fill="white"/>
+    <path d="M1440 0.00196358C1218.9 20.6006 975.548 32 720.01 32C464.465 32 221.104 20.5998 0 0H1440V0.00196358Z"/>
+  </svg>
+</div>
 
 <!-- ============ 5. AUDIENCES ============ -->
 <section class="section-pad">
