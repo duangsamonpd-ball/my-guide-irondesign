@@ -213,9 +213,10 @@
   border: 1.5px solid <span class="c-str">var(--color-border-strong)</span>;
 }
 <span class="c-key">.rdo input:checked + .dot</span> { border-color: <span class="c-str">var(--color-secondary)</span>; }
-<span class="c-key">.rdo input:checked + .dot::after</span> {        <span class="c-com">/* inner dot */</span>
-  background: <span class="c-str">var(--color-secondary)</span>; transform: scale(1);
-}</pre>
+<span class="c-key">.rdo .dot::after</span> {        <span class="c-com">/* inner dot — always filled, hidden via scale(0) */</span>
+  background: <span class="c-str">var(--color-secondary)</span>; transform: scale(0);
+}
+<span class="c-key">.rdo input:checked + .dot::after</span> { transform: scale(1); }        <span class="c-com">/* :checked only reveals it */</span></pre>
         </div>
     </div>
 
