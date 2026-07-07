@@ -73,7 +73,7 @@
     .tt-trigger { font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:600; color:#45556C; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:8px; padding:9px 16px; cursor:pointer; }
     .tt-trigger-box { display:inline-block; width:72px; height:36px; border:1.5px dashed #94A3B8; border-radius:6px; background:rgba(148,163,184,0.08); }
     .tt-bubble { position:absolute; width:var(--tt-w); display:none; flex-direction:column; z-index:20; text-align:left; }
-    .tt.show-on-hover:hover .tt-bubble, .tt-bubble.force-show { display:flex; }
+    .tt-bubble.force-show, .tt-bubble.js-open { display:flex; }
     .tt-bubble.max { width:var(--tt-w-max); }
     .tt-bubble.above { bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); }
     .tt-bubble.below { top:calc(100% + 10px); left:50%; transform:translateX(-50%); }
@@ -412,6 +412,21 @@
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
     else{fallbackCopy(txt,done);}
   }
+
+  /* Interactive tooltips: a pure-CSS :hover gap between the trigger and the
+     bubble makes the bubble disappear before the mouse can reach a link
+     inside it. Use JS with a short close-delay instead, so moving from the
+     trigger, across the gap, into the bubble keeps it open. */
+  document.querySelectorAll('.tt.show-on-hover').forEach(tt=>{
+    const bubble=tt.querySelector('.tt-bubble');
+    let closeTimer=null;
+    const open=()=>{ clearTimeout(closeTimer); bubble.classList.add('js-open'); };
+    const scheduleClose=()=>{ clearTimeout(closeTimer); closeTimer=setTimeout(()=>bubble.classList.remove('js-open'),200); };
+    tt.addEventListener('mouseenter',open);
+    tt.addEventListener('mouseleave',scheduleClose);
+    tt.addEventListener('focusin',open);
+    tt.addEventListener('focusout',scheduleClose);
+  });
 </script>
 </body>
 </html>
