@@ -337,18 +337,23 @@
   &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"tt-trigger"</span>&gt;Hover me&lt;/<span class="c-tag">button</span>&gt;
   &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-bubble above"</span>&gt;
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-arrow arrow-bottom"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-title"</span>&gt;Title&lt;/<span class="c-tag">span</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-body"</span>&gt;Supplementary detail here.&lt;/<span class="c-tag">span</span>&gt;
-    <span class="c-com">&lt;!-- optional --&gt;</span>
-    &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tt-link"</span> <span class="c-attr">href</span>=<span class="c-str">"#"</span>&gt;Learn more →&lt;/<span class="c-tag">a</span>&gt;
+    <span class="c-com">&lt;!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped --&gt;</span>
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-content"</span>&gt;
+      &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-title"</span>&gt;Title&lt;/<span class="c-tag">span</span>&gt;
+      &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-body"</span>&gt;Supplementary detail here.&lt;/<span class="c-tag">span</span>&gt;
+      <span class="c-com">&lt;!-- optional --&gt;</span>
+      &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tt-link"</span> <span class="c-attr">href</span>=<span class="c-str">"#"</span>&gt;Learn more →&lt;/<span class="c-tag">a</span>&gt;
+    &lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">span</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.tt-bubble</span> {
-  width: <span class="c-str">var(--tt-w)</span>;                 <span class="c-com">/* .max => var(--tt-w-max) */</span>
-  background: <span class="c-str">var(--tt-bg)</span>;            <span class="c-com">/* neutral/800 — shows behind body */</span>
+<pre class="code-pane" data-lang="css"><span class="c-key">.tt-bubble</span> {   <span class="c-com">/* positions the arrow + content; no fill of its own */</span>
+  position: absolute; width: <span class="c-str">var(--tt-w)</span>;   <span class="c-com">/* .max => var(--tt-w-max) */</span>
+}
+<span class="c-key">.tt-content</span> {   <span class="c-com">/* the visible rounded box — separate so overflow:hidden */</span>
+  background: <span class="c-str">var(--tt-bg)</span>;               <span class="c-com">/* doesn't clip the arrow poking out of .tt-bubble */</span>
   border-radius: <span class="c-str">var(--tt-radius)</span>;
   box-shadow: <span class="c-str">var(--tt-shadow)</span>;
-  overflow: hidden;                     <span class="c-com">/* clips title's square corners to match */</span>
+  overflow: hidden;                      <span class="c-com">/* clips title's square corners to match */</span>
 }
 <span class="c-key">.tt-title</span> {   <span class="c-com">/* darker header bar — neutral/950, own fill */</span>
   padding: 8px 16px; font-size: 14px; font-weight: 700;
@@ -356,7 +361,7 @@
 }
 <span class="c-key">.tt-body</span>  { padding: 12px 16px 16px; font-size: 12px; color: <span class="c-str">var(--tt-body)</span>; }   <span class="c-com">/* no own fill */</span>
 <span class="c-key">.tt-link</span>  { font-size: 12px; font-weight: 600; color: <span class="c-str">var(--tt-link)</span>; }
-<span class="c-key">.tt-arrow.arrow-bottom</span> {   <span class="c-com">/* tooltip above trigger */</span>
+<span class="c-key">.tt-arrow.arrow-bottom</span> {   <span class="c-com">/* tooltip above trigger; direct child of .tt-bubble, not .tt-content */</span>
   border-top: 6px solid <span class="c-str">var(--tt-arrow)</span>;
   border-left: 6px solid transparent; border-right: 6px solid transparent;
 }</pre>
