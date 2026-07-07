@@ -71,17 +71,22 @@
     /* ════════════ TOOLTIP (token-driven) ════════════ */
     .tt { position:relative; display:inline-block; }
     .tt-trigger { font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:600; color:#45556C; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:8px; padding:9px 16px; cursor:pointer; }
-    .tt-bubble { position:absolute; width:var(--tt-w); background:var(--tt-bg); border-radius:var(--tt-radius); box-shadow:var(--tt-shadow); display:none; flex-direction:column; z-index:20; text-align:left; overflow:hidden; }
+    .tt-trigger-box { display:inline-block; width:72px; height:36px; border:1.5px dashed #94A3B8; border-radius:6px; background:rgba(148,163,184,0.08); }
+    .tt-bubble { position:absolute; width:var(--tt-w); display:none; flex-direction:column; z-index:20; text-align:left; }
     .tt.show-on-hover:hover .tt-bubble, .tt-bubble.force-show { display:flex; }
     .tt-bubble.max { width:var(--tt-w-max); }
     .tt-bubble.above { bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); }
     .tt-bubble.below { top:calc(100% + 10px); left:50%; transform:translateX(-50%); }
     .tt-bubble.right { left:calc(100% + 10px); top:50%; transform:translateY(-50%); }
     .tt-bubble.left  { right:calc(100% + 10px); top:50%; transform:translateY(-50%); }
+    /* the visible rounded box — separate from .tt-bubble so overflow:hidden (which clips the
+       Title bar's square corners to the shared radius) doesn't also clip the arrow, which
+       must poke out past this box's edge */
+    .tt-content { background:var(--tt-bg); border-radius:var(--tt-radius); box-shadow:var(--tt-shadow); overflow:hidden; display:flex; flex-direction:column; }
     .tt-title { padding:8px 16px; font-size:14px; font-weight:700; color:var(--tt-title); background:var(--tt-title-bg); line-height:1.3; }
     .tt-body { padding:12px 16px 16px; font-size:12px; font-weight:400; color:var(--tt-body); line-height:1.5; }
     .tt-link { display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:600; color:var(--tt-link); text-decoration:none; padding:0 16px 12px; }
-    .tt-arrow { position:absolute; width:0; height:0; }
+    .tt-arrow { position:absolute; width:0; height:0; z-index:1; }
     .tt-arrow.arrow-bottom { left:50%; transform:translateX(-50%); bottom:-6px; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid var(--tt-arrow); }
     .tt-arrow.arrow-top    { left:50%; transform:translateX(-50%); top:-6px; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:6px solid var(--tt-arrow); }
     .tt-arrow.arrow-left   { top:50%; transform:translateY(-50%); left:-6px; border-top:6px solid transparent; border-bottom:6px solid transparent; border-right:6px solid var(--tt-arrow); }
@@ -141,17 +146,21 @@
           <button class="tt-trigger">Hover me</button>
           <span class="tt-bubble above">
             <span class="tt-arrow arrow-bottom"></span>
-            <span class="tt-title">Title</span>
-            <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+            <span class="tt-content">
+              <span class="tt-title">Title</span>
+              <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+            </span>
           </span>
         </span>
         <span class="tt show-on-hover">
           <button class="tt-trigger">With a link</button>
           <span class="tt-bubble above">
             <span class="tt-arrow arrow-bottom"></span>
-            <span class="tt-title">Per-seat licensing</span>
-            <span class="tt-body">Counts unique developers, not machines.</span>
-            <a href="#" class="tt-link">Learn more <span>→</span></a>
+            <span class="tt-content">
+              <span class="tt-title">Per-seat licensing</span>
+              <span class="tt-body">Counts unique developers, not machines.</span>
+              <a href="#" class="tt-link">Learn more <span>→</span></a>
+            </span>
           </span>
         </span>
       </div>
@@ -162,17 +171,23 @@
       <div class="sect-sub">Two variants — <b>Default</b> is title + body only; <b>With link</b> adds a "Learn more" action for tooltips that point to more detail.</div>
       <div class="grid">
         <div class="cell">
-          <span class="tt"><span class="tt-bubble force-show above" style="position:static;transform:none;">
-            <span class="tt-title">Title</span>
-            <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+          <span class="tt"><span class="tt-bubble force-show" style="position:relative;transform:none;">
+            <span class="tt-arrow arrow-bottom"></span>
+            <span class="tt-content">
+              <span class="tt-title">Title</span>
+              <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+            </span>
           </span></span>
           <div class="lbl">Default<small>Property 1=Default</small></div>
         </div>
         <div class="cell">
-          <span class="tt"><span class="tt-bubble force-show above" style="position:static;transform:none;">
-            <span class="tt-title">Per-seat licensing</span>
-            <span class="tt-body">Counts unique developers, not machines.</span>
-            <a href="#" class="tt-link">Learn more <span>→</span></a>
+          <span class="tt"><span class="tt-bubble force-show" style="position:relative;transform:none;">
+            <span class="tt-arrow arrow-bottom"></span>
+            <span class="tt-content">
+              <span class="tt-title">Per-seat licensing</span>
+              <span class="tt-body">Counts unique developers, not machines.</span>
+              <a href="#" class="tt-link">Learn more <span>→</span></a>
+            </span>
           </span></span>
           <div class="lbl">With link<small>Property 1=With link</small></div>
         </div>
@@ -181,39 +196,61 @@
 
     <!-- Placement -->
     <div class="sect"><div class="sect-h">Placement</div>
-      <div class="sect-sub">Four placements, chosen by available space around the trigger. Toggle exactly one <code>Show arrow-*</code> property per instance.</div>
-      <div class="grid">
-        <div class="cell" style="padding-top:70px;">
-          <span class="tt"><span class="tt-bubble force-show above" style="position:absolute;top:auto;bottom:auto;">
-            <span class="tt-arrow arrow-bottom"></span>
-            <span class="tt-title">Title</span>
-            <span class="tt-body">Tooltip above the trigger.</span>
-          </span></span>
+      <div class="sect-sub">Four placements, chosen by available space around the trigger. Toggle exactly one <code>Show arrow-*</code> property per instance. The dashed box marks the trigger element's boundary the tooltip is anchored to.</div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;">
+        <div class="cell" style="padding-top:100px;">
+          <span class="tt">
+            <span class="tt-trigger-box"></span>
+            <span class="tt-bubble force-show above">
+              <span class="tt-arrow arrow-bottom"></span>
+              <span class="tt-content">
+                <span class="tt-title">Title</span>
+                <span class="tt-body">Tooltip above the trigger.</span>
+              </span>
+            </span>
+          </span>
           <div class="lbl">Top<small>Show arrow-bottom</small></div>
         </div>
-        <div class="cell" style="padding-top:70px;">
-          <span class="tt"><span class="tt-bubble force-show above" style="position:absolute;top:auto;bottom:auto;">
-            <span class="tt-arrow arrow-top"></span>
-            <span class="tt-title">Title</span>
-            <span class="tt-body">Tooltip below the trigger.</span>
-          </span></span>
+        <div class="cell" style="padding-bottom:110px;padding-top:18px;">
+          <span class="tt">
+            <span class="tt-trigger-box"></span>
+            <span class="tt-bubble force-show below">
+              <span class="tt-arrow arrow-top"></span>
+              <span class="tt-content">
+                <span class="tt-title">Title</span>
+                <span class="tt-body">Tooltip below the trigger.</span>
+              </span>
+            </span>
+          </span>
           <div class="lbl">Bottom<small>Show arrow-top</small></div>
         </div>
-        <div class="cell" style="padding-top:70px;">
-          <span class="tt"><span class="tt-bubble force-show above" style="position:absolute;top:auto;bottom:auto;">
-            <span class="tt-arrow arrow-right"></span>
-            <span class="tt-title">Title</span>
-            <span class="tt-body">Tooltip to the left of the trigger.</span>
-          </span></span>
-          <div class="lbl">Left<small>Show arrow-right</small></div>
-        </div>
-        <div class="cell" style="padding-top:70px;">
-          <span class="tt"><span class="tt-bubble force-show above" style="position:absolute;top:auto;bottom:auto;">
-            <span class="tt-arrow arrow-left"></span>
-            <span class="tt-title">Title</span>
-            <span class="tt-body">Tooltip to the right of the trigger.</span>
-          </span></span>
+      </div>
+      <div style="display:flex; gap:14px; margin-top:14px; flex-wrap:wrap;">
+        <div class="cell" style="flex:1 1 380px; min-width:380px; align-items:flex-start; padding:24px 16px 40px 16px;">
+          <span class="tt">
+            <span class="tt-trigger-box"></span>
+            <span class="tt-bubble force-show right">
+              <span class="tt-arrow arrow-left"></span>
+              <span class="tt-content">
+                <span class="tt-title">Title</span>
+                <span class="tt-body">Tooltip to the right.</span>
+              </span>
+            </span>
+          </span>
           <div class="lbl">Right<small>Show arrow-left</small></div>
+        </div>
+        <div class="cell" style="flex:1 1 380px; min-width:380px; align-items:flex-end; padding:24px 16px 40px 16px;">
+          <span class="tt">
+            <span class="tt-trigger-box"></span>
+            <span class="tt-bubble force-show left">
+              <span class="tt-arrow arrow-right"></span>
+              <span class="tt-content">
+                <span class="tt-title">Title</span>
+                <span class="tt-body">Tooltip to the left.</span>
+              </span>
+            </span>
+          </span>
+          <div class="lbl">Left<small>Show arrow-right</small></div>
         </div>
       </div>
     </div>
@@ -222,13 +259,19 @@
     <div class="sect"><div class="sect-h">Sizes</div>
       <div class="sect-sub">Default width is 200px for short copy. Switch to max-width (350px) when the body text needs more room.</div>
       <div class="canvas left" style="gap:40px;">
-        <span class="tt"><span class="tt-bubble force-show above" style="position:static;transform:none;">
-          <span class="tt-title">Default</span>
-          <span class="tt-body">Short copy fits in 200px.</span>
+        <span class="tt"><span class="tt-bubble force-show" style="position:relative;transform:none;">
+          <span class="tt-arrow arrow-bottom"></span>
+          <span class="tt-content">
+            <span class="tt-title">Default</span>
+            <span class="tt-body">Short copy fits in 200px.</span>
+          </span>
         </span></span>
-        <span class="tt"><span class="tt-bubble force-show max above" style="position:static;transform:none;">
-          <span class="tt-title">Max-width</span>
-          <span class="tt-body">Use the 350px max-width variant when the message needs a full sentence or two to stay readable — like this one.</span>
+        <span class="tt"><span class="tt-bubble force-show max" style="position:relative;transform:none;">
+          <span class="tt-arrow arrow-bottom"></span>
+          <span class="tt-content">
+            <span class="tt-title">Max-width</span>
+            <span class="tt-body">Use the 350px max-width variant when the message needs a full sentence or two to stay readable — like this one.</span>
+          </span>
         </span></span>
       </div>
       <table class="tok" style="margin-top:14px;">
