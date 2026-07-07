@@ -284,16 +284,24 @@ module.exports = {
         'md':    '1rem',     // 16px — standard padding and gaps
         'lg':    '1.25rem',  // 20px — card padding, list item gaps
         'xl':    '1.5rem',   // 24px — section spacing
-        '2xl':   '1.75rem',  // 28px — between major sections
-        '3xl':   '2rem',     // 32px — between layout regions
-        'hero':  '5rem',     // 80px — hero-scale top/bottom margins
+        '2xl':     '2rem',     // 32px — between layout regions
+        '3xl':     '3rem',     // 48px — large section padding
+        '4xl':     '4rem',     // 64px — page-level padding, feature sections
+        'hero':    '5rem',     // 80px — hero-scale top/bottom margins
+        'section': '7.5rem',   // 120px — full-page section breaks, hero bands
       },
 
       // ── 6. BORDER RADIUS ────────────────────────────────────────────────────
       borderRadius: {
         'none':    '0px',
-        'xs':      '0.25rem',  //  4px — inputs, small controls
-        'sm':      '0.5rem',   //  8px — feature cards, secondary containers
+        'xs':      '0.125rem', //  2px — tooltips, small tags
+        'sm':      '0.25rem',  //  4px — inputs, small controls
+        'md':      '0.375rem', //  6px — dropdowns, popovers
+        'lg':      '0.5rem',   //  8px — feature cards, secondary containers
+        'xl':      '0.75rem',  // 12px — modals, panels, large cards
+        '2xl':     '1rem',     // 16px — hero cards, feature highlights
+        '3xl':     '1.5rem',   // 24px — buttons, large containers
+        '4xl':     '2rem',     // 32px — CTA buttons, pill shapes
         'pill-sm': '1.25rem',  // 20px — badges, small pills
         'pill':    '2.0625rem',// 33px — secondary action buttons
         'cta':     '2.5rem',   // 40px — ★ primary large CTA, signature style
