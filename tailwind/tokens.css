@@ -221,6 +221,8 @@
   --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons (Figma: on action) */
   --color-text-on-action-tertiary:       var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
   --color-text-on-action-tertiary-hover: var(--iron-pink-500); /* #E01A59 — hovered tertiary action */
+  --color-on-tertiary:       var(--color-text-on-action-tertiary);       /* alias — Button outline/ghost/ondark text */
+  --color-on-tertiary-hover: var(--color-text-on-action-tertiary-hover); /* alias — hover state */
   --color-text-link:            var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text */
   --color-text-link-hover:      var(--iron-pink-500);    /* #E01A59 — Hovered / active link state */
 
@@ -254,6 +256,7 @@
   --color-border-strong:    var(--slate-300);    /* #CAD5E2 — slate/300 — hover borders, strong dividers */
   --color-border-alt:       var(--iron-blue-500);     /* #2693EC — brand/secondary — focused inputs, active outlines */
   --color-border-focus:     var(--iron-blue-500);     /* #2693EC — focus ring (accessibility) */
+  --color-border-focused:   var(--color-border-focus); /* alias — Button ghost variant naming */
   --color-border-selected:  var(--iron-blue-500);     /* #2693EC — selected item outline */
   --color-border-error:     var(--iron-red-500);      /* #E5242A — error state border (Figma: danger) */
 
@@ -421,6 +424,7 @@
   --rounded-3xl:  24px;     /* Buttons, large containers */
   --rounded-4xl:  32px;     /* CTA buttons, pill shapes */
   --rounded-full: 9999px;   /* Perfect circle or infinite pill */
+  --rounded-cta:  var(--rounded-full);   /* alias — Button component pill shape */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
@@ -434,6 +438,8 @@
   --shadow-focus-blue:    0 0 0 3px rgba(42, 149, 213, 0.25);  /* Focus ring — primary */
   --shadow-focus-teal:    0 0 0 3px rgba(99, 193, 160, 0.25);  /* Focus ring — secondary */
   --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);   /* Focus ring — destructive */
+  --focus-ring-blue:      0 0 0 3px rgba(38, 147, 236, 0.25);  /* Focus ring — Button secondary/outline/ondark (iron-blue-500 @25%) */
+  --focus-ring-white:     0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
@@ -451,12 +457,23 @@
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
+     6c. OVERLAY TINTS  (hover/press fills over existing content, not a solid color)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --ghost-hover:  rgba(0, 0, 0, 0.05);     /* transparent/black/5 — Button ghost hover fill */
+  --ondark-tint:  rgba(255, 255, 255, 0.04); /* transparent/white/4 — Button ondark base fill */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
      7. SIZING / COMPONENT DIMENSIONS
      ═══════════════════════════════════════════════════════════════════════════ */
 
   --size-btn-primary:   3.5rem;    /* 56px — Large */
   --size-btn-secondary: 3rem;      /* 48px — Default */
   --size-btn-small:     2.25rem;   /* 36px — Small (Figma updated 2026-07-07, was 40px) */
+  --size-btn-lg:        var(--size-btn-primary);    /* alias — Button component naming */
+  --size-btn-md:        var(--size-btn-secondary);  /* alias — Button component naming */
+  --size-btn-sm:        var(--size-btn-small);      /* alias — Button component naming */
   --size-input:         2.75rem;   /* 44px */
   --size-nav:           2.5rem;    /* 40px */
   --size-touch-min:     2.75rem;   /* 44px — minimum touch target */
