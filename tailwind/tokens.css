@@ -438,6 +438,7 @@
   --shadow-focus-blue:    0 0 0 3px rgba(42, 149, 213, 0.25);  /* Focus ring — primary */
   --shadow-focus-teal:    0 0 0 3px rgba(99, 193, 160, 0.25);  /* Focus ring — secondary */
   --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);   /* Focus ring — destructive */
+  --shadow-tooltip:       0 4px 16px 0 rgba(0, 0, 0, 0.25);    /* Tooltip drop shadow */
   --focus-ring-blue:      0 0 0 3px rgba(38, 147, 236, 0.25);  /* Focus ring — Button secondary/outline/ondark (iron-blue-500 @25%) */
   --focus-ring-white:     0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
 
@@ -478,7 +479,9 @@
   --size-nav:           2.5rem;    /* 40px */
   --size-touch-min:     2.75rem;   /* 44px — minimum touch target */
   --size-touch-nav:     3rem;      /* 48px — mobile nav icons */
-  --size-container-max: 90rem;     /* 1440px */
+  --size-container-max:     90rem;   /* 1440px — full-bleed section width */
+  --size-container-content: 80rem;   /* 1280px — narrower content column (e.g. Product Footer) */
+  --size-box:               1.125rem; /* 18px — Checkbox/Radio control size */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,121 @@
+---
+interface Product {
+  prefix: string;   // e.g. "IRON"
+  suffix: string;   // e.g. "PDF"
+  desc: string;
+  accent?: string;  // CSS color for the suffix, e.g. "var(--iron-blue-500)"
+  href?: string;
+}
+
+interface Props {
+  /** Suite: full-brand headline for homepage/generic pages. Default: names the current product (cross-sell). */
+  variant?: 'suite' | 'default';
+  /** Required when variant="default" — e.g. "IronPDF" */
+  productName?: string;
+  products: Product[];
+  donateImgSrc?: string;
+  suiteLogoImgSrc?: string;
+  productLogoSrc?: string;
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  productName,
+  products,
+  donateImgSrc = 'assets/1% logo - Horizontal.png',
+  suiteLogoImgSrc = 'assets/hash-white color.svg',
+  productLogoSrc = 'assets/logo.svg',
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={['footer-top', className]}>
+  <div class="ft-inner">
+    <div class="ft-left">
+      <div class="ft-donate">Every Iron Suite Donates <img src={donateImgSrc} alt="1% For The Planet" /></div>
+      <div class="ft-main">
+        <div class="ft-text">
+          {variant === 'suite' ? (
+            <div class="f-suite-logo">
+              <img src={suiteLogoImgSrc} alt="" />
+              <span><span class="hl">IRON</span><span class="ac">SUITE</span></span>
+            </div>
+          ) : (
+            <div class="ft-headline">{productName} is a part of <span class="hl">IRON</span><span class="ac">SUITE</span></div>
+          )}
+          <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
+        </div>
+        <div class="ft-actions">
+          <a href="#" class="btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
+          <a href="#" class="btn-text-light">🔑 Start Free Trial <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="ft-divider"></div>
+    <div class="ft-right">
+      <ul class="f-products">
+        {products.map((p) => (
+          <li class="fp-row">
+            <span class="fp-logo"><img src={productLogoSrc} alt="" /></span>
+            <span class="fp-name">{p.prefix}<span class="suffix" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
+            <span class="fp-sep">-</span>
+            <span class="fp-desc">{p.desc}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  .footer-top {
+    background-color: var(--color-bg-dark-shade);
+    background-image: url('assets/Rainbow.svg'); background-size: cover; background-position: center;
+    color: var(--color-text-on-color-heading); position: relative; overflow: hidden;
+  }
+  .ft-inner { max-width: var(--size-container-content); margin: 0 auto; display: flex; align-items: stretch; padding: var(--spacing-4xl) 0; }
+  .ft-left { flex: 1; padding: 0 var(--spacing-3xl); display: flex; flex-direction: column; }
+  .ft-divider { background: rgba(255,255,255,.10); width: 2px; flex-shrink: 0; align-self: stretch; }
+  .ft-right { flex: 1; padding: 0 var(--spacing-3xl); }
+  .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: 500; color: var(--color-text-on-color-heading); letter-spacing: var(--letter-spacing-nav-label); }
+  .ft-donate img { height: 30px; width: auto; display: block; }
+  .ft-main { display: flex; flex-direction: column; gap: var(--spacing-2xl); padding-top: var(--spacing-3xl); }
+  .ft-text { display: flex; flex-direction: column; gap: var(--spacing-md); }
+  .f-suite-logo { font-weight: 700; font-size: var(--font-size-3xl); display: flex; align-items: center; gap: var(--spacing-micro); }
+  .f-suite-logo img { height: 30px; width: auto; display: block; }
+  .ft-headline { font-weight: 700; font-size: var(--font-size-3xl); color: var(--color-text-on-color-heading); line-height: 1.2; }
+  .ft-headline .hl, .f-suite-logo .hl { color: var(--color-text-on-color-heading); font-weight: 700; }
+  .ft-headline .ac, .f-suite-logo .ac { color: var(--color-primary); font-weight: 400; }
+  .ft-tagline { font-size: var(--font-size-xl); font-weight: 700; line-height: var(--leading-7); }
+  .ft-tagline .dim { color: var(--color-text-dark-heading); }     /* near-white */
+  .ft-tagline .support { color: var(--color-text-dark-support); } /* dusty violet */
+  .ft-actions { display: flex; align-items: center; gap: var(--spacing-2xl); flex-wrap: wrap; }
+  .btn-dark {
+    display: inline-flex; align-items: center; gap: 8px; height: var(--size-btn-lg); padding: 0 var(--spacing-2xl);
+    border: none; border-radius: var(--rounded-cta); font-family: 'Montserrat', sans-serif; font-weight: 700;
+    cursor: pointer; text-decoration: none; background: var(--color-button-tertiary); color: var(--color-text-on-color-heading);
+  }
+  .btn-dark:hover { background: var(--color-button-tertiary-hover); }
+  .btn-dark:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(255,255,255,.4); }
+  .btn-dark .arr, .btn-text-light .arr { transition: transform .16s; }
+  .btn-dark:hover .arr, .btn-text-light:hover .arr { transform: translateX(3px); }
+  .btn-text-light {
+    background: none; border: none; color: var(--color-text-on-color-heading);
+    font-size: var(--font-size-base); font-weight: 700; display: inline-flex; align-items: center; gap: var(--spacing-sm);
+    cursor: pointer; padding: 0; text-decoration: none; transition: opacity .16s;
+  }
+  .btn-text-light:hover { opacity: .8; }
+  .f-products { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; }
+  .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: 1.5; gap: var(--spacing-micro); cursor: pointer; }
+  .fp-logo { width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; }
+  .fp-logo img { width: 22px; height: 22px; display: block; opacity: 0; transition: opacity .2s; }
+  .fp-row:hover .fp-logo img { opacity: 1; }
+  .fp-name { font-size: var(--font-size-lg); font-weight: 700; letter-spacing: var(--letter-spacing-h4); color: var(--color-text-on-color-heading); display: flex; align-items: baseline; }
+  .fp-name .suffix { font-weight: 400; }
+  .fp-sep { font-size: var(--font-size-sm); color: var(--color-text-dark-support); margin: 0 var(--spacing-micro); transition: color .2s; }
+  .fp-row:hover .fp-sep { color: var(--color-text-on-color-heading); }
+  .fp-desc { font-size: var(--font-size-sm); color: var(--color-text-dark-support); transition: color .2s; }
+  .fp-row:hover .fp-desc { color: var(--color-text-on-color-body); }
+  @media (max-width: 640px) { .ft-inner { flex-direction: column; gap: 32px; } .ft-divider { display: none; } }
+</style>

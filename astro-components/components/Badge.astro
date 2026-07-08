@@ -1,0 +1,60 @@
+---
+interface Props {
+  intent?: 'success' | 'warning' | 'danger' | 'info' | 'neutral';
+  solid?: boolean;
+  small?: boolean;
+  square?: boolean;
+  dot?: boolean;
+  class?: string;
+}
+
+const {
+  intent = 'neutral',
+  solid = false,
+  small = false,
+  square = false,
+  dot = false,
+  class: className,
+} = Astro.props;
+---
+
+<span class:list={['badge', `badge--${intent}`, { solid, sm: small, sq: square }, className]}>
+  {dot && <span class="bdot"></span>}
+  <slot />
+</span>
+
+<style>
+  /*
+    NOTE: the subtle background + solid-text colors below are copied verbatim from
+    docs/component-badge.html's local <style> override, which does NOT match the
+    canonical iron-*-100 subtle scale in tailwind/tokens.css (e.g. success subtle
+    here is #EBF9F3 vs the canonical --color-success-subtle #E8F6F1), and the
+    success/warning *text* colors (#2E9468, #B45309) don't exist anywhere in the
+    canonical scale at all — they look like bespoke, darker shades chosen for
+    text-on-light-background contrast that were never promoted to real tokens.
+    Flagged for design sign-off; using the literal values here so this component
+    visually matches the live docs today instead of silently inventing new tokens.
+  */
+  .badge {
+    display: inline-flex; align-items: center; gap: var(--spacing-micro);
+    font-family: 'Montserrat', sans-serif; font-size: var(--font-size-xs); font-weight: 700;
+    line-height: 1; padding: 5px 10px; border-radius: var(--rounded-full); white-space: nowrap; letter-spacing: 0.01em;
+  }
+  .badge .bdot { width: 6px; height: 6px; border-radius: var(--rounded-full); background: currentColor; }
+
+  .badge--success { background: #EBF9F3; color: #2E9468; }
+  .badge--warning { background: #FEF4E6; color: #B45309; }
+  .badge--danger  { background: #FDEEF0; color: #C91D23; }
+  .badge--info    { background: #EBF5FD; color: #185FA5; }
+  .badge--neutral { background: var(--color-neutral-subtle, #F1F5F9); color: var(--slate-600); }
+
+  .badge.solid { color: #fff; }
+  .badge.solid.badge--success { background: #2E9468; }
+  .badge.solid.badge--warning { background: #D97706; }
+  .badge.solid.badge--danger  { background: var(--color-danger); }
+  .badge.solid.badge--info    { background: var(--color-secondary); }
+  .badge.solid.badge--neutral { background: var(--slate-600); }
+
+  .badge.sm { font-size: 11px; padding: 3px 8px; }
+  .badge.sq { border-radius: var(--rounded-sm); }
+</style>
