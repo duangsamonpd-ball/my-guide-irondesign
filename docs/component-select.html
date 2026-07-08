@@ -227,13 +227,16 @@
   &lt;/<span class="c-tag">div</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;</pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.sel-trigger</span> {
-  height: <span class="c-str">var(--size-input)</span>;
+  width: 100%; height: <span class="c-str">var(--size-input)</span>;
   border: 1.5px solid <span class="c-str">var(--color-border)</span>;
   border-radius: <span class="c-str">var(--rounded-md)</span>;
 }
 <span class="c-key">.sel.open .sel-trigger</span> { border-color: <span class="c-str">var(--color-secondary)</span>; box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }
+<span class="c-key">.sel.error .sel-trigger</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
+<span class="c-key">.sel.disabled .sel-trigger</span> { background: <span class="c-str">var(--color-bg-shade)</span>; color: <span class="c-str">var(--color-text-muted)</span>; cursor: not-allowed; }
 <span class="c-key">.sel-menu</span> { box-shadow: <span class="c-str">var(--shadow-float)</span>; border-radius: <span class="c-str">var(--rounded-lg)</span>; }
-<span class="c-key">.sel-opt.selected</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; color: <span class="c-str">var(--color-secondary)</span>; }</pre>
+<span class="c-key">.sel-opt.selected</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; color: <span class="c-str">var(--color-secondary)</span>; }
+<span class="c-key">.sel-opt .ck</span> { opacity: 0; }  <span class="c-key">.sel-opt.selected .ck</span> { opacity: 1; }   <span class="c-com">/* checkmark only on selected */</span></pre>
         </div>
     </div>
 

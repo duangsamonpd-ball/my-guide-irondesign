@@ -213,20 +213,25 @@
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">placeholder</span>=<span class="c-str">"you@example.com"</span>&gt;
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
+  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">label</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"input-wrap"</span>&gt;
+    &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">placeholder</span>=<span class="c-str">"you@example.com"</span>&gt;
+  &lt;/<span class="c-tag">div</span>&gt;
   &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;We'll never share your email.&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">label</span>&gt;
+&lt;/<span class="c-tag">div</span>&gt;
 
-<span class="c-com">&lt;!-- error state --&gt;</span>
-&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input error"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">value</span>=<span class="c-str">"not-an-email"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;Enter a valid email address.&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">label</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.input</span> {
-  height: <span class="c-str">var(--size-input)</span>;
+<span class="c-com">&lt;!-- error state — note .field-error, NOT .field-hint, for the message --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
+  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">label</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"input-wrap"</span>&gt;
+    &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input error"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">value</span>=<span class="c-str">"not-an-email"</span>&gt;
+  &lt;/<span class="c-tag">div</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-error"</span>&gt;Enter a valid email address.&lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">div</span>&gt;</pre>
+<pre class="code-pane" data-lang="css"><span class="c-key">.input-wrap</span> { position: relative; display: flex; align-items: center; }
+<span class="c-key">.input</span> {
+  width: 100%; height: <span class="c-str">var(--size-input)</span>;
   border: 1.5px solid <span class="c-str">var(--color-border)</span>;
   border-radius: <span class="c-str">var(--rounded-md)</span>;
 }
@@ -234,7 +239,10 @@
   border-color: <span class="c-str">var(--color-secondary)</span>;
   box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>;
 }
-<span class="c-key">.input.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }</pre>
+<span class="c-key">.input.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
+<span class="c-key">.input.error:focus</span> { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }   <span class="c-com">/* danger-coloured ring */</span>
+<span class="c-key">.field-hint</span>  { font-size: <span class="c-str">var(--font-size-caption)</span>; color: <span class="c-str">var(--color-text-support)</span>; }
+<span class="c-key">.field-error</span> { font-size: <span class="c-str">var(--font-size-caption)</span>; color: <span class="c-str">var(--color-danger)</span>; font-weight: 500; }</pre>
         </div>
     </div>
 
