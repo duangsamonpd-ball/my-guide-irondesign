@@ -8,6 +8,7 @@
 
 [![Live Docs](https://img.shields.io/badge/docs-live-2693EC?style=flat-square)](https://duangsamonpd-ball.github.io/my-guide-irondesign/)
 [![Tokens](https://img.shields.io/badge/tokens-W3C%20%C2%B7%20Tailwind%20%C2%B7%20CSS-E01A59?style=flat-square)](tokens/)
+[![Astro](https://img.shields.io/badge/components-Astro%20%C2%B7%208%2F8-FF5D01?style=flat-square)](astro-components/)
 [![Font](https://img.shields.io/badge/type-Montserrat%20%2B%20Roboto%20Mono-63C1A0?style=flat-square)](docs/02-typography.html)
 [![License](https://img.shields.io/badge/internal-Iron%20Software-185FA5?style=flat-square)](#)
 
@@ -66,6 +67,27 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ---
 
+## 🧬 Astro components
+
+All 8 core components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
+
+| Component | Notes |
+|---|---|
+| `Button.astro` | 6 variants × 3 sizes, renders `<a>` when given `href` |
+| `Input.astro` | Label, hint/error states, disabled, required |
+| `Select.astro` | Custom dropdown + a hidden native `<select>` so forms still work with JS off |
+| `Checkbox.astro` | Basic, with description, or whole-card `card` layout |
+| `Radio.astro` | Same three layouts as Checkbox, grouped by `name` |
+| `Badge.astro` | 5 intents, solid/subtle, small, square, leading dot |
+| `Tooltip.astro` | Optional title, link, 4 placements, hover-with-a-gap JS interaction |
+| `Footer.astro` | Suite vs. Default headline variant, configurable product list |
+
+Every component's CSS references `tailwind/tokens.css` — import the token file once, globally, before using any component. Full usage examples and props are in [`astro-components/README.md`](astro-components/README.md).
+
+> **Known gap:** `Badge.astro`'s subtle-background and solid-text colors are copied from the docs page as-is and don't fully match the canonical `iron-*-100` scale (a couple of shades — success/warning text — don't exist as tokens anywhere yet). Flagged in the component's own code comment, pending a real color decision before promoting them to `tailwind/tokens.css`.
+
+---
+
 ## 🚀 Quick start
 
 ### Option 1 — Plain CSS
@@ -105,6 +127,18 @@ import tokens from './tokens/tokens.w3c.json';
 tokens.color.primary.default.$value;   // "#E01A59"
 tokens.typography.scale.h1.$value;     // { fontSize: "40px", fontWeight: 900, … }
 ```
+
+### Option 4 — Astro components
+
+```astro
+---
+import '../../tailwind/tokens.css';
+import Button from '../../astro-components/components/Button.astro';
+---
+<Button variant="primary" size="lg" href="/pricing">Get started</Button>
+```
+
+See [`astro-components/README.md`](astro-components/README.md) for the full component list and props.
 
 ---
 
@@ -182,9 +216,21 @@ iron-design-system/
 │   ├── tailwind.config.js     #    Tailwind theme (colors, fontSize, leading, screens …)
 │   └── colors.css             #    Raw 50–950 scale only
 │
-└── tokens/
-    ├── tokens.w3c.json        # ⭐ Source of truth (W3C Design Token format)
-    └── tokens.legacy.json     #    Tokens Studio format
+├── tokens/
+│   ├── tokens.w3c.json        # ⭐ Source of truth (W3C Design Token format)
+│   └── tokens.legacy.json     #    Tokens Studio format
+│
+└── astro-components/          # 🧬 .astro wrapper components (all 8, token-driven)
+    ├── README.md               #   Props + usage for every component
+    └── components/
+        ├── Button.astro
+        ├── Input.astro
+        ├── Select.astro
+        ├── Checkbox.astro
+        ├── Radio.astro
+        ├── Badge.astro
+        ├── Tooltip.astro
+        └── Footer.astro
 ```
 
 ---
@@ -209,6 +255,7 @@ Every change starts in Figma and lands in **all** token files plus the docs in a
    - `tokens/tokens.w3c.json` (source of truth)
    - `tokens/tokens.legacy.json` (Tokens Studio)
    - the relevant `docs/*.html` reference page(s)
+   - the matching `astro-components/components/*.astro` file, if the component has one
 4. **Verify** — preview the docs locally and confirm computed values match the spec.
 5. **Ship** — commit with a descriptive message and push (GitHub Pages auto-deploys).
 
