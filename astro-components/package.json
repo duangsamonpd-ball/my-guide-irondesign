@@ -1,0 +1,9 @@
+{
+  "name": "@iron-software/astro-components",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "peerDependencies": {
+    "astro": ">=4.0.0"
+  }
+}

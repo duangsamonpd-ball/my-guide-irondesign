@@ -1,0 +1,82 @@
+---
+interface Props {
+  label?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  placeholder?: string;
+  value?: string;
+  hint?: string;
+  error?: boolean;
+  errorMessage?: string;
+  disabled?: boolean;
+  required?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  id,
+  name,
+  type = 'text',
+  placeholder,
+  value,
+  hint,
+  error = false,
+  errorMessage,
+  disabled = false,
+  required = false,
+  class: className,
+} = Astro.props;
+
+const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class:list={['field', className]}>
+  {label && (
+    <label class="field-label" for={inputId}>
+      {label}{required && <span class="req"> *</span>}
+    </label>
+  )}
+  <div class="input-wrap">
+    <input
+      id={inputId}
+      name={name}
+      type={type}
+      class:list={['input', { error }]}
+      placeholder={placeholder}
+      value={value}
+      disabled={disabled}
+      required={required}
+    />
+  </div>
+  {error && errorMessage ? (
+    <span class="field-error">{errorMessage}</span>
+  ) : hint ? (
+    <span class="field-hint">{hint}</span>
+  ) : null}
+</div>
+
+<style>
+  .field { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 340px; }
+  .field-label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-heading); }
+  .field-label .req { color: var(--color-danger); }
+  .input-wrap { position: relative; display: flex; align-items: center; }
+  .input {
+    width: 100%; height: var(--size-input);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 0 14px; font-family: 'Montserrat', sans-serif;
+    font-size: var(--font-size-body); color: var(--color-text-body);
+    background: var(--color-bg-base); outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .input::placeholder { color: var(--color-text-muted); }
+  .input:hover { border-color: var(--color-border-strong); }
+  .input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
+  .input.error { border-color: var(--color-danger); }
+  .input.error:focus { box-shadow: var(--shadow-focus-magenta); }   /* danger-coloured ring */
+  .input:disabled { background: #F8FAFC; color: var(--color-text-muted); cursor: not-allowed; }
+  .field-hint  { font-size: var(--font-size-caption); color: var(--color-text-support); }
+  .field-error { font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; }
+</style>
