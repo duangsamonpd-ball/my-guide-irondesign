@@ -324,6 +324,13 @@
   &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"checkbox"</span>&gt;
   &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"box"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 12 12"</span> <span class="c-attr">fill</span>=<span class="c-str">"none"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">d</span>=<span class="c-str">"M2 6.2 4.6 8.8 10 3"</span> <span class="c-attr">stroke</span>=<span class="c-str">"#fff"</span> <span class="c-attr">stroke-width</span>=<span class="c-str">"2"</span> <span class="c-attr">stroke-linecap</span>=<span class="c-str">"round"</span> <span class="c-attr">stroke-linejoin</span>=<span class="c-str">"round"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
   &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Required&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">label</span>&gt;
+
+<span class="c-com">&lt;!-- card layout — whole card is the target --&gt;</span>
+&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"cbx cbx-card"</span>&gt;
+  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"checkbox"</span> <span class="c-attr">checked</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"box"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 12 12"</span> <span class="c-attr">fill</span>=<span class="c-str">"none"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">d</span>=<span class="c-str">"M2 6.2 4.6 8.8 10 3"</span> <span class="c-attr">stroke</span>=<span class="c-str">"#fff"</span> <span class="c-attr">stroke-width</span>=<span class="c-str">"2"</span> <span class="c-attr">stroke-linecap</span>=<span class="c-str">"round"</span> <span class="c-attr">stroke-linejoin</span>=<span class="c-str">"round"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Accept terms and conditions&lt;/<span class="c-tag">span</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;By clicking this checkbox, you agree.&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">label</span>&gt;</pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.cbx .box</span> {
   width: <span class="c-str">var(--size-box)</span>; height: <span class="c-str">var(--size-box)</span>;
@@ -337,6 +344,11 @@
 }
 <span class="c-key">.cbx input:checked + .box svg</span> { opacity: 1; transform: scale(1); }
 <span class="c-key">.cbx input:focus-visible + .box</span> { box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }
+<span class="c-key">.cbx-card</span> {        <span class="c-com">/* whole-card selectable layout */</span>
+  border: 1.5px solid <span class="c-str">var(--color-border)</span>; border-radius: <span class="c-str">var(--rounded-xl)</span>; padding: 14px 16px;
+}
+<span class="c-key">.cbx-card:hover</span> { border-color: <span class="c-str">var(--color-border-strong)</span>; }
+<span class="c-key">.cbx-card:has(input:checked)</span> { border-color: <span class="c-str">var(--color-secondary)</span>; background: <span class="c-str">var(--color-bg-card-alt)</span>; }
 <span class="c-key">.cbx.invalid .box</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
 <span class="c-key">.cbx.invalid input:checked + .box</span> { background: <span class="c-str">var(--color-danger)</span>; border-color: <span class="c-str">var(--color-danger)</span>; }</pre>
         </div>

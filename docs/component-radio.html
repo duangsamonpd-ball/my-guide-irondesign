@@ -208,6 +208,13 @@
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Pro&lt;/<span class="c-tag">span</span>&gt;
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;For growing teams.&lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">label</span>&gt;
+
+<span class="c-com">&lt;!-- card group — whole card is the target --&gt;</span>
+&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"rdo rdo-card"</span>&gt;
+  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"radio"</span> <span class="c-attr">name</span>=<span class="c-str">"bill"</span> <span class="c-attr">checked</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dot"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Monthly&lt;/<span class="c-tag">span</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;$29 / month, cancel anytime.&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">label</span>&gt;</pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.rdo .dot</span> {
   width: <span class="c-str">var(--size-box)</span>; border-radius: <span class="c-str">var(--rounded-full)</span>;
@@ -217,6 +224,11 @@
 <span class="c-key">.rdo .dot::after</span> {        <span class="c-com">/* inner dot — always filled, hidden via scale(0) */</span>
   background: <span class="c-str">var(--color-secondary)</span>; transform: scale(0);
 }
+<span class="c-key">.rdo-card</span> {        <span class="c-com">/* whole-card selectable variant */</span>
+  border: 1.5px solid <span class="c-str">var(--color-border)</span>; border-radius: <span class="c-str">var(--rounded-xl)</span>; padding: 14px 16px;
+}
+<span class="c-key">.rdo-card:hover</span> { border-color: <span class="c-str">var(--color-border-strong)</span>; }
+<span class="c-key">.rdo-card:has(input:checked)</span> { border-color: <span class="c-str">var(--color-secondary)</span>; background: <span class="c-str">var(--color-bg-card-alt)</span>; }
 <span class="c-key">.rdo input:checked + .dot::after</span> { transform: scale(1); }        <span class="c-com">/* :checked only reveals it */</span></pre>
         </div>
     </div>
