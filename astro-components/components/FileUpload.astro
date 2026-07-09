@@ -1,0 +1,128 @@
+---
+interface Props {
+  label?: string;
+  linkText?: string;
+  sizeLimitText?: string;
+  name?: string;
+  accept?: string;
+  error?: boolean;
+  errorMessage?: string;
+  disabled?: boolean;
+  fileName?: string;
+  fileSize?: string;
+  class?: string;
+}
+
+const {
+  label = 'Drag & drop your file',
+  linkText = 'Select file from computer',
+  sizeLimitText = 'Size up to 100 MB',
+  name,
+  accept,
+  error = false,
+  errorMessage,
+  disabled = false,
+  fileName,
+  fileSize,
+  class: className,
+} = Astro.props;
+
+const hasFile = !!fileName;
+---
+
+<label class:list={['dropzone', { error, 'has-file': hasFile, 'is-disabled': disabled }, className]}>
+  <input type="file" name={name} accept={accept} disabled={disabled} class="dropzone-input" />
+  <div class="dropzone-left">
+    <span class="dropzone-icon">{hasFile ? '✓' : error ? '!' : '✛'}</span>
+    <div class="dropzone-text">
+      {hasFile ? (
+        <div class="title">{fileName}</div>
+      ) : (
+        <div class="title">{error ? (errorMessage || 'Upload failed') : label}</div>
+      )}
+      {hasFile && fileSize ? (
+        <span class="size-label">{fileSize}</span>
+      ) : (
+        <span class="link">{linkText} →</span>
+      )}
+    </div>
+  </div>
+  {!hasFile && sizeLimitText && <span class="dropzone-size">{sizeLimitText}</span>}
+  {hasFile && <button type="button" class="dz-remove">Remove</button>}
+</label>
+
+<style>
+  .dropzone {
+    border: 1.5px dashed var(--color-border-strong); border-radius: var(--rounded-lg);
+    background: var(--color-bg-base); padding: 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    cursor: pointer; position: relative;
+    transition: border-color .15s, background .15s;
+  }
+  .dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .dropzone-left { display: flex; align-items: center; gap: 16px; min-width: 0; }
+  .dropzone-icon {
+    width: 40px; height: 40px; border-radius: var(--rounded-lg); flex-shrink: 0;
+    background: rgba(38,147,236,0.06); border: 1px solid rgba(38,147,236,0.10);
+    color: var(--color-secondary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  }
+  .dropzone-text { min-width: 0; }
+  .dropzone-text .title { font-size: var(--font-size-body); color: var(--color-text-body); margin-bottom: 4px; }
+  .dropzone-text .link { font-size: 1rem; font-weight: 700; color: var(--color-secondary); }
+  .dropzone-text .size-label { font-size: 0.85rem; color: var(--color-text-support); }
+  .dropzone-size { font-size: var(--font-size-body); color: var(--color-text-support); white-space: nowrap; flex-shrink: 0; }
+  .dropzone:hover, .dropzone.is-dragover { border-color: var(--color-secondary); background: #F2F9FE; }
+  .dropzone.is-dragover .dropzone-icon { background: rgba(38,147,236,0.12); }
+  .dropzone.error { border-color: var(--color-danger); }
+  .dropzone.error .dropzone-icon { background: rgba(229,36,42,0.06); border-color: rgba(229,36,42,0.10); color: var(--color-danger); }
+  .dropzone.is-disabled { opacity: .5; cursor: not-allowed; }
+  .dropzone.is-disabled .dropzone-input { cursor: not-allowed; }
+  .dropzone.has-file { border-style: solid; border-color: var(--color-border); cursor: default; }
+  .dropzone.has-file .dropzone-icon { background: rgba(46,148,104,0.08); border-color: rgba(46,148,104,0.14); color: #2E9468; }
+  .dz-remove {
+    font-size: 0.72rem; font-weight: 700; color: var(--color-text-support);
+    background: none; border: none; cursor: pointer; padding: 4px 8px; position: relative; z-index: 1;
+  }
+  .dz-remove:hover { color: var(--color-danger); }
+</style>
+
+<script>
+  function initDropzones(root: ParentNode = document) {
+    root.querySelectorAll<HTMLElement>('.dropzone:not([data-dz-init])').forEach((dz) => {
+      dz.dataset.dzInit = '1';
+      const input = dz.querySelector<HTMLInputElement>('.dropzone-input');
+      const removeBtn = dz.querySelector<HTMLButtonElement>('.dz-remove');
+
+      ['dragenter', 'dragover'].forEach((evt) =>
+        dz.addEventListener(evt, (e) => {
+          e.preventDefault();
+          if (!dz.classList.contains('is-disabled')) dz.classList.add('is-dragover');
+        })
+      );
+      ['dragleave', 'drop'].forEach((evt) =>
+        dz.addEventListener(evt, (e) => {
+          e.preventDefault();
+          dz.classList.remove('is-dragover');
+        })
+      );
+      dz.addEventListener('drop', (e: DragEvent) => {
+        const file = e.dataTransfer?.files?.[0];
+        if (file && input) {
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          input.files = dt.files;
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+
+      removeBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dz.dispatchEvent(new CustomEvent('file-remove', { bubbles: true }));
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => initDropzones());
+  document.addEventListener('astro:page-load', () => initDropzones());
+</script>

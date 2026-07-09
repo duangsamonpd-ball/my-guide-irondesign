@@ -1,0 +1,78 @@
+---
+interface Props {
+  label?: string;
+  id?: string;
+  name?: string;
+  placeholder?: string;
+  value?: string;
+  rows?: number;
+  hint?: string;
+  error?: boolean;
+  errorMessage?: string;
+  disabled?: boolean;
+  required?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  id,
+  name,
+  placeholder,
+  value,
+  rows = 3,
+  hint,
+  error = false,
+  errorMessage,
+  disabled = false,
+  required = false,
+  class: className,
+} = Astro.props;
+
+const textareaId = id ?? name ?? `textarea-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class:list={['field', className]}>
+  {label && (
+    <label class="field-label" for={textareaId}>
+      {label}{required && <span class="req"> *</span>}
+    </label>
+  )}
+  <textarea
+    id={textareaId}
+    name={name}
+    rows={rows}
+    class:list={['textarea', { error }]}
+    placeholder={placeholder}
+    disabled={disabled}
+    required={required}
+  >{value}</textarea>
+  {error && errorMessage ? (
+    <span class="field-error">{errorMessage}</span>
+  ) : hint ? (
+    <span class="field-hint">{hint}</span>
+  ) : null}
+</div>
+
+<style>
+  .field { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 340px; }
+  .field-label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-heading); }
+  .field-label .req { color: var(--color-danger); }
+  .textarea {
+    width: 100%; min-height: 86px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 14px 16px; font-family: 'Montserrat', sans-serif;
+    font-size: var(--font-size-body); color: var(--color-text-body);
+    background: var(--color-bg-base); outline: none; resize: vertical; line-height: 1.5;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .textarea::placeholder { color: var(--color-text-support); }
+  .textarea:hover { border-color: var(--color-border-strong); }
+  .textarea:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
+  .textarea.error { border-color: var(--color-danger); }
+  .textarea.error:focus { box-shadow: var(--shadow-focus-magenta); }
+  .textarea:disabled { background: #F8FAFC; color: var(--color-text-muted); cursor: not-allowed; resize: none; }
+  .field-hint  { font-size: var(--font-size-caption); color: var(--color-text-support); }
+  .field-error { font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; }
+</style>

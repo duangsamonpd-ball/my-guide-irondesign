@@ -1,0 +1,66 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  subtitle?: string;
+  submitLabel: string;
+  noteLeft?: string;
+  noteRight?: string;
+  class?: string;
+}
+
+const { icon, title, subtitle, submitLabel, noteLeft, noteRight, class: className } = Astro.props;
+---
+
+<div class:list={['form-card', className]}>
+  <div class="fc-title">
+    <span class="fc-icon">{icon}</span>
+    <div class="fc-heading">
+      <h3>{title}</h3>
+      {subtitle && <p>{subtitle}</p>}
+    </div>
+  </div>
+  <div class="fc-fields">
+    <slot />
+  </div>
+  <div class="fc-last">
+    <button type="submit" class="fc-submit">{submitLabel} <span class="arr">→</span></button>
+    {(noteLeft || noteRight) && (
+      <div class="fc-notes">
+        {noteLeft && <span>{noteLeft}</span>}
+        {noteLeft && noteRight && <span class="fc-sep"></span>}
+        {noteRight && <span>{noteRight}</span>}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .form-card {
+    background: var(--color-bg-base); border: 1px solid var(--color-border); border-radius: var(--rounded-2xl);
+    padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 540px;
+  }
+  .fc-title { display: flex; align-items: center; gap: 16px; }
+  .fc-icon {
+    width: 64px; height: 64px; flex-shrink: 0; border-radius: var(--rounded-lg);
+    background: rgba(38,147,236,0.06); border: 1px solid rgba(38,147,236,0.10);
+    display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+  }
+  .fc-heading h3 { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--color-text-heading); }
+  .fc-heading p { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; color: var(--color-text-support); margin-top: 4px; }
+  .fc-fields { display: flex; flex-direction: column; gap: 20px; }
+  .fc-fields :global(.field) { max-width: none; }
+  .fc-last { display: flex; flex-direction: column; gap: 12px; }
+  .fc-submit {
+    width: 100%; height: var(--size-btn-lg); border: none; border-radius: var(--rounded-cta);
+    background: var(--color-primary); color: var(--color-primary-on); font-family: 'Montserrat', sans-serif;
+    font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background .15s;
+  }
+  .fc-submit:hover { background: var(--color-primary-hover); }
+  .fc-submit .arr { transition: transform .16s; }
+  .fc-submit:hover .arr { transform: translateX(3px); }
+  .fc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 0.78rem; color: var(--color-text-support); }
+  .fc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); }
+</style>

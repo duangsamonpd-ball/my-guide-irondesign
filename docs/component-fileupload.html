@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Input · Components · Iron Software DS</title>
+  <title>File Upload · Components · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
-      --color-secondary:#2693EC; --color-danger:#E5242A;
+      --color-secondary:#2693EC; --color-primary:#E01A59; --color-danger:#E5242A;
       --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#90A1B9; --color-text-muted:#A1A1A1;
       --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF;
-      --rounded-sm:4px; --rounded-md:6px;
-      --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
-      --size-input:44px; --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
+      --rounded-md:6px; --rounded-lg:8px;
+      --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25);
+      --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
       --space-xs:8px; --space-sm:12px;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
@@ -51,7 +51,7 @@
     .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
     .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:40px; display:flex; gap:24px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
     .canvas.col { flex-direction:column; align-items:stretch; gap:20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
     .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
     .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; }
     .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
@@ -76,32 +76,34 @@
     .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
     .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; } .atag b { color:#2693EC; }
     footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-
-    /* ════ INPUT (token-driven) ════ */
-    .field { display:flex; flex-direction:column; gap:6px; width:100%; max-width:340px; }
-    .field-label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); }
-    .field-label .req { color:var(--color-danger); }
-    .input-wrap { position:relative; display:flex; align-items:center; }
-    .input { width:100%; height:var(--size-input); border:1.5px solid var(--color-border); border-radius:var(--rounded-md); padding:0 14px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); background:var(--color-bg-base); outline:none; transition:border-color .15s, box-shadow .15s; }
-    .input::placeholder { color:var(--color-text-muted); }
-    .input:hover { border-color:var(--color-border-strong); }
-    .input:focus, .input.is-focus { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
-    .input.error { border-color:var(--color-danger); }
-    .input.error:focus, .input.error.is-focus { box-shadow:var(--shadow-focus-magenta); }
-    .input:disabled, .input.is-disabled { background:#F8FAFC; color:var(--color-text-muted); cursor:not-allowed; }
-    .input.has-icon { padding-left:38px; }
-    .input-icon { position:absolute; left:13px; color:var(--color-text-muted); font-size:0.95rem; pointer-events:none; }
-    .field-hint { font-size:var(--font-size-caption); color:var(--color-text-support); }
-    .field-error { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; }
-
-    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-      .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
     .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
     .code-tab:hover{color:#E5E5E5;}
     .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
     .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
+
+    /* ════ FILE UPLOAD / DROPZONE (token-driven) ════ */
+    .dropzone { border:1.5px dashed var(--color-border-strong); border-radius:var(--rounded-lg); background:var(--color-bg-base); padding:24px; display:flex; align-items:center; justify-content:space-between; gap:16px; transition:border-color .15s, background .15s; }
+    .dropzone-left { display:flex; align-items:center; gap:16px; min-width:0; }
+    .dropzone-icon { width:40px; height:40px; border-radius:var(--rounded-lg); background:rgba(38,147,236,0.06); border:1px solid rgba(38,147,236,0.10); display:flex; align-items:center; justify-content:center; color:var(--color-secondary); flex-shrink:0; font-size:1.1rem; }
+    .dropzone-text { min-width:0; }
+    .dropzone-text .title { font-size:var(--font-size-body); color:var(--color-text-body); margin-bottom:4px; }
+    .dropzone-text .link { font-size:1rem; font-weight:700; color:var(--color-secondary); text-decoration:none; display:inline-flex; align-items:center; gap:4px; background:none; border:none; padding:0; cursor:pointer; font-family:'Montserrat',sans-serif; }
+    .dropzone-text .link:hover { color:var(--color-primary); }
+    .dropzone-size { font-size:var(--font-size-body); color:var(--color-text-support); white-space:nowrap; flex-shrink:0; }
+    .dropzone:hover, .dropzone.is-dragover { border-color:var(--color-secondary); background:#F2F9FE; }
+    .dropzone.is-dragover .dropzone-icon { background:rgba(38,147,236,0.12); }
+    .dropzone.error { border-color:var(--color-danger); }
+    .dropzone.error .dropzone-icon { background:rgba(229,36,42,0.06); border-color:rgba(229,36,42,0.10); color:var(--color-danger); }
+    .dropzone.is-disabled { opacity:.5; cursor:not-allowed; }
+    .dropzone.has-file { border-style:solid; border-color:var(--color-border); }
+    .dropzone.has-file .dropzone-icon { background:rgba(46,148,104,0.08); border-color:rgba(46,148,104,0.14); color:#2E9468; }
+    .dz-remove { font-size:0.72rem; font-weight:700; color:var(--color-text-support); background:none; border:none; cursor:pointer; padding:4px 8px; }
+    .dz-remove:hover { color:var(--color-danger); }
+
+    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
 </head>
 <body>
@@ -128,9 +130,9 @@
         <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
         <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
         <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
-        <a href="component-input.html" class="sidebar-link active"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
         <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
-        <a href="component-fileupload.html" class="sidebar-link"><i class="sidebar-icon">📎</i>File Upload</a>
+        <a href="component-fileupload.html" class="sidebar-link active"><i class="sidebar-icon">📎</i>File Upload</a>
         <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
         <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
         <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
@@ -145,66 +147,95 @@
   <div class="main-content"><div class="content">
 
     <div class="page-title">
-      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Input</div>
-      <h1>Input</h1>
-      <p class="lead">A single-line text field for collecting short user input — email, name, search. All states map to tokens, so focus, error and disabled stay on-brand. The fields below are live.</p>
-      <div class="meta-chips"><span class="chip">5 states</span><span class="chip">label · hint · error</span><span class="chip new">Token-driven</span></div>
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; File Upload</div>
+      <h1>File Upload</h1>
+      <p class="lead">A dashed dropzone for attaching a file — drag-and-drop or click to browse. Used in longer forms (quote requests, migration questionnaires) where a document helps the team respond faster.</p>
+      <div class="meta-chips"><span class="chip">5 states</span><span class="chip">drag &amp; drop</span><span class="chip new">Token-driven</span></div>
     </div>
 
     <div class="sect"><div class="sect-h">Preview</div>
-      <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Email address</label><div class="input-wrap"><input class="input" type="email" placeholder="you@example.com"></div><span class="field-hint">We'll never share your email.</span></div>
+      <div class="canvas col" style="max-width:560px;margin:0 auto;">
+        <div class="dropzone">
+          <div class="dropzone-left">
+            <span class="dropzone-icon">✛</span>
+            <div class="dropzone-text">
+              <div class="title">Drag &amp; drop your file</div>
+              <button class="link">Select file from computer →</button>
+            </div>
+          </div>
+          <span class="dropzone-size">Size up to 100 MB</span>
+        </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">States</div>
-      <div class="sect-sub">Default → hover → focus (secondary ring) → error (danger) → disabled.</div>
+      <div class="sect-sub">Default → hover / drag-over (secondary tint) → has file → error (invalid file) → disabled.</div>
       <div class="grid">
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input" placeholder="Placeholder"></div></div><div class="lbl">Default</div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input is-focus" value="Focused"></div></div><div class="lbl">Focus<small>secondary ring</small></div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input" value="Jane Cooper"></div></div><div class="lbl">Filled</div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input error" value="not-an-email"></div><span class="field-error">Enter a valid email.</span></div><div class="lbl">Error<small>danger border</small></div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input is-disabled" value="Disabled" disabled></div></div><div class="lbl">Disabled</div></div>
-      </div>
-    </div>
-
-    <div class="sect"><div class="sect-h">Compositions</div>
-      <div class="sect-sub">Label, hint, required marker, and a leading icon — combine as needed.</div>
-      <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Full name <span class="req">*</span></label><div class="input-wrap"><input class="input" placeholder="Jane Cooper"></div></div>
-        <div class="field"><label class="field-label">Search</label><div class="input-wrap"><span class="input-icon">⌕</span><input class="input has-icon" placeholder="Search products…"></div></div>
-        <div class="field"><label class="field-label">Password</label><div class="input-wrap"><input class="input error" type="password" value="123"></div><span class="field-error">Must be at least 8 characters.</span></div>
+        <div class="cell">
+          <div class="dropzone" style="padding:16px;">
+            <div class="dropzone-left"><span class="dropzone-icon">✛</span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file →</button></div></div>
+          </div>
+          <div class="lbl">Default</div>
+        </div>
+        <div class="cell">
+          <div class="dropzone is-dragover" style="padding:16px;">
+            <div class="dropzone-left"><span class="dropzone-icon">✛</span><div class="dropzone-text"><div class="title">Drop it here</div><button class="link">Select file →</button></div></div>
+          </div>
+          <div class="lbl">Drag-over<small>secondary tint</small></div>
+        </div>
+        <div class="cell">
+          <div class="dropzone has-file" style="padding:16px;">
+            <div class="dropzone-left"><span class="dropzone-icon">✓</span><div class="dropzone-text"><div class="title">quote-request.pdf</div><span style="font-size:0.72rem;color:var(--color-text-support);">2.4 MB</span></div></div>
+            <button class="dz-remove">Remove</button>
+          </div>
+          <div class="lbl">Has file</div>
+        </div>
+        <div class="cell">
+          <div class="dropzone error" style="padding:16px;">
+            <div class="dropzone-left"><span class="dropzone-icon">!</span><div class="dropzone-text"><div class="title">File too large</div><button class="link">Try another file →</button></div></div>
+          </div>
+          <div class="lbl">Error<small>danger border</small></div>
+        </div>
+        <div class="cell">
+          <div class="dropzone is-disabled" style="padding:16px;">
+            <div class="dropzone-left"><span class="dropzone-icon">✛</span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file →</button></div></div>
+          </div>
+          <div class="lbl">Disabled</div>
+        </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Anatomy</div>
-      <div class="sect-sub">The parts of a field and the token each is bound to.</div>
-      <div class="anatomy" style="align-items:stretch;max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Email address</label><div class="input-wrap"><input class="input" placeholder="you@example.com"></div><span class="field-hint">Helper text.</span></div>
+      <div class="sect-sub">The parts of the dropzone and the token each is bound to.</div>
+      <div class="anatomy" style="align-items:stretch;max-width:560px;margin:0 auto;">
+        <div class="dropzone">
+          <div class="dropzone-left"><span class="dropzone-icon">✛</span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file from computer →</button></div></div>
+          <span class="dropzone-size">Size up to 100 MB</span>
+        </div>
         <div class="anatomy-tags">
-          <span class="atag">height → <b>--size-input</b> (44px)</span>
-          <span class="atag">border → <b>--color-border</b></span>
-          <span class="atag">radius → <b>--rounded-md</b></span>
-          <span class="atag">focus → <b>--color-secondary</b> + ring</span>
-          <span class="atag">error → <b>--color-danger</b></span>
-          <span class="atag">label → <b>--font-size-label</b></span>
-          <span class="atag">placeholder → <b>--color-text-muted</b></span>
+          <span class="atag">border → <b>--color-border-strong</b> (dashed)</span>
+          <span class="atag">radius → <b>--rounded-lg</b></span>
+          <span class="atag">icon fill → <b>secondary @ 6%</b></span>
+          <span class="atag">icon border → <b>secondary @ 10%</b></span>
+          <span class="atag">link → <b>--color-secondary</b></span>
+          <span class="atag">hover → <b>--color-secondary</b> + tint bg</span>
+          <span class="atag">size label → <b>--color-text-support</b></span>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
-        <tr><td class="prop">Height</td><td class="token">--size-input</td><td class="val">44px</td></tr>
-        <tr><td class="prop">Border</td><td class="token">--color-border</td><td class="val"><span class="sw" style="background:#E2E8F0"></span>#E2E8F0</td></tr>
-        <tr><td class="prop">Border · hover</td><td class="token">--color-border-strong</td><td class="val"><span class="sw" style="background:#CAD5E2"></span>#CAD5E2</td></tr>
-        <tr><td class="prop">Border · focus</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-blue</td><td class="val">0 0 0 3px · 25%</td></tr>
+        <tr><td class="prop">Border</td><td class="token">--color-border-strong</td><td class="val"><span class="sw" style="background:#CAD5E2"></span>#CAD5E2</td></tr>
+        <tr><td class="prop">Border style</td><td class="token">— (fixed)</td><td class="val">dashed 1.5px</td></tr>
+        <tr><td class="prop">Border · hover / drag-over</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
         <tr><td class="prop">Border · error</td><td class="token">--color-danger</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
-        <tr><td class="prop">Radius</td><td class="token">--rounded-md</td><td class="val">6px</td></tr>
-        <tr><td class="prop">Text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
-        <tr><td class="prop">Placeholder</td><td class="token">--color-text-muted</td><td class="val"><span class="sw" style="background:#A1A1A1"></span>#A1A1A1</td></tr>
-        <tr><td class="prop">Label</td><td class="token">--font-size-label / --fw-label</td><td class="val">14px / 500</td></tr>
+        <tr><td class="prop">Radius</td><td class="token">--rounded-lg</td><td class="val">8px</td></tr>
+        <tr><td class="prop">Link text</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Link · hover</td><td class="token">--color-primary</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
+        <tr><td class="prop">Title text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
+        <tr><td class="prop">Size label</td><td class="token">--color-text-support</td><td class="val"><span class="sw" style="background:#90A1B9"></span>#90A1B9</td></tr>
+        <tr><td class="prop">Padding</td><td class="token">--space-xl</td><td class="val">24px</td></tr>
       </tbody></table>
     </div>
 
@@ -215,49 +246,54 @@
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"input-wrap"</span>&gt;
-    &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">placeholder</span>=<span class="c-str">"you@example.com"</span>&gt;
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone"</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-left"</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-icon"</span>&gt;✛&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-text"</span>&gt;
+      &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"title"</span>&gt;Drag &amp; drop your file&lt;/<span class="c-tag">div</span>&gt;
+      &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"link"</span>&gt;Select file from computer →&lt;/<span class="c-tag">button</span>&gt;
+    &lt;/<span class="c-tag">div</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;We'll never share your email.&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-size"</span>&gt;Size up to 100 MB&lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;
 
-<span class="c-com">&lt;!-- error state — note .field-error, NOT .field-hint, for the message --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"input-wrap"</span>&gt;
-    &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input error"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">value</span>=<span class="c-str">"not-an-email"</span>&gt;
+<span class="c-com">&lt;!-- has-file state — swap the icon/text once a file is selected --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone has-file"</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-left"</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-text"</span>&gt;&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"title"</span>&gt;quote-request.pdf&lt;/<span class="c-tag">div</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-error"</span>&gt;Enter a valid email address.&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"dz-remove"</span>&gt;Remove&lt;/<span class="c-tag">button</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.input-wrap</span> { position: relative; display: flex; align-items: center; }
-<span class="c-key">.input</span> {
-  width: 100%; height: <span class="c-str">var(--size-input)</span>;
-  border: 1.5px solid <span class="c-str">var(--color-border)</span>;
-  border-radius: <span class="c-str">var(--rounded-md)</span>;
+<pre class="code-pane" data-lang="css"><span class="c-key">.dropzone</span> {
+  border: 1.5px dashed <span class="c-str">var(--color-border-strong)</span>;
+  border-radius: <span class="c-str">var(--rounded-lg)</span>;
+  padding: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
-<span class="c-key">.input:focus</span> {
-  border-color: <span class="c-str">var(--color-secondary)</span>;
-  box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>;
+<span class="c-key">.dropzone-icon</span> {
+  width: 40px; height: 40px; border-radius: <span class="c-str">var(--rounded-lg)</span>;
+  background: rgba(38,147,236,0.06); border: 1px solid rgba(38,147,236,0.10);
+  color: <span class="c-str">var(--color-secondary)</span>;
 }
-<span class="c-key">.input.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
-<span class="c-key">.input.error:focus</span> { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }   <span class="c-com">/* danger-coloured ring */</span>
-<span class="c-key">.field-hint</span>  { font-size: <span class="c-str">var(--font-size-caption)</span>; color: <span class="c-str">var(--color-text-support)</span>; }
-<span class="c-key">.field-error</span> { font-size: <span class="c-str">var(--font-size-caption)</span>; color: <span class="c-str">var(--color-danger)</span>; font-weight: 500; }</pre>
+<span class="c-key">.dropzone-text .link</span> { color: <span class="c-str">var(--color-secondary)</span>; font-weight: 700; }
+<span class="c-key">.dropzone-text .link:hover</span> { color: <span class="c-str">var(--color-primary)</span>; }
+<span class="c-key">.dropzone:hover, .dropzone.is-dragover</span> { border-color: <span class="c-str">var(--color-secondary)</span>; background: #F2F9FE; }
+<span class="c-key">.dropzone.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
+<span class="c-key">.dropzone.has-file</span> { border-style: solid; border-color: <span class="c-str">var(--color-border)</span>; }
+<span class="c-key">.dropzone.is-disabled</span> { opacity: .5; cursor: not-allowed; }</pre>
         </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="field"><label class="field-label">Email</label><div class="input-wrap"><input class="input" placeholder="you@example.com"></div></div></div>
-          <ul><li>Always pair the input with a <b>visible label</b>.</li><li>Use the hint for format help, the error for what went wrong.</li><li>Show the error state only after the user leaves the field.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="field"><div class="input-wrap"><input class="input" placeholder="Email"></div></div></div>
-          <ul><li>Don't use placeholder as the only label — it vanishes on type.</li><li>Don't hard-code the focus colour; use the token.</li><li>Don't make fields shorter than the 44px tap target.</li></ul></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="dropzone" style="padding:16px;max-width:100%;"><div class="dropzone-left"><span class="dropzone-icon">✛</span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file →</button></div></div></div></div>
+          <ul><li>Always show the accepted <b>size / file type limit</b> up front.</li><li>Support both drag-and-drop <b>and</b> click-to-browse — never drag-only.</li><li>Confirm the selected file (name + size) before submit.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="dropzone error" style="padding:16px;max-width:100%;"><div class="dropzone-left"><span class="dropzone-icon">!</span><div class="dropzone-text"><div class="title">Upload failed</div></div></div></div></div>
+          <ul><li>Don't fail silently — always show why an upload was rejected.</li><li>Don't make the dropzone the only way to attach a file.</li><li>Don't hard-code the tint colours; use the token opacity values.</li></ul></div>
       </div>
     </div>
 
-    <footer>Iron Software Design System &nbsp;·&nbsp; Input component &nbsp;·&nbsp; 2025</footer>
+    <footer>Iron Software Design System &nbsp;·&nbsp; File Upload component &nbsp;·&nbsp; 2025</footer>
   </div></div>
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>

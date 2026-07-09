@@ -8,7 +8,7 @@
 
 [![Live Docs](https://img.shields.io/badge/docs-live-2693EC?style=flat-square)](https://duangsamonpd-ball.github.io/my-guide-irondesign/)
 [![Tokens](https://img.shields.io/badge/tokens-W3C%20%C2%B7%20Tailwind%20%C2%B7%20CSS-E01A59?style=flat-square)](tokens/)
-[![Astro](https://img.shields.io/badge/components-Astro%20%C2%B7%208%2F8-FF5D01?style=flat-square)](astro-components/)
+[![Astro](https://img.shields.io/badge/components-Astro%20%C2%B7%2012-FF5D01?style=flat-square)](astro-components/)
 [![Font](https://img.shields.io/badge/type-Montserrat%20%2B%20Roboto%20Mono-63C1A0?style=flat-square)](docs/02-typography.html)
 [![License](https://img.shields.io/badge/internal-Iron%20Software-185FA5?style=flat-square)](#)
 
@@ -69,18 +69,22 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ## 🧬 Astro components
 
-All 8 core components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
+12 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
 
 | Component | Notes |
 |---|---|
 | `Button.astro` | 6 variants × 3 sizes, renders `<a>` when given `href` |
 | `Input.astro` | Label, hint/error states, disabled, required |
+| `Textarea.astro` | Multi-line sibling of Input, same tokens |
+| `FileUpload.astro` | Dashed dropzone, drag & drop, click-to-browse with zero JS |
 | `Select.astro` | Custom dropdown + a hidden native `<select>` so forms still work with JS off |
 | `Checkbox.astro` | Basic, with description, or whole-card `card` layout |
 | `Radio.astro` | Same three layouts as Checkbox, grouped by `name` |
 | `Badge.astro` | 5 intents, solid/subtle, small, square, leading dot |
 | `Tooltip.astro` | Optional title, link, 4 placements, hover-with-a-gap JS interaction |
 | `Footer.astro` | Suite vs. Default headline variant, configurable product list |
+| `FormCard.astro` | Icon+title form card wrapper — compose with Input/Select/Textarea/FileUpload |
+| `TrialKeyCard.astro` | Centered single-field "instant capture" card |
 
 Every component's CSS references `tailwind/tokens.css` — import the token file once, globally, before using any component. Full usage examples and props are in [`astro-components/README.md`](astro-components/README.md).
 
@@ -220,17 +224,21 @@ iron-design-system/
 │   ├── tokens.w3c.json        # ⭐ Source of truth (W3C Design Token format)
 │   └── tokens.legacy.json     #    Tokens Studio format
 │
-└── astro-components/          # 🧬 .astro wrapper components (all 8, token-driven)
+└── astro-components/          # 🧬 .astro wrapper components (12, token-driven)
     ├── README.md               #   Props + usage for every component
     └── components/
         ├── Button.astro
         ├── Input.astro
+        ├── Textarea.astro
+        ├── FileUpload.astro
         ├── Select.astro
         ├── Checkbox.astro
         ├── Radio.astro
         ├── Badge.astro
         ├── Tooltip.astro
-        └── Footer.astro
+        ├── Footer.astro
+        ├── FormCard.astro
+        └── TrialKeyCard.astro
 ```
 
 ---

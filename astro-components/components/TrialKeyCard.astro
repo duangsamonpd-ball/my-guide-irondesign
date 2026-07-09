@@ -1,0 +1,83 @@
+---
+interface Props {
+  icon: string;
+  headingPrefix?: string;
+  headingBold: string;
+  headingSuffix?: string;
+  inputPlaceholder: string;
+  inputName?: string;
+  hint?: string;
+  submitLabel: string;
+  submitIcon?: string;
+  footerNotes: string[];
+  class?: string;
+}
+
+const {
+  icon,
+  headingPrefix = 'Get your free',
+  headingBold,
+  headingSuffix = 'instantly.',
+  inputPlaceholder,
+  inputName,
+  hint,
+  submitLabel,
+  submitIcon,
+  footerNotes,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={['trial-card', className]}>
+  <span class="tc-icon">{icon}</span>
+  <p class="tc-heading">{headingPrefix} <b>{headingBold}</b> {headingSuffix}</p>
+  <div class="tc-field">
+    <input class="tc-input" type="email" name={inputName} placeholder={inputPlaceholder} />
+    {hint && <span class="tc-hint">{hint}</span>}
+  </div>
+  <button type="submit" class="tc-submit">{submitLabel} {submitIcon && <span>{submitIcon}</span>}</button>
+  {footerNotes.length > 0 && (
+    <div class="tc-notes">
+      {footerNotes.map((note, i) => (
+        <>
+          {i > 0 && <span class="tc-sep"></span>}
+          <span>{note}</span>
+        </>
+      ))}
+    </div>
+  )}
+</div>
+
+<style>
+  .trial-card {
+    background: var(--color-bg-base); border: 1px solid var(--color-border); border-radius: var(--rounded-2xl);
+    padding: 40px 32px; display: flex; flex-direction: column; align-items: center; gap: 20px;
+    max-width: 420px; text-align: center;
+  }
+  .tc-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(38,147,236,0.10);
+    display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+  }
+  .tc-heading { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; color: var(--color-text-body); line-height: 1.4; }
+  .tc-heading b { color: var(--color-text-heading); }
+  .tc-field { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+  .tc-input {
+    width: 100%; height: var(--size-input); border: 1.5px solid var(--color-border); border-radius: var(--rounded-md);
+    padding: 0 16px; font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); color: var(--color-text-body);
+    background: var(--color-bg-base); outline: none; text-align: center; transition: border-color .15s, box-shadow .15s;
+  }
+  .tc-input::placeholder { color: var(--color-text-support); }
+  .tc-input:hover { border-color: var(--color-border-strong); }
+  .tc-input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
+  .tc-hint { font-size: var(--font-size-caption); color: var(--color-text-support); }
+  .tc-submit {
+    width: 100%; height: var(--size-btn-lg); border: none; border-radius: var(--rounded-cta);
+    background: var(--color-primary); color: var(--color-primary-on); font-family: 'Montserrat', sans-serif;
+    font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: background .15s;
+  }
+  .tc-submit:hover { background: var(--color-primary-hover); }
+  .tc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 0.76rem; color: var(--color-text-support); flex-wrap: wrap; }
+  .tc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); }
+</style>

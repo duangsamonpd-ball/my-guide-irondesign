@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Input · Components · Iron Software DS</title>
+  <title>Textarea · Components · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,7 +14,7 @@
       --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF;
       --rounded-sm:4px; --rounded-md:6px;
       --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
-      --size-input:44px; --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
+      --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
       --space-xs:8px; --space-sm:12px;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
@@ -76,32 +76,28 @@
     .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
     .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; } .atag b { color:#2693EC; }
     footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-
-    /* ════ INPUT (token-driven) ════ */
-    .field { display:flex; flex-direction:column; gap:6px; width:100%; max-width:340px; }
-    .field-label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); }
-    .field-label .req { color:var(--color-danger); }
-    .input-wrap { position:relative; display:flex; align-items:center; }
-    .input { width:100%; height:var(--size-input); border:1.5px solid var(--color-border); border-radius:var(--rounded-md); padding:0 14px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); background:var(--color-bg-base); outline:none; transition:border-color .15s, box-shadow .15s; }
-    .input::placeholder { color:var(--color-text-muted); }
-    .input:hover { border-color:var(--color-border-strong); }
-    .input:focus, .input.is-focus { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
-    .input.error { border-color:var(--color-danger); }
-    .input.error:focus, .input.error.is-focus { box-shadow:var(--shadow-focus-magenta); }
-    .input:disabled, .input.is-disabled { background:#F8FAFC; color:var(--color-text-muted); cursor:not-allowed; }
-    .input.has-icon { padding-left:38px; }
-    .input-icon { position:absolute; left:13px; color:var(--color-text-muted); font-size:0.95rem; pointer-events:none; }
-    .field-hint { font-size:var(--font-size-caption); color:var(--color-text-support); }
-    .field-error { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; }
-
-    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-      .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
     .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
     .code-tab:hover{color:#E5E5E5;}
     .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
     .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
+
+    /* ════ TEXTAREA (token-driven) ════ */
+    .field { display:flex; flex-direction:column; gap:6px; width:100%; max-width:340px; }
+    .field-label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); }
+    .textarea { width:100%; min-height:86px; border:1.5px solid var(--color-border); border-radius:var(--rounded-md); padding:14px 16px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); background:var(--color-bg-base); outline:none; resize:vertical; transition:border-color .15s, box-shadow .15s; line-height:1.5; }
+    .textarea::placeholder { color:var(--color-text-support); }
+    .textarea:hover { border-color:var(--color-border-strong); }
+    .textarea:focus, .textarea.is-focus { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
+    .textarea.error { border-color:var(--color-danger); }
+    .textarea.error:focus { box-shadow:var(--shadow-focus-magenta); }
+    .textarea:disabled, .textarea.is-disabled { background:#F8FAFC; color:var(--color-text-muted); cursor:not-allowed; resize:none; }
+    .field-hint { font-size:var(--font-size-caption); color:var(--color-text-support); }
+    .field-error { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; }
+
+    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
 </head>
 <body>
@@ -128,8 +124,8 @@
         <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
         <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
         <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
-        <a href="component-input.html" class="sidebar-link active"><i class="sidebar-icon">⌨️</i>Input</a>
-        <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-textarea.html" class="sidebar-link active"><i class="sidebar-icon">📝</i>Textarea</a>
         <a href="component-fileupload.html" class="sidebar-link"><i class="sidebar-icon">📎</i>File Upload</a>
         <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
         <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
@@ -145,57 +141,48 @@
   <div class="main-content"><div class="content">
 
     <div class="page-title">
-      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Input</div>
-      <h1>Input</h1>
-      <p class="lead">A single-line text field for collecting short user input — email, name, search. All states map to tokens, so focus, error and disabled stay on-brand. The fields below are live.</p>
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Textarea</div>
+      <h1>Textarea</h1>
+      <p class="lead">A multi-line text field for longer input — messages, descriptions, feedback. Shares the Input field's tokens (border, focus ring, error, disabled) so the two always feel like one family.</p>
       <div class="meta-chips"><span class="chip">5 states</span><span class="chip">label · hint · error</span><span class="chip new">Token-driven</span></div>
     </div>
 
     <div class="sect"><div class="sect-h">Preview</div>
       <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Email address</label><div class="input-wrap"><input class="input" type="email" placeholder="you@example.com"></div><span class="field-hint">We'll never share your email.</span></div>
+        <div class="field"><label class="field-label">Message</label><textarea class="textarea" placeholder="Type your message here…"></textarea><span class="field-hint">Tell us a bit about what you need.</span></div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">States</div>
       <div class="sect-sub">Default → hover → focus (secondary ring) → error (danger) → disabled.</div>
       <div class="grid">
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input" placeholder="Placeholder"></div></div><div class="lbl">Default</div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input is-focus" value="Focused"></div></div><div class="lbl">Focus<small>secondary ring</small></div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input" value="Jane Cooper"></div></div><div class="lbl">Filled</div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input error" value="not-an-email"></div><span class="field-error">Enter a valid email.</span></div><div class="lbl">Error<small>danger border</small></div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input is-disabled" value="Disabled" disabled></div></div><div class="lbl">Disabled</div></div>
-      </div>
-    </div>
-
-    <div class="sect"><div class="sect-h">Compositions</div>
-      <div class="sect-sub">Label, hint, required marker, and a leading icon — combine as needed.</div>
-      <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Full name <span class="req">*</span></label><div class="input-wrap"><input class="input" placeholder="Jane Cooper"></div></div>
-        <div class="field"><label class="field-label">Search</label><div class="input-wrap"><span class="input-icon">⌕</span><input class="input has-icon" placeholder="Search products…"></div></div>
-        <div class="field"><label class="field-label">Password</label><div class="input-wrap"><input class="input error" type="password" value="123"></div><span class="field-error">Must be at least 8 characters.</span></div>
+        <div class="cell"><div class="field"><textarea class="textarea" placeholder="Type your message here…"></textarea></div><div class="lbl">Default</div></div>
+        <div class="cell"><div class="field"><textarea class="textarea is-focus">This tutorial will guide you step-by-step…</textarea></div><div class="lbl">Focus<small>secondary ring</small></div></div>
+        <div class="cell"><div class="field"><textarea class="textarea">Great product, easy to integrate and the docs were clear throughout.</textarea></div><div class="lbl">Filled</div></div>
+        <div class="cell"><div class="field"><textarea class="textarea error">too short</textarea><span class="field-error">Message must be at least 20 characters.</span></div><div class="lbl">Error<small>danger border</small></div></div>
+        <div class="cell"><div class="field"><textarea class="textarea is-disabled" disabled>Not editable</textarea></div><div class="lbl">Disabled</div></div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Anatomy</div>
-      <div class="sect-sub">The parts of a field and the token each is bound to.</div>
+      <div class="sect-sub">The parts of a textarea and the token each is bound to.</div>
       <div class="anatomy" style="align-items:stretch;max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Email address</label><div class="input-wrap"><input class="input" placeholder="you@example.com"></div><span class="field-hint">Helper text.</span></div>
+        <div class="field"><label class="field-label">Message</label><textarea class="textarea" placeholder="Type your message here…"></textarea><span class="field-hint">Helper text.</span></div>
         <div class="anatomy-tags">
-          <span class="atag">height → <b>--size-input</b> (44px)</span>
+          <span class="atag">min-height → <b>86px</b> (~3 lines)</span>
           <span class="atag">border → <b>--color-border</b></span>
           <span class="atag">radius → <b>--rounded-md</b></span>
           <span class="atag">focus → <b>--color-secondary</b> + ring</span>
           <span class="atag">error → <b>--color-danger</b></span>
-          <span class="atag">label → <b>--font-size-label</b></span>
-          <span class="atag">placeholder → <b>--color-text-muted</b></span>
+          <span class="atag">resize → <b>vertical only</b></span>
+          <span class="atag">placeholder → <b>--color-text-support</b></span>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
-        <tr><td class="prop">Height</td><td class="token">--size-input</td><td class="val">44px</td></tr>
+        <tr><td class="prop">Min-height</td><td class="token">— (fixed)</td><td class="val">86px</td></tr>
         <tr><td class="prop">Border</td><td class="token">--color-border</td><td class="val"><span class="sw" style="background:#E2E8F0"></span>#E2E8F0</td></tr>
         <tr><td class="prop">Border · hover</td><td class="token">--color-border-strong</td><td class="val"><span class="sw" style="background:#CAD5E2"></span>#CAD5E2</td></tr>
         <tr><td class="prop">Border · focus</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
@@ -203,7 +190,7 @@
         <tr><td class="prop">Border · error</td><td class="token">--color-danger</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
         <tr><td class="prop">Radius</td><td class="token">--rounded-md</td><td class="val">6px</td></tr>
         <tr><td class="prop">Text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
-        <tr><td class="prop">Placeholder</td><td class="token">--color-text-muted</td><td class="val"><span class="sw" style="background:#A1A1A1"></span>#A1A1A1</td></tr>
+        <tr><td class="prop">Placeholder</td><td class="token">--color-text-support</td><td class="val"><span class="sw" style="background:#90A1B9"></span>#90A1B9</td></tr>
         <tr><td class="prop">Label</td><td class="token">--font-size-label / --fw-label</td><td class="val">14px / 500</td></tr>
       </tbody></table>
     </div>
@@ -216,48 +203,45 @@
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
 <pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"input-wrap"</span>&gt;
-    &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">placeholder</span>=<span class="c-str">"you@example.com"</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;We'll never share your email.&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Message&lt;/<span class="c-tag">label</span>&gt;
+  &lt;<span class="c-tag">textarea</span> <span class="c-attr">class</span>=<span class="c-str">"textarea"</span> <span class="c-attr">placeholder</span>=<span class="c-str">"Type your message here…"</span>&gt;&lt;/<span class="c-tag">textarea</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;Tell us a bit about what you need.&lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;
 
-<span class="c-com">&lt;!-- error state — note .field-error, NOT .field-hint, for the message --&gt;</span>
+<span class="c-com">&lt;!-- error state --&gt;</span>
 &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"input-wrap"</span>&gt;
-    &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input error"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">value</span>=<span class="c-str">"not-an-email"</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-error"</span>&gt;Enter a valid email address.&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Message&lt;/<span class="c-tag">label</span>&gt;
+  &lt;<span class="c-tag">textarea</span> <span class="c-attr">class</span>=<span class="c-str">"textarea error"</span>&gt;too short&lt;/<span class="c-tag">textarea</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-error"</span>&gt;Message must be at least 20 characters.&lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.input-wrap</span> { position: relative; display: flex; align-items: center; }
-<span class="c-key">.input</span> {
-  width: 100%; height: <span class="c-str">var(--size-input)</span>;
+<pre class="code-pane" data-lang="css"><span class="c-key">.textarea</span> {
+  width: 100%; min-height: 86px;
   border: 1.5px solid <span class="c-str">var(--color-border)</span>;
   border-radius: <span class="c-str">var(--rounded-md)</span>;
+  padding: 14px 16px; resize: vertical;
 }
-<span class="c-key">.input:focus</span> {
+<span class="c-key">.textarea::placeholder</span> { color: <span class="c-str">var(--color-text-support)</span>; }
+<span class="c-key">.textarea:hover</span> { border-color: <span class="c-str">var(--color-border-strong)</span>; }
+<span class="c-key">.textarea:focus</span> {
   border-color: <span class="c-str">var(--color-secondary)</span>;
   box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>;
 }
-<span class="c-key">.input.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
-<span class="c-key">.input.error:focus</span> { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }   <span class="c-com">/* danger-coloured ring */</span>
-<span class="c-key">.field-hint</span>  { font-size: <span class="c-str">var(--font-size-caption)</span>; color: <span class="c-str">var(--color-text-support)</span>; }
-<span class="c-key">.field-error</span> { font-size: <span class="c-str">var(--font-size-caption)</span>; color: <span class="c-str">var(--color-danger)</span>; font-weight: 500; }</pre>
+<span class="c-key">.textarea.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
+<span class="c-key">.textarea.error:focus</span> { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }
+<span class="c-key">.textarea:disabled</span> { background: #F8FAFC; color: <span class="c-str">var(--color-text-muted)</span>; cursor: not-allowed; resize: none; }</pre>
         </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="field"><label class="field-label">Email</label><div class="input-wrap"><input class="input" placeholder="you@example.com"></div></div></div>
-          <ul><li>Always pair the input with a <b>visible label</b>.</li><li>Use the hint for format help, the error for what went wrong.</li><li>Show the error state only after the user leaves the field.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="field"><div class="input-wrap"><input class="input" placeholder="Email"></div></div></div>
-          <ul><li>Don't use placeholder as the only label — it vanishes on type.</li><li>Don't hard-code the focus colour; use the token.</li><li>Don't make fields shorter than the 44px tap target.</li></ul></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="field"><label class="field-label">Message</label><textarea class="textarea" placeholder="Type your message here…" style="min-height:60px"></textarea></div></div>
+          <ul><li>Give it a visible <b>label</b>, same as Input.</li><li>Set a sensible default height for the expected content length.</li><li>Let people resize it vertically — don't disable <code>resize</code> without reason.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="field"><textarea class="textarea" placeholder="Message" style="min-height:60px"></textarea></div></div>
+          <ul><li>Don't use a Textarea for single-line input — that's an Input.</li><li>Don't hard-code the focus colour; use the token.</li><li>Don't make it so short the placeholder gets clipped.</li></ul></div>
       </div>
     </div>
 
-    <footer>Iron Software Design System &nbsp;·&nbsp; Input component &nbsp;·&nbsp; 2025</footer>
+    <footer>Iron Software Design System &nbsp;·&nbsp; Textarea component &nbsp;·&nbsp; 2025</footer>
   </div></div>
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>

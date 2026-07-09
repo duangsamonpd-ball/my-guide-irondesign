@@ -46,6 +46,29 @@ Props: `variant` (`primary` | `secondary` | `tertiary` | `outline` | `ondark` | 
 Props: `label`, `id`, `name`, `type` (default `text`), `placeholder`, `value`, `hint`,
 `error`, `errorMessage`, `disabled`, `required`, `class`.
 
+### `Textarea.astro`
+
+```astro
+<Textarea label="Message" name="message" placeholder="Type your message here…" hint="Tell us a bit about what you need." />
+<Textarea label="Message" name="message" error errorMessage="Message must be at least 20 characters." value="too short" />
+```
+
+Props: `label`, `id`, `name`, `placeholder`, `value`, `rows` (default `3`), `hint`,
+`error`, `errorMessage`, `disabled`, `required`, `class`. Shares Input's field/label/hint/error tokens — the two always feel like one family.
+
+### `FileUpload.astro`
+
+```astro
+<FileUpload name="doc" />
+<FileUpload name="doc" error errorMessage="File too large" />
+<FileUpload name="doc" fileName="quote-request.pdf" fileSize="2.4 MB" />
+```
+
+Props: `label` (default `Drag & drop your file`), `linkText`, `sizeLimitText`, `name`, `accept`,
+`error`, `errorMessage`, `disabled`, `fileName` + `fileSize` (renders the has-file state), `class`.
+
+The whole dropzone is a `<label>` wrapping a visually-hidden native `<input type="file">`, so click-to-browse works with zero JS. A scoped `<script>` adds drag-over styling and wires a `Remove` button that dispatches a `file-remove` custom event (bubbles) — the consuming app decides what removal actually does, this component only handles the visual state.
+
 ### `Select.astro`
 
 ```astro
@@ -135,13 +158,62 @@ Ships its own `<script>` for the hover-with-a-gap interaction (JS open/close wit
 
 Props: `variant` (`suite` shows the full-brand logo headline; `default` names the current product for cross-sell, default `default`), `productName` (required when `variant="default"`), `products` (`{ prefix, suffix, desc, accent?, href? }[]`, required), `donateImgSrc`, `suiteLogoImgSrc`, `productLogoSrc` (asset path overrides — defaults point at the docs' relative paths, supply your own), `class`.
 
+### `FormCard.astro`
+
+Generic wrapper for icon+title form cards (the "Request a Quote" / "Tell us what you're migrating from" pattern) — compose it with `Input` / `Select` / `Textarea` / `FileUpload` / a plain `<button>` submit as children:
+
+```astro
+<form>
+  <FormCard
+    icon="🧾"
+    title="Request Your Discounted Quote"
+    submitLabel="Get Your Migration Quote"
+    noteLeft="No obligation to proceed"
+    noteRight="Response within 1 business day"
+  >
+    <Input label="First name *" name="firstName" />
+    <Input label="Last name *" name="lastName" />
+    <Input label="Email address *" name="email" type="email" placeholder="you@example.com" />
+    <Select label="Document library I am replacing" name="library" placeholder="Choose option" options={[...]} />
+    <FileUpload name="quoteFile" />
+  </FormCard>
+</form>
+```
+
+Props: `icon` (emoji or short glyph), `title`, `subtitle`, `submitLabel`, `noteLeft`, `noteRight`, `class`. Fields go in the default slot.
+
+### `TrialKeyCard.astro`
+
+The centered, single-field "instant capture" card pattern (different enough from `FormCard` — centered icon halo, one input, no label row — that it's its own component rather than a `FormCard` variant):
+
+```astro
+<TrialKeyCard
+  icon="🔑"
+  headingBold="30-day Trial Key"
+  inputPlaceholder="Your Business Email*"
+  inputName="trialEmail"
+  hint="Your trial license will be sent to this address"
+  submitLabel="Get my free trial key"
+  submitIcon="🔑"
+  footerNotes={['Free for development', 'Trial key in 60 seconds', 'No credit card']}
+/>
+```
+
+Props: `icon`, `headingPrefix` (default `"Get your free"`), `headingBold` (required — rendered bold), `headingSuffix` (default `"instantly."`), `inputPlaceholder`, `inputName`, `hint`, `submitLabel`, `submitIcon`, `footerNotes` (`string[]`), `class`.
+
 ## Verifying changes
 
 There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.
 
-## All 8 components ported
+## 12 components ported
 
-Button, Input, Select, Checkbox, Radio, Badge, Tooltip, and Product Footer are
-all available. If the design system docs (`docs/component-*.html`) gain a new
-variant or pattern, check it here too — the docs' own Code-tab samples have a
-history of drifting out of sync with the live markup on the same page.
+Button, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge, Tooltip,
+Product Footer, FormCard, and TrialKeyCard are all available. If the design
+system docs (`docs/component-*.html`) gain a new variant or pattern, check it
+here too — the docs' own Code-tab samples have a history of drifting out of
+sync with the live markup on the same page.
+
+`FormCard` and `TrialKeyCard` were ported from the "04 Form & Input Cards"
+section of the "Other element" page in Figma (node `723:5520`), not from a
+`docs/component-*.html` page — there's no matching docs page for these two
+composite patterns yet.
