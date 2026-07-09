@@ -3,19 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Textarea · Components · Iron Software DS</title>
+  <title>Notice · Components · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
-      --color-secondary:#2693EC; --color-danger:#E5242A;
-      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#90A1B9; --color-text-muted:#A1A1A1;
-      --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF;
-      --rounded-sm:4px; --rounded-md:6px;
-      --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
-      --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
-      --space-xs:8px; --space-sm:12px;
+      --color-secondary:#2693EC; --color-success:#63C1A0; --color-success-hover:#53A085;
+      --color-warning:#FDA509; --color-warning-hover:#D2890A; --color-danger:#E5242A; --color-danger-hover:#C91D23;
+      --color-text-heading:#171717; --color-border:#E2E8F0;
+      --rounded-lg:8px;
+      --bg-info:#F2F9FE; --bg-success:#F6FBF9; --bg-warning:#FFFAF0; --bg-danger:#FFF1F1;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -51,7 +49,7 @@
     .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
     .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:40px; display:flex; gap:24px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
     .canvas.col { flex-direction:column; align-items:stretch; gap:20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
     .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
     .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; }
     .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
@@ -84,18 +82,26 @@
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
 
-    /* ════ TEXTAREA (token-driven) ════ */
-    .field { display:flex; flex-direction:column; gap:6px; width:100%; max-width:340px; }
-    .field-label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); }
-    .textarea { width:100%; min-height:86px; border:1.5px solid var(--color-border); border-radius:var(--rounded-md); padding:14px 16px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); background:var(--color-bg-base); outline:none; resize:vertical; transition:border-color .15s, box-shadow .15s; line-height:1.5; }
-    .textarea::placeholder { color:var(--color-text-support); }
-    .textarea:hover { border-color:var(--color-border-strong); }
-    .textarea:focus, .textarea.is-focus { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
-    .textarea.error { border-color:var(--color-danger); }
-    .textarea.error:focus { box-shadow:var(--shadow-focus-magenta); }
-    .textarea:disabled, .textarea.is-disabled { background:#F8FAFC; color:var(--color-text-muted); cursor:not-allowed; resize:none; }
-    .field-hint { font-size:var(--font-size-caption); color:var(--color-text-support); }
-    .field-error { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; }
+    /* ════ NOTICE / INFO CARD (token-driven) ════ */
+    .notice { display:flex; align-items:flex-start; gap:12px; padding:24px; border-radius:var(--rounded-lg); max-width:520px; }
+    .notice-icon { flex-shrink:0; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; line-height:1; margin-top:2px; }
+    .notice-content { display:flex; flex-direction:column; gap:8px; }
+    .notice-title { font-size:1.125rem; font-weight:700; color:var(--color-text-heading); }
+    .notice-text { font-size:1rem; color:var(--color-text-heading); line-height:1.6; }
+    .notice-text b { font-weight:700; }
+    .notice-label { font-size:1.125rem; font-weight:700; }
+    .notice--info { background:var(--bg-info); }
+    .notice--info .notice-icon { color:var(--color-secondary); }
+    .notice--info .notice-label { color:var(--color-secondary); }
+    .notice--success { background:var(--bg-success); }
+    .notice--success .notice-icon { color:var(--color-success-hover); }
+    .notice--success .notice-label { color:var(--color-success); }
+    .notice--warning { background:var(--bg-warning); }
+    .notice--warning .notice-icon { color:var(--color-warning-hover); }
+    .notice--warning .notice-label { color:var(--color-warning); }
+    .notice--danger { background:var(--bg-danger); }
+    .notice--danger .notice-icon { color:var(--color-danger-hover); }
+    .notice--danger .notice-label { color:var(--color-danger); }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
@@ -125,12 +131,12 @@
         <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
         <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
         <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
-        <a href="component-textarea.html" class="sidebar-link active"><i class="sidebar-icon">📝</i>Textarea</a>
+        <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
         <a href="component-fileupload.html" class="sidebar-link"><i class="sidebar-icon">📎</i>File Upload</a>
         <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
         <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
         <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
-        <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+        <a href="component-notice.html" class="sidebar-link active"><i class="sidebar-icon">💡</i>Notice</a>
         <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
         <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
       </div>
@@ -142,57 +148,108 @@
   <div class="main-content"><div class="content">
 
     <div class="page-title">
-      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Textarea</div>
-      <h1>Textarea</h1>
-      <p class="lead">A multi-line text field for longer input — messages, descriptions, feedback. Shares the Input field's tokens (border, focus ring, error, disabled) so the two always feel like one family.</p>
-      <div class="meta-chips"><span class="chip">5 states</span><span class="chip">label · hint · error</span><span class="chip new">Token-driven</span></div>
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Notice</div>
+      <h1>Notice</h1>
+      <p class="lead">A non-interactive informational container — disclaimers, notes, short callouts. Three content patterns share the same tinted-card shell: title + body, inline lead-in + text, or a minimal label.</p>
+      <div class="meta-chips"><span class="chip">4 intents</span><span class="chip">3 patterns</span><span class="chip new">Token-driven</span></div>
     </div>
 
     <div class="sect"><div class="sect-h">Preview</div>
-      <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Message</label><textarea class="textarea" placeholder="Type your message here…"></textarea><span class="field-hint">Tell us a bit about what you need.</span></div>
+      <div class="canvas col" style="max-width:560px;margin:0 auto;">
+        <div class="notice notice--info">
+          <span class="notice-icon">✓</span>
+          <div class="notice-content">
+            <div class="notice-title">Please note</div>
+            <p class="notice-text">Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText.</p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="sect"><div class="sect-h">States</div>
-      <div class="sect-sub">Default → hover → focus (secondary ring) → error (danger) → disabled.</div>
+    <div class="sect"><div class="sect-h">Patterns</div>
+      <div class="sect-sub">Title + body for long disclaimers, an inline bold lead-in for shorter context, or a minimal label on its own.</div>
       <div class="grid">
-        <div class="cell"><div class="field"><textarea class="textarea" placeholder="Type your message here…"></textarea></div><div class="lbl">Default</div></div>
-        <div class="cell"><div class="field"><textarea class="textarea is-focus">This tutorial will guide you step-by-step…</textarea></div><div class="lbl">Focus<small>secondary ring</small></div></div>
-        <div class="cell"><div class="field"><textarea class="textarea">Great product, easy to integrate and the docs were clear throughout.</textarea></div><div class="lbl">Filled</div></div>
-        <div class="cell"><div class="field"><textarea class="textarea error">too short</textarea><span class="field-error">Message must be at least 20 characters.</span></div><div class="lbl">Error<small>danger border</small></div></div>
-        <div class="cell"><div class="field"><textarea class="textarea is-disabled" disabled>Not editable</textarea></div><div class="lbl">Disabled</div></div>
+        <div class="cell" style="grid-column:span 2;">
+          <div class="notice notice--info" style="max-width:none;">
+            <span class="notice-icon">✓</span>
+            <div class="notice-content">
+              <div class="notice-title">Please note</div>
+              <p class="notice-text">Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText. All product names, logos, and brands are property of their respective owners.</p>
+            </div>
+          </div>
+          <div class="lbl">Title + body<small>long disclaimer</small></div>
+        </div>
+        <div class="cell" style="grid-column:span 2;">
+          <div class="notice notice--info" style="max-width:none;">
+            <span class="notice-icon">✓</span>
+            <div class="notice-content">
+              <p class="notice-text"><b>Iron Software:</b> developer-based licensing with OEM, cloud, and redistribution rights included. Unlimited developer options available.</p>
+            </div>
+          </div>
+          <div class="lbl">Lead-in + text<small>bold prefix, no title</small></div>
+        </div>
+        <div class="cell">
+          <div class="notice notice--success" style="max-width:none;">
+            <span class="notice-icon">✓</span>
+            <div class="notice-content"><span class="notice-label">Check</span></div>
+          </div>
+          <div class="lbl">Minimal<small>label only</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Intents</div>
+      <div class="sect-sub">Four semantic colours — pick by meaning, not by which looks nicest.</div>
+      <div class="grid">
+        <div class="cell">
+          <div class="notice notice--info" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Info</span></div></div>
+          <div class="lbl">Info<small>iron-blue/50</small></div>
+        </div>
+        <div class="cell">
+          <div class="notice notice--success" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Success</span></div></div>
+          <div class="lbl">Success<small>iron-green/50</small></div>
+        </div>
+        <div class="cell">
+          <div class="notice notice--warning" style="max-width:none;padding:16px;"><span class="notice-icon">!</span><div class="notice-content"><span class="notice-label">Warning</span></div></div>
+          <div class="lbl">Warning<small>iron-orange/50</small></div>
+        </div>
+        <div class="cell">
+          <div class="notice notice--danger" style="max-width:none;padding:16px;"><span class="notice-icon">✕</span><div class="notice-content"><span class="notice-label">Danger</span></div></div>
+          <div class="lbl">Danger<small>iron-red/50</small></div>
+        </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Anatomy</div>
-      <div class="sect-sub">The parts of a textarea and the token each is bound to.</div>
-      <div class="anatomy" style="align-items:stretch;max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Message</label><textarea class="textarea" placeholder="Type your message here…"></textarea><span class="field-hint">Helper text.</span></div>
+      <div class="sect-sub">The parts of a notice and the token each is bound to.</div>
+      <div class="anatomy" style="align-items:stretch;max-width:520px;margin:0 auto;">
+        <div class="notice notice--info" style="max-width:none;">
+          <span class="notice-icon">✓</span>
+          <div class="notice-content">
+            <div class="notice-title">Please note</div>
+            <p class="notice-text">Helper disclaimer text.</p>
+          </div>
+        </div>
         <div class="anatomy-tags">
-          <span class="atag">min-height → <b>86px</b> (~3 lines)</span>
-          <span class="atag">border → <b>--color-border</b></span>
-          <span class="atag">radius → <b>--rounded-md</b></span>
-          <span class="atag">focus → <b>--color-secondary</b> + ring</span>
-          <span class="atag">error → <b>--color-danger</b></span>
-          <span class="atag">resize → <b>vertical only</b></span>
-          <span class="atag">placeholder → <b>--color-text-support</b></span>
+          <span class="atag">background → <b>--color-bg-card-alt</b> (iron-blue/50)</span>
+          <span class="atag">radius → <b>--rounded-lg</b></span>
+          <span class="atag">icon → <b>--color-secondary</b></span>
+          <span class="atag">title → <b>--color-text-heading</b>, 700</span>
+          <span class="atag">body → <b>--color-text-heading</b>, 400</span>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
-        <tr><td class="prop">Min-height</td><td class="token">— (fixed)</td><td class="val">86px</td></tr>
-        <tr><td class="prop">Border</td><td class="token">--color-border</td><td class="val"><span class="sw" style="background:#E2E8F0"></span>#E2E8F0</td></tr>
-        <tr><td class="prop">Border · hover</td><td class="token">--color-border-strong</td><td class="val"><span class="sw" style="background:#CAD5E2"></span>#CAD5E2</td></tr>
-        <tr><td class="prop">Border · focus</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-blue</td><td class="val">0 0 0 3px · 25%</td></tr>
-        <tr><td class="prop">Border · error</td><td class="token">--color-danger</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
-        <tr><td class="prop">Radius</td><td class="token">--rounded-md</td><td class="val">6px</td></tr>
-        <tr><td class="prop">Text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
-        <tr><td class="prop">Placeholder</td><td class="token">--color-text-support</td><td class="val"><span class="sw" style="background:#90A1B9"></span>#90A1B9</td></tr>
-        <tr><td class="prop">Label</td><td class="token">--font-size-label / --fw-label</td><td class="val">14px / 500</td></tr>
+        <tr><td class="prop">Background · info</td><td class="token">--color-bg-card-alt</td><td class="val"><span class="sw" style="background:#F2F9FE"></span>#F2F9FE</td></tr>
+        <tr><td class="prop">Background · success</td><td class="token">iron-green/50</td><td class="val"><span class="sw" style="background:#F6FBF9"></span>#F6FBF9</td></tr>
+        <tr><td class="prop">Icon · info</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Icon · success</td><td class="token">--color-success-hover</td><td class="val"><span class="sw" style="background:#53A085"></span>#53A085</td></tr>
+        <tr><td class="prop">Label · success</td><td class="token">--color-success</td><td class="val"><span class="sw" style="background:#63C1A0"></span>#63C1A0</td></tr>
+        <tr><td class="prop">Radius</td><td class="token">--rounded-lg</td><td class="val">8px</td></tr>
+        <tr><td class="prop">Title / body</td><td class="token">--color-text-heading</td><td class="val"><span class="sw" style="background:#171717"></span>#171717</td></tr>
+        <tr><td class="prop">Padding</td><td class="token">--space-xl</td><td class="val">24px</td></tr>
       </tbody></table>
     </div>
 
@@ -203,46 +260,52 @@
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Message&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">textarea</span> <span class="c-attr">class</span>=<span class="c-str">"textarea"</span> <span class="c-attr">placeholder</span>=<span class="c-str">"Type your message here…"</span>&gt;&lt;/<span class="c-tag">textarea</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;Tell us a bit about what you need.&lt;/<span class="c-tag">span</span>&gt;
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--info"</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-title"</span>&gt;Please note&lt;/<span class="c-tag">div</span>&gt;
+    &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;Aspose, SyncFusion, and iText are registered trademarks…&lt;/<span class="c-tag">p</span>&gt;
+  &lt;/<span class="c-tag">div</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;
 
-<span class="c-com">&lt;!-- error state --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Message&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">textarea</span> <span class="c-attr">class</span>=<span class="c-str">"textarea error"</span>&gt;too short&lt;/<span class="c-tag">textarea</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-error"</span>&gt;Message must be at least 20 characters.&lt;/<span class="c-tag">span</span>&gt;
+<span class="c-com">&lt;!-- lead-in + text, no title --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--info"</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;
+    &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;&lt;<span class="c-tag">b</span>&gt;Iron Software:&lt;/<span class="c-tag">b</span>&gt; developer-based licensing…&lt;/<span class="c-tag">p</span>&gt;
+  &lt;/<span class="c-tag">div</span>&gt;
+&lt;/<span class="c-tag">div</span>&gt;
+
+<span class="c-com">&lt;!-- minimal — label only --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--success"</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-label"</span>&gt;Check&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.textarea</span> {
-  width: 100%; min-height: 86px;
-  border: 1.5px solid <span class="c-str">var(--color-border)</span>;
-  border-radius: <span class="c-str">var(--rounded-md)</span>;
-  padding: 14px 16px; resize: vertical;
+<pre class="code-pane" data-lang="css"><span class="c-key">.notice</span> {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 24px; border-radius: <span class="c-str">var(--rounded-lg)</span>;
 }
-<span class="c-key">.textarea::placeholder</span> { color: <span class="c-str">var(--color-text-support)</span>; }
-<span class="c-key">.textarea:hover</span> { border-color: <span class="c-str">var(--color-border-strong)</span>; }
-<span class="c-key">.textarea:focus</span> {
-  border-color: <span class="c-str">var(--color-secondary)</span>;
-  box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>;
-}
-<span class="c-key">.textarea.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
-<span class="c-key">.textarea.error:focus</span> { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }
-<span class="c-key">.textarea:disabled</span> { background: #F8FAFC; color: <span class="c-str">var(--color-text-muted)</span>; cursor: not-allowed; resize: none; }</pre>
+<span class="c-key">.notice--info</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; }
+<span class="c-key">.notice--info .notice-icon,
+.notice--info .notice-label</span> { color: <span class="c-str">var(--color-secondary)</span>; }
+<span class="c-key">.notice--success</span> { background: #F6FBF9; }   <span class="c-com">/* iron-green/50 — no semantic alias yet */</span>
+<span class="c-key">.notice--success .notice-icon</span> { color: <span class="c-str">var(--color-success-hover)</span>; }
+<span class="c-key">.notice--success .notice-label</span> { color: <span class="c-str">var(--color-success)</span>; }
+<span class="c-key">.notice-title</span> { font-size: 1.125rem; font-weight: 700; color: <span class="c-str">var(--color-text-heading)</span>; }
+<span class="c-key">.notice-text</span> { font-size: 1rem; color: <span class="c-str">var(--color-text-heading)</span>; line-height: 1.6; }</pre>
         </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="field"><label class="field-label">Message</label><textarea class="textarea" placeholder="Type your message here…" style="min-height:60px"></textarea></div></div>
-          <ul><li>Give it a visible <b>label</b>, same as Input.</li><li>Set a sensible default height for the expected content length.</li><li>Let people resize it vertically — don't disable <code>resize</code> without reason.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="field"><textarea class="textarea" placeholder="Message" style="min-height:60px"></textarea></div></div>
-          <ul><li>Don't use a Textarea for single-line input — that's an Input.</li><li>Don't hard-code the focus colour; use the token.</li><li>Don't make it so short the placeholder gets clipped.</li></ul></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="notice notice--info" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Check</span></div></div></div>
+          <ul><li>Match the intent colour to the <b>meaning</b> (info ≠ warning ≠ danger).</li><li>Use the minimal pattern for short, self-evident callouts.</li><li>Reach for title + body only when the disclaimer genuinely needs it.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="notice notice--danger" style="max-width:none;padding:16px;"><span class="notice-icon">✕</span><div class="notice-content"><span class="notice-label">Click here for details →</span></div></div></div>
+          <ul><li>Don't make a Notice clickable — that's a Button or a real link.</li><li>Don't stack more than one Notice in the same view without a good reason.</li><li>Don't use danger/warning for neutral information.</li></ul></div>
       </div>
     </div>
 
-    <footer>Iron Software Design System &nbsp;·&nbsp; Textarea component &nbsp;·&nbsp; 2025</footer>
+    <footer>Iron Software Design System &nbsp;·&nbsp; Notice component &nbsp;·&nbsp; 2025</footer>
   </div></div>
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>

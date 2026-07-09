@@ -128,6 +128,18 @@ Props: `intent` (`success` | `warning` | `danger` | `info` | `neutral`, default 
 
 **Known gap:** the subtle-background and solid-text colors here are copied verbatim from `docs/component-badge.html`'s own `<style>` override, which does **not** match the canonical `iron-*-100` subtle scale in `tailwind/tokens.css` (e.g. success subtle is `#EBF9F3` here vs. the canonical `--color-success-subtle` `#E8F6F1`), and the success/warning *text* colors (`#2E9468`, `#B45309`) don't exist anywhere in the canonical scale at all. These look like bespoke, darker shades picked for text-on-light-background contrast that were never promoted to real tokens. Flagged in the component's own CSS comment — needs design sign-off before these become canonical tokens.
 
+### `Notice.astro`
+
+Non-interactive informational container — disclaimers, notes, short callouts. Three content patterns share one component depending on which props you pass:
+
+```astro
+<Notice intent="info" title="Please note" text="Aspose, SyncFusion, and iText are registered trademarks of their respective owner." />
+<Notice intent="info" leadIn="Iron Software" text="developer-based licensing with OEM, cloud, and redistribution rights included." />
+<Notice intent="success" text="Check" />
+```
+
+Props: `intent` (`info` | `success` | `warning` | `danger`, default `info`), `title` (renders title + body), `leadIn` (renders an inline bold prefix before `text`, no title), `text` (required), `class`. Pass neither `title` nor `leadIn` for the minimal, label-only pattern (bold `text` in the intent colour, no separate paragraph).
+
 ### `Tooltip.astro`
 
 ```astro
@@ -205,13 +217,13 @@ Props: `icon`, `headingPrefix` (default `"Get your free"`), `headingBold` (requi
 
 There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.
 
-## 12 components ported
+## 13 components ported
 
-Button, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge, Tooltip,
-Product Footer, FormCard, and TrialKeyCard are all available. If the design
-system docs (`docs/component-*.html`) gain a new variant or pattern, check it
-here too — the docs' own Code-tab samples have a history of drifting out of
-sync with the live markup on the same page.
+Button, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge, Notice,
+Tooltip, Product Footer, FormCard, and TrialKeyCard are all available. If the
+design system docs (`docs/component-*.html`) gain a new variant or pattern,
+check it here too — the docs' own Code-tab samples have a history of
+drifting out of sync with the live markup on the same page.
 
 `FormCard` and `TrialKeyCard` were ported from the "04 Form & Input Cards"
 section of the "Other element" page in Figma (node `723:5520`), not from a
