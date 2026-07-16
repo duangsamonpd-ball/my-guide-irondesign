@@ -1,52 +1,64 @@
 ---
 interface Props {
-  intent?: 'info' | 'success' | 'warning' | 'danger';
-  title?: string;
-  leadIn?: string;
+  variant?: 'filled' | 'bordered';
+  intent?: 'info' | 'success' | 'important' | 'warning' | 'danger';
+  title: string;
   text: string;
   class?: string;
 }
 
-const iconFor = { info: '✓', success: '✓', warning: '!', danger: '✕' } as const;
+const iconFor = { info: 'ℹ', success: '✓', important: '❗', warning: '⚠', danger: '✕' } as const;
 
-const { intent = 'info', title, leadIn, text, class: className } = Astro.props;
-
-const isMinimal = !title && !leadIn;
+const { variant = 'filled', intent = 'info', title, text, class: className } = Astro.props;
 ---
 
-<div class:list={['notice', `notice--${intent}`, className]}>
-  <span class="notice-icon">{iconFor[intent]}</span>
-  <div class="notice-content">
-    {title && <div class="notice-title">{title}</div>}
-    {isMinimal ? (
-      <span class="notice-label">{text}</span>
-    ) : (
-      <p class="notice-text">{leadIn && <b>{leadIn}: </b>}{text}</p>
-    )}
-  </div>
+<div class:list={['notice', `notice--${variant}`, `notice--${intent}`, className]}>
+  {variant === 'filled' ? (
+    <>
+      <div class="notice-header">
+        <span class="notice-icon">{iconFor[intent]}</span>
+        <span class="notice-title">{title}</span>
+      </div>
+      <p class="notice-text">{text}</p>
+    </>
+  ) : (
+    <p class="notice-text"><span class="notice-icon">{iconFor[intent]}</span> <b>{title}:</b> {text}</p>
+  )}
 </div>
 
 <style>
-  .notice { display: flex; align-items: flex-start; gap: 12px; padding: 24px; border-radius: var(--rounded-lg); max-width: 520px; }
-  .notice-icon { flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; line-height: 1; margin-top: 2px; }
-  .notice-content { display: flex; flex-direction: column; gap: 8px; }
-  .notice-title { font-family: 'Montserrat', sans-serif; font-size: 1.125rem; font-weight: 700; color: var(--color-text-heading); }
-  .notice-text { font-family: 'Montserrat', sans-serif; font-size: 1rem; color: var(--color-text-heading); line-height: 1.6; }
+  .notice { display: flex; flex-direction: column; gap: 8px; padding: 24px; max-width: 560px; }
+  .notice-icon { font-size: 1rem; line-height: 1; }
+  .notice-header { display: flex; align-items: center; gap: 8px; }
+  .notice-title { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--color-text-heading); }
+  .notice-text { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; line-height: 1.6; }
   .notice-text b { font-weight: 700; }
-  .notice-label { font-family: 'Montserrat', sans-serif; font-size: 1.125rem; font-weight: 700; }
 
-  .notice--info { background: var(--color-bg-card-alt); }
-  .notice--info .notice-icon, .notice--info .notice-label { color: var(--color-secondary); }
+  /* filled — tinted rounded card, only the icon carries the intent colour */
+  .notice--filled { border-radius: var(--rounded-lg); }
+  .notice--filled .notice-text { color: var(--color-text-heading); }
 
-  .notice--success { background: var(--iron-green-50); }
-  .notice--success .notice-icon { color: var(--color-success-hover); }
-  .notice--success .notice-label { color: var(--color-success); }
+  /* bordered — no fill, a coloured left bar; icon carries the intent colour, text stays neutral */
+  .notice--bordered { border-left: 3px solid; padding: 0 0 0 20px; }
+  .notice--bordered .notice-text { color: var(--color-text-body); }
 
-  .notice--warning { background: var(--iron-orange-50); }
-  .notice--warning .notice-icon { color: var(--color-warning-hover); }
-  .notice--warning .notice-label { color: var(--color-warning); }
+  .notice--info.notice--filled { background: var(--color-bg-card-alt); }
+  .notice--info .notice-icon { color: var(--color-info); }
+  .notice--info.notice--bordered { border-left-color: var(--color-info); }
 
-  .notice--danger { background: var(--iron-red-50); }
-  .notice--danger .notice-icon { color: var(--color-danger-hover); }
-  .notice--danger .notice-label { color: var(--color-danger); }
+  .notice--success.notice--filled { background: var(--iron-green-50); }
+  .notice--success .notice-icon { color: var(--color-success); }
+  .notice--success.notice--bordered { border-left-color: var(--color-success); }
+
+  .notice--important.notice--filled { background: var(--iron-purple-50); }
+  .notice--important .notice-icon { color: var(--iron-purple-500); }
+  .notice--important.notice--bordered { border-left-color: var(--iron-purple-500); }
+
+  .notice--warning.notice--filled { background: var(--iron-orange-50); }
+  .notice--warning .notice-icon { color: var(--color-warning); }
+  .notice--warning.notice--bordered { border-left-color: var(--color-warning); }
+
+  .notice--danger.notice--filled { background: var(--iron-red-50); }
+  .notice--danger .notice-icon { color: var(--color-danger); }
+  .notice--danger.notice--bordered { border-left-color: var(--color-danger); }
 </style>

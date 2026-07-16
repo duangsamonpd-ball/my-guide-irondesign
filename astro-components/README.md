@@ -152,15 +152,21 @@ Props: `intent` (`success` | `warning` | `danger` | `info` | `neutral`, default 
 
 ### `Notice.astro`
 
-Non-interactive informational container — disclaimers, notes, short callouts. Three content patterns share one component depending on which props you pass:
+Non-interactive informational block — disclaimers, notes, tips, callouts. Two shells for two contexts, five intents shared by both:
 
 ```astro
-<Notice intent="info" title="Please note" text="Aspose, SyncFusion, and iText are registered trademarks of their respective owner." />
-<Notice intent="info" leadIn="Iron Software" text="developer-based licensing with OEM, cloud, and redistribution rights included." />
-<Notice intent="success" text="Check" />
+<!-- filled — tinted rounded card, icon + title on their own line -->
+<Notice variant="filled" intent="info" title="Please note" text="Aspose, SyncFusion, and iText are registered trademarks of their respective owner." />
+
+<!-- bordered — coloured left bar, icon + bold label lead straight into the paragraph -->
+<Notice variant="bordered" intent="info" title="Please note" text="Aspose, SyncFusion, and iText are registered trademarks of their respective owner." />
+
+<Notice variant="filled" intent="important" title="Important" text="Requires design sign-off before shipping." />
 ```
 
-Props: `intent` (`info` | `success` | `warning` | `danger`, default `info`), `title` (renders title + body), `leadIn` (renders an inline bold prefix before `text`, no title), `text` (required), `class`. Pass neither `title` nor `leadIn` for the minimal, label-only pattern (bold `text` in the intent colour, no separate paragraph).
+Props: `variant` (`filled` | `bordered`, default `filled`), `intent` (`info` | `success` | `important` | `warning` | `danger`, default `info`), `title` (required), `text` (required), `class`.
+
+Only the icon (and, on `bordered`, the left bar) carries the intent colour — the title and paragraph always stay neutral (`--color-text-heading` on `filled`, `--color-text-body` on `bordered`). `important` is a genuinely new intent (not one of the system's original 4 semantic colours) — it uses the `iron-purple-50`/`iron-purple-500` primitives directly since there's no `status/important` semantic token yet.
 
 ### `Tooltip.astro`
 

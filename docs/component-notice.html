@@ -9,11 +9,11 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
-      --color-secondary:#2693EC; --color-success:#63C1A0; --color-success-hover:#53A085;
-      --color-warning:#FDA509; --color-warning-hover:#D2890A; --color-danger:#E5242A; --color-danger-hover:#C91D23;
-      --color-text-heading:#171717; --color-border:#E2E8F0;
+      --color-info:#2693EC; --color-success:#63C1A0; --iron-purple-500:#563B99;
+      --color-warning:#FDA509; --color-danger:#E5242A;
+      --color-bg-card-alt:#F2F9FE; --iron-green-50:#F6FBF9; --iron-purple-50:#F5F3F9; --iron-orange-50:#FFFAF0; --iron-red-50:#FFF1F1;
+      --color-text-heading:#171717; --color-text-body:#262626; --color-border:#E2E8F0;
       --rounded-lg:8px;
-      --bg-info:#F2F9FE; --bg-success:#F6FBF9; --bg-warning:#FFFAF0; --bg-danger:#FFF1F1;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -49,7 +49,7 @@
     .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
     .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:40px; display:flex; gap:24px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
     .canvas.col { flex-direction:column; align-items:stretch; gap:20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:18px; }
     .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
     .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; }
     .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
@@ -70,9 +70,6 @@
     .dd .do .top { background:#EBF9F3; color:#2E9468; } .dd .dont .top { background:#FDEEF0; color:#C91D23; }
     .dd .body { padding:22px; background:#FCFCFD; }
     .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
-    .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
-    .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-    .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; } .atag b { color:#2693EC; }
     footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
     .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
     .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
@@ -82,26 +79,47 @@
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
 
-    /* ════ NOTICE / INFO CARD (token-driven) ════ */
-    .notice { display:flex; align-items:flex-start; gap:12px; padding:24px; border-radius:var(--rounded-lg); max-width:520px; }
-    .notice-icon { flex-shrink:0; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; line-height:1; margin-top:2px; }
-    .notice-content { display:flex; flex-direction:column; gap:8px; }
-    .notice-title { font-size:1.125rem; font-weight:700; color:var(--color-text-heading); }
-    .notice-text { font-size:1rem; color:var(--color-text-heading); line-height:1.6; }
+    /* ════ NOTICE (token-driven) — 2 variants × 5 intents ════ */
+    .notice { display:flex; flex-direction:column; gap:8px; padding:24px; max-width:560px; }
+    .notice-icon { font-size:1rem; line-height:1; }
+    .notice-header { display:flex; align-items:center; gap:8px; }
+    .notice-title { font-size:1.05rem; font-weight:700; color:var(--color-text-heading); }
+    .notice-text { font-size:0.95rem; line-height:1.6; }
     .notice-text b { font-weight:700; }
-    .notice-label { font-size:1.125rem; font-weight:700; }
-    .notice--info { background:var(--bg-info); }
-    .notice--info .notice-icon { color:var(--color-secondary); }
-    .notice--info .notice-label { color:var(--color-secondary); }
-    .notice--success { background:var(--bg-success); }
-    .notice--success .notice-icon { color:var(--color-success-hover); }
-    .notice--success .notice-label { color:var(--color-success); }
-    .notice--warning { background:var(--bg-warning); }
-    .notice--warning .notice-icon { color:var(--color-warning-hover); }
-    .notice--warning .notice-label { color:var(--color-warning); }
-    .notice--danger { background:var(--bg-danger); }
-    .notice--danger .notice-icon { color:var(--color-danger-hover); }
-    .notice--danger .notice-label { color:var(--color-danger); }
+
+    .notice--filled { border-radius:var(--rounded-lg); }
+    .notice--filled .notice-text { color:var(--color-text-heading); }
+    .notice--bordered { border-left:3px solid; padding:0 0 0 20px; }
+    .notice--bordered .notice-text { color:var(--color-text-body); }
+
+    .notice--info.notice--filled { background:var(--color-bg-card-alt); }
+    .notice--info .notice-icon { color:var(--color-info); }
+    .notice--info.notice--bordered { border-left-color:var(--color-info); }
+
+    .notice--success.notice--filled { background:var(--iron-green-50); }
+    .notice--success .notice-icon { color:var(--color-success); }
+    .notice--success.notice--bordered { border-left-color:var(--color-success); }
+
+    .notice--important.notice--filled { background:var(--iron-purple-50); }
+    .notice--important .notice-icon { color:var(--iron-purple-500); }
+    .notice--important.notice--bordered { border-left-color:var(--iron-purple-500); }
+
+    .notice--warning.notice--filled { background:var(--iron-orange-50); }
+    .notice--warning .notice-icon { color:var(--color-warning); }
+    .notice--warning.notice--bordered { border-left-color:var(--color-warning); }
+
+    .notice--danger.notice--filled { background:var(--iron-red-50); }
+    .notice--danger .notice-icon { color:var(--color-danger); }
+    .notice--danger.notice--bordered { border-left-color:var(--color-danger); }
+
+    /* variant comparison columns (matches the Text Link page convention) */
+    .variant-cols { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .variant-col { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:28px; display:flex; flex-direction:column; gap:16px; }
+    .variant-name { font-size:1.15rem; font-weight:800; color:#171717; display:flex; align-items:center; gap:8px; }
+    .variant-name .vtag { font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#62748E; background:#F1F5F9; padding:3px 8px; border-radius:20px; }
+    .variant-desc { font-size:0.82rem; color:#62748E; line-height:1.65; }
+    .variant-example { padding:20px; background:#FAFBFC; border-radius:10px; border:1px solid #F1F5F9; display:flex; align-items:center; justify-content:center; }
+    @media (max-width:768px){ .variant-cols{grid-template-columns:1fr;} }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
@@ -151,105 +169,126 @@
     <div class="page-title">
       <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Notice</div>
       <h1>Notice</h1>
-      <p class="lead">A non-interactive informational container — disclaimers, notes, short callouts. Three content patterns share the same tinted-card shell: title + body, inline lead-in + text, or a minimal label.</p>
-      <div class="meta-chips"><span class="chip">4 intents</span><span class="chip">3 patterns</span><span class="chip new">Token-driven</span></div>
+      <p class="lead">A non-interactive informational block — disclaimers, notes, tips, callouts. Two shells for two contexts, five intents shared by both. Only the icon (and, on <b>Bordered</b>, the left bar) carries the intent colour — text always stays neutral.</p>
+      <div class="meta-chips"><span class="chip">2 variants</span><span class="chip">5 intents</span><span class="chip new">Token-driven</span></div>
     </div>
 
     <div class="sect"><div class="sect-h">Preview</div>
-      <div class="canvas col" style="max-width:560px;margin:0 auto;">
-        <div class="notice notice--info">
-          <span class="notice-icon">✓</span>
-          <div class="notice-content">
-            <div class="notice-title">Please note</div>
-            <p class="notice-text">Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText.</p>
-          </div>
+      <div class="canvas col" style="max-width:640px;margin:0 auto;">
+        <div class="notice notice--filled notice--info">
+          <div class="notice-header"><span class="notice-icon">ℹ</span><span class="notice-title">Please note</span></div>
+          <p class="notice-text">Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText.</p>
+        </div>
+        <div class="notice notice--bordered notice--info">
+          <p class="notice-text"><span class="notice-icon">ℹ</span> <b>Please note:</b> Aspose, SyncFusion, and iText are registered trademarks of their respective owner.</p>
         </div>
       </div>
     </div>
 
-    <div class="sect"><div class="sect-h">Patterns</div>
-      <div class="sect-sub">Title + body for long disclaimers, an inline bold lead-in for shorter context, or a minimal label on its own.</div>
-      <div class="grid">
-        <div class="cell" style="grid-column:span 2;">
-          <div class="notice notice--info" style="max-width:none;">
-            <span class="notice-icon">✓</span>
-            <div class="notice-content">
-              <div class="notice-title">Please note</div>
-              <p class="notice-text">Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText. All product names, logos, and brands are property of their respective owners.</p>
+    <div class="sect"><div class="sect-h">Variants</div>
+      <div class="sect-sub">Pick by context. Both share the same five intents and icon colours — only the shell and text placement differ.</div>
+      <div class="variant-cols">
+
+        <div class="variant-col">
+          <div class="variant-name">Filled <span class="vtag">callout card</span></div>
+          <div class="variant-desc">A tinted, rounded card. Icon + bold title sit on their own line, with the paragraph below — reads as a distinct block, good for standalone disclaimers and dedicated notes sections.</div>
+          <div class="variant-example">
+            <div class="notice notice--filled notice--info" style="max-width:none;">
+              <div class="notice-header"><span class="notice-icon">ℹ</span><span class="notice-title">Please note</span></div>
+              <p class="notice-text">Paragraph lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
           </div>
-          <div class="lbl">Title + body<small>long disclaimer</small></div>
         </div>
-        <div class="cell" style="grid-column:span 2;">
-          <div class="notice notice--info" style="max-width:none;">
-            <span class="notice-icon">✓</span>
-            <div class="notice-content">
-              <p class="notice-text"><b>Iron Software:</b> developer-based licensing with OEM, cloud, and redistribution rights included. Unlimited developer options available.</p>
+
+        <div class="variant-col">
+          <div class="variant-name">Bordered <span class="vtag">inline callout</span></div>
+          <div class="variant-desc">No fill — just a coloured left bar. Icon + bold label lead straight into the paragraph on the same line, so it reads as part of the surrounding copy rather than a separate card.</div>
+          <div class="variant-example">
+            <div class="notice notice--bordered notice--info" style="max-width:none;">
+              <p class="notice-text"><span class="notice-icon">ℹ</span> <b>Please note:</b> Paragraph lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
           </div>
-          <div class="lbl">Lead-in + text<small>bold prefix, no title</small></div>
         </div>
-        <div class="cell">
-          <div class="notice notice--success" style="max-width:none;">
-            <span class="notice-icon">✓</span>
-            <div class="notice-content"><span class="notice-label">Check</span></div>
-          </div>
-          <div class="lbl">Minimal<small>label only</small></div>
-        </div>
+
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Intents</div>
-      <div class="sect-sub">Four semantic colours — pick by meaning, not by which looks nicest.</div>
+      <div class="sect-sub">Five semantic colours, shared by both variants — pick by meaning, not by which looks nicest.</div>
       <div class="grid">
         <div class="cell">
-          <div class="notice notice--info" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Info</span></div></div>
+          <div class="notice notice--filled notice--info" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">ℹ</span><span class="notice-title" style="font-size:0.95rem;">Please note</span></div></div>
           <div class="lbl">Info<small>iron-blue/50</small></div>
         </div>
         <div class="cell">
-          <div class="notice notice--success" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Success</span></div></div>
+          <div class="notice notice--filled notice--success" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">✓</span><span class="notice-title" style="font-size:0.95rem;">Tips</span></div></div>
           <div class="lbl">Success<small>iron-green/50</small></div>
         </div>
         <div class="cell">
-          <div class="notice notice--warning" style="max-width:none;padding:16px;"><span class="notice-icon">!</span><div class="notice-content"><span class="notice-label">Warning</span></div></div>
+          <div class="notice notice--filled notice--important" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">❗</span><span class="notice-title" style="font-size:0.95rem;">Important</span></div></div>
+          <div class="lbl">Important<small>iron-purple/50</small></div>
+        </div>
+        <div class="cell">
+          <div class="notice notice--filled notice--warning" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">⚠</span><span class="notice-title" style="font-size:0.95rem;">Warning</span></div></div>
           <div class="lbl">Warning<small>iron-orange/50</small></div>
         </div>
         <div class="cell">
-          <div class="notice notice--danger" style="max-width:none;padding:16px;"><span class="notice-icon">✕</span><div class="notice-content"><span class="notice-label">Danger</span></div></div>
+          <div class="notice notice--filled notice--danger" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">✕</span><span class="notice-title" style="font-size:0.95rem;">Caution</span></div></div>
           <div class="lbl">Danger<small>iron-red/50</small></div>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Anatomy</div>
-      <div class="sect-sub">The parts of a notice and the token each is bound to.</div>
-      <div class="anatomy" style="align-items:stretch;max-width:520px;margin:0 auto;">
-        <div class="notice notice--info" style="max-width:none;">
-          <span class="notice-icon">✓</span>
-          <div class="notice-content">
-            <div class="notice-title">Please note</div>
-            <p class="notice-text">Helper disclaimer text.</p>
+      <div class="sect-sub">The parts of each variant and the token each is bound to. In both, only the icon (and the bordered variant's left bar) is intent-coloured — the title and paragraph always use the neutral text tokens.</div>
+      <div class="variant-cols">
+
+        <div class="variant-col">
+          <div class="variant-name">Filled</div>
+          <div class="variant-example">
+            <div class="notice notice--filled notice--info" style="max-width:none;">
+              <div class="notice-header"><span class="notice-icon">ℹ</span><span class="notice-title">Please note</span></div>
+              <p class="notice-text">Helper disclaimer text.</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
+            <span class="chip">background → --color-bg-card-alt</span>
+            <span class="chip">radius → --rounded-lg</span>
+            <span class="chip">icon → --color-info</span>
+            <span class="chip">title → --color-text-heading, 700</span>
+            <span class="chip">body → --color-text-heading, 400</span>
           </div>
         </div>
-        <div class="anatomy-tags">
-          <span class="atag">background → <b>--color-bg-card-alt</b> (iron-blue/50)</span>
-          <span class="atag">radius → <b>--rounded-lg</b></span>
-          <span class="atag">icon → <b>--color-secondary</b></span>
-          <span class="atag">title → <b>--color-text-heading</b>, 700</span>
-          <span class="atag">body → <b>--color-text-heading</b>, 400</span>
+
+        <div class="variant-col">
+          <div class="variant-name">Bordered</div>
+          <div class="variant-example">
+            <div class="notice notice--bordered notice--info" style="max-width:none;">
+              <p class="notice-text"><span class="notice-icon">ℹ</span> <b>Please note:</b> Helper disclaimer text.</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
+            <span class="chip">left bar → --color-info, 3px</span>
+            <span class="chip">icon → --color-info</span>
+            <span class="chip">label → --color-text-body, 700 (neutral)</span>
+            <span class="chip">body → --color-text-body, 400</span>
+          </div>
         </div>
+
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
-        <tr><td class="prop">Background · info</td><td class="token">--color-bg-card-alt</td><td class="val"><span class="sw" style="background:#F2F9FE"></span>#F2F9FE</td></tr>
-        <tr><td class="prop">Background · success</td><td class="token">iron-green/50</td><td class="val"><span class="sw" style="background:#F6FBF9"></span>#F6FBF9</td></tr>
-        <tr><td class="prop">Icon · info</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop">Icon · success</td><td class="token">--color-success-hover</td><td class="val"><span class="sw" style="background:#53A085"></span>#53A085</td></tr>
-        <tr><td class="prop">Label · success</td><td class="token">--color-success</td><td class="val"><span class="sw" style="background:#63C1A0"></span>#63C1A0</td></tr>
-        <tr><td class="prop">Radius</td><td class="token">--rounded-lg</td><td class="val">8px</td></tr>
-        <tr><td class="prop">Title / body</td><td class="token">--color-text-heading</td><td class="val"><span class="sw" style="background:#171717"></span>#171717</td></tr>
+        <tr><td class="prop">Info · bg / icon</td><td class="token">--color-bg-card-alt / --color-info</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Success · bg / icon</td><td class="token">iron-green-50 / --color-success</td><td class="val"><span class="sw" style="background:#63C1A0"></span>#63C1A0</td></tr>
+        <tr><td class="prop">Important · bg / icon</td><td class="token">iron-purple-50 / iron-purple-500</td><td class="val"><span class="sw" style="background:#563B99"></span>#563B99</td></tr>
+        <tr><td class="prop">Warning · bg / icon</td><td class="token">iron-orange-50 / --color-warning</td><td class="val"><span class="sw" style="background:#FDA509"></span>#FDA509</td></tr>
+        <tr><td class="prop">Danger · bg / icon</td><td class="token">iron-red-50 / --color-danger</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
+        <tr><td class="prop">Filled · title/body</td><td class="token">--color-text-heading</td><td class="val"><span class="sw" style="background:#171717"></span>#171717</td></tr>
+        <tr><td class="prop">Bordered · text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
+        <tr><td class="prop">Radius (filled)</td><td class="token">--rounded-lg</td><td class="val">8px</td></tr>
+        <tr><td class="prop">Left bar (bordered)</td><td class="token">— (fixed)</td><td class="val">3px solid</td></tr>
         <tr><td class="prop">Padding</td><td class="token">--space-xl</td><td class="val">24px</td></tr>
       </tbody></table>
     </div>
@@ -261,48 +300,45 @@
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--info"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-title"</span>&gt;Please note&lt;/<span class="c-tag">div</span>&gt;
-    &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;Aspose, SyncFusion, and iText are registered trademarks…&lt;/<span class="c-tag">p</span>&gt;
+<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- filled --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--filled notice--info"</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-header"</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;ℹ&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-title"</span>&gt;Please note&lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
+  &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;Aspose, SyncFusion, and iText are registered trademarks…&lt;/<span class="c-tag">p</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;
 
-<span class="c-com">&lt;!-- lead-in + text, no title --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--info"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;
-    &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;&lt;<span class="c-tag">b</span>&gt;Iron Software:&lt;/<span class="c-tag">b</span>&gt; developer-based licensing…&lt;/<span class="c-tag">p</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;
-
-<span class="c-com">&lt;!-- minimal — label only --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--success"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-label"</span>&gt;Check&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
+<span class="c-com">&lt;!-- bordered --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--bordered notice--info"</span>&gt;
+  &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;ℹ&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">b</span>&gt;Please note:&lt;/<span class="c-tag">b</span>&gt; Aspose, SyncFusion, and iText are registered trademarks…
+  &lt;/<span class="c-tag">p</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.notice</span> {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 24px; border-radius: <span class="c-str">var(--rounded-lg)</span>;
-}
-<span class="c-key">.notice--info</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; }
-<span class="c-key">.notice--info .notice-icon,
-.notice--info .notice-label</span> { color: <span class="c-str">var(--color-secondary)</span>; }
-<span class="c-key">.notice--success</span> { background: #F6FBF9; }   <span class="c-com">/* iron-green/50 — no semantic alias yet */</span>
-<span class="c-key">.notice--success .notice-icon</span> { color: <span class="c-str">var(--color-success-hover)</span>; }
-<span class="c-key">.notice--success .notice-label</span> { color: <span class="c-str">var(--color-success)</span>; }
-<span class="c-key">.notice-title</span> { font-size: 1.125rem; font-weight: 700; color: <span class="c-str">var(--color-text-heading)</span>; }
-<span class="c-key">.notice-text</span> { font-size: 1rem; color: <span class="c-str">var(--color-text-heading)</span>; line-height: 1.6; }</pre>
+<pre class="code-pane" data-lang="css"><span class="c-key">.notice</span> { display: flex; flex-direction: column; gap: 8px; padding: 24px; max-width: 560px; }
+<span class="c-key">.notice-header</span> { display: flex; align-items: center; gap: 8px; }
+<span class="c-key">.notice-title</span> { font-weight: 700; color: <span class="c-str">var(--color-text-heading)</span>; }
+
+<span class="c-com">/* filled — only the icon carries the intent colour */</span>
+<span class="c-key">.notice--filled</span> { border-radius: <span class="c-str">var(--rounded-lg)</span>; }
+<span class="c-key">.notice--filled .notice-text</span> { color: <span class="c-str">var(--color-text-heading)</span>; }
+<span class="c-key">.notice--info.notice--filled</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; }
+<span class="c-key">.notice--info .notice-icon</span> { color: <span class="c-str">var(--color-info)</span>; }
+
+<span class="c-com">/* bordered — coloured left bar, neutral body text */</span>
+<span class="c-key">.notice--bordered</span> { border-left: 3px solid; padding: 0 0 0 20px; }
+<span class="c-key">.notice--bordered .notice-text</span> { color: <span class="c-str">var(--color-text-body)</span>; }
+<span class="c-key">.notice--info.notice--bordered</span> { border-left-color: <span class="c-str">var(--color-info)</span>; }</pre>
         </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="notice notice--info" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Check</span></div></div></div>
-          <ul><li>Match the intent colour to the <b>meaning</b> (info ≠ warning ≠ danger).</li><li>Use the minimal pattern for short, self-evident callouts.</li><li>Reach for title + body only when the disclaimer genuinely needs it.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="notice notice--danger" style="max-width:none;padding:16px;"><span class="notice-icon">✕</span><div class="notice-content"><span class="notice-label">Click here for details →</span></div></div></div>
-          <ul><li>Don't make a Notice clickable — that's a Button or a real link.</li><li>Don't stack more than one Notice in the same view without a good reason.</li><li>Don't use danger/warning for neutral information.</li></ul></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="notice notice--filled notice--success" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">✓</span><span class="notice-title" style="font-size:0.95rem;">Tips</span></div></div></div>
+          <ul><li>Match the intent colour to the <b>meaning</b> (info ≠ warning ≠ danger).</li><li>Use <b>Bordered</b> inline within long-form content, <b>Filled</b> as a standalone callout.</li><li>Keep the title/label neutral — only the icon (and bar) should carry colour.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="notice notice--filled notice--danger" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">✕</span><span class="notice-title" style="font-size:0.95rem;color:var(--color-danger);">Click here for details →</span></div></div></div>
+          <ul><li>Don't make a Notice clickable — that's a Button or a real link.</li><li>Don't colour the title/paragraph text — that breaks the icon-only colour convention.</li><li>Don't use danger/warning for neutral information.</li></ul></div>
       </div>
     </div>
 
