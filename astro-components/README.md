@@ -91,6 +91,8 @@ Props: `label` (default `Drag & drop your file`), `linkText`, `sizeLimitText`, `
 
 The whole dropzone is a `<label>` wrapping a visually-hidden native `<input type="file">`, so click-to-browse works with zero JS. A scoped `<script>` adds drag-over styling and wires a `Remove` button that dispatches a `file-remove` custom event (bubbles) — the consuming app decides what removal actually does, this component only handles the visual state.
 
+The dropzone icon (upload / has-file / error) is an inline **Font Awesome Free Solid** SVG — `cloud-arrow-up`, `circle-check`, `triangle-exclamation` — path data hard-coded directly in the component, `fill="currentColor"` so it inherits the icon-box's tint color per state. No icon font or CDN dependency.
+
 ### `Select.astro`
 
 ```astro
@@ -168,6 +170,8 @@ Props: `variant` (`filled` | `bordered`, default `filled`), `intent` (`info` | `
 
 Only the icon (and, on `bordered`, the left bar) carries the intent colour — the title and paragraph always stay neutral (`--color-text-heading` on `filled`, `--color-text-body` on `bordered`). `important` is a genuinely new intent (not one of the system's original 4 semantic colours) — it uses the `iron-purple-50`/`iron-purple-500` primitives directly since there's no `status/important` semantic token yet.
 
+Each intent's icon is an inline **Font Awesome Free Solid** SVG (`circle-info`, `circle-check`, `circle-exclamation`, `triangle-exclamation`, `circle-xmark`) — path data hard-coded in the component, `fill="currentColor"` so it inherits the intent color. No icon font or CDN dependency; see "Icon strategy" below.
+
 ### `Tooltip.astro`
 
 ```astro
@@ -240,6 +244,12 @@ The centered, single-field "instant capture" card pattern (different enough from
 ```
 
 Props: `icon`, `headingPrefix` (default `"Get your free"`), `headingBold` (required — rendered bold), `headingSuffix` (default `"instantly."`), `inputPlaceholder`, `inputName`, `hint`, `submitLabel`, `submitIcon`, `footerNotes` (`string[]`), `class`.
+
+## Icon strategy
+
+`Notice.astro` and `FileUpload.astro` use real **Font Awesome Free Solid** icons, inlined as `<svg viewBox="..." fill="currentColor"><path d="..."/></svg>` directly in the component — no `@fortawesome/*` npm package, icon font, or CDN link shipped at runtime, keeping components self-contained.
+
+To add another icon: temporarily `npm install @fortawesome/free-solid-svg-icons` somewhere scratch (not in this repo), `require()` the icon you need, and read `icon.icon` — it's `[width, height, ligatures, unicode, svgPathData]`. Hard-code `viewBox="0 0 {width} {height}"` and the path data into the component, then remove the temporary install. Free Solid icons are CC-BY-4.0-compatible for this kind of embedding.
 
 ## Verifying changes
 

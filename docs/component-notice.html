@@ -81,7 +81,7 @@
 
     /* ════ NOTICE (token-driven) — 2 variants × 5 intents ════ */
     .notice { display:flex; flex-direction:column; gap:8px; padding:24px; max-width:560px; }
-    .notice-icon { font-size:1rem; line-height:1; }
+    .notice-icon { width:1rem; height:1rem; flex-shrink:0; vertical-align:-0.1em; }
     .notice-header { display:flex; align-items:center; gap:8px; }
     .notice-title { font-size:1.05rem; font-weight:700; color:var(--color-text-heading); }
     .notice-text { font-size:0.95rem; line-height:1.6; }
@@ -176,11 +176,11 @@
     <div class="sect"><div class="sect-h">Preview</div>
       <div class="canvas col" style="max-width:640px;margin:0 auto;">
         <div class="notice notice--filled notice--info">
-          <div class="notice-header"><span class="notice-icon">ℹ</span><span class="notice-title">Please note</span></div>
+          <div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg><span class="notice-title">Please note</span></div>
           <p class="notice-text">Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText.</p>
         </div>
         <div class="notice notice--bordered notice--info">
-          <p class="notice-text"><span class="notice-icon">ℹ</span> <b>Please note:</b> Aspose, SyncFusion, and iText are registered trademarks of their respective owner.</p>
+          <p class="notice-text"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg> <b>Please note:</b> Aspose, SyncFusion, and iText are registered trademarks of their respective owner.</p>
         </div>
       </div>
     </div>
@@ -194,7 +194,7 @@
           <div class="variant-desc">A tinted, rounded card. Icon + bold title sit on their own line, with the paragraph below — reads as a distinct block, good for standalone disclaimers and dedicated notes sections.</div>
           <div class="variant-example">
             <div class="notice notice--filled notice--info" style="max-width:none;">
-              <div class="notice-header"><span class="notice-icon">ℹ</span><span class="notice-title">Please note</span></div>
+              <div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg><span class="notice-title">Please note</span></div>
               <p class="notice-text">Paragraph lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
           </div>
@@ -205,7 +205,7 @@
           <div class="variant-desc">No fill — just a coloured left bar. Icon + bold label lead straight into the paragraph on the same line, so it reads as part of the surrounding copy rather than a separate card.</div>
           <div class="variant-example">
             <div class="notice notice--bordered notice--info" style="max-width:none;">
-              <p class="notice-text"><span class="notice-icon">ℹ</span> <b>Please note:</b> Paragraph lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <p class="notice-text"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg> <b>Please note:</b> Paragraph lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
           </div>
         </div>
@@ -217,23 +217,23 @@
       <div class="sect-sub">Five semantic colours, shared by both variants — pick by meaning, not by which looks nicest.</div>
       <div class="grid">
         <div class="cell">
-          <div class="notice notice--filled notice--info" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">ℹ</span><span class="notice-title" style="font-size:0.95rem;">Please note</span></div></div>
+          <div class="notice notice--filled notice--info" style="max-width:none;padding:16px;"><div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg><span class="notice-title" style="font-size:0.95rem;">Please note</span></div></div>
           <div class="lbl">Info<small>iron-blue/50</small></div>
         </div>
         <div class="cell">
-          <div class="notice notice--filled notice--success" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">✓</span><span class="notice-title" style="font-size:0.95rem;">Tips</span></div></div>
+          <div class="notice notice--filled notice--success" style="max-width:none;padding:16px;"><div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg><span class="notice-title" style="font-size:0.95rem;">Tips</span></div></div>
           <div class="lbl">Success<small>iron-green/50</small></div>
         </div>
         <div class="cell">
-          <div class="notice notice--filled notice--important" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">❗</span><span class="notice-title" style="font-size:0.95rem;">Important</span></div></div>
+          <div class="notice notice--filled notice--important" style="max-width:none;padding:16px;"><div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"/></svg><span class="notice-title" style="font-size:0.95rem;">Important</span></div></div>
           <div class="lbl">Important<small>iron-purple/50</small></div>
         </div>
         <div class="cell">
-          <div class="notice notice--filled notice--warning" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">⚠</span><span class="notice-title" style="font-size:0.95rem;">Warning</span></div></div>
+          <div class="notice notice--filled notice--warning" style="max-width:none;padding:16px;"><div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0c14.7 0 28.2 8.1 35.2 21l216 400c6.7 12.4 6.4 27.4-.8 39.5S486.1 480 472 480L40 480c-14.1 0-27.2-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9 20.5-21 35.2-21zm0 352a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.5 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"/></svg><span class="notice-title" style="font-size:0.95rem;">Warning</span></div></div>
           <div class="lbl">Warning<small>iron-orange/50</small></div>
         </div>
         <div class="cell">
-          <div class="notice notice--filled notice--danger" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">✕</span><span class="notice-title" style="font-size:0.95rem;">Caution</span></div></div>
+          <div class="notice notice--filled notice--danger" style="max-width:none;padding:16px;"><div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM167 167c9.4-9.4 24.6-9.4 33.9 0l55 55 55-55c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-55 55 55 55c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-55-55-55 55c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l55-55-55-55c-9.4-9.4-9.4-24.6 0-33.9z"/></svg><span class="notice-title" style="font-size:0.95rem;">Caution</span></div></div>
           <div class="lbl">Danger<small>iron-red/50</small></div>
         </div>
       </div>
@@ -247,7 +247,7 @@
           <div class="variant-name">Filled</div>
           <div class="variant-example">
             <div class="notice notice--filled notice--info" style="max-width:none;">
-              <div class="notice-header"><span class="notice-icon">ℹ</span><span class="notice-title">Please note</span></div>
+              <div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg><span class="notice-title">Please note</span></div>
               <p class="notice-text">Helper disclaimer text.</p>
             </div>
           </div>
@@ -264,7 +264,7 @@
           <div class="variant-name">Bordered</div>
           <div class="variant-example">
             <div class="notice notice--bordered notice--info" style="max-width:none;">
-              <p class="notice-text"><span class="notice-icon">ℹ</span> <b>Please note:</b> Helper disclaimer text.</p>
+              <p class="notice-text"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg> <b>Please note:</b> Helper disclaimer text.</p>
             </div>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
@@ -300,10 +300,10 @@
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- filled --&gt;</span>
+<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- filled — icon is an inline Font Awesome Free Solid SVG (circle-info) --&gt;</span>
 &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--filled notice--info"</span>&gt;
   &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-header"</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;ℹ&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 512 512"</span> <span class="c-attr">fill</span>=<span class="c-str">"currentColor"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">d</span>=<span class="c-str">"M256 512a256…"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-title"</span>&gt;Please note&lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
   &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;Aspose, SyncFusion, and iText are registered trademarks…&lt;/<span class="c-tag">p</span>&gt;
@@ -312,11 +312,12 @@
 <span class="c-com">&lt;!-- bordered --&gt;</span>
 &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--bordered notice--info"</span>&gt;
   &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;ℹ&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 512 512"</span> <span class="c-attr">fill</span>=<span class="c-str">"currentColor"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">d</span>=<span class="c-str">"M256 512a256…"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;
     &lt;<span class="c-tag">b</span>&gt;Please note:&lt;/<span class="c-tag">b</span>&gt; Aspose, SyncFusion, and iText are registered trademarks…
   &lt;/<span class="c-tag">p</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;</pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.notice</span> { display: flex; flex-direction: column; gap: 8px; padding: 24px; max-width: 560px; }
+<span class="c-key">.notice-icon</span> { width: 1rem; height: 1rem; flex-shrink: 0; vertical-align: -0.1em; }   <span class="c-com">/* Font Awesome Free Solid, currentColor fill */</span>
 <span class="c-key">.notice-header</span> { display: flex; align-items: center; gap: 8px; }
 <span class="c-key">.notice-title</span> { font-weight: 700; color: <span class="c-str">var(--color-text-heading)</span>; }
 
@@ -335,9 +336,9 @@
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="notice notice--filled notice--success" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">✓</span><span class="notice-title" style="font-size:0.95rem;">Tips</span></div></div></div>
-          <ul><li>Match the intent colour to the <b>meaning</b> (info ≠ warning ≠ danger).</li><li>Use <b>Bordered</b> inline within long-form content, <b>Filled</b> as a standalone callout.</li><li>Keep the title/label neutral — only the icon (and bar) should carry colour.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="notice notice--filled notice--danger" style="max-width:none;padding:16px;"><div class="notice-header"><span class="notice-icon">✕</span><span class="notice-title" style="font-size:0.95rem;color:var(--color-danger);">Click here for details →</span></div></div></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="notice notice--filled notice--success" style="max-width:none;padding:16px;"><div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg><span class="notice-title" style="font-size:0.95rem;">Tips</span></div></div></div>
+          <ul><li>Match the intent colour to the <b>meaning</b> (info ≠ warning ≠ danger).</li><li>Use <b>Bordered</b> inline within long-form content, <b>Filled</b> as a standalone callout.</li><li>Keep the title/label neutral — only the icon (and bar) should carry colour.</li><li>Icons are <b>Font Awesome Free Solid</b> SVGs, inlined with <code>fill="currentColor"</code> — no icon font or CDN dependency.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="notice notice--filled notice--danger" style="max-width:none;padding:16px;"><div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM167 167c9.4-9.4 24.6-9.4 33.9 0l55 55 55-55c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-55 55 55 55c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-55-55-55 55c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l55-55-55-55c-9.4-9.4-9.4-24.6 0-33.9z"/></svg><span class="notice-title" style="font-size:0.95rem;color:var(--color-danger);">Click here for details →</span></div></div></div>
           <ul><li>Don't make a Notice clickable — that's a Button or a real link.</li><li>Don't colour the title/paragraph text — that breaks the icon-only colour convention.</li><li>Don't use danger/warning for neutral information.</li></ul></div>
       </div>
     </div>
