@@ -38,17 +38,17 @@ Props: `variant` (`primary` | `secondary` | `tertiary` | `outline` | `ondark` | 
 
 ### `TextLink.astro`
 
-Inline, underlined link for reference tables and code documentation — modelled after Tailwind's docs quick-reference table:
+Inline link where only the underline speaks — the text stays neutral heading-colour, and a separate `border/selected`-coloured underline goes from 50% to 100% opacity on hover:
 
 ```astro
-<TextLink href="/docs/hover">hover</TextLink>
-<TextLink href="/docs/hover" dark>hover</TextLink>
+<p>Save 80% on all 10 products with the new <TextLink href="/iron-suite">Iron Suite</TextLink></p>
+<TextLink href="/docs" dark>Create Blank PDF</TextLink>
 <TextLink href="https://example.com" external>Learn more</TextLink>
 ```
 
 Props: `href` (required), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"` + a trailing ↗ icon), `class`. The slot is the link text.
 
-`dark` swaps `--color-text-link(-hover)` for `--color-text-dark-link(-hover)` — currently identical values, kept as separate tokens for when dark mode diverges from light.
+Implemented with `text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent)` rather than a separate absolutely-positioned line (which is how the Figma source models it) — real `text-decoration` reflows correctly with text wrapping, a manual line does not. `dark` swaps `--color-text-heading`/`--color-border-selected` for `--color-text-dark-heading`/`--color-border-dark-alt` — currently the same underline colour, kept as separate tokens for when dark mode diverges from light.
 
 ### `Input.astro`
 

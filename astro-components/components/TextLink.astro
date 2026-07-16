@@ -17,14 +17,18 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
 </a>
 
 <style>
+  /* Neutral-coloured text with a separate underline — only the underline's
+     opacity changes on hover (50% → 100%), the text colour never does. */
   .tlink {
-    color: var(--color-text-link); text-decoration: underline; text-underline-offset: 3px;
-    font-weight: 600; transition: color .15s;
+    color: var(--color-text-heading); font-weight: 600;
+    text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+    text-decoration-thickness: 1px; text-underline-offset: 3px;
+    transition: text-decoration-color .15s;
   }
-  .tlink:hover { color: var(--color-text-link-hover); }
-  .tlink:focus-visible { outline: 2px solid var(--color-text-link); outline-offset: 3px; border-radius: 2px; }
-  .tlink.dark { color: var(--color-text-dark-link); }
-  .tlink.dark:hover { color: var(--color-text-dark-link-hover); }
-  .tlink.dark:focus-visible { outline-color: var(--color-text-dark-link); }
+  .tlink:hover { text-decoration-color: var(--color-border-selected); }
+  .tlink:focus-visible { outline: 2px solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
+  .tlink.dark { color: var(--color-text-dark-heading); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
+  .tlink.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
+  .tlink.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
   .tlink .ext-icon { font-size: 0.7em; margin-left: 3px; }
 </style>

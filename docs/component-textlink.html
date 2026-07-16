@@ -9,9 +9,9 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
-      --color-text-link:#2693EC; --color-text-link-hover:#E01A59;
-      --color-text-dark-link:#2693EC; --color-text-dark-link-hover:#E01A59;
-      --color-text-heading:#171717; --color-text-support:#90A1B9; --color-border:#E2E8F0;
+      --color-border-selected:#2693EC; --color-border-dark-alt:#2693EC;
+      --color-text-heading:#171717; --color-text-dark-heading:#F5F5F5;
+      --color-text-support:#90A1B9; --color-border:#E2E8F0;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -83,17 +83,22 @@
     .code-wrap .code-pane.active{display:block;}
 
     /* ════ TEXT LINK (token-driven) ════ */
+    /* Neutral-coloured text with a separate underline — only the underline's
+       opacity changes on hover (50% → 100%), the text colour never does. */
     .tlink {
-      color: var(--color-text-link); text-decoration: underline; text-underline-offset: 3px;
-      font-weight: 600; font-family: 'Roboto Mono', monospace; font-size: 1rem;
-      transition: color .15s;
+      color: var(--color-text-heading); font-weight: 600; font-size: 0.95rem;
+      text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+      text-decoration-thickness: 1px; text-underline-offset: 3px;
+      transition: text-decoration-color .15s;
     }
-    .tlink:hover { color: var(--color-text-link-hover); }
-    .tlink:focus-visible { outline: 2px solid var(--color-text-link); outline-offset: 3px; border-radius: 2px; }
-    .tlink.dark { color: var(--color-text-dark-link); }
-    .tlink.dark:hover { color: var(--color-text-dark-link-hover); }
-    .tlink.dark:focus-visible { outline-color: var(--color-text-dark-link); }
+    .tlink:hover { text-decoration-color: var(--color-border-selected); }
+    .tlink:focus-visible { outline: 2px solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
+    .tlink.dark { color: var(--color-text-dark-heading); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
+    .tlink.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
+    .tlink.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
     .tlink .ext-icon { font-size: 0.7em; margin-left: 3px; }
+    .tlink-row { display:flex; align-items:center; gap:8px; font-size:0.95rem; color:var(--color-text-heading); }
+    .tlink-row .dot { width:4px; height:4px; border-radius:50%; background:var(--color-text-heading); flex-shrink:0; }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
@@ -143,62 +148,67 @@
     <div class="page-title">
       <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Text Link</div>
       <h1>Text Link</h1>
-      <p class="lead">An inline, underlined link for reference tables and code documentation — modelled after Tailwind's docs quick-reference table. Same underline treatment on light or dark backgrounds; only the token pairing changes.</p>
-      <div class="meta-chips"><span class="chip">2 modes</span><span class="chip">hover · focus-visible</span><span class="chip new">Token-driven</span></div>
+      <p class="lead">An inline link where only the underline speaks — the text stays neutral heading-colour, and a separate <code>border/selected</code> underline goes from 50% to 100% opacity on hover. Quieter than a fully-coloured link.</p>
+      <div class="meta-chips"><span class="chip">2 states</span><span class="chip">2 modes</span><span class="chip new">Token-driven</span></div>
     </div>
 
     <div class="sect"><div class="sect-h">Preview</div>
-      <div class="canvas dark" style="max-width:560px;margin:0 auto;">
-        <a href="#" class="tlink dark">hover</a>
-        <a href="#" class="tlink dark">focus</a>
-        <a href="#" class="tlink dark">focus-within</a>
-        <a href="#" class="tlink dark">focus-visible</a>
-        <a href="#" class="tlink dark">active</a>
+      <div class="canvas col" style="max-width:480px;margin:0 auto;">
+        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Save 80% on all 10 products with the new <a href="#" class="tlink">Iron Suite</a></p>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">States</div>
-      <div class="sect-sub">Default (underlined) → hover (colour shifts to primary) → focus-visible (outline ring).</div>
+      <div class="sect-sub">Default → underline at 50% opacity. Hover → underline jumps to 100% opacity. The text colour itself never changes.</div>
       <div class="grid">
-        <div class="cell dark"><a href="#" class="tlink dark">hover</a><div class="lbl" style="color:#90A1B9;">Default</div></div>
-        <div class="cell dark"><a href="#" class="tlink dark" style="color:var(--color-text-dark-link-hover);">hover</a><div class="lbl" style="color:#90A1B9;">Hover<small>primary pink</small></div></div>
-        <div class="cell dark"><a href="#" class="tlink dark" style="outline:2px solid var(--color-text-dark-link);outline-offset:3px;border-radius:2px;">focus-visible</a><div class="lbl" style="color:#90A1B9;">Focus-visible<small>outline ring</small></div></div>
+        <div class="cell">
+          <div class="tlink-row"><span class="dot"></span><a href="#" class="tlink">Native vs Remote Engine</a></div>
+          <div class="lbl">Default<small>link-underline-opacity-50</small></div>
+        </div>
+        <div class="cell">
+          <div class="tlink-row"><span class="dot"></span><a href="#" class="tlink" style="text-decoration-color:var(--color-border-selected);">Native vs Remote Engine</a></div>
+          <div class="lbl">Hover<small>link-underline-opacity-100</small></div>
+        </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Modes</div>
-      <div class="sect-sub">Light-background links use <code>--color-text-link</code>; dark-background links (code blocks, dark sections) use <code>--color-text-dark-link</code> — currently the same value, kept as separate tokens for when dark mode diverges.</div>
+      <div class="sect-sub">Light-background links use <code>--color-text-heading</code> + <code>--color-border-selected</code>; dark-background links (code blocks, dark sections) use <code>--color-text-dark-heading</code> + <code>--color-border-dark-alt</code> — currently the same underline colour, kept as separate tokens for when dark mode diverges.</div>
       <div class="grid">
         <div class="cell">
-          <a href="#" class="tlink">Learn more →</a>
-          <div class="lbl">Light<small>--color-text-link</small></div>
+          <a href="#" class="tlink">Create Blank PDF</a>
+          <div class="lbl">Light<small>--color-text-heading</small></div>
         </div>
         <div class="cell dark">
-          <a href="#" class="tlink dark">Learn more →</a>
-          <div class="lbl" style="color:#90A1B9;">Dark<small>--color-text-dark-link</small></div>
+          <a href="#" class="tlink dark">Create Blank PDF</a>
+          <div class="lbl" style="color:#90A1B9;">Dark<small>--color-text-dark-heading</small></div>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Anatomy</div>
       <div class="sect-sub">The parts of a text link and the token each is bound to.</div>
-      <div class="anatomy" style="background:#0A0A0A;border-color:#171717;max-width:420px;margin:0 auto;">
-        <a href="#" class="tlink dark">focus-visible</a>
+      <div class="anatomy" style="max-width:420px;margin:0 auto;">
+        <a href="#" class="tlink" style="text-decoration-color:var(--color-border-selected);">Create Blank PDF</a>
         <div class="anatomy-tags">
-          <span class="atag" style="background:#171717;color:#CAD5E2;">color → <b>--color-text-dark-link</b></span>
-          <span class="atag" style="background:#171717;color:#CAD5E2;">hover → <b>--color-text-dark-link-hover</b></span>
-          <span class="atag" style="background:#171717;color:#CAD5E2;">underline-offset → <b>3px</b></span>
-          <span class="atag" style="background:#171717;color:#CAD5E2;">weight → <b>600</b></span>
+          <span class="atag">text → <b>--color-text-heading</b></span>
+          <span class="atag">underline → <b>--color-border-selected</b></span>
+          <span class="atag">default → <b>50% opacity</b></span>
+          <span class="atag">hover → <b>100% opacity</b></span>
+          <span class="atag">underline-offset → <b>3px</b></span>
+          <span class="atag">weight → <b>600</b></span>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
-        <tr><td class="prop">Color · light</td><td class="token">--color-text-link</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop">Color · light hover</td><td class="token">--color-text-link-hover</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
-        <tr><td class="prop">Color · dark</td><td class="token">--color-text-dark-link</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop">Color · dark hover</td><td class="token">--color-text-dark-link-hover</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
+        <tr><td class="prop">Text · light</td><td class="token">--color-text-heading</td><td class="val"><span class="sw" style="background:#171717"></span>#171717</td></tr>
+        <tr><td class="prop">Text · dark</td><td class="token">--color-text-dark-heading</td><td class="val"><span class="sw" style="background:#F5F5F5"></span>#F5F5F5</td></tr>
+        <tr><td class="prop">Underline · light</td><td class="token">--color-border-selected</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Underline · dark</td><td class="token">--color-border-dark-alt</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Underline · default</td><td class="token">— (fixed)</td><td class="val">opacity 50%</td></tr>
+        <tr><td class="prop">Underline · hover</td><td class="token">— (fixed)</td><td class="val">opacity 100%</td></tr>
         <tr><td class="prop">Underline offset</td><td class="token">— (fixed)</td><td class="val">3px</td></tr>
         <tr><td class="prop">Weight</td><td class="token">— (fixed)</td><td class="val">600</td></tr>
       </tbody></table>
@@ -211,35 +221,40 @@
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"/docs/hover"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink"</span>&gt;hover&lt;/<span class="c-tag">a</span>&gt;
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">p</span>&gt;Save 80% on all 10 products with the new
+  &lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"/iron-suite"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink"</span>&gt;Iron Suite&lt;/<span class="c-tag">a</span>&gt;
+&lt;/<span class="c-tag">p</span>&gt;
 
 <span class="c-com">&lt;!-- on a dark background --&gt;</span>
-&lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"/docs/hover"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink dark"</span>&gt;hover&lt;/<span class="c-tag">a</span>&gt;
+&lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"/docs"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink dark"</span>&gt;Create Blank PDF&lt;/<span class="c-tag">a</span>&gt;
 
 <span class="c-com">&lt;!-- external link --&gt;</span>
 &lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"https://example.com"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink"</span> <span class="c-attr">target</span>=<span class="c-str">"_blank"</span> <span class="c-attr">rel</span>=<span class="c-str">"noopener"</span>&gt;
   Learn more &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ext-icon"</span>&gt;↗&lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">a</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.tlink</span> {
-  color: <span class="c-str">var(--color-text-link)</span>;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+<pre class="code-pane" data-lang="css"><span class="c-com">/* neutral text — only the underline changes on hover */</span>
+<span class="c-key">.tlink</span> {
+  color: <span class="c-str">var(--color-text-heading)</span>;
   font-weight: 600;
-  transition: color .15s;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, <span class="c-str">var(--color-border-selected)</span> 50%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color .15s;
 }
-<span class="c-key">.tlink:hover</span> { color: <span class="c-str">var(--color-text-link-hover)</span>; }
-<span class="c-key">.tlink:focus-visible</span> { outline: 2px solid <span class="c-str">var(--color-text-link)</span>; outline-offset: 3px; border-radius: 2px; }
-<span class="c-key">.tlink.dark</span> { color: <span class="c-str">var(--color-text-dark-link)</span>; }
-<span class="c-key">.tlink.dark:hover</span> { color: <span class="c-str">var(--color-text-dark-link-hover)</span>; }</pre>
+<span class="c-key">.tlink:hover</span> { text-decoration-color: <span class="c-str">var(--color-border-selected)</span>; }
+<span class="c-key">.tlink:focus-visible</span> { outline: 2px solid <span class="c-str">var(--color-border-selected)</span>; outline-offset: 3px; border-radius: 2px; }
+<span class="c-key">.tlink.dark</span> { color: <span class="c-str">var(--color-text-dark-heading)</span>; text-decoration-color: color-mix(in srgb, <span class="c-str">var(--color-border-dark-alt)</span> 50%, transparent); }
+<span class="c-key">.tlink.dark:hover</span> { text-decoration-color: <span class="c-str">var(--color-border-dark-alt)</span>; }</pre>
         </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body" style="background:#0A0A0A;"><a href="#" class="tlink dark">focus-visible</a></div>
-          <ul><li>Always underline — colour alone isn't enough contrast for a link.</li><li>Use <code>.dark</code> on dark backgrounds (code blocks, dark sections) so contrast holds.</li><li>Add the external-link icon (<code>.ext-icon</code>) when the link leaves the current site.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body" style="background:#FCFCFD;"><a href="#" style="color:var(--color-text-link);font-weight:600;">focus-visible</a></div>
-          <ul><li>Don't drop the underline on a plain-text link — it stops reading as a link.</li><li>Don't use the light-mode token on a dark background — contrast fails.</li><li>Don't use this for buttons — that's a Button component.</li></ul></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><a href="#" class="tlink">Iron Suite</a></div>
+          <ul><li>Keep the text in the neutral heading colour — only the underline carries the link colour.</li><li>Use <code>.dark</code> on dark backgrounds (code blocks, dark sections) so contrast holds.</li><li>Add the external-link icon (<code>.ext-icon</code>) when the link leaves the current site.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><a href="#" style="color:var(--color-border-selected);font-weight:600;text-decoration:underline;">Iron Suite</a></div>
+          <ul><li>Don't colour the text itself — that turns this back into a plain coloured link.</li><li>Don't drop the underline — colour alone isn't enough contrast for a link.</li><li>Don't use this for buttons — that's a Button component.</li></ul></div>
       </div>
     </div>
 
