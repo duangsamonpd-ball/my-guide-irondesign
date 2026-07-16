@@ -118,6 +118,8 @@ is progressively enhanced via the component's own `<script>` (safe with
 multiple `<Select>` instances on one page, and re-initializes on Astro View
 Transitions).
 
+The selected-option checkmark is an inline **Font Awesome Free Solid** `check` SVG (`fill="currentColor"`), shown via `opacity` toggle — no icon font or CDN dependency.
+
 ### `Checkbox.astro`
 
 ```astro
@@ -201,6 +203,8 @@ Ships its own `<script>` for the hover-with-a-gap interaction (JS open/close wit
 ```
 
 Props: `variant` (`suite` shows the full-brand logo headline; `default` names the current product for cross-sell, default `default`), `productName` (required when `variant="default"`), `products` (`{ prefix, suffix, desc, accent?, href? }[]`, required), `donateImgSrc`, `suiteLogoImgSrc`, `productLogoSrc` (asset path overrides — defaults point at the docs' relative paths, supply your own), `class`.
+
+The "Start Free Trial" CTA's key icon is an inline **Font Awesome Free Solid** `key` SVG (`fill="currentColor"`) — no icon font or CDN dependency.
 
 ### `FormCard.astro`
 

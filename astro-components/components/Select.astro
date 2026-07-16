@@ -42,7 +42,7 @@ const selected = options.find((o) => o.value === value);
   <div class="sel-menu">
     {options.map((opt) => (
       <div class:list={['sel-opt', { selected: opt.value === value }]} data-value={opt.value}>
-        {opt.label} <span class="ck">✓</span>
+        {opt.label} <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span>
       </div>
     ))}
   </div>
@@ -89,7 +89,8 @@ const selected = options.find((o) => o.value === value);
   }
   .sel-opt:hover { background: var(--color-bg-shade); }
   .sel-opt.selected { background: var(--color-bg-card-alt); color: var(--color-secondary); font-weight: 600; }
-  .sel-opt .ck { color: var(--color-secondary); opacity: 0; }
+  .sel-opt .ck { color: var(--color-secondary); opacity: 0; display: inline-flex; }
+  .sel-opt .ck svg { width: 0.8rem; height: 0.8rem; }
   .sel-opt.selected .ck { opacity: 1; }
   .sel-hint { display: block; font-size: var(--font-size-caption); color: var(--color-text-support); margin-top: 6px; }
   .sel-err  { display: block; font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; margin-top: 6px; }
@@ -114,7 +115,7 @@ const selected = options.find((o) => o.value === value);
         opt.addEventListener('click', () => {
           menu.querySelectorAll('.sel-opt').forEach((o) => o.classList.remove('selected'));
           opt.classList.add('selected');
-          if (valueEl) valueEl.textContent = opt.textContent?.replace('✓', '').trim() ?? '';
+          if (valueEl) valueEl.textContent = opt.childNodes[0]?.textContent?.trim() ?? '';
           trigger?.classList.remove('is-placeholder');
           if (nativeSelect) nativeSelect.value = opt.dataset.value ?? '';
           sel.classList.remove('open');

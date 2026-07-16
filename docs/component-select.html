@@ -78,7 +78,7 @@
     .sel-opt { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 12px; border-radius:var(--rounded-md); font-size:var(--font-size-body); color:var(--color-text-body); cursor:pointer; }
     .sel-opt:hover { background:var(--color-bg-shade); }
     .sel-opt.selected { background:var(--color-bg-card-alt); color:var(--color-secondary); font-weight:600; }
-    .sel-opt .ck { color:var(--color-secondary); opacity:0; } .sel-opt.selected .ck { opacity:1; }
+    .sel-opt .ck { color:var(--color-secondary); opacity:0; display:inline-flex; } .sel-opt .ck svg { width:0.8rem; height:0.8rem; } .sel-opt.selected .ck { opacity:1; }
     .sel-hint { font-size:var(--font-size-caption); color:var(--color-text-support); margin-top:6px; }
     .sel-err { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; margin-top:6px; }
 
@@ -147,11 +147,11 @@
           <label class="sel-label">Country</label>
           <button class="sel-trigger" onclick="toggleSel('sel-demo')"><span id="sel-demo-val">United States</span><span class="chev">▾</span></button>
           <div class="sel-menu">
-            <div class="sel-opt selected" onclick="pickSel('sel-demo',this)">United States <span class="ck">✓</span></div>
-            <div class="sel-opt" onclick="pickSel('sel-demo',this)">United Kingdom <span class="ck">✓</span></div>
-            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Thailand <span class="ck">✓</span></div>
-            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Germany <span class="ck">✓</span></div>
-            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Japan <span class="ck">✓</span></div>
+            <div class="sel-opt selected" onclick="pickSel('sel-demo',this)">United States <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" onclick="pickSel('sel-demo',this)">United Kingdom <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Thailand <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Germany <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Japan <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
           </div>
         </div>
       </div>
@@ -174,9 +174,9 @@
         <div class="sel open" style="position:static;max-width:260px;">
           <button class="sel-trigger"><span>Pro plan</span><span class="chev">▾</span></button>
           <div class="sel-menu" style="position:static;margin-top:8px;display:block;">
-            <div class="sel-opt">Starter <span class="ck">✓</span></div>
-            <div class="sel-opt selected">Pro plan <span class="ck">✓</span></div>
-            <div class="sel-opt">Enterprise <span class="ck">✓</span></div>
+            <div class="sel-opt">Starter <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt selected">Pro plan <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt">Enterprise <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
           </div>
         </div>
       </div>
@@ -226,7 +226,7 @@
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"chev"</span>&gt;▾&lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">button</span>&gt;
   &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-menu"</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt selected"</span>&gt;United States &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ck"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt selected"</span>&gt;United States &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ck"</span>&gt;&lt;<span class="c-tag">svg</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;  <span class="c-com">&lt;!-- Font Awesome check --&gt;</span>
     &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span>&gt;Thailand&lt;/<span class="c-tag">div</span>&gt;
     &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span>&gt;Japan&lt;/<span class="c-tag">div</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
@@ -241,14 +241,14 @@
 <span class="c-key">.sel.disabled .sel-trigger</span> { background: <span class="c-str">var(--color-bg-shade)</span>; color: <span class="c-str">var(--color-text-muted)</span>; cursor: not-allowed; }
 <span class="c-key">.sel-menu</span> { box-shadow: <span class="c-str">var(--shadow-float)</span>; border-radius: <span class="c-str">var(--rounded-lg)</span>; }
 <span class="c-key">.sel-opt.selected</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; color: <span class="c-str">var(--color-secondary)</span>; }
-<span class="c-key">.sel-opt .ck</span> { opacity: 0; }  <span class="c-key">.sel-opt.selected .ck</span> { opacity: 1; }   <span class="c-com">/* checkmark only on selected */</span></pre>
+<span class="c-key">.sel-opt .ck</span> { opacity: 0; }  <span class="c-key">.sel-opt.selected .ck</span> { opacity: 1; }   <span class="c-com">/* Font Awesome Free Solid "check" SVG, currentColor fill — shown only on selected */</span></pre>
         </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
         <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="sel" style="max-width:220px;"><button class="sel-trigger"><span>Thailand</span><span class="chev">▾</span></button></div></div>
-          <ul><li>Use when there are <b>more than ~6 options</b>.</li><li>Always show the current value in the trigger.</li><li>Keep option labels short and scannable.</li></ul></div>
+          <ul><li>Use when there are <b>more than ~6 options</b>.</li><li>Always show the current value in the trigger.</li><li>Keep option labels short and scannable.</li><li>The selected checkmark is a <b>Font Awesome Free Solid</b> SVG, inlined with <code>fill="currentColor"</code>.</li></ul></div>
         <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="sel" style="max-width:220px;"><button class="sel-trigger is-placeholder"><span>Yes / No</span><span class="chev">▾</span></button></div></div>
           <ul><li>Don't use a Select for 2–3 options — use Radio.</li><li>Don't open the menu without a visible chevron cue.</li><li>Don't hard-code the menu shadow; use <code>--shadow-float</code>.</li></ul></div>
       </div>
@@ -279,7 +279,7 @@
     else{fallbackCopy(txt,done);}
   }
   function toggleSel(id){document.getElementById(id).classList.toggle('open');}
-  function pickSel(id,opt){const s=document.getElementById(id);s.querySelectorAll('.sel-opt').forEach(o=>o.classList.remove('selected'));opt.classList.add('selected');document.getElementById(id+'-val').textContent=opt.textContent.replace('✓','').trim();s.classList.remove('open');}
+  function pickSel(id,opt){const s=document.getElementById(id);s.querySelectorAll('.sel-opt').forEach(o=>o.classList.remove('selected'));opt.classList.add('selected');document.getElementById(id+'-val').textContent=opt.childNodes[0]?.textContent.trim();s.classList.remove('open');}
   document.addEventListener('click',e=>{if(!e.target.closest('.sel')){document.querySelectorAll('.sel.open').forEach(s=>{if(s.id) s.classList.remove('open');});}});
 </script>
 </body>
