@@ -36,6 +36,20 @@ import Button from '.../astro-components/components/Button.astro';
 Props: `variant` (`primary` | `secondary` | `tertiary` | `outline` | `ondark` | `ghost`, default `primary`),
 `size` (`lg` | `md` | `sm`, default `md`), `disabled`, `type`, `href` (renders an `<a>` instead of `<button>`), `class`.
 
+### `TextLink.astro`
+
+Inline, underlined link for reference tables and code documentation — modelled after Tailwind's docs quick-reference table:
+
+```astro
+<TextLink href="/docs/hover">hover</TextLink>
+<TextLink href="/docs/hover" dark>hover</TextLink>
+<TextLink href="https://example.com" external>Learn more</TextLink>
+```
+
+Props: `href` (required), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"` + a trailing ↗ icon), `class`. The slot is the link text.
+
+`dark` swaps `--color-text-link(-hover)` for `--color-text-dark-link(-hover)` — currently identical values, kept as separate tokens for when dark mode diverges from light.
+
 ### `Input.astro`
 
 ```astro
@@ -217,13 +231,13 @@ Props: `icon`, `headingPrefix` (default `"Get your free"`), `headingBold` (requi
 
 There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.
 
-## 13 components ported
+## 14 components ported
 
-Button, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge, Notice,
-Tooltip, Product Footer, FormCard, and TrialKeyCard are all available. If the
-design system docs (`docs/component-*.html`) gain a new variant or pattern,
-check it here too — the docs' own Code-tab samples have a history of
-drifting out of sync with the live markup on the same page.
+Button, TextLink, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge,
+Notice, Tooltip, Product Footer, FormCard, and TrialKeyCard are all
+available. If the design system docs (`docs/component-*.html`) gain a new
+variant or pattern, check it here too — the docs' own Code-tab samples have
+a history of drifting out of sync with the live markup on the same page.
 
 `FormCard` and `TrialKeyCard` were ported from the "04 Form & Input Cards"
 section of the "Other element" page in Figma (node `723:5520`), not from a

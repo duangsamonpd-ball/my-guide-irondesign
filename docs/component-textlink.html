@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Notice · Components · Iron Software DS</title>
+  <title>Text Link · Components · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
-      --color-secondary:#2693EC; --color-success:#63C1A0; --color-success-hover:#53A085;
-      --color-warning:#FDA509; --color-warning-hover:#D2890A; --color-danger:#E5242A; --color-danger-hover:#C91D23;
-      --color-text-heading:#171717; --color-border:#E2E8F0;
-      --rounded-lg:8px;
-      --bg-info:#F2F9FE; --bg-success:#F6FBF9; --bg-warning:#FFFAF0; --bg-danger:#FFF1F1;
+      --color-text-link:#2693EC; --color-text-link-hover:#E01A59;
+      --color-text-dark-link:#2693EC; --color-text-dark-link-hover:#E01A59;
+      --color-text-heading:#171717; --color-text-support:#90A1B9; --color-border:#E2E8F0;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -49,8 +47,10 @@
     .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
     .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:40px; display:flex; gap:24px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
     .canvas.col { flex-direction:column; align-items:stretch; gap:20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+    .canvas.dark { background:#0A0A0A; background-image:none; border-color:#171717; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px; }
     .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
+    .cell.dark { background:#0A0A0A; border-color:#171717; }
     .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; }
     .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
     .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
@@ -82,26 +82,18 @@
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
 
-    /* ════ NOTICE / INFO CARD (token-driven) ════ */
-    .notice { display:flex; align-items:flex-start; gap:12px; padding:24px; border-radius:var(--rounded-lg); max-width:520px; }
-    .notice-icon { flex-shrink:0; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; line-height:1; margin-top:2px; }
-    .notice-content { display:flex; flex-direction:column; gap:8px; }
-    .notice-title { font-size:1.125rem; font-weight:700; color:var(--color-text-heading); }
-    .notice-text { font-size:1rem; color:var(--color-text-heading); line-height:1.6; }
-    .notice-text b { font-weight:700; }
-    .notice-label { font-size:1.125rem; font-weight:700; }
-    .notice--info { background:var(--bg-info); }
-    .notice--info .notice-icon { color:var(--color-secondary); }
-    .notice--info .notice-label { color:var(--color-secondary); }
-    .notice--success { background:var(--bg-success); }
-    .notice--success .notice-icon { color:var(--color-success-hover); }
-    .notice--success .notice-label { color:var(--color-success); }
-    .notice--warning { background:var(--bg-warning); }
-    .notice--warning .notice-icon { color:var(--color-warning-hover); }
-    .notice--warning .notice-label { color:var(--color-warning); }
-    .notice--danger { background:var(--bg-danger); }
-    .notice--danger .notice-icon { color:var(--color-danger-hover); }
-    .notice--danger .notice-label { color:var(--color-danger); }
+    /* ════ TEXT LINK (token-driven) ════ */
+    .tlink {
+      color: var(--color-text-link); text-decoration: underline; text-underline-offset: 3px;
+      font-weight: 600; font-family: 'Roboto Mono', monospace; font-size: 1rem;
+      transition: color .15s;
+    }
+    .tlink:hover { color: var(--color-text-link-hover); }
+    .tlink:focus-visible { outline: 2px solid var(--color-text-link); outline-offset: 3px; border-radius: 2px; }
+    .tlink.dark { color: var(--color-text-dark-link); }
+    .tlink.dark:hover { color: var(--color-text-dark-link-hover); }
+    .tlink.dark:focus-visible { outline-color: var(--color-text-dark-link); }
+    .tlink .ext-icon { font-size: 0.7em; margin-left: 3px; }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
@@ -129,7 +121,7 @@
       <div class="sidebar-tree">
         <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
         <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
-        <a href="component-textlink.html" class="sidebar-link"><i class="sidebar-icon">🔗</i>Text Link</a>
+        <a href="component-textlink.html" class="sidebar-link active"><i class="sidebar-icon">🔗</i>Text Link</a>
         <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
         <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
         <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
@@ -137,7 +129,7 @@
         <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
         <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
         <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
-        <a href="component-notice.html" class="sidebar-link active"><i class="sidebar-icon">💡</i>Notice</a>
+        <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
         <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
         <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
       </div>
@@ -149,108 +141,66 @@
   <div class="main-content"><div class="content">
 
     <div class="page-title">
-      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Notice</div>
-      <h1>Notice</h1>
-      <p class="lead">A non-interactive informational container — disclaimers, notes, short callouts. Three content patterns share the same tinted-card shell: title + body, inline lead-in + text, or a minimal label.</p>
-      <div class="meta-chips"><span class="chip">4 intents</span><span class="chip">3 patterns</span><span class="chip new">Token-driven</span></div>
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Text Link</div>
+      <h1>Text Link</h1>
+      <p class="lead">An inline, underlined link for reference tables and code documentation — modelled after Tailwind's docs quick-reference table. Same underline treatment on light or dark backgrounds; only the token pairing changes.</p>
+      <div class="meta-chips"><span class="chip">2 modes</span><span class="chip">hover · focus-visible</span><span class="chip new">Token-driven</span></div>
     </div>
 
     <div class="sect"><div class="sect-h">Preview</div>
-      <div class="canvas col" style="max-width:560px;margin:0 auto;">
-        <div class="notice notice--info">
-          <span class="notice-icon">✓</span>
-          <div class="notice-content">
-            <div class="notice-title">Please note</div>
-            <p class="notice-text">Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText.</p>
-          </div>
-        </div>
+      <div class="canvas dark" style="max-width:560px;margin:0 auto;">
+        <a href="#" class="tlink dark">hover</a>
+        <a href="#" class="tlink dark">focus</a>
+        <a href="#" class="tlink dark">focus-within</a>
+        <a href="#" class="tlink dark">focus-visible</a>
+        <a href="#" class="tlink dark">active</a>
       </div>
     </div>
 
-    <div class="sect"><div class="sect-h">Patterns</div>
-      <div class="sect-sub">Title + body for long disclaimers, an inline bold lead-in for shorter context, or a minimal label on its own.</div>
+    <div class="sect"><div class="sect-h">States</div>
+      <div class="sect-sub">Default (underlined) → hover (colour shifts to primary) → focus-visible (outline ring).</div>
       <div class="grid">
-        <div class="cell" style="grid-column:span 2;">
-          <div class="notice notice--info" style="max-width:none;">
-            <span class="notice-icon">✓</span>
-            <div class="notice-content">
-              <div class="notice-title">Please note</div>
-              <p class="notice-text">Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText. All product names, logos, and brands are property of their respective owners.</p>
-            </div>
-          </div>
-          <div class="lbl">Title + body<small>long disclaimer</small></div>
-        </div>
-        <div class="cell" style="grid-column:span 2;">
-          <div class="notice notice--info" style="max-width:none;">
-            <span class="notice-icon">✓</span>
-            <div class="notice-content">
-              <p class="notice-text"><b>Iron Software:</b> developer-based licensing with OEM, cloud, and redistribution rights included. Unlimited developer options available.</p>
-            </div>
-          </div>
-          <div class="lbl">Lead-in + text<small>bold prefix, no title</small></div>
-        </div>
-        <div class="cell">
-          <div class="notice notice--success" style="max-width:none;">
-            <span class="notice-icon">✓</span>
-            <div class="notice-content"><span class="notice-label">Check</span></div>
-          </div>
-          <div class="lbl">Minimal<small>label only</small></div>
-        </div>
+        <div class="cell dark"><a href="#" class="tlink dark">hover</a><div class="lbl" style="color:#90A1B9;">Default</div></div>
+        <div class="cell dark"><a href="#" class="tlink dark" style="color:var(--color-text-dark-link-hover);">hover</a><div class="lbl" style="color:#90A1B9;">Hover<small>primary pink</small></div></div>
+        <div class="cell dark"><a href="#" class="tlink dark" style="outline:2px solid var(--color-text-dark-link);outline-offset:3px;border-radius:2px;">focus-visible</a><div class="lbl" style="color:#90A1B9;">Focus-visible<small>outline ring</small></div></div>
       </div>
     </div>
 
-    <div class="sect"><div class="sect-h">Intents</div>
-      <div class="sect-sub">Four semantic colours — pick by meaning, not by which looks nicest.</div>
+    <div class="sect"><div class="sect-h">Modes</div>
+      <div class="sect-sub">Light-background links use <code>--color-text-link</code>; dark-background links (code blocks, dark sections) use <code>--color-text-dark-link</code> — currently the same value, kept as separate tokens for when dark mode diverges.</div>
       <div class="grid">
         <div class="cell">
-          <div class="notice notice--info" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Info</span></div></div>
-          <div class="lbl">Info<small>iron-blue/50</small></div>
+          <a href="#" class="tlink">Learn more →</a>
+          <div class="lbl">Light<small>--color-text-link</small></div>
         </div>
-        <div class="cell">
-          <div class="notice notice--success" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Success</span></div></div>
-          <div class="lbl">Success<small>iron-green/50</small></div>
-        </div>
-        <div class="cell">
-          <div class="notice notice--warning" style="max-width:none;padding:16px;"><span class="notice-icon">!</span><div class="notice-content"><span class="notice-label">Warning</span></div></div>
-          <div class="lbl">Warning<small>iron-orange/50</small></div>
-        </div>
-        <div class="cell">
-          <div class="notice notice--danger" style="max-width:none;padding:16px;"><span class="notice-icon">✕</span><div class="notice-content"><span class="notice-label">Danger</span></div></div>
-          <div class="lbl">Danger<small>iron-red/50</small></div>
+        <div class="cell dark">
+          <a href="#" class="tlink dark">Learn more →</a>
+          <div class="lbl" style="color:#90A1B9;">Dark<small>--color-text-dark-link</small></div>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Anatomy</div>
-      <div class="sect-sub">The parts of a notice and the token each is bound to.</div>
-      <div class="anatomy" style="align-items:stretch;max-width:520px;margin:0 auto;">
-        <div class="notice notice--info" style="max-width:none;">
-          <span class="notice-icon">✓</span>
-          <div class="notice-content">
-            <div class="notice-title">Please note</div>
-            <p class="notice-text">Helper disclaimer text.</p>
-          </div>
-        </div>
+      <div class="sect-sub">The parts of a text link and the token each is bound to.</div>
+      <div class="anatomy" style="background:#0A0A0A;border-color:#171717;max-width:420px;margin:0 auto;">
+        <a href="#" class="tlink dark">focus-visible</a>
         <div class="anatomy-tags">
-          <span class="atag">background → <b>--color-bg-card-alt</b> (iron-blue/50)</span>
-          <span class="atag">radius → <b>--rounded-lg</b></span>
-          <span class="atag">icon → <b>--color-secondary</b></span>
-          <span class="atag">title → <b>--color-text-heading</b>, 700</span>
-          <span class="atag">body → <b>--color-text-heading</b>, 400</span>
+          <span class="atag" style="background:#171717;color:#CAD5E2;">color → <b>--color-text-dark-link</b></span>
+          <span class="atag" style="background:#171717;color:#CAD5E2;">hover → <b>--color-text-dark-link-hover</b></span>
+          <span class="atag" style="background:#171717;color:#CAD5E2;">underline-offset → <b>3px</b></span>
+          <span class="atag" style="background:#171717;color:#CAD5E2;">weight → <b>600</b></span>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
-        <tr><td class="prop">Background · info</td><td class="token">--color-bg-card-alt</td><td class="val"><span class="sw" style="background:#F2F9FE"></span>#F2F9FE</td></tr>
-        <tr><td class="prop">Background · success</td><td class="token">iron-green/50</td><td class="val"><span class="sw" style="background:#F6FBF9"></span>#F6FBF9</td></tr>
-        <tr><td class="prop">Icon · info</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop">Icon · success</td><td class="token">--color-success-hover</td><td class="val"><span class="sw" style="background:#53A085"></span>#53A085</td></tr>
-        <tr><td class="prop">Label · success</td><td class="token">--color-success</td><td class="val"><span class="sw" style="background:#63C1A0"></span>#63C1A0</td></tr>
-        <tr><td class="prop">Radius</td><td class="token">--rounded-lg</td><td class="val">8px</td></tr>
-        <tr><td class="prop">Title / body</td><td class="token">--color-text-heading</td><td class="val"><span class="sw" style="background:#171717"></span>#171717</td></tr>
-        <tr><td class="prop">Padding</td><td class="token">--space-xl</td><td class="val">24px</td></tr>
+        <tr><td class="prop">Color · light</td><td class="token">--color-text-link</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Color · light hover</td><td class="token">--color-text-link-hover</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
+        <tr><td class="prop">Color · dark</td><td class="token">--color-text-dark-link</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Color · dark hover</td><td class="token">--color-text-dark-link-hover</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
+        <tr><td class="prop">Underline offset</td><td class="token">— (fixed)</td><td class="val">3px</td></tr>
+        <tr><td class="prop">Weight</td><td class="token">— (fixed)</td><td class="val">600</td></tr>
       </tbody></table>
     </div>
 
@@ -261,52 +211,39 @@
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--info"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-title"</span>&gt;Please note&lt;/<span class="c-tag">div</span>&gt;
-    &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;Aspose, SyncFusion, and iText are registered trademarks…&lt;/<span class="c-tag">p</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"/docs/hover"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink"</span>&gt;hover&lt;/<span class="c-tag">a</span>&gt;
 
-<span class="c-com">&lt;!-- lead-in + text, no title --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--info"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;
-    &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"notice-text"</span>&gt;&lt;<span class="c-tag">b</span>&gt;Iron Software:&lt;/<span class="c-tag">b</span>&gt; developer-based licensing…&lt;/<span class="c-tag">p</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;
+<span class="c-com">&lt;!-- on a dark background --&gt;</span>
+&lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"/docs/hover"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink dark"</span>&gt;hover&lt;/<span class="c-tag">a</span>&gt;
 
-<span class="c-com">&lt;!-- minimal — label only --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice notice--success"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-icon"</span>&gt;✓&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"notice-content"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"notice-label"</span>&gt;Check&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.notice</span> {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 24px; border-radius: <span class="c-str">var(--rounded-lg)</span>;
+<span class="c-com">&lt;!-- external link --&gt;</span>
+&lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"https://example.com"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink"</span> <span class="c-attr">target</span>=<span class="c-str">"_blank"</span> <span class="c-attr">rel</span>=<span class="c-str">"noopener"</span>&gt;
+  Learn more &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ext-icon"</span>&gt;↗&lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">a</span>&gt;</pre>
+<pre class="code-pane" data-lang="css"><span class="c-key">.tlink</span> {
+  color: <span class="c-str">var(--color-text-link)</span>;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color .15s;
 }
-<span class="c-key">.notice--info</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; }
-<span class="c-key">.notice--info .notice-icon,
-.notice--info .notice-label</span> { color: <span class="c-str">var(--color-secondary)</span>; }
-<span class="c-key">.notice--success</span> { background: #F6FBF9; }   <span class="c-com">/* iron-green/50 — no semantic alias yet */</span>
-<span class="c-key">.notice--success .notice-icon</span> { color: <span class="c-str">var(--color-success-hover)</span>; }
-<span class="c-key">.notice--success .notice-label</span> { color: <span class="c-str">var(--color-success)</span>; }
-<span class="c-key">.notice-title</span> { font-size: 1.125rem; font-weight: 700; color: <span class="c-str">var(--color-text-heading)</span>; }
-<span class="c-key">.notice-text</span> { font-size: 1rem; color: <span class="c-str">var(--color-text-heading)</span>; line-height: 1.6; }</pre>
+<span class="c-key">.tlink:hover</span> { color: <span class="c-str">var(--color-text-link-hover)</span>; }
+<span class="c-key">.tlink:focus-visible</span> { outline: 2px solid <span class="c-str">var(--color-text-link)</span>; outline-offset: 3px; border-radius: 2px; }
+<span class="c-key">.tlink.dark</span> { color: <span class="c-str">var(--color-text-dark-link)</span>; }
+<span class="c-key">.tlink.dark:hover</span> { color: <span class="c-str">var(--color-text-dark-link-hover)</span>; }</pre>
         </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="notice notice--info" style="max-width:none;padding:16px;"><span class="notice-icon">✓</span><div class="notice-content"><span class="notice-label">Check</span></div></div></div>
-          <ul><li>Match the intent colour to the <b>meaning</b> (info ≠ warning ≠ danger).</li><li>Use the minimal pattern for short, self-evident callouts.</li><li>Reach for title + body only when the disclaimer genuinely needs it.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="notice notice--danger" style="max-width:none;padding:16px;"><span class="notice-icon">✕</span><div class="notice-content"><span class="notice-label">Click here for details →</span></div></div></div>
-          <ul><li>Don't make a Notice clickable — that's a Button or a real link.</li><li>Don't stack more than one Notice in the same view without a good reason.</li><li>Don't use danger/warning for neutral information.</li></ul></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body" style="background:#0A0A0A;"><a href="#" class="tlink dark">focus-visible</a></div>
+          <ul><li>Always underline — colour alone isn't enough contrast for a link.</li><li>Use <code>.dark</code> on dark backgrounds (code blocks, dark sections) so contrast holds.</li><li>Add the external-link icon (<code>.ext-icon</code>) when the link leaves the current site.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body" style="background:#FCFCFD;"><a href="#" style="color:var(--color-text-link);font-weight:600;">focus-visible</a></div>
+          <ul><li>Don't drop the underline on a plain-text link — it stops reading as a link.</li><li>Don't use the light-mode token on a dark background — contrast fails.</li><li>Don't use this for buttons — that's a Button component.</li></ul></div>
       </div>
     </div>
 
-    <footer>Iron Software Design System &nbsp;·&nbsp; Notice component &nbsp;·&nbsp; 2025</footer>
+    <footer>Iron Software Design System &nbsp;·&nbsp; Text Link component &nbsp;·&nbsp; 2025</footer>
   </div></div>
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>

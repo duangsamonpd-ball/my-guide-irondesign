@@ -8,7 +8,7 @@
 
 [![Live Docs](https://img.shields.io/badge/docs-live-2693EC?style=flat-square)](https://duangsamonpd-ball.github.io/my-guide-irondesign/)
 [![Tokens](https://img.shields.io/badge/tokens-W3C%20%C2%B7%20Tailwind%20%C2%B7%20CSS-E01A59?style=flat-square)](tokens/)
-[![Astro](https://img.shields.io/badge/components-Astro%20%C2%B7%2013-FF5D01?style=flat-square)](astro-components/)
+[![Astro](https://img.shields.io/badge/components-Astro%20%C2%B7%2014-FF5D01?style=flat-square)](astro-components/)
 [![Font](https://img.shields.io/badge/type-Montserrat%20%2B%20Roboto%20Mono-63C1A0?style=flat-square)](docs/02-typography.html)
 [![License](https://img.shields.io/badge/internal-Iron%20Software-185FA5?style=flat-square)](#)
 
@@ -69,11 +69,12 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ## 🧬 Astro components
 
-13 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
+14 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
 
 | Component | Notes |
 |---|---|
 | `Button.astro` | 6 variants × 3 sizes, renders `<a>` when given `href` |
+| `TextLink.astro` | Underlined inline link, light/dark modes, optional external-link icon |
 | `Input.astro` | Label, hint/error states, disabled, required |
 | `Textarea.astro` | Multi-line sibling of Input, same tokens |
 | `FileUpload.astro` | Dashed dropzone, drag & drop, click-to-browse with zero JS |
@@ -225,10 +226,11 @@ iron-design-system/
 │   ├── tokens.w3c.json        # ⭐ Source of truth (W3C Design Token format)
 │   └── tokens.legacy.json     #    Tokens Studio format
 │
-└── astro-components/          # 🧬 .astro wrapper components (13, token-driven)
+└── astro-components/          # 🧬 .astro wrapper components (14, token-driven)
     ├── README.md               #   Props + usage for every component
     └── components/
         ├── Button.astro
+        ├── TextLink.astro
         ├── Input.astro
         ├── Textarea.astro
         ├── FileUpload.astro
