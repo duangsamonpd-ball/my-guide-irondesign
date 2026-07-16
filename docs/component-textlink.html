@@ -88,7 +88,7 @@
     .tlink { font-weight: 600; font-size: 0.95rem; transition: color .15s, text-decoration-color .15s, text-decoration-thickness .15s; }
 
     /* plain — general/marketing pages: coloured text, no underline */
-    .tlink.plain { color: var(--color-text-link); }
+    .tlink.plain { color: var(--color-text-link); text-decoration: none; }
     .tlink.plain:hover { color: var(--color-text-link-hover); }
     .tlink.plain:focus-visible { outline: 2px solid var(--color-text-link); outline-offset: 3px; border-radius: 2px; }
     .tlink.plain.dark { color: var(--color-text-dark-link); }
@@ -111,6 +111,19 @@
     .tlink .ext-icon { font-size: 0.7em; margin-left: 3px; }
     .tlink-row { display:flex; align-items:center; gap:8px; font-size:0.95rem; color:var(--color-text-heading); }
     .tlink-row .dot { width:4px; height:4px; border-radius:50%; background:var(--color-text-heading); flex-shrink:0; }
+
+    /* variant comparison columns */
+    .variant-cols { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .variant-col { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:28px; display:flex; flex-direction:column; gap:16px; }
+    .variant-name { font-size:1.15rem; font-weight:800; color:#171717; display:flex; align-items:center; gap:8px; }
+    .variant-name .vtag { font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#62748E; background:#F1F5F9; padding:3px 8px; border-radius:20px; }
+    .variant-desc { font-size:0.82rem; color:#62748E; line-height:1.65; }
+    .variant-example { padding:20px; background:#FAFBFC; border-radius:10px; border:1px solid #F1F5F9; display:flex; align-items:center; justify-content:center; }
+    .variant-states-h { font-size:0.64rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; margin-top:4px; }
+    .variant-states { display:flex; flex-direction:column; gap:8px; }
+    .vstate { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; background:#FAFBFC; border-radius:8px; border:1px solid #F1F5F9; }
+    .vstate-lbl { font-size:0.64rem; font-family:'Roboto Mono',monospace; color:#90A1B9; white-space:nowrap; }
+    @media (max-width:768px){ .variant-cols{grid-template-columns:1fr;} }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
@@ -173,37 +186,30 @@
 
     <div class="sect"><div class="sect-h">Variants</div>
       <div class="sect-sub">Pick by context, not by preference — a whole page of underlined links reads as dense; a whole page of colour-only links loses the underline's scan-ability in long copy.</div>
-      <div class="grid">
-        <div class="cell">
-          <a href="#" class="tlink plain">Native vs Remote Engine</a>
-          <div class="lbl">Plain<small>general / marketing pages</small></div>
-        </div>
-        <div class="cell">
-          <a href="#" class="tlink underline">Native vs Remote Engine</a>
-          <div class="lbl">Underline<small>content pages — blog, news</small></div>
-        </div>
-      </div>
-    </div>
+      <div class="variant-cols">
 
-    <div class="sect"><div class="sect-h">States</div>
-      <div class="sect-sub"><b>Plain:</b> default → hover swaps text colour to primary. <b>Underline:</b> default → underline at 50% opacity, 1px thick; hover → 100% opacity, 2px thick. The underline variant's text colour never changes.</div>
-      <div class="grid">
-        <div class="cell">
-          <a href="#" class="tlink plain">Native vs Remote Engine</a>
-          <div class="lbl">Plain · Default<small>--color-text-link</small></div>
+        <div class="variant-col">
+          <div class="variant-name">Plain <span class="vtag">general / marketing</span></div>
+          <div class="variant-desc">For homepages, feature sections, and marketing copy. Coloured text draws the eye immediately — no underline keeps hero and feature sections looking clean. <b>No underline in any state.</b></div>
+          <div class="variant-example"><a href="#" class="tlink plain">Native vs Remote Engine</a></div>
+          <div class="variant-states-h">States</div>
+          <div class="variant-states">
+            <div class="vstate"><a href="#" class="tlink plain">Native vs Remote Engine</a><span class="vstate-lbl">Default · --color-text-link</span></div>
+            <div class="vstate"><a href="#" class="tlink plain" style="color:var(--color-text-link-hover);">Native vs Remote Engine</a><span class="vstate-lbl">Hover · --color-text-link-hover</span></div>
+          </div>
         </div>
-        <div class="cell">
-          <a href="#" class="tlink plain" style="color:var(--color-text-link-hover);">Native vs Remote Engine</a>
-          <div class="lbl">Plain · Hover<small>--color-text-link-hover</small></div>
+
+        <div class="variant-col">
+          <div class="variant-name">Underline <span class="vtag">content — blog, news</span></div>
+          <div class="variant-desc">For long-form reading — blog posts, articles, release notes. Text stays neutral so paragraphs stay easy to read; the underline alone carries the link, thickening on hover for extra confirmation.</div>
+          <div class="variant-example"><a href="#" class="tlink underline">Native vs Remote Engine</a></div>
+          <div class="variant-states-h">States</div>
+          <div class="variant-states">
+            <div class="vstate"><a href="#" class="tlink underline">Native vs Remote Engine</a><span class="vstate-lbl">Default · 50% · 1px</span></div>
+            <div class="vstate"><a href="#" class="tlink underline" style="text-decoration-color:var(--color-border-selected);text-decoration-thickness:2px;">Native vs Remote Engine</a><span class="vstate-lbl">Hover · 100% · 2px</span></div>
+          </div>
         </div>
-        <div class="cell">
-          <div class="tlink-row"><span class="dot"></span><a href="#" class="tlink underline">Native vs Remote Engine</a></div>
-          <div class="lbl">Underline · Default<small>50% · 1px</small></div>
-        </div>
-        <div class="cell">
-          <div class="tlink-row"><span class="dot"></span><a href="#" class="tlink underline" style="text-decoration-color:var(--color-border-selected);text-decoration-thickness:2px;">Native vs Remote Engine</a></div>
-          <div class="lbl">Underline · Hover<small>100% · 2px</small></div>
-        </div>
+
       </div>
     </div>
 
