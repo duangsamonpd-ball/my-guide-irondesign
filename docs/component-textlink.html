@@ -123,6 +123,10 @@
     .variant-states { display:flex; flex-direction:column; gap:8px; }
     .vstate { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; background:#FAFBFC; border-radius:8px; border:1px solid #F1F5F9; }
     .vstate-lbl { font-size:0.64rem; font-family:'Roboto Mono',monospace; color:#90A1B9; white-space:nowrap; }
+    .mode-pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .mode-cell { border:1px solid #E2E8F0; border-radius:10px; padding:20px 14px; display:flex; flex-direction:column; align-items:center; gap:10px; background:#FAFBFC; }
+    .mode-cell.dark { background:#0A0A0A; border-color:#171717; }
+    .mode-lbl { font-size:0.66rem; font-weight:700; color:#62748E; }
     @media (max-width:768px){ .variant-cols{grid-template-columns:1fr;} }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
@@ -215,40 +219,45 @@
 
     <div class="sect"><div class="sect-h">Modes</div>
       <div class="sect-sub">Both variants have a dark-background pairing (code blocks, dark sections) using the dark-mode tokens — currently the same colours as light mode, kept separate for when dark mode diverges.</div>
-      <div class="grid">
-        <div class="cell">
-          <a href="#" class="tlink plain">Create Blank PDF</a>
-          <div class="lbl">Plain · Light</div>
+      <div class="variant-cols">
+
+        <div class="variant-col">
+          <div class="variant-name">Plain <span class="vtag">general / marketing</span></div>
+          <div class="mode-pair">
+            <div class="mode-cell"><a href="#" class="tlink plain">Create Blank PDF</a><div class="mode-lbl">Light</div></div>
+            <div class="mode-cell dark"><a href="#" class="tlink plain dark">Create Blank PDF</a><div class="mode-lbl" style="color:#90A1B9;">Dark</div></div>
+          </div>
         </div>
-        <div class="cell dark">
-          <a href="#" class="tlink plain dark">Create Blank PDF</a>
-          <div class="lbl" style="color:#90A1B9;">Plain · Dark</div>
+
+        <div class="variant-col">
+          <div class="variant-name">Underline <span class="vtag">content — blog, news</span></div>
+          <div class="mode-pair">
+            <div class="mode-cell"><a href="#" class="tlink underline">Create Blank PDF</a><div class="mode-lbl">Light</div></div>
+            <div class="mode-cell dark"><a href="#" class="tlink underline dark">Create Blank PDF</a><div class="mode-lbl" style="color:#90A1B9;">Dark</div></div>
+          </div>
         </div>
-        <div class="cell">
-          <a href="#" class="tlink underline">Create Blank PDF</a>
-          <div class="lbl">Underline · Light</div>
-        </div>
-        <div class="cell dark">
-          <a href="#" class="tlink underline dark">Create Blank PDF</a>
-          <div class="lbl" style="color:#90A1B9;">Underline · Dark</div>
-        </div>
+
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Anatomy</div>
       <div class="sect-sub">The parts of each variant and the token each is bound to.</div>
-      <div class="anatomy" style="max-width:480px;margin:0 auto;gap:32px;">
-        <div>
-          <a href="#" class="tlink plain" style="color:var(--color-text-link-hover);">Create Blank PDF</a>
-          <div class="anatomy-tags" style="margin-top:14px;">
+      <div class="variant-cols">
+
+        <div class="variant-col">
+          <div class="variant-name">Plain <span class="vtag">general / marketing</span></div>
+          <div class="variant-example"><a href="#" class="tlink plain" style="color:var(--color-text-link-hover);">Create Blank PDF</a></div>
+          <div class="anatomy-tags">
             <span class="atag">color → <b>--color-text-link</b></span>
             <span class="atag">hover → <b>--color-text-link-hover</b></span>
             <span class="atag">weight → <b>600</b></span>
           </div>
         </div>
-        <div>
-          <a href="#" class="tlink underline" style="text-decoration-color:var(--color-border-selected);text-decoration-thickness:2px;">Create Blank PDF</a>
-          <div class="anatomy-tags" style="margin-top:14px;">
+
+        <div class="variant-col">
+          <div class="variant-name">Underline <span class="vtag">content — blog, news</span></div>
+          <div class="variant-example"><a href="#" class="tlink underline" style="text-decoration-color:var(--color-border-selected);text-decoration-thickness:2px;">Create Blank PDF</a></div>
+          <div class="anatomy-tags">
             <span class="atag">text → <b>--color-text-heading</b></span>
             <span class="atag">underline → <b>--color-border-selected</b></span>
             <span class="atag">default → <b>50% · 1px</b></span>
@@ -256,6 +265,7 @@
             <span class="atag">underline-offset → <b>3px</b></span>
           </div>
         </div>
+
       </div>
     </div>
 
