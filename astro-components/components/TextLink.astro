@@ -1,34 +1,48 @@
 ---
 interface Props {
   href: string;
+  variant?: 'plain' | 'underline';
   dark?: boolean;
   external?: boolean;
   class?: string;
 }
 
-const { href, dark = false, external = false, class: className } = Astro.props;
+const { href, variant = 'plain', dark = false, external = false, class: className } = Astro.props;
 
 const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
 ---
 
-<a href={href} class:list={['tlink', { dark }, className]} {...externalProps}>
+<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}>
   <slot />
   {external && <span class="ext-icon">↗</span>}
 </a>
 
 <style>
-  /* Neutral-coloured text with a separate underline — only the underline's
-     opacity changes on hover (50% → 100%), the text colour never does. */
   .tlink {
-    color: var(--color-text-heading); font-weight: 600;
+    font-weight: 600;
+    transition: color .15s, text-decoration-color .15s, text-decoration-thickness .15s;
+  }
+
+  /* plain — general/marketing pages: coloured text, no underline */
+  .tlink.plain { color: var(--color-text-link); }
+  .tlink.plain:hover { color: var(--color-text-link-hover); }
+  .tlink.plain:focus-visible { outline: 2px solid var(--color-text-link); outline-offset: 3px; border-radius: 2px; }
+  .tlink.plain.dark { color: var(--color-text-dark-link); }
+  .tlink.plain.dark:hover { color: var(--color-text-dark-link-hover); }
+  .tlink.plain.dark:focus-visible { outline-color: var(--color-text-dark-link); }
+
+  /* underline — long-form content (blog, news): neutral text, a separate
+     underline that goes 50% → 100% opacity AND thickens on hover (Tailwind-style) */
+  .tlink.underline {
+    color: var(--color-text-heading);
     text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
     text-decoration-thickness: 1px; text-underline-offset: 3px;
-    transition: text-decoration-color .15s;
   }
-  .tlink:hover { text-decoration-color: var(--color-border-selected); }
-  .tlink:focus-visible { outline: 2px solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
-  .tlink.dark { color: var(--color-text-dark-heading); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
-  .tlink.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
-  .tlink.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
+  .tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: 2px; }
+  .tlink.underline:focus-visible { outline: 2px solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
+  .tlink.underline.dark { color: var(--color-text-dark-heading); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
+  .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
+  .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
+
   .tlink .ext-icon { font-size: 0.7em; margin-left: 3px; }
 </style>

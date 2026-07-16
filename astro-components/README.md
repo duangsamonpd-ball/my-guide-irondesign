@@ -38,17 +38,25 @@ Props: `variant` (`primary` | `secondary` | `tertiary` | `outline` | `ondark` | 
 
 ### `TextLink.astro`
 
-Inline link where only the underline speaks — the text stays neutral heading-colour, and a separate `border/selected`-coloured underline goes from 50% to 100% opacity on hover:
+Two variants for two contexts:
 
 ```astro
+<!-- plain — general / marketing pages: coloured text, no underline -->
 <p>Save 80% on all 10 products with the new <TextLink href="/iron-suite">Iron Suite</TextLink></p>
-<TextLink href="/docs" dark>Create Blank PDF</TextLink>
+
+<!-- underline — long-form content (blog, news): neutral text, underline thickens + darkens on hover -->
+<p>Save 80% on all 10 products with the new <TextLink href="/iron-suite" variant="underline">Iron Suite</TextLink></p>
+
+<TextLink href="/docs" variant="underline" dark>Create Blank PDF</TextLink>
 <TextLink href="https://example.com" external>Learn more</TextLink>
 ```
 
-Props: `href` (required), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"` + a trailing ↗ icon), `class`. The slot is the link text.
+Props: `href` (required), `variant` (`plain` | `underline`, default `plain`), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"` + a trailing ↗ icon), `class`. The slot is the link text.
 
-Implemented with `text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent)` rather than a separate absolutely-positioned line (which is how the Figma source models it) — real `text-decoration` reflows correctly with text wrapping, a manual line does not. `dark` swaps `--color-text-heading`/`--color-border-selected` for `--color-text-dark-heading`/`--color-border-dark-alt` — currently the same underline colour, kept as separate tokens for when dark mode diverges from light.
+- **`plain`** — `--color-text-link` / hover `--color-text-link-hover`, no underline. For general and marketing pages where a whole paragraph of underlines would read as dense.
+- **`underline`** — text stays `--color-text-heading` throughout; a separate `--color-border-selected`-coloured underline goes from 50% opacity/1px thick (default) to 100% opacity/2px thick (hover) — implemented with `text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent)` rather than a separate absolutely-positioned line (which is how the Figma source models it); real `text-decoration` reflows correctly with text wrapping, a manual line does not.
+
+`dark` swaps each variant's light-mode tokens for the matching dark-mode ones — currently identical values, kept separate for when dark mode diverges from light.
 
 ### `Input.astro`
 
