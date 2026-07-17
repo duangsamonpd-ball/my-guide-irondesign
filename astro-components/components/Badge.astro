@@ -1,10 +1,11 @@
 ---
 interface Props {
-  intent?: 'success' | 'warning' | 'danger' | 'info' | 'neutral';
+  intent?: 'success' | 'warning' | 'danger' | 'info' | 'important' | 'neutral';
   solid?: boolean;
   small?: boolean;
   square?: boolean;
   dot?: boolean;
+  dark?: boolean;
   class?: string;
 }
 
@@ -14,26 +15,25 @@ const {
   small = false,
   square = false,
   dot = false,
+  dark = false,
   class: className,
 } = Astro.props;
 ---
 
-<span class:list={['badge', `badge--${intent}`, { solid, sm: small, sq: square }, className]}>
+<span class:list={['badge', `badge--${intent}`, { solid, sm: small, sq: square, dark }, className]}>
   {dot && <span class="bdot"></span>}
   <slot />
 </span>
 
 <style>
   /*
-    NOTE: the subtle background + solid-text colors below are copied verbatim from
-    docs/component-badge.html's local <style> override, which does NOT match the
-    canonical iron-*-100 subtle scale in tailwind/tokens.css (e.g. success subtle
-    here is #EBF9F3 vs the canonical --color-success-subtle #E8F6F1), and the
-    success/warning *text* colors (#2E9468, #B45309) don't exist anywhere in the
-    canonical scale at all — they look like bespoke, darker shades chosen for
-    text-on-light-background contrast that were never promoted to real tokens.
-    Flagged for design sign-off; using the literal values here so this component
-    visually matches the live docs today instead of silently inventing new tokens.
+    Subtle fill = canonical --color-{intent}-subtle (iron-*-100), text = the matching
+    iron-*-700 primitive — verified against Figma node 776-899 ("Badge"), which uses
+    exactly these pairs. No semantic *-700 text token exists yet, so the primitive is
+    referenced directly (same approach Notice.astro uses for its "important" intent).
+    Dark variant mirrors the pattern with the *-900 (fill) / *-300 (text) pair for
+    contrast on dark backgrounds — Figma has no dark-mode Badge spec, so this follows
+    the existing dark-tint convention (see --color-bg-dark-card / --color-text-dark-support).
   */
   .badge {
     display: inline-flex; align-items: center; gap: var(--spacing-micro);
@@ -42,18 +42,27 @@ const {
   }
   .badge .bdot { width: 6px; height: 6px; border-radius: var(--rounded-full); background: currentColor; }
 
-  .badge--success { background: #EBF9F3; color: #2E9468; }
-  .badge--warning { background: #FEF4E6; color: #B45309; }
-  .badge--danger  { background: #FDEEF0; color: #C91D23; }
-  .badge--info    { background: #EBF5FD; color: #185FA5; }
-  .badge--neutral { background: var(--color-neutral-subtle, #F1F5F9); color: var(--slate-600); }
+  .badge--success   { background: var(--color-success-subtle); color: var(--iron-green-700); }
+  .badge--warning   { background: var(--color-warning-subtle); color: var(--iron-orange-700); }
+  .badge--danger    { background: var(--color-danger-subtle);  color: var(--iron-red-700); }
+  .badge--info      { background: var(--color-info-subtle);    color: var(--iron-blue-700); }
+  .badge--important { background: var(--iron-purple-100);      color: var(--iron-purple-700); }
+  .badge--neutral   { background: var(--slate-100);            color: var(--slate-600); }
+
+  .badge.dark.badge--success   { background: var(--iron-green-900);  color: var(--iron-green-300); }
+  .badge.dark.badge--warning   { background: var(--iron-orange-900); color: var(--iron-orange-300); }
+  .badge.dark.badge--danger    { background: var(--iron-red-900);    color: var(--iron-red-300); }
+  .badge.dark.badge--info      { background: var(--iron-blue-900);   color: var(--iron-blue-300); }
+  .badge.dark.badge--important { background: var(--iron-purple-900); color: var(--iron-purple-300); }
+  .badge.dark.badge--neutral   { background: var(--slate-800);       color: var(--slate-300); }
 
   .badge.solid { color: #fff; }
-  .badge.solid.badge--success { background: #2E9468; }
-  .badge.solid.badge--warning { background: #D97706; }
-  .badge.solid.badge--danger  { background: var(--color-danger); }
-  .badge.solid.badge--info    { background: var(--color-secondary); }
-  .badge.solid.badge--neutral { background: var(--slate-600); }
+  .badge.solid.badge--success   { background: var(--color-success); }
+  .badge.solid.badge--warning   { background: var(--color-warning); }
+  .badge.solid.badge--danger    { background: var(--color-danger); }
+  .badge.solid.badge--info      { background: var(--color-secondary); }
+  .badge.solid.badge--important { background: var(--iron-purple-500); }
+  .badge.solid.badge--neutral   { background: var(--slate-600); }
 
   .badge.sm { font-size: 11px; padding: 3px 8px; }
   .badge.sq { border-radius: var(--rounded-sm); }

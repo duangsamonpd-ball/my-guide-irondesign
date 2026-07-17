@@ -9,12 +9,21 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
-      --color-success:#2E9468; --color-success-subtle:#EBF9F3;
-      --color-warning:#B45309; --color-warning-subtle:#FEF4E6;
-      --color-danger:#C91D23;  --color-danger-subtle:#FDEEF0;
-      --color-info:#185FA5;    --color-info-subtle:#EBF5FD;
-      --color-neutral:#45556C; --color-neutral-subtle:#F1F5F9;
-      --color-success-solid:#2E9468; --color-warning-solid:#D97706; --color-danger-solid:#E5242A; --color-info-solid:#2693EC; --color-neutral-solid:#45556C;
+      /* subtle fill = iron-*-100, text = iron-*-700 — verified against Figma node 776-899 */
+      --color-success:#44806B;   --color-success-subtle:#E8F6F1;
+      --color-warning:#A66E0A;   --color-warning-subtle:#FFF2DA;
+      --color-danger:#A8181D;    --color-danger-subtle:#FFE1E2;
+      --color-info:#1D629B;      --color-info-subtle:#DEEFFC;
+      --color-important:#3B2A66; --color-important-subtle:#E6E2F0;
+      --color-neutral:#45556C;   --color-neutral-subtle:#F1F5F9;
+      --color-success-solid:#63C1A0; --color-warning-solid:#FDA509; --color-danger-solid:#E5242A; --color-info-solid:#2693EC; --color-important-solid:#563B99; --color-neutral-solid:#45556C;
+      /* dark-mode pair = iron-*-900 (fill) / iron-*-300 (text) */
+      --color-success-dark:#B1E0D0;   --color-success-subtle-dark:#243F35;
+      --color-warning-dark:#FED284;   --color-warning-subtle-dark:#4F370B;
+      --color-danger-dark:#FF9DA1;    --color-danger-subtle-dark:#72181B;
+      --color-info-dark:#93C9F6;      --color-info-subtle-dark:#13324B;
+      --color-important-dark:#AB9DCC; --color-important-subtle-dark:#211933;
+      --color-neutral-dark:#CAD5E2;   --color-neutral-subtle-dark:#1D293D;
       --rounded-full:9999px; --rounded-sm:4px;
       --font-size-badge:12px; --font-size-badge-sm:11px; --fw-badge:700;
       --space-2xs:4px; --space-xs:8px;
@@ -71,18 +80,27 @@
     .badge { display:inline-flex; align-items:center; gap:var(--space-2xs); font-family:'Montserrat',sans-serif; font-size:var(--font-size-badge); font-weight:var(--fw-badge); line-height:1; padding:5px 10px; border-radius:var(--rounded-full); white-space:nowrap; letter-spacing:0.01em; }
     .badge .bdot { width:6px; height:6px; border-radius:var(--rounded-full); background:currentColor; }
     /* subtle (default) */
-    .badge--success { background:var(--color-success-subtle); color:var(--color-success); }
-    .badge--warning { background:var(--color-warning-subtle); color:var(--color-warning); }
-    .badge--danger  { background:var(--color-danger-subtle);  color:var(--color-danger); }
-    .badge--info    { background:var(--color-info-subtle);    color:var(--color-info); }
-    .badge--neutral { background:var(--color-neutral-subtle); color:var(--color-neutral); }
+    .badge--success   { background:var(--color-success-subtle);   color:var(--color-success); }
+    .badge--warning   { background:var(--color-warning-subtle);   color:var(--color-warning); }
+    .badge--danger    { background:var(--color-danger-subtle);    color:var(--color-danger); }
+    .badge--info      { background:var(--color-info-subtle);      color:var(--color-info); }
+    .badge--important { background:var(--color-important-subtle); color:var(--color-important); }
+    .badge--neutral   { background:var(--color-neutral-subtle);   color:var(--color-neutral); }
+    /* dark (on dark backgrounds) */
+    .badge.dark.badge--success   { background:var(--color-success-subtle-dark);   color:var(--color-success-dark); }
+    .badge.dark.badge--warning   { background:var(--color-warning-subtle-dark);   color:var(--color-warning-dark); }
+    .badge.dark.badge--danger    { background:var(--color-danger-subtle-dark);    color:var(--color-danger-dark); }
+    .badge.dark.badge--info      { background:var(--color-info-subtle-dark);      color:var(--color-info-dark); }
+    .badge.dark.badge--important { background:var(--color-important-subtle-dark); color:var(--color-important-dark); }
+    .badge.dark.badge--neutral   { background:var(--color-neutral-subtle-dark);   color:var(--color-neutral-dark); }
     /* solid */
     .badge.solid { color:#fff; }
-    .badge.solid.badge--success { background:var(--color-success-solid); }
-    .badge.solid.badge--warning { background:var(--color-warning-solid); }
-    .badge.solid.badge--danger  { background:var(--color-danger-solid); }
-    .badge.solid.badge--info    { background:var(--color-info-solid); }
-    .badge.solid.badge--neutral { background:var(--color-neutral-solid); }
+    .badge.solid.badge--success   { background:var(--color-success-solid); }
+    .badge.solid.badge--warning   { background:var(--color-warning-solid); }
+    .badge.solid.badge--danger    { background:var(--color-danger-solid); }
+    .badge.solid.badge--info      { background:var(--color-info-solid); }
+    .badge.solid.badge--important { background:var(--color-important-solid); }
+    .badge.solid.badge--neutral   { background:var(--color-neutral-solid); }
     /* sizes */
     .badge.sm { font-size:var(--font-size-badge-sm); padding:3px 8px; }
     .badge.sq { border-radius:var(--rounded-sm); }
@@ -142,8 +160,8 @@
     <div class="page-title">
       <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Badge</div>
       <h1>Badge</h1>
-      <p class="lead">A small, non-interactive label that conveys status, category or count. Five semantic colours map straight to the success / warning / danger / info / neutral tokens.</p>
-      <div class="meta-chips"><span class="chip">5 colours</span><span class="chip">subtle · solid</span><span class="chip new">Token-driven</span></div>
+      <p class="lead">A small, non-interactive label that conveys status, category or count. Six semantic colours map straight to the success / warning / danger / info / important / neutral tokens.</p>
+      <div class="meta-chips"><span class="chip">6 colours</span><span class="chip">subtle · solid · dark</span><span class="chip new">Token-driven</span></div>
     </div>
 
     <div class="sect"><div class="sect-h">Preview</div>
@@ -152,6 +170,7 @@
         <span class="badge badge--warning">Pending</span>
         <span class="badge badge--danger">Failed</span>
         <span class="badge badge--info">Beta</span>
+        <span class="badge badge--important">Important</span>
         <span class="badge badge--neutral">Draft</span>
       </div>
     </div>
@@ -163,6 +182,7 @@
         <div class="cell"><span class="badge badge--warning">Warning</span><div class="lbl">Warning<small>caution</small></div></div>
         <div class="cell"><span class="badge badge--danger">Danger</span><div class="lbl">Danger<small>error / failed</small></div></div>
         <div class="cell"><span class="badge badge--info">Info</span><div class="lbl">Info<small>neutral note</small></div></div>
+        <div class="cell"><span class="badge badge--important">Important</span><div class="lbl">Important<small>needs attention</small></div></div>
         <div class="cell"><span class="badge badge--neutral">Neutral</span><div class="lbl">Neutral<small>default</small></div></div>
       </div>
     </div>
@@ -171,9 +191,21 @@
       <div class="sect-sub">Subtle (tinted background) is the default for in-page status. Solid is for higher emphasis — use sparingly.</div>
       <div class="canvas left" style="gap:24px;">
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"><span style="font-size:0.66rem;font-weight:700;color:#A1A1A1;width:46px;">Subtle</span>
-          <span class="badge badge--success">Active</span><span class="badge badge--warning">Pending</span><span class="badge badge--danger">Failed</span><span class="badge badge--info">Beta</span><span class="badge badge--neutral">Draft</span></div>
+          <span class="badge badge--success">Active</span><span class="badge badge--warning">Pending</span><span class="badge badge--danger">Failed</span><span class="badge badge--info">Beta</span><span class="badge badge--important">Important</span><span class="badge badge--neutral">Draft</span></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"><span style="font-size:0.66rem;font-weight:700;color:#A1A1A1;width:46px;">Solid</span>
-          <span class="badge solid badge--success">Active</span><span class="badge solid badge--warning">Pending</span><span class="badge solid badge--danger">Failed</span><span class="badge solid badge--info">Beta</span><span class="badge solid badge--neutral">Draft</span></div>
+          <span class="badge solid badge--success">Active</span><span class="badge solid badge--warning">Pending</span><span class="badge solid badge--danger">Failed</span><span class="badge solid badge--info">Beta</span><span class="badge solid badge--important">Important</span><span class="badge solid badge--neutral">Draft</span></div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Dark mode</div>
+      <div class="sect-sub">On dark backgrounds (footers, dark hero sections), use <code>.dark</code> — a deeper tint fill with a lighter text colour for contrast, same intents.</div>
+      <div class="canvas left" style="gap:10px; background:#171717; background-image:none;">
+        <span class="badge dark badge--success"><span class="bdot"></span>Active</span>
+        <span class="badge dark badge--warning">Pending</span>
+        <span class="badge dark badge--danger">Failed</span>
+        <span class="badge dark badge--info">Beta</span>
+        <span class="badge dark badge--important">Important</span>
+        <span class="badge dark badge--neutral">Draft</span>
       </div>
     </div>
 
@@ -201,11 +233,13 @@
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Intent</th><th>Text token</th><th>Fill token (subtle)</th><th>Solid</th></tr></thead><tbody>
-        <tr><td class="prop"><span class="badge badge--success">Success</span></td><td class="token">--color-success</td><td class="token">--color-success-subtle</td><td class="val"><span class="sw" style="background:#2E9468"></span>#2E9468</td></tr>
-        <tr><td class="prop"><span class="badge badge--warning">Warning</span></td><td class="token">--color-warning</td><td class="token">--color-warning-subtle</td><td class="val"><span class="sw" style="background:#D97706"></span>#D97706</td></tr>
-        <tr><td class="prop"><span class="badge badge--danger">Danger</span></td><td class="token">--color-danger</td><td class="token">--color-danger-subtle</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
-        <tr><td class="prop"><span class="badge badge--info">Info</span></td><td class="token">--color-info</td><td class="token">--color-info-subtle</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop"><span class="badge badge--neutral">Neutral</span></td><td class="token">--color-neutral</td><td class="token">--color-neutral-subtle</td><td class="val"><span class="sw" style="background:#45556C"></span>#45556C</td></tr>
+        <tr><td class="prop"><span class="badge badge--success">Success</span></td><td class="token">--iron-green-700</td><td class="token">--color-success-subtle</td><td class="val"><span class="sw" style="background:#63C1A0"></span>#63C1A0</td></tr>
+        <tr><td class="prop"><span class="badge badge--warning">Warning</span></td><td class="token">--iron-orange-700</td><td class="token">--color-warning-subtle</td><td class="val"><span class="sw" style="background:#FDA509"></span>#FDA509</td></tr>
+        <tr><td class="prop"><span class="badge badge--danger">Danger</span></td><td class="token">--iron-red-700</td><td class="token">--color-danger-subtle</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
+        <tr><td class="prop"><span class="badge badge--info">Info</span></td><td class="token">--iron-blue-700</td><td class="token">--color-info-subtle</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop"><span class="badge badge--important">Important</span></td><td class="token">--iron-purple-700</td><td class="token">--iron-purple-100</td><td class="val"><span class="sw" style="background:#563B99"></span>#563B99</td></tr>
+        <tr><td class="prop"><span class="badge badge--neutral">Neutral</span></td><td class="token">--slate-600</td><td class="token">--slate-100</td><td class="val"><span class="sw" style="background:#45556C"></span>#45556C</td></tr>
+        <tr><td class="prop">Dark mode</td><td class="token" colspan="2">fill → iron-*-900 · text → iron-*-300 (per intent)</td><td class="val">—</td></tr>
         <tr><td class="prop">Shape</td><td class="token" colspan="2">--rounded-full (pill) · --rounded-sm (squared)</td><td class="val">9999 / 4px</td></tr>
         <tr><td class="prop">Label</td><td class="token" colspan="2">--font-size-badge / --fw-badge</td><td class="val">12px / 700</td></tr>
       </tbody></table>
@@ -218,14 +252,17 @@
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- colours: success / warning / danger / info / neutral --&gt;</span>
+<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- colours: success / warning / danger / info / important / neutral --&gt;</span>
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--success"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"bdot"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;Active&lt;/<span class="c-tag">span</span>&gt;
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--warning"</span>&gt;Pending&lt;/<span class="c-tag">span</span>&gt;
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--danger"</span>&gt;Failed&lt;/<span class="c-tag">span</span>&gt;
+&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--important"</span>&gt;Important&lt;/<span class="c-tag">span</span>&gt;
 
 <span class="c-com">&lt;!-- solid + squared --&gt;</span>
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge solid badge--info"</span>&gt;Beta&lt;/<span class="c-tag">span</span>&gt;
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--neutral sq"</span>&gt;Draft&lt;/<span class="c-tag">span</span>&gt;
+
+<span class="c-com">&lt;!-- dark mode (on dark backgrounds) --&gt;</span>
+&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge dark badge--success"</span>&gt;Active&lt;/<span class="c-tag">span</span>&gt;
 
 <span class="c-com">&lt;!-- small size --&gt;</span>
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--info sm"</span>&gt;Small&lt;/<span class="c-tag">span</span>&gt;</pre>
@@ -233,11 +270,15 @@
   font-size: <span class="c-str">var(--font-size-badge)</span>; font-weight: <span class="c-str">var(--fw-badge)</span>;
   border-radius: <span class="c-str">var(--rounded-full)</span>; padding: 5px 10px;
 }
-<span class="c-key">.badge--success</span> {        <span class="c-com">/* subtle */</span>
+<span class="c-key">.badge--success</span> {        <span class="c-com">/* subtle — fill iron-green-100, text iron-green-700 */</span>
   background: <span class="c-str">var(--color-success-subtle)</span>;
-  color: <span class="c-str">var(--color-success)</span>;
+  color: <span class="c-str">var(--iron-green-700)</span>;
 }
-<span class="c-key">.badge.solid.badge--success</span> { background: <span class="c-str">var(--color-success-solid)</span>; color: #fff; }
+<span class="c-key">.badge.solid.badge--success</span> { background: <span class="c-str">var(--color-success)</span>; color: #fff; }
+<span class="c-key">.badge.dark.badge--success</span> {  <span class="c-com">/* fill iron-green-900, text iron-green-300 */</span>
+  background: <span class="c-str">var(--iron-green-900)</span>;
+  color: <span class="c-str">var(--iron-green-300)</span>;
+}
 <span class="c-key">.badge.sm</span> { font-size: <span class="c-str">var(--font-size-badge-sm)</span>; padding: 3px 8px; }</pre>
         </div>
     </div>
@@ -245,7 +286,7 @@
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
         <div class="card do"><div class="top">✓ Do</div><div class="body"><span class="badge badge--success">Paid</span><span class="badge badge--warning">Overdue</span><span class="badge badge--neutral">Archived</span></div>
-          <ul><li>Match colour to <b>meaning</b> (green = good, red = error).</li><li>Keep labels to 1–2 words.</li><li>Use subtle by default; reserve solid for emphasis.</li></ul></div>
+          <ul><li>Match colour to <b>meaning</b> (green = good, red = error).</li><li>Keep labels to 1–2 words.</li><li>Use subtle by default; reserve solid for emphasis.</li><li>Use <code>.dark</code> on dark backgrounds instead of the light-mode subtle fill.</li></ul></div>
         <div class="card dont"><div class="top">✗ Don't</div><div class="body"><span class="badge solid badge--danger">Click here to retry now</span></div>
           <ul><li>Don't make badges clickable — that's a Button or link.</li><li>Don't write sentences inside a badge.</li><li>Don't pick colours for looks; pick by intent token.</li></ul></div>
       </div>

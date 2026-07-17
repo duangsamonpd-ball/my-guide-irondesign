@@ -146,13 +146,15 @@ Props: `name` (required — groups radios), `value` (required), `label`, `descri
 <Badge intent="success" dot>Active</Badge>
 <Badge intent="warning">Pending</Badge>
 <Badge intent="info" solid>Beta</Badge>
+<Badge intent="important">Important</Badge>
 <Badge intent="neutral" square>Draft</Badge>
 <Badge intent="info" small>Small</Badge>
+<Badge intent="success" dark>Active</Badge>
 ```
 
-Props: `intent` (`success` | `warning` | `danger` | `info` | `neutral`, default `neutral`), `solid`, `small`, `square`, `dot`, `class`.
+Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `solid`, `small`, `square`, `dot`, `dark` (use on dark backgrounds — footers, dark hero sections), `class`.
 
-**Known gap:** the subtle-background and solid-text colors here are copied verbatim from `docs/component-badge.html`'s own `<style>` override, which does **not** match the canonical `iron-*-100` subtle scale in `tailwind/tokens.css` (e.g. success subtle is `#EBF9F3` here vs. the canonical `--color-success-subtle` `#E8F6F1`), and the success/warning *text* colors (`#2E9468`, `#B45309`) don't exist anywhere in the canonical scale at all. These look like bespoke, darker shades picked for text-on-light-background contrast that were never promoted to real tokens. Flagged in the component's own CSS comment — needs design sign-off before these become canonical tokens.
+Subtle fill/text colors are the canonical `iron-*-100` / `iron-*-700` pair per intent (verified against Figma node `776-899`); `dark` swaps to the `iron-*-900` / `iron-*-300` pair for contrast on dark backgrounds. `important` is a genuinely new intent (not one of the system's original 4 semantic colours) — it uses the `iron-purple-100/500/700` primitives directly, matching `Notice.astro`'s `important` intent, since there's no `status/important` semantic token yet.
 
 ### `Notice.astro`
 
