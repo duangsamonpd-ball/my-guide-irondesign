@@ -217,7 +217,7 @@ Generic wrapper for icon+title form cards (the "Request a Quote" / "Tell us what
 ```astro
 <form>
   <FormCard
-    icon="🧾"
+    icon="quote"
     title="Request Your Discounted Quote"
     submitLabel="Get Your Migration Quote"
     noteLeft="No obligation to proceed"
@@ -232,7 +232,9 @@ Generic wrapper for icon+title form cards (the "Request a Quote" / "Tell us what
 </form>
 ```
 
-Props: `icon` (emoji or short glyph), `title`, `subtitle`, `submitLabel`, `noteLeft`, `noteRight`, `class`. Fields go in the default slot.
+Props: `icon` (`'quote' | 'key' | 'check'`), `title`, `subtitle`, `submitLabel`, `noteLeft`, `noteRight`, `class`. Fields go in the default slot.
+
+`icon` is a named icon, not a free-form string — it resolves to an inline **Font Awesome Free Solid** SVG (`file-invoice` / `key` / `check`) inside the component, same approach as `Notice.astro`/`FileUpload.astro`. Previously this took an emoji string directly; changed 2026-07-17 for consistency with the rest of the icon system. Ask before adding a 4th icon name — extract the path data with the method in "Icon strategy" below.
 
 ### `TrialKeyCard.astro`
 
@@ -240,18 +242,20 @@ The centered, single-field "instant capture" card pattern (different enough from
 
 ```astro
 <TrialKeyCard
-  icon="🔑"
+  icon="key"
   headingBold="30-day Trial Key"
   inputPlaceholder="Your Business Email*"
   inputName="trialEmail"
   hint="Your trial license will be sent to this address"
   submitLabel="Get my free trial key"
-  submitIcon="🔑"
+  submitIcon="key"
   footerNotes={['Free for development', 'Trial key in 60 seconds', 'No credit card']}
 />
 ```
 
-Props: `icon`, `headingPrefix` (default `"Get your free"`), `headingBold` (required — rendered bold), `headingSuffix` (default `"instantly."`), `inputPlaceholder`, `inputName`, `hint`, `submitLabel`, `submitIcon`, `footerNotes` (`string[]`), `class`.
+Props: `icon` (`'quote' | 'key' | 'check'`), `headingPrefix` (default `"Get your free"`), `headingBold` (required — rendered bold), `headingSuffix` (default `"instantly."`), `inputPlaceholder`, `inputName`, `hint`, `submitLabel`, `submitIcon` (same 3-value type, optional), `footerNotes` (`string[]`), `class`.
+
+Both `icon` and `submitIcon` resolve to inline Font Awesome SVGs the same way as `FormCard.astro` — see that section above.
 
 ## Icon strategy
 

@@ -1,6 +1,6 @@
 ---
 interface Props {
-  icon: string;
+  icon: 'quote' | 'key' | 'check';
   headingPrefix?: string;
   headingBold: string;
   headingSuffix?: string;
@@ -8,7 +8,7 @@ interface Props {
   inputName?: string;
   hint?: string;
   submitLabel: string;
-  submitIcon?: string;
+  submitIcon?: 'quote' | 'key' | 'check';
   footerNotes: string[];
   class?: string;
 }
@@ -26,16 +26,23 @@ const {
   footerNotes,
   class: className,
 } = Astro.props;
+
+// Font Awesome Free Solid path data — file-invoice, key, check
+const icons = {
+  quote: { viewBox: '0 0 384 512', path: 'M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-277.5c0-17-6.7-33.3-18.7-45.3L258.7 18.7C246.7 6.7 230.5 0 213.5 0L64 0zM325.5 176L232 176c-13.3 0-24-10.7-24-24L208 58.5 325.5 176zM64 384l0-64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 416c-17.7 0-32-14.3-32-32zM88 64l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24S74.7 64 88 64zm0 96l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z' },
+  key: { viewBox: '0 0 512 512', path: 'M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z' },
+  check: { viewBox: '0 0 448 512', path: 'M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z' },
+} as const;
 ---
 
 <div class:list={['trial-card', className]}>
-  <span class="tc-icon">{icon}</span>
+  <span class="tc-icon"><svg viewBox={icons[icon].viewBox} fill="currentColor"><path d={icons[icon].path} /></svg></span>
   <p class="tc-heading">{headingPrefix} <b>{headingBold}</b> {headingSuffix}</p>
   <div class="tc-field">
     <input class="tc-input" type="email" name={inputName} placeholder={inputPlaceholder} />
     {hint && <span class="tc-hint">{hint}</span>}
   </div>
-  <button type="submit" class="tc-submit">{submitLabel} {submitIcon && <span>{submitIcon}</span>}</button>
+  <button type="submit" class="tc-submit">{submitLabel} {submitIcon && <svg viewBox={icons[submitIcon].viewBox} fill="currentColor"><path d={icons[submitIcon].path} /></svg>}</button>
   {footerNotes.length > 0 && (
     <div class="tc-notes">
       {footerNotes.map((note, i) => (
@@ -56,9 +63,10 @@ const {
   }
   .tc-icon {
     width: 64px; height: 64px; border-radius: 50%;
-    background: rgba(38,147,236,0.10);
-    display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+    background: rgba(38,147,236,0.10); color: var(--color-secondary);
+    display: flex; align-items: center; justify-content: center;
   }
+  .tc-icon svg { width: 28px; height: 28px; }
   .tc-heading { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; color: var(--color-text-body); line-height: 1.4; }
   .tc-heading b { color: var(--color-text-heading); }
   .tc-field { width: 100%; display: flex; flex-direction: column; gap: 6px; }
@@ -78,6 +86,7 @@ const {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: background .15s;
   }
   .tc-submit:hover { background: var(--color-primary-hover); }
+  .tc-submit svg { width: 14px; height: 14px; }
   .tc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 0.76rem; color: var(--color-text-support); flex-wrap: wrap; }
   .tc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); }
 </style>
