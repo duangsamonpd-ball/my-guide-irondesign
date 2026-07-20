@@ -76,7 +76,7 @@
     .sel-menu { position:absolute; top:calc(100% + 6px); left:0; right:0; background:#fff; border:1px solid var(--color-border); border-radius:var(--rounded-lg); box-shadow:var(--shadow-float); padding:6px; z-index:5; display:none; }
     .sel.open .sel-menu { display:block; }
     .sel-opt { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 12px; border-radius:var(--rounded-md); font-size:var(--font-size-body); color:var(--color-text-body); cursor:pointer; }
-    .sel-opt:hover { background:var(--color-bg-shade); }
+    .sel-opt:hover, .sel-opt.active { background:var(--color-bg-shade); }
     .sel-opt.selected { background:var(--color-bg-card-alt); color:var(--color-secondary); font-weight:600; }
     .sel-opt .ck { color:var(--color-secondary); opacity:0; display:inline-flex; } .sel-opt .ck svg { width:0.8rem; height:0.8rem; } .sel-opt.selected .ck { opacity:1; }
     .sel-hint { font-size:var(--font-size-caption); color:var(--color-text-support); margin-top:6px; }
@@ -144,14 +144,14 @@
     <div class="sect"><div class="sect-h">Preview</div>
       <div class="canvas">
         <div class="sel" id="sel-demo">
-          <label class="sel-label">Country</label>
-          <button class="sel-trigger" onclick="toggleSel('sel-demo')"><span id="sel-demo-val">United States</span><span class="chev">▾</span></button>
-          <div class="sel-menu">
-            <div class="sel-opt selected" onclick="pickSel('sel-demo',this)">United States <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt" onclick="pickSel('sel-demo',this)">United Kingdom <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Thailand <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Germany <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt" onclick="pickSel('sel-demo',this)">Japan <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+          <label class="sel-label" id="sel-demo-label">Country</label>
+          <button class="sel-trigger" id="sel-demo-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-listbox" aria-labelledby="sel-demo-label sel-demo-trigger" onclick="toggleSel('sel-demo')"><span id="sel-demo-val">United States</span><span class="chev" aria-hidden="true">▾</span></button>
+          <div class="sel-menu" id="sel-demo-listbox" role="listbox" tabindex="-1" aria-labelledby="sel-demo-label" onkeydown="selMenuKeydown(event,'sel-demo')">
+            <div class="sel-opt selected" id="sel-demo-opt-0" role="option" aria-selected="true" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">United States <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" id="sel-demo-opt-1" role="option" aria-selected="false" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">United Kingdom <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" id="sel-demo-opt-2" role="option" aria-selected="false" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">Thailand <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" id="sel-demo-opt-3" role="option" aria-selected="false" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">Germany <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" id="sel-demo-opt-4" role="option" aria-selected="false" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">Japan <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
           </div>
         </div>
       </div>
@@ -173,10 +173,10 @@
       <div class="canvas" style="align-items:flex-start;">
         <div class="sel open" style="position:static;max-width:260px;">
           <button class="sel-trigger"><span>Pro plan</span><span class="chev">▾</span></button>
-          <div class="sel-menu" style="position:static;margin-top:8px;display:block;">
-            <div class="sel-opt">Starter <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt selected">Pro plan <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt">Enterprise <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+          <div class="sel-menu" role="listbox" style="position:static;margin-top:8px;display:block;">
+            <div class="sel-opt" role="option" aria-selected="false">Starter <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt selected" role="option" aria-selected="true">Pro plan <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+            <div class="sel-opt" role="option" aria-selected="false">Enterprise <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
           </div>
         </div>
       </div>
@@ -220,17 +220,22 @@
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
 <pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- add "error" or "disabled" to the outer .sel to switch state --&gt;</span>
+<span class="c-com">&lt;!-- WAI-ARIA "select only" listbox pattern — ids below just need to be unique per instance --&gt;</span>
 &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel"</span>&gt;
-  &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"sel-trigger"</span>&gt;
+  &lt;<span class="c-tag">label</span> <span class="c-attr">id</span>=<span class="c-str">"country-label"</span>&gt;Country&lt;/<span class="c-tag">label</span>&gt;
+  &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"sel-trigger"</span> <span class="c-attr">id</span>=<span class="c-str">"country-trigger"</span>
+    <span class="c-attr">aria-haspopup</span>=<span class="c-str">"listbox"</span> <span class="c-attr">aria-expanded</span>=<span class="c-str">"false"</span>
+    <span class="c-attr">aria-controls</span>=<span class="c-str">"country-listbox"</span> <span class="c-attr">aria-labelledby</span>=<span class="c-str">"country-label country-trigger"</span>&gt;
     &lt;<span class="c-tag">span</span>&gt;United States&lt;/<span class="c-tag">span</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"chev"</span>&gt;▾&lt;/<span class="c-tag">span</span>&gt;
+    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"chev"</span> <span class="c-attr">aria-hidden</span>=<span class="c-str">"true"</span>&gt;▾&lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">button</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-menu"</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt selected"</span>&gt;United States &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ck"</span>&gt;&lt;<span class="c-tag">svg</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;  <span class="c-com">&lt;!-- Font Awesome check --&gt;</span>
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span>&gt;Thailand&lt;/<span class="c-tag">div</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span>&gt;Japan&lt;/<span class="c-tag">div</span>&gt;
+  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-menu"</span> <span class="c-attr">id</span>=<span class="c-str">"country-listbox"</span> <span class="c-attr">role</span>=<span class="c-str">"listbox"</span> <span class="c-attr">tabindex</span>=<span class="c-str">"-1"</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt selected"</span> <span class="c-attr">role</span>=<span class="c-str">"option"</span> <span class="c-attr">aria-selected</span>=<span class="c-str">"true"</span>&gt;United States &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ck"</span> <span class="c-attr">aria-hidden</span>=<span class="c-str">"true"</span>&gt;&lt;<span class="c-tag">svg</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;  <span class="c-com">&lt;!-- Font Awesome check --&gt;</span>
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span> <span class="c-attr">role</span>=<span class="c-str">"option"</span> <span class="c-attr">aria-selected</span>=<span class="c-str">"false"</span>&gt;Thailand&lt;/<span class="c-tag">div</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span> <span class="c-attr">role</span>=<span class="c-str">"option"</span> <span class="c-attr">aria-selected</span>=<span class="c-str">"false"</span>&gt;Japan&lt;/<span class="c-tag">div</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;</pre>
+&lt;/<span class="c-tag">div</span>&gt;
+<span class="c-com">&lt;!-- keyboard: ↑/↓ moves aria-activedescendant on the listbox, Enter/Space commits, Esc closes --&gt;</span></pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.sel-trigger</span> {
   width: 100%; height: <span class="c-str">var(--size-input)</span>;
   border: 1.5px solid <span class="c-str">var(--color-border)</span>;
@@ -248,7 +253,7 @@
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
         <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="sel" style="max-width:220px;"><button class="sel-trigger"><span>Thailand</span><span class="chev">▾</span></button></div></div>
-          <ul><li>Use when there are <b>more than ~6 options</b>.</li><li>Always show the current value in the trigger.</li><li>Keep option labels short and scannable.</li><li>The selected checkmark is a <b>Font Awesome Free Solid</b> SVG, inlined with <code>fill="currentColor"</code>.</li></ul></div>
+          <ul><li>Use when there are <b>more than ~6 options</b>.</li><li>Always show the current value in the trigger.</li><li>Keep option labels short and scannable.</li><li>The selected checkmark is a <b>Font Awesome Free Solid</b> SVG, inlined with <code>fill="currentColor"</code>.</li><li>Ships as an accessible <b>listbox</b> — <code>role="listbox"</code>/<code>"option"</code>, <code>aria-expanded</code>, <code>aria-activedescendant</code>, and full arrow-key/Home/End/Enter/Esc support.</li></ul></div>
         <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="sel" style="max-width:220px;"><button class="sel-trigger is-placeholder"><span>Yes / No</span><span class="chev">▾</span></button></div></div>
           <ul><li>Don't use a Select for 2–3 options — use Radio.</li><li>Don't open the menu without a visible chevron cue.</li><li>Don't hard-code the menu shadow; use <code>--shadow-float</code>.</li></ul></div>
       </div>
@@ -278,9 +283,57 @@
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
     else{fallbackCopy(txt,done);}
   }
-  function toggleSel(id){document.getElementById(id).classList.toggle('open');}
-  function pickSel(id,opt){const s=document.getElementById(id);s.querySelectorAll('.sel-opt').forEach(o=>o.classList.remove('selected'));opt.classList.add('selected');document.getElementById(id+'-val').textContent=opt.childNodes[0]?.textContent.trim();s.classList.remove('open');}
-  document.addEventListener('click',e=>{if(!e.target.closest('.sel')){document.querySelectorAll('.sel.open').forEach(s=>{if(s.id) s.classList.remove('open');});}});
+  // Button-triggered listbox: trigger owns aria-expanded, listbox owns aria-activedescendant.
+  function openSel(id){
+    const s=document.getElementById(id), trigger=document.getElementById(id+'-trigger'), menu=document.getElementById(id+'-listbox');
+    s.classList.add('open'); trigger.setAttribute('aria-expanded','true');
+    const active=menu.querySelector('.sel-opt.selected')||menu.querySelector('.sel-opt');
+    if(active) setActiveSel(id,active);
+    menu.focus();
+  }
+  function closeSel(id,refocusTrigger=true){
+    const s=document.getElementById(id), trigger=document.getElementById(id+'-trigger'), menu=document.getElementById(id+'-listbox');
+    s.classList.remove('open'); trigger.setAttribute('aria-expanded','false');
+    menu.querySelectorAll('.sel-opt').forEach(o=>o.classList.remove('active'));
+    menu.removeAttribute('aria-activedescendant');
+    if(refocusTrigger) trigger.focus();
+  }
+  function toggleSel(id){document.getElementById(id).classList.contains('open')?closeSel(id):openSel(id);}
+  function setActiveSel(id,opt){
+    const menu=document.getElementById(id+'-listbox');
+    menu.querySelectorAll('.sel-opt').forEach(o=>o.classList.remove('active'));
+    opt.classList.add('active'); menu.setAttribute('aria-activedescendant',opt.id);
+    opt.scrollIntoView({block:'nearest'});
+  }
+  function pickSel(id,opt){
+    const s=document.getElementById(id);
+    s.querySelectorAll('.sel-opt').forEach(o=>{o.classList.remove('selected');o.setAttribute('aria-selected','false');});
+    opt.classList.add('selected'); opt.setAttribute('aria-selected','true');
+    document.getElementById(id+'-val').textContent=opt.childNodes[0]?.textContent.trim();
+  }
+  function selMenuKeydown(e,id){
+    const menu=document.getElementById(id+'-listbox');
+    const opts=Array.from(menu.querySelectorAll('.sel-opt'));
+    let i=opts.findIndex(o=>o.classList.contains('active'));
+    if(i<0) i=opts.findIndex(o=>o.classList.contains('selected'));
+    if(i<0) i=0;
+    switch(e.key){
+      case 'ArrowDown': e.preventDefault(); setActiveSel(id,opts[Math.min(i+1,opts.length-1)]); break;
+      case 'ArrowUp': e.preventDefault(); setActiveSel(id,opts[Math.max(i-1,0)]); break;
+      case 'Home': e.preventDefault(); setActiveSel(id,opts[0]); break;
+      case 'End': e.preventDefault(); setActiveSel(id,opts[opts.length-1]); break;
+      case 'Enter': case ' ': e.preventDefault(); pickSel(id,opts[i]); closeSel(id); break;
+      case 'Escape': e.preventDefault(); closeSel(id); break;
+      case 'Tab': closeSel(id,false); break;
+    }
+  }
+  document.addEventListener('keydown',e=>{
+    const trigger=e.target.closest('.sel-trigger');
+    if(trigger && ['ArrowDown','ArrowUp','Enter',' '].includes(e.key)){
+      e.preventDefault(); openSel(trigger.closest('.sel').id);
+    }
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest('.sel')){document.querySelectorAll('.sel.open').forEach(s=>{if(s.id) closeSel(s.id,false);});}});
 </script>
 </body>
 </html>

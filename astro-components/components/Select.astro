@@ -1,4 +1,6 @@
 ---
+import { randomUUID } from 'node:crypto';
+
 interface Option {
   value: string;
   label: string;
@@ -31,30 +33,55 @@ const {
 } = Astro.props;
 
 const selected = options.find((o) => o.value === value);
+
+// Unique per instance so aria-* references (label/trigger/listbox/options/description)
+// don't collide when multiple <Select>s render on the same page.
+const uid = `sel-${randomUUID().slice(0, 8)}`;
+const labelId = `${uid}-label`;
+const triggerId = `${uid}-trigger`;
+const listboxId = `${uid}-listbox`;
+const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : undefined;
 ---
 
 <div class:list={['sel', className, { error, disabled }]}>
-  {label && <label class="sel-label">{label}</label>}
-  <button type="button" class:list={['sel-trigger', { 'is-placeholder': !selected }]} disabled={disabled}>
+  {label && <label id={labelId} class="sel-label">{label}</label>}
+  <button
+    type="button"
+    id={triggerId}
+    class:list={['sel-trigger', { 'is-placeholder': !selected }]}
+    disabled={disabled}
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls={listboxId}
+    aria-labelledby={label ? `${labelId} ${triggerId}` : undefined}
+    aria-invalid={error ? 'true' : undefined}
+    aria-describedby={descId}
+  >
     <span class="sel-value">{selected ? selected.label : placeholder}</span>
-    <span class="chev">▾</span>
+    <span class="chev" aria-hidden="true">▾</span>
   </button>
-  <div class="sel-menu">
-    {options.map((opt) => (
-      <div class:list={['sel-opt', { selected: opt.value === value }]} data-value={opt.value}>
-        {opt.label} <span class="ck"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span>
+  <div id={listboxId} class="sel-menu" role="listbox" tabindex="-1" aria-labelledby={label ? labelId : undefined}>
+    {options.map((opt, i) => (
+      <div
+        id={`${uid}-opt-${i}`}
+        class:list={['sel-opt', { selected: opt.value === value }]}
+        role="option"
+        aria-selected={opt.value === value ? 'true' : 'false'}
+        data-value={opt.value}
+      >
+        {opt.label} <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span>
       </div>
     ))}
   </div>
   <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
-  <select name={name} class="sel-native-fallback" disabled={disabled} required>
+  <select name={name} class="sel-native-fallback" disabled={disabled} required tabindex="-1" aria-hidden="true">
     <option value="" disabled selected={!value}>{placeholder}</option>
     {options.map((opt) => <option value={opt.value} selected={opt.value === value}>{opt.label}</option>)}
   </select>
   {error && errorMessage ? (
-    <span class="sel-err">{errorMessage}</span>
+    <span id={descId} class="sel-err">{errorMessage}</span>
   ) : hint ? (
-    <span class="sel-hint">{hint}</span>
+    <span id={descId} class="sel-hint">{hint}</span>
   ) : null}
 </div>
 
@@ -87,7 +114,7 @@ const selected = options.find((o) => o.value === value);
     padding: 9px 12px; border-radius: var(--rounded-md);
     font-size: var(--font-size-body); color: var(--color-text-body); cursor: pointer;
   }
-  .sel-opt:hover { background: var(--color-bg-shade); }
+  .sel-opt:hover, .sel-opt.active { background: var(--color-bg-shade); }
   .sel-opt.selected { background: var(--color-bg-card-alt); color: var(--color-secondary); font-weight: 600; }
   .sel-opt .ck { color: var(--color-secondary); opacity: 0; display: inline-flex; }
   .sel-opt .ck svg { width: 0.8rem; height: 0.8rem; }
@@ -98,6 +125,9 @@ const selected = options.find((o) => o.value === value);
 </style>
 
 <script>
+  // Button-triggered listbox pattern (WAI-ARIA APG "Select Only" combobox):
+  // trigger carries aria-expanded/aria-haspopup/aria-controls, the listbox owns
+  // aria-activedescendant while DOM focus stays on it, options carry aria-selected.
   function initSelects(root: ParentNode = document) {
     root.querySelectorAll<HTMLElement>('.sel:not([data-sel-init])').forEach((sel) => {
       sel.dataset.selInit = '1';
@@ -105,30 +135,115 @@ const selected = options.find((o) => o.value === value);
       const menu = sel.querySelector<HTMLElement>('.sel-menu');
       const valueEl = sel.querySelector<HTMLElement>('.sel-value');
       const nativeSelect = sel.querySelector<HTMLSelectElement>('select');
+      const opts = Array.from(menu?.querySelectorAll<HTMLElement>('.sel-opt') ?? []);
+      if (!trigger || !menu || opts.length === 0) return;
 
-      trigger?.addEventListener('click', () => {
+      let activeIndex = Math.max(0, opts.findIndex((o) => o.classList.contains('selected')));
+
+      const setActive = (index: number) => {
+        activeIndex = Math.min(Math.max(index, 0), opts.length - 1);
+        opts.forEach((o) => o.classList.remove('active'));
+        const opt = opts[activeIndex];
+        opt.classList.add('active');
+        menu.setAttribute('aria-activedescendant', opt.id);
+        opt.scrollIntoView({ block: 'nearest' });
+      };
+
+      const open = () => {
         if (sel.classList.contains('disabled')) return;
-        sel.classList.toggle('open');
+        sel.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+        setActive(activeIndex);
+        menu.focus();
+      };
+
+      const close = ({ refocusTrigger = true } = {}) => {
+        sel.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        opts.forEach((o) => o.classList.remove('active'));
+        menu.removeAttribute('aria-activedescendant');
+        if (refocusTrigger) trigger.focus();
+      };
+
+      const commit = (index: number) => {
+        const opt = opts[index];
+        if (!opt) return;
+        opts.forEach((o) => {
+          o.classList.remove('selected');
+          o.setAttribute('aria-selected', 'false');
+        });
+        opt.classList.add('selected');
+        opt.setAttribute('aria-selected', 'true');
+        if (valueEl) valueEl.textContent = opt.childNodes[0]?.textContent?.trim() ?? '';
+        trigger.classList.remove('is-placeholder');
+        if (nativeSelect) nativeSelect.value = opt.dataset.value ?? '';
+        sel.dispatchEvent(new CustomEvent('select-change', { detail: opt.dataset.value, bubbles: true }));
+      };
+
+      trigger.addEventListener('click', () => {
+        sel.classList.contains('open') ? close() : open();
       });
 
-      menu?.querySelectorAll<HTMLElement>('.sel-opt').forEach((opt) => {
+      trigger.addEventListener('keydown', (e) => {
+        if (sel.classList.contains('disabled')) return;
+        if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) {
+          e.preventDefault();
+          open();
+        }
+      });
+
+      opts.forEach((opt, i) => {
         opt.addEventListener('click', () => {
-          menu.querySelectorAll('.sel-opt').forEach((o) => o.classList.remove('selected'));
-          opt.classList.add('selected');
-          if (valueEl) valueEl.textContent = opt.childNodes[0]?.textContent?.trim() ?? '';
-          trigger?.classList.remove('is-placeholder');
-          if (nativeSelect) nativeSelect.value = opt.dataset.value ?? '';
-          sel.classList.remove('open');
-          sel.dispatchEvent(new CustomEvent('select-change', { detail: opt.dataset.value, bubbles: true }));
+          commit(i);
+          close();
         });
+        opt.addEventListener('mouseenter', () => setActive(i));
+      });
+
+      menu.addEventListener('keydown', (e) => {
+        switch (e.key) {
+          case 'ArrowDown':
+            e.preventDefault();
+            setActive(activeIndex + 1);
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            setActive(activeIndex - 1);
+            break;
+          case 'Home':
+            e.preventDefault();
+            setActive(0);
+            break;
+          case 'End':
+            e.preventDefault();
+            setActive(opts.length - 1);
+            break;
+          case 'Enter':
+          case ' ':
+            e.preventDefault();
+            commit(activeIndex);
+            close();
+            break;
+          case 'Escape':
+            e.preventDefault();
+            close();
+            break;
+          case 'Tab':
+            close({ refocusTrigger: false });
+            break;
+        }
       });
     });
   }
 
   document.addEventListener('click', (e) => {
-    if (!(e.target as HTMLElement).closest('.sel')) {
-      document.querySelectorAll('.sel.open').forEach((s) => s.classList.remove('open'));
-    }
+    document.querySelectorAll<HTMLElement>('.sel.open').forEach((sel) => {
+      if (!sel.contains(e.target as Node)) {
+        sel.classList.remove('open');
+        sel.querySelector('.sel-trigger')?.setAttribute('aria-expanded', 'false');
+        sel.querySelector('.sel-menu')?.removeAttribute('aria-activedescendant');
+      }
+    });
   });
 
   document.addEventListener('DOMContentLoaded', () => initSelects());

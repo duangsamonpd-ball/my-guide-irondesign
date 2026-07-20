@@ -113,12 +113,16 @@ Props: `label`, `options` (`{ value, label }[]`, required), `value`, `placeholde
 `name`, `error`, `errorMessage`, `hint`, `disabled`, `class`.
 
 A hidden native `<select>` mirrors the chosen value so the component still
-works inside a plain HTML `<form>` submit without JS. The visible dropdown
-is progressively enhanced via the component's own `<script>` (safe with
-multiple `<Select>` instances on one page, and re-initializes on Astro View
-Transitions).
+works inside a plain HTML `<form>` submit without JS — `tabindex="-1"` +
+`aria-hidden="true"` keep it out of the tab order and the accessibility tree
+once the enhanced UI takes over, so keyboard/AT users don't hit two controls
+for one field. The visible dropdown is progressively enhanced via the
+component's own `<script>` (safe with multiple `<Select>` instances on one
+page, and re-initializes on Astro View Transitions).
 
 The selected-option checkmark is an inline **Font Awesome Free Solid** `check` SVG (`fill="currentColor"`), shown via `opacity` toggle — no icon font or CDN dependency.
+
+**Accessibility (WAI-ARIA "select only" listbox pattern):** the trigger carries `aria-haspopup="listbox"` + `aria-expanded` + `aria-controls`, and is named via `aria-labelledby` (label + trigger, so the accessible name includes the current value). The menu is `role="listbox"` with `aria-activedescendant` tracking the highlighted option as DOM focus stays on the listbox — options are `role="option"` + `aria-selected`. Full keyboard support: `↑`/`↓` moves the highlight, `Home`/`End` jump to the ends, `Enter`/`Space` commits and closes, `Esc` closes without changing the value, and both close paths return focus to the trigger. `error`/`hint` wire up `aria-invalid` + `aria-describedby`. Fixed 2026-07-20 — previously the custom dropdown had zero ARIA and the hidden native `<select>` was still keyboard-focusable, creating an invisible duplicate tab stop.
 
 ### `Checkbox.astro`
 
