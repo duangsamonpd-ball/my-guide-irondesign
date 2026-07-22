@@ -162,9 +162,9 @@
         "$description": "Neutral/800 — default running text (light)"
       },
       "muted": {
-        "$value": "#525252",
+        "$value": "#737373",
         "$type": "color",
-        "$description": "Neutral/600 — placeholders, captions, disabled (light). 7.13:1"
+        "$description": "Neutral/500 — placeholders, captions, disabled (light). 4.33:1 worst / 4.74:1 on white — just under AA, chosen so disabled stays distinguishable from body text"
       },
       "support": {
         "$value": "#45556C",
@@ -187,9 +187,9 @@
         "$description": "Iron Pink/500 — hovered tertiary action"
       },
       "link": {
-        "$value": "#217BC4",
+        "$value": "#2693EC",
         "$type": "color",
-        "$description": "Iron Blue/600 — hyperlinks, anchor text. 4.08:1 — below AA for body-size text, accepted deliberately"
+        "$description": "Iron Blue/500 — hyperlinks, anchor text. 2.96:1 — does NOT meet AA; kept as the brand blue by design decision. Pair links with an underline so colour is never the only cue."
       },
       "link-hover": {
         "$value": "#E01A59",
