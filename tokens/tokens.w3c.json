@@ -393,7 +393,12 @@
     "2xl":  { "$value": 16,   "$type": "dimension", "$description": "Hero cards, feature highlights" },
     "3xl":  { "$value": 24,   "$type": "dimension", "$description": "Buttons, large containers" },
     "4xl":  { "$value": 32,   "$type": "dimension", "$description": "CTA buttons, pill shapes" },
-    "full": { "$value": 9999, "$type": "dimension", "$description": "Perfect circle or infinite pill" }
+    "full": { "$value": 9999, "$type": "dimension", "$description": "Perfect circle or infinite pill" },
+
+    "_semantic": "Named aliases consumed by components — prefer these over raw steps.",
+    "pill-sm": { "$value": 20,   "$type": "dimension", "$description": "Badges, small pills" },
+    "cta":     { "$value": 9999, "$type": "dimension", "$description": "Primary large CTA — signature pill shape (alias of `full`)" },
+    "cta-alt": { "$value": 42,   "$type": "dimension", "$description": "Alternative secondary CTA" }
   },
 
   "shadow": {
