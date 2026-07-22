@@ -1,0 +1,710 @@
+/**
+ * Iron Software Design System — Tailwind v4 theme
+ *
+ * ╔══════════════════════════════════════════════════════════════════════════╗
+ * ║  GENERATED FILE — DO NOT EDIT                                            ║
+ * ║  Edit tailwind/tokens.css, then run: node scripts/build-theme.mjs        ║
+ * ╚══════════════════════════════════════════════════════════════════════════╝
+ *
+ * Tailwind v4 is CSS-first — this file replaces tailwind.config.js entirely.
+ *
+ *   import "@iron-software/design-system/tailwind/theme.css";
+ *
+ * Not using Tailwind? Import tailwind/tokens.css instead — same values, plain CSS.
+ *
+ * Two deliberate choices, both because our components read tokens as plain CSS
+ * variables inside their own <style> blocks rather than as utility classes:
+ *
+ *   `@theme` (not `@theme inline`)  — inline never emits --color-* to :root,
+ *      which would leave every component resolving to nothing.
+ *   `static`  — without it Tailwind tree-shakes any token no utility references,
+ *      and it cannot see var(--color-text-body) inside an .astro <style> block.
+ *
+ * Together: utilities generate, var(--color-*) resolves, and dark mode is a swap.
+ */
+
+@import "tailwindcss";
+
+/* Class-based dark mode: <html class="dark"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. PRIMITIVES — raw palette, never consume directly in components
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --iron-pink-50: #FDF1F5;
+  --iron-pink-100: #FADDE6;
+  --iron-pink-200: #F6BACD;
+  --iron-pink-300: #F08DAC;
+  --iron-pink-400: #E95F8B;
+  --iron-pink-500: #E01A59;                   /* BASE */
+  --iron-pink-600: #BA174B;
+  --iron-pink-700: #94153D;
+  --iron-pink-800: #6E122F;
+  --iron-pink-900: #471022;
+  --iron-pink-950: #2E0E18;
+  --iron-blue-50: #F2F9FE;
+  --iron-blue-100: #DEEFFC;
+  --iron-blue-200: #BEDFF9;
+  --iron-blue-300: #93C9F6;
+  --iron-blue-400: #67B3F2;
+  --iron-blue-500: #2693EC;                   /* BASE */
+  --iron-blue-600: #217BC4;
+  --iron-blue-700: #1D629B;
+  --iron-blue-800: #184A73;
+  --iron-blue-900: #13324B;
+  --iron-blue-950: #102230;
+  --iron-orange-50: #FFFAF0;
+  --iron-orange-100: #FFF2DA;
+  --iron-orange-200: #FEE4B5;
+  --iron-orange-300: #FED284;
+  --iron-orange-400: #FEC053;
+  --iron-orange-500: #FDA509;                 /* BASE */
+  --iron-orange-600: #D2890A;
+  --iron-orange-700: #A66E0A;
+  --iron-orange-800: #7B520B;
+  --iron-orange-900: #4F370B;
+  --iron-orange-950: #33240C;
+  --iron-green-50: #F6FBF9;
+  --iron-green-100: #E8F6F1;
+  --iron-green-200: #D0ECE3;
+  --iron-green-300: #B1E0D0;
+  --iron-green-400: #92D4BD;
+  --iron-green-500: #63C1A0;                  /* BASE */
+  --iron-green-600: #53A085;
+  --iron-green-700: #44806B;
+  --iron-green-800: #345F50;
+  --iron-green-900: #243F35;
+  --iron-green-950: #1A2924;
+  --iron-sky-50: #F8FCFD;
+  --iron-sky-100: #EDF8FA;
+  --iron-sky-200: #DCF2F5;
+  --iron-sky-300: #C4E9EF;
+  --iron-sky-400: #ACE0E9;
+  --iron-sky-500: #89D3DF;                    /* BASE */
+  --iron-sky-600: #73AFB9;
+  --iron-sky-700: #5C8B93;
+  --iron-sky-800: #46686D;
+  --iron-sky-900: #2F4447;
+  --iron-sky-950: #202C2E;
+  --iron-purple-50: #F5F3F9;
+  --iron-purple-100: #E6E2F0;
+  --iron-purple-200: #CCC4E0;
+  --iron-purple-300: #AB9DCC;
+  --iron-purple-400: #8976B8;
+  --iron-purple-500: #563B99;                 /* BASE */
+  --iron-purple-600: #493380;
+  --iron-purple-700: #3B2A66;
+  --iron-purple-800: #2E224D;
+  --iron-purple-900: #211933;
+  --iron-purple-950: #161423;
+  --iron-violet-50: #F9F4F8;
+  --iron-violet-100: #F0E5EE;
+  --iron-violet-200: #E2CADE;
+  --iron-violet-300: #CEA7C8;
+  --iron-violet-400: #BA84B1;
+  --iron-violet-500: #9D4F90;                 /* BASE */
+  --iron-violet-600: #84427C;
+  --iron-violet-700: #6B3567;
+  --iron-violet-800: #522950;
+  --iron-violet-900: #391C39;
+  --iron-violet-950: #260F27;
+  --iron-red-50: #FFF1F1;
+  --iron-red-100: #FFE1E2;
+  --iron-red-200: #FFC7C9;
+  --iron-red-300: #FF9DA1;
+  --iron-red-400: #FF666D;
+  --iron-red-500: #E5242A;                    /* BASE */
+  --iron-red-600: #C91D23;
+  --iron-red-700: #A8181D;
+  --iron-red-800: #89171B;
+  --iron-red-900: #72181B;
+  --iron-red-950: #3D080A;
+  --slate-50: #F8FAFC;
+  --slate-100: #F1F5F9;
+  --slate-200: #E2E8F0;
+  --slate-300: #CAD5E2;
+  --slate-400: #90A1B9;
+  --slate-500: #62748E;                       /* BASE */
+  --slate-600: #45556C;
+  --slate-700: #314158;
+  --slate-800: #1D293D;
+  --slate-900: #0F172B;
+  --slate-950: #020618;
+  --neutral-50: #FAFAFA;
+  --neutral-100: #F5F5F5;
+  --neutral-200: #E5E5E5;
+  --neutral-300: #D4D4D4;
+  --neutral-400: #A1A1A1;
+  --neutral-500: #737373;                     /* BASE */
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-950: #0A0A0A;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. THEME — registered with Tailwind, so utilities generate
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* `static` emits every token even when no utility references it. Our components
+   read them as plain CSS variables, which Tailwind's scanner cannot see. */
+@theme static {
+  --color-iron-pink-50: var(--iron-pink-50);
+  --color-iron-pink-100: var(--iron-pink-100);
+  --color-iron-pink-200: var(--iron-pink-200);
+  --color-iron-pink-300: var(--iron-pink-300);
+  --color-iron-pink-400: var(--iron-pink-400);
+  --color-iron-pink-500: var(--iron-pink-500);
+  --color-iron-pink-600: var(--iron-pink-600);
+  --color-iron-pink-700: var(--iron-pink-700);
+  --color-iron-pink-800: var(--iron-pink-800);
+  --color-iron-pink-900: var(--iron-pink-900);
+  --color-iron-pink-950: var(--iron-pink-950);
+  --color-iron-blue-50: var(--iron-blue-50);
+  --color-iron-blue-100: var(--iron-blue-100);
+  --color-iron-blue-200: var(--iron-blue-200);
+  --color-iron-blue-300: var(--iron-blue-300);
+  --color-iron-blue-400: var(--iron-blue-400);
+  --color-iron-blue-500: var(--iron-blue-500);
+  --color-iron-blue-600: var(--iron-blue-600);
+  --color-iron-blue-700: var(--iron-blue-700);
+  --color-iron-blue-800: var(--iron-blue-800);
+  --color-iron-blue-900: var(--iron-blue-900);
+  --color-iron-blue-950: var(--iron-blue-950);
+  --color-iron-orange-50: var(--iron-orange-50);
+  --color-iron-orange-100: var(--iron-orange-100);
+  --color-iron-orange-200: var(--iron-orange-200);
+  --color-iron-orange-300: var(--iron-orange-300);
+  --color-iron-orange-400: var(--iron-orange-400);
+  --color-iron-orange-500: var(--iron-orange-500);
+  --color-iron-orange-600: var(--iron-orange-600);
+  --color-iron-orange-700: var(--iron-orange-700);
+  --color-iron-orange-800: var(--iron-orange-800);
+  --color-iron-orange-900: var(--iron-orange-900);
+  --color-iron-orange-950: var(--iron-orange-950);
+  --color-iron-green-50: var(--iron-green-50);
+  --color-iron-green-100: var(--iron-green-100);
+  --color-iron-green-200: var(--iron-green-200);
+  --color-iron-green-300: var(--iron-green-300);
+  --color-iron-green-400: var(--iron-green-400);
+  --color-iron-green-500: var(--iron-green-500);
+  --color-iron-green-600: var(--iron-green-600);
+  --color-iron-green-700: var(--iron-green-700);
+  --color-iron-green-800: var(--iron-green-800);
+  --color-iron-green-900: var(--iron-green-900);
+  --color-iron-green-950: var(--iron-green-950);
+  --color-iron-sky-50: var(--iron-sky-50);
+  --color-iron-sky-100: var(--iron-sky-100);
+  --color-iron-sky-200: var(--iron-sky-200);
+  --color-iron-sky-300: var(--iron-sky-300);
+  --color-iron-sky-400: var(--iron-sky-400);
+  --color-iron-sky-500: var(--iron-sky-500);
+  --color-iron-sky-600: var(--iron-sky-600);
+  --color-iron-sky-700: var(--iron-sky-700);
+  --color-iron-sky-800: var(--iron-sky-800);
+  --color-iron-sky-900: var(--iron-sky-900);
+  --color-iron-sky-950: var(--iron-sky-950);
+  --color-iron-purple-50: var(--iron-purple-50);
+  --color-iron-purple-100: var(--iron-purple-100);
+  --color-iron-purple-200: var(--iron-purple-200);
+  --color-iron-purple-300: var(--iron-purple-300);
+  --color-iron-purple-400: var(--iron-purple-400);
+  --color-iron-purple-500: var(--iron-purple-500);
+  --color-iron-purple-600: var(--iron-purple-600);
+  --color-iron-purple-700: var(--iron-purple-700);
+  --color-iron-purple-800: var(--iron-purple-800);
+  --color-iron-purple-900: var(--iron-purple-900);
+  --color-iron-purple-950: var(--iron-purple-950);
+  --color-iron-violet-50: var(--iron-violet-50);
+  --color-iron-violet-100: var(--iron-violet-100);
+  --color-iron-violet-200: var(--iron-violet-200);
+  --color-iron-violet-300: var(--iron-violet-300);
+  --color-iron-violet-400: var(--iron-violet-400);
+  --color-iron-violet-500: var(--iron-violet-500);
+  --color-iron-violet-600: var(--iron-violet-600);
+  --color-iron-violet-700: var(--iron-violet-700);
+  --color-iron-violet-800: var(--iron-violet-800);
+  --color-iron-violet-900: var(--iron-violet-900);
+  --color-iron-violet-950: var(--iron-violet-950);
+  --color-iron-red-50: var(--iron-red-50);
+  --color-iron-red-100: var(--iron-red-100);
+  --color-iron-red-200: var(--iron-red-200);
+  --color-iron-red-300: var(--iron-red-300);
+  --color-iron-red-400: var(--iron-red-400);
+  --color-iron-red-500: var(--iron-red-500);
+  --color-iron-red-600: var(--iron-red-600);
+  --color-iron-red-700: var(--iron-red-700);
+  --color-iron-red-800: var(--iron-red-800);
+  --color-iron-red-900: var(--iron-red-900);
+  --color-iron-red-950: var(--iron-red-950);
+  --color-slate-50: var(--slate-50);
+  --color-slate-100: var(--slate-100);
+  --color-slate-200: var(--slate-200);
+  --color-slate-300: var(--slate-300);
+  --color-slate-400: var(--slate-400);
+  --color-slate-500: var(--slate-500);
+  --color-slate-600: var(--slate-600);
+  --color-slate-700: var(--slate-700);
+  --color-slate-800: var(--slate-800);
+  --color-slate-900: var(--slate-900);
+  --color-slate-950: var(--slate-950);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+  --color-primary: var(--iron-pink-500);      /* #E01A59 */
+  --color-primary-hover: var(--iron-pink-600); /* #BA174B */
+  --color-primary-active: var(--iron-pink-700); /* #94153D */
+  --color-primary-subtle: var(--iron-pink-100); /* #FADDE6 */
+  --color-primary-on: #FFFFFF;
+  --color-secondary: var(--iron-blue-500);    /* #2693EC */
+  --color-secondary-hover: var(--iron-blue-600); /* #217BC4 */
+  --color-secondary-active: var(--iron-blue-700); /* #1D629B */
+  --color-secondary-subtle: var(--iron-blue-100); /* #DEEFFC */
+  --color-secondary-on: #FFFFFF;
+  --color-success: var(--iron-green-500);     /* #63C1A0 */
+  --color-success-hover: var(--iron-green-600); /* #53A085 */
+  --color-success-strong: var(--iron-green-700); /* #44806B — icons/text on light fills (4.62:1 on white) */
+  --color-success-subtle: var(--iron-green-100); /* #E8F6F1 */
+  --color-success-on: #FFFFFF;
+  --color-warning: var(--iron-orange-500);    /* #FDA509 */
+  --color-warning-hover: var(--iron-orange-600); /* #D2890A */
+  --color-warning-subtle: var(--iron-orange-100); /* #FFF2DA */
+  --color-warning-on: #FFFFFF;
+  --color-danger: var(--iron-red-500);        /* #E5242A */
+  --color-danger-hover: var(--iron-red-600);  /* #C91D23 */
+  --color-danger-subtle: var(--iron-red-100); /* #FFE1E2 */
+  --color-danger-on: #FFFFFF;
+  --color-info: var(--iron-blue-500);         /* #2693EC */
+  --color-info-hover: var(--iron-blue-600);   /* #217BC4 */
+  --color-info-subtle: var(--iron-blue-100);  /* #DEEFFC */
+  --color-info-on: #FFFFFF;
+  --color-accent-1: var(--iron-orange-500);   /* #FDA509 — iron-orange/500 */
+  --color-accent-2: var(--iron-green-500);    /* #63C1A0 — iron-green/500 */
+  --color-accent-3: var(--iron-sky-500);      /* #89D3DF — iron-sky/500 */
+  --color-accent-4: var(--iron-purple-500);   /* #563B99 — iron-purple/500 */
+  --color-button-primary: var(--iron-pink-500); /* #E01A59 — brand/primary */
+  --color-button-primary-hover: var(--iron-pink-600); /* #BA174B — brand/primary-dark */
+  --color-button-secondary: var(--iron-blue-500); /* #2693EC — brand/secondary */
+  --color-button-secondary-hover: var(--iron-blue-600); /* #217BC4 — brand/secondary-dark */
+  --color-button-tertiary: var(--neutral-900); /* #171717 — neutral/900 (solid dark button) */
+  --color-button-tertiary-hover: var(--iron-pink-500); /* #E01A59 — button/primary (black → pink) */
+  --color-button-outline: #FFFFFF;            /* white — outline / ghost fill */
+  --color-button-outline-hover: #FFFFFF;      /* white */
+  --color-button-dark-outline: var(--iron-violet-950); /* #260F27 — iron-violet/950 */
+  --color-button-dark-outline-hover: var(--iron-violet-900); /* #391C39 — iron-violet/900 */
+  --color-text-heading: var(--neutral-900);   /* #171717 — H1–H4, emphasized type */
+  --color-text-heading-alt: var(--iron-blue-500); /* #2693EC — Coloured headline accents, kickers */
+  --color-text-body: var(--neutral-800);      /* #262626 — Default running text */
+  --color-text-muted: var(--neutral-400);     /* #A1A1A1 — Placeholders, captions, disabled */
+  --color-text-support: var(--slate-400);     /* #90A1B9 — Support headlines, caption titles */
+  --color-text-on-primary: #FFFFFF;           /* White text on CTA buttons (Figma: on action) */
+  --color-text-on-action-tertiary: var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
+  --color-text-on-action-tertiary-hover: var(--iron-pink-500); /* #E01A59 — hovered tertiary action */
+  --color-on-tertiary: var(--color-text-on-action-tertiary); /* alias — Button outline/ghost/ondark text */
+  --color-on-tertiary-hover: var(--color-text-on-action-tertiary-hover); /* alias — hover state */
+  --color-text-link: var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text */
+  --color-text-link-hover: var(--iron-pink-500); /* #E01A59 — Hovered / active link state */
+  --color-text-dark-heading: var(--neutral-100); /* #F5F5F5 — neutral/100 */
+  --color-text-dark-heading-alt: var(--iron-orange-500); /* #FDA509 — brand/accent 1 */
+  --color-text-dark-body: var(--neutral-300); /* #D4D4D4 — neutral/300 */
+  --color-text-dark-muted: var(--neutral-500); /* #737373 — neutral/500 */
+  --color-text-dark-support: var(--iron-violet-300); /* #CEA7C8 — iron-violet/300 */
+  --color-text-dark-link: var(--iron-blue-500); /* #2693EC — same as light */
+  --color-text-dark-link-hover: var(--iron-pink-500); /* #E01A59 — same as light */
+  --color-text-on-color-heading: #FFFFFF;     /* white */
+  --color-text-on-color-body: var(--neutral-200); /* #E5E5E5 — neutral/200 */
+  --color-bg-base: #FFFFFF;                   /* white — main page background */
+  --color-bg-shade: var(--slate-100);         /* #F1F5F9 — slate/100 — band fills, alternating sections */
+  --color-bg-card: #FFFFFF;                   /* white — card, modal, panel backgrounds */
+  --color-bg-card-alt: var(--iron-blue-50);   /* #F2F9FE — iron-blue/50 — alternative / feature highlight card */
+  --color-bg-disabled: var(--slate-50);       /* #F8FAFC — slate/50 — disabled input / control fill */
+  --color-bg-dark: var(--iron-violet-900);    /* #391C39 — iron-violet/900 — main page background */
+  --color-bg-dark-shade: var(--iron-violet-950); /* #260F27 — iron-violet/950 — band fills, alternating sections */
+  --color-bg-dark-card: var(--iron-violet-800); /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
+  --color-bg-dark-card-alt: var(--iron-violet-950); /* #260F27 — iron-violet/950 — alternative / feature highlight card */
+  --color-border: var(--slate-200);           /* #E2E8F0 — slate/200 — dividers, input borders, card edges */
+  --color-border-strong: var(--slate-300);    /* #CAD5E2 — slate/300 — hover borders, strong dividers */
+  --color-border-alt: var(--iron-blue-500);   /* #2693EC — brand/secondary — focused inputs, active outlines */
+  --color-border-focus: var(--iron-blue-500); /* #2693EC — focus ring (accessibility) */
+  --color-border-focused: var(--color-border-focus); /* alias — Button ghost variant naming */
+  --color-border-selected: var(--iron-blue-500); /* #2693EC — selected item outline */
+  --color-border-error: var(--iron-red-500);  /* #E5242A — error state border (Figma: danger) */
+  --color-border-dark: var(--iron-violet-500); /* #9D4F90 — iron-violet/500 — dividers, input borders */
+  --color-border-dark-strong: var(--iron-violet-400); /* #BA84B1 — iron-violet/400 — hover borders, strong dividers */
+  --color-border-dark-alt: var(--iron-blue-500); /* #2693EC — brand/secondary — same as light mode */
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Montserrat', sans-serif;      /* alias — use either */
+  --font-mono: 'Roboto Mono', "SF Mono", "Cascadia Code", Consolas, monospace; /* Figma: Roboto Mono */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+  --text-5xl: 40px;
+  --text-6xl: 48px;
+  --text-7xl: 60px;
+  --text-8xl: 72px;
+  --text-9xl: 96px;
+  --text-h1-hero: var(--text-6xl);            /* 48px — hero modifier on H1, homepage only */
+  --text-h1: var(--text-5xl);                 /* 40px — page title, 1 per page */
+  --text-h2: var(--text-3xl);                 /* 30px — section heading */
+  --text-h3: var(--text-2xl);                 /* 24px — card / feature title */
+  --text-h4: var(--text-xl);                  /* 20px — card title (split from body-lg by weight) */
+  --text-title-lg: var(--text-lg);            /* 18px — section intro title */
+  --text-body-lg: var(--text-lg);             /* 18px — lead / intro paragraph */
+  --text-quote: var(--text-lg);               /* 18px — pull quote / blockquote (italic) */
+  --text-body: var(--text-base);              /* 16px — default running text */
+  --text-caption: var(--text-sm);             /* 14px — supporting text, secondary colour */
+  --text-caption-sm: var(--text-xs);          /* 12px — tooltip, footer fine print */
+  --text-label: var(--text-sm);               /* 14px — form / UI label */
+  --text-overline: var(--text-sm);            /* 14px — uppercase category label, accent */
+  --text-code: var(--text-sm);                /* 14px — inline & block code, mono */
+  --text-btn-lg: var(--text-base);            /* 16px — hero / primary CTA */
+  --text-btn: var(--text-sm);                 /* 14px — standard button */
+  --text-btn-sm: var(--text-xs);              /* 12px — compact / table action */
+  --text-nav: var(--text-base);               /* 16px — main nav link */
+  --text-nav-sub: var(--text-sm);             /* 14px — dropdown / footer / sidebar */
+  --text-nav-label: var(--text-xs);           /* 12px — menu / footer group label */
+  --leading-3: 12px;
+  --leading-4: 16px;
+  --leading-5: 20px;
+  --leading-6: 24px;
+  --leading-7: 28px;
+  --leading-8: 32px;
+  --leading-9: 36px;
+  --leading-10: 40px;
+  --leading-12: 48px;
+  --leading-15: 60px;
+  --leading-18: 72px;
+  --leading-24: 96px;
+  --leading-32: 128px;
+  --tracking-h1-hero: -0.8px;                 /* tighter */
+  --tracking-h1: -0.8px;                      /* tighter */
+  --tracking-h2: -0.4px;                      /* tight */
+  --tracking-h3: -0.4px;                      /* tight */
+  --tracking-h4: -0.4px;                      /* tight — card title */
+  --tracking-overline: 0.8px;                 /* wider */
+  --tracking-btn: 0px;                        /* normal */
+  --tracking-btn-sm: 0.4px;                   /* wide */
+  --tracking-caption-sm: 0.4px;               /* wide */
+  --tracking-nav-label: 0.4px;                /* wide */
+  --spacing-micro: 0.25rem;                   /* 4px — icon-text gaps, tight groups */
+  --spacing-xs: 0.5rem;                       /* 8px — small spacing within components */
+  --spacing-sm: 0.75rem;                      /* 12px — component internal padding */
+  --spacing-md: 1rem;                         /* 16px — standard padding and gaps */
+  --spacing-lg: 1.25rem;                      /* 20px — card padding, list item gaps */
+  --spacing-xl: 1.5rem;                       /* 24px — section spacing */
+  --spacing-2xl: 2rem;                        /* 32px — between layout regions */
+  --spacing-3xl: 3rem;                        /* 48px — large section padding */
+  --spacing-4xl: 4rem;                        /* 64px — page-level padding, feature sections */
+  --spacing-hero: 5rem;                       /* 80px — hero-scale top/bottom margins */
+  --spacing-section: 7.5rem;                  /* 120px — full-page section breaks, hero bands */
+  --radius-none: 0px;                         /* Sharp corners, dividers */
+  --radius-xs: 2px;                           /* Tooltips, small tags */
+  --radius-sm: 4px;                           /* Inputs, small controls */
+  --radius-md: 6px;                           /* Dropdowns, popovers */
+  --radius-lg: 8px;                           /* Feature cards, secondary containers */
+  --radius-xl: 12px;                          /* Modals, panels, large cards */
+  --radius-2xl: 16px;                         /* Hero cards, feature highlights */
+  --radius-3xl: 24px;                         /* Buttons, large containers */
+  --radius-4xl: 32px;                         /* CTA buttons, pill shapes */
+  --radius-full: 9999px;                      /* Perfect circle or infinite pill */
+  --radius-pill-sm: 1.25rem;                  /* 20px — badges, small pills */
+  --radius-cta: var(--radius-full);           /* alias — Button component pill shape */
+  --radius-cta-alt: 2.625rem;                 /* 42px — alternative secondary CTA */
+  --shadow-card: 0 0 12px 0 rgba(15, 23, 43, 0.12); /* Raised — feature cards        · slate-900 */
+  --shadow-float: 0 2px 16px 0 rgba(15, 23, 43, 0.20); /* Floating — dropdowns, headers · slate-900 */
+  --shadow-modal: 0 8px 24px 0 rgba(15, 23, 43, 0.32); /* Modal / dialogs               · slate-900 */
+  --shadow-card-hover: 0 4px 12px 0 rgba(15, 23, 43, 0.08); /* Card hover state              · slate-900 */
+  --shadow-focus-blue: 0 0 0 3px rgba(42, 149, 213, 0.25); /* Focus ring — primary */
+  --shadow-focus-teal: 0 0 0 3px rgba(99, 193, 160, 0.25); /* Focus ring — secondary */
+  --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25); /* Focus ring — destructive */
+  --shadow-tooltip: 0 4px 16px 0 rgba(0, 0, 0, 0.25); /* Tooltip drop shadow */
+  --blur-none: 0px;
+  --blur-xs: 4px;
+  --blur-sm: 8px;
+  --blur-md: 12px;
+  --blur-lg: 16px;
+  --blur-xl: 24px;
+  --blur-2xl: 40px;
+  --blur-3xl: 64px;
+  --breakpoint-xs: 320px;                     /* Mobile */
+  --breakpoint-sm: 480px;                     /* Tablet */
+  --breakpoint-md: 768px;                     /* Tablet Large */
+  --breakpoint-lg: 1024px;                    /* Desktop */
+  --breakpoint-xl: 1440px;                    /* Desktop XL */
+  --color-primary-50: var(--iron-pink-50);
+  --color-primary-100: var(--iron-pink-100);
+  --color-primary-200: var(--iron-pink-200);
+  --color-primary-300: var(--iron-pink-300);
+  --color-primary-400: var(--iron-pink-400);
+  --color-primary-500: var(--iron-pink-500);
+  --color-primary-600: var(--iron-pink-600);
+  --color-primary-700: var(--iron-pink-700);
+  --color-primary-800: var(--iron-pink-800);
+  --color-primary-900: var(--iron-pink-900);
+  --color-primary-950: var(--iron-pink-950);
+  --color-secondary-50: var(--iron-blue-50);
+  --color-secondary-100: var(--iron-blue-100);
+  --color-secondary-200: var(--iron-blue-200);
+  --color-secondary-300: var(--iron-blue-300);
+  --color-secondary-400: var(--iron-blue-400);
+  --color-secondary-500: var(--iron-blue-500);
+  --color-secondary-600: var(--iron-blue-600);
+  --color-secondary-700: var(--iron-blue-700);
+  --color-secondary-800: var(--iron-blue-800);
+  --color-secondary-900: var(--iron-blue-900);
+  --color-secondary-950: var(--iron-blue-950);
+  --color-success-50: var(--iron-green-50);
+  --color-success-100: var(--iron-green-100);
+  --color-success-200: var(--iron-green-200);
+  --color-success-300: var(--iron-green-300);
+  --color-success-400: var(--iron-green-400);
+  --color-success-500: var(--iron-green-500);
+  --color-success-600: var(--iron-green-600);
+  --color-success-700: var(--iron-green-700);
+  --color-success-800: var(--iron-green-800);
+  --color-success-900: var(--iron-green-900);
+  --color-success-950: var(--iron-green-950);
+  --color-warning-50: var(--iron-orange-50);
+  --color-warning-100: var(--iron-orange-100);
+  --color-warning-200: var(--iron-orange-200);
+  --color-warning-300: var(--iron-orange-300);
+  --color-warning-400: var(--iron-orange-400);
+  --color-warning-500: var(--iron-orange-500);
+  --color-warning-600: var(--iron-orange-600);
+  --color-warning-700: var(--iron-orange-700);
+  --color-warning-800: var(--iron-orange-800);
+  --color-warning-900: var(--iron-orange-900);
+  --color-warning-950: var(--iron-orange-950);
+  --color-danger-50: var(--iron-red-50);
+  --color-danger-100: var(--iron-red-100);
+  --color-danger-200: var(--iron-red-200);
+  --color-danger-300: var(--iron-red-300);
+  --color-danger-400: var(--iron-red-400);
+  --color-danger-500: var(--iron-red-500);
+  --color-danger-600: var(--iron-red-600);
+  --color-danger-700: var(--iron-red-700);
+  --color-danger-800: var(--iron-red-800);
+  --color-danger-900: var(--iron-red-900);
+  --color-danger-950: var(--iron-red-950);
+  --color-info-50: var(--iron-blue-50);
+  --color-info-100: var(--iron-blue-100);
+  --color-info-200: var(--iron-blue-200);
+  --color-info-300: var(--iron-blue-300);
+  --color-info-400: var(--iron-blue-400);
+  --color-info-500: var(--iron-blue-500);
+  --color-info-600: var(--iron-blue-600);
+  --color-info-700: var(--iron-blue-700);
+  --color-info-800: var(--iron-blue-800);
+  --color-info-900: var(--iron-blue-900);
+  --color-info-950: var(--iron-blue-950);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. ALIASES — original token names, kept so nothing has to change
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Tailwind owns the --radius-*, --text-* and --tracking-* namespaces, so those
+   families are registered under its names above and mirrored back here. */
+:root {
+  --font-size-xs: var(--text-xs);
+  --font-size-sm: var(--text-sm);
+  --font-size-base: var(--text-base);
+  --font-size-lg: var(--text-lg);
+  --font-size-xl: var(--text-xl);
+  --font-size-2xl: var(--text-2xl);
+  --font-size-3xl: var(--text-3xl);
+  --font-size-4xl: var(--text-4xl);
+  --font-size-5xl: var(--text-5xl);
+  --font-size-6xl: var(--text-6xl);
+  --font-size-7xl: var(--text-7xl);
+  --font-size-8xl: var(--text-8xl);
+  --font-size-9xl: var(--text-9xl);
+  --font-size-h1-hero: var(--text-h1-hero);
+  --font-size-h1: var(--text-h1);
+  --font-size-h2: var(--text-h2);
+  --font-size-h3: var(--text-h3);
+  --font-size-h4: var(--text-h4);
+  --font-size-title-lg: var(--text-title-lg);
+  --font-size-body-lg: var(--text-body-lg);
+  --font-size-quote: var(--text-quote);
+  --font-size-body: var(--text-body);
+  --font-size-caption: var(--text-caption);
+  --font-size-caption-sm: var(--text-caption-sm);
+  --font-size-label: var(--text-label);
+  --font-size-overline: var(--text-overline);
+  --font-size-code: var(--text-code);
+  --font-size-btn-lg: var(--text-btn-lg);
+  --font-size-btn: var(--text-btn);
+  --font-size-btn-sm: var(--text-btn-sm);
+  --font-size-nav: var(--text-nav);
+  --font-size-nav-sub: var(--text-nav-sub);
+  --font-size-nav-label: var(--text-nav-label);
+  --letter-spacing-h1-hero: var(--tracking-h1-hero);
+  --letter-spacing-h1: var(--tracking-h1);
+  --letter-spacing-h2: var(--tracking-h2);
+  --letter-spacing-h3: var(--tracking-h3);
+  --letter-spacing-h4: var(--tracking-h4);
+  --letter-spacing-overline: var(--tracking-overline);
+  --letter-spacing-btn: var(--tracking-btn);
+  --letter-spacing-btn-sm: var(--tracking-btn-sm);
+  --letter-spacing-caption-sm: var(--tracking-caption-sm);
+  --letter-spacing-nav-label: var(--tracking-nav-label);
+  --rounded-none: var(--radius-none);
+  --rounded-xs: var(--radius-xs);
+  --rounded-sm: var(--radius-sm);
+  --rounded-md: var(--radius-md);
+  --rounded-lg: var(--radius-lg);
+  --rounded-xl: var(--radius-xl);
+  --rounded-2xl: var(--radius-2xl);
+  --rounded-3xl: var(--radius-3xl);
+  --rounded-4xl: var(--radius-4xl);
+  --rounded-full: var(--radius-full);
+  --rounded-pill-sm: var(--radius-pill-sm);
+  --rounded-cta: var(--radius-cta);
+  --rounded-cta-alt: var(--radius-cta-alt);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. PLAIN TOKENS — no Tailwind namespace, read directly by components
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --c-accent: #185FA5;
+  --fw-h1: 900;
+  --fw-h2: 800;
+  --fw-h3: 700;
+  --fw-h4: 800;
+  --fw-title-lg: 700;                         /* Title · Large — section intro title */
+  --fw-body-lg: 500;                          /* Body large — Medium (Figma) */
+  --fw-quote: 500;                            /* Quote — Medium italic */
+  --fw-body: 400;
+  --fw-overline: 700;
+  --fw-caption-sm: 500;                       /* Caption SM — medium, tooltip / footer */
+  --fw-label: 500;                            /* Label text — medium, form / UI labels */
+  --fw-btn-lg: 700;                           /* Button · large — bold CTA */
+  --fw-btn: 600;                              /* Button · default / small — semibold */
+  --fw-nav: 500;
+  --fw-nav-active: 700;
+  --fw-nav-label: 700;
+  --line-height-h1-hero: var(--leading-12);   /* 48px */
+  --line-height-h1: var(--leading-12);        /* 48px */
+  --line-height-h2: var(--leading-9);         /* 36px */
+  --line-height-h3: var(--leading-8);         /* 32px */
+  --line-height-h4: var(--leading-7);         /* 28px */
+  --line-height-title-lg: var(--leading-7);   /* 28px */
+  --line-height-body-lg: var(--leading-7);    /* 28px */
+  --line-height-quote: var(--leading-7);      /* 28px */
+  --line-height-body: var(--leading-7);       /* 28px */
+  --line-height-caption: var(--leading-5);    /* 20px */
+  --line-height-caption-sm: var(--leading-4); /* 16px */
+  --line-height-label: var(--leading-5);      /* 20px */
+  --line-height-overline: var(--leading-4);   /* 16px */
+  --line-height-code: var(--leading-6);       /* 24px */
+  --line-height-btn-lg: 1;                    /* Button · large — single-line (= 100%) */
+  --line-height-btn: var(--leading-4);        /* Button · default — 16px */
+  --line-height-btn-sm: 1;                    /* Button · small — single-line (= 100%) */
+  --line-height-nav: 1;                       /* single-line — outside px scale (= 100%) */
+  --line-height-nav-sub: var(--leading-5);    /* 20px — may wrap to two lines */
+  --line-height-nav-label: var(--leading-4);  /* 16px */
+  --focus-ring-blue: 0 0 0 3px rgba(38, 147, 236, 0.25); /* Focus ring — Button secondary/outline/ondark (iron-blue-500 @25%) */
+  --focus-ring-white: 0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
+  --ghost-hover: rgba(0, 0, 0, 0.05);         /* transparent/black/5 — Button ghost hover fill */
+  --ondark-tint: rgba(255, 255, 255, 0.04);   /* transparent/white/4 — Button ondark base fill */
+  --size-btn-primary: 3.5rem;                 /* 56px — Large */
+  --size-btn-secondary: 3rem;                 /* 48px — Default */
+  --size-btn-small: 2.25rem;                  /* 36px — Small (Figma updated 2026-07-07, was 40px) */
+  --size-btn-lg: var(--size-btn-primary);     /* alias — Button component naming */
+  --size-btn-md: var(--size-btn-secondary);   /* alias — Button component naming */
+  --size-btn-sm: var(--size-btn-small);       /* alias — Button component naming */
+  --size-input: 2.75rem;                      /* 44px */
+  --size-nav: 2.5rem;                         /* 40px */
+  --size-touch-min: 2.75rem;                  /* 44px — minimum touch target */
+  --size-touch-nav: 3rem;                     /* 48px — mobile nav icons */
+  --size-container-max: 90rem;                /* 1440px — full-bleed section width */
+  --size-container-content: 80rem;            /* 1280px — narrower content column (e.g. Product Footer) */
+  --size-box: 1.125rem;                       /* 18px — Checkbox/Radio control size */
+  --border-width-1: 1px;                      /* Hairline — default dividers, inputs */
+  --border-width-2: 2px;                      /* Regular — focus rings, active nav */
+  --border-width-4: 4px;                      /* Medium — emphasis, selected states */
+  --border-width-8: 8px;                      /* Heavy — decorative accents, callouts */
+  --border-width-default: var(--border-width-1);
+  --border-width-focus: var(--border-width-2);
+  --border-width-nav-active: var(--border-width-2);
+  --border-style-default: solid;
+  --opacity-0: 0;                             /* 0% — fully transparent */
+  --opacity-5: 0.05;                          /* 5% */
+  --opacity-10: 0.10;                         /* 10% */
+  --opacity-15: 0.15;                         /* 15% */
+  --opacity-20: 0.20;                         /* 20% */
+  --opacity-25: 0.25;                         /* 25% */
+  --opacity-30: 0.30;                         /* 30% */
+  --opacity-35: 0.35;                         /* 35% */
+  --opacity-40: 0.40;                         /* 40% */
+  --opacity-45: 0.45;                         /* 45% */
+  --opacity-50: 0.50;                         /* 50% — half */
+  --opacity-55: 0.55;                         /* 55% */
+  --opacity-60: 0.60;                         /* 60% */
+  --opacity-65: 0.65;                         /* 65% */
+  --opacity-70: 0.70;                         /* 70% */
+  --opacity-75: 0.75;                         /* 75% */
+  --opacity-80: 0.80;                         /* 80% */
+  --opacity-85: 0.85;                         /* 85% */
+  --opacity-90: 0.90;                         /* 90% */
+  --opacity-95: 0.95;                         /* 95% */
+  --opacity-100: 1;                           /* 100% — fully opaque */
+  --opacity-disabled: var(--opacity-50);      /* Disabled states */
+  --opacity-hover-ghost: var(--opacity-90);   /* Ghost button hover */
+  --opacity-hover-footer: var(--opacity-80);  /* Footer link hover */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. DARK THEME — a swap at the semantic layer, nothing else changes
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Values come from the dark tokens already defined in tokens.css. Components
+   are untouched: they read the same --color-* names in both themes. */
+.dark {
+  --color-button-outline: var(--color-button-dark-outline); /* #260F27 — iron-violet/950 */
+  --color-button-outline-hover: var(--color-button-dark-outline-hover); /* #391C39 — iron-violet/900 */
+  --color-text-heading: var(--color-text-dark-heading); /* #F5F5F5 — neutral/100 */
+  --color-text-heading-alt: var(--color-text-dark-heading-alt); /* #FDA509 — brand/accent 1 */
+  --color-text-body: var(--color-text-dark-body); /* #D4D4D4 — neutral/300 */
+  --color-text-muted: var(--color-text-dark-muted); /* #737373 — neutral/500 */
+  --color-text-support: var(--color-text-dark-support); /* #CEA7C8 — iron-violet/300 */
+  --color-text-link: var(--color-text-dark-link); /* #2693EC — same as light */
+  --color-text-link-hover: var(--color-text-dark-link-hover); /* #E01A59 — same as light */
+  --color-bg-base: var(--color-bg-dark);      /* #391C39 — iron-violet/900 — main page background */
+  --color-bg-shade: var(--color-bg-dark-shade); /* #260F27 — iron-violet/950 — band fills, alternating sections */
+  --color-bg-card: var(--color-bg-dark-card); /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
+  --color-bg-card-alt: var(--color-bg-dark-card-alt); /* #260F27 — iron-violet/950 — alternative / feature highlight card */
+  --color-border: var(--color-border-dark);   /* #9D4F90 — iron-violet/500 — dividers, input borders */
+  --color-border-strong: var(--color-border-dark-strong); /* #BA84B1 — iron-violet/400 — hover borders, strong dividers */
+  --color-border-alt: var(--color-border-dark-alt); /* #2693EC — brand/secondary — same as light mode */
+}
