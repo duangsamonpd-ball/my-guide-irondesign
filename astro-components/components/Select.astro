@@ -102,7 +102,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
   .sel.open .sel-trigger { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
   .sel.open .sel-trigger .chev { transform: rotate(180deg); }
   .sel.error .sel-trigger { border-color: var(--color-danger); }
-  .sel.disabled .sel-trigger { background: var(--color-bg-shade); color: var(--color-text-muted); cursor: not-allowed; }
+  .sel.disabled .sel-trigger { background: var(--color-bg-shade); color: var(--color-text-disabled); cursor: not-allowed; }
   .sel-menu {
     position: absolute; top: calc(100% + 6px); left: 0; right: 0;
     background: #fff; border: 1px solid var(--color-border); border-radius: var(--rounded-lg);

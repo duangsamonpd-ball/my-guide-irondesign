@@ -217,7 +217,8 @@
   --color-text-heading:         var(--neutral-900); /* #171717 — H1–H4, emphasized type */
   --color-text-heading-alt:     var(--iron-blue-600);    /* #217BC4 — Coloured headline accents, kickers · 4.08:1 — LARGE TEXT ONLY (24px+, or 18.66px+ bold) */
   --color-text-body:            var(--neutral-800); /* #262626 — Default running text */
-  --color-text-muted:           var(--neutral-500); /* #737373 — Placeholders, captions, disabled · 4.33:1 worst / 4.74:1 on white — just under AA, chosen so disabled stays distinguishable from body text */
+  --color-text-muted:           var(--neutral-600); /* #525252 — Placeholders, captions · 7.13:1 — real text, must meet AA */
+  --color-text-disabled:        var(--neutral-400); /* #A1A1A1 — Disabled controls ONLY · exempt from contrast minimums; kept light so a disabled control reads as inert (5.86:1 away from body) */
   --color-text-support:         var(--slate-600);   /* #45556C — Support headlines, caption titles · 6.92:1 */
   --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons (Figma: on action) */
   --color-text-on-action-tertiary:       var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
@@ -232,6 +233,7 @@
   --color-text-dark-heading-alt: var(--iron-orange-500);   /* #FDA509 — brand/accent 1 */
   --color-text-dark-body:        var(--neutral-300);  /* #D4D4D4 — neutral/300 */
   --color-text-dark-muted:       var(--neutral-400);  /* #A1A1A1 — neutral/400 · 4.54:1 */
+  --color-text-dark-disabled:    var(--neutral-500);  /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
   --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 */
   --color-text-dark-link-hover:  var(--iron-pink-300);     /* #F08DAC — lighter than light mode; dark surfaces need a lighter hue · 5.08:1 */
@@ -568,6 +570,7 @@
   --color-text-heading-alt: var(--color-text-dark-heading-alt);
   --color-text-body:        var(--color-text-dark-body);
   --color-text-muted:       var(--color-text-dark-muted);
+  --color-text-disabled:    var(--color-text-dark-disabled);
   --color-text-support:     var(--color-text-dark-support);
   --color-text-link:        var(--color-text-dark-link);
   --color-text-link-hover:  var(--color-text-dark-link-hover);

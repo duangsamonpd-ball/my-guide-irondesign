@@ -10,7 +10,7 @@
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
       --color-secondary:#2693EC; --color-danger:#E5242A; --color-primary:#E01A59;
-      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C; --color-text-muted:#737373;
+      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C; --color-text-muted:#525252; --color-text-disabled:#A1A1A1;
       --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF; --color-bg-shade:#F1F5F9; --color-bg-card-alt:#F2F9FE;
       --rounded-md:6px; --rounded-lg:8px; --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-float:0 2px 16px rgba(15,23,43,0.18);
       --size-input:44px; --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px; --space-xs:8px;
@@ -72,7 +72,7 @@
     .sel.open .sel-trigger { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
     .sel.open .sel-trigger .chev { transform:rotate(180deg); }
     .sel.error .sel-trigger { border-color:var(--color-danger); }
-    .sel.disabled .sel-trigger { background:var(--color-bg-shade); color:var(--color-text-muted); cursor:not-allowed; }
+    .sel.disabled .sel-trigger { background:var(--color-bg-shade); color:var(--color-text-disabled); cursor:not-allowed; }
     .sel-menu { position:absolute; top:calc(100% + 6px); left:0; right:0; background:#fff; border:1px solid var(--color-border); border-radius:var(--rounded-lg); box-shadow:var(--shadow-float); padding:6px; z-index:5; display:none; }
     .sel.open .sel-menu { display:block; }
     .sel-opt { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 12px; border-radius:var(--rounded-md); font-size:var(--font-size-body); color:var(--color-text-body); cursor:pointer; }
@@ -207,7 +207,7 @@
         <tr><td class="prop">Menu shadow</td><td class="token">--shadow-float</td><td class="val">0 2px 16px · 18%</td></tr>
         <tr><td class="prop">Option · hover</td><td class="token">--color-bg-shade</td><td class="val"><span class="sw" style="background:#F1F5F9"></span>#F1F5F9</td></tr>
         <tr><td class="prop">Option · selected</td><td class="token">--color-bg-card-alt</td><td class="val"><span class="sw" style="background:#F2F9FE"></span>#F2F9FE</td></tr>
-        <tr><td class="prop">Placeholder</td><td class="token">--color-text-muted</td><td class="val"><span class="sw" style="background:#737373"></span>#737373</td></tr>
+        <tr><td class="prop">Placeholder</td><td class="token">--color-text-muted</td><td class="val"><span class="sw" style="background:#525252"></span>#525252</td></tr>
         <tr><td class="prop">Border · error</td><td class="token">--color-danger</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
       </tbody></table>
     </div>
@@ -243,7 +243,7 @@
 }
 <span class="c-key">.sel.open .sel-trigger</span> { border-color: <span class="c-str">var(--color-secondary)</span>; box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }
 <span class="c-key">.sel.error .sel-trigger</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
-<span class="c-key">.sel.disabled .sel-trigger</span> { background: <span class="c-str">var(--color-bg-shade)</span>; color: <span class="c-str">var(--color-text-muted)</span>; cursor: not-allowed; }
+<span class="c-key">.sel.disabled .sel-trigger</span> { background: <span class="c-str">var(--color-bg-shade)</span>; color: <span class="c-str">var(--color-text-disabled)</span>; cursor: not-allowed; }
 <span class="c-key">.sel-menu</span> { box-shadow: <span class="c-str">var(--shadow-float)</span>; border-radius: <span class="c-str">var(--rounded-lg)</span>; }
 <span class="c-key">.sel-opt.selected</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; color: <span class="c-str">var(--color-secondary)</span>; }
 <span class="c-key">.sel-opt .ck</span> { opacity: 0; }  <span class="c-key">.sel-opt.selected .ck</span> { opacity: 1; }   <span class="c-com">/* Font Awesome Free Solid "check" SVG, currentColor fill — shown only on selected */</span></pre>
