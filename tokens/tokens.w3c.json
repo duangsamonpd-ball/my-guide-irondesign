@@ -152,9 +152,9 @@
         "$description": "Neutral/900 — H1–H4, emphasized type (light)"
       },
       "heading-alt": {
-        "$value": "#2693EC",
+        "$value": "#217BC4",
         "$type": "color",
-        "$description": "Iron Blue/500 — brand/secondary — coloured headline accents, kickers (light)"
+        "$description": "Iron Blue/600 — coloured headline accents, kickers (light). 4.08:1 — large text only (24px+, or 18.66px+ bold)"
       },
       "body": {
         "$value": "#262626",
@@ -162,14 +162,14 @@
         "$description": "Neutral/800 — default running text (light)"
       },
       "muted": {
-        "$value": "#A1A1A1",
+        "$value": "#525252",
         "$type": "color",
-        "$description": "Neutral/400 — placeholders, captions, disabled (light)"
+        "$description": "Neutral/600 — placeholders, captions, disabled (light). 7.13:1"
       },
       "support": {
-        "$value": "#90A1B9",
+        "$value": "#45556C",
         "$type": "color",
-        "$description": "Slate/400 — support headlines, caption titles (light)"
+        "$description": "Slate/600 — support headlines, caption titles (light). 6.92:1"
       },
       "on-primary": {
         "$value": "#FFFFFF",
@@ -187,9 +187,9 @@
         "$description": "Iron Pink/500 — hovered tertiary action"
       },
       "link": {
-        "$value": "#2693EC",
+        "$value": "#217BC4",
         "$type": "color",
-        "$description": "Iron Blue/500 — brand/secondary — hyperlinks, anchor text"
+        "$description": "Iron Blue/600 — hyperlinks, anchor text. 4.08:1 — below AA for body-size text, accepted deliberately"
       },
       "link-hover": {
         "$value": "#E01A59",
@@ -216,9 +216,9 @@
         "$description": "Neutral/300 — running text (dark)"
       },
       "muted": {
-        "$value": "#737373",
+        "$value": "#A1A1A1",
         "$type": "color",
-        "$description": "Neutral/500 — placeholders, captions (dark)"
+        "$description": "Neutral/400 — placeholders, captions (dark). 4.54:1"
       },
       "support": {
         "$value": "#CEA7C8",
@@ -226,14 +226,14 @@
         "$description": "Iron Violet/300 — support headlines (dark)"
       },
       "link": {
-        "$value": "#2693EC",
+        "$value": "#67B3F2",
         "$type": "color",
-        "$description": "Iron Blue/500 — same as light mode"
+        "$description": "Iron Blue/400 — lighter than light mode; dark surfaces need a lighter hue. 5.19:1"
       },
       "link-hover": {
-        "$value": "#E01A59",
+        "$value": "#F08DAC",
         "$type": "color",
-        "$description": "Iron Pink/500 — same as light mode"
+        "$description": "Iron Pink/300 — lighter than light mode; dark surfaces need a lighter hue. 5.08:1"
       }
     },
 
