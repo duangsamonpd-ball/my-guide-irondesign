@@ -25,7 +25,7 @@ The single reference for every design decision at Iron Software — colors, typo
 | Output | File | Use for |
 |--------|------|---------|
 | **CSS variables** | [`tailwind/tokens.css`](tailwind/tokens.css) | Any CSS / SCSS project — `@import` once at the root |
-| **Tailwind config** | [`tailwind/tailwind.config.js`](tailwind/tailwind.config.js) | Tailwind projects — spread into `theme.extend` |
+| **Tailwind v4 theme** | [`tailwind/theme.css`](tailwind/theme.css) | Tailwind projects — `@import` it *instead of* `tailwindcss` |
 | **W3C tokens** | [`tokens/tokens.w3c.json`](tokens/tokens.w3c.json) | **Source of truth** — W3C Design Token format |
 | **Legacy tokens** | [`tokens/tokens.legacy.json`](tokens/tokens.legacy.json) | Tokens Studio / older tooling compatibility |
 | **Raw scale only** | [`tailwind/colors.css`](tailwind/colors.css) | Stand‑alone colour scale (50–950), no semantics |
@@ -112,12 +112,13 @@ Every component's CSS references `tailwind/tokens.css` — import the token file
 }
 ```
 
-### Option 2 — Tailwind
+### Option 2 — Tailwind v4
 
-```js
-// tailwind.config.js
-const iron = require('./tailwind/tailwind.config.js');
-module.exports = { presets: [iron] };
+There is no `tailwind.config.js`. Tailwind v4 is CSS-first, so the theme *is* a stylesheet — import it instead of `tailwindcss` and everything is registered:
+
+```css
+/* app.css */
+@import "./tailwind/theme.css";   /* pulls in Tailwind itself */
 ```
 
 ```html
@@ -125,6 +126,23 @@ module.exports = { presets: [iron] };
 <h1 class="text-h1">Explore our C# libraries</h1>
 <p  class="text-body-lg">Streamline your .NET development…</p>
 ```
+
+Colour scales stay available (`bg-iron-blue-500`, `bg-primary-100`, …), and opacity modifiers work natively: `bg-primary/50`.
+
+#### Dark mode
+
+Put `class="dark"` on `<html>`. Every semantic token re-points at its dark counterpart — components are untouched because they read the same names in both themes:
+
+```html
+<html class="dark">
+```
+
+```css
+/* resolves to #171717 in light, #F5F5F5 in dark — same variable */
+color: var(--color-text-heading);
+```
+
+> **Upgrading from v3?** `tailwind/tailwind.config.js` is gone. If you were spreading it into `theme.extend`, replace that with the `@import` above. Utility names are unchanged.
 
 ### Option 3 — Design tokens (W3C JSON)
 
@@ -219,8 +237,13 @@ iron-design-system/
 │
 ├── tailwind/
 │   ├── tokens.css             # ⭐ All CSS custom properties (colors + type + spacing …)
-│   ├── tailwind.config.js     #    Tailwind theme (colors, fontSize, leading, screens …)
+│   ├── theme.css              # 🤖 Tailwind v4 theme — generated from tokens.css
 │   └── colors.css             #    Raw 50–950 scale only
+│
+├── scripts/
+│   ├── build-theme.mjs        #    tokens.css → theme.css
+│   ├── check-token-drift.mjs  #    w3c ↔ tokens.css ↔ theme.css
+│   └── check-component-vars.mjs #  every component var resolves after compile
 │
 ├── tokens/
 │   ├── tokens.w3c.json        # ⭐ Source of truth (W3C Design Token format)
@@ -262,13 +285,13 @@ Every change starts in Figma and lands in **all** token files plus the docs in a
 1. **Source** — a Figma node/variable export, an HTML spec, or a screenshot defines the new values.
 2. **Review** — diff against the current system; list exactly what changed or is new (no blind overwrites).
 3. **Propagate** — apply the change to **every** representation so they never drift:
+   - `tokens/tokens.w3c.json` (source of truth — start here)
    - `tailwind/tokens.css` (CSS variables)
-   - `tailwind/tailwind.config.js` (Tailwind theme)
-   - `tokens/tokens.w3c.json` (source of truth)
    - `tokens/tokens.legacy.json` (Tokens Studio)
    - the relevant `docs/*.html` reference page(s)
    - the matching `astro-components/components/*.astro` file, if the component has one
-4. **Verify** — preview the docs locally and confirm computed values match the spec.
+   - then run `npm run build:theme` — `tailwind/theme.css` is generated, never hand-edited
+4. **Verify** — run `npm run check`, then preview the docs locally and confirm computed values match the spec.
 5. **Ship** — commit with a descriptive message and push (GitHub Pages auto-deploys).
 
 > **Golden rule:** a value lives in one place per format. Semantic tokens reference primitives via `var()`; primitives mirror the Figma variable scales (font-size `xs–9xl`, leading `3–32`). Change a value once, everything downstream updates.
@@ -296,13 +319,20 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 
 ### Checking for token drift
 
-`tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/tailwind.config.js` are generated layers that must agree with it. Verify all three:
+`tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check:tokens        # → node scripts/check-token-drift.mjs
+npm run check          # theme.css is current + no drift
 ```
 
-Zero dependencies — plain Node. It checks 166 tokens across colors, spacing, radius, shadows, blur, opacity, sizing, typography and breakpoints, and fails if any component hardcodes a hex value instead of using a semantic token.
+Zero dependencies — plain Node. It checks 232 tokens across colors, spacing, radius, shadows, blur, opacity, sizing, the semantic type scale and breakpoints, and fails if any component hardcodes a hex value instead of using a semantic token.
+
+`theme.css` is generated, so a stale copy counts as drift:
+
+```bash
+npm run build:theme    # regenerate after editing tokens.css
+npm run check:theme    # fails if it is out of date
+```
 
 | Result | Meaning |
 |---|---|
@@ -312,7 +342,7 @@ Zero dependencies — plain Node. It checks 166 tokens across colors, spacing, r
 
 **Fix the generated layer, not the source** — unless the design genuinely changed in Figma, in which case update `tokens.w3c.json` first and propagate outward.
 
-CI runs this on every push and PR ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
+CI runs this on every push and PR, and additionally compiles `theme.css` with real Tailwind v4 to prove every variable the components read still resolves ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
 
 ### Deploy
 

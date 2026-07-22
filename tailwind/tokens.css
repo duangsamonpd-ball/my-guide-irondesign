@@ -554,91 +554,36 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   TYPOGRAPHY UTILITY CLASSES
-   Ready-to-use text styles matching the design system's type scale.
+   DARK THEME
+   A swap at the semantic layer — primitives and components never change.
+   The values come from the dark tokens defined above; this block just points the
+   light token names at them, so `var(--color-text-body)` is correct in both themes.
+
+   Usage:  <html class="dark">
    ═══════════════════════════════════════════════════════════════════════════════ */
 
-.text-display {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-black);
-  font-size:     var(--font-size-display);
-  line-height:   var(--line-height-display);
-}
+.dark {
+  /* ── Text ── */
+  --color-text-heading:     var(--color-text-dark-heading);
+  --color-text-heading-alt: var(--color-text-dark-heading-alt);
+  --color-text-body:        var(--color-text-dark-body);
+  --color-text-muted:       var(--color-text-dark-muted);
+  --color-text-support:     var(--color-text-dark-support);
+  --color-text-link:        var(--color-text-dark-link);
+  --color-text-link-hover:  var(--color-text-dark-link-hover);
 
-.text-h1 {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-black);
-  font-size:     var(--font-size-h1);
-  line-height:   var(--line-height-h1);
-}
+  /* ── Surfaces ── */
+  --color-bg-base:     var(--color-bg-dark);
+  --color-bg-shade:    var(--color-bg-dark-shade);
+  --color-bg-card:     var(--color-bg-dark-card);
+  --color-bg-card-alt: var(--color-bg-dark-card-alt);
 
-.text-h2 {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-medium);
-  font-size:     var(--font-size-h2);
-  line-height:   var(--line-height-h2);
-}
+  /* ── Borders ── */
+  --color-border:        var(--color-border-dark);
+  --color-border-strong: var(--color-border-dark-strong);
+  --color-border-alt:    var(--color-border-dark-alt);
 
-.text-h3 {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-bold);
-  font-size:     var(--font-size-h3);
-  line-height:   var(--line-height-h3);
-}
-
-.text-h4 {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-medium);
-  font-size:     var(--font-size-h4);
-  line-height:   var(--line-height-h4);
-}
-
-.text-body-lg {
-  font-family:   var(--font-body);
-  font-weight:   var(--font-weight-regular);
-  font-size:     var(--font-size-body-lg);
-  line-height:   var(--line-height-body-lg);
-}
-
-.text-body {
-  font-family:   var(--font-body);
-  font-weight:   var(--font-weight-regular);
-  font-size:     var(--font-size-body);
-  line-height:   var(--line-height-body);
-}
-
-.text-caption {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-light);
-  font-size:     var(--font-size-caption);
-  line-height:   var(--line-height-caption);
-}
-
-.text-btn {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-bold);
-  font-size:     var(--font-size-btn);
-  line-height:   var(--line-height-btn);
-}
-
-.text-btn-lg {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-bold);
-  font-size:     var(--font-size-btn-lg);
-  line-height:   var(--line-height-btn-lg);
-}
-
-.text-link {
-  font-family:   var(--font-body);
-  font-weight:   var(--font-weight-regular);
-  font-size:     var(--font-size-link);
-  line-height:   var(--line-height-link);
-  color:         var(--color-text-link);
-}
-
-.text-nav {
-  font-family:   var(--font-display);
-  font-weight:   var(--font-weight-light);
-  font-size:     var(--font-size-nav);
-  line-height:   var(--line-height-nav);
+  /* ── Buttons ── */
+  --color-button-outline:       var(--color-button-dark-outline);
+  --color-button-outline-hover: var(--color-button-dark-outline-hover);
 }

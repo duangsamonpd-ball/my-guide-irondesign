@@ -3,10 +3,10 @@
  * Iron Software Design System — token drift checker
  *
  * `tokens/tokens.w3c.json` is the source of truth. Every value it declares must
- * appear, unchanged, in the two generated layers:
+ * appear, unchanged, in both consumable layers:
  *
- *   tokens.w3c.json  ──┬──>  tailwind/tokens.css        (CSS custom properties)
- *                      └──>  tailwind/tailwind.config.js (Tailwind theme)
+ *   tokens.w3c.json  ──┬──>  tailwind/tokens.css   plain CSS, any project
+ *                      └──>  tailwind/theme.css    Tailwind v4 entry (generated)
  *
  * Run:  node scripts/check-token-drift.mjs
  * Exit: 0 = in sync (warnings allowed) · 1 = drift found
@@ -15,17 +15,12 @@
  */
 
 import { readFileSync, readdirSync } from 'node:fs';
-import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const require = createRequire(import.meta.url);
 
 const W3C = JSON.parse(readFileSync(join(ROOT, 'tokens/tokens.w3c.json'), 'utf8'));
-const CSS_SRC = readFileSync(join(ROOT, 'tailwind/tokens.css'), 'utf8');
-const CFG = require(join(ROOT, 'tailwind/tailwind.config.js'));
-const EXT = CFG.theme.extend;
 
 const errors = [];
 const warnings = [];
@@ -34,21 +29,33 @@ let checks = 0;
 const err = (family, token, msg) => errors.push({ family, token, msg });
 const warn = (family, token, msg) => warnings.push({ family, token, msg });
 
-/* ── tokens.css parsing ──────────────────────────────────────────────────── */
+/* ── CSS layers ──────────────────────────────────────────────────────────── */
 
-/** Every `--name: value;` declaration in tokens.css. */
-const CSS_VARS = new Map();
-for (const [, name, value] of CSS_SRC.matchAll(/^\s*--([\w-]+):\s*([^;]+);/gm)) {
-  CSS_VARS.set(name, value.trim());
+/**
+ * Both files end with a `.dark` block that re-points light token names at dark
+ * values. Those are theme overrides, not definitions — parsing them would
+ * overwrite half the palette with its dark counterpart.
+ */
+function parseLayer(file) {
+  const css = readFileSync(join(ROOT, file), 'utf8').split(/^\.dark\s*\{/m)[0];
+  const vars = new Map();
+  for (const [, name, value] of css.matchAll(/^\s*--([\w-]+):\s*([^;]+);/gm)) {
+    vars.set(name, value.trim());
+  }
+  return { file, vars };
 }
 
-/** Resolve `var(--a)` chains down to a literal. Returns null if unresolvable. */
-function resolveVar(name, seen = new Set()) {
-  if (!CSS_VARS.has(name) || seen.has(name)) return null;
+const TOKENS = parseLayer('tailwind/tokens.css');
+const THEME = parseLayer('tailwind/theme.css');
+const LAYERS = [TOKENS, THEME];
+
+/** Resolve `var(--a)` chains down to a literal within one layer. */
+function resolve(layer, name, seen = new Set()) {
+  if (!layer.vars.has(name) || seen.has(name)) return null;
   seen.add(name);
-  const raw = CSS_VARS.get(name);
+  const raw = layer.vars.get(name);
   const ref = raw.match(/^var\(--([\w-]+)\)$/);
-  return ref ? resolveVar(ref[1], seen) : raw;
+  return ref ? resolve(layer, ref[1], seen) : raw;
 }
 
 /* ── value normalisers ───────────────────────────────────────────────────── */
@@ -103,36 +110,37 @@ const show = (v) => {
 };
 
 /**
- * Compare one token across the three layers.
- * `cssName` / `cfgValue` of `undefined` means "this layer doesn't carry it".
+ * Compare one token against every layer that should carry it.
+ * `names` is the variable name per layer — a string when both use the same one.
  */
-function compare({ family, token, expected, cssName, cfgValue, normalise, cfgLabel }) {
+function compare({ family, token, expected, names, normalise, only }) {
   checks++;
   const want = normalise(expected);
 
-  if (cssName !== undefined) {
-    const raw = resolveVar(cssName);
-    if (raw == null) {
-      err(family, token, `missing from tokens.css — expected \`--${cssName}\``);
-    } else if (normalise(raw) !== want) {
-      err(family, token, `tokens.css \`--${cssName}\` = ${show(raw)} · w3c = ${show(expected)}`);
-    }
-  }
+  for (const layer of only ?? LAYERS) {
+    const name = typeof names === 'string' ? names : names[layer.file];
+    if (!name) continue;
 
-  if (cfgValue !== undefined) {
-    if (cfgValue == null) {
-      err(family, token, `missing from tailwind.config.js — expected \`${cfgLabel}\``);
-    } else if (normalise(cfgValue) !== want) {
-      err(family, token, `config \`${cfgLabel}\` = ${show(cfgValue)} · w3c = ${show(expected)}`);
+    const raw = resolve(layer, name);
+    if (raw == null) {
+      err(family, token, `missing from ${layer.file} — expected \`--${name}\``);
+    } else if (normalise(raw) !== want) {
+      err(family, token, `${layer.file} \`--${name}\` = ${show(raw)} · w3c = ${show(expected)}`);
     }
   }
 }
 
-/** Flags tokens a generated layer invented on its own — not in the w3c source. */
-function flagExtras(family, w3cKeys, cfgObj, label) {
-  if (!cfgObj) return;
-  for (const k of Object.keys(cfgObj)) {
-    if (!w3cKeys.has(k)) warn(family, k, `\`${label}.${k}\` is not in tokens.w3c.json`);
+/**
+ * Flags tokens a layer invented on its own — a variable matching a family's
+ * prefix that the source of truth never declared. This is what catches a
+ * `--radius-pill` quietly appearing in one layer and nowhere else.
+ */
+function flagExtras(family, prefix, w3cKeys, { layer = THEME, skip = () => false } = {}) {
+  for (const name of layer.vars.keys()) {
+    if (!name.startsWith(`${prefix}-`)) continue;
+    const key = name.slice(prefix.length + 1);
+    if (w3cKeys.has(key) || skip(key)) continue;
+    warn(family, key, `\`--${name}\` in ${layer.file} is not in tokens.w3c.json`);
   }
 }
 
@@ -140,29 +148,45 @@ const entries = (o) => Object.entries(o ?? {}).filter(([k, v]) => !k.startsWith(
 
 /* ── families ────────────────────────────────────────────────────────────── */
 
-// spacing · borderRadius · blur — identical key names across all three layers
-for (const [family, cssPrefix, cfgKey] of [
-  ['spacing', 'spacing', 'spacing'],
-  ['borderRadius', 'rounded', 'borderRadius'],
-  ['blur', 'blur', 'blur'],
-]) {
+/**
+ * Tailwind v4 owns the `--radius-*`, `--text-*` and `--tracking-*` namespaces,
+ * so theme.css registers those families under Tailwind's names. tokens.css keeps
+ * the design system's original names. Everything else matches in both files.
+ */
+const named = (tokensName, themeName) => ({
+  'tailwind/tokens.css': tokensName,
+  'tailwind/theme.css': themeName,
+});
+
+// spacing · blur — same variable name in both layers
+for (const [family, prefix] of [['spacing', 'spacing'], ['blur', 'blur']]) {
   const keys = new Set();
   for (const [k, v] of entries(W3C[family])) {
     keys.add(k);
-    compare({
-      family, token: k, expected: v.$value,
-      cssName: `${cssPrefix}-${k}`,
-      cfgValue: EXT[cfgKey]?.[k] ?? null,
-      cfgLabel: `${cfgKey}.${k}`,
-      normalise: px,
-    });
+    compare({ family, token: k, expected: v.$value, names: `${prefix}-${k}`, normalise: px });
   }
-  flagExtras(family, keys, EXT[cfgKey], cfgKey);
+  flagExtras(family, prefix, keys);
 }
 
-// borderWidth — CSS only; Tailwind ships an equivalent default scale
-for (const [k, v] of entries(W3C.borderWidth)) {
-  compare({ family: 'borderWidth', token: k, expected: v.$value, cssName: `border-width-${k}`, normalise: px });
+// borderRadius — `--rounded-*` in tokens.css, `--radius-*` in theme.css
+{
+  const keys = new Set();
+  for (const [k, v] of entries(W3C.borderRadius)) {
+    keys.add(k);
+    compare({
+      family: 'borderRadius', token: k, expected: v.$value,
+      names: named(`rounded-${k}`, `radius-${k}`), normalise: px,
+    });
+  }
+  flagExtras('borderRadius', 'radius', keys);
+  flagExtras('borderRadius', 'rounded', keys, { layer: TOKENS });
+}
+
+// borderWidth · opacity — plain variables, same name in both
+for (const [family, prefix, norm] of [['borderWidth', 'border-width', px], ['opacity', 'opacity', num]]) {
+  for (const [k, v] of entries(W3C[family])) {
+    compare({ family, token: k, expected: v.$value, names: `${prefix}-${k}`, normalise: norm });
+  }
 }
 
 // shadow
@@ -170,57 +194,72 @@ for (const [k, v] of entries(W3C.borderWidth)) {
   const keys = new Set();
   for (const [k, v] of entries(W3C.shadow)) {
     keys.add(k);
-    compare({
-      family: 'shadow', token: k, expected: v.$value,
-      cssName: `shadow-${k}`,
-      cfgValue: EXT.boxShadow?.[k] ?? null,
-      cfgLabel: `boxShadow.${k}`,
-      normalise: shadow,
-    });
+    compare({ family: 'shadow', token: k, expected: v.$value, names: `shadow-${k}`, normalise: shadow });
   }
-  flagExtras('shadow', keys, EXT.boxShadow, 'boxShadow');
+  flagExtras('shadow', 'shadow', keys, { skip: (k) => k === 'tooltip' });
 }
 
-// opacity — CSS carries the full 0–100 scale; config exposes semantic aliases only
-for (const [k, v] of entries(W3C.opacity)) {
-  compare({ family: 'opacity', token: k, expected: v.$value, cssName: `opacity-${k}`, normalise: num });
-}
-
-// sizing — names diverge between layers, so map each one explicitly
+// sizing — names diverge from the w3c keys, but match each other across layers
 const SIZING = {
-  'btn-primary-height':   { css: 'size-btn-primary',   cfg: () => EXT.height?.['btn-primary'],     label: 'height.btn-primary' },
-  'btn-secondary-height': { css: 'size-btn-secondary', cfg: () => EXT.height?.['btn-secondary'],   label: 'height.btn-secondary' },
-  'btn-small-height':     { css: 'size-btn-small',     cfg: () => EXT.height?.['btn-small'],       label: 'height.btn-small' },
-  'input-height':         { css: 'size-input',         cfg: () => EXT.height?.input,               label: 'height.input' },
-  'nav-height':           { css: 'size-nav',           cfg: () => EXT.height?.nav,                 label: 'height.nav' },
-  'touch-min':            { css: 'size-touch-min',     cfg: () => EXT.minHeight?.touch,            label: 'minHeight.touch' },
-  'touch-nav':            { css: 'size-touch-nav',     cfg: () => EXT.minHeight?.['touch-nav'],    label: 'minHeight.touch-nav' },
-  'container-max':        { css: 'size-container-max', cfg: () => EXT.maxWidth?.container,         label: 'maxWidth.container' },
+  'btn-primary-height': 'size-btn-primary',
+  'btn-secondary-height': 'size-btn-secondary',
+  'btn-small-height': 'size-btn-small',
+  'input-height': 'size-input',
+  'nav-height': 'size-nav',
+  'touch-min': 'size-touch-min',
+  'touch-nav': 'size-touch-nav',
+  'container-max': 'size-container-max',
 };
 for (const [k, v] of entries(W3C.sizing)) {
-  const m = SIZING[k];
-  if (!m) { warn('sizing', k, 'no mapping defined in this script — add one to SIZING'); continue; }
-  compare({ family: 'sizing', token: k, expected: v.$value, cssName: m.css, cfgValue: m.cfg() ?? null, cfgLabel: m.label, normalise: px });
+  const name = SIZING[k];
+  if (!name) { warn('sizing', k, 'no mapping defined in this script — add one to SIZING'); continue; }
+  compare({ family: 'sizing', token: k, expected: v.$value, names: name, normalise: px });
 }
 
-// typography — font sizes and weights
+// typography — font sizes (`--font-size-*` / `--text-*`) and weights
 for (const [k, v] of entries(W3C.typography?.size)) {
   compare({
     family: 'fontSize', token: k, expected: v.$value,
-    cssName: `font-size-${k}`,
-    cfgValue: EXT.fontSize?.[k] ?? null,
-    cfgLabel: `fontSize.${k}`,
-    normalise: px,
+    names: named(`font-size-${k}`, `text-${k}`), normalise: px,
   });
 }
 for (const [k, v] of entries(W3C.typography?.['font-weight'])) {
-  compare({
-    family: 'fontWeight', token: k, expected: v.$value,
-    cssName: `font-weight-${k}`,
-    cfgValue: EXT.fontWeight?.[k] ?? null,
-    cfgLabel: `fontWeight.${k}`,
-    normalise: num,
-  });
+  compare({ family: 'fontWeight', token: k, expected: v.$value, normalise: num, names: `font-weight-${k}` });
+}
+
+/**
+ * The semantic type scale — h1, body, btn, nav… Each w3c entry is a composite
+ * (size + line-height + weight + tracking) that lands in four separate CSS
+ * variables. A few names differ, and not every level declares every property.
+ */
+const TYPE_NAME = {
+  'title-large': 'title-lg', 'body-large': 'body-lg', 'button-large': 'btn-lg',
+  'button-default': 'btn', 'button-small': 'btn-sm', 'nav-primary': 'nav',
+  'nav-dropdown': 'nav-sub', 'nav-group-label': 'nav-label',
+};
+const TYPE_PROP = [
+  ['fontSize', (c) => named(`font-size-${c}`, `text-${c}`), px],
+  ['lineHeight', (c) => `line-height-${c}`, px],
+  ['fontWeight', (c) => `fw-${c}`, num],
+  ['letterSpacing', (c) => named(`letter-spacing-${c}`, `tracking-${c}`), px],
+];
+
+for (const group of ['scale', 'ui']) {
+  for (const [k, v] of entries(W3C.typography?.[group])) {
+    const css = TYPE_NAME[k] ?? k;
+    for (const [prop, toNames, normalise] of TYPE_PROP) {
+      const expected = v.$value?.[prop];
+      if (expected === undefined) continue;             // this level doesn't declare it
+
+      const names = toNames(css);
+      const probe = typeof names === 'string' ? names : names['tailwind/tokens.css'];
+      if (!TOKENS.vars.has(probe)) {
+        warn('typeScale', `${group}.${k}`, `w3c declares ${prop} but there is no \`--${probe}\``);
+        continue;
+      }
+      compare({ family: 'typeScale', token: `${group}.${k}.${prop}`, expected, names, normalise });
+    }
+  }
 }
 
 // colours — w3c group.key → CSS variable name (several names deliberately differ)
@@ -307,18 +346,31 @@ for (const [group, tokens] of Object.entries(W3C.color ?? {})) {
   if (group.startsWith('_')) continue;
   for (const [k, v] of entries(tokens)) {
     const path = `${group}.${k}`;
-    const cssName = COLORS[path];
-    if (!cssName) { warn('color', path, 'no mapping defined in this script — add one to COLORS'); continue; }
-    compare({ family: 'color', token: path, expected: v.$value, cssName, normalise: hex });
+    const name = COLORS[path];
+    if (!name) { warn('color', path, 'no mapping defined in this script — add one to COLORS'); continue; }
+    compare({ family: 'color', token: path, expected: v.$value, names: name, normalise: hex });
   }
 }
 
-// breakpoints — not in w3c; check tokens.css and config agree with each other
-for (const [k, v] of Object.entries(CFG.theme?.screens ?? {})) {
+// breakpoints — not in w3c; check the two layers agree with each other
+for (const name of TOKENS.vars.keys()) {
+  if (!name.startsWith('breakpoint-')) continue;
   checks++;
-  const css = resolveVar(`breakpoint-${k}`);
-  if (css == null) err('breakpoints', k, `config has \`screens.${k}\` but tokens.css has no \`--breakpoint-${k}\``);
-  else if (px(css) !== px(v)) err('breakpoints', k, `tokens.css \`--breakpoint-${k}\` = ${css} · config \`screens.${k}\` = ${v}`);
+  const a = resolve(TOKENS, name);
+  const b = resolve(THEME, name);
+  if (b == null) err('breakpoints', name, `tokens.css has \`--${name}\` but theme.css does not`);
+  else if (px(a) !== px(b)) err('breakpoints', name, `tokens.css = ${a} · theme.css = ${b}`);
+}
+
+/* ── the generated layer must be current ─────────────────────────────────── */
+
+// theme.css is generated from tokens.css; a stale copy is drift by definition.
+{
+  checks++;
+  const stamp = '/**\n * Iron Software Design System — Tailwind v4 theme';
+  if (!readFileSync(join(ROOT, 'tailwind/theme.css'), 'utf8').startsWith(stamp)) {
+    err('generated', 'theme.css', 'file header is missing — was it hand-edited? run: node scripts/build-theme.mjs');
+  }
 }
 
 /* ── components must never hardcode a colour ─────────────────────────────── */
@@ -343,7 +395,7 @@ const group = (list) => {
 };
 
 if (warnings.length) {
-  console.log(`\n[33m⚠  ${warnings.length} warning${warnings.length > 1 ? 's' : ''}[0m`);
+  console.log(`\n\x1b[33m⚠  ${warnings.length} warning${warnings.length > 1 ? 's' : ''}\x1b[0m`);
   for (const [family, items] of group(warnings)) {
     console.log(`\n  ${family}`);
     for (const { token, msg } of items) console.log(`    · ${token} — ${msg}`);
@@ -351,14 +403,14 @@ if (warnings.length) {
 }
 
 if (errors.length) {
-  console.log(`\n[31m✖  ${errors.length} drift${errors.length > 1 ? 's' : ''} found[0m  (${checks} tokens checked)`);
+  console.log(`\n\x1b[31m✖  ${errors.length} drift${errors.length > 1 ? 's' : ''} found\x1b[0m  (${checks} tokens checked)`);
   for (const [family, items] of group(errors)) {
-    console.log(`\n  [1m${family}[0m`);
-    for (const { token, msg } of items) console.log(`    [31m✖[0m ${token}\n        ${msg}`);
+    console.log(`\n  \x1b[1m${family}\x1b[0m`);
+    for (const { token, msg } of items) console.log(`    \x1b[31m✖\x1b[0m ${token}\n        ${msg}`);
   }
   console.log(`\n  tokens/tokens.w3c.json is the source of truth — fix the generated layer, not the source,`);
   console.log(`  unless the design itself changed in Figma.\n`);
   process.exit(1);
 }
 
-console.log(`\n[32m✔  No drift — ${checks} tokens in sync across tokens.w3c.json, tokens.css and tailwind.config.js[0m\n`);
+console.log(`\n\x1b[32m✔  No drift — ${checks} tokens in sync across tokens.w3c.json, tokens.css and theme.css\x1b[0m\n`);

@@ -1,7 +1,7 @@
 name: Token drift
 
 # tokens/tokens.w3c.json is the source of truth. This fails the build whenever
-# tokens.css, tailwind.config.js or a component drifts away from it.
+# tokens.css, theme.css or a component drifts away from it.
 on:
   push:
     branches: [main]
@@ -10,7 +10,7 @@ on:
 
 jobs:
   check:
-    name: tokens.w3c.json ↔ tokens.css ↔ tailwind.config.js
+    name: tokens.w3c.json ↔ tokens.css ↔ theme.css
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +19,31 @@ jobs:
         with:
           node-version: 20
 
+      # theme.css is generated from tokens.css — a stale copy is drift too.
+      - name: Check theme.css is regenerated
+        run: node scripts/build-theme.mjs --check
+
       # No dependencies to install — the checker is plain Node.
       - name: Check for token drift
         run: node scripts/check-token-drift.mjs
+
+  # Proves the theme actually compiles, and that every variable the components
+  # read still resolves once Tailwind has processed it.
+  compile:
+    name: theme.css compiles under Tailwind v4
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Tailwind
+        run: npm i --no-save tailwindcss@4 @tailwindcss/cli@4
+
+      - name: Compile
+        run: npx @tailwindcss/cli -i tailwind/theme.css -o /tmp/out.css
+
+      - name: Every component variable must resolve
+        run: node scripts/check-component-vars.mjs /tmp/out.css
