@@ -76,7 +76,7 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
   .input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
   .input.error { border-color: var(--color-danger); }
   .input.error:focus { box-shadow: var(--shadow-focus-magenta); }   /* danger-coloured ring */
-  .input:disabled { background: #F8FAFC; color: var(--color-text-muted); cursor: not-allowed; }
+  .input:disabled { background: var(--color-bg-disabled); color: var(--color-text-muted); cursor: not-allowed; }
   .field-hint  { font-size: var(--font-size-caption); color: var(--color-text-support); }
   .field-error { font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; }
 </style>

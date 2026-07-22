@@ -72,7 +72,7 @@ const textareaId = id ?? name ?? `textarea-${Math.random().toString(36).slice(2,
   .textarea:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
   .textarea.error { border-color: var(--color-danger); }
   .textarea.error:focus { box-shadow: var(--shadow-focus-magenta); }
-  .textarea:disabled { background: #F8FAFC; color: var(--color-text-muted); cursor: not-allowed; resize: none; }
+  .textarea:disabled { background: var(--color-bg-disabled); color: var(--color-text-muted); cursor: not-allowed; resize: none; }
   .field-hint  { font-size: var(--font-size-caption); color: var(--color-text-support); }
   .field-error { font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; }
 </style>

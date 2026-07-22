@@ -171,6 +171,7 @@
   /* Success = Iron Green/500 — confirmations, success messages */
   --color-success:          var(--iron-green-500);  /* #63C1A0 */
   --color-success-hover:    var(--iron-green-600);  /* #53A085 */
+  --color-success-strong:   var(--iron-green-700);  /* #44806B — icons/text on light fills (4.62:1 on white) */
   --color-success-subtle:   var(--iron-green-100);  /* #E8F6F1 */
   --color-success-on:       #FFFFFF;
 
@@ -244,6 +245,7 @@
   --color-bg-shade:         var(--slate-100);    /* #F1F5F9 — slate/100 — band fills, alternating sections */
   --color-bg-card:          #FFFFFF;                  /* white — card, modal, panel backgrounds */
   --color-bg-card-alt:      var(--iron-blue-50);      /* #F2F9FE — iron-blue/50 — alternative / feature highlight card */
+  --color-bg-disabled:      var(--slate-50);          /* #F8FAFC — slate/50 — disabled input / control fill */
 
   /* ── Surfaces — Dark Theme (Figma: surface, dark column) ── */
   --color-bg-dark:          var(--iron-violet-900);   /* #391C39 — iron-violet/900 — main page background */
@@ -424,7 +426,11 @@
   --rounded-3xl:  24px;     /* Buttons, large containers */
   --rounded-4xl:  32px;     /* CTA buttons, pill shapes */
   --rounded-full: 9999px;   /* Perfect circle or infinite pill */
-  --rounded-cta:  var(--rounded-full);   /* alias — Button component pill shape */
+
+  /* ── Semantic aliases — prefer these in components over raw steps ── */
+  --rounded-pill-sm: 1.25rem;              /* 20px — badges, small pills */
+  --rounded-cta:     var(--rounded-full);  /* alias — Button component pill shape */
+  --rounded-cta-alt: 2.625rem;             /* 42px — alternative secondary CTA */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════

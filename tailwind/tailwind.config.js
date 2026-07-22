@@ -303,20 +303,17 @@ module.exports = {
         '3xl':     '1.5rem',   // 24px — buttons, large containers
         '4xl':     '2rem',     // 32px — CTA buttons, pill shapes
         'pill-sm': '1.25rem',  // 20px — badges, small pills
-        'pill':    '2.0625rem',// 33px — secondary action buttons
-        'cta':     '2.5rem',   // 40px — ★ primary large CTA, signature style
+        'cta':     '9999px',   // ★ primary large CTA, signature pill — alias of `full`
         'cta-alt': '2.625rem', // 42px — alternative secondary CTA
-        'compact':  '4rem',    // 64px — destructive / compact buttons
-        'hero':    '5rem',     // 80px — hero cards, feature highlights
         'full':    '9999px',   // Perfect circle / pill
       },
 
       // ── 7. BOX SHADOWS ──────────────────────────────────────────────────────
       boxShadow: {
-        'card':           '0 0 12px 0 rgba(67, 31, 67, 0.20)',    // Raised — feature cards
-        'float':          '0 2px 16px 0 rgba(67, 31, 67, 0.30)', // Floating — dropdowns
-        'modal':          '0 8px 24px 0 rgba(0, 0, 0, 0.40)',    // Modal / dialogs
-        'card-hover':     '0 4px 12px 0 rgba(24, 24, 24, 0.08)',  // Card hover state
+        'card':           '0 0 12px 0 rgba(15, 23, 43, 0.12)',   // Raised — feature cards        · slate-900
+        'float':          '0 2px 16px 0 rgba(15, 23, 43, 0.20)',  // Floating — dropdowns, headers · slate-900
+        'modal':          '0 8px 24px 0 rgba(15, 23, 43, 0.32)',  // Modal / dialogs               · slate-900
+        'card-hover':     '0 4px 12px 0 rgba(15, 23, 43, 0.08)',  // Card hover state              · slate-900
         'focus-blue':     '0 0 0 3px rgba(42, 149, 213, 0.25)',   // Focus ring — primary
         'focus-teal':     '0 0 0 3px rgba(99, 193, 160, 0.25)',   // Focus ring — secondary
         'focus-magenta':  '0 0 0 3px rgba(224, 26, 89, 0.25)',    // Focus ring — destructive
@@ -336,8 +333,9 @@ module.exports = {
 
       // ── 8. SIZING / MIN-MAX ─────────────────────────────────────────────────
       height: {
-        'btn-primary':   '3.375rem', // 54px
-        'btn-secondary': '2.875rem', // 46px
+        'btn-primary':   '3.5rem',   // 56px — Large
+        'btn-secondary': '3rem',     // 48px — Default
+        'btn-small':     '2.25rem',  // 36px — Small
         'input':         '2.75rem',  // 44px
         'nav':           '2.5rem',   // 40px
       },
