@@ -308,14 +308,14 @@
   --color-text-heading: var(--neutral-900);   /* #171717 — H1–H4, emphasized type */
   --color-text-heading-alt: var(--iron-blue-600); /* #217BC4 — Coloured headline accents, kickers · 4.08:1 — LARGE TEXT ONLY (24px+, or 18.66px+ bold) */
   --color-text-body: var(--neutral-800);      /* #262626 — Default running text */
-  --color-text-muted: var(--neutral-600);     /* #525252 — Placeholders, captions, disabled · 7.13:1 */
+  --color-text-muted: var(--neutral-500);     /* #737373 — Placeholders, captions, disabled · 4.33:1 worst / 4.74:1 on white — just under AA, chosen so disabled stays distinguishable from body text */
   --color-text-support: var(--slate-600);     /* #45556C — Support headlines, caption titles · 6.92:1 */
   --color-text-on-primary: #FFFFFF;           /* White text on CTA buttons (Figma: on action) */
   --color-text-on-action-tertiary: var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
   --color-text-on-action-tertiary-hover: var(--iron-pink-500); /* #E01A59 — hovered tertiary action */
   --color-on-tertiary: var(--color-text-on-action-tertiary); /* alias — Button outline/ghost/ondark text */
   --color-on-tertiary-hover: var(--color-text-on-action-tertiary-hover); /* alias — hover state */
-  --color-text-link: var(--iron-blue-600);    /* #217BC4 — Hyperlinks, anchor text · 4.08:1 — below AA for body-size text, accepted deliberately */
+  --color-text-link: var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text · 2.96:1 — does NOT meet AA; kept as the brand blue by design decision. Pair links with an underline so colour is never the only cue. */
   --color-text-link-hover: var(--iron-pink-500); /* #E01A59 — Hovered / active link state */
   --color-text-dark-heading: var(--neutral-100); /* #F5F5F5 — neutral/100 */
   --color-text-dark-heading-alt: var(--iron-orange-500); /* #FDA509 — brand/accent 1 */
