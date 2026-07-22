@@ -1,0 +1,10 @@
+{
+  "name": "@iron-software/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Iron Software Design System — tokens, Tailwind theme and Astro components",
+  "//": "No \"type\": \"module\" on purpose — tailwind.config.js is CommonJS and the checker loads it with require(). The checker itself is .mjs, so it is ESM regardless.",
+  "scripts": {
+    "check:tokens": "node scripts/check-token-drift.mjs"
+  }
+}
