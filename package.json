@@ -8,6 +8,11 @@
     "build:theme": "node scripts/build-theme.mjs",
     "check:theme": "node scripts/build-theme.mjs --check",
     "check:tokens": "node scripts/check-token-drift.mjs",
-    "check": "npm run check:theme && npm run check:tokens"
+    "check:vars": "tailwindcss -i tailwind/theme.css -o node_modules/.tmp/theme.compiled.css && node scripts/check-component-vars.mjs node_modules/.tmp/theme.compiled.css",
+    "check": "npm run check:theme && npm run check:tokens && npm run check:vars"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
   }
 }
