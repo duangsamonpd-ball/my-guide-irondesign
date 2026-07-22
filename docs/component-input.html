@@ -10,7 +10,7 @@
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
       --color-secondary:#2693EC; --color-danger:#E5242A;
-      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C; --color-text-muted:#737373;
+      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C; --color-text-muted:#525252; --color-text-disabled:#A1A1A1;
       --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF;
       --rounded-sm:4px; --rounded-md:6px;
       --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
@@ -88,7 +88,7 @@
     .input:focus, .input.is-focus { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
     .input.error { border-color:var(--color-danger); }
     .input.error:focus, .input.error.is-focus { box-shadow:var(--shadow-focus-magenta); }
-    .input:disabled, .input.is-disabled { background:#F8FAFC; color:var(--color-text-muted); cursor:not-allowed; }
+    .input:disabled, .input.is-disabled { background:#F8FAFC; color:var(--color-text-disabled); cursor:not-allowed; }
     .input.has-icon { padding-left:38px; }
     .input-icon { position:absolute; left:13px; color:var(--color-text-muted); font-size:0.95rem; pointer-events:none; }
     .field-hint { font-size:var(--font-size-caption); color:var(--color-text-support); }
@@ -205,7 +205,7 @@
         <tr><td class="prop">Border · error</td><td class="token">--color-danger</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
         <tr><td class="prop">Radius</td><td class="token">--rounded-md</td><td class="val">6px</td></tr>
         <tr><td class="prop">Text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
-        <tr><td class="prop">Placeholder</td><td class="token">--color-text-muted</td><td class="val"><span class="sw" style="background:#737373"></span>#737373</td></tr>
+        <tr><td class="prop">Placeholder</td><td class="token">--color-text-muted</td><td class="val"><span class="sw" style="background:#525252"></span>#525252</td></tr>
         <tr><td class="prop">Label</td><td class="token">--font-size-label / --fw-label</td><td class="val">14px / 500</td></tr>
       </tbody></table>
     </div>

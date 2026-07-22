@@ -10,7 +10,7 @@
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
       --color-secondary:#2693EC; --color-danger:#E5242A;
-      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C; --color-text-muted:#737373;
+      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C; --color-text-muted:#525252; --color-text-disabled:#A1A1A1;
       --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF;
       --rounded-sm:4px; --rounded-md:6px;
       --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
@@ -93,7 +93,7 @@
     .textarea:focus, .textarea.is-focus { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
     .textarea.error { border-color:var(--color-danger); }
     .textarea.error:focus { box-shadow:var(--shadow-focus-magenta); }
-    .textarea:disabled, .textarea.is-disabled { background:#F8FAFC; color:var(--color-text-muted); cursor:not-allowed; resize:none; }
+    .textarea:disabled, .textarea.is-disabled { background:#F8FAFC; color:var(--color-text-disabled); cursor:not-allowed; resize:none; }
     .field-hint { font-size:var(--font-size-caption); color:var(--color-text-support); }
     .field-error { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; }
 
@@ -230,7 +230,7 @@
 }
 <span class="c-key">.textarea.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
 <span class="c-key">.textarea.error:focus</span> { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }
-<span class="c-key">.textarea:disabled</span> { background: #F8FAFC; color: <span class="c-str">var(--color-text-muted)</span>; cursor: not-allowed; resize: none; }</pre>
+<span class="c-key">.textarea:disabled</span> { background: #F8FAFC; color: <span class="c-str">var(--color-text-disabled)</span>; cursor: not-allowed; resize: none; }</pre>
         </div>
     </div>
 
