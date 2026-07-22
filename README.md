@@ -294,6 +294,26 @@ npx serve docs
 
 Edit a `docs/*.html` page or a token file, refresh, done.
 
+### Checking for token drift
+
+`tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/tailwind.config.js` are generated layers that must agree with it. Verify all three:
+
+```bash
+npm run check:tokens        # → node scripts/check-token-drift.mjs
+```
+
+Zero dependencies — plain Node. It checks 166 tokens across colors, spacing, radius, shadows, blur, opacity, sizing, typography and breakpoints, and fails if any component hardcodes a hex value instead of using a semantic token.
+
+| Result | Meaning |
+|---|---|
+| ✔ **no drift** | all three layers agree — exit `0` |
+| ⚠ **warning** | a generated layer declares a token the source doesn't have, or the script has no mapping for one — exit `0` |
+| ✖ **drift** | a value disagrees, a token is missing, or a component hardcodes a color — exit `1` |
+
+**Fix the generated layer, not the source** — unless the design genuinely changed in Figma, in which case update `tokens.w3c.json` first and propagate outward.
+
+CI runs this on every push and PR ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
+
 ### Deploy
 
 GitHub Pages serves the `docs/` folder on every push to `main` → **https://duangsamonpd-ball.github.io/my-guide-irondesign/**

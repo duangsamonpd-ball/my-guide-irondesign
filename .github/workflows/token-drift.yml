@@ -1,0 +1,24 @@
+name: Token drift
+
+# tokens/tokens.w3c.json is the source of truth. This fails the build whenever
+# tokens.css, tailwind.config.js or a component drifts away from it.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: tokens.w3c.json ↔ tokens.css ↔ tailwind.config.js
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # No dependencies to install — the checker is plain Node.
+      - name: Check for token drift
+        run: node scripts/check-token-drift.mjs
