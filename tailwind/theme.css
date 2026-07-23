@@ -408,6 +408,8 @@
   --tracking-h3: -0.4px;                      /* tight */
   --tracking-h4: -0.4px;                      /* tight — card title */
   --tracking-overline: 0.8px;                 /* wider */
+  --tracking-label: 0px;                      /* normal */
+  --tracking-btn-lg: 0px;                     /* normal */
   --tracking-btn: 0px;                        /* normal */
   --tracking-btn-sm: 0.4px;                   /* wide */
   --tracking-caption-sm: 0.4px;               /* wide */
@@ -572,6 +574,8 @@
   --letter-spacing-h3: var(--tracking-h3);
   --letter-spacing-h4: var(--tracking-h4);
   --letter-spacing-overline: var(--tracking-overline);
+  --letter-spacing-label: var(--tracking-label);
+  --letter-spacing-btn-lg: var(--tracking-btn-lg);
   --letter-spacing-btn: var(--tracking-btn);
   --letter-spacing-btn-sm: var(--tracking-btn-sm);
   --letter-spacing-caption-sm: var(--tracking-caption-sm);
@@ -598,6 +602,7 @@
 
 :root {
   --c-accent: #185FA5;
+  --fw-h1-hero: 900;                          /* Hero H1 — black */
   --fw-h1: 900;
   --fw-h2: 800;
   --fw-h3: 700;
@@ -606,12 +611,16 @@
   --fw-body-lg: 500;                          /* Body large — Medium (Figma) */
   --fw-quote: 500;                            /* Quote — Medium italic */
   --fw-body: 400;
+  --fw-caption: 400;                          /* Caption — regular, content scale */
+  --fw-code: 400;                             /* Code — regular, monospace */
   --fw-overline: 700;
   --fw-caption-sm: 500;                       /* Caption SM — medium, tooltip / footer */
   --fw-label: 500;                            /* Label text — medium, form / UI labels */
   --fw-btn-lg: 700;                           /* Button · large — bold CTA */
   --fw-btn: 600;                              /* Button · default / small — semibold */
+  --fw-btn-sm: 600;                           /* Button · small — semibold */
   --fw-nav: 500;
+  --fw-nav-sub: 500;                          /* Nav dropdown item — medium */
   --fw-nav-active: 700;
   --fw-nav-label: 700;
   --line-height-h1-hero: var(--leading-12);   /* 48px */
