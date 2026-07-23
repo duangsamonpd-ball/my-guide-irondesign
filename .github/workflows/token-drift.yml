@@ -13,11 +13,11 @@ jobs:
     name: tokens.w3c.json ↔ tokens.css ↔ theme.css
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
 
       # theme.css is generated from tokens.css — a stale copy is drift too.
       - name: Check theme.css is regenerated
@@ -38,11 +38,11 @@ jobs:
     name: theme.css compiles under Tailwind v4
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install Tailwind
         run: npm i --no-save tailwindcss@4 @tailwindcss/cli@4
