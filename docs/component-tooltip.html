@@ -158,8 +158,8 @@
       <div class="sect-sub">Hover the button to see the tooltip appear.</div>
       <div class="canvas">
         <span class="tt show-on-hover">
-          <button class="tt-trigger">Hover me</button>
-          <span class="tt-bubble above">
+          <button class="tt-trigger" aria-describedby="tt-doc-1">Hover me</button>
+          <span id="tt-doc-1" role="tooltip" class="tt-bubble above">
             <span class="tt-arrow arrow-bottom"></span>
             <span class="tt-content">
               <span class="tt-title">Title</span>
@@ -168,8 +168,8 @@
           </span>
         </span>
         <span class="tt show-on-hover">
-          <button class="tt-trigger">With a link</button>
-          <span class="tt-bubble above">
+          <button class="tt-trigger" aria-describedby="tt-doc-2">With a link</button>
+          <span id="tt-doc-2" role="tooltip" class="tt-bubble above">
             <span class="tt-arrow arrow-bottom"></span>
             <span class="tt-content">
               <span class="tt-title">Per-seat licensing</span>
@@ -179,8 +179,8 @@
           </span>
         </span>
         <span class="tt show-on-hover">
-          <button class="tt-trigger">No title</button>
-          <span class="tt-bubble above">
+          <button class="tt-trigger" aria-describedby="tt-doc-3">No title</button>
+          <span id="tt-doc-3" role="tooltip" class="tt-bubble above">
             <span class="tt-arrow arrow-bottom"></span>
             <span class="tt-content">
               <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
@@ -368,8 +368,9 @@
           <button class="copy" onclick="copyCode(this)">Copy</button>
         </div>
 <pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt show-on-hover"</span>&gt;
-  &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"tt-trigger"</span>&gt;Hover me&lt;/<span class="c-tag">button</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-bubble above"</span>&gt;
+  <span class="c-com">&lt;!-- a11y: trigger points at the bubble; bubble is role="tooltip" --&gt;</span>
+  &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"tt-trigger"</span> <span class="c-attr">aria-describedby</span>=<span class="c-str">"tip-1"</span>&gt;Hover me&lt;/<span class="c-tag">button</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">id</span>=<span class="c-str">"tip-1"</span> <span class="c-attr">role</span>=<span class="c-str">"tooltip"</span> <span class="c-attr">class</span>=<span class="c-str">"tt-bubble above"</span>&gt;
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-arrow arrow-bottom"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
     <span class="c-com">&lt;!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped --&gt;</span>
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-content"</span>&gt;
@@ -462,6 +463,8 @@
     tt.addEventListener('mouseleave',scheduleClose);
     tt.addEventListener('focusin',open);
     tt.addEventListener('focusout',scheduleClose);
+    // WCAG 1.4.13 — dismissible: Esc hides the bubble without moving focus.
+    tt.addEventListener('keydown',e=>{ if(e.key==='Escape'&&bubble.classList.contains('js-open')){ clearTimeout(closeTimer); bubble.classList.remove('js-open'); } });
   });
 </script>
 </body>

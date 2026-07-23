@@ -1,4 +1,6 @@
 ---
+import { randomUUID } from 'node:crypto';
+
 interface Props {
   title?: string;
   body: string;
@@ -20,11 +22,15 @@ const {
 } = Astro.props;
 
 const arrowFor = { above: 'arrow-bottom', below: 'arrow-top', left: 'arrow-right', right: 'arrow-left' } as const;
+
+// Unique per instance so aria-describedby ties the trigger to this bubble even
+// when several tooltips render on the same page.
+const ttId = `tt-${randomUUID().slice(0, 8)}`;
 ---
 
-<span class:list={['tt', 'show-on-hover', className]}>
+<span class:list={['tt', 'show-on-hover', className]} tabindex="0" aria-describedby={ttId}>
   <slot />
-  <span class:list={['tt-bubble', placement, { max: maxWidth }]}>
+  <span id={ttId} role="tooltip" class:list={['tt-bubble', placement, { max: maxWidth }]}>
     <span class:list={['tt-arrow', arrowFor[placement]]}></span>
     <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
     <span class="tt-content">
@@ -79,6 +85,13 @@ const arrowFor = { above: 'arrow-bottom', below: 'arrow-top', left: 'arrow-right
       tt.addEventListener('mouseleave', scheduleClose);
       tt.addEventListener('focusin', open);
       tt.addEventListener('focusout', scheduleClose);
+      // WCAG 1.4.13 — dismissible: Esc hides the bubble without moving focus.
+      tt.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && bubble.classList.contains('js-open')) {
+          if (closeTimer) clearTimeout(closeTimer);
+          bubble.classList.remove('js-open');
+        }
+      });
     });
   }
 
