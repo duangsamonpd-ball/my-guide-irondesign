@@ -34,7 +34,12 @@ const used = new Map();
 
 for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) {
   const src = readFileSync(join(COMPONENTS, file), 'utf8');
+  // A component may declare its own custom properties in its <style> block;
+  // those resolve locally and never need to come from the theme, so don't
+  // count them as usages that the compiled CSS has to satisfy.
+  const localDefs = new Set([...src.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]));
   for (const [, name] of src.matchAll(/var\((--[\w-]+)/g)) {
+    if (localDefs.has(name)) continue;
     if (!used.has(name)) used.set(name, []);
     const list = used.get(name);
     if (!list.includes(file)) list.push(file);
