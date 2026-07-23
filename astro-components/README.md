@@ -110,7 +110,8 @@ The dropzone icon (upload / has-file / error) is an inline **Font Awesome Free S
 ```
 
 Props: `label`, `options` (`{ value, label }[]`, required), `value`, `placeholder`,
-`name`, `error`, `errorMessage`, `hint`, `disabled`, `class`.
+`name`, `error`, `errorMessage`, `hint`, `disabled`, `required` (blocks form
+submit when empty; also sets `aria-required` on the trigger), `class`.
 
 A hidden native `<select>` mirrors the chosen value so the component still
 works inside a plain HTML `<form>` submit without JS — `tabindex="-1"` +

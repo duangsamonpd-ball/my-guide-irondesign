@@ -45,7 +45,7 @@ const inputId = id ?? `${name}-${value}`;
   .rdo .dot {
     width: var(--size-box); height: var(--size-box); flex-shrink: 0; margin-top: 1px;
     border: 1.5px solid var(--color-border-strong); border-radius: var(--rounded-full);
-    background: #fff; display: inline-flex; align-items: center; justify-content: center;
+    background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
     transition: border-color .15s, box-shadow .15s;
   }
   .rdo .dot::after { content: ''; width: 8px; height: 8px; border-radius: var(--rounded-full); background: var(--color-secondary); transform: scale(0); transition: transform .15s; }

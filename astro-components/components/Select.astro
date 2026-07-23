@@ -16,6 +16,7 @@ interface Props {
   errorMessage?: string;
   hint?: string;
   disabled?: boolean;
+  required?: boolean;
   class?: string;
 }
 
@@ -29,6 +30,7 @@ const {
   errorMessage,
   hint,
   disabled = false,
+  required = false,
   class: className,
 } = Astro.props;
 
@@ -55,6 +57,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
     aria-controls={listboxId}
     aria-labelledby={label ? `${labelId} ${triggerId}` : undefined}
     aria-invalid={error ? 'true' : undefined}
+    aria-required={required ? 'true' : undefined}
     aria-describedby={descId}
   >
     <span class="sel-value">{selected ? selected.label : placeholder}</span>
@@ -74,7 +77,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
     ))}
   </div>
   <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
-  <select name={name} class="sel-native-fallback" disabled={disabled} required tabindex="-1" aria-hidden="true">
+  <select name={name} class="sel-native-fallback" disabled={disabled} required={required} tabindex="-1" aria-hidden="true">
     <option value="" disabled selected={!value}>{placeholder}</option>
     {options.map((opt) => <option value={opt.value} selected={opt.value === value}>{opt.label}</option>)}
   </select>
@@ -105,7 +108,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
   .sel.disabled .sel-trigger { background: var(--color-bg-shade); color: var(--color-text-disabled); cursor: not-allowed; }
   .sel-menu {
     position: absolute; top: calc(100% + 6px); left: 0; right: 0;
-    background: #fff; border: 1px solid var(--color-border); border-radius: var(--rounded-lg);
+    background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--rounded-lg);
     box-shadow: var(--shadow-float); padding: 6px; z-index: 5; display: none;
   }
   .sel.open .sel-menu { display: block; }

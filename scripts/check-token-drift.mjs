@@ -381,7 +381,7 @@ const COMPONENTS = join(ROOT, 'astro-components/components');
 for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) {
   const src = readFileSync(join(COMPONENTS, file), 'utf8');
   src.split('\n').forEach((line, i) => {
-    for (const [raw] of line.matchAll(/#[0-9A-Fa-f]{6}\b/g)) {
+    for (const [raw] of line.matchAll(/#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?\b/g)) {
       checks++;
       err('components', `${basename(file)}:${i + 1}`, `hardcoded ${raw} — use a semantic token instead`);
     }
