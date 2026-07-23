@@ -29,6 +29,9 @@
       --font-size-caption:    13px;
       --space-xs:             8px;
       --space-sm:             12px;
+          --spacing-xs: 0.5rem;
+      --color-bg-base: #FFFFFF;
+      --color-primary-on: #FFFFFF;
     }
 
     header { background: #fff; border-bottom: 1px solid #E2E8F0; padding: 24px 48px; display: flex; align-items: center; gap: 16px; }
@@ -84,15 +87,15 @@
     .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
 
     /* ════════════ CHECKBOX COMPONENT (token-driven) ════════════ */
-    .cbx { display: inline-flex; align-items: flex-start; gap: var(--space-xs); cursor: pointer; user-select: none; }
+        .cbx { display: inline-flex; align-items: flex-start; gap: var(--spacing-xs); cursor: pointer; user-select: none; }
     .cbx input { position: absolute; width:1px; height:1px; opacity: 0; pointer-events:none; }
-    .cbx .box {
-      width: var(--size-box); height: var(--size-box); flex-shrink: 0; margin-top: 1px;
-      border: 1.5px solid var(--color-border-strong); border-radius: var(--rounded-sm);
-      background: #fff; display: inline-flex; align-items: center; justify-content: center;
-      transition: background .15s, border-color .15s, box-shadow .15s;
-    }
-    .cbx .box svg { width: 11px; height: 11px; opacity: 0; transform: scale(.5); transition: opacity .15s, transform .15s; }
+        .cbx .box {
+    width: var(--size-box); height: var(--size-box); flex-shrink: 0; margin-top: 1px;
+    border: 1.5px solid var(--color-border-strong); border-radius: var(--rounded-sm);
+    background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s, box-shadow .15s;
+  }
+        .cbx .box svg { width: 11px; height: 11px; color: var(--color-primary-on); opacity: 0; transform: scale(.5); transition: opacity .15s, transform .15s; }
     .cbx input:checked + .box { background: var(--color-secondary); border-color: var(--color-secondary); }
     .cbx input:checked + .box svg { opacity: 1; transform: scale(1); }
     .cbx input:focus-visible + .box, .cbx.is-focus .box { box-shadow: var(--shadow-focus-blue); }
@@ -152,7 +155,9 @@
     .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
-  </style>
+
+    .cbx input:focus-visible + .box { box-shadow: var(--shadow-focus-blue); }
+</style>
 </head>
 <body>
 

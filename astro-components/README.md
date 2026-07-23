@@ -1,8 +1,11 @@
 # Iron Software Astro Components
 
-Astro wrapper components for the Iron Software Design System. Markup and CSS
-are copied 1:1 from the live docs pages under `../docs/component-*.html`, so
-behaviour and appearance stay in sync with the reference site.
+Astro wrapper components for the Iron Software Design System. Each component's
+`<style>` block is the **source of truth** for its CSS; the matching docs demo
+page under `../docs/component-*.html` mirrors that CSS inline so it renders
+standalone on GitHub Pages. `npm run check:parity` (and CI) asserts every rule
+in a component's `<style>` also appears in its docs page, so the two can never
+silently drift.
 
 ## Setup
 

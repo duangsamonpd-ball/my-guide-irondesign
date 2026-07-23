@@ -16,6 +16,8 @@
       --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25);
       --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
       --space-xs:8px; --space-sm:12px;
+          --color-bg-card-alt: #F2F9FE;
+      --color-success-strong: #44806B;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -85,27 +87,44 @@
     .code-wrap .code-pane.active{display:block;}
 
     /* ════ FILE UPLOAD / DROPZONE (token-driven) ════ */
-    .dropzone { border:1.5px dashed var(--color-border-strong); border-radius:var(--rounded-lg); background:var(--color-bg-base); padding:24px; display:flex; align-items:center; justify-content:space-between; gap:16px; transition:border-color .15s, background .15s; }
+        .dropzone {
+    border: 1.5px dashed var(--color-border-strong); border-radius: var(--rounded-lg);
+    background: var(--color-bg-base); padding: 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    cursor: pointer; position: relative;
+    transition: border-color .15s, background .15s;
+  }
     .dropzone-left { display:flex; align-items:center; gap:16px; min-width:0; }
-    .dropzone-icon { width:40px; height:40px; border-radius:var(--rounded-lg); background:rgba(38,147,236,0.06); border:1px solid rgba(38,147,236,0.10); display:flex; align-items:center; justify-content:center; color:var(--color-secondary); flex-shrink:0; }
+        .dropzone-icon {
+    width: 40px; height: 40px; border-radius: var(--rounded-lg); flex-shrink: 0;
+    background: rgba(38,147,236,0.06); border: 1px solid rgba(38,147,236,0.10);
+    color: var(--color-secondary); display: flex; align-items: center; justify-content: center;
+  }
     .dropzone-icon svg { width:18px; height:18px; }
     .dropzone-text { min-width:0; }
     .dropzone-text .title { font-size:var(--font-size-body); color:var(--color-text-body); margin-bottom:4px; }
-    .dropzone-text .link { font-size:1rem; font-weight:700; color:var(--color-secondary); text-decoration:none; display:inline-flex; align-items:center; gap:4px; background:none; border:none; padding:0; cursor:pointer; font-family:'Montserrat',sans-serif; }
+        .dropzone-text .link { font-size: 1rem; font-weight: 700; color: var(--color-secondary); }
     .dropzone-text .link:hover { color:var(--color-primary); }
     .dropzone-size { font-size:var(--font-size-body); color:var(--color-text-support); white-space:nowrap; flex-shrink:0; }
-    .dropzone:hover, .dropzone.is-dragover { border-color:var(--color-secondary); background:#F2F9FE; }
+        .dropzone:hover, .dropzone.is-dragover { border-color: var(--color-secondary); background: var(--color-bg-card-alt); }
     .dropzone.is-dragover .dropzone-icon { background:rgba(38,147,236,0.12); }
     .dropzone.error { border-color:var(--color-danger); }
     .dropzone.error .dropzone-icon { background:rgba(229,36,42,0.06); border-color:rgba(229,36,42,0.10); color:var(--color-danger); }
     .dropzone.is-disabled { opacity:.5; cursor:not-allowed; }
-    .dropzone.has-file { border-style:solid; border-color:var(--color-border); }
-    .dropzone.has-file .dropzone-icon { background:rgba(46,148,104,0.08); border-color:rgba(46,148,104,0.14); color:#2E9468; }
-    .dz-remove { font-size:0.72rem; font-weight:700; color:var(--color-text-support); background:none; border:none; cursor:pointer; padding:4px 8px; }
+        .dropzone.has-file { border-style: solid; border-color: var(--color-border); cursor: default; }
+        .dropzone.has-file .dropzone-icon { background: rgba(68,128,107,0.08); border-color: rgba(68,128,107,0.14); color: var(--color-success-strong); }
+        .dz-remove {
+    font-size: 0.72rem; font-weight: 700; color: var(--color-text-support);
+    background: none; border: none; cursor: pointer; padding: 4px 8px; position: relative; z-index: 1;
+  }
     .dz-remove:hover { color:var(--color-danger); }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-  </style>
+
+    .dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .dropzone-text .size-label { font-size: 0.85rem; color: var(--color-text-support); }
+    .dropzone.is-disabled .dropzone-input { cursor: not-allowed; }
+</style>
 </head>
 <body>
 <header>

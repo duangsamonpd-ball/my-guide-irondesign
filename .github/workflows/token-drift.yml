@@ -27,6 +27,11 @@ jobs:
       - name: Check for token drift
         run: node scripts/check-token-drift.mjs
 
+      # Each .astro <style> block is the source of truth; its docs demo page
+      # must carry the same CSS. Also plain Node, no install.
+      - name: Check component ↔ docs CSS parity
+        run: node scripts/check-component-parity.mjs
+
   # Proves the theme actually compiles, and that every variable the components
   # read still resolves once Tailwind has processed it.
   compile:

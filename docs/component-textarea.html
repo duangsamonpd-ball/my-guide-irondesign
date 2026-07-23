@@ -16,6 +16,7 @@
       --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
       --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
       --space-xs:8px; --space-sm:12px;
+          --color-bg-disabled: #F8FAFC;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -87,7 +88,15 @@
     /* ════ TEXTAREA (token-driven) ════ */
     .field { display:flex; flex-direction:column; gap:6px; width:100%; max-width:340px; }
     .field-label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); }
-    .textarea { width:100%; min-height:86px; border:1.5px solid var(--color-border); border-radius:var(--rounded-md); padding:14px 16px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); background:var(--color-bg-base); outline:none; resize:vertical; transition:border-color .15s, box-shadow .15s; line-height:1.5; }
+        .textarea {
+    width: 100%; min-height: 86px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 14px 16px; font-family: 'Montserrat', sans-serif;
+    font-size: var(--font-size-body); color: var(--color-text-body);
+    background: var(--color-bg-base); outline: none; resize: vertical; line-height: 1.5;
+    transition: border-color .15s, box-shadow .15s;
+  }
     .textarea::placeholder { color:var(--color-text-support); }
     .textarea:hover { border-color:var(--color-border-strong); }
     .textarea:focus, .textarea.is-focus { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
@@ -98,7 +107,11 @@
     .field-error { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-  </style>
+
+    .field-label .req { color: var(--color-danger); }
+    .textarea:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
+    .textarea:disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); cursor: not-allowed; resize: none; }
+</style>
 </head>
 <body>
 <header>

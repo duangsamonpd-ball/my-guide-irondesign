@@ -13,6 +13,8 @@
       --color-text-heading:#171717; --color-text-support:#45556C; --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-card-alt:#F2F9FE;
       --rounded-xl:10px; --rounded-full:9999px; --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25);
       --size-box:18px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px; --space-xs:8px;
+          --spacing-xs: 0.5rem;
+      --color-bg-base: #FFFFFF;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -63,9 +65,14 @@
     footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 
     /* ════ RADIO (token-driven) ════ */
-    .rdo { display:inline-flex; align-items:flex-start; gap:var(--space-xs); cursor:pointer; user-select:none; }
+        .rdo { display: inline-flex; align-items: flex-start; gap: var(--spacing-xs); cursor: pointer; user-select: none; }
     .rdo input { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
-    .rdo .dot { width:var(--size-box); height:var(--size-box); flex-shrink:0; margin-top:1px; border:1.5px solid var(--color-border-strong); border-radius:var(--rounded-full); background:#fff; display:inline-flex; align-items:center; justify-content:center; transition:border-color .15s, box-shadow .15s; }
+        .rdo .dot {
+    width: var(--size-box); height: var(--size-box); flex-shrink: 0; margin-top: 1px;
+    border: 1.5px solid var(--color-border-strong); border-radius: var(--rounded-full);
+    background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color .15s, box-shadow .15s;
+  }
     .rdo .dot::after { content:''; width:8px; height:8px; border-radius:var(--rounded-full); background:var(--color-secondary); transform:scale(0); transition:transform .15s; }
     .rdo input:checked + .dot { border-color:var(--color-secondary); }
     .rdo input:checked + .dot::after { transform:scale(1); }
@@ -88,7 +95,9 @@
     .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
-  </style>
+
+    .rdo input:focus-visible + .dot { box-shadow: var(--shadow-focus-blue); }
+</style>
 </head>
 <body>
 <header>

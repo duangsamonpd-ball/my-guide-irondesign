@@ -16,6 +16,7 @@
       --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
       --size-input:44px; --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
       --space-xs:8px; --space-sm:12px;
+          --color-bg-disabled: #F8FAFC;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -102,7 +103,11 @@
     .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
-  </style>
+
+    .input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
+    .input.error:focus { box-shadow: var(--shadow-focus-magenta); }
+    .input:disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); cursor: not-allowed; }
+</style>
 </head>
 <body>
 <header>
