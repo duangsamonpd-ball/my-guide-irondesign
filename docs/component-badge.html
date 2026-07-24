@@ -10,12 +10,12 @@
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
       /* subtle fill = iron-*-100, text = iron-*-700 — verified against Figma node 776-899 */
-      --color-success:#44806B;   --color-success-subtle:#E8F6F1;
-      --color-warning:#A66E0A;   --color-warning-subtle:#FFF2DA;
-      --color-danger:#A8181D;    --color-danger-subtle:#FFE1E2;
-      --color-info:#1D629B;      --color-info-subtle:#DEEFFC;
-      --color-important:#3B2A66; --color-important-subtle:#E6E2F0;
-      --color-neutral:#45556C;   --color-neutral-subtle:#F1F5F9;
+      --color-success:#44806B;   --color-success-subtle:#E8F6F1;  --color-success-strong:#44806B;
+      --color-warning:#A66E0A;   --color-warning-subtle:#FFF2DA;  --color-warning-strong:#A66E0A;
+      --color-danger:#A8181D;    --color-danger-subtle:#FFE1E2;   --color-danger-strong:#A8181D;
+      --color-info:#1D629B;      --color-info-subtle:#DEEFFC;     --color-info-strong:#1D629B;
+      --color-important:#563B99; --color-important-subtle:#E6E2F0; --color-important-strong:#3B2A66;
+      --color-neutral:#62748E;   --color-neutral-subtle:#F1F5F9;   --color-neutral-strong:#314158;
       --color-success-solid:#63C1A0; --color-warning-solid:#FDA509; --color-danger-solid:#E5242A; --color-info-solid:#2693EC; --color-important-solid:#563B99; --color-neutral-solid:#45556C;
       /* dark-mode pair = iron-*-900 (fill) / iron-*-300 (text) */
       --color-success-dark:#B1E0D0;   --color-success-subtle-dark:#243F35;
@@ -109,12 +109,12 @@
   }
     .badge .bdot { width:6px; height:6px; border-radius:var(--rounded-full); background:currentColor; }
     /* subtle (default) */
-        .badge--success   { background: var(--color-success-subtle); color: var(--iron-green-700); }
-        .badge--warning   { background: var(--color-warning-subtle); color: var(--iron-orange-700); }
-        .badge--danger    { background: var(--color-danger-subtle);  color: var(--iron-red-700); }
-        .badge--info      { background: var(--color-info-subtle);    color: var(--iron-blue-700); }
-        .badge--important { background: var(--iron-purple-100);      color: var(--iron-purple-700); }
-        .badge--neutral   { background: var(--slate-100);            color: var(--slate-600); }
+        .badge--success   { background: var(--color-success-subtle); color: var(--color-success-strong); }
+        .badge--warning   { background: var(--color-warning-subtle); color: var(--color-warning-strong); }
+        .badge--danger    { background: var(--color-danger-subtle);  color: var(--color-danger-strong); }
+        .badge--info      { background: var(--color-info-subtle);    color: var(--color-info-strong); }
+        .badge--important { background: var(--color-important-subtle); color: var(--color-important-strong); }
+        .badge--neutral   { background: var(--color-neutral-subtle);   color: var(--color-neutral-strong); }
     /* dark (on dark backgrounds) */
         .badge.dark.badge--success   { background: var(--iron-green-900);  color: var(--iron-green-300); }
         .badge.dark.badge--warning   { background: var(--iron-orange-900); color: var(--iron-orange-300); }
@@ -128,8 +128,8 @@
         .badge.solid.badge--warning   { background: var(--color-warning); }
         .badge.solid.badge--danger    { background: var(--color-danger); }
         .badge.solid.badge--info      { background: var(--color-secondary); }
-        .badge.solid.badge--important { background: var(--iron-purple-500); }
-        .badge.solid.badge--neutral   { background: var(--slate-600); }
+        .badge.solid.badge--important { background: var(--color-important); }
+        .badge.solid.badge--neutral   { background: var(--color-neutral); }
     /* sizes */
         .badge.sm { font-size: 11px; padding: 3px 8px; }
     .badge.pill { border-radius:var(--rounded-full); }
@@ -264,12 +264,12 @@
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Intent</th><th>Text token</th><th>Fill token (subtle)</th><th>Solid</th></tr></thead><tbody>
-        <tr><td class="prop"><span class="badge badge--success">Success</span></td><td class="token">--iron-green-700</td><td class="token">--color-success-subtle</td><td class="val"><span class="sw" style="background:#63C1A0"></span>#63C1A0</td></tr>
-        <tr><td class="prop"><span class="badge badge--warning">Warning</span></td><td class="token">--iron-orange-700</td><td class="token">--color-warning-subtle</td><td class="val"><span class="sw" style="background:#FDA509"></span>#FDA509</td></tr>
-        <tr><td class="prop"><span class="badge badge--danger">Danger</span></td><td class="token">--iron-red-700</td><td class="token">--color-danger-subtle</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
-        <tr><td class="prop"><span class="badge badge--info">Info</span></td><td class="token">--iron-blue-700</td><td class="token">--color-info-subtle</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop"><span class="badge badge--important">Important</span></td><td class="token">--iron-purple-700</td><td class="token">--iron-purple-100</td><td class="val"><span class="sw" style="background:#563B99"></span>#563B99</td></tr>
-        <tr><td class="prop"><span class="badge badge--neutral">Neutral</span></td><td class="token">--slate-600</td><td class="token">--slate-100</td><td class="val"><span class="sw" style="background:#45556C"></span>#45556C</td></tr>
+        <tr><td class="prop"><span class="badge badge--success">Success</span></td><td class="token">--color-success-strong</td><td class="token">--color-success-subtle</td><td class="val"><span class="sw" style="background:#63C1A0"></span>#63C1A0</td></tr>
+        <tr><td class="prop"><span class="badge badge--warning">Warning</span></td><td class="token">--color-warning-strong</td><td class="token">--color-warning-subtle</td><td class="val"><span class="sw" style="background:#FDA509"></span>#FDA509</td></tr>
+        <tr><td class="prop"><span class="badge badge--danger">Danger</span></td><td class="token">--color-danger-strong</td><td class="token">--color-danger-subtle</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
+        <tr><td class="prop"><span class="badge badge--info">Info</span></td><td class="token">--color-info-strong</td><td class="token">--color-info-subtle</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop"><span class="badge badge--important">Important</span></td><td class="token">--color-important-strong</td><td class="token">--color-important-subtle</td><td class="val"><span class="sw" style="background:#563B99"></span>#563B99</td></tr>
+        <tr><td class="prop"><span class="badge badge--neutral">Neutral</span></td><td class="token">--color-neutral-strong</td><td class="token">--color-neutral-subtle</td><td class="val"><span class="sw" style="background:#62748E"></span>#62748E</td></tr>
         <tr><td class="prop">Dark mode</td><td class="token" colspan="2">fill → iron-*-900 · text → iron-*-300 (per intent)</td><td class="val">—</td></tr>
         <tr><td class="prop">Shape</td><td class="token" colspan="2">--rounded-sm (default) · --rounded-full (pill)</td><td class="val">4 / 9999px</td></tr>
         <tr><td class="prop">Label</td><td class="token" colspan="2">--font-size-badge / --fw-badge</td><td class="val">12px / 700</td></tr>

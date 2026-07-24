@@ -27,10 +27,10 @@ const {
 
 <style>
   /*
-    Subtle fill = canonical --color-{intent}-subtle (iron-*-100), text = the matching
-    iron-*-700 primitive — verified against Figma node 776-899 ("Badge"), which uses
-    exactly these pairs. No semantic *-700 text token exists yet, so the primitive is
-    referenced directly (same approach Notice.astro uses for its "important" intent).
+    Subtle fill = --color-{intent}-subtle (iron-*-100), text = --color-{intent}-strong
+    (iron-*-700) — verified against Figma node 776-899 ("Badge"), which uses exactly
+    these pairs. All six intents consume the semantic subtle/strong tokens (added from
+    the Figma color_ui export); no primitive is referenced directly in light mode.
     Dark variant mirrors the pattern with the *-900 (fill) / *-300 (text) pair for
     contrast on dark backgrounds — Figma has no dark-mode Badge spec, so this follows
     the existing dark-tint convention (see --color-bg-dark-card / --color-text-dark-support).
@@ -44,12 +44,12 @@ const {
   }
   .badge .bdot { width: 6px; height: 6px; border-radius: var(--rounded-full); background: currentColor; }
 
-  .badge--success   { background: var(--color-success-subtle); color: var(--iron-green-700); }
-  .badge--warning   { background: var(--color-warning-subtle); color: var(--iron-orange-700); }
-  .badge--danger    { background: var(--color-danger-subtle);  color: var(--iron-red-700); }
-  .badge--info      { background: var(--color-info-subtle);    color: var(--iron-blue-700); }
-  .badge--important { background: var(--iron-purple-100);      color: var(--iron-purple-700); }
-  .badge--neutral   { background: var(--slate-100);            color: var(--slate-600); }
+  .badge--success   { background: var(--color-success-subtle); color: var(--color-success-strong); }
+  .badge--warning   { background: var(--color-warning-subtle); color: var(--color-warning-strong); }
+  .badge--danger    { background: var(--color-danger-subtle);  color: var(--color-danger-strong); }
+  .badge--info      { background: var(--color-info-subtle);    color: var(--color-info-strong); }
+  .badge--important { background: var(--color-important-subtle); color: var(--color-important-strong); }
+  .badge--neutral   { background: var(--color-neutral-subtle);   color: var(--color-neutral-strong); }
 
   .badge.dark.badge--success   { background: var(--iron-green-900);  color: var(--iron-green-300); }
   .badge.dark.badge--warning   { background: var(--iron-orange-900); color: var(--iron-orange-300); }
@@ -63,8 +63,8 @@ const {
   .badge.solid.badge--warning   { background: var(--color-warning); }
   .badge.solid.badge--danger    { background: var(--color-danger); }
   .badge.solid.badge--info      { background: var(--color-secondary); }
-  .badge.solid.badge--important { background: var(--iron-purple-500); }
-  .badge.solid.badge--neutral   { background: var(--slate-600); }
+  .badge.solid.badge--important { background: var(--color-important); }
+  .badge.solid.badge--neutral   { background: var(--color-neutral); }
 
   .badge.sm { font-size: 11px; padding: 3px 8px; }
   .badge.pill { border-radius: var(--rounded-full); }
