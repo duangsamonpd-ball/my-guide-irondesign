@@ -285,5 +285,7 @@ a history of drifting out of sync with the live markup on the same page.
 
 `FormCard` and `TrialKeyCard` were ported from the "04 Form & Input Cards"
 section of the "Other element" page in Figma (node `723:5520`), not from a
-`docs/component-*.html` page — there's no matching docs page for these two
-composite patterns yet.
+`docs/component-*.html` page. Their docs pages
+(`docs/component-formcard.html`, `docs/component-trialkeycard.html`) were
+added afterward and are now covered by `check:parity` like every other
+component — so the same "keep the Code-tab / inline CSS in sync" rule applies.

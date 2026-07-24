@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Input · Components · Iron Software DS</title>
+  <title>Trial Key Card · Components · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
+      --color-primary:#E01A59; --color-primary-hover:#BA174B; --color-primary-on:#FFFFFF;
       --color-secondary:#2693EC; --color-danger:#E5242A;
-      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C; --color-text-muted:#525252; --color-text-disabled:#A1A1A1;
+      --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C;
       --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF;
-      --rounded-sm:4px; --rounded-md:6px;
-      --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
-      --size-input:44px; --font-size-body:14px; --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
-      --space-xs:8px; --space-sm:12px;
-      --color-bg-disabled: #F8FAFC;
+      --rounded-md:6px; --rounded-2xl:16px; --rounded-cta:9999px;
+      --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25);
+      --size-input:44px; --size-btn-lg:56px;
+      --font-size-body:14px; --font-size-btn-lg:16px; --fw-btn-lg:700; --font-size-caption:13px;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }
@@ -78,22 +78,40 @@
     .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; } .atag b { color:#2693EC; }
     footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 
-    /* ════ INPUT (token-driven) ════ */
-    .field { display:flex; flex-direction:column; gap:6px; width:100%; max-width:340px; }
-    .field-label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); }
-    .field-label .req { color:var(--color-danger); }
-    .input-wrap { position:relative; display:flex; align-items:center; }
-    .input { width:100%; height:var(--size-input); border:1.5px solid var(--color-border); border-radius:var(--rounded-md); padding:0 14px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); background:var(--color-bg-base); outline:none; transition:border-color .15s, box-shadow .15s; }
-    .input::placeholder { color:var(--color-text-muted); }
-    .input:hover { border-color:var(--color-border-strong); }
-    .input:focus, .input.is-focus { border-color:var(--color-secondary); box-shadow:var(--shadow-focus-blue); }
-    .input.error { border-color:var(--color-danger); }
-    .input.error:focus, .input.error.is-focus { box-shadow:var(--shadow-focus-magenta); }
-    .input:disabled, .input.is-disabled { background:#F8FAFC; color:var(--color-text-disabled); cursor:not-allowed; }
-    .input.has-icon { padding-left:38px; }
-    .input-icon { position:absolute; left:13px; color:var(--color-text-muted); font-size:0.95rem; pointer-events:none; }
-    .field-hint { font-size:var(--font-size-caption); color:var(--color-text-support); }
-    .field-error { font-size:var(--font-size-caption); color:var(--color-danger); font-weight:500; }
+    /* ════ TRIAL KEY CARD (token-driven — mirrors TrialKeyCard.astro <style>) ════ */
+    .trial-card {
+      background: var(--color-bg-base); border: 1px solid var(--color-border); border-radius: var(--rounded-2xl);
+      padding: 40px 32px; display: flex; flex-direction: column; align-items: center; gap: 20px;
+      max-width: 420px; text-align: center;
+    }
+    .tc-icon {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(38,147,236,0.10); color: var(--color-secondary);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tc-icon svg { width: 28px; height: 28px; }
+    .tc-heading { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; color: var(--color-text-body); line-height: 1.4; }
+    .tc-heading b { color: var(--color-text-heading); }
+    .tc-field { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+    .tc-input {
+      width: 100%; height: var(--size-input); border: 1.5px solid var(--color-border); border-radius: var(--rounded-md);
+      padding: 0 16px; font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); color: var(--color-text-body);
+      background: var(--color-bg-base); outline: none; text-align: center; transition: border-color .15s, box-shadow .15s;
+    }
+    .tc-input::placeholder { color: var(--color-text-support); }
+    .tc-input:hover { border-color: var(--color-border-strong); }
+    .tc-input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
+    .tc-hint { font-size: var(--font-size-caption); color: var(--color-text-support); }
+    .tc-submit {
+      width: 100%; height: var(--size-btn-lg); border: none; border-radius: var(--rounded-cta);
+      background: var(--color-primary); color: var(--color-primary-on); font-family: 'Montserrat', sans-serif;
+      font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: background .15s;
+    }
+    .tc-submit:hover { background: var(--color-primary-hover); }
+    .tc-submit svg { width: 14px; height: 14px; }
+    .tc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 0.76rem; color: var(--color-text-support); flex-wrap: wrap; }
+    .tc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); }
 
     @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
       .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
@@ -103,10 +121,6 @@
     .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
-
-    .input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
-    .input.error:focus { box-shadow: var(--shadow-focus-magenta); }
-    .input:disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -134,7 +148,7 @@
         <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
         <a href="component-textlink.html" class="sidebar-link"><i class="sidebar-icon">🔗</i>Text Link</a>
         <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
-        <a href="component-input.html" class="sidebar-link active"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
         <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
         <a href="component-fileupload.html" class="sidebar-link"><i class="sidebar-icon">📎</i>File Upload</a>
         <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
@@ -144,7 +158,7 @@
         <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
         <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
         <a href="component-formcard.html" class="sidebar-link"><i class="sidebar-icon">🗂️</i>Form Card</a>
-        <a href="component-trialkeycard.html" class="sidebar-link"><i class="sidebar-icon">🔑</i>Trial Key Card</a>
+        <a href="component-trialkeycard.html" class="sidebar-link active"><i class="sidebar-icon">🔑</i>Trial Key Card</a>
       </div>
       <div class="sidebar-category">Reference</div>
       <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
@@ -154,119 +168,127 @@
   <div class="main-content"><div class="content">
 
     <div class="page-title">
-      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Input</div>
-      <h1>Input</h1>
-      <p class="lead">A single-line text field for collecting short user input — email, name, search. All states map to tokens, so focus, error and disabled stay on-brand. The fields below are live.</p>
-      <div class="meta-chips"><span class="chip">5 states</span><span class="chip">label · hint · error</span><span class="chip new">Token-driven</span></div>
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Trial Key Card</div>
+      <h1>Trial Key Card</h1>
+      <p class="lead">The centered, single-field "instant capture" card — one email input, one submit, no label row. Different enough from <a href="component-formcard.html" style="color:#2693EC;text-decoration:none;">Form Card</a> (centered icon halo, self-contained input, footnote row) that it's its own component rather than a variant. The card below is live.</p>
+      <div class="meta-chips"><span class="chip">3 icons</span><span class="chip">one field</span><span class="chip">bold heading · notes</span><span class="chip new">Composed</span></div>
     </div>
 
     <div class="sect"><div class="sect-h">Preview</div>
-      <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Email address</label><div class="input-wrap"><input class="input" type="email" placeholder="you@example.com"></div><span class="field-hint">We'll never share your email.</span></div>
+      <div class="canvas col" style="max-width:460px;margin:0 auto;">
+        <div class="trial-card">
+          <span class="tc-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span>
+          <p class="tc-heading">Get your free <b>30-day Trial Key</b> instantly.</p>
+          <div class="tc-field">
+            <input class="tc-input" type="email" placeholder="Your Business Email*">
+            <span class="tc-hint">Your trial license will be sent to this address</span>
+          </div>
+          <button type="submit" class="tc-submit">Get my free trial key <svg viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></button>
+          <div class="tc-notes"><span>Free for development</span><span class="tc-sep"></span><span>Trial key in 60 seconds</span><span class="tc-sep"></span><span>No credit card</span></div>
+        </div>
       </div>
     </div>
 
-    <div class="sect"><div class="sect-h">States</div>
-      <div class="sect-sub">Default → hover → focus (secondary ring) → error (danger) → disabled.</div>
+    <div class="sect"><div class="sect-h">Icons</div>
+      <div class="sect-sub">Both <code>icon</code> (the halo) and <code>submitIcon</code> (inside the button) resolve to one of three named Font Awesome Free Solid SVGs.</div>
       <div class="grid">
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input" placeholder="Placeholder"></div></div><div class="lbl">Default</div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input is-focus" value="Focused"></div></div><div class="lbl">Focus<small>secondary ring</small></div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input" value="Jane Cooper"></div></div><div class="lbl">Filled</div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input error" value="not-an-email"></div><span class="field-error">Enter a valid email.</span></div><div class="lbl">Error<small>danger border</small></div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input is-disabled" value="Disabled" disabled></div></div><div class="lbl">Disabled</div></div>
-      </div>
-    </div>
-
-    <div class="sect"><div class="sect-h">Compositions</div>
-      <div class="sect-sub">Label, hint, required marker, and a leading icon — combine as needed.</div>
-      <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Full name <span class="req">*</span></label><div class="input-wrap"><input class="input" placeholder="Jane Cooper"></div></div>
-        <div class="field"><label class="field-label">Search</label><div class="input-wrap"><span class="input-icon">⌕</span><input class="input has-icon" placeholder="Search products…"></div></div>
-        <div class="field"><label class="field-label">Password</label><div class="input-wrap"><input class="input error" type="password" value="123"></div><span class="field-error">Must be at least 8 characters.</span></div>
+        <div class="cell" style="align-items:center;"><span class="tc-icon"><svg viewBox="0 0 384 512" fill="currentColor"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-277.5c0-17-6.7-33.3-18.7-45.3L258.7 18.7C246.7 6.7 230.5 0 213.5 0L64 0zM325.5 176L232 176c-13.3 0-24-10.7-24-24L208 58.5 325.5 176zM64 384l0-64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 416c-17.7 0-32-14.3-32-32zM88 64l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24S74.7 64 88 64zm0 96l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg></span><div class="lbl" style="text-align:center;">quote<small>file-invoice</small></div></div>
+        <div class="cell" style="align-items:center;"><span class="tc-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span><div class="lbl" style="text-align:center;">key<small>key</small></div></div>
+        <div class="cell" style="align-items:center;"><span class="tc-icon"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span><div class="lbl" style="text-align:center;">check<small>check</small></div></div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Anatomy</div>
-      <div class="sect-sub">The parts of a field and the token each is bound to.</div>
-      <div class="anatomy" style="align-items:stretch;max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Email address</label><div class="input-wrap"><input class="input" placeholder="you@example.com"></div><span class="field-hint">Helper text.</span></div>
+      <div class="sect-sub">The parts of the card and the token each is bound to.</div>
+      <div class="anatomy" style="align-items:stretch;max-width:460px;margin:0 auto;">
+        <div class="trial-card" style="max-width:none;">
+          <span class="tc-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span>
+          <p class="tc-heading">Get your free <b>Bold heading</b> instantly.</p>
+          <div class="tc-field"><input class="tc-input" type="email" placeholder="Your Business Email*"><span class="tc-hint">Optional hint.</span></div>
+          <button type="submit" class="tc-submit">Submit label</button>
+          <div class="tc-notes"><span>Note one</span><span class="tc-sep"></span><span>Note two</span><span class="tc-sep"></span><span>Note three</span></div>
+        </div>
         <div class="anatomy-tags">
-          <span class="atag">height → <b>--size-input</b> (44px)</span>
-          <span class="atag">border → <b>--color-border</b></span>
-          <span class="atag">radius → <b>--rounded-md</b></span>
+          <span class="atag">frame → <b>--rounded-2xl</b> + <b>--color-border</b></span>
+          <span class="atag">round halo → <b>--color-secondary</b></span>
+          <span class="atag">bold word → <b>--color-text-heading</b></span>
+          <span class="atag">input → <b>--size-input</b> + <b>--rounded-md</b></span>
           <span class="atag">focus → <b>--color-secondary</b> + ring</span>
-          <span class="atag">error → <b>--color-danger</b></span>
-          <span class="atag">label → <b>--font-size-label</b></span>
-          <span class="atag">placeholder → <b>--color-text-muted</b></span>
+          <span class="atag">submit → <b>--size-btn-lg</b> + <b>--color-primary</b></span>
+          <span class="atag">submit radius → <b>--rounded-cta</b></span>
         </div>
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
-        <tr><td class="prop">Height</td><td class="token">--size-input</td><td class="val">44px</td></tr>
-        <tr><td class="prop">Border</td><td class="token">--color-border</td><td class="val"><span class="sw" style="background:#E2E8F0"></span>#E2E8F0</td></tr>
-        <tr><td class="prop">Border · hover</td><td class="token">--color-border-strong</td><td class="val"><span class="sw" style="background:#CAD5E2"></span>#CAD5E2</td></tr>
-        <tr><td class="prop">Border · focus</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-blue</td><td class="val">0 0 0 3px · 25%</td></tr>
-        <tr><td class="prop">Border · error</td><td class="token">--color-danger</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
-        <tr><td class="prop">Radius</td><td class="token">--rounded-md</td><td class="val">6px</td></tr>
-        <tr><td class="prop">Text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
-        <tr><td class="prop">Placeholder</td><td class="token">--color-text-muted</td><td class="val"><span class="sw" style="background:#525252"></span>#525252</td></tr>
-        <tr><td class="prop">Label</td><td class="token">--font-size-label / --fw-label</td><td class="val">14px / 500</td></tr>
+        <tr><td class="prop">Card radius</td><td class="token">--rounded-2xl</td><td class="val">16px</td></tr>
+        <tr><td class="prop">Card border</td><td class="token">--color-border</td><td class="val"><span class="sw" style="background:#E2E8F0"></span>#E2E8F0</td></tr>
+        <tr><td class="prop">Halo tint</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Bold heading word</td><td class="token">--color-text-heading</td><td class="val"><span class="sw" style="background:#171717"></span>#171717</td></tr>
+        <tr><td class="prop">Body text / notes</td><td class="token">--color-text-support</td><td class="val"><span class="sw" style="background:#45556C"></span>#45556C</td></tr>
+        <tr><td class="prop">Input height</td><td class="token">--size-input</td><td class="val">44px</td></tr>
+        <tr><td class="prop">Input radius</td><td class="token">--rounded-md</td><td class="val">6px</td></tr>
+        <tr><td class="prop">Input focus ring</td><td class="token">--shadow-focus-blue</td><td class="val">0 0 0 3px · 25%</td></tr>
+        <tr><td class="prop">Submit height</td><td class="token">--size-btn-lg</td><td class="val">56px</td></tr>
+        <tr><td class="prop">Submit fill</td><td class="token">--color-primary</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
+        <tr><td class="prop">Submit fill · hover</td><td class="token">--color-primary-hover</td><td class="val"><span class="sw" style="background:#BA174B"></span>#BA174B</td></tr>
+        <tr><td class="prop">Submit radius</td><td class="token">--rounded-cta</td><td class="val">9999px</td></tr>
       </tbody></table>
     </div>
 
     <div class="sect"><div class="sect-h">Code</div>
       <div class="code-wrap">
           <div class="code-tabs">
-            <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
+            <button class="code-tab active" onclick="switchTab(this,'html')">Astro</button>
             <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"input-wrap"</span>&gt;
-    &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">placeholder</span>=<span class="c-str">"you@example.com"</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-hint"</span>&gt;We'll never share your email.&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;
+<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">TrialKeyCard</span>
+  <span class="c-attr">icon</span>=<span class="c-str">"key"</span>
+  <span class="c-attr">headingBold</span>=<span class="c-str">"30-day Trial Key"</span>
+  <span class="c-attr">inputPlaceholder</span>=<span class="c-str">"Your Business Email*"</span>
+  <span class="c-attr">inputName</span>=<span class="c-str">"trialEmail"</span>
+  <span class="c-attr">hint</span>=<span class="c-str">"Your trial license will be sent to this address"</span>
+  <span class="c-attr">submitLabel</span>=<span class="c-str">"Get my free trial key"</span>
+  <span class="c-attr">submitIcon</span>=<span class="c-str">"key"</span>
+  <span class="c-attr">:footerNotes</span>=<span class="c-str">"['Free for development', 'Trial key in 60 seconds', 'No credit card']"</span>
+/&gt;
 
-<span class="c-com">&lt;!-- error state — note .field-error, NOT .field-hint, for the message --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"field"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"field-label"</span>&gt;Email address&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"input-wrap"</span>&gt;
-    &lt;<span class="c-tag">input</span> <span class="c-attr">class</span>=<span class="c-str">"input error"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> <span class="c-attr">value</span>=<span class="c-str">"not-an-email"</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"field-error"</span>&gt;Enter a valid email address.&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.input-wrap</span> { position: relative; display: flex; align-items: center; }
-<span class="c-key">.input</span> {
-  width: 100%; height: <span class="c-str">var(--size-input)</span>;
-  border: 1.5px solid <span class="c-str">var(--color-border)</span>;
-  border-radius: <span class="c-str">var(--rounded-md)</span>;
+<span class="c-com">&lt;!-- headingPrefix ("Get your free") and headingSuffix ("instantly.")
+     default around headingBold; override either as needed --&gt;</span></pre>
+<pre class="code-pane" data-lang="css"><span class="c-key">.trial-card</span> {
+  border: 1px solid <span class="c-str">var(--color-border)</span>;
+  border-radius: <span class="c-str">var(--rounded-2xl)</span>;
+  padding: 40px 32px; text-align: center;
 }
-<span class="c-key">.input:focus</span> {
+<span class="c-key">.tc-input</span> {
+  height: <span class="c-str">var(--size-input)</span>;
+  border-radius: <span class="c-str">var(--rounded-md)</span>;
+  text-align: center;
+}
+<span class="c-key">.tc-input:focus</span> {
   border-color: <span class="c-str">var(--color-secondary)</span>;
   box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>;
 }
-<span class="c-key">.input.error</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
-<span class="c-key">.input.error:focus</span> { box-shadow: <span class="c-str">var(--shadow-focus-magenta)</span>; }   <span class="c-com">/* danger-coloured ring */</span>
-<span class="c-key">.field-hint</span>  { font-size: <span class="c-str">var(--font-size-caption)</span>; color: <span class="c-str">var(--color-text-support)</span>; }
-<span class="c-key">.field-error</span> { font-size: <span class="c-str">var(--font-size-caption)</span>; color: <span class="c-str">var(--color-danger)</span>; font-weight: 500; }</pre>
+<span class="c-key">.tc-submit</span> {
+  height: <span class="c-str">var(--size-btn-lg)</span>;
+  border-radius: <span class="c-str">var(--rounded-cta)</span>;
+  background: <span class="c-str">var(--color-primary)</span>;
+}</pre>
         </div>
     </div>
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="field"><label class="field-label">Email</label><div class="input-wrap"><input class="input" placeholder="you@example.com"></div></div></div>
-          <ul><li>Always pair the input with a <b>visible label</b>.</li><li>Use the hint for format help, the error for what went wrong.</li><li>Show the error state only after the user leaves the field.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="field"><div class="input-wrap"><input class="input" placeholder="Email"></div></div></div>
-          <ul><li>Don't use placeholder as the only label — it vanishes on type.</li><li>Don't hard-code the focus colour; use the token.</li><li>Don't make fields shorter than the 44px tap target.</li></ul></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="trial-card" style="padding:24px;gap:12px;"><p class="tc-heading" style="font-size:0.95rem;">Get your free <b>Trial Key</b> instantly.</p><div class="tc-field"><input class="tc-input" style="height:40px;" type="email" placeholder="Business email*"></div></div></div>
+          <ul><li>Ask for exactly one thing — the email — and nothing more.</li><li>Put the value in the bold word; keep the surrounding copy short.</li><li>Use the notes row to remove doubt ("No credit card").</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="trial-card" style="padding:24px;gap:10px;"><p class="tc-heading" style="font-size:0.95rem;">Sign up for the trial</p><div class="tc-field"><input class="tc-input" style="height:40px;text-align:left;" placeholder="Full name"></div><div class="tc-field"><input class="tc-input" style="height:40px;text-align:left;" placeholder="Company"></div></div></div>
+          <ul><li>Don't add extra fields — reach for <b>Form Card</b> when you need them.</li><li>Don't left-align the input; the card is centered by design.</li><li>Don't hard-code the submit fill — use <b>--color-primary</b>.</li></ul></div>
       </div>
     </div>
 
-    <footer>Iron Software Design System &nbsp;·&nbsp; Input component &nbsp;·&nbsp; 2025</footer>
+    <footer>Iron Software Design System &nbsp;·&nbsp; Trial Key Card component &nbsp;·&nbsp; 2025</footer>
   </div></div>
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
