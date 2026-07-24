@@ -282,15 +282,24 @@
   --color-warning: var(--iron-orange-500);    /* #FDA509 */
   --color-warning-hover: var(--iron-orange-600); /* #D2890A */
   --color-warning-subtle: var(--iron-orange-100); /* #FFF2DA */
+  --color-warning-strong: var(--iron-orange-700); /* #A66E0A — badge/warning text on the subtle fill */
   --color-warning-on: #FFFFFF;
   --color-danger: var(--iron-red-500);        /* #E5242A */
   --color-danger-hover: var(--iron-red-600);  /* #C91D23 */
   --color-danger-subtle: var(--iron-red-100); /* #FFE1E2 */
+  --color-danger-strong: var(--iron-red-700); /* #A8181D — badge/danger text on the subtle fill */
   --color-danger-on: #FFFFFF;
   --color-info: var(--iron-blue-500);         /* #2693EC */
   --color-info-hover: var(--iron-blue-600);   /* #217BC4 */
   --color-info-subtle: var(--iron-blue-100);  /* #DEEFFC */
+  --color-info-strong: var(--iron-blue-700);  /* #1D629B — badge/info text on the subtle fill */
   --color-info-on: #FFFFFF;
+  --color-important: var(--iron-purple-500);  /* #563B99 */
+  --color-important-subtle: var(--iron-purple-100); /* #E6E2F0 — badge/important fill */
+  --color-important-strong: var(--iron-purple-700); /* #3B2A66 — badge/important text on the subtle fill */
+  --color-neutral: var(--slate-500);          /* #62748E */
+  --color-neutral-subtle: var(--slate-100);   /* #F1F5F9 — badge/neutral fill */
+  --color-neutral-strong: var(--slate-700);   /* #314158 — badge/neutral text on the subtle fill */
   --color-accent-1: var(--iron-orange-500);   /* #FDA509 — iron-orange/500 */
   --color-accent-2: var(--iron-green-500);    /* #63C1A0 — iron-green/500 */
   --color-accent-3: var(--iron-sky-500);      /* #89D3DF — iron-sky/500 */
@@ -302,7 +311,7 @@
   --color-button-tertiary: var(--neutral-900); /* #171717 — neutral/900 (solid dark button) */
   --color-button-tertiary-hover: var(--iron-pink-500); /* #E01A59 — button/primary (black → pink) */
   --color-button-outline: #FFFFFF;            /* white — outline / ghost fill */
-  --color-button-outline-hover: #FFFFFF;      /* white */
+  --color-button-outline-hover: var(--slate-50); /* #F8FAFC — slate/50 — subtle grey hover (updated from white) */
   --color-button-dark-outline: var(--iron-violet-950); /* #260F27 — iron-violet/950 */
   --color-button-dark-outline-hover: var(--iron-violet-900); /* #391C39 — iron-violet/900 */
   --color-text-heading: var(--neutral-900);   /* #171717 — H1–H4, emphasized type */
@@ -312,12 +321,15 @@
   --color-text-disabled: var(--neutral-400);  /* #A1A1A1 — Disabled controls ONLY · exempt from contrast minimums; kept light so a disabled control reads as inert (5.86:1 away from body) */
   --color-text-support: var(--slate-600);     /* #45556C — Support headlines, caption titles · 6.92:1 */
   --color-text-on-primary: #FFFFFF;           /* White text on CTA buttons (Figma: on action) */
+  --color-text-on-action-hover: var(--iron-pink-500); /* #E01A59 — brand/primary — text on a hovered action */
   --color-text-on-action-tertiary: var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
   --color-text-on-action-tertiary-hover: var(--iron-pink-500); /* #E01A59 — hovered tertiary action */
   --color-on-tertiary: var(--color-text-on-action-tertiary); /* alias — Button outline/ghost/ondark text */
   --color-on-tertiary-hover: var(--color-text-on-action-tertiary-hover); /* alias — hover state */
   --color-text-link: var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text · 2.96:1 — does NOT meet AA; kept as the brand blue by design decision. Pair links with an underline so colour is never the only cue. */
   --color-text-link-hover: var(--iron-pink-500); /* #E01A59 — Hovered / active link state */
+  --color-text-link-menu: #FFFFFF;            /* White — links in the dark footer / nav menu bar (Figma: link-menu) */
+  --color-text-link-menu-hover: var(--iron-pink-500); /* #E01A59 — brand/primary — hovered menu-bar link */
   --color-text-dark-heading: var(--neutral-100); /* #F5F5F5 — neutral/100 */
   --color-text-dark-heading-alt: var(--iron-orange-500); /* #FDA509 — brand/accent 1 */
   --color-text-dark-body: var(--neutral-300); /* #D4D4D4 — neutral/300 */
@@ -333,6 +345,8 @@
   --color-bg-card: #FFFFFF;                   /* white — card, modal, panel backgrounds */
   --color-bg-card-alt: var(--iron-blue-50);   /* #F2F9FE — iron-blue/50 — alternative / feature highlight card */
   --color-bg-disabled: var(--slate-50);       /* #F8FAFC — slate/50 — disabled input / control fill */
+  --color-bg-footer: var(--neutral-900);      /* #171717 — neutral/900 — footer / dark band background */
+  --color-bg-footer-alt: var(--neutral-950);  /* #0A0A0A — neutral/950 — deeper footer sub-band */
   --color-bg-dark: var(--iron-violet-900);    /* #391C39 — iron-violet/900 — main page background */
   --color-bg-dark-shade: var(--iron-violet-950); /* #260F27 — iron-violet/950 — band fills, alternating sections */
   --color-bg-dark-card: var(--iron-violet-800); /* #522950 — iron-violet/800 — card, modal, panel backgrounds */

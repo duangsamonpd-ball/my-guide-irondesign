@@ -97,6 +97,11 @@
         "$type": "color",
         "$description": "Iron Green/100"
       },
+      "success-strong": {
+        "$value": "#44806B",
+        "$type": "color",
+        "$description": "Iron Green/700 — badge/success text, icons on the subtle fill. 4.62:1 on white"
+      },
       "warning": {
         "$value": "#FDA509",
         "$type": "color",
@@ -111,6 +116,11 @@
         "$value": "#FFF2DA",
         "$type": "color",
         "$description": "Iron Orange/100"
+      },
+      "warning-strong": {
+        "$value": "#A66E0A",
+        "$type": "color",
+        "$description": "Iron Orange/700 — badge/warning text, icons on the subtle fill"
       },
       "error": {
         "$value": "#E5242A",
@@ -127,6 +137,11 @@
         "$type": "color",
         "$description": "Iron Red/100"
       },
+      "error-strong": {
+        "$value": "#A8181D",
+        "$type": "color",
+        "$description": "Iron Red/700 — badge/danger text, icons on the subtle fill"
+      },
       "info": {
         "$value": "#2693EC",
         "$type": "color",
@@ -141,6 +156,41 @@
         "$value": "#DEEFFC",
         "$type": "color",
         "$description": "Iron Blue/100"
+      },
+      "info-strong": {
+        "$value": "#1D629B",
+        "$type": "color",
+        "$description": "Iron Blue/700 — badge/info text, icons on the subtle fill"
+      },
+      "important": {
+        "$value": "#563B99",
+        "$type": "color",
+        "$description": "Iron Purple/500 — 'important' / highlighted status (Figma: status/important)"
+      },
+      "important-subtle": {
+        "$value": "#E6E2F0",
+        "$type": "color",
+        "$description": "Iron Purple/100 — badge/important fill"
+      },
+      "important-strong": {
+        "$value": "#3B2A66",
+        "$type": "color",
+        "$description": "Iron Purple/700 — badge/important text, icons on the subtle fill"
+      },
+      "neutral": {
+        "$value": "#62748E",
+        "$type": "color",
+        "$description": "Slate/500 — neutral / default status (Figma: status/neutral)"
+      },
+      "neutral-subtle": {
+        "$value": "#F1F5F9",
+        "$type": "color",
+        "$description": "Slate/100 — badge/neutral fill"
+      },
+      "neutral-strong": {
+        "$value": "#314158",
+        "$type": "color",
+        "$description": "Slate/700 — badge/neutral text, icons on the subtle fill"
       }
     },
 
@@ -181,6 +231,11 @@
         "$type": "color",
         "$description": "White — text on top of CTA buttons (Figma: on action)"
       },
+      "on-action-hover": {
+        "$value": "#E01A59",
+        "$type": "color",
+        "$description": "Iron Pink/500 — brand/primary — text on a hovered action (Figma: on-action-hover)"
+      },
       "on-action-tertiary": {
         "$value": "#2693EC",
         "$type": "color",
@@ -200,6 +255,16 @@
         "$value": "#E01A59",
         "$type": "color",
         "$description": "Iron Pink/500 — brand/primary — hovered / active link state"
+      },
+      "link-menu": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "White — links in the dark footer / nav menu bar (Figma: link-menu)"
+      },
+      "link-menu-hover": {
+        "$value": "#E01A59",
+        "$type": "color",
+        "$description": "Iron Pink/500 — brand/primary — hovered menu-bar link (Figma: link-menu-hover)"
       }
     },
 
@@ -282,6 +347,16 @@
         "$value": "#F2F9FE",
         "$type": "color",
         "$description": "Iron Blue/50 — alternative / feature highlight card (light)"
+      },
+      "footer": {
+        "$value": "#171717",
+        "$type": "color",
+        "$description": "Neutral/900 — footer / dark band background (Figma: surface/footer)"
+      },
+      "footer-alt": {
+        "$value": "#0A0A0A",
+        "$type": "color",
+        "$description": "Neutral/950 — deeper footer sub-band (Figma: surface/footer-alt)"
       }
     },
 
@@ -360,7 +435,7 @@
       "tertiary":        { "$value": "#171717", "$type": "color", "$description": "neutral/900 — solid dark button" },
       "tertiary-hover":  { "$value": "#E01A59", "$type": "color", "$description": "button/primary — black → pink" },
       "outline":         { "$value": "#FFFFFF", "$type": "color", "$description": "white — outline / ghost fill" },
-      "outline-hover":   { "$value": "#FFFFFF", "$type": "color", "$description": "white" }
+      "outline-hover":   { "$value": "#F8FAFC", "$type": "color", "$description": "Slate/50 — subtle grey hover fill (Figma: button/outline-hover, updated from white)" }
     },
 
     "button-dark": {
