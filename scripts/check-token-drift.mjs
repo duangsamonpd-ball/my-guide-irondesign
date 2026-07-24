@@ -298,6 +298,19 @@ const COLORS = {
   'semantic.neutral-subtle': 'color-neutral-subtle',
   'semantic.neutral-strong': 'color-neutral-strong',
 
+  'semantic-dark.success-subtle': 'color-success-subtle-dark',
+  'semantic-dark.success-strong': 'color-success-strong-dark',
+  'semantic-dark.warning-subtle': 'color-warning-subtle-dark',
+  'semantic-dark.warning-strong': 'color-warning-strong-dark',
+  'semantic-dark.error-subtle': 'color-danger-subtle-dark',   // w3c "error", CSS "danger"
+  'semantic-dark.error-strong': 'color-danger-strong-dark',
+  'semantic-dark.info-subtle': 'color-info-subtle-dark',
+  'semantic-dark.info-strong': 'color-info-strong-dark',
+  'semantic-dark.important-subtle': 'color-important-subtle-dark',
+  'semantic-dark.important-strong': 'color-important-strong-dark',
+  'semantic-dark.neutral-subtle': 'color-neutral-subtle-dark',
+  'semantic-dark.neutral-strong': 'color-neutral-strong-dark',
+
   'text.heading': 'color-text-heading',
   'text.heading-alt': 'color-text-heading-alt',
   'text.body': 'color-text-body',
@@ -339,6 +352,7 @@ const COLORS = {
   'surface-dark.background-shade': 'color-bg-dark-shade',
   'surface-dark.card': 'color-bg-dark-card',
   'surface-dark.card-alt': 'color-bg-dark-card-alt',
+  'surface-dark.disabled': 'color-bg-dark-disabled',
 
   'border.default': 'color-border',
   'border.strong': 'color-border-strong',

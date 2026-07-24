@@ -91,6 +91,10 @@ function darkTarget(name) {
   for (const [from, to] of DARK_PREFIX) {
     if (name.startsWith(from)) return to + name.slice(from.length);
   }
+  // Suffix form, e.g. --color-success-subtle-dark → --color-success-subtle.
+  // Used by the semantic subtle/strong dark tokens, whose family sits before the
+  // -dark marker instead of after it. The caller guards on byName.has(target).
+  if (name.endsWith('-dark')) return name.slice(0, -'-dark'.length);
   return null;
 }
 

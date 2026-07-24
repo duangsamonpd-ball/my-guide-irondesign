@@ -206,6 +206,21 @@
   --color-neutral-subtle:   var(--slate-100);       /* #F1F5F9 — badge/neutral fill */
   --color-neutral-strong:   var(--slate-700);       /* #314158 — badge/neutral text on the subtle fill */
 
+  /* Semantic — Dark Mode (Figma: badge, Dark Purple column). subtle = fill, strong = text.
+     Swapped in under .dark so badges (and any subtle/strong consumer) re-theme automatically. */
+  --color-success-subtle-dark:   var(--iron-green-800);  /* #345F50 — badge/success fill (dark) */
+  --color-success-strong-dark:   var(--iron-green-300);  /* #B1E0D0 — badge/success text (dark) */
+  --color-warning-subtle-dark:   var(--iron-orange-900); /* #4F370B — badge/warning fill (dark) */
+  --color-warning-strong-dark:   var(--iron-orange-300); /* #FED284 — badge/warning text (dark) */
+  --color-danger-subtle-dark:    var(--iron-red-900);    /* #72181B — badge/danger fill (dark) */
+  --color-danger-strong-dark:    var(--iron-red-300);    /* #FF9DA1 — badge/danger text (dark) */
+  --color-info-subtle-dark:      var(--iron-blue-800);   /* #184A73 — badge/info fill (dark) */
+  --color-info-strong-dark:      var(--iron-blue-300);   /* #93C9F6 — badge/info text (dark) */
+  --color-important-subtle-dark: var(--iron-purple-700); /* #3B2A66 — badge/important fill (dark) */
+  --color-important-strong-dark: var(--iron-purple-300); /* #AB9DCC — badge/important text (dark) */
+  --color-neutral-subtle-dark:   var(--slate-800);       /* #1D293D — badge/neutral fill (dark) */
+  --color-neutral-strong-dark:   var(--slate-300);       /* #CAD5E2 — badge/neutral text (dark) */
+
   /* Accents — Figma: accent 1–4 (highlights, data-vis, product illustration) */
   --color-accent-1:         var(--iron-orange-500); /* #FDA509 — iron-orange/500 */
   --color-accent-2:         var(--iron-green-500);  /* #63C1A0 — iron-green/500  */
@@ -252,7 +267,7 @@
   --color-text-dark-disabled:    var(--neutral-500);  /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
   --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 */
-  --color-text-dark-link-hover:  var(--iron-pink-300);     /* #F08DAC — lighter than light mode; dark surfaces need a lighter hue · 5.08:1 */
+  --color-text-dark-link-hover:  var(--iron-pink-400);     /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
 
   /* ── Text / On Color (text on coloured surfaces — same both modes) ── */
   --color-text-on-color-heading: #FFFFFF;                  /* white */
@@ -271,7 +286,8 @@
   --color-bg-dark:          var(--iron-violet-900);   /* #391C39 — iron-violet/900 — main page background */
   --color-bg-dark-shade:    var(--iron-violet-950);   /* #260F27 — iron-violet/950 — band fills, alternating sections */
   --color-bg-dark-card:     var(--iron-violet-800);   /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
-  --color-bg-dark-card-alt: var(--iron-violet-950);   /* #260F27 — iron-violet/950 — alternative / feature highlight card */
+  --color-bg-dark-card-alt: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
+  --color-bg-dark-disabled: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
 
   /* ── Borders — Light Theme (Figma: border, light column) ── */
   --color-border:           var(--slate-200);    /* #E2E8F0 — slate/200 — dividers, input borders, card edges */
@@ -284,7 +300,7 @@
 
   /* ── Borders — Dark Theme (Figma: border, dark column) ── */
   --color-border-dark:        var(--iron-violet-500); /* #9D4F90 — iron-violet/500 — dividers, input borders */
-  --color-border-dark-strong: var(--iron-violet-400); /* #BA84B1 — iron-violet/400 — hover borders, strong dividers */
+  --color-border-dark-strong: var(--iron-violet-600); /* #84427C — iron-violet/600 — hover borders, strong dividers */
   --color-border-dark-alt:    var(--iron-blue-500);   /* #2693EC — brand/secondary — same as light mode */
 
 
@@ -605,6 +621,7 @@
   --color-bg-shade:    var(--color-bg-dark-shade);
   --color-bg-card:     var(--color-bg-dark-card);
   --color-bg-card-alt: var(--color-bg-dark-card-alt);
+  --color-bg-disabled: var(--color-bg-dark-disabled);
 
   /* ── Borders ── */
   --color-border:        var(--color-border-dark);
@@ -614,4 +631,18 @@
   /* ── Buttons ── */
   --color-button-outline:       var(--color-button-dark-outline);
   --color-button-outline-hover: var(--color-button-dark-outline-hover);
+
+  /* ── Semantic subtle/strong (badges, tags) ── */
+  --color-success-subtle:   var(--color-success-subtle-dark);
+  --color-success-strong:   var(--color-success-strong-dark);
+  --color-warning-subtle:   var(--color-warning-subtle-dark);
+  --color-warning-strong:   var(--color-warning-strong-dark);
+  --color-danger-subtle:    var(--color-danger-subtle-dark);
+  --color-danger-strong:    var(--color-danger-strong-dark);
+  --color-info-subtle:      var(--color-info-subtle-dark);
+  --color-info-strong:      var(--color-info-strong-dark);
+  --color-important-subtle: var(--color-important-subtle-dark);
+  --color-important-strong: var(--color-important-strong-dark);
+  --color-neutral-subtle:   var(--color-neutral-subtle-dark);
+  --color-neutral-strong:   var(--color-neutral-strong-dark);
 }

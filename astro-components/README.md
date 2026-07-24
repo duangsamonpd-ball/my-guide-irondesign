@@ -157,12 +157,14 @@ Props: `name` (required — groups radios), `value` (required), `label`, `descri
 <Badge intent="important">Important</Badge>
 <Badge intent="neutral" pill>Draft</Badge>
 <Badge intent="info" small>Small</Badge>
-<Badge intent="success" dark>Active</Badge>
+
+<!-- dark mode: no prop — a .dark ancestor re-themes every badge -->
+<div class="dark"><Badge intent="success">Active</Badge></div>
 ```
 
-Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `solid`, `small`, `pill`, `dot`, `dark` (use on dark backgrounds — footers, dark hero sections), `class`.
+Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `solid`, `small`, `pill`, `dot`, `class`.
 
-Subtle fill/text colors are the canonical `iron-*-100` / `iron-*-700` pair per intent (verified against Figma node `776-899`); `dark` swaps to the `iron-*-900` / `iron-*-300` pair for contrast on dark backgrounds. `important` is a genuinely new intent (not one of the system's original 4 semantic colours) — it uses the `iron-purple-100/500/700` primitives directly, matching `Notice.astro`'s `important` intent, since there's no `status/important` semantic token yet.
+Subtle fill/text use the semantic `--color-{intent}-subtle` / `--color-{intent}-strong` pair; solid uses the base `--color-{intent}` (verified against Figma node `776-899`). Every value is a semantic token, so dark mode needs no per-badge rule — inside a `.dark` ancestor those tokens swap to their Dark Purple counterparts (see the `.dark` block in `tokens.css`) and the badge re-themes automatically. `important` and `neutral` are full semantic intents with their own subtle/strong/base tokens (from the Figma color_ui export), the same as the original four.
 
 Default shape is `--rounded-sm` — Figma's Badge frame (node `776-899`) uses this on every badge, not a pill. `pill` opts into the fully-rounded `--rounded-full` shape instead (this used to be the component's default, with a `square` prop for the opposite; the default and prop were swapped 2026-07-17 to match Figma).
 

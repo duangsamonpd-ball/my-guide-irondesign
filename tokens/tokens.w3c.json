@@ -194,6 +194,22 @@
       }
     },
 
+    "semantic-dark": {
+      "_group": "semantic — Figma: badge (Dark Purple column). subtle = fill, strong = text/icon. Swapped in under .dark",
+      "success-subtle": { "$value": "#345F50", "$type": "color", "$description": "Iron Green/800 — badge/success fill (dark)" },
+      "success-strong": { "$value": "#B1E0D0", "$type": "color", "$description": "Iron Green/300 — badge/success text (dark)" },
+      "warning-subtle": { "$value": "#4F370B", "$type": "color", "$description": "Iron Orange/900 — badge/warning fill (dark)" },
+      "warning-strong": { "$value": "#FED284", "$type": "color", "$description": "Iron Orange/300 — badge/warning text (dark)" },
+      "error-subtle":   { "$value": "#72181B", "$type": "color", "$description": "Iron Red/900 — badge/danger fill (dark)" },
+      "error-strong":   { "$value": "#FF9DA1", "$type": "color", "$description": "Iron Red/300 — badge/danger text (dark)" },
+      "info-subtle":    { "$value": "#184A73", "$type": "color", "$description": "Iron Blue/800 — badge/info fill (dark)" },
+      "info-strong":    { "$value": "#93C9F6", "$type": "color", "$description": "Iron Blue/300 — badge/info text (dark)" },
+      "important-subtle": { "$value": "#3B2A66", "$type": "color", "$description": "Iron Purple/700 — badge/important fill (dark)" },
+      "important-strong": { "$value": "#AB9DCC", "$type": "color", "$description": "Iron Purple/300 — badge/important text (dark)" },
+      "neutral-subtle": { "$value": "#1D293D", "$type": "color", "$description": "Slate/800 — badge/neutral fill (dark)" },
+      "neutral-strong": { "$value": "#CAD5E2", "$type": "color", "$description": "Slate/300 — badge/neutral text (dark)" }
+    },
+
     "text": {
       "_group": "text/default — Figma: text/default (light column)",
       "heading": {
@@ -306,9 +322,9 @@
         "$description": "Iron Blue/400 — lighter than light mode; dark surfaces need a lighter hue. 5.19:1"
       },
       "link-hover": {
-        "$value": "#F08DAC",
+        "$value": "#E95F8B",
         "$type": "color",
-        "$description": "Iron Pink/300 — lighter than light mode; dark surfaces need a lighter hue. 5.08:1"
+        "$description": "Iron Pink/400 — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300)"
       }
     },
 
@@ -378,9 +394,14 @@
         "$description": "Iron Violet/800 — card, modal, panel backgrounds (dark)"
       },
       "card-alt": {
-        "$value": "#260F27",
+        "$value": "#391C39",
         "$type": "color",
-        "$description": "Iron Violet/950 — alternative / feature highlight card (dark)"
+        "$description": "Iron Violet/900 — alternative / feature highlight card (dark). Updated from iron-violet/950"
+      },
+      "disabled": {
+        "$value": "#391C39",
+        "$type": "color",
+        "$description": "Iron Violet/900 — disabled input / control fill (dark)"
       }
     },
 
@@ -416,9 +437,9 @@
         "$description": "Iron Violet/500 — dividers, input borders, card edges (dark)"
       },
       "strong": {
-        "$value": "#BA84B1",
+        "$value": "#84427C",
         "$type": "color",
-        "$description": "Iron Violet/400 — hover borders, strong dividers (dark)"
+        "$description": "Iron Violet/600 — hover borders, strong dividers (dark). Updated from iron-violet/400"
       },
       "alternative": {
         "$value": "#2693EC",

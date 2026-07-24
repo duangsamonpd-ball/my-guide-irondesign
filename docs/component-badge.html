@@ -17,13 +17,13 @@
       --color-important:#563B99; --color-important-subtle:#E6E2F0; --color-important-strong:#3B2A66;
       --color-neutral:#62748E;   --color-neutral-subtle:#F1F5F9;   --color-neutral-strong:#314158;
       --color-success-solid:#63C1A0; --color-warning-solid:#FDA509; --color-danger-solid:#E5242A; --color-info-solid:#2693EC; --color-important-solid:#563B99; --color-neutral-solid:#45556C;
-      /* dark-mode pair = iron-*-900 (fill) / iron-*-300 (text) */
-      --color-success-dark:#B1E0D0;   --color-success-subtle-dark:#243F35;
-      --color-warning-dark:#FED284;   --color-warning-subtle-dark:#4F370B;
-      --color-danger-dark:#FF9DA1;    --color-danger-subtle-dark:#72181B;
-      --color-info-dark:#93C9F6;      --color-info-subtle-dark:#13324B;
-      --color-important-dark:#AB9DCC; --color-important-subtle-dark:#211933;
-      --color-neutral-dark:#CAD5E2;   --color-neutral-subtle-dark:#1D293D;
+      /* dark-mode pairs (Figma Dark Purple): subtle = fill, strong = text */
+      --color-success-subtle-dark:#345F50;   --color-success-strong-dark:#B1E0D0;
+      --color-warning-subtle-dark:#4F370B;   --color-warning-strong-dark:#FED284;
+      --color-danger-subtle-dark:#72181B;    --color-danger-strong-dark:#FF9DA1;
+      --color-info-subtle-dark:#184A73;      --color-info-strong-dark:#93C9F6;
+      --color-important-subtle-dark:#3B2A66; --color-important-strong-dark:#AB9DCC;
+      --color-neutral-subtle-dark:#1D293D;   --color-neutral-strong-dark:#CAD5E2;
       --rounded-full:9999px; --rounded-sm:4px;
       --font-size-badge:12px; --font-size-badge-sm:11px; --fw-badge:700;
       --space-2xs:4px; --space-xs:8px;
@@ -115,13 +115,16 @@
         .badge--info      { background: var(--color-info-subtle);    color: var(--color-info-strong); }
         .badge--important { background: var(--color-important-subtle); color: var(--color-important-strong); }
         .badge--neutral   { background: var(--color-neutral-subtle);   color: var(--color-neutral-strong); }
-    /* dark (on dark backgrounds) */
-        .badge.dark.badge--success   { background: var(--iron-green-900);  color: var(--iron-green-300); }
-        .badge.dark.badge--warning   { background: var(--iron-orange-900); color: var(--iron-orange-300); }
-        .badge.dark.badge--danger    { background: var(--iron-red-900);    color: var(--iron-red-300); }
-        .badge.dark.badge--info      { background: var(--iron-blue-900);   color: var(--iron-blue-300); }
-        .badge.dark.badge--important { background: var(--iron-purple-900); color: var(--iron-purple-300); }
-        .badge.dark.badge--neutral   { background: var(--slate-800);       color: var(--slate-300); }
+    /* dark mode — no per-badge rule; a .dark ancestor swaps the semantic subtle/strong
+       tokens (mirrors tokens.css .dark), so every badge re-themes automatically */
+    .dark {
+      --color-success-subtle: var(--color-success-subtle-dark);     --color-success-strong: var(--color-success-strong-dark);
+      --color-warning-subtle: var(--color-warning-subtle-dark);     --color-warning-strong: var(--color-warning-strong-dark);
+      --color-danger-subtle:  var(--color-danger-subtle-dark);      --color-danger-strong:  var(--color-danger-strong-dark);
+      --color-info-subtle:    var(--color-info-subtle-dark);        --color-info-strong:    var(--color-info-strong-dark);
+      --color-important-subtle: var(--color-important-subtle-dark); --color-important-strong: var(--color-important-strong-dark);
+      --color-neutral-subtle: var(--color-neutral-subtle-dark);     --color-neutral-strong: var(--color-neutral-strong-dark);
+    }
     /* solid */
         .badge.solid { color: var(--color-primary-on); }
         .badge.solid.badge--success   { background: var(--color-success); }
@@ -229,14 +232,14 @@
     </div>
 
     <div class="sect"><div class="sect-h">Dark mode</div>
-      <div class="sect-sub">On dark backgrounds (footers, dark hero sections), use <code>.dark</code> — a deeper tint fill with a lighter text colour for contrast, same intents.</div>
-      <div class="canvas left" style="gap:10px; background:#171717; background-image:none;">
-        <span class="badge dark badge--success"><span class="bdot"></span>Active</span>
-        <span class="badge dark badge--warning">Pending</span>
-        <span class="badge dark badge--danger">Failed</span>
-        <span class="badge dark badge--info">Beta</span>
-        <span class="badge dark badge--important">Important</span>
-        <span class="badge dark badge--neutral">Draft</span>
+      <div class="sect-sub">On dark backgrounds (footers, dark hero sections), put the badge inside a <code>.dark</code> ancestor — the semantic subtle/strong tokens swap to the Dark Purple pair automatically, no per-badge class.</div>
+      <div class="canvas left dark" style="gap:10px; background:#171717; background-image:none;">
+        <span class="badge badge--success"><span class="bdot"></span>Active</span>
+        <span class="badge badge--warning">Pending</span>
+        <span class="badge badge--danger">Failed</span>
+        <span class="badge badge--info">Beta</span>
+        <span class="badge badge--important">Important</span>
+        <span class="badge badge--neutral">Draft</span>
       </div>
     </div>
 
@@ -270,7 +273,7 @@
         <tr><td class="prop"><span class="badge badge--info">Info</span></td><td class="token">--color-info-strong</td><td class="token">--color-info-subtle</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
         <tr><td class="prop"><span class="badge badge--important">Important</span></td><td class="token">--color-important-strong</td><td class="token">--color-important-subtle</td><td class="val"><span class="sw" style="background:#563B99"></span>#563B99</td></tr>
         <tr><td class="prop"><span class="badge badge--neutral">Neutral</span></td><td class="token">--color-neutral-strong</td><td class="token">--color-neutral-subtle</td><td class="val"><span class="sw" style="background:#62748E"></span>#62748E</td></tr>
-        <tr><td class="prop">Dark mode</td><td class="token" colspan="2">fill → iron-*-900 · text → iron-*-300 (per intent)</td><td class="val">—</td></tr>
+        <tr><td class="prop">Dark mode</td><td class="token" colspan="2">.dark ancestor swaps --color-*-subtle / --color-*-strong (per intent)</td><td class="val">—</td></tr>
         <tr><td class="prop">Shape</td><td class="token" colspan="2">--rounded-sm (default) · --rounded-full (pill)</td><td class="val">4 / 9999px</td></tr>
         <tr><td class="prop">Label</td><td class="token" colspan="2">--font-size-badge / --fw-badge</td><td class="val">12px / 700</td></tr>
       </tbody></table>
@@ -292,8 +295,10 @@
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge solid badge--info"</span>&gt;Beta&lt;/<span class="c-tag">span</span>&gt;
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--neutral pill"</span>&gt;Draft&lt;/<span class="c-tag">span</span>&gt;
 
-<span class="c-com">&lt;!-- dark mode (on dark backgrounds) --&gt;</span>
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge dark badge--success"</span>&gt;Active&lt;/<span class="c-tag">span</span>&gt;
+<span class="c-com">&lt;!-- dark mode — wrap in a .dark ancestor, badges are unchanged --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dark"</span>&gt;
+  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--success"</span>&gt;Active&lt;/<span class="c-tag">span</span>&gt;
+&lt;/<span class="c-tag">div</span>&gt;
 
 <span class="c-com">&lt;!-- small size --&gt;</span>
 &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--info sm"</span>&gt;Small&lt;/<span class="c-tag">span</span>&gt;</pre>
@@ -302,14 +307,16 @@
   border-radius: <span class="c-str">var(--rounded-sm)</span>; padding: 5px 10px;
 }
 <span class="c-key">.badge.pill</span> { border-radius: <span class="c-str">var(--rounded-full)</span>; }
-<span class="c-key">.badge--success</span> {        <span class="c-com">/* subtle — fill iron-green-100, text iron-green-700 */</span>
+<span class="c-key">.badge--success</span> {        <span class="c-com">/* subtle — semantic tokens, so dark mode is a free swap */</span>
   background: <span class="c-str">var(--color-success-subtle)</span>;
-  color: <span class="c-str">var(--iron-green-700)</span>;
+  color: <span class="c-str">var(--color-success-strong)</span>;
 }
 <span class="c-key">.badge.solid.badge--success</span> { background: <span class="c-str">var(--color-success)</span>; color: #fff; }
-<span class="c-key">.badge.dark.badge--success</span> {  <span class="c-com">/* fill iron-green-900, text iron-green-300 */</span>
-  background: <span class="c-str">var(--iron-green-900)</span>;
-  color: <span class="c-str">var(--iron-green-300)</span>;
+
+<span class="c-com">/* dark mode lives in the theme, not the component: */</span>
+<span class="c-key">.dark</span> {
+  --color-success-subtle: <span class="c-str">var(--color-success-subtle-dark)</span>;  <span class="c-com">/* #345F50 */</span>
+  --color-success-strong: <span class="c-str">var(--color-success-strong-dark)</span>;  <span class="c-com">/* #B1E0D0 */</span>
 }
 <span class="c-key">.badge.sm</span> { font-size: <span class="c-str">var(--font-size-badge-sm)</span>; padding: 3px 8px; }</pre>
         </div>

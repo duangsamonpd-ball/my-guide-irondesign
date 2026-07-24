@@ -5,7 +5,6 @@ interface Props {
   small?: boolean;
   pill?: boolean;
   dot?: boolean;
-  dark?: boolean;
   class?: string;
 }
 
@@ -15,25 +14,22 @@ const {
   small = false,
   pill = false,
   dot = false,
-  dark = false,
   class: className,
 } = Astro.props;
 ---
 
-<span class:list={['badge', `badge--${intent}`, { solid, sm: small, pill, dark }, className]}>
+<span class:list={['badge', `badge--${intent}`, { solid, sm: small, pill }, className]}>
   {dot && <span class="bdot"></span>}
   <slot />
 </span>
 
 <style>
   /*
-    Subtle fill = --color-{intent}-subtle (iron-*-100), text = --color-{intent}-strong
-    (iron-*-700) — verified against Figma node 776-899 ("Badge"), which uses exactly
-    these pairs. All six intents consume the semantic subtle/strong tokens (added from
-    the Figma color_ui export); no primitive is referenced directly in light mode.
-    Dark variant mirrors the pattern with the *-900 (fill) / *-300 (text) pair for
-    contrast on dark backgrounds — Figma has no dark-mode Badge spec, so this follows
-    the existing dark-tint convention (see --color-bg-dark-card / --color-text-dark-support).
+    Subtle fill = --color-{intent}-subtle, text = --color-{intent}-strong; solid uses the
+    base --color-{intent}. Every value is a semantic token (from the Figma color_ui
+    export), so dark mode is automatic: inside a `.dark` ancestor those tokens swap to the
+    Dark Purple values (see the .dark block in tokens.css) and the badge re-themes with no
+    per-component dark rule — verified against Figma node 776-899 ("Badge").
     Default shape is --rounded-sm (Figma node 776-899 uses this on every badge, not a
     pill) — the old default was --rounded-full; `pill` now opts back into that shape.
   */
@@ -50,13 +46,6 @@ const {
   .badge--info      { background: var(--color-info-subtle);    color: var(--color-info-strong); }
   .badge--important { background: var(--color-important-subtle); color: var(--color-important-strong); }
   .badge--neutral   { background: var(--color-neutral-subtle);   color: var(--color-neutral-strong); }
-
-  .badge.dark.badge--success   { background: var(--iron-green-900);  color: var(--iron-green-300); }
-  .badge.dark.badge--warning   { background: var(--iron-orange-900); color: var(--iron-orange-300); }
-  .badge.dark.badge--danger    { background: var(--iron-red-900);    color: var(--iron-red-300); }
-  .badge.dark.badge--info      { background: var(--iron-blue-900);   color: var(--iron-blue-300); }
-  .badge.dark.badge--important { background: var(--iron-purple-900); color: var(--iron-purple-300); }
-  .badge.dark.badge--neutral   { background: var(--slate-800);       color: var(--slate-300); }
 
   .badge.solid { color: var(--color-primary-on); }
   .badge.solid.badge--success   { background: var(--color-success); }
