@@ -61,7 +61,7 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 - **13 sections** — hero · product grid · Why Iron Suite · audiences · savings stats · 140M growth chart · testimonials · support · monthly releases · 1% For The Planet · CTA · mega-footer
 - **100% token-driven** — every colour, font-size, weight, line-height, tracking, spacing, radius and shadow is a CSS variable (`var(--text-3xl)` · `var(--space-hero)` · `var(--leading-7)` · `var(--tracking-tight)` …)
 - **Responsive layout** — 1440 design frame → 1280 container → 24px gutter, fluid down to mobile
-- **Real brand assets** — product logos, partner logos, photography and a dotted world map (`docs/assets/`)
+- **Real brand assets** — product logos, partner logos, photography and a dotted world map (`docs/assets/`); the full logo family (24 product marks in colour + mono, 5 wordmark lockups, 2 lockup patterns, 13 product elements) is exported from Figma and documented in [`docs/logo.html`](docs/logo.html)
 
 > A working reference for how to consume the system end-to-end — open the file and every value traces back to a token in `:root`.
 
@@ -69,7 +69,7 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ## 🧬 Astro components
 
-14 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
+15 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
 
 | Component | Notes |
 |---|---|

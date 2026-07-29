@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logo · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+    :root {
+      --rounded-full:9999px; --rounded-sm:4px;
+      --color-border-selected:#2693EC;
+      --iron-blue-500:#2693EC;
+      --space-2xs:4px; --space-xs:8px;
+    }
+    header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
+    .logo-badge { width:40px; height:40px; flex-shrink:0; }
+    header h1 { font-size:1.25rem; font-weight:700; } header p { font-size:0.8rem; color:#737373; margin-top:2px; }
+    .hamburger { margin-left:auto; display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:6px 4px; border-radius:6px; }
+    .hamburger span { display:block; width:20px; height:2px; background:#62748E; border-radius:2px; }
+    .layout { display:flex; min-height:calc(100vh - 89px); }
+    .sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
+    .sidebar::-webkit-scrollbar{width:4px;} .sidebar::-webkit-scrollbar-thumb{background:#E2E8F0;border-radius:4px;}
+    .sidebar-nav { padding:8px 0 24px; display:flex; flex-direction:column; }
+    .sidebar-category { font-size:0.58rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:#A1A1A1; padding:18px 18px 5px; }
+    .sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+    .sidebar-link:hover { color:#1a7acc; background:#F0F9FF; }
+    .sidebar-link.active { color:#2693EC; background:#EBF5FD; border-left-color:#2693EC; font-weight:700; }
+    .sidebar-tree { display: flex; flex-direction: column; }
+    .sidebar-icon { width:18px; text-align:center; flex-shrink:0; font-style:normal; font-size:0.85rem; }
+    .sidebar-version { padding:16px 18px; border-top:1px solid #F1F5F9; margin-top:auto; font-size:0.68rem; font-weight:700; color:#A1A1A1; }
+    .main-content { flex:1; min-width:0; overflow:hidden; }
+    .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+    .sidebar-overlay.open { display:block; }
+    @media (max-width:768px){ .hamburger{display:flex;} .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} .sidebar.open{transform:translateX(0);} }
+    .content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+    .page-title { padding:40px 40px 28px; }
+    .crumb { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#A1A1A1; margin-bottom:10px; } .crumb a { color:#2693EC; text-decoration:none; }
+    .page-title h1 { font-size:2rem; font-weight:900; letter-spacing:-0.5px; margin-bottom:8px; }
+    .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
+    .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+    .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; } .chip.new { background:#EBF9F3; color:#2E9468; }
+    .sect { padding:0 40px; margin-top:44px; } .sect-h { font-size:1.05rem; font-weight:800; margin-bottom:4px; } .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
+    .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:40px; display:flex; gap:14px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
+    .canvas.left { justify-content:flex-start; }
+    .canvas.dark { background:#171717; background-image:radial-gradient(#262626 1px,transparent 1px); }
+    .canvas.brand { background:#E01A59; background-image:none; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
+    .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 16px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
+    .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; } .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
+    .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
+    .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
+    .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; } .tok tr:last-child td { border-bottom:none; }
+    .tok td.prop { color:#62748E; } .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; } .tok td.val { font-family:'Roboto Mono',monospace; font-size:0.72rem; font-weight:600; }
+    .tok .sw { display:inline-block; width:12px; height:12px; border-radius:3px; border:1px solid rgba(0,0,0,0.15); margin-right:7px; vertical-align:-1px; }
+    .code-wrap { position:relative; } .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
+    .code-wrap .copy { position:absolute; top:12px; right:12px; font-size:0.64rem; font-weight:700; color:#fff; background:rgba(255,255,255,0.12); border:none; border-radius:7px; padding:6px 12px; cursor:pointer; } .code-wrap .copy:hover { background:rgba(255,255,255,0.24); }
+    .c-tag{color:#89D3DF;} .c-attr{color:#FDA509;} .c-str{color:#63C1A0;} .c-com{color:#737373;} .c-key{color:#E95F8B;}
+    .dd { display:grid; grid-template-columns:1fr 1fr; gap:16px; } .dd .card { border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+    .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; } .dd .do .top { background:#EBF9F3; color:#2E9468; } .dd .dont .top { background:#FDEEF0; color:#C91D23; }
+    .dd .body { padding:22px; background:#FCFCFD; display:flex; gap:10px; align-items:center; flex-wrap:wrap; } .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
+    .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
+    .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; } .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; } .atag b { color:#2E9468; }
+    footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
+
+    /* ════ LOGO (mirrors astro-components/components/Logo.astro) ════ */
+  .logo { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
+  .logo img { display: block; max-width: 100%; }
+  .logo--mark img, .logo--element img { width: 100%; height: 100%; }
+  .logo--wordmark img { width: auto; height: 100%; }
+  a.logo { border-radius: var(--rounded-sm); transition: opacity 0.15s ease; }
+  a.logo:hover { opacity: 0.85; }
+  a.logo:focus-visible { outline: 2px solid var(--color-border-selected); outline-offset: 3px; }
+
+    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
+      .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
+    .code-tab:hover{color:#E5E5E5;}
+    .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
+    .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
+    .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
+    .code-wrap .code-pane.active{display:block;}
+  </style>
+</head>
+<body>
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div><h1>Iron Software Design System</h1><p>Visual Token Reference — for everyone on the team</p></div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <div class="sidebar-tree">
+        <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+        <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
+        <a href="component-textlink.html" class="sidebar-link"><i class="sidebar-icon">🔗</i>Text Link</a>
+        <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
+        <a href="component-fileupload.html" class="sidebar-link"><i class="sidebar-icon">📎</i>File Upload</a>
+        <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
+        <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
+        <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
+        <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+        <a href="component-logo.html" class="sidebar-link active"><i class="sidebar-icon">✳️</i>Logo</a>
+        <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
+        <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
+        <a href="component-formcard.html" class="sidebar-link"><i class="sidebar-icon">🗂️</i>Form Card</a>
+        <a href="component-trialkeycard.html" class="sidebar-link"><i class="sidebar-icon">🔑</i>Trial Key Card</a>
+      </div>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+  <div class="main-content"><div class="content">
+
+    <div class="page-title">
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Logo</div>
+      <h1>Logo</h1>
+      <p class="lead">One component over the three logo families: 24 square product marks (colour + mono), 5 wordmark lockups, and 13 illustrative product elements. Unlike the rest of the library it references real artwork — a logo has no token that can stand in for it.</p>
+      <div class="meta-chips"><span class="chip">42 assets</span><span class="chip">mark · wordmark · element</span><span class="chip new">Figma 471:112</span></div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Preview</div>
+      <div class="canvas">
+        <span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-pdf.svg" alt="IronPDF" width="48" height="48"></span>
+        <span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-ocr.svg" alt="IronOCR" width="48" height="48"></span>
+        <span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-zip-mono.svg" alt="IronZip, mono" width="48" height="48"></span>
+        <span class="logo logo--wordmark" style="height:32px;"><img src="assets/wordmark-iron-default.svg" alt="Iron Software" height="32"></span>
+        <span class="logo logo--element" style="width:48px;height:48px;"><img src="assets/logo-11-drawing.svg" alt="Drawing" width="48" height="48"></span>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Product marks — colour &amp; mono</div>
+      <div class="sect-sub">Twelve products, each with a colour and a black-knockout mono variant. <code>mono</code> is a boolean, not a separate file you pick by hand.</div>
+      <div class="grid">
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-pdf.svg" alt="IronPDF" width="48" height="48"></span><div class="lbl">IronPDF<small>product="pdf"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-wd.svg" alt="IronWord" width="48" height="48"></span><div class="lbl">IronWord<small>product="wd"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-xl.svg" alt="IronXL" width="48" height="48"></span><div class="lbl">IronXL<small>product="xl"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-ppt.svg" alt="IronPPT" width="48" height="48"></span><div class="lbl">IronPPT<small>product="ppt"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-qr.svg" alt="IronQR" width="48" height="48"></span><div class="lbl">IronQR<small>product="qr"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-ocr.svg" alt="IronOCR" width="48" height="48"></span><div class="lbl">IronOCR<small>product="ocr"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-bc.svg" alt="IronBarcode" width="48" height="48"></span><div class="lbl">IronBarcode<small>product="bc"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-prt.svg" alt="IronPrint" width="48" height="48"></span><div class="lbl">IronPrint<small>product="prt"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-zip.svg" alt="IronZip" width="48" height="48"></span><div class="lbl">IronZip<small>product="zip"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-ws.svg" alt="IronWebScraper" width="48" height="48"></span><div class="lbl">IronWebScraper<small>product="ws"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-suite.svg" alt="Iron Suite" width="48" height="48"></span><div class="lbl">Iron Suite<small>product="suite"</small></div></div>
+        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-iron.svg" alt="Iron Software" width="48" height="48"></span><div class="lbl">Iron Software<small>product="iron"</small></div></div>
+      </div>
+      <div class="canvas left" style="margin-top:14px;">
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-pdf-mono.svg" alt="IronPDF, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-wd-mono.svg" alt="IronWord, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-xl-mono.svg" alt="IronXL, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-ppt-mono.svg" alt="IronPPT, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-qr-mono.svg" alt="IronQR, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-ocr-mono.svg" alt="IronOCR, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-bc-mono.svg" alt="IronBarcode, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-prt-mono.svg" alt="IronPrint, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-zip-mono.svg" alt="IronZip, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-ws-mono.svg" alt="IronWebScraper, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-suite-mono.svg" alt="Iron Suite, mono" width="44" height="44"></span>
+        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-iron-mono.svg" alt="Iron Software, mono" width="44" height="44"></span>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Sizes</div>
+      <div class="sect-sub">The mark is drawn on an 8-unit grid at 192px. Each halving halves the grid unit, so only <b>24 · 48 · 96 · 192</b> keep every edge on a whole pixel — the <code>size</code> prop is typed to those four.</div>
+      <div class="canvas left" style="gap:28px;align-items:flex-end;">
+        <span class="logo logo--mark" style="width:24px;height:24px;"><img src="assets/mark-pdf.svg" alt="" width="24" height="24"></span>
+        <span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-pdf.svg" alt="" width="48" height="48"></span>
+        <span class="logo logo--mark" style="width:96px;height:96px;"><img src="assets/mark-pdf.svg" alt="" width="96" height="96"></span>
+        <span class="logo logo--mark" style="width:192px;height:192px;"><img src="assets/mark-pdf.svg" alt="IronPDF at four grid sizes" width="192" height="192"></span>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Wordmarks</div>
+      <div class="sect-sub">Two brands, three variants. <code>ondark</code> keeps the colour mark and turns “IRON” white; <code>mono</code> is a single-colour knockout for brand-colour or photographic backgrounds. Iron Suite has no mono artwork in Figma — asking for it falls back to <code>default</code> rather than 404.</div>
+      <div class="canvas left" style="flex-direction:column;align-items:flex-start;gap:0;padding:0;overflow:hidden;">
+        <div style="width:100%;padding:26px 32px;background:#fff;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-iron-default.svg" alt="Iron Software" height="30"></span></div>
+        <div style="width:100%;padding:26px 32px;background:#171717;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-iron-ondark.svg" alt="Iron Software" height="30"></span></div>
+        <div style="width:100%;padding:26px 32px;background:#E01A59;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="30"></span></div>
+        <div style="width:100%;padding:26px 32px;background:#fff;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-suite-default.svg" alt="Iron Suite" height="30"></span></div>
+        <div style="width:100%;padding:26px 32px;background:#171717;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-suite-ondark.svg" alt="Iron Suite" height="30"></span></div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Product elements</div>
+      <div class="sect-sub">Illustrative marks for feature cards, empty states and docs headers — used <b>alongside</b> the product logo, never instead of it. A separate family with its own names (<code>word</code>, not <code>wd</code>).</div>
+      <div class="grid">
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-01-pdf.svg" alt="PDF" width="44" height="44"></span><div class="lbl">PDF<small>product="pdf"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-03-xl.svg" alt="XL" width="44" height="44"></span><div class="lbl">XL<small>product="xl"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-02-word.svg" alt="Word" width="44" height="44"></span><div class="lbl">Word<small>product="word"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-05-ocr.svg" alt="OCR" width="44" height="44"></span><div class="lbl">OCR<small>product="ocr"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-07-qr.svg" alt="QR" width="44" height="44"></span><div class="lbl">QR<small>product="qr"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-06-bc.svg" alt="Barcode" width="44" height="44"></span><div class="lbl">Barcode<small>product="barcode"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-08-zip.svg" alt="Zip" width="44" height="44"></span><div class="lbl">Zip<small>product="zip"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-09-prt.svg" alt="Print" width="44" height="44"></span><div class="lbl">Print<small>product="print"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-11-drawing.svg" alt="Drawing" width="44" height="44"></span><div class="lbl">Drawing<small>product="drawing"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-010-ws.svg" alt="Webscraper" width="44" height="44"></span><div class="lbl">Webscraper<small>product="webscraper"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-04-ppt.svg" alt="PPT" width="44" height="44"></span><div class="lbl">PPT<small>product="ppt"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-12-securedoc.svg" alt="Securedoc" width="44" height="44"></span><div class="lbl">Securedoc<small>product="securedoc"</small></div></div>
+        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-13-freetools.svg" alt="Freetools" width="44" height="44"></span><div class="lbl">Freetools<small>product="freetools"</small></div></div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Anatomy</div>
+      <div class="anatomy">
+        <span class="logo logo--mark" style="width:96px;height:96px;"><img src="assets/mark-pdf.svg" alt="IronPDF" width="96" height="96"></span>
+        <div class="anatomy-tags">
+          <span class="atag">artwork → <b>{basePath}/mark-{product}.svg</b></span>
+          <span class="atag">box → <b>size × size</b></span>
+          <span class="atag">alt → <b>PRODUCT_NAMES[product]</b></span>
+          <span class="atag">link shape → <b>--rounded-sm</b></span>
+          <span class="atag">focus ring → <b>--color-border-selected</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Props</div>
+      <table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="prop">kind</td><td class="token">'mark' | 'wordmark' | 'element'</td><td class="val">'mark'</td><td>Picks the family.</td></tr>
+        <tr><td class="prop">product</td><td class="token">Product | ElementName</td><td class="val">'iron'</td><td>Marks use <code>wd</code>/<code>bc</code>/<code>prt</code>/<code>ws</code>; elements use <code>word</code>/<code>barcode</code>/<code>print</code>/<code>webscraper</code>.</td></tr>
+        <tr><td class="prop">brand</td><td class="token">'iron' | 'suite'</td><td class="val">'iron'</td><td>Wordmark only.</td></tr>
+        <tr><td class="prop">variant</td><td class="token">'default' | 'ondark' | 'mono'</td><td class="val">'default'</td><td>Wordmark only. <code>suite</code> + <code>mono</code> falls back to <code>default</code>.</td></tr>
+        <tr><td class="prop">mono</td><td class="token">boolean</td><td class="val">false</td><td>Mark only — the black knockout artwork.</td></tr>
+        <tr><td class="prop">size</td><td class="token">24 | 48 | 96 | 192</td><td class="val">48</td><td>Mark / element. Off-grid sizes are not in the type.</td></tr>
+        <tr><td class="prop">height</td><td class="token">number</td><td class="val">32</td><td>Wordmark only — width follows the aspect ratio.</td></tr>
+        <tr><td class="prop">href</td><td class="token">string</td><td class="val">—</td><td>Renders an <code>&lt;a&gt;</code> with <code>aria-label</code> instead of a <code>&lt;span&gt;</code>.</td></tr>
+        <tr><td class="prop">label</td><td class="token">string</td><td class="val">—</td><td>Overrides alt text. Pass <code>""</code> when a visible name sits next to it.</td></tr>
+        <tr><td class="prop">basePath</td><td class="token">string</td><td class="val">'assets'</td><td>Where <code>docs/assets/</code> was copied to.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="sect"><div class="sect-h">Code</div>
+      <div class="code-wrap">
+          <div class="code-tabs">
+            <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
+            <button class="code-tab" onclick="switchTab(this,'html')">HTML</button>
+            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="copy" onclick="copyCode(this)">Copy</button>
+          </div>
+<pre class="code-pane active" data-lang="astro"><span class="c-com">// marks — colour and mono</span>
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> /&gt;
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> <span class="c-attr">mono</span> /&gt;
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"suite"</span> <span class="c-attr">size</span>={<span class="c-str">96</span>} /&gt;
+
+<span class="c-com">// wordmarks</span>
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">"wordmark"</span> <span class="c-attr">brand</span>=<span class="c-str">"iron"</span> /&gt;
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">"wordmark"</span> <span class="c-attr">brand</span>=<span class="c-str">"iron"</span> <span class="c-attr">variant</span>=<span class="c-str">"ondark"</span> <span class="c-attr">height</span>={<span class="c-str">40</span>} /&gt;
+
+<span class="c-com">// illustrative element</span>
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">"element"</span> <span class="c-attr">product</span>=<span class="c-str">"drawing"</span> /&gt;
+
+<span class="c-com">// as a link, and decorative next to a visible name</span>
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> <span class="c-attr">href</span>=<span class="c-str">"/ironpdf"</span> /&gt;
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> <span class="c-attr">label</span>=<span class="c-str">""</span> /&gt; &lt;<span class="c-tag">span</span>&gt;IronPDF&lt;/<span class="c-tag">span</span>&gt;</pre>
+<pre class="code-pane" data-lang="html">&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"logo logo--mark"</span> <span class="c-attr">style</span>=<span class="c-str">"width:48px;height:48px;"</span>&gt;
+  &lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"assets/mark-pdf.svg"</span> <span class="c-attr">alt</span>=<span class="c-str">"IronPDF"</span> <span class="c-attr">width</span>=<span class="c-str">"48"</span> <span class="c-attr">height</span>=<span class="c-str">"48"</span>&gt;
+&lt;/<span class="c-tag">span</span>&gt;
+
+&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"logo logo--wordmark"</span> <span class="c-attr">style</span>=<span class="c-str">"height:32px;"</span>&gt;
+  &lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"assets/wordmark-iron-default.svg"</span> <span class="c-attr">alt</span>=<span class="c-str">"Iron Software"</span> <span class="c-attr">height</span>=<span class="c-str">"32"</span>&gt;
+&lt;/<span class="c-tag">span</span>&gt;
+
+<span class="c-com">&lt;!-- as a link --&gt;</span>
+&lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"logo logo--mark"</span> <span class="c-attr">href</span>=<span class="c-str">"/ironpdf"</span> <span class="c-attr">aria-label</span>=<span class="c-str">"IronPDF"</span> <span class="c-attr">style</span>=<span class="c-str">"width:48px;height:48px;"</span>&gt;
+  &lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"assets/mark-pdf.svg"</span> <span class="c-attr">alt</span>=<span class="c-str">"IronPDF"</span> <span class="c-attr">width</span>=<span class="c-str">"48"</span> <span class="c-attr">height</span>=<span class="c-str">"48"</span>&gt;
+&lt;/<span class="c-tag">a</span>&gt;</pre>
+<pre class="code-pane" data-lang="css"><span class="c-key">.logo</span> { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
+<span class="c-key">.logo img</span> { display: block; max-width: 100%; }
+<span class="c-key">.logo--mark img, .logo--element img</span> { width: 100%; height: 100%; }
+<span class="c-key">.logo--wordmark img</span> { width: auto; height: 100%; }
+
+<span class="c-com">/* the box is set inline (size × size, or height for a wordmark) so the
+   four grid sizes stay in the type system rather than in four CSS classes */</span>
+<span class="c-key">a.logo</span> { border-radius: <span class="c-str">var(--rounded-sm)</span>; transition: opacity 0.15s ease; }
+<span class="c-key">a.logo:hover</span> { opacity: 0.85; }
+<span class="c-key">a.logo:focus-visible</span> { outline: 2px solid <span class="c-str">var(--color-border-selected)</span>; outline-offset: 3px; }</pre>
+        </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Guidelines</div>
+      <div class="dd">
+        <div class="card do"><div class="top">✓ Do</div><div class="body">
+            <span class="logo logo--mark" style="width:40px;height:40px;"><img src="assets/mark-pdf.svg" alt="IronPDF" width="40" height="40"></span>
+            <span class="logo logo--mark" style="width:40px;height:40px;"><img src="assets/mark-ocr.svg" alt="IronOCR" width="40" height="40"></span>
+            <span class="logo logo--wordmark" style="height:22px;"><img src="assets/wordmark-iron-default.svg" alt="Iron Software" height="22"></span>
+          </div>
+          <ul><li>Use one of the four grid sizes — <b>24 · 48 · 96 · 192</b>.</li><li>Use <code>mono</code>/<code>variant="mono"</code> instead of a CSS filter.</li><li>Pass <code>label=""</code> when a visible product name sits beside the mark.</li><li>Point <code>basePath</code> at your own asset folder rather than deep-linking the docs.</li></ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body">
+            <span class="logo logo--mark" style="width:40px;height:26px;"><img src="assets/mark-pdf.svg" alt="" style="width:100%;height:100%;"></span>
+            <span class="logo logo--mark" style="width:40px;height:40px;filter:hue-rotate(200deg) saturate(1.5);"><img src="assets/mark-pdf.svg" alt="" width="40" height="40"></span>
+            <span class="logo logo--mark" style="width:17px;height:17px;"><img src="assets/mark-pdf.svg" alt="" width="17" height="17"></span>
+          </div>
+          <ul><li>Don't set a non-square box — the mark distorts.</li><li>Don't recolour with <code>filter</code>; there is a real mono asset.</li><li>Don't go below 24px — the counters inside the letterforms fill in.</li><li>Don't mix families: an element is not a substitute for a mark.</li></ul></div>
+      </div>
+    </div>
+
+    <footer>Iron Software Design System &nbsp;·&nbsp; Logo component &nbsp;·&nbsp; 2025</footer>
+  </div></div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<script>
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function showToast(msg){
+    let el=document.getElementById('ds-toast');
+    if(!el){el=document.createElement('div');el.id='ds-toast';document.body.appendChild(el);
+      el.style.cssText='position:fixed;right:32px;bottom:32px;transform:translateY(20px);background:#171717;color:#fff;font-family:Montserrat,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:.01em;padding:11px 18px;border-radius:9999px;box-shadow:0 8px 28px rgba(15,23,43,0.28);z-index:200;opacity:0;transition:opacity .22s ease,transform .22s ease;display:flex;align-items:center;gap:8px;pointer-events:none;';}
+    el.innerHTML='<span style="color:#3DDC97;font-weight:800;">✓</span>'+msg;
+    setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);
+    clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);
+  }
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
+  function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+  function copyCode(btn){
+    const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;
+    const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
+    else{fallbackCopy(txt,done);}
+  }
+</script>
+</body>
+</html>

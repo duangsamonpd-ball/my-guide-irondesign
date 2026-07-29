@@ -1,0 +1,113 @@
+---
+/**
+ * Logo — the three logo families from Figma section 471:112, behind one prop API.
+ *
+ *   kind="mark"      24 square product marks   (12 products × colour/mono)
+ *   kind="wordmark"  5 wordmark lockups        (iron: default/ondark/mono · suite: default/ondark)
+ *   kind="element"   13 illustrative elements
+ *
+ * Unlike the rest of the library this component does ship a reference to real
+ * files — a logo *is* its artwork, there is no token that can stand in for it.
+ * `basePath` points at wherever `docs/assets/` was copied to, same escape hatch
+ * as Footer.astro's *ImgSrc props.
+ */
+
+type Product = 'pdf' | 'wd' | 'xl' | 'ppt' | 'qr' | 'ocr' | 'bc' | 'prt' | 'zip' | 'ws' | 'suite' | 'iron';
+type ElementName =
+  | 'pdf' | 'xl' | 'word' | 'ocr' | 'qr' | 'barcode' | 'zip'
+  | 'print' | 'drawing' | 'webscraper' | 'ppt' | 'securedoc' | 'freetools';
+
+interface Props {
+  kind?: 'mark' | 'wordmark' | 'element';
+  /** Required for kind="mark" (Product) and kind="element" (ElementName). */
+  product?: Product | ElementName;
+  /** kind="wordmark" only. */
+  brand?: 'iron' | 'suite';
+  /** kind="wordmark" only — `mono` is iron-only, `suite` has no mono variant. */
+  variant?: 'default' | 'ondark' | 'mono';
+  /** kind="mark" only — swaps to the black knockout artwork. */
+  mono?: boolean;
+  /** kind="mark" / "element". The mark is drawn on an 8-unit grid at 192px, so only
+   *  these four sizes keep every edge on a whole pixel. */
+  size?: 24 | 48 | 96 | 192;
+  /** kind="wordmark" — rendered height in px; width follows the aspect ratio. */
+  height?: number;
+  /** Wraps the logo in an <a>. */
+  href?: string;
+  /** Overrides the generated alt text. Pass "" for decorative use next to a visible name. */
+  label?: string;
+  basePath?: string;
+  class?: string;
+}
+
+const {
+  kind = 'mark',
+  product = 'iron',
+  brand = 'iron',
+  variant = 'default',
+  mono = false,
+  size = 48,
+  height = 32,
+  href,
+  label,
+  basePath = 'assets',
+  class: className,
+} = Astro.props;
+
+/* Product elements kept their original export filenames — the numbering is a Figma
+   export artefact and several docs pages already link them, so they are not renamed. */
+const ELEMENT_FILES: Record<ElementName, string> = {
+  pdf: 'logo-01-pdf', word: 'logo-02-word', xl: 'logo-03-xl', ppt: 'logo-04-ppt',
+  ocr: 'logo-05-ocr', barcode: 'logo-06-bc', qr: 'logo-07-qr', zip: 'logo-08-zip',
+  print: 'logo-09-prt', webscraper: 'logo-010-ws', drawing: 'logo-11-drawing',
+  securedoc: 'logo-12-securedoc', freetools: 'logo-13-freetools',
+};
+
+const PRODUCT_NAMES: Record<Product, string> = {
+  pdf: 'IronPDF', wd: 'IronWord', xl: 'IronXL', ppt: 'IronPPT', qr: 'IronQR',
+  ocr: 'IronOCR', bc: 'IronBarcode', prt: 'IronPrint', zip: 'IronZip',
+  ws: 'IronWebScraper', suite: 'Iron Suite', iron: 'Iron Software',
+};
+
+let file: string;
+let alt: string;
+
+if (kind === 'wordmark') {
+  /* suite has no mono artwork in Figma — fall back to its default rather than 404. */
+  const v = brand === 'suite' && variant === 'mono' ? 'default' : variant;
+  file = `wordmark-${brand}-${v}`;
+  alt = brand === 'suite' ? 'Iron Suite' : 'Iron Software';
+} else if (kind === 'element') {
+  const key = product as ElementName;
+  file = ELEMENT_FILES[key] ?? ELEMENT_FILES.pdf;
+  alt = `${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+} else {
+  const key = product as Product;
+  file = `mark-${key}${mono ? '-mono' : ''}`;
+  alt = PRODUCT_NAMES[key] ?? PRODUCT_NAMES.iron;
+}
+
+const src = `${basePath}/${file}.svg`;
+const altText = label ?? alt;
+const box = kind === 'wordmark' ? { height: `${height}px` } : { width: `${size}px`, height: `${size}px` };
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag
+  class:list={['logo', `logo--${kind}`, className]}
+  style={box}
+  href={href}
+  aria-label={href && altText ? altText : undefined}
+>
+  <img src={src} alt={altText} width={kind === 'wordmark' ? undefined : size} height={kind === 'wordmark' ? height : size} />
+</Tag>
+
+<style>
+  .logo { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
+  .logo img { display: block; max-width: 100%; }
+  .logo--mark img, .logo--element img { width: 100%; height: 100%; }
+  .logo--wordmark img { width: auto; height: 100%; }
+  a.logo { border-radius: var(--rounded-sm); transition: opacity 0.15s ease; }
+  a.logo:hover { opacity: 0.85; }
+  a.logo:focus-visible { outline: 2px solid var(--color-border-selected); outline-offset: 3px; }
+</style>

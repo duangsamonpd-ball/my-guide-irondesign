@@ -267,6 +267,54 @@ Props: `icon` (`'quote' | 'key' | 'check'`), `headingPrefix` (default `"Get your
 
 Both `icon` and `submitIcon` resolve to inline Font Awesome SVGs the same way as `FormCard.astro` — see that section above.
 
+### `Logo.astro`
+
+The three logo families from Figma section `471:112` behind one prop API:
+
+```astro
+<!-- marks — 12 products × colour/mono -->
+<Logo product="pdf" />
+<Logo product="pdf" mono />
+<Logo product="suite" size={96} />
+
+<!-- wordmarks — iron: default/ondark/mono · suite: default/ondark -->
+<Logo kind="wordmark" brand="iron" />
+<Logo kind="wordmark" brand="iron" variant="ondark" height={40} />
+
+<!-- illustrative product elements -->
+<Logo kind="element" product="drawing" />
+
+<!-- as a link, and decorative next to a visible name -->
+<Logo product="pdf" href="/ironpdf" />
+<Logo product="pdf" label="" /> <span>IronPDF</span>
+```
+
+Props: `kind` (`mark` | `wordmark` | `element`, default `mark`), `product`, `brand`
+(`iron` | `suite`), `variant` (`default` | `ondark` | `mono`), `mono` (mark only),
+`size` (`24` | `48` | `96` | `192`, default `48`), `height` (wordmark only, default `32`),
+`href` (renders an `<a>` with `aria-label`), `label` (alt override — pass `""` for
+decorative use), `basePath` (default `assets`), `class`.
+
+**This is the one component that references real files.** A logo *is* its artwork —
+there is no token that can stand in for it — so `basePath` is the escape hatch,
+same idea as `Footer.astro`'s `*ImgSrc` props: point it at wherever you copied
+`docs/assets/` to.
+
+`size` is typed to exactly four values on purpose. The mark is drawn on an 8-unit
+grid at 192px; each halving halves the grid unit, so only 24/48/96/192 keep every
+edge on a whole pixel. Off-grid sizes aren't in the type.
+
+Two naming traps worth knowing:
+
+- **Marks and elements are different families with different keys.** A mark is
+  `wd`/`bc`/`prt`/`ws`; the matching element is `word`/`barcode`/`print`/`webscraper`.
+  The element files also kept their original export names (`logo-01-pdf.svg` …
+  `logo-13-freetools.svg`) — the numbering is a Figma export artefact, and several
+  docs pages already link them, so they were not renamed when the `mark-*.svg`
+  family was added. `ELEMENT_FILES` in the component maps over it.
+- **Iron Suite has no mono wordmark in Figma.** `brand="suite" variant="mono"`
+  falls back to `default` rather than requesting a file that doesn't exist.
+
 ## Icon strategy
 
 `Notice.astro` and `FileUpload.astro` use real **Font Awesome Free Solid** icons, inlined as `<svg viewBox="..." fill="currentColor"><path d="..."/></svg>` directly in the component — no `@fortawesome/*` npm package, icon font, or CDN link shipped at runtime, keeping components self-contained.
@@ -277,13 +325,18 @@ To add another icon: temporarily `npm install @fortawesome/free-solid-svg-icons`
 
 There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.
 
-## 14 components ported
+## 15 components ported
 
 Button, TextLink, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge,
-Notice, Tooltip, Product Footer, FormCard, and TrialKeyCard are all
+Notice, Tooltip, Product Footer, FormCard, TrialKeyCard and Logo are all
 available. If the design system docs (`docs/component-*.html`) gain a new
 variant or pattern, check it here too — the docs' own Code-tab samples have
 a history of drifting out of sync with the live markup on the same page.
+
+`Logo` was ported from the "Logo" section of the Figma file (node `471:112`)
+together with its 34 new SVG assets; `docs/logo.html` is the brand-guidelines
+page for the same artwork, while `docs/component-logo.html` is the component's
+API reference and the page `check:parity` holds it to.
 
 `FormCard` and `TrialKeyCard` were ported from the "04 Form & Input Cards"
 section of the "Other element" page in Figma (node `723:5520`), not from a

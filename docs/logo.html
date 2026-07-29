@@ -111,6 +111,80 @@
     .dont-brand .brand-text b { font-weight: 700; color: #171717; }
     .dont-brand .brand-text span { font-weight: 400; color: #E01A59; }
 
+    /* ─────────────────────────────────────────
+       WORDMARK VARIANTS
+    ───────────────────────────────────────── */
+    .wm-stack { display: grid; gap: 16px; }
+    .wm-card {
+      background: #fff; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 28px 32px; display: flex; align-items: center;
+      justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    }
+    .wm-card.on-dark { background: #171717; border-color: #262626; }
+    .wm-card.on-brand { background: #E01A59; border-color: #E01A59; }
+    .wm-card img { height: 34px; width: auto; display: block; max-width: 100%; }
+    .wm-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A1A1A1; }
+    .wm-card.on-dark .wm-label, .wm-card.on-brand .wm-label { color: rgba(255,255,255,0.72); }
+
+    /* ─────────────────────────────────────────
+       PRODUCT MARKS (colour + mono pairs)
+    ───────────────────────────────────────── */
+    .mark-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px; }
+    .mark-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; }
+    .mark-faces { display: flex; }
+    .mark-face { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 0; }
+    .mark-face + .mark-face { border-left: 1px solid #F1F5F9; background: #FBFCFD; }
+    .mark-face img { width: 56px; height: 56px; display: block; }
+    .mark-meta { padding: 12px 14px 14px; border-top: 1px solid #F1F5F9; }
+    .mark-title { font-size: 0.85rem; font-weight: 700; }
+    .mark-sub {
+      font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #A1A1A1; margin-top: 4px; display: flex; justify-content: space-between; gap: 8px;
+    }
+
+    /* ─────────────────────────────────────────
+       SIZE & GRID SPECIMEN
+    ───────────────────────────────────────── */
+    .size-row {
+      display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap;
+      background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 32px;
+    }
+    .size-item { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .size-item img { display: block; }
+    .size-cap { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.06em; color: #737373; text-align: center; line-height: 1.6; }
+    .size-cap span { display: block; font-weight: 400; color: #A1A1A1; }
+
+    /* ─────────────────────────────────────────
+       PRODUCT ELEMENTS
+    ───────────────────────────────────────── */
+    .elem-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 14px; }
+    .elem-card {
+      background: #fff; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 20px 12px 14px; display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .elem-card img { width: 52px; height: 52px; display: block; }
+    .elem-name { font-size: 0.68rem; font-weight: 700; color: #525252; letter-spacing: 0.04em; }
+
+    /* ─────────────────────────────────────────
+       LOCKUP PATTERNS
+    ───────────────────────────────────────── */
+    .lock-grid { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+    .lock-card {
+      background: #fff; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 28px 32px; display: flex; flex-direction: column; gap: 18px; align-items: flex-start;
+    }
+    .lock-card img { display: block; max-width: 100%; }
+    .lock-card img.lock-basic { height: 40px; width: auto; }
+    .lock-card img.lock-stack { height: 128px; width: auto; }
+    .lock-name { font-size: 0.75rem; font-weight: 700; }
+    .lock-desc { font-size: 0.72rem; color: #737373; line-height: 1.5; max-width: 260px; }
+
+    .edition-chips { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+    .edition-chip {
+      font-size: 0.56rem; font-weight: 700; letter-spacing: 0.14em;
+      color: #737373; background: #F1F5F9; border-radius: 4px; padding: 3px 7px;
+    }
+
     footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
 
     /* ─────────────────────────────────────────
@@ -305,6 +379,7 @@
         <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
         <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
         <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+        <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
         <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
         <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
         <a href="component-formcard.html" class="sidebar-link"><i class="sidebar-icon">🗂️</i>Form Card</a>
@@ -320,7 +395,7 @@
 <div class="content">
   <div class="page-title">
     <h1>✳️ Logo</h1>
-    <p>The Iron Software mark is the foundation of every product identity across the suite. This page documents the primary mark, wordmark lockup, color rules, product-specific lockups, and common misuse to avoid.</p>
+    <p>The Iron Software mark is the foundation of every product identity across the suite. This page documents the primary mark, its size &amp; grid, the wordmark lockups, all 24 product marks in colour and mono, product-specific lockups, the illustrative product elements, and common misuse to avoid. Every asset here is exported from Figma — no CSS filters standing in for a real variant.</p>
   </div>
 
   <!-- ═══════════════════════════ PRIMARY MARK ═══════════════════════════ -->
@@ -356,15 +431,52 @@
 
   <!-- ═══════════════════════════ WORDMARK LOCKUP ═══════════════════════════ -->
 
-  <div class="section-label">Wordmark Lockup</div>
+  <div class="section-label">Size &amp; Grid</div>
 
-  <div class="lockup-grid">
-    <div class="lockup-card">
-      <div class="lockup-brand">
-        <img src="assets/logo.svg" alt="Iron Software mark">
-        <span class="brand-text"><b>IRON</b><span>SOFTWARE</span></span>
-      </div>
-      <p class="lockup-desc">Primary lockup — corporate &amp; cross-product contexts. Icon and wordmark keep fixed relative position and spacing.</p>
+  <div class="size-row">
+    <div class="size-item">
+      <img src="assets/mark-pdf.svg" style="width:24px;height:24px;" alt="IronPDF mark at 24px">
+      <span class="size-cap">24PX<span>GRID 1PX</span></span>
+    </div>
+    <div class="size-item">
+      <img src="assets/mark-pdf.svg" style="width:48px;height:48px;" alt="IronPDF mark at 48px">
+      <span class="size-cap">48PX<span>GRID 2PX</span></span>
+    </div>
+    <div class="size-item">
+      <img src="assets/mark-pdf.svg" style="width:96px;height:96px;" alt="IronPDF mark at 96px">
+      <span class="size-cap">96PX<span>GRID 4PX</span></span>
+    </div>
+    <div class="size-item">
+      <img src="assets/mark-pdf.svg" style="width:192px;height:192px;" alt="IronPDF mark at 192px">
+      <span class="size-cap">192PX<span>GRID 8PX</span></span>
+    </div>
+  </div>
+  <p class="mark-caption" style="max-width:none;">The mark is drawn on an 8-unit grid at 192px. Each halving of the render size halves the grid unit, so edges stay on whole pixels at 96, 48 and 24px — the four sizes above are the only ones that land cleanly.</p>
+
+  <!-- ═══════════════════════════ WORDMARK LOCKUPS ═══════════════════════════ -->
+
+  <div class="section-label">Wordmark Lockups</div>
+
+  <div class="wm-stack">
+    <div class="wm-card">
+      <img src="assets/wordmark-iron-default.svg" alt="IRONSOFTWARE">
+      <span class="wm-label">Default — light backgrounds</span>
+    </div>
+    <div class="wm-card on-dark">
+      <img src="assets/wordmark-iron-ondark.svg" alt="IRONSOFTWARE on dark">
+      <span class="wm-label">On dark — colour mark, white “IRON”</span>
+    </div>
+    <div class="wm-card on-brand">
+      <img src="assets/wordmark-iron-mono.svg" alt="IRONSOFTWARE mono">
+      <span class="wm-label">Mono — single-colour knockout</span>
+    </div>
+    <div class="wm-card">
+      <img src="assets/wordmark-suite-default.svg" alt="IRONSUITE">
+      <span class="wm-label">Iron Suite — default</span>
+    </div>
+    <div class="wm-card on-dark">
+      <img src="assets/wordmark-suite-ondark.svg" alt="IRONSUITE on dark">
+      <span class="wm-label">Iron Suite — on dark</span>
     </div>
   </div>
 
@@ -375,24 +487,112 @@
   <div class="color-grid">
     <div>
       <div class="color-card" style="background:#fff;">
-        <img src="assets/logo.svg" alt="">
-        <span class="brand-text"><b>IRON</b><span style="color:#E01A59;">SOFTWARE</span></span>
+        <img src="assets/mark-iron.svg" alt="">
       </div>
-      <p class="color-caption">Light backgrounds — full color mark</p>
+      <p class="color-caption">Light backgrounds — full colour mark (<code>mark-iron.svg</code>)</p>
     </div>
     <div>
       <div class="color-card" style="background:#171717;">
-        <img class="mono-white" src="assets/logo.svg" alt="">
-        <span class="brand-text" style="color:#fff;"><b style="color:#fff;">IRON</b><span style="color:#fff;">SOFTWARE</span></span>
+        <img src="assets/wordmark-iron-mono.svg" style="width:auto;height:28px;" alt="">
       </div>
-      <p class="color-caption">Dark backgrounds — mono white mark</p>
+      <p class="color-caption">Dark backgrounds — the real mono asset (<code>wordmark-iron-mono.svg</code>), not a CSS filter</p>
     </div>
     <div>
       <div class="color-card" style="background:#E01A59;">
-        <img class="mono-white" src="assets/logo.svg" alt="">
-        <span class="brand-text" style="color:#fff;"><b style="color:#fff;">IRON</b><span style="color:#fff;">SOFTWARE</span></span>
+        <img src="assets/wordmark-iron-mono.svg" style="width:auto;height:28px;" alt="">
       </div>
-      <p class="color-caption">Brand-color backgrounds — mono white, check contrast first</p>
+      <p class="color-caption">Brand-colour backgrounds — mono knockout, check contrast first</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ PRODUCT MARKS ═══════════════════════════ -->
+
+  <div class="section-label">Product Marks — Colour &amp; Mono</div>
+
+  <div class="mark-grid">
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-pdf.svg" alt="IronPDF mark"></div>
+        <div class="mark-face"><img src="assets/mark-pdf-mono.svg" alt="IronPDF mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronPDF</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-wd.svg" alt="IronWord mark"></div>
+        <div class="mark-face"><img src="assets/mark-wd-mono.svg" alt="IronWord mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronWord</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-xl.svg" alt="IronXL mark"></div>
+        <div class="mark-face"><img src="assets/mark-xl-mono.svg" alt="IronXL mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronXL</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-ppt.svg" alt="IronPPT mark"></div>
+        <div class="mark-face"><img src="assets/mark-ppt-mono.svg" alt="IronPPT mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronPPT</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-qr.svg" alt="IronQR mark"></div>
+        <div class="mark-face"><img src="assets/mark-qr-mono.svg" alt="IronQR mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronQR</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-ocr.svg" alt="IronOCR mark"></div>
+        <div class="mark-face"><img src="assets/mark-ocr-mono.svg" alt="IronOCR mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronOCR</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-bc.svg" alt="IronBarcode mark"></div>
+        <div class="mark-face"><img src="assets/mark-bc-mono.svg" alt="IronBarcode mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronBarcode</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-prt.svg" alt="IronPrint mark"></div>
+        <div class="mark-face"><img src="assets/mark-prt-mono.svg" alt="IronPrint mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronPrint</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-zip.svg" alt="IronZip mark"></div>
+        <div class="mark-face"><img src="assets/mark-zip-mono.svg" alt="IronZip mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronZip</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-ws.svg" alt="IronWebScraper mark"></div>
+        <div class="mark-face"><img src="assets/mark-ws-mono.svg" alt="IronWebScraper mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">IronWebScraper</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-suite.svg" alt="Iron Suite mark"></div>
+        <div class="mark-face"><img src="assets/mark-suite-mono.svg" alt="Iron Suite mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">Iron Suite</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
+    </div>
+    <div class="mark-card">
+      <div class="mark-faces">
+        <div class="mark-face"><img src="assets/mark-iron.svg" alt="Iron Software mark"></div>
+        <div class="mark-face"><img src="assets/mark-iron-mono.svg" alt="Iron Software mark, mono"></div>
+      </div>
+      <div class="mark-meta"><div class="mark-title">Iron Software</div><div class="mark-sub"><span>Colour</span><span>Mono</span></div></div>
     </div>
   </div>
 
@@ -400,96 +600,122 @@
 
   <div class="section-label">Product-Specific Lockups</div>
 
+  <p class="mark-caption" style="max-width:none; margin:-8px 0 20px;">Classic and Universal share one mark — only the trailing wording differs (Universal adds the runtime, e.g. <em>for .NET</em>). One row per product, both editions listed.</p>
+
   <div class="product-grid">
     <div class="product-row">
-      <img src="assets/logo-01-pdf.svg" alt="IronPDF">
-      <div><span class="product-name"><b>IRON</b><span style="color:#E01A59;">PDF</span></span><div class="product-edition">CLASSIC</div></div>
+      <img src="assets/mark-pdf.svg" alt="IronPDF">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#E01A59;">PDF</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
     </div>
     <div class="product-row">
-      <img src="assets/logo-01-pdf.svg" alt="IronPDF Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#E01A59;">PDF</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+      <img src="assets/mark-wd.svg" alt="IronWord">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#89D3DF;">WORD</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
     </div>
+    <div class="product-row">
+      <img src="assets/mark-xl.svg" alt="IronXL">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#63C1A0;">XL</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
+    </div>
+    <div class="product-row">
+      <img src="assets/mark-ppt.svg" alt="IronPPT">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#E01A59;">PPT</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
+    </div>
+    <div class="product-row">
+      <img src="assets/mark-qr.svg" alt="IronQR">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#63C1A0;">QR</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
+    </div>
+    <div class="product-row">
+      <img src="assets/mark-ocr.svg" alt="IronOCR">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#89D3DF;">OCR</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
+    </div>
+    <div class="product-row">
+      <img src="assets/mark-bc.svg" alt="IronBarcode">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#63C1A0;">BARCODE</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
+    </div>
+    <div class="product-row">
+      <img src="assets/mark-prt.svg" alt="IronPrint">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#FDA509;">PRINT</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
+    </div>
+    <div class="product-row">
+      <img src="assets/mark-zip.svg" alt="IronZip">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#FDA509;">ZIP</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
+    </div>
+    <div class="product-row">
+      <img src="assets/mark-ws.svg" alt="IronWebScraper">
+      <div>
+        <span class="product-name"><b>IRON</b><span style="color:#FDA509;">WEBSCRAPER</span></span> <span class="product-lang">for .NET</span>
+        <div class="edition-chips"><span class="edition-chip">CLASSIC</span><span class="edition-chip">UNIVERSAL</span></div>
+      </div>
+    </div>
+  </div>
 
-    <div class="product-row">
-      <img src="assets/logo-02-word.svg" alt="IronWord">
-      <div><span class="product-name"><b>IRON</b><span style="color:#89D3DF;">WORD</span></span><div class="product-edition">CLASSIC</div></div>
-    </div>
-    <div class="product-row">
-      <img src="assets/logo-02-word.svg" alt="IronWord Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#89D3DF;">WORD</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
-    </div>
+  <!-- ═══════════════════════════ LOCKUP PATTERNS ═══════════════════════════ -->
 
-    <div class="product-row">
-      <img src="assets/logo-03-xl.svg" alt="IronXL">
-      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">XL</span></span><div class="product-edition">CLASSIC</div></div>
-    </div>
-    <div class="product-row">
-      <img src="assets/logo-03-xl.svg" alt="IronXL Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">XL</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
-    </div>
+  <div class="section-label">Lockup Patterns</div>
 
-    <div class="product-row">
-      <img src="assets/logo-04-ppt.svg" alt="IronPPT">
-      <div><span class="product-name"><b>IRON</b><span style="color:#E01A59;">PPT</span></span><div class="product-edition">CLASSIC</div></div>
+  <div class="lock-grid">
+    <div class="lock-card">
+      <img class="lock-basic" src="assets/lockup-basic.svg" alt="IronPDF for .NET Classic, horizontal lockup">
+      <div>
+        <div class="lock-name">Basic — horizontal</div>
+        <p class="lock-desc">Mark left, name and edition stacked to its right. Use in headers, nav bars, and anywhere vertical space is tight.</p>
+      </div>
     </div>
-    <div class="product-row">
-      <img src="assets/logo-04-ppt.svg" alt="IronPPT Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#E01A59;">PPT</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
+    <div class="lock-card">
+      <img class="lock-stack" src="assets/lockup-stack.svg" alt="IronPDF Classic for .NET, stacked lockup">
+      <div>
+        <div class="lock-name">Stack — vertical</div>
+        <p class="lock-desc">Mark above, name and edition centred below. Use on cards, product tiles, and square-ish spaces.</p>
+      </div>
     </div>
+  </div>
 
-    <div class="product-row">
-      <img src="assets/logo-07-qr.svg" alt="IronQR">
-      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">QR</span></span><div class="product-edition">CLASSIC</div></div>
-    </div>
-    <div class="product-row">
-      <img src="assets/logo-07-qr.svg" alt="IronQR Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">QR</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
-    </div>
+  <!-- ═══════════════════════════ PRODUCT ELEMENTS ═══════════════════════════ -->
 
-    <div class="product-row">
-      <img src="assets/logo-05-ocr.svg" alt="IronOCR">
-      <div><span class="product-name"><b>IRON</b><span style="color:#89D3DF;">OCR</span></span><div class="product-edition">CLASSIC</div></div>
-    </div>
-    <div class="product-row">
-      <img src="assets/logo-05-ocr.svg" alt="IronOCR Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#89D3DF;">OCR</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
-    </div>
+  <div class="section-label">Product Elements</div>
 
-    <div class="product-row">
-      <img src="assets/logo-06-bc.svg" alt="IronBarcode">
-      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">BARCODE</span></span><div class="product-edition">CLASSIC</div></div>
-    </div>
-    <div class="product-row">
-      <img src="assets/logo-06-bc.svg" alt="IronBarcode Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#63C1A0;">BARCODE</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
-    </div>
+  <p class="mark-caption" style="max-width:none; margin:-8px 0 20px;">Illustrative marks used alongside — never instead of — the product logo: feature cards, empty states, docs headers. A separate family from the square product marks above.</p>
 
-    <div class="product-row">
-      <img src="assets/logo-09-prt.svg" alt="IronPrint">
-      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">PRINT</span></span><div class="product-edition">CLASSIC</div></div>
-    </div>
-    <div class="product-row">
-      <img src="assets/logo-09-prt.svg" alt="IronPrint Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">PRINT</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
-    </div>
-
-    <div class="product-row">
-      <img src="assets/logo-08-zip.svg" alt="IronZip">
-      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">ZIP</span></span><div class="product-edition">CLASSIC</div></div>
-    </div>
-    <div class="product-row">
-      <img src="assets/logo-08-zip.svg" alt="IronZip Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">ZIP</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
-    </div>
-
-    <div class="product-row">
-      <img src="assets/logo-010-ws.svg" alt="IronWebScraper">
-      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">WEBSCRAPER</span></span><div class="product-edition">CLASSIC</div></div>
-    </div>
-    <div class="product-row">
-      <img src="assets/logo-010-ws.svg" alt="IronWebScraper Universal">
-      <div><span class="product-name"><b>IRON</b><span style="color:#FDA509;">WEBSCRAPER</span></span> <span class="product-lang">for .NET</span><div class="product-edition">UNIVERSAL</div></div>
-    </div>
+  <div class="elem-grid">
+    <div class="elem-card"><img src="assets/logo-01-pdf.svg" alt="PDF element"><span class="elem-name">PDF</span></div>
+    <div class="elem-card"><img src="assets/logo-03-xl.svg" alt="XL element"><span class="elem-name">XL</span></div>
+    <div class="elem-card"><img src="assets/logo-02-word.svg" alt="Word element"><span class="elem-name">Word</span></div>
+    <div class="elem-card"><img src="assets/logo-05-ocr.svg" alt="OCR element"><span class="elem-name">OCR</span></div>
+    <div class="elem-card"><img src="assets/logo-07-qr.svg" alt="QR element"><span class="elem-name">QR</span></div>
+    <div class="elem-card"><img src="assets/logo-06-bc.svg" alt="Barcode element"><span class="elem-name">Barcode</span></div>
+    <div class="elem-card"><img src="assets/logo-08-zip.svg" alt="Zip element"><span class="elem-name">Zip</span></div>
+    <div class="elem-card"><img src="assets/logo-09-prt.svg" alt="Print element"><span class="elem-name">Print</span></div>
+    <div class="elem-card"><img src="assets/logo-11-drawing.svg" alt="Drawing element"><span class="elem-name">Drawing</span></div>
+    <div class="elem-card"><img src="assets/logo-010-ws.svg" alt="Webscraper element"><span class="elem-name">Webscraper</span></div>
+    <div class="elem-card"><img src="assets/logo-04-ppt.svg" alt="PPT element"><span class="elem-name">PPT</span></div>
+    <div class="elem-card"><img src="assets/logo-12-securedoc.svg" alt="Securedoc element"><span class="elem-name">Securedoc</span></div>
+    <div class="elem-card"><img src="assets/logo-13-freetools.svg" alt="Freetools element"><span class="elem-name">Freetools</span></div>
   </div>
 
   <!-- ═══════════════════════════ DON'TS ═══════════════════════════ -->
