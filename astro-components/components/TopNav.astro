@@ -1,0 +1,156 @@
+---
+/**
+ * TopNav — the corporate utility strip above the product header,
+ * from Figma node 507:5349 ("Top Nav", canvas 231:1473 " ↳ Navigation menu").
+ *
+ * Two variants, matching Figma's `variant` property:
+ *   default    — filled with slate/800
+ *   transparent — no fill, for sitting over a hero image or dark section
+ *
+ * A 40px strip: Iron Software lockup + corporate menu on the left, office
+ * address, Contact Us and the language picker on the right. Pair it above
+ * ProductMenu.astro for the full two-bar header.
+ */
+
+interface NavItem {
+  label: string;
+  href?: string;
+  /** Figma shows a caret on every item; turn it off for a plain link. */
+  caret?: boolean;
+}
+
+interface Props {
+  /** Figma's `variant` — `transparent` is Figma's "Without bg". */
+  variant?: 'default' | 'transparent';
+  brandLabel?: string;
+  brandHref?: string;
+  items?: NavItem[];
+  /** Figma's `showAddress` toggle. */
+  showAddress?: boolean;
+  address?: string;
+  contact?: NavItem;
+  language?: NavItem;
+  showLanguage?: boolean;
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  brandHref = '/',
+  items = [],
+  showAddress = true,
+  address = '205 N. Michigan Ave. Chicago, IL 60611, USA',
+  contact = { label: 'Contact Us' },
+  language = { label: 'EN' },
+  showLanguage = true,
+  class: className,
+} = Astro.props;
+
+/* Figma sets gap:0 between a label and its caret and lets the caret's own 16×16
+   box provide the spacing, so the viewBox is offset to centre the 6.246×3.765
+   triangle inside 16×16 rather than adding a wrapper element or a gap. */
+const CARET_VB = '-4.8768 -6.1177 16 16';
+const CARET_D =
+  'M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z';
+---
+
+<div class:list={['tn', `tn--${variant}`, className]}>
+  <nav class="tn-inner" aria-label="Corporate">
+    <div class="tn-left">
+      <a class="tn-brand" href={brandHref}>
+        <svg class="tn-mark" viewBox="0 0 16.0002 13.3333" fill="currentColor" aria-hidden="true">
+          <path d="M6.60254 7.74121L5.10417 13.3333H2.41781L3.22152 10.3335L0 10.3338L0.695313 7.7391L6.60254 7.74121Z"/>
+          <path d="M14.0353 10.3328H10.8177L10.0169 13.3333H7.33089L8.82927 7.74121L14.7303 7.73812L14.0353 10.3328Z"/>
+          <path d="M7.17643 5.59733L1.27165 5.59456L1.96696 3.00033L5.1862 2.99967L5.9904 0H8.67676L7.17643 5.59733Z"/>
+          <path d="M12.7783 2.99951H16.0002L15.3052 5.59424L9.39616 5.59701L10.8963 0H13.5824L12.7783 2.99951Z"/>
+        </svg>
+        <span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span>
+      </a>
+
+      {items.length > 0 && (
+        <ul class="tn-menu">
+          {items.map((it) => (
+            <li>
+              <a class="tn-item" href={it.href ?? '#'}>
+                {it.label}
+                {(it.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <div class="tn-right">
+      {showAddress && (
+        <span class="tn-address">
+          <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"/></svg>
+          {address}
+        </span>
+      )}
+
+      {contact && (
+        <a class="tn-item" href={contact.href ?? '#'}>
+          {contact.label}
+          {(contact.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+        </a>
+      )}
+
+      {showLanguage && language && (
+        <span class="tn-lang">
+          <svg class="tn-globe" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.9375 13.125C10.5312 11.9375 10.9375 10.2812 11 8.5H5C5.0625 10.2812 5.5 11.9375 6.09375 13.125C6.78125 14.5312 7.53125 15 8 15C8.5 15 9.21875 14.5312 9.9375 13.125ZM11 7.5C10.9375 5.71875 10.5312 4.09375 9.9375 2.875C9.21875 1.46875 8.5 1 8 1C7.53125 1 6.78125 1.46875 6.09375 2.875C5.5 4.09375 5.0625 5.71875 5 7.5H11ZM12 8.5C11.9062 10.9688 11.1875 13.2812 10.1562 14.6562C12.8125 13.8125 14.7812 11.4062 14.9688 8.5H12ZM14.9688 7.5C14.7812 4.625 12.8125 2.21875 10.1562 1.34375C11.1875 2.71875 11.9062 5.03125 12 7.5H14.9688ZM4 7.5C4.09375 5.03125 4.8125 2.71875 5.84375 1.34375C3.1875 2.21875 1.21875 4.625 1.03125 7.5H4ZM1.03125 8.5C1.21875 11.4062 3.1875 13.8125 5.84375 14.6562C4.8125 13.2812 4.09375 10.9688 4 8.5H1.03125ZM8 16C3.59375 16 0 12.4062 0 8C0 3.59375 3.59375 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4062 12.4062 16 8 16Z"/></svg>
+          <a class="tn-item" href={language.href ?? '#'}>
+            {language.label}
+            {(language.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+          </a>
+        </span>
+      )}
+    </div>
+  </nav>
+</div>
+
+<style>
+  /*
+    Figma node 507:5349 ("Top Nav"). Token map, all 1:1 with the system's names:
+      slate/800             → --slate-800 (the strip fill)
+      text/on-color/heading → --color-text-on-color-heading
+    Labels use Figma's "Typography/UI/Nav label" style (--fw-nav-label /
+    --font-size-xs / --leading-4 / --letter-spacing-nav-label), the address uses
+    "Typography/Caption SM" (--fw-caption-sm / --letter-spacing-caption-sm).
+
+    The brand mark is --color-neutral, NOT white — verified against both the
+    exported SVG's fill and the pixels of Figma's own render. It reads as a
+    deliberately recessive mark next to the white wordmark.
+  */
+  .tn { width: 100%; font-family: 'Montserrat', sans-serif; }
+  .tn--default { background: var(--slate-800); }
+  .tn--transparent { background: transparent; }
+
+  .tn-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); height: 40px; box-sizing: border-box; max-width: 1440px; margin: 0 auto; padding: var(--spacing-sm) var(--spacing-xl); }
+
+  .tn-left { display: flex; align-items: center; gap: var(--spacing-xl); min-width: 0; }
+  .tn-right { display: flex; align-items: center; gap: var(--spacing-lg); min-width: 0; }
+
+  .tn-brand { display: flex; align-items: center; gap: var(--spacing-micro); flex-shrink: 0; text-decoration: none; }
+  .tn-mark { width: 16px; height: 14px; flex-shrink: 0; color: var(--color-neutral); }
+  .tn-brand-text { font-size: var(--font-size-xs); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; white-space: nowrap; }
+  .tn-brand-text b { font-weight: var(--fw-nav-label); }
+  .tn-brand-text span { font-weight: var(--fw-caption-sm); }
+
+  .tn-menu { display: flex; align-items: center; gap: var(--spacing-lg); list-style: none; margin: 0; padding: 0; min-width: 0; }
+  .tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+  .tn-item:hover { color: var(--color-text-link-menu-hover); }
+  .tn-item:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 3px; }
+  .tn-caret { width: 16px; height: 16px; flex-shrink: 0; }
+
+  .tn-address { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-heading); white-space: nowrap; }
+  .tn-pin { width: 10px; height: 14px; flex-shrink: 0; }
+
+  .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-color-heading); }
+  .tn-globe { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* Figma covers 1440px desktop only. Shed the address first — it is the longest
+     and least navigational item — then the corporate menu. */
+  @media (max-width: 1100px) { .tn-address { display: none; } }
+  @media (max-width: 720px) { .tn-menu { display: none; } }
+</style>

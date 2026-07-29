@@ -379,6 +379,51 @@ behaviour (drop the runtime label at 1180px, the utility bubbles at 1024px, then
 the whole centre group at 768px, both tiers scrolling horizontally) is an
 implementation decision, not a handed-over design.
 
+### `TopNav.astro`
+
+The 40px corporate utility strip that sits above `ProductMenu`, from Figma node
+`507:5349`:
+
+```astro
+<TopNav items={[
+  { label: 'Products', href: '/products' },
+  { label: 'Enterprise' },
+  { label: 'Solutions' },
+  { label: 'Resources' },
+  { label: 'About US' },
+]} />
+<ProductMenu product="pdf" productName="PDF" items={menu} />
+
+<!-- over a hero image -->
+<TopNav variant="transparent" items={items} />
+
+<!-- region-neutral, single locale -->
+<TopNav items={items} showAddress={false} showLanguage={false} />
+```
+
+Props: `variant` (`default` | `transparent` — Figma's "Without bg"), `items`
+(`{ label, href?, caret? }[]`, caret on by default), `showAddress` (Figma's own
+toggle), `address`, `contact`, `language`, `showLanguage`, `brandHref`, `class`.
+
+Like `ProductMenu` it introduced **no new tokens**: `slate/800` →
+`--slate-800`, `text/on-color/heading` → `--color-text-on-color-heading`, and
+the two type styles land on the system's existing nav-label / caption-sm
+weights and letter-spacings.
+
+Two details worth keeping:
+
+- **The Iron Software mark is `--color-neutral` (#62748E), not white.** Verified
+  against both the exported SVG's fill and the pixels of Figma's own render — it
+  is deliberately recessive next to the white wordmark. Don't "fix" it to white.
+- **Figma sets `gap: 0` between a label and its caret**, letting the caret's own
+  16×16 box provide the spacing. The caret SVG therefore uses an offset
+  `viewBox` (`-4.8768 -6.1177 16 16`) to centre its 6.2×3.8 triangle inside
+  16×16, rather than adding a wrapper element or a gap.
+
+Figma covers 1440px desktop only; the address drops at 1100px and the corporate
+menu at 720px, which is an implementation decision rather than a handed-over
+design.
+
 ## Icon strategy
 
 `Notice.astro` and `FileUpload.astro` use real **Font Awesome Free Solid** icons, inlined as `<svg viewBox="..." fill="currentColor"><path d="..."/></svg>` directly in the component — no `@fortawesome/*` npm package, icon font, or CDN link shipped at runtime, keeping components self-contained.
@@ -389,11 +434,12 @@ To add another icon: temporarily `npm install @fortawesome/free-solid-svg-icons`
 
 There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.
 
-## 16 components ported
+## 17 components ported
 
 Button, TextLink, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge,
-Notice, Tooltip, Product Footer, FormCard, TrialKeyCard, Logo and ProductMenu
-are all available. If the design system docs (`docs/component-*.html`) gain a new
+Notice, Tooltip, Product Footer, FormCard, TrialKeyCard, Logo, TopNav and
+ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
+two-bar site header. If the design system docs (`docs/component-*.html`) gain a new
 variant or pattern, check it here too — the docs' own Code-tab samples have
 a history of drifting out of sync with the live markup on the same page.
 

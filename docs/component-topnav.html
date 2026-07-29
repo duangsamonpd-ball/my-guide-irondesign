@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Top Nav · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+    :root {
+      --slate-800:#1D293D; --color-neutral:#62748E;
+      --color-text-on-color-heading:#FFFFFF; --color-text-link-menu-hover:#E01A59;
+      --color-border-focus:#2693EC;
+      --spacing-micro:0.25rem; --spacing-sm:0.75rem; --spacing-lg:1.25rem; --spacing-xl:1.5rem;
+      --font-size-xs:12px; --leading-4:16px;
+      --fw-nav-label:700; --fw-caption-sm:500;
+      --letter-spacing-nav-label:0.4px; --letter-spacing-caption-sm:0.4px;
+    }
+    header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
+    .logo-badge { width:40px; height:40px; flex-shrink:0; }
+    header h1 { font-size:1.25rem; font-weight:700; } header p { font-size:0.8rem; color:#737373; margin-top:2px; }
+    .hamburger { margin-left:auto; display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:6px 4px; border-radius:6px; }
+    .hamburger span { display:block; width:20px; height:2px; background:#62748E; border-radius:2px; }
+    .layout { display:flex; min-height:calc(100vh - 89px); }
+    .sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
+    .sidebar::-webkit-scrollbar{width:4px;} .sidebar::-webkit-scrollbar-thumb{background:#E2E8F0;border-radius:4px;}
+    .sidebar-nav { padding:8px 0 24px; display:flex; flex-direction:column; }
+    .sidebar-category { font-size:0.58rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:#A1A1A1; padding:18px 18px 5px; }
+    .sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+    .sidebar-link:hover { color:#1a7acc; background:#F0F9FF; }
+    .sidebar-link.active { color:#2693EC; background:#EBF5FD; border-left-color:#2693EC; font-weight:700; }
+    .sidebar-tree { display: flex; flex-direction: column; }
+    .sidebar-icon { width:18px; text-align:center; flex-shrink:0; font-style:normal; font-size:0.85rem; }
+    .sidebar-version { padding:16px 18px; border-top:1px solid #F1F5F9; margin-top:auto; font-size:0.68rem; font-weight:700; color:#A1A1A1; }
+    .main-content { flex:1; min-width:0; overflow:hidden; }
+    .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+    .sidebar-overlay.open { display:block; }
+    @media (max-width:768px){ .hamburger{display:flex;} .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} .sidebar.open{transform:translateX(0);} }
+    .content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+    .page-title { padding:40px 40px 28px; }
+    .crumb { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#A1A1A1; margin-bottom:10px; } .crumb a { color:#2693EC; text-decoration:none; }
+    .page-title h1 { font-size:2rem; font-weight:900; letter-spacing:-0.5px; margin-bottom:8px; }
+    .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
+    .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+    .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; } .chip.new { background:#EBF9F3; color:#2E9468; }
+    .sect { padding:0 40px; margin-top:44px; } .sect-h { font-size:1.05rem; font-weight:800; margin-bottom:4px; } .sect-sub { font-size:0.82rem; color:#62748E; line-height:1.6; margin-bottom:18px; }
+    .frame { border:1px solid #E2E8F0; border-radius:14px; overflow:hidden; background:#fff; }
+    .frame + .frame { margin-top:18px; }
+    /* Figma draws this at 1440px — show it at its design width and scroll the frame
+       rather than letting the demo collapse into the narrow-viewport rules. */
+    .frame-scroll { overflow-x:auto; }
+    .frame-scroll > * { min-width:1440px; }
+    .frame-cap { font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#A1A1A1; padding:12px 16px; border-top:1px solid #F1F5F9; background:#FCFDFE; }
+    .on-hero { background:linear-gradient(115deg,#391C39,#94153D 55%,#331433); }
+    .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
+    .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
+    .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; } .tok tr:last-child td { border-bottom:none; }
+    .tok td.prop { color:#62748E; } .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; } .tok td.val { font-family:'Roboto Mono',monospace; font-size:0.72rem; font-weight:600; }
+    .tok .sw { display:inline-block; width:12px; height:12px; border-radius:3px; border:1px solid rgba(0,0,0,0.15); margin-right:7px; vertical-align:-1px; }
+    .code-wrap { position:relative; } .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
+    .code-wrap .copy { position:absolute; top:12px; right:12px; font-size:0.64rem; font-weight:700; color:#fff; background:rgba(255,255,255,0.12); border:none; border-radius:7px; padding:6px 12px; cursor:pointer; } .code-wrap .copy:hover { background:rgba(255,255,255,0.24); }
+    .c-tag{color:#89D3DF;} .c-attr{color:#FDA509;} .c-str{color:#63C1A0;} .c-com{color:#737373;} .c-key{color:#E95F8B;}
+    .dd { display:grid; grid-template-columns:1fr 1fr; gap:16px; } .dd .card { border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
+    .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; } .dd .do .top { background:#EBF9F3; color:#2E9468; } .dd .dont .top { background:#FDEEF0; color:#C91D23; }
+    .dd ul { margin:14px 16px 18px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
+    footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
+
+    /* ════ TOP NAV (mirrors astro-components/components/TopNav.astro) ════ */
+  /*
+    Figma node 507:5349 ("Top Nav"). Token map, all 1:1 with the system's names:
+      slate/800             → --slate-800 (the strip fill)
+      text/on-color/heading → --color-text-on-color-heading
+    Labels use Figma's "Typography/UI/Nav label" style (--fw-nav-label /
+    --font-size-xs / --leading-4 / --letter-spacing-nav-label), the address uses
+    "Typography/Caption SM" (--fw-caption-sm / --letter-spacing-caption-sm).
+
+    The brand mark is --color-neutral, NOT white — verified against both the
+    exported SVG's fill and the pixels of Figma's own render. It reads as a
+    deliberately recessive mark next to the white wordmark.
+  */
+  .tn { width: 100%; font-family: 'Montserrat', sans-serif; }
+  .tn--default { background: var(--slate-800); }
+  .tn--transparent { background: transparent; }
+
+  .tn-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); height: 40px; box-sizing: border-box; max-width: 1440px; margin: 0 auto; padding: var(--spacing-sm) var(--spacing-xl); }
+
+  .tn-left { display: flex; align-items: center; gap: var(--spacing-xl); min-width: 0; }
+  .tn-right { display: flex; align-items: center; gap: var(--spacing-lg); min-width: 0; }
+
+  .tn-brand { display: flex; align-items: center; gap: var(--spacing-micro); flex-shrink: 0; text-decoration: none; }
+  .tn-mark { width: 16px; height: 14px; flex-shrink: 0; color: var(--color-neutral); }
+  .tn-brand-text { font-size: var(--font-size-xs); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; white-space: nowrap; }
+  .tn-brand-text b { font-weight: var(--fw-nav-label); }
+  .tn-brand-text span { font-weight: var(--fw-caption-sm); }
+
+  .tn-menu { display: flex; align-items: center; gap: var(--spacing-lg); list-style: none; margin: 0; padding: 0; min-width: 0; }
+  .tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+  .tn-item:hover { color: var(--color-text-link-menu-hover); }
+  .tn-item:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 3px; }
+  .tn-caret { width: 16px; height: 16px; flex-shrink: 0; }
+
+  .tn-address { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-heading); white-space: nowrap; }
+  .tn-pin { width: 10px; height: 14px; flex-shrink: 0; }
+
+  .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-color-heading); }
+  .tn-globe { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* Figma covers 1440px desktop only. Shed the address first — it is the longest
+     and least navigational item — then the corporate menu. */
+  @media (max-width: 1100px) { .tn-address { display: none; } }
+  @media (max-width: 720px) { .tn-menu { display: none; } }
+
+    @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} }
+      .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
+    .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
+    .code-tab:hover{color:#E5E5E5;}
+    .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
+    .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
+    .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
+    .code-wrap .code-pane.active{display:block;}
+  </style>
+</head>
+<body>
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div><h1>Iron Software Design System</h1><p>Visual Token Reference — for everyone on the team</p></div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <div class="sidebar-tree">
+        <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+        <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
+        <a href="component-textlink.html" class="sidebar-link"><i class="sidebar-icon">🔗</i>Text Link</a>
+        <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
+        <a href="component-fileupload.html" class="sidebar-link"><i class="sidebar-icon">📎</i>File Upload</a>
+        <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
+        <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
+        <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
+        <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+        <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+        <a href="component-topnav.html" class="sidebar-link active"><i class="sidebar-icon">📍</i>Top Nav</a>
+        <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
+        <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
+        <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
+        <a href="component-formcard.html" class="sidebar-link"><i class="sidebar-icon">🗂️</i>Form Card</a>
+        <a href="component-trialkeycard.html" class="sidebar-link"><i class="sidebar-icon">🔑</i>Trial Key Card</a>
+      </div>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+  <div class="main-content"><div class="content">
+
+    <div class="page-title">
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Top Nav</div>
+      <h1>Top Nav</h1>
+      <p class="lead">The 40px corporate utility strip that sits above the product header: Iron Software lockup and company-level menu on the left, office address, Contact&nbsp;Us and the language picker on the right. Pair it above <a href="component-productmenu.html">Product Menu</a> for the full two-bar header.</p>
+      <div class="meta-chips"><span class="chip">2 variants</span><span class="chip">40px strip</span><span class="chip new">Figma 507:5349</span></div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Default</div>
+      <div class="sect-sub">Filled with <code>--slate-800</code>. The standard treatment on light pages.</div>
+      <div class="frame"><div class="frame-scroll">
+<div class="tn tn--default"><nav class="tn-inner" aria-label="Corporate"><div class="tn-left"><a class="tn-brand" href="/"><svg class="tn-mark" viewBox="0 0 16.0002 13.3333" fill="currentColor" aria-hidden="true"><path d="M6.60254 7.74121L5.10417 13.3333H2.41781L3.22152 10.3335L0 10.3338L0.695313 7.7391L6.60254 7.74121Z"></path><path d="M14.0353 10.3328H10.8177L10.0169 13.3333H7.33089L8.82927 7.74121L14.7303 7.73812L14.0353 10.3328Z"></path><path d="M7.17643 5.59733L1.27165 5.59456L1.96696 3.00033L5.1862 2.99967L5.9904 0H8.67676L7.17643 5.59733Z"></path><path d="M12.7783 2.99951H16.0002L15.3052 5.59424L9.39616 5.59701L10.8963 0H13.5824L12.7783 2.99951Z"></path></svg><span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span></a><ul class="tn-menu"><li><a class="tn-item" href="#">Products<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Enterprise<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Solutions<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Resources<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">About US<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li></ul></div><div class="tn-right"><span class="tn-address"><svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"></path></svg>205 N. Michigan Ave. Chicago, IL 60611, USA</span><a class="tn-item" href="#">Contact Us<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a><span class="tn-lang"><svg class="tn-globe" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.9375 13.125C10.5312 11.9375 10.9375 10.2812 11 8.5H5C5.0625 10.2812 5.5 11.9375 6.09375 13.125C6.78125 14.5312 7.53125 15 8 15C8.5 15 9.21875 14.5312 9.9375 13.125ZM11 7.5C10.9375 5.71875 10.5312 4.09375 9.9375 2.875C9.21875 1.46875 8.5 1 8 1C7.53125 1 6.78125 1.46875 6.09375 2.875C5.5 4.09375 5.0625 5.71875 5 7.5H11ZM12 8.5C11.9062 10.9688 11.1875 13.2812 10.1562 14.6562C12.8125 13.8125 14.7812 11.4062 14.9688 8.5H12ZM14.9688 7.5C14.7812 4.625 12.8125 2.21875 10.1562 1.34375C11.1875 2.71875 11.9062 5.03125 12 7.5H14.9688ZM4 7.5C4.09375 5.03125 4.8125 2.71875 5.84375 1.34375C3.1875 2.21875 1.21875 4.625 1.03125 7.5H4ZM1.03125 8.5C1.21875 11.4062 3.1875 13.8125 5.84375 14.6562C4.8125 13.2812 4.09375 10.9688 4 8.5H1.03125ZM8 16C3.59375 16 0 12.4062 0 8C0 3.59375 3.59375 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4062 12.4062 16 8 16Z"></path></svg><a class="tn-item" href="#">EN<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></span></div></nav></div>
+      </div><div class="frame-cap">variant="default"</div></div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Transparent</div>
+      <div class="sect-sub">Figma’s “Without bg”. No fill, so the strip sits directly over a hero image or dark section. Check contrast against whatever sits behind it — the labels are white and get no scrim of their own.</div>
+      <div class="frame"><div class="frame-scroll on-hero">
+<div class="tn tn--transparent"><nav class="tn-inner" aria-label="Corporate"><div class="tn-left"><a class="tn-brand" href="/"><svg class="tn-mark" viewBox="0 0 16.0002 13.3333" fill="currentColor" aria-hidden="true"><path d="M6.60254 7.74121L5.10417 13.3333H2.41781L3.22152 10.3335L0 10.3338L0.695313 7.7391L6.60254 7.74121Z"></path><path d="M14.0353 10.3328H10.8177L10.0169 13.3333H7.33089L8.82927 7.74121L14.7303 7.73812L14.0353 10.3328Z"></path><path d="M7.17643 5.59733L1.27165 5.59456L1.96696 3.00033L5.1862 2.99967L5.9904 0H8.67676L7.17643 5.59733Z"></path><path d="M12.7783 2.99951H16.0002L15.3052 5.59424L9.39616 5.59701L10.8963 0H13.5824L12.7783 2.99951Z"></path></svg><span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span></a><ul class="tn-menu"><li><a class="tn-item" href="#">Products<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Enterprise<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Solutions<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Resources<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">About US<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li></ul></div><div class="tn-right"><span class="tn-address"><svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"></path></svg>205 N. Michigan Ave. Chicago, IL 60611, USA</span><a class="tn-item" href="#">Contact Us<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a><span class="tn-lang"><svg class="tn-globe" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.9375 13.125C10.5312 11.9375 10.9375 10.2812 11 8.5H5C5.0625 10.2812 5.5 11.9375 6.09375 13.125C6.78125 14.5312 7.53125 15 8 15C8.5 15 9.21875 14.5312 9.9375 13.125ZM11 7.5C10.9375 5.71875 10.5312 4.09375 9.9375 2.875C9.21875 1.46875 8.5 1 8 1C7.53125 1 6.78125 1.46875 6.09375 2.875C5.5 4.09375 5.0625 5.71875 5 7.5H11ZM12 8.5C11.9062 10.9688 11.1875 13.2812 10.1562 14.6562C12.8125 13.8125 14.7812 11.4062 14.9688 8.5H12ZM14.9688 7.5C14.7812 4.625 12.8125 2.21875 10.1562 1.34375C11.1875 2.71875 11.9062 5.03125 12 7.5H14.9688ZM4 7.5C4.09375 5.03125 4.8125 2.71875 5.84375 1.34375C3.1875 2.21875 1.21875 4.625 1.03125 7.5H4ZM1.03125 8.5C1.21875 11.4062 3.1875 13.8125 5.84375 14.6562C4.8125 13.2812 4.09375 10.9688 4 8.5H1.03125ZM8 16C3.59375 16 0 12.4062 0 8C0 3.59375 3.59375 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4062 12.4062 16 8 16Z"></path></svg><a class="tn-item" href="#">EN<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></span></div></nav></div>
+      </div><div class="frame-cap">variant="transparent" · shown over a hero fill</div></div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Trimmed</div>
+      <div class="sect-sub">Both right-hand groups are optional. Drop the address on region-neutral pages and the language picker on single-locale sites.</div>
+      <div class="frame"><div class="frame-scroll">
+<div class="tn tn--default"><nav class="tn-inner" aria-label="Corporate"><div class="tn-left"><a class="tn-brand" href="/"><svg class="tn-mark" viewBox="0 0 16.0002 13.3333" fill="currentColor" aria-hidden="true"><path d="M6.60254 7.74121L5.10417 13.3333H2.41781L3.22152 10.3335L0 10.3338L0.695313 7.7391L6.60254 7.74121Z"></path><path d="M14.0353 10.3328H10.8177L10.0169 13.3333H7.33089L8.82927 7.74121L14.7303 7.73812L14.0353 10.3328Z"></path><path d="M7.17643 5.59733L1.27165 5.59456L1.96696 3.00033L5.1862 2.99967L5.9904 0H8.67676L7.17643 5.59733Z"></path><path d="M12.7783 2.99951H16.0002L15.3052 5.59424L9.39616 5.59701L10.8963 0H13.5824L12.7783 2.99951Z"></path></svg><span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span></a><ul class="tn-menu"><li><a class="tn-item" href="#">Products<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Enterprise<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Solutions<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">Resources<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li><li><a class="tn-item" href="#">About US<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></li></ul></div><div class="tn-right"><a class="tn-item" href="#">Contact Us<svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg></a></div></nav></div>
+      </div><div class="frame-cap">showAddress={false} · showLanguage={false}</div></div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Props</div>
+      <table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="prop">variant</td><td class="token">'default' | 'transparent'</td><td class="val">'default'</td><td>Figma’s <code>variant</code>; <code>transparent</code> is its “Without bg”.</td></tr>
+        <tr><td class="prop">items</td><td class="token">NavItem[]</td><td class="val">[]</td><td><code>{ label, href?, caret? }</code>. Caret is on by default — Figma shows one on every item.</td></tr>
+        <tr><td class="prop">showAddress</td><td class="token">boolean</td><td class="val">true</td><td>Figma’s own toggle.</td></tr>
+        <tr><td class="prop">address</td><td class="token">string</td><td class="val">'205 N. Michigan Ave. …'</td><td>Office address text.</td></tr>
+        <tr><td class="prop">contact</td><td class="token">NavItem</td><td class="val">{ label: 'Contact Us' }</td><td>Pass <code>null</code> to drop it.</td></tr>
+        <tr><td class="prop">language</td><td class="token">NavItem</td><td class="val">{ label: 'EN' }</td><td>Rendered after the globe icon.</td></tr>
+        <tr><td class="prop">showLanguage</td><td class="token">boolean</td><td class="val">true</td><td>Hides the globe + locale group.</td></tr>
+        <tr><td class="prop">brandHref</td><td class="token">string</td><td class="val">'/'</td><td>Target of the Iron Software lockup.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="sect"><div class="sect-h">Token Reference</div>
+      <div class="sect-sub">Like Product Menu, this component introduced no new tokens.</div>
+      <table class="tok"><thead><tr><th>Figma variable</th><th>System token</th><th>Value</th><th>Used for</th></tr></thead><tbody>
+        <tr><td class="prop">slate/800</td><td class="token">--slate-800</td><td class="val"><span class="sw" style="background:#1D293D"></span>#1D293D</td><td>Strip fill</td></tr>
+        <tr><td class="prop">text/on-color/heading</td><td class="token">--color-text-on-color-heading</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td><td>All labels, address, globe</td></tr>
+        <tr><td class="prop">(mark fill)</td><td class="token">--color-neutral</td><td class="val"><span class="sw" style="background:#62748E"></span>#62748E</td><td>Iron Software mark — recessive, not white</td></tr>
+        <tr><td class="prop">Typography/UI/Nav label</td><td class="token">--fw-nav-label · --font-size-xs · --leading-4 · --letter-spacing-nav-label</td><td class="val">700 / 12px / 16px / 0.4px</td><td>Menu labels, Contact Us, EN</td></tr>
+        <tr><td class="prop">Typography/Caption SM</td><td class="token">--fw-caption-sm · --letter-spacing-caption-sm</td><td class="val">500 / 0.4px</td><td>Address, “SOFTWARE” half of the lockup</td></tr>
+        <tr><td class="prop">spacing micro · sm · lg · xl</td><td class="token">--spacing-micro/sm/lg/xl</td><td class="val">4 / 12 / 20 / 24px</td><td>Icon gaps, padding, item gaps</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="sect"><div class="sect-h">Code</div>
+      <div class="code-wrap">
+          <div class="code-tabs">
+            <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
+            <button class="code-tab" onclick="switchTab(this,'html')">HTML</button>
+            <button class="copy" onclick="copyCode(this)">Copy</button>
+          </div>
+<pre class="code-pane active" data-lang="astro"><span class="c-com">// the full two-bar header</span>
+&lt;<span class="c-tag">TopNav</span> <span class="c-attr">items</span>={[
+  { <span class="c-attr">label</span>: <span class="c-str">'Products'</span>, <span class="c-attr">href</span>: <span class="c-str">'/products'</span> },
+  { <span class="c-attr">label</span>: <span class="c-str">'Enterprise'</span> },
+  { <span class="c-attr">label</span>: <span class="c-str">'Solutions'</span> },
+  { <span class="c-attr">label</span>: <span class="c-str">'Resources'</span> },
+  { <span class="c-attr">label</span>: <span class="c-str">'About US'</span> },
+]} /&gt;
+&lt;<span class="c-tag">ProductMenu</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> <span class="c-attr">productName</span>=<span class="c-str">"PDF"</span> <span class="c-attr">items</span>={menu} /&gt;
+
+<span class="c-com">// over a hero image</span>
+&lt;<span class="c-tag">TopNav</span> <span class="c-attr">variant</span>=<span class="c-str">"transparent"</span> <span class="c-attr">items</span>={items} /&gt;
+
+<span class="c-com">// region-neutral, single locale</span>
+&lt;<span class="c-tag">TopNav</span> <span class="c-attr">items</span>={items} <span class="c-attr">showAddress</span>={<span class="c-str">false</span>} <span class="c-attr">showLanguage</span>={<span class="c-str">false</span>} /&gt;</pre>
+<pre class="code-pane" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"tn tn--default"</span>&gt;
+  &lt;<span class="c-tag">nav</span> <span class="c-attr">class</span>=<span class="c-str">"tn-inner"</span> <span class="c-attr">aria-label</span>=<span class="c-str">"Corporate"</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"tn-left"</span>&gt;
+      &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tn-brand"</span> <span class="c-attr">href</span>=<span class="c-str">"/"</span>&gt;
+        &lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"tn-mark"</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;
+        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tn-brand-text"</span>&gt;&lt;<span class="c-tag">b</span>&gt;IRON&lt;/<span class="c-tag">b</span>&gt;&lt;<span class="c-tag">span</span>&gt;SOFTWARE&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+      &lt;/<span class="c-tag">a</span>&gt;
+      &lt;<span class="c-tag">ul</span> <span class="c-attr">class</span>=<span class="c-str">"tn-menu"</span>&gt;
+        &lt;<span class="c-tag">li</span>&gt;&lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tn-item"</span>&gt;Products &lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"tn-caret"</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">a</span>&gt;&lt;/<span class="c-tag">li</span>&gt;
+      &lt;/<span class="c-tag">ul</span>&gt;
+    &lt;/<span class="c-tag">div</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"tn-right"</span>&gt;
+      &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tn-address"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"tn-pin"</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;205 N. Michigan Ave. …&lt;/<span class="c-tag">span</span>&gt;
+      &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tn-item"</span>&gt;Contact Us&lt;/<span class="c-tag">a</span>&gt;
+      &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tn-lang"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"tn-globe"</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;&lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tn-item"</span>&gt;EN&lt;/<span class="c-tag">a</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
+    &lt;/<span class="c-tag">div</span>&gt;
+  &lt;/<span class="c-tag">nav</span>&gt;
+&lt;/<span class="c-tag">div</span>&gt;</pre>
+        </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Guidelines</div>
+      <div class="dd">
+        <div class="card do"><div class="top">✓ Do</div>
+          <ul>
+            <li>Keep this strip for <b>company-level</b> destinations — product navigation belongs in <a href="component-productmenu.html">Product Menu</a> below it.</li>
+            <li>Check contrast behind <code>transparent</code>; the labels are white with no scrim of their own.</li>
+            <li>Drop the address before the menu when space runs out — it is the longest and least navigational item.</li>
+          </ul></div>
+        <div class="card dont"><div class="top">✗ Don't</div>
+          <ul>
+            <li>Don’t recolour the Iron Software mark to white — it is <code>--color-neutral</code> here by design, recessive next to the wordmark.</li>
+            <li>Don’t use this strip on its own as a page’s only navigation.</li>
+            <li>Don’t stack more corporate links in; five is what the design budgets for at 1440px.</li>
+          </ul></div>
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Notes</div>
+      <div class="sect-sub">
+        Figma specifies 1440px desktop only. The narrow-viewport behaviour here — the address goes at 1100px, the corporate menu at 720px — is an implementation decision, not a handed-over design.
+        <br><br>
+        Figma sets <code>gap: 0</code> between a label and its caret and lets the caret’s own 16×16 box provide the spacing. The caret SVG therefore uses an offset <code>viewBox</code> to centre its 6.2×3.8 triangle inside 16×16, rather than adding a wrapper element.
+      </div>
+    </div>
+
+    <footer>Iron Software Design System &nbsp;·&nbsp; Top Nav component &nbsp;·&nbsp; 2025</footer>
+  </div></div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<script>
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function showToast(msg){
+    let el=document.getElementById('ds-toast');
+    if(!el){el=document.createElement('div');el.id='ds-toast';document.body.appendChild(el);
+      el.style.cssText='position:fixed;right:32px;bottom:32px;transform:translateY(20px);background:#171717;color:#fff;font-family:Montserrat,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:.01em;padding:11px 18px;border-radius:9999px;box-shadow:0 8px 28px rgba(15,23,43,0.28);z-index:200;opacity:0;transition:opacity .22s ease,transform .22s ease;display:flex;align-items:center;gap:8px;pointer-events:none;';}
+    el.innerHTML='<span style="color:#3DDC97;font-weight:800;">✓</span>'+msg;
+    setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);
+    clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);
+  }
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
+  function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+  function copyCode(btn){
+    const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;
+    const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
+    else{fallbackCopy(txt,done);}
+  }
+</script>
+</body>
+</html>
