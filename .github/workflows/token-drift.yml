@@ -32,6 +32,11 @@ jobs:
       - name: Check component ↔ docs CSS parity
         run: node scripts/check-component-parity.mjs
 
+      # The barrel and both exports maps are hand-kept — a missing export
+      # otherwise only fails inside a consuming app, never here.
+      - name: Check barrel & exports maps
+        run: node scripts/check-exports.mjs
+
   # Proves the theme actually compiles, and that every variable the components
   # read still resolves once Tailwind has processed it.
   compile:

@@ -9,11 +9,19 @@
     "check:theme": "node scripts/build-theme.mjs --check",
     "check:tokens": "node scripts/check-token-drift.mjs",
     "check:parity": "node scripts/check-component-parity.mjs",
+    "check:exports": "node scripts/check-exports.mjs",
     "check:vars": "tailwindcss -i tailwind/theme.css -o node_modules/.tmp/theme.compiled.css && node scripts/check-component-vars.mjs node_modules/.tmp/theme.compiled.css",
-    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:vars"
+    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
     "tailwindcss": "^4.3.3"
+  },
+  "exports": {
+    "./tokens.css": "./tailwind/tokens.css",
+    "./theme.css": "./tailwind/theme.css",
+    "./colors.css": "./tailwind/colors.css",
+    "./tokens.json": "./tokens/tokens.w3c.json",
+    "./package.json": "./package.json"
   }
 }

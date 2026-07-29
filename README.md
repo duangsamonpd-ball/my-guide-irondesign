@@ -322,10 +322,20 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 `tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check          # theme.css is current + no drift
+npm run check          # all five gates
 ```
 
-Zero dependencies — plain Node. It checks 232 tokens across colors, spacing, radius, shadows, blur, opacity, sizing, the semantic type scale and breakpoints, and fails if any component hardcodes a hex value instead of using a semantic token.
+Zero dependencies — plain Node. Five gates run in order, and any one of them fails the build:
+
+| Gate | Asserts |
+|---|---|
+| `check:theme` | `theme.css` has been regenerated from `tokens.css` |
+| `check:tokens` | 269 tokens agree across `tokens.w3c.json`, `tokens.css` and `theme.css` — and no component hardcodes a hex where a semantic token exists |
+| `check:parity` | every CSS rule in a component's `<style>` also appears in its `docs/component-*.html` page |
+| `check:exports` | every component is in the barrel, and every `exports` map target resolves |
+| `check:vars` | every `var(--…)` a component reads still resolves once Tailwind has compiled the theme |
+
+Token coverage spans colors, spacing, radius, shadows, blur, opacity, sizing, the semantic type scale and breakpoints.
 
 `theme.css` is generated, so a stale copy counts as drift:
 
@@ -342,7 +352,7 @@ npm run check:theme    # fails if it is out of date
 
 **Fix the generated layer, not the source** — unless the design genuinely changed in Figma, in which case update `tokens.w3c.json` first and propagate outward.
 
-CI runs this on every push and PR, and additionally compiles `theme.css` with real Tailwind v4 to prove every variable the components read still resolves ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
+CI runs the first four gates on every push and PR, and in a second job compiles `theme.css` with real Tailwind v4 so `check:vars` runs against a genuinely compiled stylesheet ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
 
 ### Deploy
 

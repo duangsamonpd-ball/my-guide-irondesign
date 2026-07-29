@@ -11,14 +11,62 @@ silently drift.
 
 These components are token-driven — they don't ship their own colors, sizes,
 or radii. Import the design system's token file once, globally, before using
-any component (e.g. in your root layout):
+any component (e.g. in your root layout).
+
+**Resolved by package name** (preferred). Both packages are `private`, so make
+them resolvable first — a workspace entry in a monorepo, otherwise `npm link` or
+a symlink into `node_modules/@iron-software/`:
 
 ```astro
 ---
 // src/layouts/Layout.astro
-import '../../astro-components/../tailwind/tokens.css';
+import '@iron-software/design-system/tokens.css';
 ---
 ```
+
+```astro
+---
+// any page or component
+import { Badge, Button, Input } from '@iron-software/astro-components';
+---
+<Badge intent="success" dot>Active</Badge>
+```
+
+Deep imports stay available, and are the better choice when you want one
+component and nothing else:
+
+```astro
+import Badge from '@iron-software/astro-components/components/Badge.astro';
+import { icons } from '@iron-software/astro-components/icons';
+```
+
+The `exports` map is **only consulted for name-based resolution**. A relative
+directory import (`import { Badge } from '../../astro-components'`) will not find
+the barrel — point at the file instead, or resolve by name:
+
+```astro
+// relative fallback, no package resolution needed
+import '../../astro-components/../tailwind/tokens.css';
+import Badge from '../../astro-components/components/Badge.astro';
+```
+
+### What each package exposes
+
+| Import | Resolves to |
+|---|---|
+| `@iron-software/astro-components` | `index.ts` — every component + `icons` |
+| `@iron-software/astro-components/components/*.astro` | one component |
+| `@iron-software/astro-components/icons` | shared icon path data |
+| `@iron-software/design-system/tokens.css` | hand-authored token layer |
+| `@iron-software/design-system/theme.css` | generated Tailwind theme |
+| `@iron-software/design-system/colors.css` | raw palette |
+| `@iron-software/design-system/tokens.json` | W3C DTCG source of truth |
+
+`index.ts` must list every file in `components/`, and `npm run check:exports`
+enforces it — along with every barrel target resolving, the exports staying
+alphabetical, and every path in either `exports` map existing on disk. Without
+that gate a missing export only surfaces as a build-time `[MISSING_EXPORT]`
+inside the consuming app, which is a long way from the mistake.
 
 Adjust the relative path to wherever you copy/symlink `tailwind/tokens.css`
 into your Astro project.
@@ -423,6 +471,98 @@ Two details worth keeping:
 Figma covers 1440px desktop only; the address drops at 1100px and the corporate
 menu at 720px, which is an implementation decision rather than a handed-over
 design.
+
+## Prop API conventions
+
+These are **descriptive, not aspirational** — they were read off the 17 existing
+components (159 prop declarations, 83 distinct names). Follow them so a new
+component feels like the rest of the family; where reality is already split, that
+is called out rather than papered over.
+
+### The shape every component has
+
+Universal — all 17 do this, so a new component should too:
+
+```astro
+---
+interface Props {
+  /* … component-specific props … */
+  class?: string;
+}
+
+const { /* …defaults… */, class: className } = Astro.props;
+---
+
+<div class:list={['root', { someFlag }, className]}>…</div>
+
+<style>/* one block, the source of truth for this component's CSS */</style>
+```
+
+- **`class?: string`, destructured as `class: className`** — 17/17. `class` is a
+  reserved word, so the alias is not optional.
+- **`class:list` on the root, with `className` last** — 17/17. Trailing position
+  is what lets a caller's utility class land after the component's own.
+- **Exactly one `<style>` block** — 17/17, and it is the source of truth that
+  `check:parity` holds the docs page to.
+
+### Choosing a prop shape
+
+| The prop expresses… | Shape | Examples in this library |
+|---|---|---|
+| One of several mutually exclusive looks | string union | `variant`, `intent`, `size`, `placement`, `kind` |
+| A state that is either on or off | `boolean` | `disabled`, `error`, `checked`, `solid`, `pill`, `dot` |
+| Whether an optional part renders | `boolean`, named `show…` | `showSearch`, `showAskAi`, `showAddress`, `showLanguage`, `showMenuItems2` |
+| Free-form content | slot (not a prop) | `Badge`, `Button`, `FormCard`, `TextLink`, `Tooltip` |
+| Repeating content | array of small objects | `items`, `options`, `products`, `subItems`, `footerNotes` |
+
+Never take a boolean where a union belongs. `variant="filled" \| "bordered"`
+survives a third option; `filled={true}` does not.
+
+### Naming
+
+- **The variant axis is `variant`** unless the component has a more precise word
+  for it: `Badge`/`Notice` use `intent` because the choice carries meaning rather
+  than looks, `Logo` uses `kind` for its three families. Seven components use
+  plain `variant`.
+- **Booleans read as adjectives or `show…`/`has…`** — `disabled`, `checked`,
+  `invalid`, `external`, `showAddress`, `hasTrailingIcon`. No `isX`.
+- **Port names verbatim from Figma when they exist.** `hasTrailingIcon`,
+  `showMenuItems2` and `variant` on the nav components are Figma's own property
+  names, kept so the component stays traceable to the design file — even where a
+  different name would read better in isolation.
+- **Form-field props are a fixed set**, and a new field-like component should use
+  all of them rather than inventing near-synonyms: `label`, `name`, `id`,
+  `value`, `placeholder`, `hint`, `error`, `errorMessage`, `required`,
+  `disabled`.
+
+### Defaults and required props
+
+- **Give every prop a default that has an obvious "plain" value**, in the
+  destructure rather than the interface. Only 8 of 17 components take a required
+  prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
+  `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
+  `Tooltip.body`, and the card components' labels.
+- **A required prop must be un-defaultable.** `TrialKeyCard` requires five, which
+  is the most in the library — it renders blank or throws without them.
+  `footerNotes` is required for exactly this reason: it is read with `.length`.
+- **`href` switches the rendered tag** where it makes sense — `Button`, `Logo`,
+  `ProductMenu` and `TopNav` render an `<a>` when given one and a
+  `<button>`/`<span>` otherwise. Add `aria-label` on the anchor when the visible
+  content is an icon.
+
+### Known inconsistencies
+
+Real splits in the current API. Match the majority in new work; don't "fix" the
+minority without a deliberate decision, since these are public names:
+
+- **`small` vs `size`.** `Badge` takes `small?: boolean`; `Button` takes
+  `size?: 'lg' | 'md' | 'sm'`. Prefer `size` for anything with more than two
+  steps.
+- **`invalid` vs `error`.** `Checkbox`/`Radio` use `invalid`; `Input`,
+  `Textarea`, `Select` and `FileUpload` use `error` (+ `errorMessage`). The
+  `error` pair is the majority and the one to copy.
+- **`maxWidth` is a boolean on `Tooltip`**, not a length. It reads like a
+  dimension and is not one.
 
 ## Icon strategy
 

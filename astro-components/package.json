@@ -5,5 +5,11 @@
   "type": "module",
   "peerDependencies": {
     "astro": ">=4.0.0"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./components/*": "./components/*",
+    "./icons": "./icons.ts",
+    "./package.json": "./package.json"
   }
 }

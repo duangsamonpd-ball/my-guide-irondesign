@@ -46,7 +46,7 @@ const listboxId = `${uid}-listbox`;
 const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : undefined;
 ---
 
-<div class:list={['sel', className, { error, disabled }]}>
+<div class:list={['sel', { error, disabled }, className]}>
   {label && <label id={labelId} class="sel-label">{label}</label>}
   <button
     type="button"
