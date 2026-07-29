@@ -69,7 +69,7 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ## 🧬 Astro components
 
-15 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
+16 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
 
 | Component | Notes |
 |---|---|

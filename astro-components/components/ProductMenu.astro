@@ -1,0 +1,243 @@
+---
+/**
+ * ProductMenu — the full-width product header from Figma node 790:4778
+ * ("Product menu", canvas 231:1473 " ↳ Navigation menu").
+ *
+ * Two variants, matching Figma's `Varient` property:
+ *   default  — one 72px tier: product lockup · menu · search/AI · CTA
+ *   submenu  — adds a second 65px tier of sub-navigation chips
+ *
+ * Figma's own property names are kept where they exist (`hasTrailingIcon`,
+ * `showMenuItems2`) so the component stays traceable to the design file.
+ *
+ * NOTE: Figma specifies this at 1440px desktop only — its Do/Don't sheet talks
+ * about "desktop screen breakpoints" and there is no mobile frame. The narrow
+ * behaviour below (drop the runtime label, then the util bubbles, then let the
+ * menu scroll) is an implementation decision, not a design that was handed over.
+ */
+
+interface MenuItem {
+  label: string;
+  href?: string;
+  active?: boolean;
+  /** Figma shows a caret on every top item except the active one. */
+  caret?: boolean;
+}
+
+interface SubItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  variant?: 'default' | 'submenu';
+  /** Mark artwork — same keys as Logo.astro's `product`. */
+  product?: string;
+  /** Coloured half of the wordmark, e.g. "PDF" in IRONPDF. */
+  productName?: string;
+  /** Trailing runtime label, e.g. "for .NET". Omit to hide. */
+  runtime?: string;
+  productHref?: string;
+  /** Figma `hasTrailingIcon` — the caret after the product lockup. */
+  hasTrailingIcon?: boolean;
+  items?: MenuItem[];
+  /** Sub tier: the current-page chip, drawn boxed and brand-coloured. */
+  subLead?: SubItem;
+  subItems?: SubItem[];
+  /** Figma `showMenuItems2` — trailing links at the right end of the sub tier. */
+  showMenuItems2?: boolean;
+  subItemsTrailing?: SubItem[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  showSearch?: boolean;
+  showAskAi?: boolean;
+  searchLabel?: string;
+  askAiLabel?: string;
+  basePath?: string;
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  product = 'pdf',
+  productName = 'PDF',
+  runtime = 'for .NET',
+  productHref = '/',
+  hasTrailingIcon = true,
+  items = [],
+  subLead,
+  subItems = [],
+  showMenuItems2 = false,
+  subItemsTrailing = [],
+  ctaLabel = 'Start for Free',
+  ctaHref = '#',
+  showSearch = true,
+  showAskAi = true,
+  searchLabel = 'Search',
+  askAiLabel = 'Ask AI',
+  basePath = 'assets',
+  class: className,
+} = Astro.props;
+
+const markSrc = `${basePath}/mark-${product}.svg`;
+const hasSub = variant === 'submenu';
+---
+
+<nav class:list={['pm', { 'pm--submenu': hasSub }, className]} aria-label="Product">
+  <div class="pm-bar">
+    <a class="pm-brand" href={productHref}>
+      <img class="pm-mark" src={markSrc} alt="" width="40" height="40" />
+      <span class="pm-name"><b>IRON</b><span class="pm-name-hl">{productName}</span></span>
+      {runtime && <span class="pm-runtime">{runtime}</span>}
+      {hasTrailingIcon && (
+        <svg class="pm-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"/></svg>
+      )}
+    </a>
+
+    <div class="pm-center">
+      <ul class="pm-menu">
+        {items.map((it) => (
+          <li>
+            <a class:list={['pm-item', { 'is-active': it.active }]} href={it.href ?? '#'} aria-current={it.active ? 'page' : undefined}>
+              {it.label}
+              {(it.caret ?? !it.active) && (
+                <svg class="pm-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"/></svg>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {(showSearch || showAskAi) && (
+        <div class="pm-utils">
+          {showSearch && (
+            <button class="pm-util" type="button" aria-label={searchLabel}>
+              <svg viewBox="0 0 16.0078 16.0156" fill="currentColor" aria-hidden="true"><path d="M11.5 6.5C11.5 4.71875 10.5312 3.09375 9 2.1875C7.4375 1.28125 5.53125 1.28125 4 2.1875C2.4375 3.09375 1.5 4.71875 1.5 6.5C1.5 8.3125 2.4375 9.9375 4 10.8438C5.53125 11.75 7.4375 11.75 9 10.8438C10.5312 9.9375 11.5 8.3125 11.5 6.5ZM10.5312 11.625C9.40625 12.5 8 13 6.5 13C2.90625 13 0 10.0938 0 6.5C0 2.9375 2.90625 0 6.5 0C10.0625 0 13 2.9375 13 6.5C13 8.03125 12.4688 9.4375 11.5938 10.5625L15.7812 14.7188C16.0625 15.0312 16.0625 15.5 15.7812 15.7812C15.4688 16.0938 15 16.0938 14.7188 15.7812L10.5312 11.625Z"/></svg>
+            </button>
+          )}
+          {showAskAi && (
+            <button class="pm-util" type="button" aria-label={askAiLabel}>
+              <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1C8.28125 1 8.53125 1.1875 8.65625 1.4375L10.5312 5.46875L14.5625 7.34375C14.8125 7.46875 15 7.71875 15 8C15 8.3125 14.8125 8.5625 14.5625 8.6875L10.5312 10.5625L8.65625 14.5938C8.53125 14.8438 8.28125 15 8 15C7.6875 15 7.4375 14.8438 7.3125 14.5938L5.4375 10.5625L1.40625 8.6875C1.15625 8.5625 1 8.3125 1 8C1 7.71875 1.15625 7.46875 1.40625 7.34375L5.4375 5.46875L7.3125 1.4375C7.4375 1.1875 7.6875 1 8 1ZM8 3.5625L6.6875 6.34375C6.625 6.5 6.5 6.65625 6.3125 6.71875L3.53125 8L6.3125 9.3125C6.5 9.375 6.625 9.5 6.6875 9.6875L8 12.4688L9.28125 9.6875C9.34375 9.5 9.46875 9.375 9.65625 9.3125L12.4375 8L9.65625 6.71875C9.5 6.65625 9.34375 6.53125 9.28125 6.34375L8 3.5625Z"/><path d="M2.87109 0.289062L3.57422 1.80078L5.08594 2.50391C5.17969 2.55078 5.25 2.64453 5.25 2.75C5.25 2.86719 5.17969 2.96094 5.08594 3.00781L3.57422 3.71094L2.87109 5.22266C2.82422 5.31641 2.73047 5.375 2.625 5.375C2.50781 5.375 2.41406 5.31641 2.36719 5.22266L1.66406 3.71094L0.152344 3.00781C0.0585938 2.96094 0 2.86719 0 2.75C0 2.64453 0.0585938 2.55078 0.152344 2.50391L1.66406 1.80078L2.36719 0.289062C2.41406 0.195312 2.50781 0.125 2.625 0.125C2.73047 0.125 2.82422 0.195312 2.87109 0.289062Z"/></svg>
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+
+    <div class="pm-right">
+      <a class="pm-cta" href={ctaHref}>
+        <svg class="pm-cta-icon" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"/></svg>
+        {ctaLabel}
+        <svg class="pm-cta-caret" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  {hasSub && (
+    <div class="pm-sub">
+      <div class="pm-sub-inner">
+        {subLead && (
+          <>
+            <a class="pm-chip is-active" href={subLead.href ?? '#'} aria-current="page">
+              <svg viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><path d="M9.96875 0.1875L17.5312 3.3125C17.8125 3.4375 18 3.6875 18 4C18 4.3125 17.8125 4.59375 17.5312 4.6875L15 5.75V11C15 12.6562 12.3125 14 9 14C5.6875 14 3 12.6562 3 11V5.75L1.5 5.125V13.25C1.5 13.6562 1.15625 14 0.75 14C0.34375 14 0 13.6562 0 13.25V4C0 3.6875 0.1875 3.4375 0.46875 3.3125L8.03125 0.1875C8.34375 0.0625 8.65625 0 9 0C9.34375 0 9.65625 0.0625 9.96875 0.1875ZM4.5 11V11.0312C4.53125 11.0625 4.5625 11.125 4.625 11.1875C4.75 11.375 5 11.5625 5.4375 11.7812C6.28125 12.1875 7.53125 12.5 9 12.5C10.4688 12.5 11.75 12.1875 12.5625 11.7812C13 11.5625 13.25 11.375 13.375 11.1875C13.4375 11.125 13.4688 11.0625 13.5 11.0312C13.5 11.0312 13.5 11.0312 13.5 11V6.34375L9.96875 7.8125C9.65625 7.9375 9.34375 8 9 8C8.65625 8 8.34375 7.9375 8.03125 7.8125L4.5 6.34375V11ZM2.71875 4L8.625 6.4375C8.75 6.46875 8.875 6.5 9 6.5C9.125 6.5 9.28125 6.46875 9.40625 6.4375L15.2812 4L9.40625 1.59375C9.28125 1.53125 9.125 1.5 9 1.5C8.875 1.5 8.75 1.53125 8.625 1.59375L2.71875 4Z"/></svg>
+            {subLead.label}
+            </a>
+            <span class="pm-div" aria-hidden="true"></span>
+          </>
+        )}
+        <ul class="pm-chips">
+          {subItems.map((s) => (
+            <li>
+              <a class="pm-chip" href={s.href ?? '#'}>
+                <svg viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><path d="M9.96875 0.1875L17.5312 3.3125C17.8125 3.4375 18 3.6875 18 4C18 4.3125 17.8125 4.59375 17.5312 4.6875L15 5.75V11C15 12.6562 12.3125 14 9 14C5.6875 14 3 12.6562 3 11V5.75L1.5 5.125V13.25C1.5 13.6562 1.15625 14 0.75 14C0.34375 14 0 13.6562 0 13.25V4C0 3.6875 0.1875 3.4375 0.46875 3.3125L8.03125 0.1875C8.34375 0.0625 8.65625 0 9 0C9.34375 0 9.65625 0.0625 9.96875 0.1875ZM4.5 11V11.0312C4.53125 11.0625 4.5625 11.125 4.625 11.1875C4.75 11.375 5 11.5625 5.4375 11.7812C6.28125 12.1875 7.53125 12.5 9 12.5C10.4688 12.5 11.75 12.1875 12.5625 11.7812C13 11.5625 13.25 11.375 13.375 11.1875C13.4375 11.125 13.4688 11.0625 13.5 11.0312C13.5 11.0312 13.5 11.0312 13.5 11V6.34375L9.96875 7.8125C9.65625 7.9375 9.34375 8 9 8C8.65625 8 8.34375 7.9375 8.03125 7.8125L4.5 6.34375V11ZM2.71875 4L8.625 6.4375C8.75 6.46875 8.875 6.5 9 6.5C9.125 6.5 9.28125 6.46875 9.40625 6.4375L15.2812 4L9.40625 1.59375C9.28125 1.53125 9.125 1.5 9 1.5C8.875 1.5 8.75 1.53125 8.625 1.59375L2.71875 4Z"/></svg>
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        {showMenuItems2 && subItemsTrailing.length > 0 && (
+          <div class="pm-chips-2">
+            <span class="pm-div" aria-hidden="true"></span>
+            <ul class="pm-chips">
+              {subItemsTrailing.map((s) => (
+                <li>
+                  <a class="pm-chip" href={s.href ?? '#'}>
+                    <svg viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><path d="M9.96875 0.1875L17.5312 3.3125C17.8125 3.4375 18 3.6875 18 4C18 4.3125 17.8125 4.59375 17.5312 4.6875L15 5.75V11C15 12.6562 12.3125 14 9 14C5.6875 14 3 12.6562 3 11V5.75L1.5 5.125V13.25C1.5 13.6562 1.15625 14 0.75 14C0.34375 14 0 13.6562 0 13.25V4C0 3.6875 0.1875 3.4375 0.46875 3.3125L8.03125 0.1875C8.34375 0.0625 8.65625 0 9 0C9.34375 0 9.65625 0.0625 9.96875 0.1875ZM4.5 11V11.0312C4.53125 11.0625 4.5625 11.125 4.625 11.1875C4.75 11.375 5 11.5625 5.4375 11.7812C6.28125 12.1875 7.53125 12.5 9 12.5C10.4688 12.5 11.75 12.1875 12.5625 11.7812C13 11.5625 13.25 11.375 13.375 11.1875C13.4375 11.125 13.4688 11.0625 13.5 11.0312C13.5 11.0312 13.5 11.0312 13.5 11V6.34375L9.96875 7.8125C9.65625 7.9375 9.34375 8 9 8C8.65625 8 8.34375 7.9375 8.03125 7.8125L4.5 6.34375V11ZM2.71875 4L8.625 6.4375C8.75 6.46875 8.875 6.5 9 6.5C9.125 6.5 9.28125 6.46875 9.40625 6.4375L15.2812 4L9.40625 1.59375C9.28125 1.53125 9.125 1.5 9 1.5C8.875 1.5 8.75 1.53125 8.625 1.59375L2.71875 4Z"/></svg>
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  )}
+</nav>
+
+<style>
+  /*
+    Figma node 790:4778 ("Product menu"). Every colour, space and size below is a
+    token — the Figma variables map 1:1 onto the system's own names:
+      surface/background → --color-bg-base   · surface/card-alt → --color-bg-card-alt
+      border/default     → --color-border    · border/strong    → --color-border-strong
+      brand|button/primary → --color-primary  · text/default/heading → --color-text-heading
+    Menu items use Figma's "Typography/UI/Button large" style (--fw-btn-lg / 16px),
+    the CTA uses "Typography/UI/Button default" (--fw-btn / 14px / --leading-4).
+    The 40px mark is Figma's own size here — it is deliberately off the 24/48/96/192
+    grid the logo specimen documents, so it is set explicitly rather than via Logo.astro.
+  */
+  .pm { width: 100%; background: var(--color-bg-base); border-bottom: 1px solid var(--color-border-strong); font-family: 'Montserrat', sans-serif; }
+  /* box-sizing so the 1px rule sits *inside* the 72px — Figma's tier is 72px total
+     (137px = 72 + 65 on the submenu variant), not 72 plus a border. */
+  .pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; padding: 0 var(--spacing-xl); background: var(--color-bg-base); border-bottom: 1px solid var(--color-border); }
+  .pm--submenu .pm-bar { border-bottom-color: var(--color-border); }
+
+  /* Both side columns are flex:1 0 0 (Figma `flex-[1_0_0]`), not 1 0 auto — that is
+     what keeps the menu optically centred instead of pushed by the brand's width. */
+  .pm-brand { display: flex; align-items: center; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; text-decoration: none; color: var(--color-text-heading); }
+  .pm-mark { display: block; width: 40px; height: 40px; flex-shrink: 0; }
+  .pm-name { font-size: var(--font-size-xl); line-height: 1; letter-spacing: -0.04em; white-space: nowrap; }
+  .pm-name b { font-weight: var(--fw-btn-lg); }
+  .pm-name-hl { font-weight: var(--fw-body); color: var(--color-primary); text-transform: uppercase; }
+  .pm-runtime { font-size: var(--font-size-sm); font-weight: var(--fw-body); color: var(--color-text-heading); white-space: nowrap; }
+  .pm-caret { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .pm-center { display: flex; align-items: stretch; gap: var(--spacing-sm); min-width: 0; }
+  .pm-menu { display: flex; align-items: stretch; list-style: none; margin: 0; padding: 0; min-width: 0; }
+  .pm-menu li { display: flex; }
+  /* Items stretch to the bar instead of carrying their own 72px, so the whole tier
+     stays clickable without re-stating the height in two places. */
+  .pm-item { display: flex; align-items: center; gap: var(--spacing-xs); padding: 0 var(--spacing-md); font-size: var(--font-size-base); font-weight: var(--fw-btn-lg); line-height: 1; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
+  .pm-item:hover { color: var(--color-primary); }
+  .pm-item.is-active { color: var(--color-primary); }
+  .pm-item.is-active .pm-caret { transform: rotate(180deg); }
+
+  .pm-utils { display: flex; align-items: center; gap: var(--spacing-sm); flex-shrink: 0; }
+  .pm-util { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex-shrink: 0; padding: 0; background: var(--color-bg-card-alt); border: 1px solid var(--color-border); border-radius: var(--rounded-full); color: var(--color-text-link); cursor: pointer; }
+  .pm-util svg { width: 16px; height: 16px; display: block; }
+  .pm-util:hover { border-color: var(--color-border-strong); }
+  .pm-util:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+
+  .pm-right { display: flex; align-items: center; justify-content: flex-end; flex: 1 0 0; min-width: 0; }
+  .pm-cta { display: inline-flex; align-items: center; gap: var(--spacing-xs); height: 48px; padding: 0 var(--spacing-xl); background: var(--color-primary); border-radius: var(--rounded-full); font-size: var(--font-size-sm); font-weight: var(--fw-btn); line-height: var(--leading-4); color: var(--color-text-on-primary); text-decoration: none; white-space: nowrap; }
+  .pm-cta:hover { background: var(--color-primary-hover); }
+  .pm-cta:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  .pm-cta-icon { width: 16px; height: 16px; flex-shrink: 0; }
+  .pm-cta-caret { width: 9px; height: 6px; flex-shrink: 0; }
+
+  .pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); border-bottom: 1px solid var(--color-border-strong); }
+  .pm-sub-inner { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
+  .pm-chips { display: flex; align-items: center; gap: var(--spacing-xs); list-style: none; margin: 0; padding: 0; }
+  .pm-chips-2 { display: flex; align-items: center; gap: var(--spacing-md); }
+  .pm-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm) var(--spacing-md); border: 1px solid transparent; border-radius: var(--rounded-3xl); font-size: var(--font-size-sm); font-weight: var(--fw-nav-sub); line-height: 1.2; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
+  .pm-chip svg { width: 16px; height: 13px; flex-shrink: 0; }
+  .pm-chip:hover { color: var(--color-primary); }
+  .pm-chip.is-active { background: var(--color-bg-base); border-color: var(--color-border); border-radius: var(--rounded-lg); color: var(--color-primary); }
+  .pm-div { width: 1px; height: 24px; flex-shrink: 0; background: var(--slate-300); }
+
+  /* Figma covers 1440px desktop only — shed the optional pieces before the bar breaks. */
+  @media (max-width: 1180px) { .pm-runtime { display: none; } .pm-item { padding: 0 var(--spacing-sm); } }
+  @media (max-width: 1024px) { .pm-utils { display: none; } .pm-menu { overflow-x: auto; scrollbar-width: none; } .pm-menu::-webkit-scrollbar { display: none; } }
+  @media (max-width: 768px) { .pm-center { display: none; } .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
+</style>

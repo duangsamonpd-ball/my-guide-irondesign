@@ -315,6 +315,70 @@ Two naming traps worth knowing:
 - **Iron Suite has no mono wordmark in Figma.** `brand="suite" variant="mono"`
   falls back to `default` rather than requesting a file that doesn't exist.
 
+### `ProductMenu.astro`
+
+The full-width product header from Figma node `790:4778` — brand lockup, main
+navigation, Search / Ask AI utilities and the primary CTA, plus an optional
+second tier of sub-navigation chips:
+
+```astro
+<ProductMenu
+  product="pdf" productName="PDF"
+  items={[
+    { label: 'Home', active: true },
+    { label: 'Licensing', href: '/licensing' },
+    { label: 'Features' },
+    { label: 'Demos' },
+    { label: 'Docs' },
+  ]}
+/>
+
+<!-- with the sub tier -->
+<ProductMenu
+  variant="submenu"
+  items={items}
+  subLead={{ label: 'Get Started' }}
+  subItems={[{ label: 'Tutorials' }, { label: 'API Reference' }]}
+  showMenuItems2
+  subItemsTrailing={[{ label: 'Licensing' }]}
+/>
+```
+
+Props: `variant` (`default` | `submenu`), `product`, `productName`, `runtime`
+(default `"for .NET"` — pass `""` to hide), `productHref`, `hasTrailingIcon`,
+`items` (`{ label, href?, active?, caret? }[]`), `subLead`, `subItems`,
+`showMenuItems2`, `subItemsTrailing`, `ctaLabel`, `ctaHref`, `showSearch`,
+`showAskAi`, `searchLabel`, `askAiLabel`, `basePath` (default `assets`), `class`.
+
+`hasTrailingIcon` and `showMenuItems2` keep Figma's own property names so the
+component stays traceable to the design file — the first toggles the caret after
+the product lockup, the second the divided trailing group at the right end of the
+sub tier.
+
+Every Figma variable on this component already had a system counterpart, so it
+introduced **no new tokens** — `surface/card-alt` → `--color-bg-card-alt`,
+`border/strong` → `--color-border-strong`, `neutral/50` → `--neutral-50`, and so
+on. Menu items use Figma's "Typography/UI/Button large" style (`--fw-btn-lg` /
+`--font-size-base`); the CTA uses "Typography/UI/Button default" (`--fw-btn` /
+`--font-size-sm` / `--leading-4`).
+
+Three things worth knowing before you change it:
+
+- **The tier is 72px *including* its bottom rule** (Figma's submenu variant is
+  137px = 72 + 65). `.pm-bar` therefore sets `box-sizing: border-box`, and menu
+  items stretch to the bar instead of carrying their own height.
+- **Both side columns are `flex: 1 0 0`**, not `1 0 auto`. That is what keeps the
+  menu optically centred instead of being pushed around by the brand's width.
+- **The 40px brand mark is off the logo grid.** `Logo.astro`'s `size` is typed to
+  24/48/96/192, but Figma uses 40px here, so the mark is a plain `<img>` rather
+  than a `<Logo>`. Widening Logo's union would undermine the grid rule for every
+  other caller.
+
+Figma covers 1440px desktop only — there is no mobile frame. The narrow-viewport
+behaviour (drop the runtime label at 1180px, the utility bubbles at 1024px, then
+the whole centre group at 768px, both tiers scrolling horizontally) is an
+implementation decision, not a handed-over design.
+
 ## Icon strategy
 
 `Notice.astro` and `FileUpload.astro` use real **Font Awesome Free Solid** icons, inlined as `<svg viewBox="..." fill="currentColor"><path d="..."/></svg>` directly in the component — no `@fortawesome/*` npm package, icon font, or CDN link shipped at runtime, keeping components self-contained.
@@ -325,11 +389,11 @@ To add another icon: temporarily `npm install @fortawesome/free-solid-svg-icons`
 
 There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.
 
-## 15 components ported
+## 16 components ported
 
 Button, TextLink, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge,
-Notice, Tooltip, Product Footer, FormCard, TrialKeyCard and Logo are all
-available. If the design system docs (`docs/component-*.html`) gain a new
+Notice, Tooltip, Product Footer, FormCard, TrialKeyCard, Logo and ProductMenu
+are all available. If the design system docs (`docs/component-*.html`) gain a new
 variant or pattern, check it here too — the docs' own Code-tab samples have
 a history of drifting out of sync with the live markup on the same page.
 

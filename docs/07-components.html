@@ -89,11 +89,21 @@
     .card-desc  { font-size: 0.72rem; color: #737373; line-height: 1.5; }
 
     /* Nav */
-    .nav-bar { background: white; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0 20px; display: flex; align-items: center; gap: 4px; height: 52px; }
-    .nav-item { padding: 0 16px; height: 100%; display: flex; align-items: center; font-size: 1rem; font-weight: 500; line-height: 1; cursor: default; position: relative; }  /* Nav · primary — 16px / 500 */
-    .nav-item.active { color: #2693EC; font-weight: 700; }  /* active — 700 + accent */
-    .nav-item.active::after { content:''; position:absolute; bottom:0; left:16px; right:16px; height:2px; background:#2693EC; border-radius:2px 2px 0 0; }
-    .nav-item:hover { color: #2693EC; }
+    /* Product Menu preview — see component-productmenu.html for the real component.
+       Figma node 790:4778: a 72px tier, active state is brand pink with NO underline
+       indicator (this page previously documented a 40px bar with a 2px blue rule —
+       neither existed in the design). */
+    .nav-bar { background: white; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0 24px; display: flex; align-items: center; gap: 4px; height: 72px; }
+    .nav-item { padding: 0 16px; height: 100%; display: flex; align-items: center; gap: 8px; font-size: 1rem; font-weight: 700; line-height: 1; cursor: default; }  /* Typography/UI/Button large — 16px / 700 */
+    .nav-item.active { color: #E01A59; }  /* active — brand pink, colour only */
+    .nav-item:hover { color: #E01A59; }
+    .nav-caret { width: 12px; height: 12px; flex-shrink: 0; opacity: 0.9; }
+    .nav-brand { display: flex; align-items: center; gap: 8px; margin-right: 8px; }
+    .nav-brand img { width: 40px; height: 40px; display: block; }
+    .nav-brand span { font-size: 20px; letter-spacing: -0.04em; white-space: nowrap; }
+    .nav-brand b { font-weight: 700; } .nav-brand i { font-style: normal; font-weight: 400; color: #E01A59; }
+    .nav-util { width: 36px; height: 36px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; background: #F2F9FE; border: 1px solid #E2E8F0; border-radius: 9999px; color: #2693EC; }
+    .nav-util svg { width: 16px; height: 16px; display: block; }
 
     footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
   
@@ -332,6 +342,7 @@
         <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
         <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
         <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+        <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
         <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
         <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
         <a href="component-formcard.html" class="sidebar-link"><i class="sidebar-icon">🗂️</i>Form Card</a>
@@ -543,29 +554,41 @@
 
   <div class="component-row">
     <div class="component-header">
-      <h3>Nav Bar</h3>
-      <span class="desc">— Active item shown with blue underline indicator.</span>
+      <h3>Product Menu <span style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;color:#2E9468;background:#EBF9F3;border-radius:4px;padding:3px 7px;vertical-align:middle;margin-left:6px;">NAV BAR</span></h3>
+      <span class="desc">— Active item is brand pink; there is no underline indicator. Full component: <a href="component-productmenu.html" style="color:#2693EC;">Product Menu</a>.</span>
     </div>
     <div class="component-body" style="grid-template-columns:1fr;">
       <div>
-        <div class="nav-bar">
-          <span class="nav-item">Products</span>
-          <span class="nav-item active">Docs</span>
-          <span class="nav-item">Pricing</span>
-          <span class="nav-item">Blog</span>
-          <span class="nav-item">Support</span>
+        <div class="nav-bar" style="overflow-x:auto;">
+          <span class="nav-brand">
+            <img src="assets/mark-pdf.svg" alt="">
+            <span><b>IRON</b><i>PDF</i></span>
+          </span>
           <div style="flex:1;"></div>
-          <button class="btn btn-primary" style="height:36px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em; padding:0 16px; border-radius:40px;">Get Started</button>
+          <span class="nav-item active">Home</span>
+          <span class="nav-item">Licensing
+            <svg class="nav-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"/></svg>
+          </span>
+          <span class="nav-item">Features
+            <svg class="nav-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"/></svg>
+          </span>
+          <span class="nav-item">Docs
+            <svg class="nav-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"/></svg>
+          </span>
+          <span class="nav-util" aria-hidden="true"><svg viewBox="0 0 16.0078 16.0156" fill="currentColor"><path d="M11.5 6.5C11.5 4.71875 10.5312 3.09375 9 2.1875C7.4375 1.28125 5.53125 1.28125 4 2.1875C2.4375 3.09375 1.5 4.71875 1.5 6.5C1.5 8.3125 2.4375 9.9375 4 10.8438C5.53125 11.75 7.4375 11.75 9 10.8438C10.5312 9.9375 11.5 8.3125 11.5 6.5ZM10.5312 11.625C9.40625 12.5 8 13 6.5 13C2.90625 13 0 10.0938 0 6.5C0 2.9375 2.90625 0 6.5 0C10.0625 0 13 2.9375 13 6.5C13 8.03125 12.4688 9.4375 11.5938 10.5625L15.7812 14.7188C16.0625 15.0312 16.0625 15.5 15.7812 15.7812C15.4688 16.0938 15 16.0938 14.7188 15.7812L10.5312 11.625Z"/></svg></span>
+          <div style="flex:1;"></div>
+          <button class="btn btn-primary" style="height:48px; font-size:0.875rem; font-weight:600; padding:0 24px; border-radius:9999px;">Start for Free</button>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 200px; gap:32px; margin-top:24px;">
+        <div style="display:grid; grid-template-columns:1fr 240px; gap:32px; margin-top:24px;">
           <div></div>
           <div class="spec-table" style="border-left:1px solid #E2E8F0; padding-left:24px;">
             <table>
-              <tr><td>Height</td><td>40px</td></tr>
-              <tr><td>Padding</td><td>0 16px per item</td></tr>
-              <tr><td>Font</td><td>Montserrat Medium 16px</td></tr>
-              <tr><td>Active</td><td>700 · iron-blue-500</td></tr>
-              <tr><td>Indicator</td><td>2px border-bottom</td></tr>
+              <tr><td>Tier height</td><td>72px (+65px sub)</td></tr>
+              <tr><td>Padding</td><td>0 24px bar · 0 16px item</td></tr>
+              <tr><td>Font</td><td>Montserrat Bold 16px</td></tr>
+              <tr><td>Active</td><td>700 · iron-pink-500</td></tr>
+              <tr><td>Indicator</td><td>none — colour only</td></tr>
+              <tr><td>CTA</td><td>48px pill · Start for Free</td></tr>
             </table>
           </div>
         </div>
