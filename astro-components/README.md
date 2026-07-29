@@ -426,13 +426,36 @@ design.
 
 ## Icon strategy
 
-`Notice.astro` and `FileUpload.astro` use real **Font Awesome Free Solid** icons, inlined as `<svg viewBox="..." fill="currentColor"><path d="..."/></svg>` directly in the component — no `@fortawesome/*` npm package, icon font, or CDN link shipped at runtime, keeping components self-contained.
+Components inline real **Font Awesome Free Solid** vectors as
+`<svg viewBox="…" fill="currentColor"><path d="…"/></svg>` — no `@fortawesome/*`
+package, icon font, or CDN link ships at runtime, so components stay
+self-contained.
 
-To add another icon: temporarily `npm install @fortawesome/free-solid-svg-icons` somewhere scratch (not in this repo), `require()` the icon you need, and read `icon.icon` — it's `[width, height, ligatures, unicode, svgPathData]`. Hard-code `viewBox="0 0 {width} {height}"` and the path data into the component, then remove the temporary install. Free Solid icons are CC-BY-4.0-compatible for this kind of embedding.
+**Shared path data lives in [`icons.ts`](icons.ts).** The same vectors used to be
+retyped in several components (`key` in three, `check` in three, `circle-check`
+and `triangle-exclamation` in two each), which is exactly the kind of copy that
+drifts. Each entry is a `{ viewBox, path }` pair; components keep their own
+`<svg>` wrapper so per-use classes, sizing and `aria-hidden` stay where they are
+read:
+
+```astro
+import { icons } from '../icons';
+<svg viewBox={icons.key.viewBox} fill="currentColor"><path d={icons.key.path} /></svg>
+```
+
+Deliberately still inline: `Checkbox`'s tick (stroke-drawn — needs `fill="none"`
+plus stroke attributes), `ProductMenu`'s CTA glyph (needs `fill-rule="evenodd"`),
+and the single-use vectors in `TopNav` / `ProductMenu`. Each is used once and
+carries attributes the shared `Icon` shape doesn't model, so moving them buys
+nothing.
+
+To add another icon: temporarily `npm install @fortawesome/free-solid-svg-icons` somewhere scratch (not in this repo), `require()` the icon you need, and read `icon.icon` — it's `[width, height, ligatures, unicode, svgPathData]`. Use `viewBox="0 0 {width} {height}"` and that path data; put it in `icons.ts` if more than one component will draw it, then remove the temporary install. Free Solid icons are CC-BY-4.0-compatible for this kind of embedding. Never hand-draw path data — for vectors that only exist in Figma, export the node instead (see the navigation components above).
 
 ## Verifying changes
 
-There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.
+There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` (+ `icons.ts`, if the component imports it) in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.
+
+For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
 ## 17 components ported
 
