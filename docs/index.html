@@ -6,32 +6,16 @@
   <title>Iron Software Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="docs.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
+body {
       font-family: 'Montserrat', sans-serif;
       background: #F8FAFC;
       color: #171717;
       min-height: 100vh;
     }
-
-    header {
-      background: #fff;
-      border-bottom: 1px solid #E2E8F0;
-      padding: 24px 48px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .logo-badge {
-      width: 40px; height: 40px;
-      flex-shrink: 0;
-    }
-
-    header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
-    .version-badge {
+.version-badge {
       margin-left: auto;
       font-size: 0.7rem;
       font-weight: 700;
@@ -42,19 +26,15 @@
       letter-spacing: 0.03em;
       flex-shrink: 0;
     }
-    header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
-
-    .hero {
+.hero {
       background: linear-gradient(135deg, #E01A59 0%, #2693EC 100%);
       color: white;
       padding: 64px 48px;
       text-align: center;
     }
-
-    .hero h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
-    .hero p  { font-size: 1.1rem; opacity: 0.9; max-width: 520px; margin: 0 auto 32px; }
-
-    .grid {
+.hero h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
+.hero p  { font-size: 1.1rem; opacity: 0.9; max-width: 520px; margin: 0 auto 32px; }
+.grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 24px;
@@ -62,8 +42,7 @@
       max-width: 1200px;
       margin: 0 auto;
     }
-
-    .card {
+.card {
       background: white;
       border-radius: 16px;
       overflow: hidden;
@@ -73,13 +52,11 @@
       transition: transform 0.2s, box-shadow 0.2s;
       display: block;
     }
-
-    .card:hover {
+.card:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     }
-
-    .card-thumb {
+.card-thumb {
       height: 140px;
       display: flex;
       align-items: center;
@@ -87,12 +64,10 @@
       gap: 6px;
       padding: 20px;
     }
-
-    .card-body { padding: 20px; border-top: 1px solid #F1F5F9; }
-    .card-body h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-    .card-body p  { font-size: 0.8rem; color: #737373; line-height: 1.5; }
-
-    .tag {
+.card-body { padding: 20px; border-top: 1px solid #F1F5F9; }
+.card-body h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.card-body p  { font-size: 0.8rem; color: #737373; line-height: 1.5; }
+.tag {
       display: inline-block;
       margin-top: 10px;
       padding: 3px 10px;
@@ -102,21 +77,16 @@
       background: #F1F5F9;
       color: #62748E;
     }
-
-    .tag-dev {
+.tag-dev {
       background: rgba(224, 26, 89, 0.08);
       color: #E01A59;
     }
-
-    .tag-demo {
+.tag-demo {
       background: rgba(38, 147, 236, 0.10);
       color: #2693EC;
     }
-
-    /* Swatch preview */
-    .swatch { width: 28px; height: 60px; border-radius: 8px; }
-
-    footer {
+.swatch { width: 28px; height: 60px; border-radius: 8px; }
+footer {
       text-align: center;
       padding: 40px;
       color: #A1A1A1;
@@ -124,9 +94,7 @@
       border-top: 1px solid #E2E8F0;
       margin-top: 24px;
     }
-
-    /* ── Mobile responsive ── */
-    @media (max-width: 640px) {
+@media (max-width: 640px) {
       header { padding: 16px 20px; }
       header h1 { font-size: 1rem; }
       .hero { padding: 36px 20px; }

@@ -6,139 +6,83 @@
   <title>Button · Components · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="docs.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
-
-    /* ── Button-relevant design tokens (this page is 100% token-driven) ── */
-    :root {
-         /* solid dark button — button/tertiary (neutral/900) */
-         /* outline / ghost / ondark text (text/on-action-tertiary) */
-         /* → pink on hover (text/on-action-tertiary-hover) */
-         /* outline border (border/default) */
-         /* outline hover border (border/strong) */
-         /* focus border (border/focused) */
-       /* outline hover fill (button/outline-hover) */
-       /* transparent/black/5 */
-       /* transparent/white/5 — ondark fill */
-       /* transparent/white/30 — ondark border */
-       /* transparent/white/40 — ondark border, hover */
-           /* rounded-full pill */
-         /* primary + NuGet focus halo (pink @25%) */
-        /* secondary / outline / ondark focus halo */
-       /* tertiary focus halo (on dark fill) */
+body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+:root {
+         
+         
+         
+         
+         
+         
+       
+       
+       
+       
+       
+           
+         
+        
+       
       --space-xs:                8px;
       --space-sm:                12px;
       --space-md:                16px;
       --space-lg:                20px;
       --space-2xl:               32px;
     }
-
-    header {
-      background: #fff; border-bottom: 1px solid #E2E8F0;
-      padding: 24px 48px; display: flex; align-items: center; gap: 16px;
-    }
-    .logo-badge { width: 40px; height: 40px; flex-shrink: 0; }
-    header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
-    header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
-
-    /* ── Sidebar / layout (shared docs shell) ── */
-    .hamburger { margin-left: auto; display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px 4px; flex-shrink: 0; border-radius: 6px; transition: background 0.15s; }
-    .hamburger:hover { background: #F1F5F9; }
-    .hamburger span { display: block; width: 20px; height: 2px; background: #62748E; border-radius: 2px; }
-    .layout { display: flex; min-height: calc(100vh - 89px); }
-    .sidebar { width: 248px; flex-shrink: 0; background: #FFFFFF; border-right: 1px solid #E2E8F0; position: sticky; top: 0; height: 100vh; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #E2E8F0 transparent; display:flex; flex-direction:column; }
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
-    .sidebar-nav { padding: 8px 0 24px; display: flex; flex-direction: column; }
-    .sidebar-category { font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #A1A1A1; padding: 18px 18px 5px; }
-    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 8px 18px 8px 15px; font-size: 0.81rem; font-weight: 500; color: #62748E; text-decoration: none; border-left: 3px solid transparent; transition: color 0.14s, background 0.14s, border-color 0.14s; margin: 1px 8px 1px 0; border-radius: 0 8px 8px 0; }
-    .sidebar-link:hover { color: #1a7acc; background: #F0F9FF; }
-    .sidebar-link.active { color: #2693EC; background: #EBF5FD; border-left-color: #2693EC; font-weight: 700; }
-    .sidebar-tree { display: flex; flex-direction: column; }
-    .sidebar-icon { width: 18px; text-align: center; flex-shrink: 0; font-style: normal; font-size: 0.85rem; }
-    .sidebar-version { padding: 16px 18px; border-top: 1px solid #F1F5F9; margin-top: auto; font-size: 0.68rem; font-weight: 700; color: #A1A1A1; letter-spacing: 0.03em; }
-    .main-content { flex: 1; min-width: 0; overflow: hidden; }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,43,0.45); z-index: 40; backdrop-filter: blur(2px); }
-    .sidebar-overlay.open { display: block; }
-    @media (max-width: 768px) {
+.sidebar { width: 248px; flex-shrink: 0; background: #FFFFFF; border-right: 1px solid #E2E8F0; position: sticky; top: 0; height: 100vh; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #E2E8F0 transparent; display:flex; flex-direction:column; }
+.sidebar-link { display: flex; align-items: center; gap: 10px; padding: 8px 18px 8px 15px; font-size: 0.81rem; font-weight: 500; color: #62748E; text-decoration: none; border-left: 3px solid transparent; transition: color 0.14s, background 0.14s, border-color 0.14s; margin: 1px 8px 1px 0; border-radius: 0 8px 8px 0; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,43,0.45); z-index: 40; backdrop-filter: blur(2px); }
+@media (max-width: 768px) {
       .hamburger { display: flex; }
       .sidebar { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); transition: transform 0.26s cubic-bezier(0.4,0,0.2,1); z-index: 60; box-shadow: 4px 0 32px rgba(15,23,43,0.15); width: 264px; }
       .sidebar.open { transform: translateX(0); }
     }
-
-    .content { padding: 0 0 60px; max-width: 1200px; margin: 0 auto; }
-    .page-title { padding: 40px 40px 28px; }
-    .crumb { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #A1A1A1; margin-bottom: 10px; }
-    .crumb a { color: #2693EC; text-decoration: none; }
-    .page-title h1 { font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; color: #171717; margin-bottom: 8px; }
-    .page-title .lead { font-size: 0.95rem; color: #62748E; line-height: 1.6; max-width: 640px; }
-    .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
-    .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
-    .chip.new { background:#EBF9F3; color:#2E9468; }
-
-    /* ── Section ── */
-    .sect { padding: 0 40px; margin-top: 44px; }
-    .sect-h { font-size: 1.05rem; font-weight: 800; color:#171717; margin-bottom: 4px; display:flex; align-items:center; gap:8px; }
-    .sect-sub { font-size: 0.82rem; color:#62748E; line-height:1.6; margin-bottom: 18px; }
-
-    /* ── Preview canvas (shadcn-style) ── */
-    .canvas {
+.content { padding: 0 0 60px; max-width: 1200px; margin: 0 auto; }
+.page-title { padding: 40px 40px 28px; }
+.page-title h1 { font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; color: #171717; margin-bottom: 8px; }
+.page-title .lead { font-size: 0.95rem; color: #62748E; line-height: 1.6; max-width: 640px; }
+.chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
+.canvas {
       border: 1px solid #E2E8F0; border-radius: 14px; background: #fff;
       padding: 44px; display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap;
       background-image: radial-gradient(#EEF1F5 1px, transparent 1px); background-size: 16px 16px;
     }
-    .canvas.left { justify-content: flex-start; }
-
-    /* ── Variant / spec grid ── */
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
-    .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 16px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
-    .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; }
-    .cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
-
-    /* ════════════ BUTTON COMPONENT (token-driven) ════════════ */
-        .btn {
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
+.cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 16px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
+.btn {
     cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
     font-family: 'Montserrat', sans-serif; border: 2px solid transparent; outline: none;
     border-radius: var(--rounded-cta); white-space: nowrap; text-decoration: none;
     transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
   }
-    /* sizes — padding and gap are per-size in Figma, so neither belongs on .btn */
-    .btn--lg { height: var(--size-btn-lg); padding: 0 var(--spacing-2xl); gap: var(--spacing-sm); font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
-    .btn--md { height: var(--size-btn-md); padding: 0 var(--spacing-xl); gap: var(--spacing-xs); font-size: var(--font-size-btn); font-weight: var(--fw-btn); letter-spacing: 0; }
-    .btn--sm { height: var(--size-btn-sm); padding: 0 var(--spacing-md); gap: var(--spacing-micro); font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn); letter-spacing: 0.4px; }
-    /* variants — solid */
-    .btn--primary   { background: var(--color-primary); color: var(--color-primary-on); }
-    .btn--primary:hover   { background: var(--color-primary-hover); }
-    .btn--secondary { background: var(--color-secondary); color: var(--color-primary-on); }
-    .btn--secondary:hover { background: var(--color-secondary-hover); }
-    .btn--tertiary  { background: var(--color-button-tertiary); color: var(--color-primary-on); }
-    .btn--tertiary:hover  { background: var(--color-primary); }   /* black → pink */
-    /* variants — outline / ghost (blue text → pink on hover) */
-        .btn--outline   { background: var(--color-bg-base); color: var(--color-on-tertiary); border-color: var(--color-border); }
-    .btn--outline:hover   { background: var(--color-button-outline-hover); border-color: var(--color-border-strong); color: var(--color-on-tertiary-hover); }
-    /* ondark sits on a dark surface: white label, translucent white border.
-     It read as blue-on-dark before, which only scraped AA on the slate-800
-     surface the docs demo uses and had no headroom on anything lighter.
-     White is what Figma specifies, and it more than triples the contrast. */
-    .btn--ondark    { background: var(--ondark-tint); color: var(--color-primary-on); border-color: var(--ondark-border); backdrop-filter: blur(var(--blur-xs)); }
-    .btn--ondark:hover    { color: var(--color-on-tertiary-hover); border-color: var(--ondark-border-hover); }
-    .btn--ghost     { background: transparent; color: var(--color-on-tertiary); }
-    .btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
-    /* states — focus: coloured 3px halo matching the button (Figma: drop-shadow 25% · spread 3) */
-    .btn--primary:focus-visible,   .btn--primary.is-focus   { box-shadow: var(--shadow-focus-magenta); }
-    .btn--secondary:focus-visible, .btn--secondary.is-focus { box-shadow: var(--focus-ring-blue); }
-    .btn--tertiary:focus-visible,  .btn--tertiary.is-focus  { box-shadow: var(--focus-ring-white); }
-    .btn--outline:focus-visible,   .btn--outline.is-focus   { box-shadow: var(--focus-ring-blue); }
-    .btn--ondark:focus-visible,    .btn--ondark.is-focus    { box-shadow: var(--focus-ring-blue); }
-    .btn--ghost:focus-visible,     .btn--ghost.is-focus     { border-color: var(--color-border-focused); }
-    .btn[disabled], .btn.is-disabled { opacity: .5; cursor: not-allowed; }
-    .btn .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .btn .ico { font-size: 0.9em; }
-
-    /* ── NuGet Download CTA (special primary, 2-line + icon) ── */
-    .btn-nuget {
+.btn--lg { height: var(--size-btn-lg); padding: 0 var(--spacing-2xl); gap: var(--spacing-sm); font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
+.btn--md { height: var(--size-btn-md); padding: 0 var(--spacing-xl); gap: var(--spacing-xs); font-size: var(--font-size-btn); font-weight: var(--fw-btn); letter-spacing: 0; }
+.btn--sm { height: var(--size-btn-sm); padding: 0 var(--spacing-md); gap: var(--spacing-micro); font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn); letter-spacing: 0.4px; }
+.btn--primary   { background: var(--color-primary); color: var(--color-primary-on); }
+.btn--primary:hover   { background: var(--color-primary-hover); }
+.btn--secondary { background: var(--color-secondary); color: var(--color-primary-on); }
+.btn--secondary:hover { background: var(--color-secondary-hover); }
+.btn--tertiary  { background: var(--color-button-tertiary); color: var(--color-primary-on); }
+.btn--tertiary:hover  { background: var(--color-primary); }
+.btn--outline   { background: var(--color-bg-base); color: var(--color-on-tertiary); border-color: var(--color-border); }
+.btn--outline:hover   { background: var(--color-button-outline-hover); border-color: var(--color-border-strong); color: var(--color-on-tertiary-hover); }
+.btn--ondark    { background: var(--ondark-tint); color: var(--color-primary-on); border-color: var(--ondark-border); backdrop-filter: blur(var(--blur-xs)); }
+.btn--ondark:hover    { color: var(--color-on-tertiary-hover); border-color: var(--ondark-border-hover); }
+.btn--ghost     { background: transparent; color: var(--color-on-tertiary); }
+.btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
+.btn--primary:focus-visible,   .btn--primary.is-focus   { box-shadow: var(--shadow-focus-magenta); }
+.btn--secondary:focus-visible, .btn--secondary.is-focus { box-shadow: var(--focus-ring-blue); }
+.btn--tertiary:focus-visible,  .btn--tertiary.is-focus  { box-shadow: var(--focus-ring-white); }
+.btn--outline:focus-visible,   .btn--outline.is-focus   { box-shadow: var(--focus-ring-blue); }
+.btn--ondark:focus-visible,    .btn--ondark.is-focus    { box-shadow: var(--focus-ring-blue); }
+.btn--ghost:focus-visible,     .btn--ghost.is-focus     { border-color: var(--color-border-focused); }
+.btn[disabled], .btn.is-disabled { opacity: .5; cursor: not-allowed; }
+.btn .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.btn .ico { font-size: 0.9em; }
+.btn-nuget {
       display: inline-flex; align-items: center; gap: var(--space-xs); cursor: pointer;
       height: var(--size-btn-lg); padding: 0 var(--space-2xl);
       border: none; outline: none; border-radius: var(--rounded-cta);
@@ -146,75 +90,36 @@
       font-family: 'Montserrat', sans-serif; white-space: nowrap;
       transition: background .15s, box-shadow .15s;
     }
-    .btn-nuget:hover { background: var(--color-primary-hover); }
-    .btn-nuget:focus-visible, .btn-nuget.is-focus { box-shadow: var(--shadow-focus-magenta); }
-    .btn-nuget[disabled], .btn-nuget.is-disabled { opacity: .5; cursor: not-allowed; }
-    .btn-nuget .nuget-ico { width: 26px; height: 26px; flex-shrink: 0; }
-    .btn-nuget .nuget-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
-    .btn-nuget .nuget-title { font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); }
-    .btn-nuget .nuget-sub { font-size: var(--font-size-btn-sm); font-weight: 500; opacity: .9; }
-
-    /* ── Anatomy ── */
-    .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
-    .anatomy-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-    .atag { font-size:0.66rem; font-family:'Roboto Mono',monospace; background:#F1F5F9; color:#45556C; padding:4px 9px; border-radius:6px; }
-    .atag b { color:#E01A59; }
-
-    /* ── Token table ── */
-    .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
-    .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
-    .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; }
-    .tok tr:last-child td { border-bottom:none; }
-    .tok td.prop { color:#62748E; width:120px; }
-    .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; }
-    .tok td.val { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#171717; font-weight:600; }
-    .tok .sw { display:inline-block; width:12px; height:12px; border-radius:3px; border:1px solid rgba(0,0,0,0.15); margin-right:7px; vertical-align:-1px; }
-
-    /* ── Code block ── */
-    .code-wrap { position:relative; }
-    .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
-    .code-wrap .copy { position:absolute; top:12px; right:12px; font-size:0.64rem; font-weight:700; color:#fff; background:rgba(255,255,255,0.12); border:none; border-radius:7px; padding:6px 12px; cursor:pointer; transition:background .15s; }
-    .code-wrap .copy:hover { background:rgba(255,255,255,0.24); }
-    .c-tag{color:#89D3DF;} .c-attr{color:#FDA509;} .c-str{color:#63C1A0;} .c-com{color:#737373;} .c-key{color:#E95F8B;}
-
-    /* ── Do / Don't ── */
-    .dd { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .dd .card { border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; }
-    .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
-    .dd .do  .top { background:#EBF9F3; color:#2E9468; }
-    .dd .dont .top { background:#FDEEF0; color:#C91D23; }
-    .dd .body { padding:20px; display:flex; align-items:center; justify-content:center; min-height:96px; background:#FCFCFD; }
-    .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
-
-    footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-
-    @media (max-width:640px){
+.btn-nuget:hover { background: var(--color-primary-hover); }
+.btn-nuget:focus-visible, .btn-nuget.is-focus { box-shadow: var(--shadow-focus-magenta); }
+.btn-nuget[disabled], .btn-nuget.is-disabled { opacity: .5; cursor: not-allowed; }
+.btn-nuget .nuget-ico { width: 26px; height: 26px; flex-shrink: 0; }
+.btn-nuget .nuget-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+.btn-nuget .nuget-title { font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); }
+.btn-nuget .nuget-sub { font-size: var(--font-size-btn-sm); font-weight: 500; opacity: .9; }
+.anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
+.atag b { color:#E01A59; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; }
+.tok td.prop { color:#62748E; width:120px; }
+.c-tag{color:#89D3DF;}
+.c-attr{color:#FDA509;}
+.c-key{color:#E95F8B;}
+.dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
+.dd .body { padding:20px; display:flex; align-items:center; justify-content:center; min-height:96px; background:#FCFCFD; }
+.dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
+footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
+@media (max-width:640px){
       header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;}
       .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:28px;}
     }
-      .code-tabs{display:flex;align-items:center;gap:4px;background:#0F0F0F;border-radius:12px 12px 0 0;padding:8px 10px;}
-    .code-tab{font-size:0.66rem;font-weight:700;color:#A1A1A1;background:none;border:none;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .15s,background .15s;}
-    .code-tab:hover{color:#E5E5E5;}
-    .code-tab.active{color:#fff;background:rgba(255,255,255,0.13);}
-    .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
-    .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
-    .code-wrap .code-pane.active{display:block;}
-
-    .btn--primary:focus-visible   { box-shadow: var(--shadow-focus-magenta); }
-    .btn--secondary:focus-visible { box-shadow: var(--focus-ring-blue); }
-    .btn--tertiary:focus-visible  { box-shadow: var(--focus-ring-white); }
-    .btn--outline:focus-visible   { box-shadow: var(--focus-ring-blue); }
-    /* The border override this used to carry was compensating for a wrong default;
-     the default border is now already transparent/white/30. Figma draws no ring
-     on ondark focus — the ring is kept deliberately, for a visible focus state. */
-    .btn--ondark:focus-visible    { box-shadow: var(--focus-ring-blue); }
-    .btn--ghost:focus-visible     { border-color: var(--color-border-focused); }
-    .btn[disabled], .btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
-
-    /* Code sections are hidden for now — Ball's call, 2026-07-30.
-       Nothing is deleted: drop this one rule to bring them all back. */
-    .sect-code { display: none; }
-</style>
+.btn--primary:focus-visible   { box-shadow: var(--shadow-focus-magenta); }
+.btn--secondary:focus-visible { box-shadow: var(--focus-ring-blue); }
+.btn--tertiary:focus-visible  { box-shadow: var(--focus-ring-white); }
+.btn--outline:focus-visible   { box-shadow: var(--focus-ring-blue); }
+.btn--ondark:focus-visible    { box-shadow: var(--focus-ring-blue); }
+.btn--ghost:focus-visible     { border-color: var(--color-border-focused); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
+  </style>
 </head>
 <body>
 

@@ -18,7 +18,8 @@
     "check:vars": "tailwindcss -i tailwind/theme.css -o node_modules/.tmp/theme.compiled.css && node scripts/check-component-vars.mjs node_modules/.tmp/theme.compiled.css",
     "build:demos": "node scripts/build-demos.mjs",
     "check:render": "node scripts/build-demos.mjs --check",
-    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:render"
+    "check:docs-css": "node scripts/check-docs-css.mjs",
+    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:render"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",

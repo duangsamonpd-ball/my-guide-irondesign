@@ -5,186 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Color Palette · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="docs.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #171717; }
-    header {
-      background: #fff; border-bottom: 1px solid #E2E8F0;
-      padding: 24px 48px; display: flex; align-items: center; gap: 16px;
-    }
-    .logo-badge { width: 40px; height: 40px; flex-shrink: 0; }
-    header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
-    header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
-
-    .content { padding: 40px; max-width: 1200px; margin: 0 auto; }
-
-    .palette { margin-bottom: 48px; }
-    .palette-header {
+body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #171717; }
+.content { padding: 40px; max-width: 1200px; margin: 0 auto; }
+.palette { margin-bottom: 48px; }
+.palette-header {
       display: flex; align-items: center; gap: 12px;
       margin-bottom: 16px;
     }
-    .palette-header h2 { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-    .palette-header .base-chip {
+.palette-header h2 { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.palette-header .base-chip {
       padding: 2px 10px; border-radius: 20px;
       font-size: 0.65rem; font-weight: 700;
       background: #F1F5F9; color: #62748E;
     }
-    .palette-header .role-tag {
+.palette-header .role-tag {
       padding: 2px 10px; border-radius: 20px;
       font-size: 0.65rem; font-weight: 700;
       color: white;
     }
-
-    .swatches { display: flex; gap: 4px; flex-wrap: wrap; }
-
-    .swatch {
+.swatches { display: flex; gap: 4px; flex-wrap: wrap; }
+.swatch {
       flex: 1; min-width: 80px;
       border-radius: 12px; overflow: hidden;
       cursor: pointer;
       transition: transform 0.15s;
       position: relative;
     }
-    .swatch:hover { transform: scale(1.04); z-index: 2; }
-
-    .swatch-color {
+.swatch:hover { transform: scale(1.04); z-index: 2; }
+.swatch-color {
       height: 80px;
       display: flex; align-items: flex-end; justify-content: flex-end;
       padding: 6px 8px;
     }
-
-    .swatch-color .step-label {
+.swatch-color .step-label {
       font-size: 0.6rem; font-weight: 700; opacity: 0.6; color: white;
       mix-blend-mode: overlay;
     }
-
-    .swatch-info {
+.swatch-info {
       background: white; border: 1px solid #E2E8F0;
       border-top: none; padding: 8px 10px;
       border-radius: 0 0 12px 12px;
     }
-
-    .swatch-info .step { font-size: 0.7rem; font-weight: 700; color: #171717; }
-    .swatch-info .hex  { font-size: 0.65rem; color: #737373; font-family: monospace; }
-
-    .swatch.base .swatch-info { background: #F0F9FF; }
-    .swatch.base .step { color: #2693EC; }
-
-    .copy-toast {
-      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
-      background: #171717; color: white; padding: 10px 20px;
-      border-radius: 40px; font-size: 0.8rem; font-weight: 600;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s;
-      z-index: 100;
-    }
-    .copy-toast.show { opacity: 1; }
-
-    .section-label {
+.swatch-info .step { font-size: 0.7rem; font-weight: 700; color: #171717; }
+.swatch-info .hex  { font-size: 0.65rem; color: #737373; font-family: monospace; }
+.swatch.base .swatch-info { background: #F0F9FF; }
+.swatch.base .step { color: #2693EC; }
+.section-label {
       font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.08em; color: #A1A1A1;
       margin: 40px 0 16px;
       padding-bottom: 8px;
       border-bottom: 1px solid #E2E8F0;
     }
-
-    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
-
-    /* ── The Shade Scale ──────────────────────────────────────────────────── */
-    .shade-intro { margin-bottom: 32px; }
-    .shade-intro h2 {
+footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+.shade-intro { margin-bottom: 32px; }
+.shade-intro h2 {
       font-family: 'Outfit', sans-serif;
       font-size: 2.25rem; font-weight: 900; line-height: 1.05;
       letter-spacing: -0.02em; color: #171717; margin-bottom: 6px;
     }
-    .shade-intro p { font-size: 0.95rem; color: #62748E; }
-
-    .shade-row {
+.shade-intro p { font-size: 0.95rem; color: #62748E; }
+.shade-row {
       display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap;
     }
-    .shade-chip {
+.shade-chip {
       flex: 1; min-width: 70px; height: 84px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       font-size: 0.85rem; font-weight: 600;
     }
-
-    .shade-grid {
+.shade-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
-    .shade-card {
+.shade-card {
       border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden;
       background: white;
     }
-    .shade-card-head {
+.shade-card-head {
       padding: 22px 24px; font-size: 0.95rem; font-weight: 600;
       text-align: center;
     }
-    .shade-card-body { padding: 20px 24px; }
-    .shade-card-body h4 {
+.shade-card-body { padding: 20px 24px; }
+.shade-card-body h4 {
       font-size: 0.95rem; font-weight: 700; color: #171717; margin-bottom: 8px;
     }
-    .shade-card-body p {
+.shade-card-body p {
       font-size: 0.85rem; color: #62748E; line-height: 1.6;
     }
-
-    @media (max-width: 900px) {
+@media (max-width: 900px) {
       .shade-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 600px) {
+@media (max-width: 600px) {
       .shade-grid { grid-template-columns: 1fr; }
       .shade-intro h2 { font-size: 1.6rem; }
     }
-
-    /* ── Color Palette (Semantic Token Map) ───────────────────────────────── */
-    .palette-page-intro {
-      background: linear-gradient(135deg, #F0F9FF, #F9F4F8);
-      border: 1px solid #E2E8F0; border-radius: 14px;
-      padding: 24px 28px; margin-bottom: 40px;
-      display: flex; gap: 16px; align-items: flex-start;
-    }
-    .palette-page-intro .icon { font-size: 2rem; line-height: 1; }
-    .palette-page-intro h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-    .palette-page-intro p  { font-size: 0.8rem; color: #62748E; line-height: 1.6; }
-
-    .palette-group { margin-bottom: 48px; }
-    .palette-group-header {
-      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: #A1A1A1;
-      margin-bottom: 16px; padding-bottom: 8px;
-      border-bottom: 1px solid #E2E8F0;
-    }
-
-    .semantic-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
-    }
-    .semantic-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
-
-    .sem-card {
+.sem-card {
       border-radius: 12px; overflow: hidden;
       border: 1px solid #E2E8F0;
       cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
     }
-    .sem-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.10); }
-
-    .sem-color { height: 90px; }
-    .sem-body  { background: white; padding: 10px 12px; }
-    .sem-name  { font-size: 0.75rem; font-weight: 700; color: #171717; margin-bottom: 2px; }
-    .sem-hex   { font-family: monospace; font-size: 0.65rem; color: #2693EC; }
-    .sem-token { font-size: 0.6rem; color: #A1A1A1; margin-top: 2px; }
-    .sem-desc  { font-size: 0.65rem; color: #737373; margin-top: 6px; line-height: 1.4; }
-
-    /* Dark surface cards get inverted text */
-    .sem-card.dark-surface .sem-body { background: #1D293D; }
-    .sem-card.dark-surface .sem-name { color: #F1F5F9; }
-    .sem-card.dark-surface .sem-token { color: #62748E; }
-    .sem-card.dark-surface .sem-desc  { color: #90A1B9; }
-    .sem-card.dark-surface .sem-hex   { color: #89D3DF; }
-  
-    /* ── Mobile responsive ── */
-    @media (max-width: 640px) {
+@media (max-width: 640px) {
       header { padding: 12px 20px; }
       .content { padding: 16px; }
       .section-label { margin: 24px 0 14px; }
@@ -193,66 +117,7 @@
       .semantic-grid.cols-5 { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
       footer { padding: 24px 16px; }
     }
-
-    
-    
-    
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-    
-    
-    
-
-    
-
-    
-    
-
-    
-  
-    /* ─────────────────────────────────────────────
-       SIDEBAR & LAYOUT
-    ───────────────────────────────────────────── */
-    .hamburger { margin-left: auto;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px 4px;
-      flex-shrink: 0;
-      margin-right: 4px;
-      border-radius: 6px;
-      transition: background 0.15s;
-    }
-    .hamburger:hover { background: #F1F5F9; }
-    .hamburger span {
-      display: block;
-      width: 20px; height: 2px;
-      background: #62748E;
-      border-radius: 2px;
-      transition: background 0.2s;
-    }
-    .hamburger:hover span { background: #2693EC; }
-
-    .layout { display: flex; min-height: calc(100vh - 89px); }
-
-    /* ── Sidebar shell ── */
-    .sidebar {
+.sidebar {
       width: 248px;
       flex-shrink: 0;
       background: #FFFFFF;
@@ -264,23 +129,7 @@
       scrollbar-width: thin;
       scrollbar-color: #E2E8F0 transparent;
     }
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-track { background: transparent; }
-    .sidebar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
-
-    /* ── Nav ── */
-    .sidebar-nav { padding: 8px 0 24px; display: flex; flex-direction: column; }
-
-    .sidebar-category {
-      font-size: 0.58rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #A1A1A1;
-      padding: 18px 18px 5px;
-    }
-
-    .sidebar-link {
+.sidebar-link {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -294,29 +143,7 @@
       margin: 1px 8px 1px 0;
       border-radius: 0 8px 8px 0;
     }
-    .sidebar-link:hover {
-      color: #1a7acc;
-      background: #F0F9FF;
-    }
-    .sidebar-link.active {
-      color: #2693EC;
-      background: #EBF5FD;
-      border-left-color: #2693EC;
-      font-weight: 700;
-    }
-    .sidebar-tree { display: flex; flex-direction: column; }
-    .sidebar-icon {
-      width: 18px;
-      text-align: center;
-      flex-shrink: 0;
-      font-style: normal;
-      font-size: 0.85rem;
-    }
-
-    .main-content { flex: 1; min-width: 0; overflow: hidden; }
-
-    /* ── Mobile overlay ── */
-    .sidebar-overlay {
+.sidebar-overlay {
       display: none;
       position: fixed;
       inset: 0;
@@ -324,9 +151,7 @@
       z-index: 40;
       backdrop-filter: blur(2px);
     }
-    .sidebar-overlay.open { display: block; }
-
-    @media (max-width: 768px) {
+@media (max-width: 768px) {
       .hamburger { margin-left: auto; display: flex; }
       .sidebar {
         position: fixed;
@@ -340,14 +165,11 @@
       }
       .sidebar.open { transform: translateX(0); }
     }
-
-  
-    /* ── Page title ── */
-    .page-title {
+.page-title {
       padding: 36px 40px 28px;
       border-bottom: 1px solid #F1F5F9;
     }
-    .page-title h1 {
+.page-title h1 {
       font-size: 1.6rem;
       font-weight: 900;
       color: #171717;
@@ -356,25 +178,9 @@
       gap: 10px;
       margin-bottom: 6px;
     }
-    .page-title p {
-      font-size: 0.85rem;
-      color: #62748E;
-      line-height: 1.6;
-      max-width: 680px;
-    }
-    @media (max-width: 640px) {
+@media (max-width: 640px) {
       .page-title { padding: 24px 16px 20px; }
       .page-title h1 { font-size: 1.2rem; }
-    }
-  
-    .sidebar-version {
-      padding: 16px 18px;
-      border-top: 1px solid #F1F5F9;
-      margin-top: auto;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #A1A1A1;
-      letter-spacing: 0.03em;
     }
   </style>
 </head>

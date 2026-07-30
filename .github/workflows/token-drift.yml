@@ -37,6 +37,11 @@ jobs:
       - name: Check barrel & exports maps
         run: node scripts/check-exports.mjs
 
+      # The docs shell lives in one file now; a page re-declaring one of its
+      # selectors is how the copies drifted apart before.
+      - name: Check no page overrides the docs shell
+        run: node scripts/check-docs-css.mjs
+
   # Proves the theme actually compiles, and that every variable the components
   # read still resolves once Tailwind has processed it.
   compile:

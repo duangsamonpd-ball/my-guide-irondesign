@@ -5,84 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shadows · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="docs.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Montserrat', sans-serif; background: #F1F5F9; color: #171717; }
-
-    header {
-      background: #fff; border-bottom: 1px solid #E2E8F0;
-      padding: 24px 48px; display: flex; align-items: center; gap: 16px;
-    }
-    .logo-badge { width: 40px; height: 40px; flex-shrink: 0; }
-    header h1 { font-size: 1.25rem; font-weight: 700; color: #171717; }
-    header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
-    .header-brand p  { font-size: 0.75rem; color: #737373; margin-top: 2px; }
-
-    .content { padding: 40px; max-width: 1200px; margin: 0 auto; }
-
-    .section-label {
+body { font-family: 'Montserrat', sans-serif; background: #F1F5F9; color: #171717; }
+.content { padding: 40px; max-width: 1200px; margin: 0 auto; }
+.section-label {
       font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.08em; color: #A1A1A1;
       margin: 40px 0 24px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;
     }
-
-    .shadow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
-
-    .shadow-card {
+.shadow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
+.shadow-card {
       background: white; border-radius: 16px; padding: 32px 24px;
       text-align: center; border: 1px solid rgba(0,0,0,0.04);
     }
-
-    .shadow-shape {
+.shadow-shape {
       width: 100px; height: 100px;
       background: white; border-radius: 12px;
       margin: 0 auto 20px;
     }
-
-    .shadow-elevation {
+.shadow-elevation {
       font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.08em; color: #A1A1A1; margin-bottom: 6px;
     }
-    .shadow-name  { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-    .shadow-token { font-family: monospace; font-size: 0.7rem; color: #2693EC; margin-bottom: 8px; }
-    .shadow-value { font-family: monospace; font-size: 0.65rem; color: #A1A1A1; line-height: 1.5; }
-    .shadow-desc  { font-size: 0.72rem; color: #737373; margin-top: 10px; line-height: 1.4; background: #F8FAFC; padding: 8px 12px; border-radius: 8px; }
-
-    /* Focus ring section */
-    .focus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
-
-    .focus-card {
+.shadow-name  { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.shadow-token { font-family: monospace; font-size: 0.7rem; color: #2693EC; margin-bottom: 8px; }
+.shadow-value { font-family: monospace; font-size: 0.65rem; color: #A1A1A1; line-height: 1.5; }
+.shadow-desc  { font-size: 0.72rem; color: #737373; margin-top: 10px; line-height: 1.4; background: #F8FAFC; padding: 8px 12px; border-radius: 8px; }
+.focus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+.focus-card {
       background: white; border-radius: 12px; padding: 24px;
       text-align: center; border: 1px solid #E2E8F0;
     }
-
-    .focus-btn {
+.focus-btn {
       padding: 10px 20px; border-radius: 40px;
       font-weight: 700; font-size: 0.8rem;
       cursor: default; display: inline-block; margin-bottom: 12px;
     }
-
-    .focus-card h4 { font-size: 0.75rem; font-weight: 700; color: #62748E; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-    .focus-card .token { font-family: monospace; font-size: 0.65rem; color: #A1A1A1; }
-
-    /* Elevation diagram */
-    .elevation-diagram {
+.focus-card h4 { font-size: 0.75rem; font-weight: 700; color: #62748E; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.focus-card .token { font-family: monospace; font-size: 0.65rem; color: #A1A1A1; }
+.elevation-diagram {
       background: white; border-radius: 16px; padding: 32px 40px;
       display: flex; align-items: flex-end; justify-content: center; gap: 40px;
       margin-top: 8px; min-height: 220px;
     }
-
-    .el-item { text-align: center; }
-    .el-box {
+.el-item { text-align: center; }
+.el-box {
       background: white; border-radius: 10px; margin: 0 auto 12px;
     }
-    .el-label { font-size: 0.72rem; font-weight: 700; color: #62748E; }
-    .el-use   { font-size: 0.65rem; color: #A1A1A1; margin-top: 4px; }
-
-    footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
-  
-    /* ── Mobile responsive ── */
-    @media (max-width: 640px) {
+.el-label { font-size: 0.72rem; font-weight: 700; color: #62748E; }
+.el-use   { font-size: 0.65rem; color: #A1A1A1; margin-top: 4px; }
+footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
+@media (max-width: 640px) {
       header { padding: 12px 20px; }
       .content { padding: 16px; }
       .section-label { margin: 24px 0 14px; }
@@ -90,66 +65,7 @@
       .elevation-diagram { flex-wrap: wrap; gap: 20px; min-height: auto; padding: 24px 16px; }
       footer { padding: 24px 16px; }
     }
-
-    
-    
-    
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-    
-    
-    
-
-    
-
-    
-    
-
-    
-  
-    /* ─────────────────────────────────────────────
-       SIDEBAR & LAYOUT
-    ───────────────────────────────────────────── */
-    .hamburger { margin-left: auto;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px 4px;
-      flex-shrink: 0;
-      margin-right: 4px;
-      border-radius: 6px;
-      transition: background 0.15s;
-    }
-    .hamburger:hover { background: #F1F5F9; }
-    .hamburger span {
-      display: block;
-      width: 20px; height: 2px;
-      background: #62748E;
-      border-radius: 2px;
-      transition: background 0.2s;
-    }
-    .hamburger:hover span { background: #2693EC; }
-
-    .layout { display: flex; min-height: calc(100vh - 89px); }
-
-    /* ── Sidebar shell ── */
-    .sidebar {
+.sidebar {
       width: 248px;
       flex-shrink: 0;
       background: #FFFFFF;
@@ -161,23 +77,7 @@
       scrollbar-width: thin;
       scrollbar-color: #E2E8F0 transparent;
     }
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-track { background: transparent; }
-    .sidebar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
-
-    /* ── Nav ── */
-    .sidebar-nav { padding: 8px 0 24px; display: flex; flex-direction: column; }
-
-    .sidebar-category {
-      font-size: 0.58rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #A1A1A1;
-      padding: 18px 18px 5px;
-    }
-
-    .sidebar-link {
+.sidebar-link {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -191,29 +91,7 @@
       margin: 1px 8px 1px 0;
       border-radius: 0 8px 8px 0;
     }
-    .sidebar-link:hover {
-      color: #1a7acc;
-      background: #F0F9FF;
-    }
-    .sidebar-link.active {
-      color: #2693EC;
-      background: #EBF5FD;
-      border-left-color: #2693EC;
-      font-weight: 700;
-    }
-    .sidebar-tree { display: flex; flex-direction: column; }
-    .sidebar-icon {
-      width: 18px;
-      text-align: center;
-      flex-shrink: 0;
-      font-style: normal;
-      font-size: 0.85rem;
-    }
-
-    .main-content { flex: 1; min-width: 0; overflow: hidden; }
-
-    /* ── Mobile overlay ── */
-    .sidebar-overlay {
+.sidebar-overlay {
       display: none;
       position: fixed;
       inset: 0;
@@ -221,9 +99,7 @@
       z-index: 40;
       backdrop-filter: blur(2px);
     }
-    .sidebar-overlay.open { display: block; }
-
-    @media (max-width: 768px) {
+@media (max-width: 768px) {
       .hamburger { margin-left: auto; display: flex; }
       .sidebar {
         position: fixed;
@@ -237,14 +113,11 @@
       }
       .sidebar.open { transform: translateX(0); }
     }
-
-  
-    /* ── Page title ── */
-    .page-title {
+.page-title {
       padding: 36px 40px 28px;
       border-bottom: 1px solid #F1F5F9;
     }
-    .page-title h1 {
+.page-title h1 {
       font-size: 1.6rem;
       font-weight: 900;
       color: #171717;
@@ -253,25 +126,9 @@
       gap: 10px;
       margin-bottom: 6px;
     }
-    .page-title p {
-      font-size: 0.85rem;
-      color: #62748E;
-      line-height: 1.6;
-      max-width: 680px;
-    }
-    @media (max-width: 640px) {
+@media (max-width: 640px) {
       .page-title { padding: 24px 16px 20px; }
       .page-title h1 { font-size: 1.2rem; }
-    }
-  
-    .sidebar-version {
-      padding: 16px 18px;
-      border-top: 1px solid #F1F5F9;
-      margin-top: auto;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #A1A1A1;
-      letter-spacing: 0.03em;
     }
   </style>
 </head>
