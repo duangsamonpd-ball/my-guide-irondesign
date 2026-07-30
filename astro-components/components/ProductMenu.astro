@@ -46,7 +46,8 @@ interface Props {
   /** Figma `hasTrailingIcon` — the caret after the product lockup. */
   hasTrailingIcon?: boolean;
   items?: MenuItem[];
-  /** Sub tier: the current-page chip, drawn boxed and brand-coloured. */
+  /** Sub tier: the current-page chip, drawn boxed. Figma keeps its label the
+   *  default colour and turns it brand-pink only on hover. */
   subLead?: SubItem;
   subItems?: SubItem[];
   /** Figma `showMenuItems2` — trailing links at the right end of the sub tier. */
@@ -215,7 +216,10 @@ const hasSub = variant === 'submenu';
      stays clickable without re-stating the height in two places. */
   .pm-item { display: flex; align-items: center; gap: var(--spacing-xs); padding: 0 var(--spacing-md); font-size: var(--font-size-base); font-weight: var(--fw-btn-lg); line-height: 1; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
   .pm-item:hover { color: var(--color-primary); }
-  .pm-item.is-active { color: var(--color-primary); }
+  /* Figma `Active` is a tab-like panel — a white→neutral/50 wash down the full
+     72px tier with white side rules. `Active no bg` is the same minus the wash;
+     the panel is the default here. */
+  .pm-item.is-active { color: var(--color-primary); background: linear-gradient(to bottom, var(--color-bg-base), var(--neutral-50)); border-left: 1px solid var(--color-bg-base); border-right: 1px solid var(--color-bg-base); }
   .pm-item.is-active .pm-caret { transform: rotate(180deg); }
 
   .pm-utils { display: flex; align-items: center; gap: var(--spacing-sm); flex-shrink: 0; }
@@ -238,7 +242,11 @@ const hasSub = variant === 'submenu';
   .pm-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm) var(--spacing-md); border: 1px solid transparent; border-radius: var(--rounded-3xl); font-size: var(--font-size-sm); font-weight: var(--fw-nav-sub); line-height: 1.2; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
   .pm-chip svg { width: 16px; height: 13px; flex-shrink: 0; }
   .pm-chip:hover { color: var(--color-primary); }
-  .pm-chip.is-active { background: var(--color-bg-base); border-color: var(--color-border); border-radius: var(--rounded-lg); color: var(--color-primary); }
+  .pm-chip.is-active { background: var(--color-bg-base); border-color: var(--color-border); border-radius: var(--rounded-lg); }
+  /* Figma `Activehover` — the box darkens its border and the label turns brand.
+     Figma's `Active` leaves the label its default colour, so the brand colour
+     belongs to the hover, not to being active. */
+  .pm-chip.is-active:hover { border-color: var(--color-border-strong); color: var(--color-primary); }
   .pm-div { width: 1px; height: 24px; flex-shrink: 0; background: var(--slate-300); }
 
   /* Figma covers 1440px desktop only — shed the optional pieces before the bar breaks. */

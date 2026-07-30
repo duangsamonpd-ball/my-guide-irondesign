@@ -69,24 +69,24 @@
 
     /* ════ PRODUCT MENU (mirrors astro-components/components/ProductMenu.astro) ════ */
   /*
-    Figma node 790:4778 ("Product menu"). Every colour, space and size below is a
-    token — the Figma variables map 1:1 onto the system's own names:
-      surface/background → --color-bg-base   · surface/card-alt → --color-bg-card-alt
-      border/default     → --color-border    · border/strong    → --color-border-strong
-      brand|button/primary → --color-primary  · text/default/heading → --color-text-heading
-    Menu items use Figma's "Typography/UI/Button large" style (--fw-btn-lg / 16px),
-    the CTA uses "Typography/UI/Button default" (--fw-btn / 14px / --leading-4).
-    The 40px mark is Figma's own size here — it is deliberately off the 24/48/96/192
-    grid the logo specimen documents, so it is set explicitly rather than via Logo.astro.
+  Figma node 790:4778 ("Product menu"). Every colour, space and size below is a
+  token — the Figma variables map 1:1 onto the system's own names:
+  surface/background → --color-bg-base   · surface/card-alt → --color-bg-card-alt
+  border/default     → --color-border    · border/strong    → --color-border-strong
+  brand|button/primary → --color-primary  · text/default/heading → --color-text-heading
+  Menu items use Figma's "Typography/UI/Button large" style (--fw-btn-lg / 16px),
+  the CTA uses "Typography/UI/Button default" (--fw-btn / 14px / --leading-4).
+  The 40px mark is Figma's own size here — it is deliberately off the 24/48/96/192
+  grid the logo specimen documents, so it is set explicitly rather than via Logo.astro.
   */
   .pm { width: 100%; background: var(--color-bg-base); border-bottom: 1px solid var(--color-border-strong); font-family: 'Montserrat', sans-serif; }
   /* box-sizing so the 1px rule sits *inside* the 72px — Figma's tier is 72px total
-     (137px = 72 + 65 on the submenu variant), not 72 plus a border. */
+  (137px = 72 + 65 on the submenu variant), not 72 plus a border. */
   .pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; padding: 0 var(--spacing-xl); background: var(--color-bg-base); border-bottom: 1px solid var(--color-border); }
   .pm--submenu .pm-bar { border-bottom-color: var(--color-border); }
 
   /* Both side columns are flex:1 0 0 (Figma `flex-[1_0_0]`), not 1 0 auto — that is
-     what keeps the menu optically centred instead of pushed by the brand's width. */
+  what keeps the menu optically centred instead of pushed by the brand's width. */
   .pm-brand { display: flex; align-items: center; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; text-decoration: none; color: var(--color-text-heading); }
   .pm-mark { display: block; width: 40px; height: 40px; flex-shrink: 0; }
   .pm-name { font-size: var(--font-size-xl); line-height: 1; letter-spacing: -0.04em; white-space: nowrap; }
@@ -99,10 +99,13 @@
   .pm-menu { display: flex; align-items: stretch; list-style: none; margin: 0; padding: 0; min-width: 0; }
   .pm-menu li { display: flex; }
   /* Items stretch to the bar instead of carrying their own 72px, so the whole tier
-     stays clickable without re-stating the height in two places. */
+  stays clickable without re-stating the height in two places. */
   .pm-item { display: flex; align-items: center; gap: var(--spacing-xs); padding: 0 var(--spacing-md); font-size: var(--font-size-base); font-weight: var(--fw-btn-lg); line-height: 1; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
   .pm-item:hover { color: var(--color-primary); }
-  .pm-item.is-active { color: var(--color-primary); }
+  /* Figma `Active` is a tab-like panel — a white→neutral/50 wash down the full
+  72px tier with white side rules. `Active no bg` is the same minus the wash;
+  the panel is the default here. */
+  .pm-item.is-active { color: var(--color-primary); background: linear-gradient(to bottom, var(--color-bg-base), var(--neutral-50)); border-left: 1px solid var(--color-bg-base); border-right: 1px solid var(--color-bg-base); }
   .pm-item.is-active .pm-caret { transform: rotate(180deg); }
 
   .pm-utils { display: flex; align-items: center; gap: var(--spacing-sm); flex-shrink: 0; }
@@ -125,7 +128,11 @@
   .pm-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm) var(--spacing-md); border: 1px solid transparent; border-radius: var(--rounded-3xl); font-size: var(--font-size-sm); font-weight: var(--fw-nav-sub); line-height: 1.2; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
   .pm-chip svg { width: 16px; height: 13px; flex-shrink: 0; }
   .pm-chip:hover { color: var(--color-primary); }
-  .pm-chip.is-active { background: var(--color-bg-base); border-color: var(--color-border); border-radius: var(--rounded-lg); color: var(--color-primary); }
+  .pm-chip.is-active { background: var(--color-bg-base); border-color: var(--color-border); border-radius: var(--rounded-lg); }
+  /* Figma `Activehover` — the box darkens its border and the label turns brand.
+  Figma's `Active` leaves the label its default colour, so the brand colour
+  belongs to the hover, not to being active. */
+  .pm-chip.is-active:hover { border-color: var(--color-border-strong); color: var(--color-primary); }
   .pm-div { width: 1px; height: 24px; flex-shrink: 0; background: var(--slate-300); }
 
   /* Figma covers 1440px desktop only — shed the optional pieces before the bar breaks. */
