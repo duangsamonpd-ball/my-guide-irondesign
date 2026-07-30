@@ -59,12 +59,12 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
 
 <style>
   .field { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 340px; }
-  .field-label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-heading); }
+  .field-label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-body); line-height: var(--leading-5); }
   .field-label .req { color: var(--color-danger); }
   .input-wrap { position: relative; display: flex; align-items: center; }
   .input {
     width: 100%; height: var(--size-input);
-    border: 1.5px solid var(--color-border);
+    border: var(--border-width-1) solid var(--color-border);
     border-radius: var(--rounded-md);
     padding: 0 14px; font-family: 'Montserrat', sans-serif;
     font-size: var(--font-size-body); color: var(--color-text-body);
@@ -77,6 +77,6 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
   .input.error { border-color: var(--color-danger); }
   .input.error:focus { box-shadow: var(--shadow-focus-magenta); }   /* danger-coloured ring */
   .input:disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); cursor: not-allowed; }
-  .field-hint  { font-size: var(--font-size-caption); color: var(--color-text-support); }
-  .field-error { font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; }
+  .field-hint  { font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--leading-5); }
+  .field-error { font-size: var(--font-size-caption); color: var(--color-danger); font-weight: var(--fw-label); line-height: var(--leading-5); }
 </style>
