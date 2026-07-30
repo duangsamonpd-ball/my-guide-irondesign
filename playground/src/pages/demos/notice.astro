@@ -1,0 +1,22 @@
+---
+/**
+ * Demo source for docs/component-notice.html.
+ *
+ * Preview only. Variants and Intents both set `max-width:none` on the notice
+ * itself, and the Intents cells drop the body text the component always renders,
+ * so neither can come from a real instance.
+ */
+import { Notice } from '@iron-software/astro-components';
+
+const LONG = 'Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText.';
+const SHORT = 'Aspose, SyncFusion, and iText are registered trademarks of their respective owner.';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Notice variant="filled" intent="info" title="Please note" text={LONG} />
+      <Notice variant="bordered" intent="info" title="Please note" text={SHORT} />
+    </div>
+  </body>
+</html>

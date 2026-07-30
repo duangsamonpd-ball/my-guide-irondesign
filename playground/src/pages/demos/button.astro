@@ -1,0 +1,53 @@
+---
+/**
+ * Demo source for docs/component-button.html.
+ *
+ * Preview, Variants and Sizes are generated. States is not: it forces `is-focus`
+ * and `is-disabled`, neither of which the component emits.
+ *
+ * The Variants grid's on-dark cell keeps its dark background inline — that is
+ * docs chrome around the button, not an override on it, so it lives inside the
+ * region like any other cell wrapper.
+ */
+import { Button } from '@iron-software/astro-components';
+
+const variants = [
+  ['primary', 'Primary', 'button/primary'],
+  ['secondary', 'Secondary', 'button/secondary'],
+  ['tertiary', 'Tertiary', 'button/tertiary → pink'],
+  ['outline', 'Outline', 'border/default'],
+] as const;
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Button size="lg">Download Free Trial</Button>
+      <Button size="lg" variant="outline">Learn more</Button>
+      <Button size="lg" variant="ghost">Docs<span class="ico">→</span></Button>
+    </div>
+
+    <div data-demo="variants">
+      {variants.map(([v, name, note]) => (
+        <div class="cell">
+          <Button variant={v}>{name}</Button>
+          <div class="lbl">{name}<small>{note}</small></div>
+        </div>
+      ))}
+      <div class="cell" style="background:#1D293D;border-color:#334155;">
+        <Button variant="ondark">On-dark</Button>
+        <div class="lbl" style="color:#CAD5E2;">Outline · on-dark<small style="color:#90A1B9;">transparent + blur</small></div>
+      </div>
+      <div class="cell">
+        <Button variant="ghost">Ghost</Button>
+        <div class="lbl">Ghost<small>text only</small></div>
+      </div>
+    </div>
+
+    <div data-demo="sizes">
+      <Button size="lg">Large</Button>
+      <Button size="md">Default</Button>
+      <Button size="sm">Small</Button>
+    </div>
+  </body>
+</html>

@@ -122,9 +122,14 @@ Preview and hand-written illustrations below it.
 | TopNav | 3 — default, transparent, trimmed |
 | ProductMenu | 2 — default, submenu |
 | Footer | 2 — suite, default |
+| Button | 3 — preview, variants, sizes |
 | Checkbox | 3 — preview, states, layouts |
 | Radio | 3 — preview, states, card-group |
 | Input | 1 — preview |
+| Notice | 1 — preview |
+| Textarea | 1 — preview |
+| FileUpload | 1 — preview |
+| TextLink | 1 — preview |
 | TrialKeyCard | 1 — preview |
 | FormCard | 1 — preview |
 | Select | 1 — preview |
@@ -173,9 +178,11 @@ input with a leading icon — `has-icon` plus an `.input-icon` span — that the
 component has no prop and no CSS for. That variant is documented but cannot be
 produced.
 
-The remaining 5 components still have hand-written demo markup and are not
-covered by `check:render`; each needs a `src/pages/demos/<name>.astro` and
-sentinels added to its docs page.
+**Every component now has at least one generated region.** What is left is the
+sections inside them that cannot be generated honestly — the forced-state grids,
+the annotated anatomies, the Do/Don't cards and, on a few pages, sections whose
+markup overrides padding or width inline. Each is noted in its demo page's
+header comment.
 
 ## Dependency note
 

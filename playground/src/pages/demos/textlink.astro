@@ -1,0 +1,20 @@
+---
+/**
+ * Demo source for docs/component-textlink.html.
+ *
+ * Preview only for now. Variants forces a hover colour inline on one link, and
+ * Modes nests the pairs three wrappers deep; both stay hand-written.
+ */
+import { TextLink } from '@iron-software/astro-components';
+
+const P = 'font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <p style={P}>Save 80% on all 10 products with the new <TextLink href="#">Iron Suite</TextLink></p>
+      <p style={P}>Save 80% on all 10 products with the new <TextLink href="#" variant="underline">Iron Suite</TextLink></p>
+    </div>
+  </body>
+</html>

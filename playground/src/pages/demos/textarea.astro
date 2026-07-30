@@ -1,0 +1,22 @@
+---
+/**
+ * Demo source for docs/component-textarea.html.
+ *
+ * Preview only. States forces `is-focus` and `is-disabled` on the control,
+ * classes the component never emits.
+ */
+import { Textarea } from '@iron-software/astro-components';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Textarea
+        label="Message"
+        name="message"
+        placeholder="Type your message here…"
+        hint="Tell us a bit about what you need."
+      />
+    </div>
+  </body>
+</html>
