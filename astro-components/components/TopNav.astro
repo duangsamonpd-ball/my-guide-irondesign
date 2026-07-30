@@ -64,6 +64,24 @@ const CARET_D =
           <path d="M7.17643 5.59733L1.27165 5.59456L1.96696 3.00033L5.1862 2.99967L5.9904 0H8.67676L7.17643 5.59733Z"/>
           <path d="M12.7783 2.99951H16.0002L15.3052 5.59424L9.39616 5.59701L10.8963 0H13.5824L12.7783 2.99951Z"/>
         </svg>
+        {/* Hover artwork — Figma draws it as two layers over the same footprint:
+            the bars inset 27.08% vertically, the strokes inset 8.33%/15.11%.
+            Those insets are relative to a 16x16 box, so against this 16x13.3333
+            viewBox they become translate(0 3) and translate(2.4176 0). */}
+        <svg class="tn-mark tn-mark-colour" viewBox="0 0 16.0002 13.3333" fill="none" aria-hidden="true">
+          <g transform="translate(0 3)">
+            <path class="mk-green"  d="M6.46004 4.73922L5.7647 7.33389L0 7.33426L0.695341 4.73959L6.46004 4.73922Z"/>
+            <path class="mk-orange" d="M14.0353 7.33324L9.20556 7.33398L9.20593 7.33324H8.29819L8.99353 4.73894L14.7303 4.73857L14.0353 7.33324Z"/>
+            <path class="mk-green"  d="M15.3051 2.59467L10.3446 2.59542L10.3449 2.59467H9.56836L10.2637 0.000372637L16.0001 0L15.3051 2.59467Z"/>
+            <path class="mk-orange" d="M7.73204 0L7.0367 2.59467L1.27163 2.59505L1.96697 0.000745274L7.73204 0Z"/>
+          </g>
+          <g transform="translate(2.4176 0)">
+            <path class="mk-sky"  d="M2.68634 13.3333H0L1.49837 7.74117H4.18472L2.68634 13.3333Z"/>
+            <path class="mk-pink" d="M7.59908 13.3333H4.91311L6.41148 7.74117H9.09745L7.59908 13.3333Z"/>
+            <path class="mk-sky"  d="M11.1645 0L9.66431 5.59701H6.97834L8.47858 0H11.1645Z"/>
+            <path class="mk-pink" d="M6.2589 0L4.75866 5.59738H2.07232L3.57255 0H6.2589Z"/>
+          </g>
+        </svg>
         <span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span>
       </a>
 
@@ -132,16 +150,37 @@ const CARET_D =
   .tn-right { display: flex; align-items: center; gap: var(--spacing-lg); min-width: 0; }
 
   .tn-brand { display: flex; align-items: center; gap: var(--spacing-micro); flex-shrink: 0; text-decoration: none; }
-  .tn-mark { width: 16px; height: 14px; flex-shrink: 0; color: var(--color-neutral); }
+  /* Figma puts the mark in a 16px square with the 16x13.33 artwork centred inside,
+     the same box height as the 16px text line — so every item shares one baseline. */
+  .tn-mark { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-neutral); }
   .tn-brand-text { font-size: var(--font-size-xs); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; white-space: nowrap; }
   .tn-brand-text b { font-weight: var(--fw-nav-label); }
   .tn-brand-text span { font-weight: var(--fw-caption-sm); }
 
   .tn-menu { display: flex; align-items: center; gap: var(--spacing-lg); list-style: none; margin: 0; padding: 0; min-width: 0; }
+  /* Each <li> must be a flex container, not a block. As a block it lays out an
+     inline line box with a strut from the inherited font, and the inline-flex
+     .tn-item then sits on that strut's baseline — about 1.4px below the brand
+     lockup, which is a plain flex item and has no strut. This puts every label
+     on one line. */
+  .tn-menu li { display: flex; align-items: center; }
   .tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
   /* Figma's `_Top nav iron` carries a Hover state: the SOFTWARE half turns brand
      pink while IRON stays white. Figma also swaps the mark for a two-tone version;
      that needs vectors we do not have, so the mark stays single-colour here. */
+  /* The mark is monochrome slate at rest and full-colour on hover — two separate
+     artworks in Figma, not a recolour of one. Colours come from the brand
+     primitives because a logo is not "success green", it is Iron green. */
+  .tn-mark-colour { display: none; }
+  .tn-brand:hover .tn-mark { display: none; }
+  .tn-brand:hover .tn-mark-colour { display: block; }
+  .tn-mark-colour .mk-green  { fill: var(--iron-green-500); }
+  .tn-mark-colour .mk-orange { fill: var(--iron-orange-500); }
+  .tn-mark-colour .mk-sky    { fill: var(--iron-sky-500); }
+  .tn-mark-colour .mk-pink   { fill: var(--iron-pink-500); }
+  /* On the transparent variant the bar has no fill of its own, so the mark drops
+     its recessive slate and goes white with the rest of the lockup. */
+  .tn--transparent .tn-mark { color: var(--color-text-on-color-heading); }
   .tn-brand:hover .tn-brand-text span { color: var(--color-primary); }
   .tn-item:hover { color: var(--color-text-link-menu-hover); }
   .tn-item:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 3px; }
