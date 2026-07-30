@@ -4,3 +4,6 @@ node_modules/
 
 # local Figma reference exports (not committed)
 design-refs/
+
+# per-machine Claude Code overrides — .claude/launch.json IS committed, this isn't
+.claude/settings.local.json
