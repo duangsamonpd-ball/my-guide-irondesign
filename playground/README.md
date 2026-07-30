@@ -119,6 +119,7 @@ Preview and hand-written illustrations below it.
 |---|---|
 | Badge | 7 — preview, colours, subtle-solid, dark, variants, do, dont |
 | TopNav | 3 — default, transparent, trimmed |
+| ProductMenu | 2 — default, submenu |
 | Select | 1 — preview |
 | Tooltip | 1 — preview |
 
@@ -129,7 +130,7 @@ missed one. Every region on that page is a complete component instance, so all
 three are generated and `check:render` now fails the moment the docs and the
 component disagree.
 
-The remaining 13 components still have hand-written demo markup and are not
+The remaining 12 components still have hand-written demo markup and are not
 covered by `check:render`; each needs a `src/pages/demos/<name>.astro` and
 sentinels added to its docs page.
 

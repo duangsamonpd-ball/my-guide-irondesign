@@ -1,0 +1,40 @@
+---
+/**
+ * Demo source for docs/component-productmenu.html.
+ *
+ * Both regions are complete component instances, so both are generated. Every
+ * other prop the docs demos rely on — product, productName, runtime, the CTA
+ * label, Search and Ask AI — is already the component's default, so only the
+ * menu items and the sub tier need stating here.
+ */
+import { ProductMenu } from '@iron-software/astro-components';
+
+const items = [
+  { label: 'Home', href: '#', active: true },
+  { label: 'Licensing', href: '#', caret: true },
+  { label: 'Features', href: '#', caret: true },
+  { label: 'Demos', href: '#', caret: true },
+  { label: 'Docs', href: '#', caret: true },
+];
+
+const sub = { label: 'Submenu', href: '#' };
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="default">
+      <ProductMenu items={items} />
+    </div>
+
+    <div data-demo="submenu">
+      <ProductMenu
+        variant="submenu"
+        items={items}
+        subLead={sub}
+        subItems={[sub, sub, sub, sub, sub]}
+        showMenuItems2
+        subItemsTrailing={[sub]}
+      />
+    </div>
+  </body>
+</html>
