@@ -1,0 +1,39 @@
+---
+/**
+ * Demo source for docs/component-tooltip.html.
+ *
+ * Only Preview is generated. The Variants, Placement and Sizes grids show a
+ * bare `.tt-bubble force-show` with no trigger, no `tabindex` and no aria —
+ * deliberately partial illustrations of the bubble alone, the same category as
+ * the Select states grid. Rendering the real component there would need props
+ * that exist only to serve the docs.
+ *
+ * `.tt-trigger` is docs-only styling for the demo button, so the button is
+ * slotted here as part of the region rather than living in the component.
+ */
+import { Tooltip } from '@iron-software/astro-components';
+
+const seats =
+  'The number of individuals or development machines working on all projects using an Iron Product.';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Tooltip title="Title" body={seats}>
+        <button class="tt-trigger">Hover me</button>
+      </Tooltip>
+      <Tooltip
+        title="Per-seat licensing"
+        body="Counts unique developers, not machines."
+        linkHref="#"
+        linkText="Learn more"
+      >
+        <button class="tt-trigger">With a link</button>
+      </Tooltip>
+      <Tooltip body={seats}>
+        <button class="tt-trigger">No title</button>
+      </Tooltip>
+    </div>
+  </body>
+</html>

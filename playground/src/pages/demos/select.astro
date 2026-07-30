@@ -1,0 +1,35 @@
+---
+/**
+ * Demo source for docs/component-select.html.
+ *
+ * Only the Preview region is generated, and deliberately so. The rest of that
+ * page — the States grid, the "Menu & options" mock and the Do/Don't cards — is
+ * built from PARTIAL markup that isolates one visual state: the "Open / Focus"
+ * cell, for instance, is a `.sel.open` with a trigger and no `.sel-menu` at all.
+ * Rendering the real component there would need props that exist only to serve
+ * the docs, or would change how the page looks. Those stay hand-written; see
+ * playground/README.md.
+ *
+ * Preview is where the drift actually was: the hand-written copy omitted the
+ * `<select class="sel-native-fallback">` the component always renders, invented
+ * an `id="sel-demo-val"` on the value span, and wired inline `onclick`
+ * handlers the component does not emit.
+ */
+import { Select } from '@iron-software/astro-components';
+
+const countries = [
+  { value: 'us', label: 'United States' },
+  { value: 'uk', label: 'United Kingdom' },
+  { value: 'th', label: 'Thailand' },
+  { value: 'de', label: 'Germany' },
+  { value: 'jp', label: 'Japan' },
+];
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Select label="Country" name="country" value="us" options={countries} />
+    </div>
+  </body>
+</html>

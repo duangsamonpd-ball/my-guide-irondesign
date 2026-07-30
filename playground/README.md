@@ -59,19 +59,29 @@ npm run check:render   # the gate: fails if the docs are out of date
 
 ## What the generator normalises
 
-Three kinds of noise in Astro's output must not reach the docs:
+Two kinds of noise in Astro's output must not reach the docs:
 
 - **`data-astro-cid-…` scope attributes.** Every component `<style>` is scoped
   (none use `is:global`), and the hash changes whenever that style block is
   edited — snapshotting it would make the gate fail on unrelated CSS edits.
-- **Hoisted `<script type="module">` bundles.** The docs demos have always been
-  static previews and carry no component JS.
 - **Per-render ids.** `Select` and `Tooltip` mint a `randomUUID()` id
   unconditionally, so they differ on every build; each distinct id is rewritten
   to a stable `<prefix>-demo-<n>`, which fixes its `aria-` and `for` references
   too. `Checkbox`, `Input` and `Textarea` also generate ids, but only as
   `id ?? name ?? random` — pass `name` (or `id`) in the demo and they are stable
   at the source, which is preferable.
+
+The hoisted `<script type="module">` behaviour bundles are **kept**, so a demo in
+the docs runs the component's real behaviour. They were stripped at first, on the
+assumption that the demos were static previews. That was wrong:
+`component-select.html` carried a hand-written reimplementation of the entire
+listbox interaction — a fifth copy, which had already drifted (it drove an
+`id="…-val"` the component never renders), and `component-tooltip.html` had one
+for the hover behaviour. Both have been deleted in favour of the real script.
+
+Scripts are masked out before anything else touches the markup: minified JS lives
+on one line and is full of `<` and `>` (`i<n`, `=>`) that the tag scanner would
+otherwise read as elements.
 
 Indentation is rebuilt from real tag depth, because Astro indents each
 component's output relative to its own source file. Line **breaks** are left
@@ -91,12 +101,29 @@ on purpose, and excluded from the gate:
 - **Code panes** — syntax-highlighted snippets. These are a genuine fourth copy
   of the markup and a candidate for generating later, but they are not markup
   the browser renders.
+- **State grids and isolated-part illustrations** — Select's States row, its
+  "Menu & options" mock and Tooltip's Variants / Placement / Sizes grids are
+  built from *partial* markup that isolates one visual state. Select's
+  "Open / Focus" cell is a `.sel.open` with a trigger and no `.sel-menu` at all;
+  Tooltip's Variants cells are a bare `.tt-bubble force-show` with no trigger,
+  no `tabindex` and no aria. Rendering the real component in their place would
+  need props that exist only to serve the docs, or would change how the page
+  looks.
+
+Coverage is therefore **per region, not per page**: a page can have a generated
+Preview and hand-written illustrations below it.
 
 ## Status
 
-Migrated so far: **Badge** (7 regions). The remaining 16 components still have
-hand-written demo markup and are not yet covered by `check:render`; each needs a
-`src/pages/demos/<name>.astro` and sentinels added to its docs page.
+| Component | Regions generated |
+|---|---|
+| Badge | 7 — preview, colours, subtle-solid, dark, variants, do, dont |
+| Select | 1 — preview |
+| Tooltip | 1 — preview |
+
+The remaining 14 components still have hand-written demo markup and are not
+covered by `check:render`; each needs a `src/pages/demos/<name>.astro` and
+sentinels added to its docs page.
 
 ## Dependency note
 

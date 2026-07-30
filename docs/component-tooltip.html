@@ -162,36 +162,42 @@
     <div class="sect"><div class="sect-h">Preview</div>
       <div class="sect-sub">Hover the button to see the tooltip appear.</div>
       <div class="canvas">
-        <span class="tt show-on-hover">
-          <button class="tt-trigger" aria-describedby="tt-doc-1">Hover me</button>
-          <span id="tt-doc-1" role="tooltip" class="tt-bubble above">
+        <!-- demo:preview -->
+        <span class="tt show-on-hover" tabindex="0" aria-describedby="tt-demo-1">
+          <button class="tt-trigger">Hover me</button>
+          <span id="tt-demo-1" role="tooltip" class="tt-bubble above">
             <span class="tt-arrow arrow-bottom"></span>
+            <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
             <span class="tt-content">
               <span class="tt-title">Title</span>
               <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
             </span>
           </span>
         </span>
-        <span class="tt show-on-hover">
-          <button class="tt-trigger" aria-describedby="tt-doc-2">With a link</button>
-          <span id="tt-doc-2" role="tooltip" class="tt-bubble above">
+        <script type="module">function e(e=document){e.querySelectorAll(`.tt.show-on-hover:not([data-tt-init])`).forEach(e=>{e.dataset.ttInit=`1`;let t=e.querySelector(`.tt-bubble`);if(!t)return;let n=null,r=()=>{n&&clearTimeout(n),t.classList.add(`js-open`)},i=()=>{n&&clearTimeout(n),n=setTimeout(()=>t.classList.remove(`js-open`),200)};e.addEventListener(`mouseenter`,r),e.addEventListener(`mouseleave`,i),e.addEventListener(`focusin`,r),e.addEventListener(`focusout`,i),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&t.classList.contains(`js-open`)&&(n&&clearTimeout(n),t.classList.remove(`js-open`))})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
+        <span class="tt show-on-hover" tabindex="0" aria-describedby="tt-demo-2">
+          <button class="tt-trigger">With a link</button>
+          <span id="tt-demo-2" role="tooltip" class="tt-bubble above">
             <span class="tt-arrow arrow-bottom"></span>
+            <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
             <span class="tt-content">
               <span class="tt-title">Per-seat licensing</span>
               <span class="tt-body">Counts unique developers, not machines.</span>
-              <a href="#" class="tt-link">Learn more <span>→</span></a>
+              <a class="tt-link" href="#">Learn more →</a>
             </span>
           </span>
         </span>
-        <span class="tt show-on-hover">
-          <button class="tt-trigger" aria-describedby="tt-doc-3">No title</button>
-          <span id="tt-doc-3" role="tooltip" class="tt-bubble above">
+        <span class="tt show-on-hover" tabindex="0" aria-describedby="tt-demo-3">
+          <button class="tt-trigger">No title</button>
+          <span id="tt-demo-3" role="tooltip" class="tt-bubble above">
             <span class="tt-arrow arrow-bottom"></span>
+            <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
             <span class="tt-content">
               <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
             </span>
           </span>
         </span>
+        <!-- /demo:preview -->
       </div>
     </div>
 
@@ -455,22 +461,6 @@
     else{fallbackCopy(txt,done);}
   }
 
-  /* Interactive tooltips: a pure-CSS :hover gap between the trigger and the
-     bubble makes the bubble disappear before the mouse can reach a link
-     inside it. Use JS with a short close-delay instead, so moving from the
-     trigger, across the gap, into the bubble keeps it open. */
-  document.querySelectorAll('.tt.show-on-hover').forEach(tt=>{
-    const bubble=tt.querySelector('.tt-bubble');
-    let closeTimer=null;
-    const open=()=>{ clearTimeout(closeTimer); bubble.classList.add('js-open'); };
-    const scheduleClose=()=>{ clearTimeout(closeTimer); closeTimer=setTimeout(()=>bubble.classList.remove('js-open'),200); };
-    tt.addEventListener('mouseenter',open);
-    tt.addEventListener('mouseleave',scheduleClose);
-    tt.addEventListener('focusin',open);
-    tt.addEventListener('focusout',scheduleClose);
-    // WCAG 1.4.13 — dismissible: Esc hides the bubble without moving focus.
-    tt.addEventListener('keydown',e=>{ if(e.key==='Escape'&&bubble.classList.contains('js-open')){ clearTimeout(closeTimer); bubble.classList.remove('js-open'); } });
-  });
 </script>
 </body>
 </html>

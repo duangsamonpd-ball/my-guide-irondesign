@@ -155,17 +155,34 @@
 
     <div class="sect"><div class="sect-h">Preview</div>
       <div class="canvas">
-        <div class="sel" id="sel-demo">
-          <label class="sel-label" id="sel-demo-label">Country</label>
-          <button class="sel-trigger" id="sel-demo-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-listbox" aria-labelledby="sel-demo-label sel-demo-trigger" onclick="toggleSel('sel-demo')"><span id="sel-demo-val">United States</span><span class="chev" aria-hidden="true">▾</span></button>
-          <div class="sel-menu" id="sel-demo-listbox" role="listbox" tabindex="-1" aria-labelledby="sel-demo-label" onkeydown="selMenuKeydown(event,'sel-demo')">
-            <div class="sel-opt selected" id="sel-demo-opt-0" role="option" aria-selected="true" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">United States <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt" id="sel-demo-opt-1" role="option" aria-selected="false" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">United Kingdom <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt" id="sel-demo-opt-2" role="option" aria-selected="false" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">Thailand <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt" id="sel-demo-opt-3" role="option" aria-selected="false" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">Germany <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
-            <div class="sel-opt" id="sel-demo-opt-4" role="option" aria-selected="false" onclick="pickSel('sel-demo',this)" onmouseenter="setActiveSel('sel-demo',this)">Japan <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span></div>
+        <!-- demo:preview -->
+        <div class="sel">
+          <label id="sel-demo-1-label" class="sel-label">Country</label>
+          <button type="button" id="sel-demo-1-trigger" class="sel-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-1-listbox" aria-labelledby="sel-demo-1-label sel-demo-1-trigger">
+            <span class="sel-value">United States</span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
+          <div id="sel-demo-1-listbox" class="sel-menu" role="listbox" tabindex="-1" aria-labelledby="sel-demo-1-label">
+            <div id="sel-demo-1-opt-0" class="sel-opt selected" role="option" aria-selected="true" data-value="us">
+              United States <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"></path></svg></span>
+            </div><div id="sel-demo-1-opt-1" class="sel-opt" role="option" aria-selected="false" data-value="uk">
+              United Kingdom <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"></path></svg></span>
+            </div><div id="sel-demo-1-opt-2" class="sel-opt" role="option" aria-selected="false" data-value="th">
+              Thailand <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"></path></svg></span>
+            </div><div id="sel-demo-1-opt-3" class="sel-opt" role="option" aria-selected="false" data-value="de">
+              Germany <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"></path></svg></span>
+            </div><div id="sel-demo-1-opt-4" class="sel-opt" role="option" aria-selected="false" data-value="jp">
+              Japan <span class="ck" aria-hidden="true"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"></path></svg></span>
+            </div>
           </div>
+          <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+          <select name="country" class="sel-native-fallback" tabindex="-1" aria-hidden="true">
+            <option value="" disabled>Select…</option>
+            <option value="us" selected>United States</option><option value="uk">United Kingdom</option><option value="th">Thailand</option><option value="de">Germany</option><option value="jp">Japan</option>
+          </select>
         </div>
+        <script type="module">function e(e=document){e.querySelectorAll(`.sel:not([data-sel-init])`).forEach(e=>{e.dataset.selInit=`1`;let t=e.querySelector(`.sel-trigger`),n=e.querySelector(`.sel-menu`),r=e.querySelector(`.sel-value`),i=e.querySelector(`select`),a=Array.from(n?.querySelectorAll(`.sel-opt`)??[]);if(!t||!n||a.length===0)return;let o=Math.max(0,a.findIndex(e=>e.classList.contains(`selected`))),s=e=>{o=Math.min(Math.max(e,0),a.length-1),a.forEach(e=>e.classList.remove(`active`));let t=a[o];t.classList.add(`active`),n.setAttribute(`aria-activedescendant`,t.id),t.scrollIntoView({block:`nearest`})},c=()=>{e.classList.contains(`disabled`)||(e.classList.add(`open`),t.setAttribute(`aria-expanded`,`true`),s(o),n.focus())},l=({refocusTrigger:r=!0}={})=>{e.classList.remove(`open`),t.setAttribute(`aria-expanded`,`false`),a.forEach(e=>e.classList.remove(`active`)),n.removeAttribute(`aria-activedescendant`),r&&t.focus()},u=n=>{let o=a[n];o&&(a.forEach(e=>{e.classList.remove(`selected`),e.setAttribute(`aria-selected`,`false`)}),o.classList.add(`selected`),o.setAttribute(`aria-selected`,`true`),r&&(r.textContent=o.childNodes[0]?.textContent?.trim()??``),t.classList.remove(`is-placeholder`),i&&(i.value=o.dataset.value??``),e.dispatchEvent(new CustomEvent(`select-change`,{detail:o.dataset.value,bubbles:!0})))};t.addEventListener(`click`,()=>{e.classList.contains(`open`)?l():c()}),t.addEventListener(`keydown`,t=>{e.classList.contains(`disabled`)||[`ArrowDown`,`ArrowUp`,`Enter`,` `].includes(t.key)&&(t.preventDefault(),c())}),a.forEach((e,t)=>{e.addEventListener(`click`,()=>{u(t),l()}),e.addEventListener(`mouseenter`,()=>s(t))}),n.addEventListener(`keydown`,e=>{switch(e.key){case`ArrowDown`:e.preventDefault(),s(o+1);break;case`ArrowUp`:e.preventDefault(),s(o-1);break;case`Home`:e.preventDefault(),s(0);break;case`End`:e.preventDefault(),s(a.length-1);break;case`Enter`:case` `:e.preventDefault(),u(o),l();break;case`Escape`:e.preventDefault(),l();break;case`Tab`:l({refocusTrigger:!1});break}})})}document.addEventListener(`click`,e=>{document.querySelectorAll(`.sel.open`).forEach(t=>{t.contains(e.target)||(t.classList.remove(`open`),t.querySelector(`.sel-trigger`)?.setAttribute(`aria-expanded`,`false`),t.querySelector(`.sel-menu`)?.removeAttribute(`aria-activedescendant`))})}),document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
+        <!-- /demo:preview -->
       </div>
     </div>
 
@@ -295,57 +312,6 @@
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
     else{fallbackCopy(txt,done);}
   }
-  // Button-triggered listbox: trigger owns aria-expanded, listbox owns aria-activedescendant.
-  function openSel(id){
-    const s=document.getElementById(id), trigger=document.getElementById(id+'-trigger'), menu=document.getElementById(id+'-listbox');
-    s.classList.add('open'); trigger.setAttribute('aria-expanded','true');
-    const active=menu.querySelector('.sel-opt.selected')||menu.querySelector('.sel-opt');
-    if(active) setActiveSel(id,active);
-    menu.focus();
-  }
-  function closeSel(id,refocusTrigger=true){
-    const s=document.getElementById(id), trigger=document.getElementById(id+'-trigger'), menu=document.getElementById(id+'-listbox');
-    s.classList.remove('open'); trigger.setAttribute('aria-expanded','false');
-    menu.querySelectorAll('.sel-opt').forEach(o=>o.classList.remove('active'));
-    menu.removeAttribute('aria-activedescendant');
-    if(refocusTrigger) trigger.focus();
-  }
-  function toggleSel(id){document.getElementById(id).classList.contains('open')?closeSel(id):openSel(id);}
-  function setActiveSel(id,opt){
-    const menu=document.getElementById(id+'-listbox');
-    menu.querySelectorAll('.sel-opt').forEach(o=>o.classList.remove('active'));
-    opt.classList.add('active'); menu.setAttribute('aria-activedescendant',opt.id);
-    opt.scrollIntoView({block:'nearest'});
-  }
-  function pickSel(id,opt){
-    const s=document.getElementById(id);
-    s.querySelectorAll('.sel-opt').forEach(o=>{o.classList.remove('selected');o.setAttribute('aria-selected','false');});
-    opt.classList.add('selected'); opt.setAttribute('aria-selected','true');
-    document.getElementById(id+'-val').textContent=opt.childNodes[0]?.textContent.trim();
-  }
-  function selMenuKeydown(e,id){
-    const menu=document.getElementById(id+'-listbox');
-    const opts=Array.from(menu.querySelectorAll('.sel-opt'));
-    let i=opts.findIndex(o=>o.classList.contains('active'));
-    if(i<0) i=opts.findIndex(o=>o.classList.contains('selected'));
-    if(i<0) i=0;
-    switch(e.key){
-      case 'ArrowDown': e.preventDefault(); setActiveSel(id,opts[Math.min(i+1,opts.length-1)]); break;
-      case 'ArrowUp': e.preventDefault(); setActiveSel(id,opts[Math.max(i-1,0)]); break;
-      case 'Home': e.preventDefault(); setActiveSel(id,opts[0]); break;
-      case 'End': e.preventDefault(); setActiveSel(id,opts[opts.length-1]); break;
-      case 'Enter': case ' ': e.preventDefault(); pickSel(id,opts[i]); closeSel(id); break;
-      case 'Escape': e.preventDefault(); closeSel(id); break;
-      case 'Tab': closeSel(id,false); break;
-    }
-  }
-  document.addEventListener('keydown',e=>{
-    const trigger=e.target.closest('.sel-trigger');
-    if(trigger && ['ArrowDown','ArrowUp','Enter',' '].includes(e.key)){
-      e.preventDefault(); openSel(trigger.closest('.sel').id);
-    }
-  });
-  document.addEventListener('click',e=>{if(!e.target.closest('.sel')){document.querySelectorAll('.sel.open').forEach(s=>{if(s.id) closeSel(s.id,false);});}});
 </script>
 </body>
 </html>

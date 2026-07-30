@@ -104,22 +104,35 @@ function extractRegion(html, name) {
 /* ── 3. normalise rendered output into docs-ready markup ─────────────────── */
 
 /**
- * Astro emits three kinds of noise the docs pages must not carry:
+ * Astro emits two kinds of noise the docs pages must not carry:
  *
  *  · `data-astro-cid-…` scope attributes — every component <style> is scoped,
  *    and the hash changes whenever that style block is edited, so snapshotting
  *    it would make the gate fail on unrelated CSS edits.
- *  · hoisted `<script type="module">` behaviour bundles — the docs demos are
- *    static previews and have never carried component JS.
  *  · per-render ids — Select (`sel-<8 hex>`) and Tooltip (`tt-<8 hex>`) mint one
  *    unconditionally, so they differ on every build. Each distinct id is mapped
  *    to a stable `<prefix>-demo-<n>`, which also fixes every `aria-` and `for`
  *    reference to it because the whole token is rewritten.
+ *
+ * The hoisted `<script type="module">` behaviour bundles are KEPT, so a demo in
+ * the docs runs the component's real behaviour. They used to be stripped on the
+ * assumption that the demos were static previews — which was wrong:
+ * component-select.html carried a hand-written reimplementation of the whole
+ * listbox interaction, a fifth copy that had already drifted (it referenced an
+ * `id="…-val"` the component never renders).
+ *
+ * Scripts are masked out before anything else touches the markup. Minified JS
+ * lives on one line and is full of `<` and `>` (`i<n`, `=>`), which the tag
+ * scanner would happily read as elements.
  */
 function normalise(html) {
-  let out = html
-    .replace(/<script type="module">[\s\S]*?<\/script>/g, '')
-    .replace(/\s+data-astro-cid-[a-z0-9]+(?==?)/g, '');
+  const scripts = [];
+  let out = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, (block) => {
+    scripts.push(block);
+    return `\n__DEMO_SCRIPT_${scripts.length - 1}__\n`;
+  });
+
+  out = out.replace(/\s+data-astro-cid-[a-z0-9]+(?==?)/g, '');
 
   const seen = new Map();
   out = out.replace(/\b([a-z]{2,10})-([0-9a-f]{8})\b/g, (whole, prefix) => {
@@ -127,7 +140,12 @@ function normalise(html) {
     return seen.get(whole);
   });
 
-  return reindent(out);
+  return reindent(out).flatMap((line) => {
+    const placeholder = line.match(/^(\s*)__DEMO_SCRIPT_(\d+)__$/);
+    if (!placeholder) return [line];
+    const [, indent, index] = placeholder;
+    return scripts[Number(index)].split('\n').map((l) => indent + l);
+  });
 }
 
 const VOID = /^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/i;
