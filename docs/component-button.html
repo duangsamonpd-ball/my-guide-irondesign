@@ -25,8 +25,18 @@
       --color-border:            #E2E8F0;   /* outline border (border/default) */
       --color-border-strong:     #CAD5E2;   /* outline hover border (border/strong) */
       --color-border-focused:    #2693EC;   /* focus border (border/focused) */
-      --ghost-hover:             rgba(0,0,0,0.05);       /* transparent/black/5 */
-      --ondark-tint:             rgba(255,255,255,0.04); /* transparent/white tint on dark */
+      --color-button-outline-hover: #F8FAFC; /* outline hover fill (button/outline-hover) */
+      --ghost-hover:             #0000000D; /* transparent/black/5 */
+      --ondark-tint:             #FFFFFF0D; /* transparent/white/5 — ondark fill */
+      --ondark-border:           #FFFFFF4D; /* transparent/white/30 — ondark border */
+      --ondark-border-hover:     #FFFFFF66; /* transparent/white/40 — ondark border, hover */
+      --blur-xs:                 4px;
+      --spacing-micro:           4px;
+      --spacing-xs:              8px;
+      --spacing-sm:              12px;
+      --spacing-md:              16px;
+      --spacing-xl:              24px;
+      --spacing-2xl:             32px;
       --font-size-btn-lg:        16px;
       --font-size-btn:           14px;
       --font-size-btn-sm:        12px;
@@ -111,15 +121,15 @@
 
     /* ════════════ BUTTON COMPONENT (token-driven) ════════════ */
         .btn {
-    cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
     font-family: 'Montserrat', sans-serif; border: 2px solid transparent; outline: none;
     border-radius: var(--rounded-cta); white-space: nowrap; text-decoration: none;
     transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
   }
-    /* sizes */
-    .btn--lg { height: var(--size-btn-lg); padding: 0 26px; font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
-    .btn--md { height: var(--size-btn-md); padding: 0 20px; font-size: var(--font-size-btn); font-weight: var(--fw-btn); letter-spacing: 0; }
-    .btn--sm { height: var(--size-btn-sm); padding: 0 16px; font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn); letter-spacing: 0.4px; }
+    /* sizes — padding and gap are per-size in Figma, so neither belongs on .btn */
+    .btn--lg { height: var(--size-btn-lg); padding: 0 var(--spacing-2xl); gap: var(--spacing-sm); font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
+    .btn--md { height: var(--size-btn-md); padding: 0 var(--spacing-xl); gap: var(--spacing-xs); font-size: var(--font-size-btn); font-weight: var(--fw-btn); letter-spacing: 0; }
+    .btn--sm { height: var(--size-btn-sm); padding: 0 var(--spacing-md); gap: var(--spacing-micro); font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn); letter-spacing: 0.4px; }
     /* variants — solid */
     .btn--primary   { background: var(--color-primary); color: var(--color-primary-on); }
     .btn--primary:hover   { background: var(--color-primary-hover); }
@@ -129,9 +139,13 @@
     .btn--tertiary:hover  { background: var(--color-primary); }   /* black → pink */
     /* variants — outline / ghost (blue text → pink on hover) */
         .btn--outline   { background: var(--color-bg-base); color: var(--color-on-tertiary); border-color: var(--color-border); }
-    .btn--outline:hover   { border-color: var(--color-border-strong); color: var(--color-on-tertiary-hover); }
-    .btn--ondark    { background: var(--ondark-tint); color: var(--color-on-tertiary); border-color: var(--color-border); backdrop-filter: blur(4px); }
-    .btn--ondark:hover    { color: var(--color-on-tertiary-hover); }
+    .btn--outline:hover   { background: var(--color-button-outline-hover); border-color: var(--color-border-strong); color: var(--color-on-tertiary-hover); }
+    /* ondark sits on a dark surface: white label, translucent white border.
+     It read as blue-on-dark before, which only scraped AA on the slate-800
+     surface the docs demo uses and had no headroom on anything lighter.
+     White is what Figma specifies, and it more than triples the contrast. */
+    .btn--ondark    { background: var(--ondark-tint); color: var(--color-primary-on); border-color: var(--ondark-border); backdrop-filter: blur(var(--blur-xs)); }
+    .btn--ondark:hover    { color: var(--color-on-tertiary-hover); border-color: var(--ondark-border-hover); }
     .btn--ghost     { background: transparent; color: var(--color-on-tertiary); }
     .btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
     /* states — focus: coloured 3px halo matching the button (Figma: drop-shadow 25% · spread 3) */
@@ -139,7 +153,7 @@
     .btn--secondary:focus-visible, .btn--secondary.is-focus { box-shadow: var(--focus-ring-blue); }
     .btn--tertiary:focus-visible,  .btn--tertiary.is-focus  { box-shadow: var(--focus-ring-white); }
     .btn--outline:focus-visible,   .btn--outline.is-focus   { box-shadow: var(--focus-ring-blue); }
-    .btn--ondark:focus-visible,    .btn--ondark.is-focus    { box-shadow: var(--focus-ring-blue); border-color: rgba(255,255,255,0.3); }
+    .btn--ondark:focus-visible,    .btn--ondark.is-focus    { box-shadow: var(--focus-ring-blue); }
     .btn--ghost:focus-visible,     .btn--ghost.is-focus     { border-color: var(--color-border-focused); }
     .btn[disabled], .btn.is-disabled { opacity: .5; cursor: not-allowed; }
     .btn .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
@@ -213,7 +227,10 @@
     .btn--secondary:focus-visible { box-shadow: var(--focus-ring-blue); }
     .btn--tertiary:focus-visible  { box-shadow: var(--focus-ring-white); }
     .btn--outline:focus-visible   { box-shadow: var(--focus-ring-blue); }
-    .btn--ondark:focus-visible    { box-shadow: var(--focus-ring-blue); border-color: rgba(255,255,255,0.3); }
+    /* The border override this used to carry was compensating for a wrong default;
+     the default border is now already transparent/white/30. Figma draws no ring
+     on ondark focus — the ring is kept deliberately, for a visible focus state. */
+    .btn--ondark:focus-visible    { box-shadow: var(--focus-ring-blue); }
     .btn--ghost:focus-visible     { border-color: var(--color-border-focused); }
     .btn[disabled], .btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
 </style>

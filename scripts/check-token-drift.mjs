@@ -372,6 +372,14 @@ const COLORS = {
   'button.outline-hover': 'color-button-outline-hover',
   'button-dark.outline': 'color-button-dark-outline',
   'button-dark.outline-hover': 'color-button-dark-outline-hover',
+
+  // transparent/white + transparent/black alpha ramps — 8-digit hex, so they
+  // compare as ordinary colours rather than needing an rgba() parser.
+  ...Object.fromEntries(
+    ['white', 'black'].flatMap((base) =>
+      [1, 5, 10, 20, 30, 40, 50].map((stop) => [`transparent.${base}-${stop}`, `transparent-${base}-${stop}`])
+    )
+  ),
 };
 for (const [group, tokens] of Object.entries(W3C.color ?? {})) {
   if (group.startsWith('_')) continue;

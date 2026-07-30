@@ -447,6 +447,25 @@
         "$description": "Iron Blue/500 — brand/secondary — same as light mode (dark)"
       }
     },
+    "transparent": {
+      "_group": "transparent — Figma: transparent/white + transparent/black. 8-digit hex so the drift checker compares them as ordinary colours; alpha byte = round-half-up(pct/100 × 255), which is why 30% is 4D and not 4C",
+
+      "white-1":         { "$value": "#FFFFFF03", "$type": "color", "$description": "transparent/white/1" },
+      "white-5":         { "$value": "#FFFFFF0D", "$type": "color", "$description": "transparent/white/5 — Button ondark fill" },
+      "white-10":        { "$value": "#FFFFFF1A", "$type": "color", "$description": "transparent/white/10" },
+      "white-20":        { "$value": "#FFFFFF33", "$type": "color", "$description": "transparent/white/20" },
+      "white-30":        { "$value": "#FFFFFF4D", "$type": "color", "$description": "transparent/white/30 — Button ondark border" },
+      "white-40":        { "$value": "#FFFFFF66", "$type": "color", "$description": "transparent/white/40 — Button ondark border, hover" },
+      "white-50":        { "$value": "#FFFFFF80", "$type": "color", "$description": "transparent/white/50" },
+
+      "black-1":         { "$value": "#00000003", "$type": "color", "$description": "transparent/black/1" },
+      "black-5":         { "$value": "#0000000D", "$type": "color", "$description": "transparent/black/5 — Button ghost hover fill" },
+      "black-10":        { "$value": "#0000001A", "$type": "color", "$description": "transparent/black/10" },
+      "black-20":        { "$value": "#00000033", "$type": "color", "$description": "transparent/black/20" },
+      "black-30":        { "$value": "#0000004D", "$type": "color", "$description": "transparent/black/30" },
+      "black-40":        { "$value": "#00000066", "$type": "color", "$description": "transparent/black/40" },
+      "black-50":        { "$value": "#00000080", "$type": "color", "$description": "transparent/black/50" }
+    },
     "button": {
       "_group": "button — Figma: button (light column)",
       "primary":         { "$value": "#E01A59", "$type": "color", "$description": "brand/primary — iron-pink/500" },

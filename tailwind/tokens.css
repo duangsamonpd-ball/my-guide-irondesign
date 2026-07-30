@@ -121,6 +121,25 @@
   --iron-red-900: #72181B;
   --iron-red-950: #3D080A;
 
+  /* ── Transparent — alpha ramps over whatever sits behind ─────────────────
+     Figma: transparent/white + transparent/black. Written as 8-digit hex to
+     match the Figma export byte for byte; the alpha byte is
+     round-half-up(pct/100 × 255), which is why 30% is 4D and not 4C. */
+  --transparent-white-1:  #FFFFFF03;
+  --transparent-white-5:  #FFFFFF0D;
+  --transparent-white-10: #FFFFFF1A;
+  --transparent-white-20: #FFFFFF33;
+  --transparent-white-30: #FFFFFF4D;
+  --transparent-white-40: #FFFFFF66;
+  --transparent-white-50: #FFFFFF80;
+  --transparent-black-1:  #00000003;
+  --transparent-black-5:  #0000000D;
+  --transparent-black-10: #0000001A;
+  --transparent-black-20: #00000033;
+  --transparent-black-30: #0000004D;
+  --transparent-black-40: #00000066;
+  --transparent-black-50: #00000080;
+
   /* ── Slate — UI surfaces, borders ─────────── */
   --slate-50:  #F8FAFC;
   --slate-100: #F1F5F9;
@@ -510,8 +529,14 @@
      6c. OVERLAY TINTS  (hover/press fills over existing content, not a solid color)
      ═══════════════════════════════════════════════════════════════════════════ */
 
-  --ghost-hover:  rgba(0, 0, 0, 0.05);     /* transparent/black/5 — Button ghost hover fill */
-  --ondark-tint:  rgba(255, 255, 255, 0.04); /* transparent/white/4 — Button ondark base fill */
+  /* All four resolve to the transparent/* ramp above, so Figma owns the values
+     and `check:tokens` guards them. They used to be loose rgba() literals with
+     no entry in tokens.w3c.json at all, which is how --ondark-tint sat at 4%
+     against Figma's 5% without any gate noticing. */
+  --ghost-hover:         var(--transparent-black-5);  /* Button ghost hover fill */
+  --ondark-tint:         var(--transparent-white-5);  /* Button ondark base fill */
+  --ondark-border:       var(--transparent-white-30); /* Button ondark border */
+  --ondark-border-hover: var(--transparent-white-40); /* Button ondark border, hover */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
