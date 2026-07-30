@@ -122,6 +122,9 @@ Preview and hand-written illustrations below it.
 | TopNav | 3 — default, transparent, trimmed |
 | ProductMenu | 2 — default, submenu |
 | Footer | 2 — suite, default |
+| Checkbox | 3 — preview, states, layouts |
+| Radio | 3 — preview, states, card-group |
+| Input | 1 — preview |
 | TrialKeyCard | 1 — preview |
 | FormCard | 1 — preview |
 | Select | 1 — preview |
@@ -158,7 +161,19 @@ pair, so no label was tied to its field, and the inputs had neither `name` nor
 mandatory. Passing a `name` to each Input also keeps the derived id stable
 between builds.
 
-The remaining 8 components still have hand-written demo markup and are not
+The form primitives were worth doing together. Checkbox and Radio had no `id` on
+any control and so no `for` on any label — nothing tied the two together — and
+the checkbox tick was drawn with a hardcoded `stroke="#fff"` where the component
+uses `currentColor`. Both pages also predated the `size` prop, so none of their
+markup carried the `--md` class the component now emits.
+
+Input contributes only its Preview. Its States row forces `is-focus` and
+`is-disabled`, classes the component never emits, and Compositions documents an
+input with a leading icon — `has-icon` plus an `.input-icon` span — that the
+component has no prop and no CSS for. That variant is documented but cannot be
+produced.
+
+The remaining 5 components still have hand-written demo markup and are not
 covered by `check:render`; each needs a `src/pages/demos/<name>.astro` and
 sentinels added to its docs page.
 

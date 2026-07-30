@@ -1,0 +1,56 @@
+---
+/**
+ * Demo source for docs/component-checkbox.html.
+ *
+ * Preview, States and Layouts are generated — every class the page uses on a
+ * checkbox (`disabled`, `invalid`, `cbx-card`) is one the component really
+ * emits, so nothing here needs a prop invented for the docs. Anatomy and the
+ * Do/Don't cards stay hand-written.
+ *
+ * Each instance is given a `name` so the id it derives is stable across builds;
+ * the hand-written markup had no id at all, and so no `for` tying a label to its
+ * control.
+ */
+import { Checkbox } from '@iron-software/astro-components';
+
+const TERMS = 'By clicking this checkbox, you agree to the terms and conditions.';
+/* the small uppercase captions the Layouts column already carried */
+const CAP = 'font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;';
+
+const states = [
+  { name: 'st-unchecked', props: {}, lbl: 'Unchecked', note: 'border-strong' },
+  { name: 'st-checked', props: { checked: true }, lbl: 'Checked', note: 'secondary fill' },
+  { name: 'st-disabled', props: { disabled: true }, lbl: 'Disabled', note: 'opacity .5' },
+  { name: 'st-invalid', props: { invalid: true }, lbl: 'Invalid', note: 'danger border' },
+];
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Checkbox name="terms" label="Accept terms and conditions" description={TERMS} checked />
+      <Checkbox name="updates" label="Send me product updates" />
+    </div>
+
+    <div data-demo="states">
+      {states.map((s) => (
+        <div class="cell">
+          <Checkbox name={s.name} label="Accept terms" {...s.props} />
+          <div class="lbl">{s.lbl}<small>{s.note}</small></div>
+        </div>
+      ))}
+    </div>
+
+    <div data-demo="layouts">
+      <div style={CAP}>Basic</div>
+      <Checkbox name="lay-plain" label="Accept terms and conditions" checked />
+
+      <div style={`${CAP}margin-top:8px;`}>With description</div>
+      <Checkbox name="lay-desc" label="Accept terms and conditions" description={TERMS} checked />
+
+      <div style={`${CAP}margin-top:8px;`}>Card</div>
+      <Checkbox name="lay-card" label="Accept terms and conditions" description={TERMS} card />
+      <Checkbox name="lay-card-on" label="Accept terms and conditions" description={TERMS} card checked />
+    </div>
+  </body>
+</html>

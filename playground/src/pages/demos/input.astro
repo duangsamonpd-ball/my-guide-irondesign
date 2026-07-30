@@ -1,0 +1,30 @@
+---
+/**
+ * Demo source for docs/component-input.html.
+ *
+ * Preview only, and the two sections below it explain why.
+ *
+ * States forces `is-focus` and `is-disabled`, classes the component never emits
+ * — the same kind of isolated illustration as Select's states grid.
+ *
+ * Compositions is more interesting: one of its three fields carries `has-icon`
+ * with an `.input-icon` beside it, and Input has no icon prop and no CSS for
+ * either class. That variant is documented but cannot be produced, so it stays
+ * hand-written until the component grows the feature or the demo is dropped.
+ */
+import { Input } from '@iron-software/astro-components';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Input
+        label="Email address"
+        name="email-address"
+        type="email"
+        placeholder="you@example.com"
+        hint="We'll never share your email."
+      />
+    </div>
+  </body>
+</html>

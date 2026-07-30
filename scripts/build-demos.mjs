@@ -207,7 +207,11 @@ function splice(docs, name, lines) {
   if (!m) return null;
   const indent = m[1];
   const body = lines.map((l) => (l ? indent + l : '')).join('\n');
-  return docs.replace(re, `${indent}<!-- demo:${name} -->\n${body}\n${indent}<!-- /demo:${name} -->`);
+  const out = `${indent}<!-- demo:${name} -->\n${body}\n${indent}<!-- /demo:${name} -->`;
+  // A function replacement, not a string: `String.replace` reads `$1`, `$2`, `$&`
+  // in a replacement STRING as capture-group references, so any demo containing a
+  // dollar followed by a digit — "$29 / month" — silently lost it.
+  return docs.replace(re, () => out);
 }
 
 /** Region names a docs page declares sentinels for, in document order. */

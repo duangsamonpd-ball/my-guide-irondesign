@@ -1,0 +1,49 @@
+---
+/**
+ * Demo source for docs/component-radio.html.
+ *
+ * Preview, States and Card group are generated. Anatomy and the Do/Don't cards
+ * stay hand-written.
+ *
+ * Radio derives its id from `${name}-${value}`, and the hand-written markup
+ * carried a `name` but no `value` and no id — so, as on the checkbox page, no
+ * label was tied to its control.
+ */
+import { Radio } from '@iron-software/astro-components';
+
+const plans = [
+  { value: 'starter', label: 'Starter', desc: 'For individuals getting started.', checked: true },
+  { value: 'pro', label: 'Pro', desc: 'For growing teams that ship daily.' },
+  { value: 'enterprise', label: 'Enterprise', desc: 'Advanced controls & support.' },
+];
+const states = [
+  { name: 's1', value: 'a', props: {}, lbl: 'Unselected', note: 'border-strong' },
+  { name: 's2', value: 'b', props: { checked: true }, lbl: 'Selected', note: 'secondary dot' },
+  { name: 's3', value: 'c', props: { disabled: true }, lbl: 'Disabled', note: 'opacity .5' },
+  { name: 's4', value: 'd', props: { invalid: true }, lbl: 'Invalid', note: 'danger ring' },
+];
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      {plans.map((p) => (
+        <Radio name="plan" value={p.value} label={p.label} description={p.desc} checked={p.checked} />
+      ))}
+    </div>
+
+    <div data-demo="states">
+      {states.map((s) => (
+        <div class="cell">
+          <Radio name={s.name} value={s.value} label="Option" {...s.props} />
+          <div class="lbl">{s.lbl}<small>{s.note}</small></div>
+        </div>
+      ))}
+    </div>
+
+    <div data-demo="card-group">
+      <Radio name="bill" value="monthly" label="Monthly" description="$29 / month, cancel anytime." card checked />
+      <Radio name="bill" value="yearly" label="Yearly" description="$290 / year — two months free." card />
+    </div>
+  </body>
+</html>

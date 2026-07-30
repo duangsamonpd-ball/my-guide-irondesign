@@ -165,27 +165,99 @@
 
     <div class="sect"><div class="sect-h">Preview</div>
       <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <label class="rdo"><input type="radio" name="plan" checked><span class="dot"></span><span class="txt"><span class="label">Starter</span><span class="desc">For individuals getting started.</span></span></label>
-        <label class="rdo"><input type="radio" name="plan"><span class="dot"></span><span class="txt"><span class="label">Pro</span><span class="desc">For growing teams that ship daily.</span></span></label>
-        <label class="rdo"><input type="radio" name="plan"><span class="dot"></span><span class="txt"><span class="label">Enterprise</span><span class="desc">Advanced controls &amp; support.</span></span></label>
+        <!-- demo:preview -->
+        <label class="rdo rdo--md" for="plan-starter">
+          <input id="plan-starter" name="plan" value="starter" type="radio" checked>
+          <span class="dot"></span>
+          <span class="txt">
+            <span class="label">Starter</span>
+            <span class="desc">For individuals getting started.</span>
+          </span>
+        </label><label class="rdo rdo--md" for="plan-pro">
+          <input id="plan-pro" name="plan" value="pro" type="radio">
+          <span class="dot"></span>
+          <span class="txt">
+            <span class="label">Pro</span>
+            <span class="desc">For growing teams that ship daily.</span>
+          </span>
+        </label><label class="rdo rdo--md" for="plan-enterprise">
+          <input id="plan-enterprise" name="plan" value="enterprise" type="radio">
+          <span class="dot"></span>
+          <span class="txt">
+            <span class="label">Enterprise</span>
+            <span class="desc">Advanced controls &amp; support.</span>
+          </span>
+        </label>
+        <!-- /demo:preview -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">States</div>
       <div class="sect-sub">Selected fills the inner dot with <b>secondary</b>; invalid uses a <b>danger</b> ring; disabled drops opacity.</div>
       <div class="grid">
-        <div class="cell"><label class="rdo"><input type="radio" name="s1"><span class="dot"></span><span class="txt"><span class="label">Option</span></span></label><div class="lbl">Unselected<small>border-strong</small></div></div>
-        <div class="cell"><label class="rdo"><input type="radio" name="s2" checked><span class="dot"></span><span class="txt"><span class="label">Option</span></span></label><div class="lbl">Selected<small>secondary dot</small></div></div>
-        <div class="cell"><label class="rdo disabled"><input type="radio" name="s3" disabled><span class="dot"></span><span class="txt"><span class="label">Option</span></span></label><div class="lbl">Disabled<small>opacity .5</small></div></div>
-        <div class="cell"><label class="rdo invalid"><input type="radio" name="s4"><span class="dot"></span><span class="txt"><span class="label">Option</span></span></label><div class="lbl">Invalid<small>danger ring</small></div></div>
+        <!-- demo:states -->
+        <div class="cell">
+          <label class="rdo rdo--md" for="s1-a">
+            <input id="s1-a" name="s1" value="a" type="radio">
+            <span class="dot"></span>
+            <span class="txt">
+              <span class="label">Option</span>
+            </span>
+          </label>
+          <div class="lbl">Unselected<small>border-strong</small></div>
+        </div><div class="cell">
+          <label class="rdo rdo--md" for="s2-b">
+            <input id="s2-b" name="s2" value="b" type="radio" checked>
+            <span class="dot"></span>
+            <span class="txt">
+              <span class="label">Option</span>
+            </span>
+          </label>
+          <div class="lbl">Selected<small>secondary dot</small></div>
+        </div><div class="cell">
+          <label class="rdo rdo--md disabled" for="s3-c">
+            <input id="s3-c" name="s3" value="c" type="radio" disabled>
+            <span class="dot"></span>
+            <span class="txt">
+              <span class="label">Option</span>
+            </span>
+          </label>
+          <div class="lbl">Disabled<small>opacity .5</small></div>
+        </div><div class="cell">
+          <label class="rdo rdo--md invalid" for="s4-d">
+            <input id="s4-d" name="s4" value="d" type="radio">
+            <span class="dot"></span>
+            <span class="txt">
+              <span class="label">Option</span>
+            </span>
+          </label>
+          <div class="lbl">Invalid<small>danger ring</small></div>
+        </div>
+        <!-- /demo:states -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Card group</div>
       <div class="sect-sub">For prominent, selectable options — the whole card is the target and highlights when chosen.</div>
       <div class="canvas col" style="gap:12px;max-width:420px;margin:0 auto;">
-        <label class="rdo rdo-card"><input type="radio" name="bill" checked><span class="dot"></span><span class="txt"><span class="label">Monthly</span><span class="desc">$29 / month, cancel anytime.</span></span></label>
-        <label class="rdo rdo-card"><input type="radio" name="bill"><span class="dot"></span><span class="txt"><span class="label">Yearly</span><span class="desc">$290 / year — two months free.</span></span></label>
+        <!-- demo:card-group -->
+        <label class="rdo rdo--md rdo-card" for="bill-monthly">
+          <input id="bill-monthly" name="bill" value="monthly" type="radio" checked>
+          <span class="dot"></span>
+          <span class="txt">
+            <span class="label">Monthly</span>
+            <span class="desc">$29 / month, cancel anytime.</span>
+          </span>
+        </label>
+        <label class="rdo rdo--md rdo-card" for="bill-yearly">
+          <input id="bill-yearly" name="bill" value="yearly" type="radio">
+          <span class="dot"></span>
+          <span class="txt">
+            <span class="label">Yearly</span>
+            <span class="desc">$290 / year — two months free.</span>
+          </span>
+        </label>
+        <!-- /demo:card-group -->
       </div>
     </div>
 

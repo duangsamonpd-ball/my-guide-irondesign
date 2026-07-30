@@ -226,9 +226,32 @@
       <div class="sect">
         <div class="sect-h">Preview</div>
         <div class="canvas col">
-          <label class="cbx"><input type="checkbox" checked><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms and conditions</span><span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span></span></label>
-          <label class="cbx"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Send me product updates</span></span></label>
-        </div>
+        <!-- demo:preview -->
+        <label class="cbx cbx--md" for="terms">
+          <input id="terms" name="terms" type="checkbox" checked>
+          <span class="box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="txt">
+            <span class="label">Accept terms and conditions</span>
+            <span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span>
+          </span>
+        </label>
+        <label class="cbx cbx--md" for="updates">
+          <input id="updates" name="updates" type="checkbox">
+          <span class="box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="txt">
+            <span class="label">Send me product updates</span>
+          </span>
+        </label>
+        <!-- /demo:preview -->
+      </div>
       </div>
 
       <!-- ── States ── -->
@@ -236,23 +259,62 @@
         <div class="sect-h">States</div>
         <div class="sect-sub">Four states. Checked fills with <b>secondary</b> blue; invalid shows a <b>danger</b> red border; disabled drops opacity.</div>
         <div class="grid">
-          <div class="cell">
-            <label class="cbx"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms</span></span></label>
-            <div class="lbl">Unchecked<small>border-strong</small></div>
-          </div>
-          <div class="cell">
-            <label class="cbx"><input type="checkbox" checked><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms</span></span></label>
-            <div class="lbl">Checked<small>secondary fill</small></div>
-          </div>
-          <div class="cell">
-            <label class="cbx disabled"><input type="checkbox" disabled><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms</span></span></label>
-            <div class="lbl">Disabled<small>opacity .5</small></div>
-          </div>
-          <div class="cell">
-            <label class="cbx invalid"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms</span></span></label>
-            <div class="lbl">Invalid<small>danger border</small></div>
-          </div>
+        <!-- demo:states -->
+        <div class="cell">
+          <label class="cbx cbx--md" for="st-unchecked">
+            <input id="st-unchecked" name="st-unchecked" type="checkbox">
+            <span class="box">
+              <svg viewBox="0 0 12 12" fill="none">
+                <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="txt">
+              <span class="label">Accept terms</span>
+            </span>
+          </label>
+          <div class="lbl">Unchecked<small>border-strong</small></div>
+        </div><div class="cell">
+          <label class="cbx cbx--md" for="st-checked">
+            <input id="st-checked" name="st-checked" type="checkbox" checked>
+            <span class="box">
+              <svg viewBox="0 0 12 12" fill="none">
+                <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="txt">
+              <span class="label">Accept terms</span>
+            </span>
+          </label>
+          <div class="lbl">Checked<small>secondary fill</small></div>
+        </div><div class="cell">
+          <label class="cbx cbx--md disabled" for="st-disabled">
+            <input id="st-disabled" name="st-disabled" type="checkbox" disabled>
+            <span class="box">
+              <svg viewBox="0 0 12 12" fill="none">
+                <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="txt">
+              <span class="label">Accept terms</span>
+            </span>
+          </label>
+          <div class="lbl">Disabled<small>opacity .5</small></div>
+        </div><div class="cell">
+          <label class="cbx cbx--md invalid" for="st-invalid">
+            <input id="st-invalid" name="st-invalid" type="checkbox">
+            <span class="box">
+              <svg viewBox="0 0 12 12" fill="none">
+                <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="txt">
+              <span class="label">Accept terms</span>
+            </span>
+          </label>
+          <div class="lbl">Invalid<small>danger border</small></div>
         </div>
+        <!-- /demo:states -->
+      </div>
       </div>
 
       <!-- ── Layouts ── -->
@@ -260,16 +322,59 @@
         <div class="sect-h">Layouts</div>
         <div class="sect-sub">Same control, three compositions — label only, with description, or as a selectable card.</div>
         <div class="canvas col">
-          <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;">Basic</div>
-          <label class="cbx"><input type="checkbox" checked><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms and conditions</span></span></label>
-
-          <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">With description</div>
-          <label class="cbx"><input type="checkbox" checked><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms and conditions</span><span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span></span></label>
-
-          <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">Card</div>
-          <label class="cbx cbx-card"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms and conditions</span><span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span></span></label>
-          <label class="cbx cbx-card"><input type="checkbox" checked><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms and conditions</span><span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span></span></label>
-        </div>
+        <!-- demo:layouts -->
+        <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;">Basic</div>
+        <label class="cbx cbx--md" for="lay-plain">
+          <input id="lay-plain" name="lay-plain" type="checkbox" checked>
+          <span class="box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="txt">
+            <span class="label">Accept terms and conditions</span>
+          </span>
+        </label>
+        <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">With description</div>
+        <label class="cbx cbx--md" for="lay-desc">
+          <input id="lay-desc" name="lay-desc" type="checkbox" checked>
+          <span class="box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="txt">
+            <span class="label">Accept terms and conditions</span>
+            <span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span>
+          </span>
+        </label>
+        <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">Card</div>
+        <label class="cbx cbx--md cbx-card" for="lay-card">
+          <input id="lay-card" name="lay-card" type="checkbox">
+          <span class="box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="txt">
+            <span class="label">Accept terms and conditions</span>
+            <span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span>
+          </span>
+        </label>
+        <label class="cbx cbx--md cbx-card" for="lay-card-on">
+          <input id="lay-card-on" name="lay-card-on" type="checkbox" checked>
+          <span class="box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="txt">
+            <span class="label">Accept terms and conditions</span>
+            <span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span>
+          </span>
+        </label>
+        <!-- /demo:layouts -->
+      </div>
       </div>
 
       <!-- ── Anatomy ── -->
