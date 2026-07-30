@@ -414,13 +414,32 @@ for (const name of TOKENS.vars.keys()) {
 
 /* ── components must never hardcode a colour ─────────────────────────────── */
 
+/**
+ * Three ways a raw colour can reach a component, all of them drift:
+ *
+ *  · hex — `#abc`, `#aabbcc`, and the 8-digit `#aabbccdd` the transparent ramp
+ *    uses. The 8-digit form used to slip through: the old pattern ended in `\b`
+ *    after six digits, and the two alpha digits that follow are word characters,
+ *    so no boundary was there to match.
+ *  · `rgb()` / `rgba()` / `hsl()` / `hsla()`. This was the real blind spot —
+ *    twelve of them sat across four components while this gate stayed green,
+ *    the same hole that let `--ondark-tint` drift to 4% against Figma's 5%.
+ *  · nothing else: `transparent`, `currentColor` and `color-mix()` over a token
+ *    are all fine, since they carry no literal channel values.
+ *
+ * A tint of a semantic colour belongs in `color-mix(in srgb, var(--token) N%,
+ * transparent)`, which also follows the token into dark mode — a hardcoded rgba
+ * cannot.
+ */
+const RAW_COLOUR = /#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{2})?)?\b|\b(?:rgba?|hsla?)\([^)]*\)/g;
+
 const COMPONENTS = join(ROOT, 'astro-components/components');
 for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) {
   const src = readFileSync(join(COMPONENTS, file), 'utf8');
   src.split('\n').forEach((line, i) => {
-    for (const [raw] of line.matchAll(/#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?\b/g)) {
+    for (const [raw] of line.matchAll(RAW_COLOUR)) {
       checks++;
-      err('components', `${basename(file)}:${i + 1}`, `hardcoded ${raw} — use a semantic token instead`);
+      err('components', `${basename(file)}:${i + 1}`, `hardcoded ${raw} — use a semantic token, or color-mix() over one for a tint`);
     }
   });
 }

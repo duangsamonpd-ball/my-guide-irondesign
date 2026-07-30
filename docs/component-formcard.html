@@ -14,7 +14,7 @@
       --color-text-heading:#171717; --color-text-body:#262626; --color-text-support:#45556C; --color-text-muted:#525252; --color-text-disabled:#A1A1A1;
       --color-border:#E2E8F0; --color-border-strong:#CAD5E2; --color-bg-base:#FFFFFF;
       --rounded-md:6px; --rounded-lg:8px; --rounded-2xl:16px; --rounded-cta:9999px;
-      --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px rgba(229,36,42,0.18);
+      --shadow-focus-blue:0 0 0 3px rgba(42,149,213,0.25); --shadow-focus-magenta:0 0 0 3px color-mix(in srgb, var(--color-danger) 18%, transparent);
       --size-input:44px; --size-btn-lg:56px;
       --font-size-body:14px; --font-size-btn-lg:16px; --fw-btn-lg:700;
       --font-size-label:14px; --fw-label:500; --font-size-caption:13px;
@@ -88,7 +88,7 @@
     .fc-title { display: flex; align-items: center; gap: 16px; }
     .fc-icon {
       width: 64px; height: 64px; flex-shrink: 0; border-radius: var(--rounded-lg);
-      background: rgba(38,147,236,0.06); border: 1px solid rgba(38,147,236,0.10);
+      background: color-mix(in srgb, var(--color-secondary) 6%, transparent); border: 1px solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
       display: flex; align-items: center; justify-content: center; color: var(--color-secondary);
     }
     .fc-icon svg { width: 26px; height: 26px; }

@@ -27,6 +27,8 @@
       --tracking-tight:-0.4px; --tracking-wide:0.4px; --tracking-wider:0.8px;
       --maxw:1280px; --card-alt:#F2F9FE; --border-strong:#CAD5E2;
       --color-bg-dark-shade: #260F27;
+      --transparent-white-10: #FFFFFF1A; /* divider on the dark footer */
+      --transparent-white-40: #FFFFFF66; /* focus ring on the dark footer */
       --color-text-on-color-heading: #FFFFFF;
       --size-container-content: 80rem;
       --spacing-4xl: 4rem;
@@ -110,7 +112,7 @@
   }
         .ft-inner { max-width: var(--size-container-content); margin: 0 auto; display: flex; align-items: stretch; padding: var(--spacing-4xl) 0; }
         .ft-left { flex: 1; padding: 0 var(--spacing-3xl); display: flex; flex-direction: column; }
-    .ft-divider { background:rgba(255,255,255,.10); width:2px; flex-shrink:0; align-self:stretch; }
+    .ft-divider { background:var(--transparent-white-10); width:2px; flex-shrink:0; align-self:stretch; }
         .ft-right { flex: 1; padding: 0 var(--spacing-3xl); }
         .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: 500; color: var(--color-text-on-color-heading); letter-spacing: var(--letter-spacing-nav-label); }
     .ft-donate img { height:30px; width:auto; display:block; }
@@ -128,7 +130,7 @@
     border: none; border-radius: var(--rounded-cta); font-family: 'Montserrat', sans-serif; font-weight: 700;
     cursor: pointer; text-decoration: none; background: var(--color-button-tertiary); color: var(--color-text-on-color-heading);
   }     .btn-dark:hover { background: var(--color-button-tertiary-hover); }
-    .btn-dark:focus-visible { outline:none; box-shadow:0 0 0 3px rgba(255,255,255,.4); }
+    .btn-dark:focus-visible { outline:none; box-shadow:0 0 0 3px var(--transparent-white-40); }
         .btn-text-light {
     background: none; border: none; color: var(--color-text-on-color-heading);
     font-size: var(--font-size-base); font-weight: 700; display: inline-flex; align-items: center; gap: var(--spacing-sm);
@@ -356,7 +358,7 @@
   color: <span class="c-str">var(--on-color)</span>;
 }
 <span class="c-key">.ft-inner</span> { max-width: <span class="c-str">var(--maxw)</span>; margin: 0 auto; display: flex; }
-<span class="c-key">.ft-divider</span> { width: 2px; background: rgba(255,255,255,.10); }
+<span class="c-key">.ft-divider</span> { width: 2px; background: var(--transparent-white-10); }
 <span class="c-key">.ft-donate</span> { display: flex; align-items: center; justify-content: flex-end; gap: <span class="c-str">var(--space-xs)</span>; font-size: <span class="c-str">var(--text-xs)</span>; font-weight: 500; color: <span class="c-str">var(--on-color)</span>; }
 <span class="c-key">.ft-main</span> { display: flex; flex-direction: column; gap: <span class="c-str">var(--space-2xl)</span>; padding-top: <span class="c-str">var(--space-3xl)</span>; }
 <span class="c-key">.ft-text</span> { display: flex; flex-direction: column; gap: <span class="c-str">var(--space-md)</span>; }

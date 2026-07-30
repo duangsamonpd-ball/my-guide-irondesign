@@ -74,7 +74,7 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
   .dropzone-left { display: flex; align-items: center; gap: 16px; min-width: 0; }
   .dropzone-icon {
     width: 40px; height: 40px; border-radius: var(--rounded-lg); flex-shrink: 0;
-    background: rgba(38,147,236,0.06); border: 1px solid rgba(38,147,236,0.10);
+    background: color-mix(in srgb, var(--color-secondary) 6%, transparent); border: 1px solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
     color: var(--color-secondary); display: flex; align-items: center; justify-content: center;
   }
   .dropzone-icon svg { width: 18px; height: 18px; }
@@ -84,13 +84,13 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
   .dropzone-text .size-label { font-size: 0.85rem; color: var(--color-text-support); }
   .dropzone-size { font-size: var(--font-size-body); color: var(--color-text-support); white-space: nowrap; flex-shrink: 0; }
   .dropzone:hover, .dropzone.is-dragover { border-color: var(--color-secondary); background: var(--color-bg-card-alt); }
-  .dropzone.is-dragover .dropzone-icon { background: rgba(38,147,236,0.12); }
+  .dropzone.is-dragover .dropzone-icon { background: color-mix(in srgb, var(--color-secondary) 12%, transparent); }
   .dropzone.error { border-color: var(--color-danger); }
-  .dropzone.error .dropzone-icon { background: rgba(229,36,42,0.06); border-color: rgba(229,36,42,0.10); color: var(--color-danger); }
+  .dropzone.error .dropzone-icon { background: color-mix(in srgb, var(--color-danger) 6%, transparent); border-color: color-mix(in srgb, var(--color-danger) 10%, transparent); color: var(--color-danger); }
   .dropzone.is-disabled { opacity: .5; cursor: not-allowed; }
   .dropzone.is-disabled .dropzone-input { cursor: not-allowed; }
   .dropzone.has-file { border-style: solid; border-color: var(--color-border); cursor: default; }
-  .dropzone.has-file .dropzone-icon { background: rgba(68,128,107,0.08); border-color: rgba(68,128,107,0.14); color: var(--color-success-strong); }
+  .dropzone.has-file .dropzone-icon { background: color-mix(in srgb, var(--color-success-strong) 8%, transparent); border-color: color-mix(in srgb, var(--color-success-strong) 14%, transparent); color: var(--color-success-strong); }
   .dz-remove {
     font-size: 0.72rem; font-weight: 700; color: var(--color-text-support);
     background: none; border: none; cursor: pointer; padding: 4px 8px; position: relative; z-index: 1;
