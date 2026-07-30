@@ -10,7 +10,11 @@
  * so utilities generate, plus a `.dark` block wired from the dark tokens.
  *
  * Run:    node scripts/build-theme.mjs
- * Verify: node scripts/build-theme.mjs --check   (fails if theme.css is stale)
+ * Verify: node scripts/build-theme.mjs --check   (fails if either output is stale)
+ *
+ * Two outputs. tailwind/theme.css is the Tailwind v4 entry, built below.
+ * docs/tokens.css is a verbatim copy of tokens.css: GitHub Pages publishes
+ * /docs as the site root, so the docs pages cannot link anything outside it.
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -223,6 +227,13 @@ ${darks.join('\n')}
 }
 `;
 
+const DOCS_TOKENS = join(ROOT, 'docs/tokens.css');
+const docsCopy =
+  `/* GENERATED — a verbatim copy of tailwind/tokens.css.\n` +
+  ` * GitHub Pages serves /docs as the site root, so the pages cannot link out of it.\n` +
+  ` * Do not edit: run \`npm run build:theme\` after changing tokens.css.\n` +
+  ` */\n` + readFileSync(SRC, 'utf8');
+
 if (CHECK) {
   const current = readFileSync(OUT, 'utf8');
   if (current !== out) {
@@ -231,9 +242,19 @@ if (CHECK) {
     console.error('     node scripts/build-theme.mjs\n');
     process.exit(1);
   }
-  console.log('\x1b[32m✔  tailwind/theme.css is up to date with tokens.css\x1b[0m');
+  let docsCurrent = null;
+  try { docsCurrent = readFileSync(DOCS_TOKENS, 'utf8'); } catch { /* missing */ }
+  if (docsCurrent !== docsCopy) {
+    console.error('\n\x1b[31m✖  docs/tokens.css is stale\x1b[0m');
+    console.error('   The docs pages link this copy; tokens.css changed without regenerating. Run:\n');
+    console.error('     node scripts/build-theme.mjs\n');
+    process.exit(1);
+  }
+  console.log('\x1b[32m✔  tailwind/theme.css and docs/tokens.css are up to date with tokens.css\x1b[0m');
 } else {
   writeFileSync(OUT, out);
+  writeFileSync(DOCS_TOKENS, docsCopy);
   const n = primitives.length + themed.length + aliases.length + plain.length;
   console.log(`\x1b[32m✔  Wrote tailwind/theme.css\x1b[0m — ${n} declarations, ${darks.length} dark overrides`);
+  console.log(`\x1b[32m✔  Wrote docs/tokens.css\x1b[0m — verbatim copy for the docs pages`);
 }

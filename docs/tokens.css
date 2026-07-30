@@ -1,0 +1,687 @@
+/* GENERATED — a verbatim copy of tailwind/tokens.css.
+ * GitHub Pages serves /docs as the site root, so the pages cannot link out of it.
+ * Do not edit: run `npm run build:theme` after changing tokens.css.
+ */
+/**
+ * Iron Software Design System — CSS Custom Properties (Full Token Set)
+ * Source: tokens.w3c.json + tokens.legacy.json + Figma Color Scale
+ *
+ * Import once at the root of your project:
+ *   @import './tokens.css';
+ *
+ * Then consume anywhere:
+ *   background: var(--color-primary);
+ *   font-size:  var(--font-size-h2);
+ *   padding:    var(--spacing-md);
+ */
+
+:root {
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     1. COLOR SCALES  (Figma / 01 - Color Scale, Tailwind 50–950 convention)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Iron Pink ─────────────────────────────────── */
+  --iron-pink-50:  #FDF1F5;
+  --iron-pink-100: #FADDE6;
+  --iron-pink-200: #F6BACD;
+  --iron-pink-300: #F08DAC;
+  --iron-pink-400: #E95F8B;
+  --iron-pink-500: #E01A59; /* BASE */
+  --iron-pink-600: #BA174B;
+  --iron-pink-700: #94153D;
+  --iron-pink-800: #6E122F;
+  --iron-pink-900: #471022;
+  --iron-pink-950: #2E0E18;
+
+  /* ── Iron Blue ─────────────────────────────────── */
+  --iron-blue-50:  #F2F9FE;
+  --iron-blue-100: #DEEFFC;
+  --iron-blue-200: #BEDFF9;
+  --iron-blue-300: #93C9F6;
+  --iron-blue-400: #67B3F2;
+  --iron-blue-500: #2693EC; /* BASE */
+  --iron-blue-600: #217BC4;
+  --iron-blue-700: #1D629B;
+  --iron-blue-800: #184A73;
+  --iron-blue-900: #13324B;
+  --iron-blue-950: #102230;
+
+  /* ── Iron Orange ───────────────────────────────── */
+  --iron-orange-50:  #FFFAF0;
+  --iron-orange-100: #FFF2DA;
+  --iron-orange-200: #FEE4B5;
+  --iron-orange-300: #FED284;
+  --iron-orange-400: #FEC053;
+  --iron-orange-500: #FDA509; /* BASE */
+  --iron-orange-600: #D2890A;
+  --iron-orange-700: #A66E0A;
+  --iron-orange-800: #7B520B;
+  --iron-orange-900: #4F370B;
+  --iron-orange-950: #33240C;
+
+  /* ── Iron Green ────────────────────────────────── */
+  --iron-green-50:  #F6FBF9;
+  --iron-green-100: #E8F6F1;
+  --iron-green-200: #D0ECE3;
+  --iron-green-300: #B1E0D0;
+  --iron-green-400: #92D4BD;
+  --iron-green-500: #63C1A0; /* BASE */
+  --iron-green-600: #53A085;
+  --iron-green-700: #44806B;
+  --iron-green-800: #345F50;
+  --iron-green-900: #243F35;
+  --iron-green-950: #1A2924;
+
+  /* ── Iron Sky ──────────────────────────────────── */
+  --iron-sky-50:  #F8FCFD;
+  --iron-sky-100: #EDF8FA;
+  --iron-sky-200: #DCF2F5;
+  --iron-sky-300: #C4E9EF;
+  --iron-sky-400: #ACE0E9;
+  --iron-sky-500: #89D3DF; /* BASE */
+  --iron-sky-600: #73AFB9;
+  --iron-sky-700: #5C8B93;
+  --iron-sky-800: #46686D;
+  --iron-sky-900: #2F4447;
+  --iron-sky-950: #202C2E;
+
+  /* ── Iron Purple ───────────────────────────────── */
+  --iron-purple-50:  #F5F3F9;
+  --iron-purple-100: #E6E2F0;
+  --iron-purple-200: #CCC4E0;
+  --iron-purple-300: #AB9DCC;
+  --iron-purple-400: #8976B8;
+  --iron-purple-500: #563B99; /* BASE */
+  --iron-purple-600: #493380;
+  --iron-purple-700: #3B2A66;
+  --iron-purple-800: #2E224D;
+  --iron-purple-900: #211933;
+  --iron-purple-950: #161423;
+
+  /* ── Iron Violet ───────────────────────────────── */
+  --iron-violet-50:  #F9F4F8;
+  --iron-violet-100: #F0E5EE;
+  --iron-violet-200: #E2CADE;
+  --iron-violet-300: #CEA7C8;
+  --iron-violet-400: #BA84B1;
+  --iron-violet-500: #9D4F90; /* BASE */
+  --iron-violet-600: #84427C;
+  --iron-violet-700: #6B3567;
+  --iron-violet-800: #522950;
+  --iron-violet-900: #391C39;
+  --iron-violet-950: #260F27;
+
+  /* ── Iron Red ──────────────────────────────────── */
+  --iron-red-50:  #FFF1F1;
+  --iron-red-100: #FFE1E2;
+  --iron-red-200: #FFC7C9;
+  --iron-red-300: #FF9DA1;
+  --iron-red-400: #FF666D;
+  --iron-red-500: #E5242A; /* BASE */
+  --iron-red-600: #C91D23;
+  --iron-red-700: #A8181D;
+  --iron-red-800: #89171B;
+  --iron-red-900: #72181B;
+  --iron-red-950: #3D080A;
+
+  /* ── Transparent — alpha ramps over whatever sits behind ─────────────────
+     Figma: transparent/white + transparent/black. Written as 8-digit hex to
+     match the Figma export byte for byte; the alpha byte is
+     round-half-up(pct/100 × 255), which is why 30% is 4D and not 4C. */
+  --transparent-white-1:  #FFFFFF03;
+  --transparent-white-5:  #FFFFFF0D;
+  --transparent-white-10: #FFFFFF1A;
+  --transparent-white-20: #FFFFFF33;
+  --transparent-white-30: #FFFFFF4D;
+  --transparent-white-40: #FFFFFF66;
+  --transparent-white-50: #FFFFFF80;
+  --transparent-black-1:  #00000003;
+  --transparent-black-5:  #0000000D;
+  --transparent-black-10: #0000001A;
+  --transparent-black-20: #00000033;
+  --transparent-black-30: #0000004D;
+  --transparent-black-40: #00000066;
+  --transparent-black-50: #00000080;
+
+  /* ── Slate — UI surfaces, borders ─────────── */
+  --slate-50:  #F8FAFC;
+  --slate-100: #F1F5F9;
+  --slate-200: #E2E8F0;
+  --slate-300: #CAD5E2;
+  --slate-400: #90A1B9;
+  --slate-500: #62748E; /* BASE */
+  --slate-600: #45556C;
+  --slate-700: #314158;
+  --slate-800: #1D293D;
+  --slate-900: #0F172B;
+  --slate-950: #020618;
+
+  /* ── Neutral — text, icons, gray backgrounds ─ */
+  --neutral-50:  #FAFAFA;
+  --neutral-100: #F5F5F5;
+  --neutral-200: #E5E5E5;
+  --neutral-300: #D4D4D4;
+  --neutral-400: #A1A1A1;
+  --neutral-500: #737373; /* BASE */
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-950: #0A0A0A;
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     2. SEMANTIC COLOR ALIASES
+     Source of truth: Figma / 02 - Color Palette (node 84-1754)
+     Use these in components — never reference raw scale steps directly.
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* Primary = Iron Pink/500 — all primary CTAs, brand wordmark */
+  --color-primary:          var(--iron-pink-500);   /* #E01A59 */
+  --color-primary-hover:    var(--iron-pink-600);   /* #BA174B */
+  --color-primary-active:   var(--iron-pink-700);   /* #94153D */
+  --color-primary-subtle:   var(--iron-pink-100);   /* #FADDE6 */
+  --color-primary-on:       #FFFFFF;
+
+  /* Secondary = Iron Blue/500 — secondary CTAs, alternative headline, link */
+  --color-secondary:          var(--iron-blue-500); /* #2693EC */
+  --color-secondary-hover:    var(--iron-blue-600); /* #217BC4 */
+  --color-secondary-active:   var(--iron-blue-700); /* #1D629B */
+  --color-secondary-subtle:   var(--iron-blue-100); /* #DEEFFC */
+  --color-secondary-on:       #FFFFFF;
+
+  /* Success = Iron Green/500 — confirmations, success messages */
+  --color-success:          var(--iron-green-500);  /* #63C1A0 */
+  --color-success-hover:    var(--iron-green-600);  /* #53A085 */
+  --color-success-strong:   var(--iron-green-700);  /* #44806B — icons/text on light fills (4.62:1 on white) */
+  --color-success-subtle:   var(--iron-green-100);  /* #E8F6F1 */
+  --color-success-on:       #FFFFFF;
+
+  /* Warning = Iron Orange/500 — warnings, pending states */
+  --color-warning:          var(--iron-orange-500); /* #FDA509 */
+  --color-warning-hover:    var(--iron-orange-600); /* #D2890A */
+  --color-warning-subtle:   var(--iron-orange-100); /* #FFF2DA */
+  --color-warning-strong:   var(--iron-orange-700); /* #A66E0A — badge/warning text on the subtle fill */
+  --color-warning-on:       #FFFFFF;
+
+  /* Danger = Iron Red/500 — validation errors, destructive actions */
+  --color-danger:           var(--iron-red-500);    /* #E5242A */
+  --color-danger-hover:     var(--iron-red-600);    /* #C91D23 */
+  --color-danger-subtle:    var(--iron-red-100);    /* #FFE1E2 */
+  --color-danger-strong:    var(--iron-red-700);    /* #A8181D — badge/danger text on the subtle fill */
+  --color-danger-on:        #FFFFFF;
+
+  /* Info = Iron Blue/500 — info banners, help text */
+  --color-info:             var(--iron-blue-500);   /* #2693EC */
+  --color-info-hover:       var(--iron-blue-600);   /* #217BC4 */
+  --color-info-subtle:      var(--iron-blue-100);   /* #DEEFFC */
+  --color-info-strong:      var(--iron-blue-700);   /* #1D629B — badge/info text on the subtle fill */
+  --color-info-on:          #FFFFFF;
+
+  /* Important = Iron Purple/500 — highlighted / important status (Figma: status/important) */
+  --color-important:        var(--iron-purple-500); /* #563B99 */
+  --color-important-subtle: var(--iron-purple-100); /* #E6E2F0 — badge/important fill */
+  --color-important-strong: var(--iron-purple-700); /* #3B2A66 — badge/important text on the subtle fill */
+
+  /* Neutral = Slate/500 — neutral / default status (Figma: status/neutral) */
+  --color-neutral:          var(--slate-500);       /* #62748E */
+  --color-neutral-subtle:   var(--slate-100);       /* #F1F5F9 — badge/neutral fill */
+  --color-neutral-strong:   var(--slate-700);       /* #314158 — badge/neutral text on the subtle fill */
+
+  /* Semantic — Dark Mode (Figma: badge, Dark Purple column). subtle = fill, strong = text.
+     Swapped in under .dark so badges (and any subtle/strong consumer) re-theme automatically. */
+  --color-success-subtle-dark:   var(--iron-green-800);  /* #345F50 — badge/success fill (dark) */
+  --color-success-strong-dark:   var(--iron-green-300);  /* #B1E0D0 — badge/success text (dark) */
+  --color-warning-subtle-dark:   var(--iron-orange-900); /* #4F370B — badge/warning fill (dark) */
+  --color-warning-strong-dark:   var(--iron-orange-300); /* #FED284 — badge/warning text (dark) */
+  --color-danger-subtle-dark:    var(--iron-red-900);    /* #72181B — badge/danger fill (dark) */
+  --color-danger-strong-dark:    var(--iron-red-300);    /* #FF9DA1 — badge/danger text (dark) */
+  --color-info-subtle-dark:      var(--iron-blue-800);   /* #184A73 — badge/info fill (dark) */
+  --color-info-strong-dark:      var(--iron-blue-300);   /* #93C9F6 — badge/info text (dark) */
+  --color-important-subtle-dark: var(--iron-purple-700); /* #3B2A66 — badge/important fill (dark) */
+  --color-important-strong-dark: var(--iron-purple-300); /* #AB9DCC — badge/important text (dark) */
+  --color-neutral-subtle-dark:   var(--slate-800);       /* #1D293D — badge/neutral fill (dark) */
+  --color-neutral-strong-dark:   var(--slate-300);       /* #CAD5E2 — badge/neutral text (dark) */
+
+  /* Accents — Figma: accent 1–4 (highlights, data-vis, product illustration) */
+  --color-accent-1:         var(--iron-orange-500); /* #FDA509 — iron-orange/500 */
+  --color-accent-2:         var(--iron-green-500);  /* #63C1A0 — iron-green/500  */
+  --color-accent-3:         var(--iron-sky-500);    /* #89D3DF — iron-sky/500    */
+  --color-accent-4:         var(--iron-purple-500); /* #563B99 — iron-purple/500 */
+
+  /* ── Buttons (Figma: button) ── */
+  --color-button-primary:          var(--iron-pink-500);   /* #E01A59 — brand/primary */
+  --color-button-primary-hover:    var(--iron-pink-600);   /* #BA174B — brand/primary-dark */
+  --color-button-secondary:        var(--iron-blue-500);   /* #2693EC — brand/secondary */
+  --color-button-secondary-hover:  var(--iron-blue-600);   /* #217BC4 — brand/secondary-dark */
+  --color-button-tertiary:         var(--neutral-900);      /* #171717 — neutral/900 (solid dark button) */
+  --color-button-tertiary-hover:   var(--iron-pink-500);    /* #E01A59 — button/primary (black → pink) */
+  --color-button-outline:          #FFFFFF;                 /* white — outline / ghost fill */
+  --color-button-outline-hover:    var(--slate-50);         /* #F8FAFC — slate/50 — subtle grey hover (updated from white) */
+
+  /* ── Buttons — Dark Purple mode (only outline differs) ── */
+  --color-button-dark-outline:       var(--iron-violet-950); /* #260F27 — iron-violet/950 */
+  --color-button-dark-outline-hover: var(--iron-violet-900); /* #391C39 — iron-violet/900 */
+
+  /* ── Text / Default — Light Mode (Figma: text/default) ── */
+  --color-text-heading:         var(--neutral-900); /* #171717 — H1–H4, emphasized type */
+  --color-text-heading-alt:     var(--iron-blue-600);    /* #217BC4 — Coloured headline accents, kickers · 4.08:1 — LARGE TEXT ONLY (24px+, or 18.66px+ bold) */
+  --color-text-body:            var(--neutral-800); /* #262626 — Default running text */
+  --color-text-muted:           var(--neutral-600); /* #525252 — Placeholders, captions · 7.13:1 — real text, must meet AA */
+  --color-text-disabled:        var(--neutral-400); /* #A1A1A1 — Disabled controls ONLY · exempt from contrast minimums; kept light so a disabled control reads as inert (5.86:1 away from body) */
+  --color-text-support:         var(--slate-600);   /* #45556C — Support headlines, caption titles · 6.92:1 */
+  --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons (Figma: on action) */
+  --color-text-on-action-hover:          var(--iron-pink-500); /* #E01A59 — brand/primary — text on a hovered action */
+  --color-text-on-action-tertiary:       var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
+  --color-text-on-action-tertiary-hover: var(--iron-pink-500); /* #E01A59 — hovered tertiary action */
+  --color-on-tertiary:       var(--color-text-on-action-tertiary);       /* alias — Button outline/ghost/ondark text */
+  --color-on-tertiary-hover: var(--color-text-on-action-tertiary-hover); /* alias — hover state */
+  --color-text-link:            var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text · 2.96:1 — does NOT meet AA; kept as the brand blue by design decision. Pair links with an underline so colour is never the only cue. */
+  --color-text-link-hover:      var(--iron-pink-500);    /* #E01A59 — Hovered / active link state */
+  --color-text-link-menu:       #FFFFFF;                 /* White — links in the dark footer / nav menu bar (Figma: link-menu) */
+  --color-text-link-menu-hover: var(--iron-pink-500);    /* #E01A59 — brand/primary — hovered menu-bar link */
+
+  /* ── Text / Default — Dark Mode (Figma: text/default dark column) ── */
+  --color-text-dark-heading:     var(--neutral-100);  /* #F5F5F5 — neutral/100 */
+  --color-text-dark-heading-alt: var(--iron-orange-500);   /* #FDA509 — brand/accent 1 */
+  --color-text-dark-body:        var(--neutral-300);  /* #D4D4D4 — neutral/300 */
+  --color-text-dark-muted:       var(--neutral-400);  /* #A1A1A1 — neutral/400 · 4.54:1 */
+  --color-text-dark-disabled:    var(--neutral-500);  /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
+  --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
+  --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 */
+  --color-text-dark-link-hover:  var(--iron-pink-400);     /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
+
+  /* ── Text / On Color (text on coloured surfaces — same both modes) ── */
+  --color-text-on-color-heading: #FFFFFF;                  /* white */
+  --color-text-on-color-body:    var(--neutral-200);  /* #E5E5E5 — neutral/200 */
+
+  /* ── Surfaces — Light Theme (Figma: surface, light column) ── */
+  --color-bg-base:          #FFFFFF;                  /* white — main page background */
+  --color-bg-shade:         var(--slate-100);    /* #F1F5F9 — slate/100 — band fills, alternating sections */
+  --color-bg-card:          #FFFFFF;                  /* white — card, modal, panel backgrounds */
+  --color-bg-card-alt:      var(--iron-blue-50);      /* #F2F9FE — iron-blue/50 — alternative / feature highlight card */
+  --color-bg-disabled:      var(--slate-50);          /* #F8FAFC — slate/50 — disabled input / control fill */
+  --color-bg-footer:        var(--neutral-900);       /* #171717 — neutral/900 — footer / dark band background */
+  --color-bg-footer-alt:    var(--neutral-950);       /* #0A0A0A — neutral/950 — deeper footer sub-band */
+
+  /* ── Surfaces — Dark Theme (Figma: surface, dark column) ── */
+  --color-bg-dark:          var(--iron-violet-900);   /* #391C39 — iron-violet/900 — main page background */
+  --color-bg-dark-shade:    var(--iron-violet-950);   /* #260F27 — iron-violet/950 — band fills, alternating sections */
+  --color-bg-dark-card:     var(--iron-violet-800);   /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
+  --color-bg-dark-card-alt: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
+  --color-bg-dark-disabled: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
+
+  /* ── Borders — Light Theme (Figma: border, light column) ── */
+  --color-border:           var(--slate-200);    /* #E2E8F0 — slate/200 — dividers, input borders, card edges */
+  --color-border-strong:    var(--slate-300);    /* #CAD5E2 — slate/300 — hover borders, strong dividers */
+  --color-border-alt:       var(--iron-blue-500);     /* #2693EC — brand/secondary — focused inputs, active outlines */
+  --color-border-focus:     var(--iron-blue-500);     /* #2693EC — focus ring (accessibility) */
+  --color-border-focused:   var(--color-border-focus); /* alias — Button ghost variant naming */
+  --color-border-selected:  var(--iron-blue-500);     /* #2693EC — selected item outline */
+  --color-border-error:     var(--iron-red-500);      /* #E5242A — error state border (Figma: danger) */
+
+  /* ── Borders — Dark Theme (Figma: border, dark column) ── */
+  --color-border-dark:        var(--iron-violet-500); /* #9D4F90 — iron-violet/500 — dividers, input borders */
+  --color-border-dark-strong: var(--iron-violet-600); /* #84427C — iron-violet/600 — hover borders, strong dividers */
+  --color-border-dark-alt:    var(--iron-blue-500);   /* #2693EC — brand/secondary — same as light mode */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     3. TYPOGRAPHY
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --font-sans:    'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body:    'Montserrat', sans-serif;   /* alias — use either */
+  --font-mono:    'Roboto Mono', "SF Mono", "Cascadia Code", Consolas, monospace;  /* Figma: Roboto Mono */
+
+  /* Accent — NuGet blue. Retheme overlines & emphasis from one place. */
+  --c-accent: #185FA5;
+
+  /* ── Scale weights (per level) ── */
+  --fw-h1-hero:   900;  /* Hero H1 — black */
+  --fw-h1:        900;
+  --fw-h2:        800;
+  --fw-h3:        700;
+  --fw-h4:        800;
+  --fw-title-lg:  700;  /* Title · Large — section intro title */
+  --fw-body-lg:   500;  /* Body large — Medium (Figma) */
+  --fw-quote:     500;  /* Quote — Medium italic */
+  --fw-body:      400;
+  --fw-caption:   400;  /* Caption — regular, content scale */
+  --fw-code:      400;  /* Code — regular, monospace */
+  --fw-overline:  700;
+  --fw-caption-sm:500;  /* Caption SM — medium, tooltip / footer */
+  --fw-label:     500;  /* Label text — medium, form / UI labels */
+  --fw-btn-lg:    700;  /* Button · large — bold CTA */
+  --fw-btn:       600;  /* Button · default / small — semibold */
+  --fw-btn-sm:    600;  /* Button · small — semibold */
+  --fw-nav:       500;
+  --fw-nav-sub:   500;  /* Nav dropdown item — medium */
+  --fw-nav-active:700;
+  --fw-nav-label: 700;
+
+  /* ── Named weight scale (generic) ── */
+  --font-weight-regular:   400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+  --font-weight-black:     900;
+
+  /* ── Font-size scale (primitive) — Figma variables, t-shirt names ── */
+  --font-size-xs:   12px;
+  --font-size-sm:   14px;
+  --font-size-base: 16px;
+  --font-size-lg:   18px;
+  --font-size-xl:   20px;
+  --font-size-2xl:  24px;
+  --font-size-3xl:  30px;
+  --font-size-4xl:  36px;
+  --font-size-5xl:  40px;
+  --font-size-6xl:  48px;
+  --font-size-7xl:  60px;
+  --font-size-8xl:  72px;
+  --font-size-9xl:  96px;
+
+  /* ── Font sizes — content scale (semantic → primitive) ── */
+  --font-size-h1-hero:  var(--font-size-6xl);   /* 48px — hero modifier on H1, homepage only */
+  --font-size-h1:       var(--font-size-5xl);   /* 40px — page title, 1 per page */
+  --font-size-h2:       var(--font-size-3xl);   /* 30px — section heading */
+  --font-size-h3:       var(--font-size-2xl);   /* 24px — card / feature title */
+  --font-size-h4:       var(--font-size-xl);    /* 20px — card title (split from body-lg by weight) */
+  --font-size-title-lg: var(--font-size-lg);    /* 18px — section intro title */
+  --font-size-body-lg:  var(--font-size-lg);    /* 18px — lead / intro paragraph */
+  --font-size-quote:    var(--font-size-lg);    /* 18px — pull quote / blockquote (italic) */
+  --font-size-body:     var(--font-size-base);  /* 16px — default running text */
+  --font-size-caption:  var(--font-size-sm);    /* 14px — supporting text, secondary colour */
+  --font-size-caption-sm: var(--font-size-xs);  /* 12px — tooltip, footer fine print */
+  --font-size-label:      var(--font-size-sm);  /* 14px — form / UI label */
+  --font-size-overline: var(--font-size-sm);    /* 14px — uppercase category label, accent */
+  --font-size-code:     var(--font-size-sm);    /* 14px — inline & block code, mono */
+
+  /* ── Font sizes — UI scale (semantic → primitive) ── */
+  --font-size-btn-lg:    var(--font-size-base);  /* 16px — hero / primary CTA */
+  --font-size-btn:       var(--font-size-sm);    /* 14px — standard button */
+  --font-size-btn-sm:    var(--font-size-xs);    /* 12px — compact / table action */
+  --font-size-nav:       var(--font-size-base);  /* 16px — main nav link */
+  --font-size-nav-sub:   var(--font-size-sm);    /* 14px — dropdown / footer / sidebar */
+  --font-size-nav-label: var(--font-size-xs);    /* 12px — menu / footer group label */
+
+  /* ── Leading scale (primitive) — Figma "font / leading", name = px ÷ 4 ── */
+  --leading-3:   12px;
+  --leading-4:   16px;
+  --leading-5:   20px;
+  --leading-6:   24px;
+  --leading-7:   28px;
+  --leading-8:   32px;
+  --leading-9:   36px;
+  --leading-10:  40px;
+  --leading-12:  48px;
+  --leading-15:  60px;
+  --leading-18:  72px;
+  --leading-24:  96px;
+  --leading-32: 128px;
+
+  /* ── Line heights (semantic → leading primitive) ── */
+  --line-height-h1-hero:  var(--leading-12);  /* 48px */
+  --line-height-h1:       var(--leading-12);  /* 48px */
+  --line-height-h2:       var(--leading-9);   /* 36px */
+  --line-height-h3:       var(--leading-8);   /* 32px */
+  --line-height-h4:       var(--leading-7);   /* 28px */
+  --line-height-title-lg: var(--leading-7);   /* 28px */
+  --line-height-body-lg:  var(--leading-7);   /* 28px */
+  --line-height-quote:    var(--leading-7);   /* 28px */
+  --line-height-body:     var(--leading-7);   /* 28px */
+  --line-height-caption:    var(--leading-5);   /* 20px */
+  --line-height-caption-sm: var(--leading-4);   /* 16px */
+  --line-height-label:      var(--leading-5);   /* 20px */
+  --line-height-overline: var(--leading-4);   /* 16px */
+  --line-height-code:     var(--leading-6);   /* 24px */
+  --line-height-btn-lg:    1;                 /* Button · large — single-line (= 100%) */
+  --line-height-btn:       var(--leading-4);  /* Button · default — 16px */
+  --line-height-btn-sm:    1;                 /* Button · small — single-line (= 100%) */
+  --line-height-nav:       1;                 /* single-line — outside px scale (= 100%) */
+  --line-height-nav-sub:   var(--leading-5);  /* 20px — may wrap to two lines */
+  --line-height-nav-label: var(--leading-4);  /* 16px */
+
+  /* ── Letter spacing — px, Figma tracking scale ──
+     tighter -0.8 · tight -0.4 · normal 0 · wide 0.4 · wider 0.8 · widest 1.6 */
+  --letter-spacing-h1-hero:  -0.8px;   /* tighter */
+  --letter-spacing-h1:       -0.8px;   /* tighter */
+  --letter-spacing-h2:       -0.4px;   /* tight   */
+  --letter-spacing-h3:       -0.4px;   /* tight   */
+  --letter-spacing-h4:       -0.4px;   /* tight — card title */
+  --letter-spacing-overline:  0.8px;   /* wider   */
+  --letter-spacing-label:      0px;    /* normal  */
+  --letter-spacing-btn-lg:     0px;    /* normal  */
+  --letter-spacing-btn:        0px;    /* normal  */
+  --letter-spacing-btn-sm:    0.4px;   /* wide    */
+  --letter-spacing-caption-sm:0.4px;   /* wide    */
+  --letter-spacing-nav-label: 0.4px;   /* wide    */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     4. SPACING
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --spacing-micro: 0.25rem;   /*  4px — icon-text gaps, tight groups */
+  --spacing-xs:    0.5rem;    /*  8px — small spacing within components */
+  --spacing-sm:    0.75rem;   /* 12px — component internal padding */
+  --spacing-md:    1rem;      /* 16px — standard padding and gaps */
+  --spacing-lg:    1.25rem;   /* 20px — card padding, list item gaps */
+  --spacing-xl:    1.5rem;    /* 24px — section spacing */
+  --spacing-2xl:    2rem;     /* 32px — between layout regions */
+  --spacing-3xl:    3rem;     /* 48px — large section padding */
+  --spacing-4xl:    4rem;     /* 64px — page-level padding, feature sections */
+  --spacing-hero:   5rem;     /* 80px — hero-scale top/bottom margins */
+  --spacing-section:7.5rem;   /* 120px — full-page section breaks, hero bands */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     5. BORDER RADIUS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --rounded-none: 0px;      /* Sharp corners, dividers */
+  --rounded-xs:   2px;      /* Tooltips, small tags */
+  --rounded-sm:   4px;      /* Inputs, small controls */
+  --rounded-md:   6px;      /* Dropdowns, popovers */
+  --rounded-lg:   8px;      /* Feature cards, secondary containers */
+  --rounded-xl:   12px;     /* Modals, panels, large cards */
+  --rounded-2xl:  16px;     /* Hero cards, feature highlights */
+  --rounded-3xl:  24px;     /* Buttons, large containers */
+  --rounded-4xl:  32px;     /* CTA buttons, pill shapes */
+  --rounded-full: 9999px;   /* Perfect circle or infinite pill */
+
+  /* ── Semantic aliases — prefer these in components over raw steps ── */
+  --rounded-pill-sm: 1.25rem;              /* 20px — badges, small pills */
+  --rounded-cta:     var(--rounded-full);  /* alias — Button component pill shape */
+  --rounded-cta-alt: 2.625rem;             /* 42px — alternative secondary CTA */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     6. SHADOWS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --shadow-card:          0 0 12px 0 rgba(15, 23, 43, 0.12);   /* Raised — feature cards        · slate-900 */
+  --shadow-float:         0 2px 16px 0 rgba(15, 23, 43, 0.20); /* Floating — dropdowns, headers · slate-900 */
+  --shadow-modal:         0 8px 24px 0 rgba(15, 23, 43, 0.32); /* Modal / dialogs               · slate-900 */
+  --shadow-card-hover:    0 4px 12px 0 rgba(15, 23, 43, 0.08); /* Card hover state              · slate-900 */
+  --shadow-focus-blue:    0 0 0 3px rgba(42, 149, 213, 0.25);  /* Focus ring — primary */
+  --shadow-focus-teal:    0 0 0 3px rgba(99, 193, 160, 0.25);  /* Focus ring — secondary */
+  --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);   /* Focus ring — destructive */
+  --shadow-tooltip:       0 4px 8px 0 rgba(0, 0, 0, 0.25);     /* Tooltip drop shadow — Figma blur is 8, not 16 */
+  --focus-ring-blue:      0 0 0 3px rgba(38, 147, 236, 0.25);  /* Focus ring — Button secondary/outline/ondark (iron-blue-500 @25%) */
+  --focus-ring-white:     0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     6b. BLUR  (Figma / blur — glassmorphism surfaces, backdrops, overlays)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* CSS px, i.e. HALF the Figma radius — a Figma background blur of R renders
+     like a CSS blur of R/2, which Figma's own export confirms (Button ondark
+     binds blur/xs = 4 and converts to `blur(2px)`). The Figma radius each one
+     came from is on the right so nobody "corrects" these back. */
+  --blur-none: 0px;   /* Figma 0  */
+  --blur-xs:   2px;   /* Figma 4  */
+  --blur-sm:   4px;   /* Figma 8  */
+  --blur-md:   6px;   /* Figma 12 */
+  --blur-lg:   8px;   /* Figma 16 */
+  --blur-xl:   12px;  /* Figma 24 */
+  --blur-2xl:  20px;  /* Figma 40 */
+  --blur-3xl:  32px;  /* Figma 64 */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     6c. OVERLAY TINTS  (hover/press fills over existing content, not a solid color)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* All four resolve to the transparent/* ramp above, so Figma owns the values
+     and `check:tokens` guards them. They used to be loose rgba() literals with
+     no entry in tokens.w3c.json at all, which is how --ondark-tint sat at 4%
+     against Figma's 5% without any gate noticing. */
+  --ghost-hover:         var(--transparent-black-5);  /* Button ghost hover fill */
+  --ondark-tint:         var(--transparent-white-5);  /* Button ondark base fill */
+  --ondark-border:       var(--transparent-white-30); /* Button ondark border */
+  --ondark-border-hover: var(--transparent-white-40); /* Button ondark border, hover */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     7. SIZING / COMPONENT DIMENSIONS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --size-btn-primary:   3.5rem;    /* 56px — Large */
+  --size-btn-secondary: 3rem;      /* 48px — Default */
+  --size-btn-small:     2.25rem;   /* 36px — Small (Figma updated 2026-07-07, was 40px) */
+  --size-btn-lg:        var(--size-btn-primary);    /* alias — Button component naming */
+  --size-btn-md:        var(--size-btn-secondary);  /* alias — Button component naming */
+  --size-btn-sm:        var(--size-btn-small);      /* alias — Button component naming */
+  --size-input:         2.75rem;   /* 44px */
+  --size-nav:           2.5rem;    /* 40px */
+  --size-touch-min:     2.75rem;   /* 44px — minimum touch target */
+  --size-touch-nav:     3rem;      /* 48px — mobile nav icons */
+  --size-container-max:     90rem;   /* 1440px — full-bleed section width */
+  --size-container-content: 80rem;   /* 1280px — narrower content column (e.g. Product Footer) */
+  /* Checkbox / Radio control — Figma ships three sizes (Small · Default · Large).
+     --size-box is the Default one, kept as its own name because the docs and the
+     component anatomy diagrams refer to it. */
+  --size-box-sm:            1rem;     /* 16px — Figma Size=Small */
+  --size-box-md:            1.25rem;  /* 20px — Figma Size=Default */
+  --size-box-lg:            1.5rem;   /* 24px — Figma Size=Large */
+  --size-box:               var(--size-box-md);
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     8. BORDERS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Primitive scale ── */
+  --border-width-1: 1px;   /* Hairline — default dividers, inputs */
+  --border-width-2: 2px;   /* Regular — focus rings, active nav */
+  --border-width-4: 4px;   /* Medium — emphasis, selected states */
+  --border-width-8: 8px;   /* Heavy — decorative accents, callouts */
+
+  /* ── Semantic aliases ── */
+  --border-width-default:    var(--border-width-1);
+  --border-width-focus:      var(--border-width-2);
+  --border-width-nav-active: var(--border-width-2);
+  --border-style-default:    solid;
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     9. OPACITY  (Figma / opacity variables — 0–100 in steps of 5)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Full scale ── */
+  --opacity-0:   0;     /*   0% — fully transparent */
+  --opacity-5:   0.05;  /*   5% */
+  --opacity-10:  0.10;  /*  10% */
+  --opacity-15:  0.15;  /*  15% */
+  --opacity-20:  0.20;  /*  20% */
+  --opacity-25:  0.25;  /*  25% */
+  --opacity-30:  0.30;  /*  30% */
+  --opacity-35:  0.35;  /*  35% */
+  --opacity-40:  0.40;  /*  40% */
+  --opacity-45:  0.45;  /*  45% */
+  --opacity-50:  0.50;  /*  50% — half */
+  --opacity-55:  0.55;  /*  55% */
+  --opacity-60:  0.60;  /*  60% */
+  --opacity-65:  0.65;  /*  65% */
+  --opacity-70:  0.70;  /*  70% */
+  --opacity-75:  0.75;  /*  75% */
+  --opacity-80:  0.80;  /*  80% */
+  --opacity-85:  0.85;  /*  85% */
+  --opacity-90:  0.90;  /*  90% */
+  --opacity-95:  0.95;  /*  95% */
+  --opacity-100: 1;     /* 100% — fully opaque */
+
+  /* ── Semantic aliases ── */
+  --opacity-disabled:     var(--opacity-50);  /* Disabled states */
+  --opacity-hover-ghost:  var(--opacity-90);  /* Ghost button hover */
+  --opacity-hover-footer: var(--opacity-80);  /* Footer link hover */
+
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     10. BREAKPOINTS  (reference only — use in media queries or JS)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --breakpoint-xs: 320px;   /* Mobile */
+  --breakpoint-sm: 480px;   /* Tablet */
+  --breakpoint-md: 768px;   /* Tablet Large */
+  --breakpoint-lg: 1024px;  /* Desktop */
+  --breakpoint-xl: 1440px;  /* Desktop XL */
+
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   DARK THEME
+   A swap at the semantic layer — primitives and components never change.
+   The values come from the dark tokens defined above; this block just points the
+   light token names at them, so `var(--color-text-body)` is correct in both themes.
+
+   Usage:  <html class="dark">
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dark {
+  /* ── Text ── */
+  --color-text-heading:     var(--color-text-dark-heading);
+  --color-text-heading-alt: var(--color-text-dark-heading-alt);
+  --color-text-body:        var(--color-text-dark-body);
+  --color-text-muted:       var(--color-text-dark-muted);
+  --color-text-disabled:    var(--color-text-dark-disabled);
+  --color-text-support:     var(--color-text-dark-support);
+  --color-text-link:        var(--color-text-dark-link);
+  --color-text-link-hover:  var(--color-text-dark-link-hover);
+
+  /* ── Surfaces ── */
+  --color-bg-base:     var(--color-bg-dark);
+  --color-bg-shade:    var(--color-bg-dark-shade);
+  --color-bg-card:     var(--color-bg-dark-card);
+  --color-bg-card-alt: var(--color-bg-dark-card-alt);
+  --color-bg-disabled: var(--color-bg-dark-disabled);
+
+  /* ── Borders ── */
+  --color-border:        var(--color-border-dark);
+  --color-border-strong: var(--color-border-dark-strong);
+  --color-border-alt:    var(--color-border-dark-alt);
+
+  /* ── Buttons ── */
+  --color-button-outline:       var(--color-button-dark-outline);
+  --color-button-outline-hover: var(--color-button-dark-outline-hover);
+
+  /* ── Semantic subtle/strong (badges, tags) ── */
+  --color-success-subtle:   var(--color-success-subtle-dark);
+  --color-success-strong:   var(--color-success-strong-dark);
+  --color-warning-subtle:   var(--color-warning-subtle-dark);
+  --color-warning-strong:   var(--color-warning-strong-dark);
+  --color-danger-subtle:    var(--color-danger-subtle-dark);
+  --color-danger-strong:    var(--color-danger-strong-dark);
+  --color-info-subtle:      var(--color-info-subtle-dark);
+  --color-info-strong:      var(--color-info-strong-dark);
+  --color-important-subtle: var(--color-important-subtle-dark);
+  --color-important-strong: var(--color-important-strong-dark);
+  --color-neutral-subtle:   var(--color-neutral-subtle-dark);
+  --color-neutral-strong:   var(--color-neutral-strong-dark);
+}

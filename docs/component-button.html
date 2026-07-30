@@ -5,56 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Button · Components · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 
     /* ── Button-relevant design tokens (this page is 100% token-driven) ── */
     :root {
-      --color-primary:           #E01A59;
-      --color-primary-hover:     #BA174B;
-      --color-secondary:         #2693EC;
-      --color-secondary-hover:   #217BC4;
-      --color-primary-on:        #FFFFFF;
-      --color-button-tertiary:   #171717;   /* solid dark button — button/tertiary (neutral/900) */
-      --color-on-tertiary:       #2693EC;   /* outline / ghost / ondark text (text/on-action-tertiary) */
-      --color-on-tertiary-hover: #E01A59;   /* → pink on hover (text/on-action-tertiary-hover) */
-      --color-text-heading:      #171717;
-      --color-text-body:         #262626;
-      --color-text-support:      #45556C;
-      --color-border:            #E2E8F0;   /* outline border (border/default) */
-      --color-border-strong:     #CAD5E2;   /* outline hover border (border/strong) */
-      --color-border-focused:    #2693EC;   /* focus border (border/focused) */
-      --color-button-outline-hover: #F8FAFC; /* outline hover fill (button/outline-hover) */
-      --ghost-hover:             #0000000D; /* transparent/black/5 */
-      --ondark-tint:             #FFFFFF0D; /* transparent/white/5 — ondark fill */
-      --ondark-border:           #FFFFFF4D; /* transparent/white/30 — ondark border */
-      --ondark-border-hover:     #FFFFFF66; /* transparent/white/40 — ondark border, hover */
-      --blur-xs:                 2px;
-      --spacing-micro:           4px;
-      --spacing-xs:              8px;
-      --spacing-sm:              12px;
-      --spacing-md:              16px;
-      --spacing-xl:              24px;
-      --spacing-2xl:             32px;
-      --font-size-btn-lg:        16px;
-      --font-size-btn:           14px;
-      --font-size-btn-sm:        12px;
-      --fw-btn-lg:               700;
-      --fw-btn:                  600;
-      --rounded-cta:             9999px;     /* rounded-full pill */
-      --size-btn-lg:             56px;
-      --size-btn-md:             48px;
-      --size-btn-sm:             36px;
-      --shadow-focus-magenta:    0 0 0 3px rgba(224,26,89,0.25);   /* primary + NuGet focus halo (pink @25%) */
-      --focus-ring-blue:         0 0 0 3px rgba(38,147,236,0.25);  /* secondary / outline / ondark focus halo */
-      --focus-ring-white:        0 0 0 3px rgba(255,255,255,0.25); /* tertiary focus halo (on dark fill) */
+         /* solid dark button — button/tertiary (neutral/900) */
+         /* outline / ghost / ondark text (text/on-action-tertiary) */
+         /* → pink on hover (text/on-action-tertiary-hover) */
+         /* outline border (border/default) */
+         /* outline hover border (border/strong) */
+         /* focus border (border/focused) */
+       /* outline hover fill (button/outline-hover) */
+       /* transparent/black/5 */
+       /* transparent/white/5 — ondark fill */
+       /* transparent/white/30 — ondark border */
+       /* transparent/white/40 — ondark border, hover */
+           /* rounded-full pill */
+         /* primary + NuGet focus halo (pink @25%) */
+        /* secondary / outline / ondark focus halo */
+       /* tertiary focus halo (on dark fill) */
       --space-xs:                8px;
       --space-sm:                12px;
       --space-md:                16px;
       --space-lg:                20px;
       --space-2xl:               32px;
-      --color-bg-base: #FFFFFF;
     }
 
     header {

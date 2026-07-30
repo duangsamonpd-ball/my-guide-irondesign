@@ -5,53 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Badge · Components · Iron Software DS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
     :root {
       /* subtle fill = iron-*-100, text = iron-*-700 — verified against Figma node 776-899 */
-      --color-success:#44806B;   --color-success-subtle:#E8F6F1;  --color-success-strong:#44806B;
-      --color-warning:#A66E0A;   --color-warning-subtle:#FFF2DA;  --color-warning-strong:#A66E0A;
-      --color-danger:#A8181D;    --color-danger-subtle:#FFE1E2;   --color-danger-strong:#A8181D;
-      --color-info:#1D629B;      --color-info-subtle:#DEEFFC;     --color-info-strong:#1D629B;
-      --color-important:#563B99; --color-important-subtle:#E6E2F0; --color-important-strong:#3B2A66;
-      --color-neutral:#62748E;   --color-neutral-subtle:#F1F5F9;   --color-neutral-strong:#314158;
       --color-success-solid:#63C1A0; --color-warning-solid:#FDA509; --color-danger-solid:#E5242A; --color-info-solid:#2693EC; --color-important-solid:#563B99; --color-neutral-solid:#45556C;
       /* dark-mode pairs (Figma Dark Purple): subtle = fill, strong = text */
-      --color-success-subtle-dark:#345F50;   --color-success-strong-dark:#B1E0D0;
-      --color-warning-subtle-dark:#4F370B;   --color-warning-strong-dark:#FED284;
-      --color-danger-subtle-dark:#72181B;    --color-danger-strong-dark:#FF9DA1;
-      --color-info-subtle-dark:#184A73;      --color-info-strong-dark:#93C9F6;
-      --color-important-subtle-dark:#3B2A66; --color-important-strong-dark:#AB9DCC;
-      --color-neutral-subtle-dark:#1D293D;   --color-neutral-strong-dark:#CAD5E2;
-      --rounded-full:9999px; --rounded-sm:4px;
       --font-size-badge:12px; --font-size-badge-sm:11px; --fw-badge:700;
       --space-2xs:4px; --space-xs:8px;
-      --spacing-micro: 0.25rem;
-      --font-size-xs: 12px;
-      --iron-green-700: #44806B;
-      --iron-orange-700: #A66E0A;
-      --iron-red-700: #A8181D;
-      --iron-blue-700: #1D629B;
-      --iron-purple-100: #E6E2F0;
-      --iron-purple-700: #3B2A66;
-      --slate-100: #F1F5F9;
-      --slate-600: #45556C;
-      --iron-green-900: #243F35;
-      --iron-green-300: #B1E0D0;
-      --iron-orange-900: #4F370B;
-      --iron-orange-300: #FED284;
-      --iron-red-900: #72181B;
-      --iron-red-300: #FF9DA1;
-      --iron-blue-900: #13324B;
-      --iron-blue-300: #93C9F6;
-      --iron-purple-900: #211933;
-      --iron-purple-300: #AB9DCC;
-      --slate-800: #1D293D;
-      --slate-300: #CAD5E2;
-      --color-primary-on: #FFFFFF;
-      --color-secondary: #2693EC;
-      --iron-purple-500: #563B99;
     }
     header { background:#fff; border-bottom:1px solid #E2E8F0; padding:24px 48px; display:flex; align-items:center; gap:16px; }
     .logo-badge { width:40px; height:40px; flex-shrink:0; }

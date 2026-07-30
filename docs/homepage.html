@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
   <style>
     /* ===================================================================
        Iron Software — Homepage
@@ -26,16 +27,13 @@
       --secondary-hover:  #217BC4; /* Iron Blue 600 */
       --secondary-active: #1D629B; /* Iron Blue 700 */
       --secondary-subtle: #DEEFFC; /* Iron Blue 100 */
-
       /* Accents */
       --accent-orange: #FDA509;
       --accent-green:  #63C1A0;
       --accent-sky:    #89D3DF;
       --accent-purple: #563B99;
-      --iron-violet-950: #260F27;
       --accent-navy:        #0B2A4A;
       --accent-green-subtle:#D0ECE3; /* Iron Green 200 — badge bg */
-
       /* Text */
       --text-heading: #171717;
       --text-body:    #262626;
@@ -46,7 +44,6 @@
       --on-color-support: #CEA7C8;
       --on-color-dim:     #D4D4D4;
       --on-color-body:    #E5E5E5;
-
       /* Surface */
       --bg:            #FFFFFF;
       --bg-shade:      #F1F5F9;  /* Slate 100 */
@@ -59,26 +56,21 @@
       --glass-white-10: rgba(255,255,255,0.10); /* frosted glass overlay — hero icon bubbles, footer divider */
       --glass-black-20: rgba(0,0,0,0.20);       /* bubble hover bg */
       --why-end:        #1D629B;                 /* why-section wave divider fill — iron-blue/700 */
-      --iron-blue-950:  #102230;                 /* why-section gradient start — Figma iron-blue/950 */
-
+                       /* why-section gradient start — Figma iron-blue/950 */
       /* Border */
       --border:        #E2E8F0;  /* Slate 200 */
       --border-strong: #CAD5E2;  /* Slate 300 */
-
       /* Radius */
       --r-sm: 4px; --r-md: 6px; --r-lg: 8px; --r-xl: 12px;
       --r-2xl: 16px; --r-3xl: 24px; --r-4xl: 32px; --r-full: 9999px;
-
       /* Shadow */
       --sh-card:  0 0 12px rgba(15,23,43,0.12);
       --sh-hover: 0 8px 24px rgba(15,23,43,0.12);
       --sh-float: 0 2px 16px rgba(15,23,43,0.20);
-
       /* Layout — from Figma frame (node 2099-1939) measured @2x */
       --breakpoint: 1440px; /* design frame width */
       --maxw: 1280px;       /* container max-width (80px gutter on a 1440 frame) */
       --gutter: 24px;       /* container horizontal padding (= space-xl) */
-
       /* Spacing scale — Iron Software design-system tokens */
       --space-micro:   4px;
       --space-xs:      8px;
@@ -91,7 +83,6 @@
       --space-4xl:    64px;
       --space-hero:   80px;
       --space-section: 120px;
-
       /* Type size scale — Iron Software typography tokens */
       --text-xs:   0.75rem;   /* 12 */
       --text-sm:   0.875rem;  /* 14 */
@@ -103,13 +94,8 @@
       --text-4xl:  2.25rem;   /* 36 */
       --text-5xl:  2.5rem;    /* 40 */
       --text-6xl:  3rem;      /* 48 */
-
       /* Leading (line-height) scale — Iron Software tokens */
       --leading-none: 1;
-      --leading-4: 16px;  --leading-5: 20px;  --leading-6: 24px;
-      --leading-7: 28px;  --leading-8: 32px;  --leading-9: 36px;
-      --leading-10: 40px; --leading-12: 48px;
-
       /* Tracking (letter-spacing) scale — Iron Software tokens */
       --tracking-tighter: -0.8px; /* H1 */
       --tracking-tight:   -0.4px; /* H2–H4 */

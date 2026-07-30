@@ -85,7 +85,20 @@ for (const file of readdirSync(DOCS).filter((f) => f.startsWith('component-') &&
     ...[...src.matchAll(/\sstyle="([^"]*)"/gi)].map((m) => m[1]),
   ].join('\n');
 
+  // A page may declare tokens itself, link a local stylesheet, or both. Remote
+  // hrefs (the webfont) are ignored — nothing here declares custom properties.
   const declared = new Set([...src.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]));
+  for (const [, href] of src.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/gi)) {
+    if (/^https?:/i.test(href)) continue;
+    let linked;
+    try {
+      linked = readFileSync(join(DOCS, href), 'utf8');
+    } catch {
+      docErrors.push({ file, name: `(links ${href}, which does not exist)` });
+      continue;
+    }
+    for (const [, n] of linked.matchAll(/(--[\w-]+)\s*:/g)) declared.add(n);
+  }
   const seen = new Set();
   // `var(--x, fallback)` still renders without --x, so only the bare form counts.
   for (const [, name, next] of css.matchAll(/var\((--[\w-]+)\s*(,?)/g)) {
@@ -110,4 +123,4 @@ if (docErrors.length) {
 }
 
 console.log(`\n\x1b[32m✔  All ${used.size} component variables resolve in ${basename(compiledPath)}\x1b[0m`);
-console.log(`\x1b[32m✔  ${docsChecked} docs pages declare every variable their CSS uses\x1b[0m\n`);
+console.log(`\x1b[32m✔  ${docsChecked} docs pages resolve every variable their CSS uses\x1b[0m\n`);
