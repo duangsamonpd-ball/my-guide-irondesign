@@ -5,6 +5,7 @@
  *   kind="mark"      24 square product marks   (12 products × colour/mono)
  *   kind="wordmark"  5 wordmark lockups        (iron: default/ondark/mono · suite: default/ondark)
  *   kind="element"   13 illustrative elements
+ *   kind="lockup"    2 product lockups         (basic = horizontal · stack = vertical)
  *
  * Unlike the rest of the library this component does ship a reference to real
  * files — a logo *is* its artwork, there is no token that can stand in for it.
@@ -18,19 +19,21 @@ type ElementName =
   | 'print' | 'drawing' | 'webscraper' | 'ppt' | 'securedoc' | 'freetools';
 
 interface Props {
-  kind?: 'mark' | 'wordmark' | 'element';
+  kind?: 'mark' | 'wordmark' | 'element' | 'lockup';
   /** Required for kind="mark" (Product) and kind="element" (ElementName). */
   product?: Product | ElementName;
   /** kind="wordmark" only. */
   brand?: 'iron' | 'suite';
-  /** kind="wordmark" only — `mono` is iron-only, `suite` has no mono variant. */
-  variant?: 'default' | 'ondark' | 'mono';
+  /** Figma's `Property 1`, scoped to the kind: wordmark takes
+   *  default/ondark/mono (`mono` is iron-only — suite has no mono artwork);
+   *  lockup takes basic/stack. */
+  variant?: 'default' | 'ondark' | 'mono' | 'basic' | 'stack';
   /** kind="mark" only — swaps to the black knockout artwork. */
   mono?: boolean;
   /** kind="mark" / "element". The mark is drawn on an 8-unit grid at 192px, so only
    *  these four sizes keep every edge on a whole pixel. */
   size?: 24 | 48 | 96 | 192;
-  /** kind="wordmark" — rendered height in px; width follows the aspect ratio. */
+  /** kind="wordmark" / "lockup" — rendered height in px; width follows the aspect ratio. */
   height?: number;
   /** Wraps the logo in an <a>. */
   href?: string;
@@ -72,7 +75,14 @@ const PRODUCT_NAMES: Record<Product, string> = {
 let file: string;
 let alt: string;
 
-if (kind === 'wordmark') {
+if (kind === 'lockup') {
+  /* Figma's `Product logo` set — the mark and wordmark locked together. Sized by
+     height like a wordmark, since neither layout is square: basic is 494x96,
+     stack 173x203. */
+  const v = variant === 'stack' ? 'stack' : 'basic';
+  file = `lockup-${v}`;
+  alt = 'Iron Software';
+} else if (kind === 'wordmark') {
   /* suite has no mono artwork in Figma — fall back to its default rather than 404. */
   const v = brand === 'suite' && variant === 'mono' ? 'default' : variant;
   file = `wordmark-${brand}-${v}`;
@@ -89,7 +99,8 @@ if (kind === 'wordmark') {
 
 const src = `${basePath}/${file}.svg`;
 const altText = label ?? alt;
-const box = kind === 'wordmark' ? { height: `${height}px` } : { width: `${size}px`, height: `${size}px` };
+const sizedByHeight = kind === 'wordmark' || kind === 'lockup';
+const box = sizedByHeight ? { height: `${height}px` } : { width: `${size}px`, height: `${size}px` };
 const Tag = href ? 'a' : 'span';
 ---
 
@@ -99,14 +110,14 @@ const Tag = href ? 'a' : 'span';
   href={href}
   aria-label={href && altText ? altText : undefined}
 >
-  <img src={src} alt={altText} width={kind === 'wordmark' ? undefined : size} height={kind === 'wordmark' ? height : size} />
+  <img src={src} alt={altText} width={sizedByHeight ? undefined : size} height={sizedByHeight ? height : size} />
 </Tag>
 
 <style>
   .logo { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
   .logo img { display: block; max-width: 100%; }
   .logo--mark img, .logo--element img { width: 100%; height: 100%; }
-  .logo--wordmark img { width: auto; height: 100%; }
+  .logo--wordmark img, .logo--lockup img { width: auto; height: 100%; }
   a.logo { border-radius: var(--rounded-sm); transition: opacity 0.15s ease; }
   a.logo:hover { opacity: 0.85; }
   a.logo:focus-visible { outline: 2px solid var(--color-border-selected); outline-offset: 3px; }

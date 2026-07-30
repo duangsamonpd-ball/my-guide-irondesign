@@ -68,6 +68,7 @@
   .logo { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
   .logo img { display: block; max-width: 100%; }
   .logo--mark img, .logo--element img { width: 100%; height: 100%; }
+  .logo--wordmark img, .logo--lockup img { width: auto; height: 100%; }
   .logo--wordmark img { width: auto; height: 100%; }
   a.logo { border-radius: var(--rounded-sm); transition: opacity 0.15s ease; }
   a.logo:hover { opacity: 0.85; }
@@ -139,83 +140,252 @@
 
     <div class="sect"><div class="sect-h">Preview</div>
       <div class="canvas">
-        <span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-pdf.svg" alt="IronPDF" width="48" height="48"></span>
-        <span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-ocr.svg" alt="IronOCR" width="48" height="48"></span>
-        <span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-zip-mono.svg" alt="IronZip, mono" width="48" height="48"></span>
-        <span class="logo logo--wordmark" style="height:32px;"><img src="assets/wordmark-iron-default.svg" alt="Iron Software" height="32"></span>
-        <span class="logo logo--element" style="width:48px;height:48px;"><img src="assets/logo-11-drawing.svg" alt="Drawing" width="48" height="48"></span>
+        <!-- demo:preview -->
+        <span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-pdf.svg" alt="IronPDF" width="48" height="48">
+        </span>
+        <span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-ocr.svg" alt="IronOCR" width="48" height="48">
+        </span>
+        <span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-zip-mono.svg" alt="IronZip, mono" width="48" height="48">
+        </span>
+        <span style="height:32px" class="logo logo--wordmark">
+          <img src="assets/wordmark-iron-default.svg" alt="Iron Software" height="32">
+        </span>
+        <span style="width:48px;height:48px" class="logo logo--element">
+          <img src="assets/logo-11-drawing.svg" alt="Drawing" width="48" height="48">
+        </span>
+        <!-- /demo:preview -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Product marks — colour &amp; mono</div>
       <div class="sect-sub">Twelve products, each with a colour and a black-knockout mono variant. <code>mono</code> is a boolean, not a separate file you pick by hand.</div>
       <div class="grid">
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-pdf.svg" alt="IronPDF" width="48" height="48"></span><div class="lbl">IronPDF<small>product="pdf"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-wd.svg" alt="IronWord" width="48" height="48"></span><div class="lbl">IronWord<small>product="wd"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-xl.svg" alt="IronXL" width="48" height="48"></span><div class="lbl">IronXL<small>product="xl"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-ppt.svg" alt="IronPPT" width="48" height="48"></span><div class="lbl">IronPPT<small>product="ppt"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-qr.svg" alt="IronQR" width="48" height="48"></span><div class="lbl">IronQR<small>product="qr"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-ocr.svg" alt="IronOCR" width="48" height="48"></span><div class="lbl">IronOCR<small>product="ocr"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-bc.svg" alt="IronBarcode" width="48" height="48"></span><div class="lbl">IronBarcode<small>product="bc"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-prt.svg" alt="IronPrint" width="48" height="48"></span><div class="lbl">IronPrint<small>product="prt"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-zip.svg" alt="IronZip" width="48" height="48"></span><div class="lbl">IronZip<small>product="zip"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-ws.svg" alt="IronWebScraper" width="48" height="48"></span><div class="lbl">IronWebScraper<small>product="ws"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-suite.svg" alt="Iron Suite" width="48" height="48"></span><div class="lbl">Iron Suite<small>product="suite"</small></div></div>
-        <div class="cell"><span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-iron.svg" alt="Iron Software" width="48" height="48"></span><div class="lbl">Iron Software<small>product="iron"</small></div></div>
+        <!-- demo:marks -->
+        <div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-pdf.svg" alt="IronPDF" width="48" height="48">
+          </span>
+          <div class="lbl">IronPDF<small>product="pdf"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-wd.svg" alt="IronWord" width="48" height="48">
+          </span>
+          <div class="lbl">IronWord<small>product="wd"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-xl.svg" alt="IronXL" width="48" height="48">
+          </span>
+          <div class="lbl">IronXL<small>product="xl"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-ppt.svg" alt="IronPPT" width="48" height="48">
+          </span>
+          <div class="lbl">IronPPT<small>product="ppt"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-qr.svg" alt="IronQR" width="48" height="48">
+          </span>
+          <div class="lbl">IronQR<small>product="qr"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-ocr.svg" alt="IronOCR" width="48" height="48">
+          </span>
+          <div class="lbl">IronOCR<small>product="ocr"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-bc.svg" alt="IronBarcode" width="48" height="48">
+          </span>
+          <div class="lbl">IronBarcode<small>product="bc"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-prt.svg" alt="IronPrint" width="48" height="48">
+          </span>
+          <div class="lbl">IronPrint<small>product="prt"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-zip.svg" alt="IronZip" width="48" height="48">
+          </span>
+          <div class="lbl">IronZip<small>product="zip"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-ws.svg" alt="IronWebScraper" width="48" height="48">
+          </span>
+          <div class="lbl">IronWebScraper<small>product="ws"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-suite.svg" alt="Iron Suite" width="48" height="48">
+          </span>
+          <div class="lbl">Iron Suite<small>product="suite"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--mark">
+            <img src="assets/mark-iron.svg" alt="Iron Software" width="48" height="48">
+          </span>
+          <div class="lbl">Iron Software<small>product="iron"</small></div>
+        </div>
+        <!-- /demo:marks -->
       </div>
       <div class="canvas left" style="margin-top:14px;">
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-pdf-mono.svg" alt="IronPDF, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-wd-mono.svg" alt="IronWord, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-xl-mono.svg" alt="IronXL, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-ppt-mono.svg" alt="IronPPT, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-qr-mono.svg" alt="IronQR, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-ocr-mono.svg" alt="IronOCR, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-bc-mono.svg" alt="IronBarcode, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-prt-mono.svg" alt="IronPrint, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-zip-mono.svg" alt="IronZip, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-ws-mono.svg" alt="IronWebScraper, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-suite-mono.svg" alt="Iron Suite, mono" width="44" height="44"></span>
-        <span class="logo logo--mark" style="width:44px;height:44px;"><img src="assets/mark-iron-mono.svg" alt="Iron Software, mono" width="44" height="44"></span>
+        <!-- demo:marks-mono -->
+        <span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-pdf-mono.svg" alt="IronPDF, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-wd-mono.svg" alt="IronWord, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-xl-mono.svg" alt="IronXL, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-ppt-mono.svg" alt="IronPPT, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-qr-mono.svg" alt="IronQR, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-ocr-mono.svg" alt="IronOCR, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-bc-mono.svg" alt="IronBarcode, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-prt-mono.svg" alt="IronPrint, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-zip-mono.svg" alt="IronZip, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-ws-mono.svg" alt="IronWebScraper, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-suite-mono.svg" alt="Iron Suite, mono" width="48" height="48">
+        </span><span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-iron-mono.svg" alt="Iron Software, mono" width="48" height="48">
+        </span>
+        <!-- /demo:marks-mono -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Sizes</div>
       <div class="sect-sub">The mark is drawn on an 8-unit grid at 192px. Each halving halves the grid unit, so only <b>24 · 48 · 96 · 192</b> keep every edge on a whole pixel — the <code>size</code> prop is typed to those four.</div>
       <div class="canvas left" style="gap:28px;align-items:flex-end;">
-        <span class="logo logo--mark" style="width:24px;height:24px;"><img src="assets/mark-pdf.svg" alt="" width="24" height="24"></span>
-        <span class="logo logo--mark" style="width:48px;height:48px;"><img src="assets/mark-pdf.svg" alt="" width="48" height="48"></span>
-        <span class="logo logo--mark" style="width:96px;height:96px;"><img src="assets/mark-pdf.svg" alt="" width="96" height="96"></span>
-        <span class="logo logo--mark" style="width:192px;height:192px;"><img src="assets/mark-pdf.svg" alt="IronPDF at four grid sizes" width="192" height="192"></span>
+        <!-- demo:sizes -->
+        <span style="width:24px;height:24px" class="logo logo--mark">
+          <img src="assets/mark-pdf.svg" alt width="24" height="24">
+        </span>
+        <span style="width:48px;height:48px" class="logo logo--mark">
+          <img src="assets/mark-pdf.svg" alt width="48" height="48">
+        </span>
+        <span style="width:96px;height:96px" class="logo logo--mark">
+          <img src="assets/mark-pdf.svg" alt width="96" height="96">
+        </span>
+        <span style="width:192px;height:192px" class="logo logo--mark">
+          <img src="assets/mark-pdf.svg" alt="IronPDF at four grid sizes" width="192" height="192">
+        </span>
+        <!-- /demo:sizes -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Wordmarks</div>
       <div class="sect-sub">Two brands, three variants. <code>ondark</code> keeps the colour mark and turns “IRON” white; <code>mono</code> is a single-colour knockout for brand-colour or photographic backgrounds. Iron Suite has no mono artwork in Figma — asking for it falls back to <code>default</code> rather than 404.</div>
       <div class="canvas left" style="flex-direction:column;align-items:flex-start;gap:0;padding:0;overflow:hidden;">
-        <div style="width:100%;padding:26px 32px;background:#fff;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-iron-default.svg" alt="Iron Software" height="30"></span></div>
-        <div style="width:100%;padding:26px 32px;background:#171717;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-iron-ondark.svg" alt="Iron Software" height="30"></span></div>
-        <div style="width:100%;padding:26px 32px;background:#E01A59;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="30"></span></div>
-        <div style="width:100%;padding:26px 32px;background:#fff;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-suite-default.svg" alt="Iron Suite" height="30"></span></div>
-        <div style="width:100%;padding:26px 32px;background:#171717;"><span class="logo logo--wordmark" style="height:30px;"><img src="assets/wordmark-suite-ondark.svg" alt="Iron Suite" height="30"></span></div>
+        <!-- demo:wordmarks -->
+        <div style="width:100%;padding:26px 32px;background:#fff;"><span style="height:30px" class="logo logo--wordmark">
+            <img src="assets/wordmark-iron-default.svg" alt="Iron Software" height="30">
+          </span></div>
+        <div style="width:100%;padding:26px 32px;background:#171717;"><span style="height:30px" class="logo logo--wordmark">
+            <img src="assets/wordmark-iron-ondark.svg" alt="Iron Software" height="30">
+          </span></div>
+        <div style="width:100%;padding:26px 32px;background:#E01A59;"><span style="height:30px" class="logo logo--wordmark">
+            <img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="30">
+          </span></div>
+        <div style="width:100%;padding:26px 32px;background:#fff;"><span style="height:30px" class="logo logo--wordmark">
+            <img src="assets/wordmark-suite-default.svg" alt="Iron Suite" height="30">
+          </span></div>
+        <div style="width:100%;padding:26px 32px;background:#171717;"><span style="height:30px" class="logo logo--wordmark">
+            <img src="assets/wordmark-suite-ondark.svg" alt="Iron Suite" height="30">
+          </span></div>
+        <!-- /demo:wordmarks -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Product elements</div>
       <div class="sect-sub">Illustrative marks for feature cards, empty states and docs headers — used <b>alongside</b> the product logo, never instead of it. A separate family with its own names (<code>word</code>, not <code>wd</code>).</div>
       <div class="grid">
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-01-pdf.svg" alt="PDF" width="44" height="44"></span><div class="lbl">PDF<small>product="pdf"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-03-xl.svg" alt="XL" width="44" height="44"></span><div class="lbl">XL<small>product="xl"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-02-word.svg" alt="Word" width="44" height="44"></span><div class="lbl">Word<small>product="word"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-05-ocr.svg" alt="OCR" width="44" height="44"></span><div class="lbl">OCR<small>product="ocr"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-07-qr.svg" alt="QR" width="44" height="44"></span><div class="lbl">QR<small>product="qr"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-06-bc.svg" alt="Barcode" width="44" height="44"></span><div class="lbl">Barcode<small>product="barcode"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-08-zip.svg" alt="Zip" width="44" height="44"></span><div class="lbl">Zip<small>product="zip"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-09-prt.svg" alt="Print" width="44" height="44"></span><div class="lbl">Print<small>product="print"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-11-drawing.svg" alt="Drawing" width="44" height="44"></span><div class="lbl">Drawing<small>product="drawing"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-010-ws.svg" alt="Webscraper" width="44" height="44"></span><div class="lbl">Webscraper<small>product="webscraper"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-04-ppt.svg" alt="PPT" width="44" height="44"></span><div class="lbl">PPT<small>product="ppt"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-12-securedoc.svg" alt="Securedoc" width="44" height="44"></span><div class="lbl">Securedoc<small>product="securedoc"</small></div></div>
-        <div class="cell"><span class="logo logo--element" style="width:44px;height:44px;"><img src="assets/logo-13-freetools.svg" alt="Freetools" width="44" height="44"></span><div class="lbl">Freetools<small>product="freetools"</small></div></div>
+        <!-- demo:elements -->
+        <div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-01-pdf.svg" alt="Pdf" width="48" height="48">
+          </span>
+          <div class="lbl">PDF<small>product="pdf"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-03-xl.svg" alt="Xl" width="48" height="48">
+          </span>
+          <div class="lbl">XL<small>product="xl"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-02-word.svg" alt="Word" width="48" height="48">
+          </span>
+          <div class="lbl">Word<small>product="word"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-05-ocr.svg" alt="Ocr" width="48" height="48">
+          </span>
+          <div class="lbl">OCR<small>product="ocr"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-07-qr.svg" alt="Qr" width="48" height="48">
+          </span>
+          <div class="lbl">QR<small>product="qr"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-06-bc.svg" alt="Barcode" width="48" height="48">
+          </span>
+          <div class="lbl">Barcode<small>product="barcode"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-08-zip.svg" alt="Zip" width="48" height="48">
+          </span>
+          <div class="lbl">Zip<small>product="zip"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-09-prt.svg" alt="Print" width="48" height="48">
+          </span>
+          <div class="lbl">Print<small>product="print"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-11-drawing.svg" alt="Drawing" width="48" height="48">
+          </span>
+          <div class="lbl">Drawing<small>product="drawing"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-010-ws.svg" alt="Webscraper" width="48" height="48">
+          </span>
+          <div class="lbl">Webscraper<small>product="webscraper"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-04-ppt.svg" alt="Ppt" width="48" height="48">
+          </span>
+          <div class="lbl">PPT<small>product="ppt"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-12-securedoc.svg" alt="Securedoc" width="48" height="48">
+          </span>
+          <div class="lbl">Securedoc<small>product="securedoc"</small></div>
+        </div><div class="cell">
+          <span style="width:48px;height:48px" class="logo logo--element">
+            <img src="assets/logo-13-freetools.svg" alt="Freetools" width="48" height="48">
+          </span>
+          <div class="lbl">Freetools<small>product="freetools"</small></div>
+        </div>
+        <!-- /demo:elements -->
+      </div>
+    </div>
+
+    <div class="sect"><div class="sect-h">Product lockups</div>
+      <div class="sect-sub">Figma&rsquo;s <code>Product logo</code> set — the mark and wordmark locked together. <code>basic</code> is the horizontal lockup, <code>stack</code> the vertical one. Sized by <code>height</code>, like a wordmark, since neither layout is square.</div>
+      <div class="canvas left" style="flex-direction:column;align-items:flex-start;gap:0;padding:0;overflow:hidden;">
+        <!-- demo:lockups -->
+        <div style="width:100%;padding:26px 32px;background:#fff;"><span style="height:72px" class="logo logo--lockup">
+            <img src="assets/lockup-basic.svg" alt="Iron Software" height="72">
+          </span></div>
+        <div style="width:100%;padding:26px 32px;background:#fff;"><span style="height:150px" class="logo logo--lockup">
+            <img src="assets/lockup-stack.svg" alt="Iron Software" height="150">
+          </span></div>
+        <!-- /demo:lockups -->
       </div>
     </div>
 

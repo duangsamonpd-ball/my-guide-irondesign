@@ -1,0 +1,87 @@
+---
+/**
+ * Demo source for docs/component-logo.html.
+ *
+ * Anatomy and the Do/Don't cards stay hand-written: the first is an annotated
+ * diagram, and the second draws marks at 17px and 40px — sizes the component
+ * deliberately refuses, since it is built on an 8-unit grid where only
+ * 24/48/96/192 land on whole pixels.
+ *
+ * The mono strip and the elements grid used to be drawn at 44px for the same
+ * reason — off the grid. They are 48 here, which is what the component actually
+ * allows (the user's call, 2026-07-30).
+ *
+ * The lockup region is new: Figma's `Product logo` set and its two exported
+ * assets existed all along, but the component had no `kind` that could reach
+ * them.
+ */
+import { Logo } from '@iron-software/astro-components';
+
+const marks = [
+  ['pdf', 'IronPDF'], ['wd', 'IronWord'], ['xl', 'IronXL'], ['ppt', 'IronPPT'],
+  ['qr', 'IronQR'], ['ocr', 'IronOCR'], ['bc', 'IronBarcode'], ['prt', 'IronPrint'],
+  ['zip', 'IronZip'], ['ws', 'IronWebScraper'], ['suite', 'Iron Suite'], ['iron', 'Iron Software'],
+] as const;
+
+const elements = [
+  ['pdf', 'PDF'], ['xl', 'XL'], ['word', 'Word'], ['ocr', 'OCR'], ['qr', 'QR'],
+  ['barcode', 'Barcode'], ['zip', 'Zip'], ['print', 'Print'], ['drawing', 'Drawing'],
+  ['webscraper', 'Webscraper'], ['ppt', 'PPT'], ['securedoc', 'Securedoc'], ['freetools', 'Freetools'],
+] as const;
+
+const band = 'width:100%;padding:26px 32px;';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Logo product="pdf" size={48} />
+      <Logo product="ocr" size={48} />
+      <Logo product="zip" mono size={48} label="IronZip, mono" />
+      <Logo kind="wordmark" height={32} />
+      <Logo kind="element" product="drawing" size={48} />
+    </div>
+
+    <div data-demo="marks">
+      {marks.map(([p, name]) => (
+        <div class="cell">
+          <Logo product={p} size={48} />
+          <div class="lbl">{name}<small>product="{p}"</small></div>
+        </div>
+      ))}
+    </div>
+
+    <div data-demo="marks-mono">
+      {marks.map(([p, name]) => <Logo product={p} mono size={48} label={`${name}, mono`} />)}
+    </div>
+
+    <div data-demo="sizes">
+      <Logo product="pdf" size={24} label="" />
+      <Logo product="pdf" size={48} label="" />
+      <Logo product="pdf" size={96} label="" />
+      <Logo product="pdf" size={192} label="IronPDF at four grid sizes" />
+    </div>
+
+    <div data-demo="wordmarks">
+      <div style={`${band}background:#fff;`}><Logo kind="wordmark" brand="iron" variant="default" height={30} /></div>
+      <div style={`${band}background:#171717;`}><Logo kind="wordmark" brand="iron" variant="ondark" height={30} /></div>
+      <div style={`${band}background:#E01A59;`}><Logo kind="wordmark" brand="iron" variant="mono" height={30} /></div>
+      <div style={`${band}background:#fff;`}><Logo kind="wordmark" brand="suite" variant="default" height={30} /></div>
+      <div style={`${band}background:#171717;`}><Logo kind="wordmark" brand="suite" variant="ondark" height={30} /></div>
+    </div>
+
+    <div data-demo="elements">
+      {elements.map(([p, name]) => (
+        <div class="cell">
+          <Logo kind="element" product={p} size={48} />
+          <div class="lbl">{name}<small>product="{p}"</small></div>
+        </div>
+      ))}
+    </div>
+
+    <div data-demo="lockups">
+      <div style={`${band}background:#fff;`}><Logo kind="lockup" variant="basic" height={72} /></div>
+      <div style={`${band}background:#fff;`}><Logo kind="lockup" variant="stack" height={150} /></div>
+    </div>
+  </body>
+</html>

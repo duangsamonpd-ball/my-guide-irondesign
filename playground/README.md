@@ -117,6 +117,7 @@ Preview and hand-written illustrations below it.
 
 | Component | Regions generated |
 |---|---|
+| Logo | 7 — preview, marks, marks-mono, sizes, wordmarks, elements, lockups |
 | Badge | 7 — preview, colours, subtle-solid, dark, variants, do, dont |
 | TopNav | 3 — default, transparent, trimmed |
 | ProductMenu | 2 — default, submenu |
@@ -141,7 +142,14 @@ have left `document.getElementById('plist-a').innerHTML =` throwing on an
 unchecked null and taking the rest of the page's JS down with it, so that script
 is deleted.
 
-The remaining 11 components still have hand-written demo markup and are not
+Logo turned up a bug in this generator rather than in the docs. Astro writes the
+`data-astro-cid-…` scope marker bare on a static element but as `="true"` on a
+dynamic `<Tag>`, which Logo uses. The strip pattern only matched the name, so it
+left the `="true"` behind and wrote malformed HTML into the page. The value is
+optional in the pattern now. It only surfaced because each migrated region is
+diffed against the markup it replaces — nothing else would have caught it.
+
+The remaining 10 components still have hand-written demo markup and are not
 covered by `check:render`; each needs a `src/pages/demos/<name>.astro` and
 sentinels added to its docs page.
 
