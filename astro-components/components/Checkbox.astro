@@ -4,6 +4,7 @@ interface Props {
   description?: string;
   id?: string;
   name?: string;
+  size?: 'sm' | 'md' | 'lg';
   checked?: boolean;
   invalid?: boolean;
   disabled?: boolean;
@@ -16,6 +17,7 @@ const {
   description,
   id,
   name,
+  size = 'md',
   checked = false,
   invalid = false,
   disabled = false,
@@ -26,7 +28,7 @@ const {
 const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<label class:list={['cbx', { invalid, disabled, 'cbx-card': card }, className]} for={inputId}>
+<label class:list={['cbx', `cbx--${size}`, { invalid, disabled, 'cbx-card': card }, className]} for={inputId}>
   <input id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled} />
   <span class="box">
     <svg viewBox="0 0 12 12" fill="none">
@@ -45,22 +47,30 @@ const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
   .cbx { display: inline-flex; align-items: flex-start; gap: var(--spacing-xs); cursor: pointer; user-select: none; }
   .cbx input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   .cbx .box {
-    width: var(--size-box); height: var(--size-box); flex-shrink: 0; margin-top: 1px;
-    border: 1.5px solid var(--color-border-strong); border-radius: var(--rounded-sm);
+    width: var(--size-box-md); height: var(--size-box-md); flex-shrink: 0; margin-top: 1px;
+    border: 1px solid var(--color-border-strong); border-radius: var(--rounded-md);
     background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
     transition: background .15s, border-color .15s, box-shadow .15s;
   }
-  .cbx .box svg { width: 11px; height: 11px; color: var(--color-primary-on); opacity: 0; transform: scale(.5); transition: opacity .15s, transform .15s; }
+  /* Sizes — Figma ships Small · Default · Large. The tick is 0.7 × the box at
+     every size, and Small is the one that drops to the tighter --rounded-sm. */
+  .cbx--sm .box { width: var(--size-box-sm); height: var(--size-box-sm); border-radius: var(--rounded-sm); }
+  .cbx--lg .box { width: var(--size-box-lg); height: var(--size-box-lg); }
+  .cbx .box svg { width: 14px; height: 14px; color: var(--color-primary-on); opacity: 0; transform: scale(.5); transition: opacity .15s, transform .15s; }
+  .cbx--sm .box svg { width: 11.2px; height: 11.2px; }
+  .cbx--lg .box svg { width: 16.8px; height: 16.8px; }
+  /* Figma draws no border on a checked box; matching the border to the fill is
+     the same picture and keeps the outer size identical across states. */
   .cbx input:checked + .box { background: var(--color-secondary); border-color: var(--color-secondary); }
   .cbx input:checked + .box svg { opacity: 1; transform: scale(1); }
   .cbx input:focus-visible + .box { box-shadow: var(--shadow-focus-blue); }
-  .cbx .txt { display: flex; flex-direction: column; }
-  .cbx .txt .label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-heading); line-height: 1.3; }
-  .cbx .txt .desc  { font-size: var(--font-size-caption); color: var(--color-text-support); margin-top: 3px; line-height: 1.5; max-width: 360px; }
+  .cbx .txt { display: flex; flex-direction: column; gap: var(--spacing-micro); }
+  .cbx .txt .label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-body); line-height: var(--leading-5); }
+  .cbx .txt .desc  { font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--leading-5); max-width: 360px; }
   .cbx.invalid .box { border-color: var(--color-danger); }
   .cbx.invalid input:checked + .box { background: var(--color-danger); border-color: var(--color-danger); }
   .cbx.disabled { cursor: not-allowed; opacity: .5; }
-  .cbx-card { border: 1.5px solid var(--color-border); border-radius: var(--rounded-xl); padding: 14px 16px; transition: border-color .15s, background .15s; cursor: pointer; max-width: 400px; }
+  .cbx-card { border: 1px solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color .15s, background .15s; cursor: pointer; max-width: 400px; }
   .cbx-card:hover { border-color: var(--color-border-strong); }
-  .cbx-card:has(input:checked) { border-color: var(--color-secondary); background: var(--color-bg-card-alt); }
+  .cbx-card:has(input:checked) { border-color: var(--color-border-selected); background: var(--color-bg-card-alt); }
 </style>

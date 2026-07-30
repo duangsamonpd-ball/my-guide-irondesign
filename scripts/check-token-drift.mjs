@@ -201,6 +201,9 @@ for (const [family, prefix, norm] of [['borderWidth', 'border-width', px], ['opa
 
 // sizing — names diverge from the w3c keys, but match each other across layers
 const SIZING = {
+  'box-sm': 'size-box-sm',
+  'box-md': 'size-box-md',
+  'box-lg': 'size-box-lg',
   'btn-primary-height': 'size-btn-primary',
   'btn-secondary-height': 'size-btn-secondary',
   'btn-small-height': 'size-btn-small',

@@ -702,7 +702,10 @@
   --size-touch-nav: 3rem;                     /* 48px — mobile nav icons */
   --size-container-max: 90rem;                /* 1440px — full-bleed section width */
   --size-container-content: 80rem;            /* 1280px — narrower content column (e.g. Product Footer) */
-  --size-box: 1.125rem;                       /* 18px — Checkbox/Radio control size */
+  --size-box-sm: 1rem;                        /* 16px — Figma Size=Small */
+  --size-box-md: 1.25rem;                     /* 20px — Figma Size=Default */
+  --size-box-lg: 1.5rem;                      /* 24px — Figma Size=Large */
+  --size-box: var(--size-box-md);
   --border-width-1: 1px;                      /* Hairline — default dividers, inputs */
   --border-width-2: 2px;                      /* Regular — focus rings, active nav */
   --border-width-4: 4px;                      /* Medium — emphasis, selected states */
