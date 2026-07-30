@@ -59,4 +59,55 @@ if (missing.length) {
   process.exit(1);
 }
 
-console.log(`\n\x1b[32m✔  All ${used.size} component variables resolve in ${basename(compiledPath)}\x1b[0m\n`);
+/* ── docs pages must satisfy their own variables ─────────────────────────── */
+
+/**
+ * Each docs/component-*.html is standalone — no stylesheet link, just an inline
+ * <style> and a hand-kept :root re-declaring the tokens that page happens to
+ * need. So the compiled theme proves nothing about them: a component can start
+ * reading a new token, the docs page can copy the rule across, and the variable
+ * behind it is simply never declared. `var(--x)` with no declaration and no
+ * fallback makes the whole property invalid, and the browser drops it —
+ * silently, which is how three pages ended up rendering with no border at all
+ * and a hover colour that never applied.
+ *
+ * Only CSS is scanned: <style> bodies and inline style="" attributes. The token
+ * pages print `var(--name)` as copyable prose, and that is not a usage.
+ */
+const DOCS = join(ROOT, 'docs');
+const docErrors = [];
+let docsChecked = 0;
+
+for (const file of readdirSync(DOCS).filter((f) => f.startsWith('component-') && f.endsWith('.html'))) {
+  const src = readFileSync(join(DOCS, file), 'utf8');
+  const css = [
+    ...[...src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]),
+    ...[...src.matchAll(/\sstyle="([^"]*)"/gi)].map((m) => m[1]),
+  ].join('\n');
+
+  const declared = new Set([...src.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]));
+  const seen = new Set();
+  // `var(--x, fallback)` still renders without --x, so only the bare form counts.
+  for (const [, name, next] of css.matchAll(/var\((--[\w-]+)\s*(,?)/g)) {
+    if (next === ',' || declared.has(name) || seen.has(name)) continue;
+    seen.add(name);
+    docErrors.push({ file, name });
+  }
+  docsChecked++;
+}
+
+if (docErrors.length) {
+  console.error(`\n\x1b[31m✖  ${docErrors.length} variable${docErrors.length > 1 ? 's' : ''} used in a docs page's CSS but never declared there\x1b[0m\n`);
+  const byFile = new Map();
+  for (const e of docErrors) (byFile.get(e.file) ?? byFile.set(e.file, []).get(e.file)).push(e.name);
+  for (const [file, names] of byFile) {
+    console.error(`    \x1b[1mdocs/${file}\x1b[0m`);
+    for (const n of names) console.error(`      \x1b[31m✖\x1b[0m ${n}`);
+  }
+  console.error(`\n  These pages carry their own :root — add the token there with the same value`);
+  console.error(`  it has in tailwind/tokens.css, or the property using it is dropped outright.\n`);
+  process.exit(1);
+}
+
+console.log(`\n\x1b[32m✔  All ${used.size} component variables resolve in ${basename(compiledPath)}\x1b[0m`);
+console.log(`\x1b[32m✔  ${docsChecked} docs pages declare every variable their CSS uses\x1b[0m\n`);
