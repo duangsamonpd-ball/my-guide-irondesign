@@ -506,7 +506,7 @@
   --shadow-focus-blue:    0 0 0 3px rgba(42, 149, 213, 0.25);  /* Focus ring — primary */
   --shadow-focus-teal:    0 0 0 3px rgba(99, 193, 160, 0.25);  /* Focus ring — secondary */
   --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);   /* Focus ring — destructive */
-  --shadow-tooltip:       0 4px 16px 0 rgba(0, 0, 0, 0.25);    /* Tooltip drop shadow */
+  --shadow-tooltip:       0 4px 8px 0 rgba(0, 0, 0, 0.25);     /* Tooltip drop shadow — Figma blur is 8, not 16 */
   --focus-ring-blue:      0 0 0 3px rgba(38, 147, 236, 0.25);  /* Focus ring — Button secondary/outline/ondark (iron-blue-500 @25%) */
   --focus-ring-white:     0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
 

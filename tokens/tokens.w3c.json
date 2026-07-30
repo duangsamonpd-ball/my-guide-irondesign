@@ -573,6 +573,14 @@
       },
       "$type": "shadow"
     },
+    "tooltip": {
+      "$value": {
+        "offsetX": 0, "offsetY": 4, "blur": 8, "spread": 0,
+        "color": "rgba(0, 0, 0, 0.25)"
+      },
+      "$type": "shadow",
+      "$description": "Tooltip drop shadow — Figma Tooltip set (615:12354)"
+    },
     "focus-magenta": {
       "$value": {
         "offsetX": 0, "offsetY": 0, "blur": 0, "spread": 3,

@@ -472,7 +472,7 @@
   --shadow-focus-blue: 0 0 0 3px rgba(42, 149, 213, 0.25); /* Focus ring — primary */
   --shadow-focus-teal: 0 0 0 3px rgba(99, 193, 160, 0.25); /* Focus ring — secondary */
   --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25); /* Focus ring — destructive */
-  --shadow-tooltip: 0 4px 16px 0 rgba(0, 0, 0, 0.25); /* Tooltip drop shadow */
+  --shadow-tooltip: 0 4px 8px 0 rgba(0, 0, 0, 0.25); /* Tooltip drop shadow — Figma blur is 8, not 16 */
   --blur-none: 0px;                           /* Figma 0 */
   --blur-xs: 2px;                             /* Figma 4 */
   --blur-sm: 4px;                             /* Figma 8 */

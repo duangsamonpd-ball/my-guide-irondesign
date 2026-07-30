@@ -26,11 +26,14 @@ const arrowFor = { above: 'arrow-bottom', below: 'arrow-top', left: 'arrow-right
 // Unique per instance so aria-describedby ties the trigger to this bubble even
 // when several tooltips render on the same page.
 const ttId = `tt-${randomUUID().slice(0, 8)}`;
+// Figma centres a plain tooltip but left-aligns the one carrying a link, so the
+// alignment follows the link rather than being a prop of its own.
+const hasLink = Boolean(linkHref && linkText);
 ---
 
 <span class:list={['tt', 'show-on-hover', className]} tabindex="0" aria-describedby={ttId}>
   <slot />
-  <span id={ttId} role="tooltip" class:list={['tt-bubble', placement, { max: maxWidth }]}>
+  <span id={ttId} role="tooltip" class:list={['tt-bubble', placement, { max: maxWidth, 'has-link': hasLink }]}>
     <span class:list={['tt-arrow', arrowFor[placement]]}></span>
     <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
     <span class="tt-content">
@@ -45,7 +48,8 @@ const ttId = `tt-${randomUUID().slice(0, 8)}`;
 
 <style>
   .tt { position: relative; display: inline-block; }
-  .tt-bubble { position: absolute; width: 200px; display: none; flex-direction: column; z-index: 20; text-align: left; }
+  .tt-bubble { position: absolute; width: 200px; display: none; flex-direction: column; z-index: 20; text-align: center; }
+  .tt-bubble.has-link { text-align: left; }
   .tt-bubble.js-open { display: flex; }
   .tt-bubble.max { width: 350px; }
   .tt-bubble.above { bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
@@ -54,10 +58,13 @@ const ttId = `tt-${randomUUID().slice(0, 8)}`;
   .tt-bubble.left  { right: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
   /* .tt-content is separate from .tt-bubble so overflow:hidden (needed to clip the
      title bar's square corners) doesn't also clip the arrow poking out of .tt-bubble */
-  .tt-content { background: var(--neutral-800); border-radius: var(--rounded-sm); box-shadow: var(--shadow-tooltip); overflow: hidden; display: flex; flex-direction: column; }
-  .tt-title { padding: 8px 16px; font-size: 14px; font-weight: 700; color: var(--color-text-on-color-heading); background: var(--neutral-950); line-height: 1.3; }
-  .tt-body { padding: 12px 16px 16px; font-size: 12px; font-weight: 400; color: var(--color-text-on-color-body); line-height: 1.5; }
-  .tt-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--color-secondary); text-decoration: none; padding: 0 16px 12px; transition: color .15s; }
+  .tt-content { background: var(--neutral-800); border: var(--border-width-1) solid var(--neutral-950); border-radius: var(--rounded-md); box-shadow: var(--shadow-tooltip); overflow: hidden; display: flex; flex-direction: column; }
+  /* Figma types the link as `Typography/UI/Button small` outright — semibold with
+     wide tracking — and gives the title the same 600, so both borrow --fw-btn-sm
+     rather than earning a weight token of their own. */
+  .tt-title { padding: var(--spacing-xs) var(--spacing-md); font-size: var(--font-size-sm); font-weight: var(--fw-btn-sm); color: var(--color-text-on-color-heading); background: var(--neutral-950); line-height: var(--leading-5); }
+  .tt-body { padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md); font-size: var(--font-size-xs); font-weight: 400; color: var(--color-text-on-color-body); line-height: var(--leading-5); }
+  .tt-link { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-btn-sm); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-secondary); text-decoration: none; padding: 0 var(--spacing-md) var(--spacing-sm); transition: color .15s; }
   .tt-link:hover, .tt-link:focus-visible { color: var(--color-primary); }
   .tt-arrow { position: absolute; width: 0; height: 0; z-index: 1; }
   .tt-arrow.arrow-bottom { left: 50%; transform: translateX(-50%); bottom: -6px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid var(--neutral-950); }

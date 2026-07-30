@@ -196,7 +196,7 @@ for (const [family, prefix, norm] of [['borderWidth', 'border-width', px], ['opa
     keys.add(k);
     compare({ family: 'shadow', token: k, expected: v.$value, names: `shadow-${k}`, normalise: shadow });
   }
-  flagExtras('shadow', 'shadow', keys, { skip: (k) => k === 'tooltip' });
+  flagExtras('shadow', 'shadow', keys);
 }
 
 // sizing — names diverge from the w3c keys, but match each other across layers
