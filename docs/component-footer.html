@@ -19,6 +19,8 @@
       --button-tertiary:#171717;                 /* button/tertiary — neutral/900 (solid dark CTA, both modes) */
       --button-tertiary-hover:#E01A59;           /* button/tertiary-hover — button/primary (black → pink) */
       --accent-sky:#89D3DF; --accent-green:#63C1A0; --accent-orange:#FDA509;
+      /* brand primitives — the product-list accents reference these directly */
+      --iron-pink-500:#E01A59; --iron-sky-500:#89D3DF; --iron-green-500:#63C1A0; --iron-orange-500:#FDA509;
       --footer-bg-2:#171717;
       --r-full:9999px;
       --space-micro:4px; --space-xs:8px; --space-sm:12px; --space-md:16px; --space-lg:20px; --space-xl:24px; --space-2xl:32px; --space-3xl:48px; --space-4xl:64px; --space-hero:80px;
@@ -230,44 +232,163 @@
 
       <div class="var-label">Suite &nbsp;<small>Property 1=Suite — homepage &amp; generic landing pages</small></div>
       <div class="fp-card">
-        <div class="footer-top"><div class="ft-inner">
-          <div class="ft-left">
-            <div class="ft-donate">Every Iron Suite Donates <img src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet"></div>
-            <div class="ft-main">
-              <div class="ft-text">
-                <div class="f-suite-logo"><img src="assets/hash-white%20color.svg" alt=""><span><span style="color:var(--on-color);font-weight:700">IRON</span><span style="color:var(--primary);font-weight:400">SUITE</span></span></div>
-                <p class="ft-tagline"><span style="color:var(--on-color-dim)">10 .NET API products</span><span style="color:var(--on-color-support)"> for your office documents</span></p>
-              </div>
-              <div class="ft-actions">
-                <a href="#" class="btn btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
-                <a href="#" class="btn-text-light"><svg class="key-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg> Start Free Trial <span class="arr">→</span></a>
+        <!-- demo:suite -->
+        <div class="footer-top">
+          <div class="ft-inner">
+            <div class="ft-left">
+              <div class="ft-donate">Every Iron Suite Donates <img src="assets/1% logo - Horizontal.png" alt="1% For The Planet"></div>
+              <div class="ft-main">
+                <div class="ft-text">
+                  <div class="f-suite-logo">
+                    <img src="assets/hash-white color.svg" alt="">
+                    <span><span class="hl">IRON</span><span class="ac">SUITE</span></span>
+                  </div>
+                  <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
+                </div>
+                <div class="ft-actions">
+                  <a href="#" class="btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
+                  <a href="#" class="btn-text-light"><svg class="key-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg> Start Free Trial <span class="arr">→</span></a>
+                </div>
               </div>
             </div>
+            <div class="ft-divider"></div>
+            <div class="ft-right">
+              <ul class="f-products">
+                <li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-pink-500)">PDF</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Create, read, and edit PDFs. HTML to PDF for .NET.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-sky-500)">WORD</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Edit DOCX Word Files. No Office Interop required.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">XL</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Edit Excel &amp; CSV files. No Office Interop required.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-pink-500)">PTT</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Edit Powerpoint files. No Office Interop required.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-sky-500)">OCR</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">OCR (extract text from images) in 127 languages.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">BARCODE</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Read and write QR &amp; Barcodes.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">QR</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Read and write QR codes.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">ZIP</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Zip and unzip archives.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">PRINT</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Print documents in .NET applications.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">WEBSCRAPER</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Scrape structured data from websites.</span>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="ft-divider"></div>
-          <div class="ft-right"><ul class="f-products" id="plist-a"></ul></div>
-        </div></div>
+        </div>
+        <!-- /demo:suite -->
       </div>
 
       <div class="var-label" style="margin-top:32px;">Default &nbsp;<small>Property 1=Default — individual product pages (cross-sell)</small></div>
       <div class="fp-card">
-        <div class="footer-top"><div class="ft-inner">
-          <div class="ft-left">
-            <div class="ft-donate">Every Iron Suite Donates <img src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet"></div>
-            <div class="ft-main">
-              <div class="ft-text">
-                <div class="ft-headline">IronPDF is a part of <span style="color:var(--on-color);font-weight:700">IRON</span><span style="color:var(--primary);font-weight:400">SUITE</span></div>
-                <p class="ft-tagline"><span style="color:var(--on-color-dim)">10 .NET API products</span><span style="color:var(--on-color-support)"> for your office documents</span></p>
-              </div>
-              <div class="ft-actions">
-                <a href="#" class="btn btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
-                <a href="#" class="btn-text-light"><svg class="key-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg> Start Free Trial <span class="arr">→</span></a>
+        <!-- demo:default -->
+        <div class="footer-top">
+          <div class="ft-inner">
+            <div class="ft-left">
+              <div class="ft-donate">Every Iron Suite Donates <img src="assets/1% logo - Horizontal.png" alt="1% For The Planet"></div>
+              <div class="ft-main">
+                <div class="ft-text">
+                  <div class="ft-headline">IronPDF is a part of <span class="hl">IRON</span><span class="ac">SUITE</span></div>
+                  <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
+                </div>
+                <div class="ft-actions">
+                  <a href="#" class="btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
+                  <a href="#" class="btn-text-light"><svg class="key-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg> Start Free Trial <span class="arr">→</span></a>
+                </div>
               </div>
             </div>
+            <div class="ft-divider"></div>
+            <div class="ft-right">
+              <ul class="f-products">
+                <li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-pink-500)">PDF</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Create, read, and edit PDFs. HTML to PDF for .NET.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-sky-500)">WORD</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Edit DOCX Word Files. No Office Interop required.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">XL</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Edit Excel &amp; CSV files. No Office Interop required.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-pink-500)">PTT</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Edit Powerpoint files. No Office Interop required.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-sky-500)">OCR</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">OCR (extract text from images) in 127 languages.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">BARCODE</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Read and write QR &amp; Barcodes.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">QR</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Read and write QR codes.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">ZIP</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Zip and unzip archives.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">PRINT</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Print documents in .NET applications.</span>
+                </li><li class="fp-row">
+                  <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
+                  <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">WEBSCRAPER</span></span>
+                  <span class="fp-sep">-</span>
+                  <span class="fp-desc">Scrape structured data from websites.</span>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="ft-divider"></div>
-          <div class="ft-right"><ul class="f-products" id="plist-b"></ul></div>
-        </div></div>
+        </div>
+        <!-- /demo:default -->
       </div>
     </div>
 
@@ -389,21 +510,6 @@
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 <script>
-  const PRODUCTS=[
-    ['PDF','var(--primary)','Create, read, and edit PDFs. HTML to PDF for .NET.'],
-    ['WORD','var(--accent-sky)','Edit DOCX Word Files. No Office Interop required.'],
-    ['XL','var(--accent-green)','Edit Excel &amp; CSV files. No Office Interop required.'],
-    ['PTT','var(--primary)','Edit Powerpoint files. No Office Interop required.'],
-    ['OCR','var(--accent-sky)','OCR (extract text from images) in 127 languages.'],
-    ['BARCODE','var(--accent-green)','Read and write QR &amp; Barcodes.'],
-    ['QR','var(--accent-green)','Read and write QR codes.'],
-    ['ZIP','var(--accent-orange)','Zip and unzip archives.'],
-    ['PRINT','var(--accent-orange)','Print documents in .NET applications.'],
-    ['WEBSCRAPER','var(--accent-orange)','Scrape structured data from websites.'],
-  ];
-  function rows(){return PRODUCTS.map(p=>`<li class="fp-row"><span class="fp-logo"><img src="assets/logo.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:${p[1]}">${p[0]}</span></span><span class="fp-sep">-</span><span class="fp-desc">${p[2]}</span></li>`).join('');}
-  document.getElementById('plist-a').innerHTML=rows();
-  document.getElementById('plist-b').innerHTML=rows();
   function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
   function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});

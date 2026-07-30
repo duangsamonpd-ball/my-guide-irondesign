@@ -120,6 +120,7 @@ Preview and hand-written illustrations below it.
 | Badge | 7 — preview, colours, subtle-solid, dark, variants, do, dont |
 | TopNav | 3 — default, transparent, trimmed |
 | ProductMenu | 2 — default, submenu |
+| Footer | 2 — suite, default |
 | Select | 1 — preview |
 | Tooltip | 1 — preview |
 
@@ -130,7 +131,17 @@ missed one. Every region on that page is a complete component instance, so all
 three are generated and `check:render` now fails the moment the docs and the
 component disagree.
 
-The remaining 12 components still have hand-written demo markup and are not
+Footer was the one that turned up a live defect rather than a stale copy. Its
+docs demo left two `<ul id="plist-a|b">` empty and filled them from a script in
+the page, so the product rows were never really the component's output — and the
+surrounding markup had drifted to inline styles where the component uses classes
+(`hl`, `ac`, `dim`, `support`) and to a `btn btn-dark` pair where the component
+emits `btn-dark` alone. Generating the regions removes those ids, which would
+have left `document.getElementById('plist-a').innerHTML =` throwing on an
+unchecked null and taking the rest of the page's JS down with it, so that script
+is deleted.
+
+The remaining 11 components still have hand-written demo markup and are not
 covered by `check:render`; each needs a `src/pages/demos/<name>.astro` and
 sentinels added to its docs page.
 

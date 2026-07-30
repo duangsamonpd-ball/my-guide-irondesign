@@ -1,0 +1,45 @@
+---
+/**
+ * Demo source for docs/component-footer.html.
+ *
+ * The two variant regions are generated. The "Product hover" pair below them is
+ * not: those are single `.fp-row` list items, one carrying an `is-hover` class
+ * the component never renders, so they are an isolated-part illustration in the
+ * same category as Select's states grid.
+ *
+ * The product list was previously built client-side by a script in the docs page
+ * that filled two empty `<ul id="plist-a|b">` elements. That script is gone —
+ * the component renders these rows server-side, so the ids it reached for no
+ * longer exist, and it would have overwritten the generated markup on load.
+ *
+ * `accent` takes real brand primitives here rather than the docs page's local
+ * --primary / --accent-* aliases. Same hex, but it is what the component's own
+ * prop documentation asks for.
+ */
+import { Footer } from '@iron-software/astro-components';
+
+const products = [
+  { prefix: 'IRON', suffix: 'PDF', accent: 'var(--iron-pink-500)', desc: 'Create, read, and edit PDFs. HTML to PDF for .NET.' },
+  { prefix: 'IRON', suffix: 'WORD', accent: 'var(--iron-sky-500)', desc: 'Edit DOCX Word Files. No Office Interop required.' },
+  { prefix: 'IRON', suffix: 'XL', accent: 'var(--iron-green-500)', desc: 'Edit Excel & CSV files. No Office Interop required.' },
+  { prefix: 'IRON', suffix: 'PTT', accent: 'var(--iron-pink-500)', desc: 'Edit Powerpoint files. No Office Interop required.' },
+  { prefix: 'IRON', suffix: 'OCR', accent: 'var(--iron-sky-500)', desc: 'OCR (extract text from images) in 127 languages.' },
+  { prefix: 'IRON', suffix: 'BARCODE', accent: 'var(--iron-green-500)', desc: 'Read and write QR & Barcodes.' },
+  { prefix: 'IRON', suffix: 'QR', accent: 'var(--iron-green-500)', desc: 'Read and write QR codes.' },
+  { prefix: 'IRON', suffix: 'ZIP', accent: 'var(--iron-orange-500)', desc: 'Zip and unzip archives.' },
+  { prefix: 'IRON', suffix: 'PRINT', accent: 'var(--iron-orange-500)', desc: 'Print documents in .NET applications.' },
+  { prefix: 'IRON', suffix: 'WEBSCRAPER', accent: 'var(--iron-orange-500)', desc: 'Scrape structured data from websites.' },
+];
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="suite">
+      <Footer variant="suite" products={products} />
+    </div>
+
+    <div data-demo="default">
+      <Footer variant="default" productName="IronPDF" products={products} />
+    </div>
+  </body>
+</html>
