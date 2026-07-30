@@ -7,3 +7,8 @@ design-refs/
 
 # per-machine Claude Code overrides — .claude/launch.json IS committed, this isn't
 .claude/settings.local.json
+
+# playground build artefacts — the GENERATED markup it produces lands in docs/
+# and is committed; the render itself is disposable.
+playground/dist/
+playground/.astro/

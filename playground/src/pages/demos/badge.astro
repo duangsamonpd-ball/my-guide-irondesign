@@ -1,0 +1,104 @@
+---
+/**
+ * Demo source for docs/component-badge.html.
+ *
+ * Every `data-demo="…"` region below is rendered by `astro build`, extracted by
+ * scripts/build-demos.mjs and written into the matching
+ * `<!-- demo:… -->` … `<!-- /demo:… -->` sentinels in the docs page. The docs
+ * markup is therefore generated, never hand-typed — that is the whole point.
+ *
+ * Regions deliberately NOT covered here (still hand-written in the docs page):
+ *   · Anatomy — the badge there is distorted on purpose with an inline
+ *     font-size/padding override, which is not a prop the component accepts.
+ *   · Token Reference table — documentation prose, not a usage demo.
+ *   · The Code pane — a syntax-highlighted snippet, a separate concern.
+ *
+ * Docs-only layout chrome (.cell, .lbl, the flex rows) lives inside the regions
+ * so the whole region is generated as one unit.
+ */
+import { Badge } from '@iron-software/astro-components';
+
+const intents = ['success', 'warning', 'danger', 'info', 'important', 'neutral'] as const;
+
+const colourNotes: Record<(typeof intents)[number], [string, string]> = {
+  success: ['Success', 'positive / done'],
+  warning: ['Warning', 'caution'],
+  danger: ['Danger', 'error / failed'],
+  info: ['Info', 'neutral note'],
+  important: ['Important', 'needs attention'],
+  neutral: ['Neutral', 'default'],
+};
+
+const previewLabels: Record<(typeof intents)[number], string> = {
+  success: 'Active',
+  warning: 'Pending',
+  danger: 'Failed',
+  info: 'Beta',
+  important: 'Important',
+  neutral: 'Draft',
+};
+
+const rowStyle = 'display:flex;gap:10px;flex-wrap:wrap;align-items:center;';
+const rowLabelStyle = 'font-size:0.66rem;font-weight:700;color:#A1A1A1;width:46px;';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      {intents.map((intent) => (
+        <Badge intent={intent} dot={intent === 'success'}>{previewLabels[intent]}</Badge>
+      ))}
+    </div>
+
+    <div data-demo="colours">
+      {intents.map((intent) => (
+        <div class="cell">
+          <Badge intent={intent}>{colourNotes[intent][0]}</Badge>
+          <div class="lbl">{colourNotes[intent][0]}<small>{colourNotes[intent][1]}</small></div>
+        </div>
+      ))}
+    </div>
+
+    <div data-demo="subtle-solid">
+      <div style={rowStyle}>
+        <span style={rowLabelStyle}>Subtle</span>
+        {intents.map((intent) => <Badge intent={intent}>{previewLabels[intent]}</Badge>)}
+      </div>
+      <div style={rowStyle}>
+        <span style={rowLabelStyle}>Solid</span>
+        {intents.map((intent) => <Badge intent={intent} solid>{previewLabels[intent]}</Badge>)}
+      </div>
+    </div>
+
+    <div data-demo="dark">
+      {intents.map((intent) => (
+        <Badge intent={intent} dot={intent === 'success'}>{previewLabels[intent]}</Badge>
+      ))}
+    </div>
+
+    <div data-demo="variants">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <Badge intent="success" dot>Online</Badge>
+        <Badge intent="neutral" dot>Offline</Badge>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <Badge intent="info">Default</Badge>
+        <Badge intent="info" small>Small</Badge>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <Badge intent="warning">Squared</Badge>
+        <Badge intent="warning" pill>Pill</Badge>
+      </div>
+    </div>
+
+    <div data-demo="do">
+      <Badge intent="success">Paid</Badge>
+      <Badge intent="warning">Overdue</Badge>
+      <Badge intent="neutral">Archived</Badge>
+    </div>
+
+    <div data-demo="dont">
+      <Badge intent="danger" solid>Click here to retry now</Badge>
+    </div>
+  </body>
+</html>

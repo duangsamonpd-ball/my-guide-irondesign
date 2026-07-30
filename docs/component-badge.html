@@ -203,55 +203,157 @@
 
     <div class="sect"><div class="sect-h">Preview</div>
       <div class="canvas">
-        <span class="badge badge--success"><span class="bdot"></span>Active</span>
-        <span class="badge badge--warning">Pending</span>
-        <span class="badge badge--danger">Failed</span>
-        <span class="badge badge--info">Beta</span>
-        <span class="badge badge--important">Important</span>
-        <span class="badge badge--neutral">Draft</span>
+        <!-- demo:preview -->
+        <span class="badge badge--success">
+          <span class="bdot"></span>
+          Active
+        </span><span class="badge badge--warning">
+          Pending
+        </span><span class="badge badge--danger">
+          Failed
+        </span><span class="badge badge--info">
+          Beta
+        </span><span class="badge badge--important">
+          Important
+        </span><span class="badge badge--neutral">
+          Draft
+        </span>
+        <!-- /demo:preview -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Colours</div>
       <div class="sect-sub">Each colour carries meaning — pick by intent, not by look.</div>
       <div class="grid">
-        <div class="cell"><span class="badge badge--success">Success</span><div class="lbl">Success<small>positive / done</small></div></div>
-        <div class="cell"><span class="badge badge--warning">Warning</span><div class="lbl">Warning<small>caution</small></div></div>
-        <div class="cell"><span class="badge badge--danger">Danger</span><div class="lbl">Danger<small>error / failed</small></div></div>
-        <div class="cell"><span class="badge badge--info">Info</span><div class="lbl">Info<small>neutral note</small></div></div>
-        <div class="cell"><span class="badge badge--important">Important</span><div class="lbl">Important<small>needs attention</small></div></div>
-        <div class="cell"><span class="badge badge--neutral">Neutral</span><div class="lbl">Neutral<small>default</small></div></div>
+        <!-- demo:colours -->
+        <div class="cell">
+          <span class="badge badge--success">
+            Success
+          </span>
+          <div class="lbl">Success<small>positive / done</small></div>
+        </div><div class="cell">
+          <span class="badge badge--warning">
+            Warning
+          </span>
+          <div class="lbl">Warning<small>caution</small></div>
+        </div><div class="cell">
+          <span class="badge badge--danger">
+            Danger
+          </span>
+          <div class="lbl">Danger<small>error / failed</small></div>
+        </div><div class="cell">
+          <span class="badge badge--info">
+            Info
+          </span>
+          <div class="lbl">Info<small>neutral note</small></div>
+        </div><div class="cell">
+          <span class="badge badge--important">
+            Important
+          </span>
+          <div class="lbl">Important<small>needs attention</small></div>
+        </div><div class="cell">
+          <span class="badge badge--neutral">
+            Neutral
+          </span>
+          <div class="lbl">Neutral<small>default</small></div>
+        </div>
+        <!-- /demo:colours -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Subtle vs Solid</div>
       <div class="sect-sub">Subtle (tinted background) is the default for in-page status. Solid is for higher emphasis — use sparingly.</div>
       <div class="canvas left" style="gap:24px;">
-        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"><span style="font-size:0.66rem;font-weight:700;color:#A1A1A1;width:46px;">Subtle</span>
-          <span class="badge badge--success">Active</span><span class="badge badge--warning">Pending</span><span class="badge badge--danger">Failed</span><span class="badge badge--info">Beta</span><span class="badge badge--important">Important</span><span class="badge badge--neutral">Draft</span></div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"><span style="font-size:0.66rem;font-weight:700;color:#A1A1A1;width:46px;">Solid</span>
-          <span class="badge solid badge--success">Active</span><span class="badge solid badge--warning">Pending</span><span class="badge solid badge--danger">Failed</span><span class="badge solid badge--info">Beta</span><span class="badge solid badge--important">Important</span><span class="badge solid badge--neutral">Draft</span></div>
+        <!-- demo:subtle-solid -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:0.66rem;font-weight:700;color:#A1A1A1;width:46px;">Subtle</span>
+          <span class="badge badge--success">
+            Active
+          </span><span class="badge badge--warning">
+            Pending
+          </span><span class="badge badge--danger">
+            Failed
+          </span><span class="badge badge--info">
+            Beta
+          </span><span class="badge badge--important">
+            Important
+          </span><span class="badge badge--neutral">
+            Draft
+          </span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:0.66rem;font-weight:700;color:#A1A1A1;width:46px;">Solid</span>
+          <span class="badge badge--success solid">
+            Active
+          </span><span class="badge badge--warning solid">
+            Pending
+          </span><span class="badge badge--danger solid">
+            Failed
+          </span><span class="badge badge--info solid">
+            Beta
+          </span><span class="badge badge--important solid">
+            Important
+          </span><span class="badge badge--neutral solid">
+            Draft
+          </span>
+        </div>
+        <!-- /demo:subtle-solid -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">Dark mode</div>
       <div class="sect-sub">On dark backgrounds (footers, dark hero sections), put the badge inside a <code>.dark</code> ancestor — the semantic subtle/strong tokens swap to the Dark Purple pair automatically, no per-badge class.</div>
       <div class="canvas left dark" style="gap:10px; background:#171717; background-image:none;">
-        <span class="badge badge--success"><span class="bdot"></span>Active</span>
-        <span class="badge badge--warning">Pending</span>
-        <span class="badge badge--danger">Failed</span>
-        <span class="badge badge--info">Beta</span>
-        <span class="badge badge--important">Important</span>
-        <span class="badge badge--neutral">Draft</span>
+        <!-- demo:dark -->
+        <span class="badge badge--success">
+          <span class="bdot"></span>
+          Active
+        </span><span class="badge badge--warning">
+          Pending
+        </span><span class="badge badge--danger">
+          Failed
+        </span><span class="badge badge--info">
+          Beta
+        </span><span class="badge badge--important">
+          Important
+        </span><span class="badge badge--neutral">
+          Draft
+        </span>
+        <!-- /demo:dark -->
       </div>
     </div>
 
     <div class="sect"><div class="sect-h">With dot · sizes · shape</div>
       <div class="sect-sub">A leading status dot, two sizes, and a pill variant for a softer look.</div>
       <div class="canvas left" style="gap:24px;">
-        <div style="display:flex;gap:10px;align-items:center;"><span class="badge badge--success"><span class="bdot"></span>Online</span><span class="badge badge--neutral"><span class="bdot"></span>Offline</span></div>
-        <div style="display:flex;gap:10px;align-items:center;"><span class="badge badge--info">Default</span><span class="badge badge--info sm">Small</span></div>
-        <div style="display:flex;gap:10px;align-items:center;"><span class="badge badge--warning">Squared</span><span class="badge badge--warning pill">Pill</span></div>
+        <!-- demo:variants -->
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span class="badge badge--success">
+            <span class="bdot"></span>
+            Online
+          </span>
+          <span class="badge badge--neutral">
+            <span class="bdot"></span>
+            Offline
+          </span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span class="badge badge--info">
+            Default
+          </span>
+          <span class="badge badge--info sm">
+            Small
+          </span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span class="badge badge--warning">
+            Squared
+          </span>
+          <span class="badge badge--warning pill">
+            Pill
+          </span>
+        </div>
+        <!-- /demo:variants -->
       </div>
     </div>
 
@@ -327,9 +429,27 @@
 
     <div class="sect"><div class="sect-h">Guidelines</div>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><span class="badge badge--success">Paid</span><span class="badge badge--warning">Overdue</span><span class="badge badge--neutral">Archived</span></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body">
+          <!-- demo:do -->
+          <span class="badge badge--success">
+            Paid
+          </span>
+          <span class="badge badge--warning">
+            Overdue
+          </span>
+          <span class="badge badge--neutral">
+            Archived
+          </span>
+          <!-- /demo:do -->
+        </div>
           <ul><li>Match colour to <b>meaning</b> (green = good, red = error).</li><li>Keep labels to 1–2 words.</li><li>Use subtle by default; reserve solid for emphasis.</li><li>Use <code>.dark</code> on dark backgrounds instead of the light-mode subtle fill.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><span class="badge solid badge--danger">Click here to retry now</span></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body">
+          <!-- demo:dont -->
+          <span class="badge badge--danger solid">
+            Click here to retry now
+          </span>
+          <!-- /demo:dont -->
+        </div>
           <ul><li>Don't make badges clickable — that's a Button or link.</li><li>Don't write sentences inside a badge.</li><li>Don't pick colours for looks; pick by intent token.</li></ul></div>
       </div>
     </div>

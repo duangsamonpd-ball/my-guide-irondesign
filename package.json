@@ -4,6 +4,11 @@
   "private": true,
   "description": "Iron Software Design System — tokens, Tailwind theme and Astro components",
   "//": "No \"type\": \"module\" on purpose — tailwind.config.js is CommonJS and the checker loads it with require(). The checker itself is .mjs, so it is ESM regardless.",
+  "//workspaces": "The playground is a real Astro app used only to RENDER components so docs demo markup can be generated instead of hand-written. npm workspaces cannot link the root package to its own workspaces, so playground depends on it as \"file:..\" — see playground/README.md.",
+  "workspaces": [
+    "astro-components",
+    "playground"
+  ],
   "scripts": {
     "build:theme": "node scripts/build-theme.mjs",
     "check:theme": "node scripts/build-theme.mjs --check",
@@ -11,7 +16,9 @@
     "check:parity": "node scripts/check-component-parity.mjs",
     "check:exports": "node scripts/check-exports.mjs",
     "check:vars": "tailwindcss -i tailwind/theme.css -o node_modules/.tmp/theme.compiled.css && node scripts/check-component-vars.mjs node_modules/.tmp/theme.compiled.css",
-    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars"
+    "build:demos": "node scripts/build-demos.mjs",
+    "check:render": "node scripts/build-demos.mjs --check",
+    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:render"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",

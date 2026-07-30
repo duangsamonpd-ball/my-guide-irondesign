@@ -1,0 +1,16 @@
+{
+  "name": "@iron-software/playground",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Renders the design-system components so docs demo markup can be generated, not hand-written",
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev"
+  },
+  "dependencies": {
+    "@iron-software/astro-components": "*",
+    "@iron-software/design-system": "file:..",
+    "astro": "^7.1.6"
+  }
+}

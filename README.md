@@ -322,10 +322,10 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 `tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check          # all five gates
+npm run check          # all six gates
 ```
 
-Zero dependencies — plain Node. Five gates run in order, and any one of them fails the build:
+Six gates run in order, and any one of them fails the build:
 
 | Gate | Asserts |
 |---|---|
@@ -334,6 +334,9 @@ Zero dependencies — plain Node. Five gates run in order, and any one of them f
 | `check:parity` | every CSS rule in a component's `<style>` also appears in its `docs/component-*.html` page |
 | `check:exports` | every component is in the barrel, and every `exports` map target resolves |
 | `check:vars` | every `var(--…)` a component reads still resolves once Tailwind has compiled the theme |
+| `check:render` | the demo **markup** in the docs pages still matches what the components actually render |
+
+The first five are plain Node with no dependencies. `check:render` is the exception: it builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
 
 Token coverage spans colors, spacing, radius, shadows, blur, opacity, sizing, the semantic type scale and breakpoints.
 
@@ -352,7 +355,26 @@ npm run check:theme    # fails if it is out of date
 
 **Fix the generated layer, not the source** — unless the design genuinely changed in Figma, in which case update `tokens.w3c.json` first and propagate outward.
 
-CI runs the first four gates on every push and PR, and in a second job compiles `theme.css` with real Tailwind v4 so `check:vars` runs against a genuinely compiled stylesheet ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
+CI runs the first four gates on every push and PR, compiles `theme.css` with real Tailwind v4 in a second job so `check:vars` runs against a genuinely compiled stylesheet, and renders the components with Astro in a third so `check:render` can compare real markup ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
+
+### Generated demo markup
+
+The demo markup inside `docs/component-*.html` is **generated, not hand-typed**. Each region sits between sentinels:
+
+```html
+<!-- demo:preview -->
+…generated from the real component…
+<!-- /demo:preview -->
+```
+
+The source is `playground/src/pages/demos/<name>.astro`, which renders real components inside `<div data-demo="…">` wrappers. After changing a component or its demo:
+
+```bash
+npm run build:demos    # re-render and rewrite the docs pages
+npm run check:render   # fails if they are out of date
+```
+
+Edit the playground page, never the markup between the sentinels — the next `build:demos` overwrites it. See [`playground/README.md`](playground/README.md) for what the generator normalises and which regions are deliberately left hand-written.
 
 ### Deploy
 

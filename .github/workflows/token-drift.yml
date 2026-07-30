@@ -57,3 +57,23 @@ jobs:
 
       - name: Every component variable must resolve
         run: node scripts/check-component-vars.mjs /tmp/out.css
+
+  # The only job that needs a real install: it renders the components with Astro
+  # and asserts the docs demo markup still matches. CSS parity above cannot see
+  # a DOM change — this is the gate that can.
+  render:
+    name: docs demo markup matches the rendered components
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install workspaces
+        run: npm ci
+
+      - name: Check demo markup is regenerated
+        run: node scripts/build-demos.mjs --check
