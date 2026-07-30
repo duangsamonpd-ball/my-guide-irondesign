@@ -176,6 +176,10 @@
     .code-wrap .code-pane.active{display:block;}
 
     .cbx input:focus-visible + .box { box-shadow: var(--shadow-focus-blue); }
+
+    /* Code sections are hidden for now — Ball's call, 2026-07-30.
+       Nothing is deleted: drop this one rule to bring them all back. */
+    .sect-code { display: none; }
 </style>
 </head>
 <body>
@@ -334,7 +338,7 @@
       </div>
 
       <!-- ── Code ── -->
-      <div class="sect">
+      <div class="sect sect-code">
         <div class="sect-h">Code</div>
         <div class="sect-sub">Copy-and-own — a native input + a styled box. Accessible and framework-free.</div>
         <div class="code-wrap">

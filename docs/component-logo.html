@@ -82,7 +82,11 @@
     .code-wrap .code-tabs .copy{position:static;margin-left:auto;top:auto;right:auto;}
     .code-wrap .code-pane{display:none;margin:0;border-radius:0 0 12px 12px;}
     .code-wrap .code-pane.active{display:block;}
-  </style>
+  
+    /* Code sections are hidden for now — Ball's call, 2026-07-30.
+       Nothing is deleted: drop this one rule to bring them all back. */
+    .sect-code { display: none; }
+</style>
 </head>
 <body>
 <header>
@@ -417,7 +421,7 @@
       </tbody></table>
     </div>
 
-    <div class="sect"><div class="sect-h">Code</div>
+    <div class="sect sect-code"><div class="sect-h">Code</div>
       <div class="code-wrap">
           <div class="code-tabs">
             <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>

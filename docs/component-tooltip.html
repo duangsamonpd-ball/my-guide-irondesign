@@ -119,6 +119,10 @@
         .tt-arrow.arrow-right  { top: 50%; transform: translateY(-50%); right: -6px; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 6px solid var(--neutral-950); }
 
     .tt-bubble.js-open { display: flex; }
+
+    /* Code sections are hidden for now — Ball's call, 2026-07-30.
+       Nothing is deleted: drop this one rule to bring them all back. */
+    .sect-code { display: none; }
 </style>
 </head>
 <body>
@@ -387,7 +391,7 @@
     </div>
 
     <!-- Code -->
-    <div class="sect"><div class="sect-h">Code</div>
+    <div class="sect sect-code"><div class="sect-h">Code</div>
       <div class="sect-sub">Copy-and-own — HTML markup, or the token-bound CSS. Show exactly one <code>.tt-arrow</code> per instance.</div>
       <div class="code-wrap">
         <div class="code-tabs">

@@ -233,6 +233,10 @@
     .btn--ondark:focus-visible    { box-shadow: var(--focus-ring-blue); }
     .btn--ghost:focus-visible     { border-color: var(--color-border-focused); }
     .btn[disabled], .btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
+
+    /* Code sections are hidden for now — Ball's call, 2026-07-30.
+       Nothing is deleted: drop this one rule to bring them all back. */
+    .sect-code { display: none; }
 </style>
 </head>
 <body>
@@ -417,7 +421,7 @@
       </div>
 
       <!-- ── Code ── -->
-      <div class="sect">
+      <div class="sect sect-code">
         <div class="sect-h">Code</div>
         <div class="sect-sub">Copy-and-own HTML — styling comes from the design-system tokens. No framework required.</div>
         <div class="code-wrap">

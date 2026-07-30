@@ -169,6 +169,10 @@
     .fp-row:hover .fp-logo img { opacity: 1; }
     .fp-row:hover .fp-sep { color: var(--color-text-on-color-heading); }
     .fp-row:hover .fp-desc { color: var(--color-text-on-color-body); }
+
+    /* Code sections are hidden for now — Ball's call, 2026-07-30.
+       Nothing is deleted: drop this one rule to bring them all back. */
+    .sect-code { display: none; }
 </style>
 </head>
 <body>
@@ -435,7 +439,7 @@
     </div>
 
     <!-- Code -->
-    <div class="sect">
+    <div class="sect sect-code">
       <div class="sect-h">Code</div>
       <div class="sect-sub">Copy-and-own — HTML markup, or the token-bound CSS. Product rows are the reusable <code>.fp-row</code>.</div>
       <div class="code-wrap">

@@ -124,6 +124,10 @@
     .dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
     .dropzone-text .size-label { font-size: 0.85rem; color: var(--color-text-support); }
     .dropzone.is-disabled .dropzone-input { cursor: not-allowed; }
+
+    /* Code sections are hidden for now — Ball's call, 2026-07-30.
+       Nothing is deleted: drop this one rule to bring them all back. */
+    .sect-code { display: none; }
 </style>
 </head>
 <body>
@@ -266,7 +270,7 @@
       </tbody></table>
     </div>
 
-    <div class="sect"><div class="sect-h">Code</div>
+    <div class="sect sect-code"><div class="sect-h">Code</div>
       <div class="code-wrap">
           <div class="code-tabs">
             <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>

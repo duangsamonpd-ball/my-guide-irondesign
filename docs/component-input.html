@@ -117,6 +117,10 @@
     .input.error:focus { box-shadow: var(--shadow-focus-magenta); }
     /* danger-coloured ring */
     .input:disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); cursor: not-allowed; }
+
+    /* Code sections are hidden for now — Ball's call, 2026-07-30.
+       Nothing is deleted: drop this one rule to bring them all back. */
+    .sect-code { display: none; }
 </style>
 </head>
 <body>
@@ -230,7 +234,7 @@
       </tbody></table>
     </div>
 
-    <div class="sect"><div class="sect-h">Code</div>
+    <div class="sect sect-code"><div class="sect-h">Code</div>
       <div class="code-wrap">
           <div class="code-tabs">
             <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
