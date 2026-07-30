@@ -1,0 +1,32 @@
+---
+/**
+ * Demo source for docs/component-formcard.html.
+ *
+ * Preview only. Anatomy overrides max-width inline, which is not a prop.
+ *
+ * The card takes its fields through a slot, so the demo composes real Input
+ * components rather than imitating their markup — which is what the docs page
+ * had been doing, and it had drifted: its labels carried no `for` and its inputs
+ * no `id`, so nothing tied the two together for a screen reader. Each Input is
+ * given a `name` so the id it derives is stable across builds.
+ */
+import { FormCard, Input } from '@iron-software/astro-components';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <FormCard
+        icon="quote"
+        title="Request Your Discounted Quote"
+        subtitle="Tell us what you're migrating from and we'll do the rest."
+        submitLabel="Get Your Migration Quote"
+        noteLeft="No obligation to proceed"
+        noteRight="Response within 1 business day"
+      >
+        <Input label="Full name" name="full-name" placeholder="Jane Cooper" required />
+        <Input label="Work email" name="work-email" type="email" placeholder="you@example.com" required />
+      </FormCard>
+    </div>
+  </body>
+</html>

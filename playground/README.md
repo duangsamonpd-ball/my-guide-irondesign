@@ -122,6 +122,8 @@ Preview and hand-written illustrations below it.
 | TopNav | 3 — default, transparent, trimmed |
 | ProductMenu | 2 — default, submenu |
 | Footer | 2 — suite, default |
+| TrialKeyCard | 1 — preview |
+| FormCard | 1 — preview |
 | Select | 1 — preview |
 | Tooltip | 1 — preview |
 
@@ -149,7 +151,14 @@ left the `="true"` behind and wrote malformed HTML into the page. The value is
 optional in the pattern now. It only surfaced because each migrated region is
 diffed against the markup it replaces — nothing else would have caught it.
 
-The remaining 10 components still have hand-written demo markup and are not
+FormCard is the first migration where the demo composed another component
+through a slot. Imitating Input's markup by hand had cost the docs a `for`/`id`
+pair, so no label was tied to its field, and the inputs had neither `name` nor
+`required` — while still printing the red asterisk that claims the field is
+mandatory. Passing a `name` to each Input also keeps the derived id stable
+between builds.
+
+The remaining 8 components still have hand-written demo markup and are not
 covered by `check:render`; each needs a `src/pages/demos/<name>.astro` and
 sentinels added to its docs page.
 

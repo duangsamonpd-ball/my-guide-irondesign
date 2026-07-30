@@ -1,0 +1,27 @@
+---
+/**
+ * Demo source for docs/component-trialkeycard.html.
+ *
+ * Only Preview is a whole component. The Icons row shows bare `.tc-icon` spans —
+ * one part of the card, not the card — and Anatomy and the Do/Don't pair both
+ * override padding and max-width inline, which are not props. All three stay
+ * hand-written, same rule as everywhere else.
+ */
+import { TrialKeyCard } from '@iron-software/astro-components';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <TrialKeyCard
+        icon="key"
+        headingBold="30-day Trial Key"
+        inputPlaceholder="Your Business Email*"
+        hint="Your trial license will be sent to this address"
+        submitLabel="Get my free trial key"
+        submitIcon="key"
+        footerNotes={['Free for development', 'Trial key in 60 seconds', 'No credit card']}
+      />
+    </div>
+  </body>
+</html>
