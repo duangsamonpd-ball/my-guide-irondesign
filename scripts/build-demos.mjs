@@ -132,7 +132,10 @@ function normalise(html) {
     return `\n__DEMO_SCRIPT_${scripts.length - 1}__\n`;
   });
 
-  out = out.replace(/\s+data-astro-cid-[a-z0-9]+(?==?)/g, '');
+  // Astro writes the scope marker bare on a static element but as `="true"` on a
+  // dynamic <Tag>, so the value has to be optional — matching only the name left
+  // a stray `="true"` behind and wrote malformed HTML into the docs.
+  out = out.replace(/\s+data-astro-cid-[a-z0-9]+(?:="[^"]*")?/g, '');
 
   const seen = new Map();
   out = out.replace(/\b([a-z]{2,10})-([0-9a-f]{8})\b/g, (whole, prefix) => {
