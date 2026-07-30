@@ -515,14 +515,18 @@
      6b. BLUR  (Figma / blur — glassmorphism surfaces, backdrops, overlays)
      ═══════════════════════════════════════════════════════════════════════════ */
 
-  --blur-none: 0px;
-  --blur-xs:   4px;
-  --blur-sm:   8px;
-  --blur-md:   12px;
-  --blur-lg:   16px;
-  --blur-xl:   24px;
-  --blur-2xl:  40px;
-  --blur-3xl:  64px;
+  /* CSS px, i.e. HALF the Figma radius — a Figma background blur of R renders
+     like a CSS blur of R/2, which Figma's own export confirms (Button ondark
+     binds blur/xs = 4 and converts to `blur(2px)`). The Figma radius each one
+     came from is on the right so nobody "corrects" these back. */
+  --blur-none: 0px;   /* Figma 0  */
+  --blur-xs:   2px;   /* Figma 4  */
+  --blur-sm:   4px;   /* Figma 8  */
+  --blur-md:   6px;   /* Figma 12 */
+  --blur-lg:   8px;   /* Figma 16 */
+  --blur-xl:   12px;  /* Figma 24 */
+  --blur-2xl:  20px;  /* Figma 40 */
+  --blur-3xl:  32px;  /* Figma 64 */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════

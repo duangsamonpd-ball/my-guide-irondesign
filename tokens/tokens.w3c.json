@@ -583,14 +583,15 @@
   },
 
   "blur": {
-    "none": { "$value": 0,  "$type": "dimension", "$description": "No blur" },
-    "xs":   { "$value": 4,  "$type": "dimension", "$description": "Subtle frost" },
-    "sm":   { "$value": 8,  "$type": "dimension", "$description": "Light glass" },
-    "md":   { "$value": 12, "$type": "dimension", "$description": "Standard glass surface" },
-    "lg":   { "$value": 16, "$type": "dimension", "$description": "Strong glass / overlay" },
-    "xl":   { "$value": 24, "$type": "dimension", "$description": "Heavy backdrop blur" },
-    "2xl":  { "$value": 40, "$type": "dimension", "$description": "Modal scrim blur" },
-    "3xl":  { "$value": 64, "$type": "dimension", "$description": "Full-screen frosted backdrop" }
+    "_source": "Figma / blur variables — stored HALVED. Figma's background-blur radius renders like a CSS blur of half that radius, which Figma's own export confirms: the Button ondark effect binds blur/xs = 4 and converts to `blur(2px)`. These values are therefore CSS px, and each $description records the Figma radius so nobody 'corrects' them back",
+    "none": { "$value": 0,  "$type": "dimension", "$description": "No blur — Figma 0" },
+    "xs":   { "$value": 2,  "$type": "dimension", "$description": "Subtle frost — Figma radius 4" },
+    "sm":   { "$value": 4,  "$type": "dimension", "$description": "Light glass — Figma radius 8" },
+    "md":   { "$value": 6,  "$type": "dimension", "$description": "Standard glass surface — Figma radius 12" },
+    "lg":   { "$value": 8,  "$type": "dimension", "$description": "Strong glass / overlay — Figma radius 16" },
+    "xl":   { "$value": 12, "$type": "dimension", "$description": "Heavy backdrop blur — Figma radius 24" },
+    "2xl":  { "$value": 20, "$type": "dimension", "$description": "Modal scrim blur — Figma radius 40" },
+    "3xl":  { "$value": 32, "$type": "dimension", "$description": "Full-screen frosted backdrop — Figma radius 64" }
   },
 
   "opacity": {

@@ -473,14 +473,14 @@
   --shadow-focus-teal: 0 0 0 3px rgba(99, 193, 160, 0.25); /* Focus ring — secondary */
   --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25); /* Focus ring — destructive */
   --shadow-tooltip: 0 4px 16px 0 rgba(0, 0, 0, 0.25); /* Tooltip drop shadow */
-  --blur-none: 0px;
-  --blur-xs: 4px;
-  --blur-sm: 8px;
-  --blur-md: 12px;
-  --blur-lg: 16px;
-  --blur-xl: 24px;
-  --blur-2xl: 40px;
-  --blur-3xl: 64px;
+  --blur-none: 0px;                           /* Figma 0 */
+  --blur-xs: 2px;                             /* Figma 4 */
+  --blur-sm: 4px;                             /* Figma 8 */
+  --blur-md: 6px;                             /* Figma 12 */
+  --blur-lg: 8px;                             /* Figma 16 */
+  --blur-xl: 12px;                            /* Figma 24 */
+  --blur-2xl: 20px;                           /* Figma 40 */
+  --blur-3xl: 32px;                           /* Figma 64 */
   --breakpoint-xs: 320px;                     /* Mobile */
   --breakpoint-sm: 480px;                     /* Tablet */
   --breakpoint-md: 768px;                     /* Tablet Large */
