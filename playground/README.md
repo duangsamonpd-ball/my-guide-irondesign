@@ -118,10 +118,18 @@ Preview and hand-written illustrations below it.
 | Component | Regions generated |
 |---|---|
 | Badge | 7 — preview, colours, subtle-solid, dark, variants, do, dont |
+| TopNav | 3 — default, transparent, trimmed |
 | Select | 1 — preview |
 | Tooltip | 1 — preview |
 
-The remaining 14 components still have hand-written demo markup and are not
+TopNav is the one where the value showed up immediately. Its brand mark grew a
+second, full-colour SVG for the hover state, and that artwork had to be pasted
+by hand into three separate lockups in the docs page — with nothing to catch a
+missed one. Every region on that page is a complete component instance, so all
+three are generated and `check:render` now fails the moment the docs and the
+component disagree.
+
+The remaining 13 components still have hand-written demo markup and are not
 covered by `check:render`; each needs a `src/pages/demos/<name>.astro` and
 sentinels added to its docs page.
 

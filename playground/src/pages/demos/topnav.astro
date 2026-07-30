@@ -1,0 +1,41 @@
+---
+/**
+ * Demo source for docs/component-topnav.html.
+ *
+ * All three regions on that page are real, complete TopNav instances, so unlike
+ * Select or Tooltip there is nothing here that has to stay hand-written.
+ *
+ * Migrating this one was worth doing on its own: the brand mark's hover artwork
+ * had to be pasted into three separate lockups in the docs by hand, and nothing
+ * would have caught it if one had been missed. Now the markup comes from the
+ * component and check:render fails the moment the two diverge.
+ */
+import { TopNav } from '@iron-software/astro-components';
+
+const items = [
+  { label: 'Products', href: '#', caret: true },
+  { label: 'Enterprise', href: '#', caret: true },
+  { label: 'Solutions', href: '#', caret: true },
+  { label: 'Resources', href: '#', caret: true },
+  { label: 'About US', href: '#', caret: true },
+];
+
+const contact = { label: 'Contact Us', href: '#', caret: true };
+const language = { label: 'EN', href: '#', caret: true };
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="default">
+      <TopNav items={items} contact={contact} language={language} />
+    </div>
+
+    <div data-demo="transparent">
+      <TopNav variant="transparent" items={items} contact={contact} language={language} />
+    </div>
+
+    <div data-demo="trimmed">
+      <TopNav items={items} contact={contact} showAddress={false} showLanguage={false} />
+    </div>
+  </body>
+</html>
