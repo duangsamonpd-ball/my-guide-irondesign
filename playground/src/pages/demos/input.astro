@@ -7,10 +7,11 @@
  * States forces `is-focus` and `is-disabled`, classes the component never emits
  * — the same kind of isolated illustration as Select's states grid.
  *
- * Compositions is more interesting: one of its three fields carries `has-icon`
- * with an `.input-icon` beside it, and Input has no icon prop and no CSS for
- * either class. That variant is documented but cannot be produced, so it stays
- * hand-written until the component grows the feature or the demo is dropped.
+ * Compositions sizes its canvas with an inline max-width, so it stays
+ * hand-written too. It used to carry a third field with a leading icon
+ * (`has-icon` plus an `.input-icon` span) that Input had no prop and no CSS
+ * for — documented but impossible to produce. Dropped 2026-07-31 rather than
+ * grown into a feature.
  */
 import { Input } from '@iron-software/astro-components';
 ---

@@ -173,10 +173,11 @@ uses `currentColor`. Both pages also predated the `size` prop, so none of their
 markup carried the `--md` class the component now emits.
 
 Input contributes only its Preview. Its States row forces `is-focus` and
-`is-disabled`, classes the component never emits, and Compositions documents an
-input with a leading icon — `has-icon` plus an `.input-icon` span — that the
-component has no prop and no CSS for. That variant is documented but cannot be
-produced.
+`is-disabled`, classes the component never emits, and Compositions sizes its
+canvas with an inline max-width. Compositions used to carry a third field with a
+leading icon — `has-icon` plus an `.input-icon` span — that the component had no
+prop and no CSS for; documented but impossible to produce. It was dropped on
+2026-07-31.
 
 **Every component now has at least one generated region.** What is left is the
 sections inside them that cannot be generated honestly — the forced-state grids,
