@@ -36,7 +36,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .atag b { color:#2693EC; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 .sel { position:relative; width:100%; }
-.sel-label { display:block; font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); margin-bottom:6px; }
+.sel-label { display:block; font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); margin-bottom:var(--spacing-xs); }
 .sel--label-sm .sel-label { font-size:var(--font-size-xs); font-weight:var(--font-weight-medium); letter-spacing:var(--letter-spacing-caption-sm); }
 /* Demo layout only — the component no longer sizes itself, so the canvas gives
    it the width a form would. Not a component rule; do not copy into Select.astro. */
@@ -61,8 +61,8 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .sel-opt .ck { color:var(--color-secondary); opacity:0; display:inline-flex; }
 .sel-opt .ck svg { width:0.8rem; height:0.8rem; }
 .sel-opt.selected .ck { opacity:1; }
-.sel-hint { display: block; font-size: var(--font-size-caption); color: var(--color-text-support); margin-top: 6px; }
-.sel-err  { display: block; font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; margin-top: 6px; }
+.sel-hint { display: block; font-size: var(--font-size-caption); color: var(--color-text-support); margin-top: var(--spacing-xs); }
+.sel-err  { display: block; font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; margin-top: var(--spacing-xs); }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
 .sel-native-fallback { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
   </style>

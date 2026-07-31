@@ -55,7 +55,7 @@ const textareaId = id ?? name ?? `textarea-${Math.random().toString(36).slice(2,
 </div>
 
 <style>
-  .field { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 340px; }
+  .field { display: flex; flex-direction: column; gap: var(--spacing-xs); width: 100%; max-width: 340px; }
   .field-label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-body); line-height: var(--leading-5); }
   .field-label .req { color: var(--color-danger); }
   .textarea {

@@ -96,7 +96,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
   /* Fills whatever the consumer gives it. It used to cap itself at 280px, which
      every layout wider than that had to undo with `max-width: none`. */
   .sel { position: relative; width: 100%; }
-  .sel-label { display: block; font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-heading); margin-bottom: 6px; }
+  .sel-label { display: block; font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-heading); margin-bottom: var(--spacing-xs); }
   /* labelSize="sm" — the 12px caption ramp, for dense rows where this label sits
      beside fields already labelled in captions. */
   .sel--label-sm .sel-label { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); letter-spacing: var(--letter-spacing-caption-sm); }
@@ -131,8 +131,8 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
   .sel-opt .ck { color: var(--color-secondary); opacity: 0; display: inline-flex; }
   .sel-opt .ck svg { width: 0.8rem; height: 0.8rem; }
   .sel-opt.selected .ck { opacity: 1; }
-  .sel-hint { display: block; font-size: var(--font-size-caption); color: var(--color-text-support); margin-top: 6px; }
-  .sel-err  { display: block; font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; margin-top: 6px; }
+  .sel-hint { display: block; font-size: var(--font-size-caption); color: var(--color-text-support); margin-top: var(--spacing-xs); }
+  .sel-err  { display: block; font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; margin-top: var(--spacing-xs); }
   .sel-native-fallback { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 </style>
 
