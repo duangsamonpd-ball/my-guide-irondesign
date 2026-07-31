@@ -450,7 +450,7 @@
   --line-height-nav-sub:   var(--leading-5);  /* 20px — may wrap to two lines */
   --line-height-nav-label: var(--leading-4);  /* 16px */
   --line-height-badge:     var(--leading-4);  /* 16px — Figma Typography/UI/badge uses leading/4 */
-  --line-height-badge-sm:  1;                 /* Badge · small — single-line (= 100%) */
+  --line-height-badge-sm:  var(--leading-3);  /* 12px — Figma Typography/UI/badge-small uses leading/3 */
 
   /* ── Letter spacing — px, Figma tracking scale ──
      tighter -0.8 · tight -0.4 · normal 0 · wide 0.4 · wider 0.8 · widest 1.6 */

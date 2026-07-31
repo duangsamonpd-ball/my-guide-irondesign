@@ -829,8 +829,8 @@
       },
       "badge-small": {
         "$type": "typography",
-        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "10px", "fontWeight": 700, "lineHeight": 1, "letterSpacing": "0px" },
-        "$description": "The `sm` badge. Only the size differs from badge; the other four are repeated rather than inherited so the level stands alone as a Figma text style."
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "10px", "fontWeight": 700, "lineHeight": "12px", "letterSpacing": "0px" },
+        "$description": "The `sm` badge — Figma's Typography/UI/badge-small and the size=sm half of the Badge variant set. Size and line-height both differ from badge (10/12 against 12/16), giving a 20px tall badge against 24px. The other three are repeated rather than inherited so the level stands alone as a Figma text style."
       }
     }
   }
