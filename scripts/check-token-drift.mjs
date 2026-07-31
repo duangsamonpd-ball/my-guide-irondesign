@@ -239,6 +239,7 @@ const TYPE_NAME = {
   'title-large': 'title-lg', 'body-large': 'body-lg', 'button-large': 'btn-lg',
   'button-default': 'btn', 'button-small': 'btn-sm', 'nav-primary': 'nav',
   'nav-dropdown': 'nav-sub', 'nav-group-label': 'nav-label',
+  'badge-small': 'badge-sm',
 };
 const TYPE_PROP = [
   ['fontSize', (c) => named(`font-size-${c}`, `text-${c}`), px],

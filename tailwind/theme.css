@@ -417,6 +417,8 @@
   --text-nav: var(--text-base);               /* 16px — main nav link */
   --text-nav-sub: var(--text-sm);             /* 14px — dropdown / footer / sidebar */
   --text-nav-label: var(--text-xs);           /* 12px — menu / footer group label */
+  --text-badge: var(--text-xs);               /* 12px — status / category badge */
+  --text-badge-sm: var(--text-2xs);           /* 10px — compact badge */
   --leading-3: 12px;
   --leading-4: 16px;
   --leading-5: 20px;
@@ -442,6 +444,8 @@
   --tracking-btn-sm: 0.4px;                   /* wide */
   --tracking-caption-sm: 0.4px;               /* wide */
   --tracking-nav-label: 0.4px;                /* wide */
+  --tracking-badge: 0px;                      /* normal — was 0.01em, the only em in the system; 0.12px at 12px, so rounded to 0 (Ball, 2026-07-31) */
+  --tracking-badge-sm: 0px;                   /* normal */
   --spacing-micro: 0.25rem;                   /* 4px — icon-text gaps, tight groups */
   --spacing-xs: 0.5rem;                       /* 8px — small spacing within components */
   --spacing-sm: 0.75rem;                      /* 12px — component internal padding */
@@ -597,6 +601,8 @@
   --font-size-nav: var(--text-nav);
   --font-size-nav-sub: var(--text-nav-sub);
   --font-size-nav-label: var(--text-nav-label);
+  --font-size-badge: var(--text-badge);
+  --font-size-badge-sm: var(--text-badge-sm);
   --letter-spacing-h1-hero: var(--tracking-h1-hero);
   --letter-spacing-h1: var(--tracking-h1);
   --letter-spacing-h2: var(--tracking-h2);
@@ -609,6 +615,8 @@
   --letter-spacing-btn-sm: var(--tracking-btn-sm);
   --letter-spacing-caption-sm: var(--tracking-caption-sm);
   --letter-spacing-nav-label: var(--tracking-nav-label);
+  --letter-spacing-badge: var(--tracking-badge);
+  --letter-spacing-badge-sm: var(--tracking-badge-sm);
   --rounded-none: var(--radius-none);
   --rounded-xs: var(--radius-xs);
   --rounded-sm: var(--radius-sm);
@@ -664,6 +672,8 @@
   --fw-btn-sm: 600;                           /* Button · small — semibold */
   --fw-nav: 500;
   --fw-nav-sub: 500;                          /* Nav dropdown item — medium */
+  --fw-badge: 700;                            /* Badge — bold */
+  --fw-badge-sm: 700;                         /* Badge · small — bold */
   --fw-nav-active: 700;
   --fw-nav-label: 700;
   --line-height-h1-hero: var(--leading-12);   /* 48px */
@@ -686,6 +696,8 @@
   --line-height-nav: 1;                       /* single-line — outside px scale (= 100%) */
   --line-height-nav-sub: var(--leading-5);    /* 20px — may wrap to two lines */
   --line-height-nav-label: var(--leading-4);  /* 16px */
+  --line-height-badge: 1;                     /* Badge — single-line (= 100%) */
+  --line-height-badge-sm: 1;                  /* Badge · small — single-line (= 100%) */
   --focus-ring-blue: 0 0 0 3px rgba(38, 147, 236, 0.25); /* Focus ring — Button secondary/outline/ondark (iron-blue-500 @25%) */
   --focus-ring-white: 0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
   --ghost-hover: var(--transparent-black-5);  /* Button ghost hover fill */

@@ -821,6 +821,16 @@
         "$type": "typography",
         "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 700, "lineHeight": "16px", "letterSpacing": "0.4px", "textTransform": "uppercase" },
         "$description": "Category headers inside menus and footer columns. Like Overline but tighter tracking and a neutral colour — organises rather than draws attention."
+      },
+      "badge": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "12px", "fontWeight": 700, "lineHeight": 1, "letterSpacing": "0px" },
+        "$description": "Status and category badges. Single-line, so line-height is 100%. Tracking is 0 by decision (2026-07-31): it had been 0.01em — the only em value anywhere in the system — which at 12px is 0.12px, invisible, and forced a unit no other level uses."
+      },
+      "badge-small": {
+        "$type": "typography",
+        "$value": { "fontFamily": "{typography.font-family.body}", "fontSize": "10px", "fontWeight": 700, "lineHeight": 1, "letterSpacing": "0px" },
+        "$description": "The `sm` badge. Only the size differs from badge; the other four are repeated rather than inherited so the level stands alone as a Figma text style."
       }
     }
   }

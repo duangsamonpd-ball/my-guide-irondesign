@@ -362,6 +362,8 @@
   --fw-btn-sm:    600;  /* Button · small — semibold */
   --fw-nav:       500;
   --fw-nav-sub:   500;  /* Nav dropdown item — medium */
+  --fw-badge:     700;  /* Badge — bold */
+  --fw-badge-sm:  700;  /* Badge · small — bold */
   --fw-nav-active:700;
   --fw-nav-label: 700;
 
@@ -412,6 +414,8 @@
   --font-size-nav:       var(--font-size-base);  /* 16px — main nav link */
   --font-size-nav-sub:   var(--font-size-sm);    /* 14px — dropdown / footer / sidebar */
   --font-size-nav-label: var(--font-size-xs);    /* 12px — menu / footer group label */
+  --font-size-badge:     var(--font-size-xs);    /* 12px — status / category badge */
+  --font-size-badge-sm:  var(--font-size-2xs);   /* 10px — compact badge */
 
   /* ── Leading scale (primitive) — Figma "font / leading", name = px ÷ 4 ── */
   --leading-3:   12px;
@@ -449,6 +453,8 @@
   --line-height-nav:       1;                 /* single-line — outside px scale (= 100%) */
   --line-height-nav-sub:   var(--leading-5);  /* 20px — may wrap to two lines */
   --line-height-nav-label: var(--leading-4);  /* 16px */
+  --line-height-badge:     1;                 /* Badge — single-line (= 100%) */
+  --line-height-badge-sm:  1;                 /* Badge · small — single-line (= 100%) */
 
   /* ── Letter spacing — px, Figma tracking scale ──
      tighter -0.8 · tight -0.4 · normal 0 · wide 0.4 · wider 0.8 · widest 1.6 */
@@ -464,6 +470,8 @@
   --letter-spacing-btn-sm:    0.4px;   /* wide    */
   --letter-spacing-caption-sm:0.4px;   /* wide    */
   --letter-spacing-nav-label: 0.4px;   /* wide    */
+  --letter-spacing-badge:      0px;    /* normal — was 0.01em, the only em in the system; 0.12px at 12px, so rounded to 0 (Ball, 2026-07-31) */
+  --letter-spacing-badge-sm:   0px;    /* normal  */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
