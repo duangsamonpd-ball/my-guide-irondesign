@@ -48,7 +48,7 @@ const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
   .cbx input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   .cbx .box {
     width: var(--size-box-md); height: var(--size-box-md); flex-shrink: 0; margin-top: 1px;
-    border: 1px solid var(--color-border-strong); border-radius: var(--rounded-md);
+    border: var(--border-width-1) solid var(--color-border-strong); border-radius: var(--rounded-md);
     background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
     transition: background .15s, border-color .15s, box-shadow .15s;
   }
@@ -70,7 +70,7 @@ const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
   .cbx.invalid .box { border-color: var(--color-danger); }
   .cbx.invalid input:checked + .box { background: var(--color-danger); border-color: var(--color-danger); }
   .cbx.disabled { cursor: not-allowed; opacity: .5; }
-  .cbx-card { border: 1px solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color .15s, background .15s; cursor: pointer; max-width: 400px; }
+  .cbx-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color .15s, background .15s; cursor: pointer; max-width: 400px; }
   .cbx-card:hover { border-color: var(--color-border-strong); }
   .cbx-card:has(input:checked) { border-color: var(--color-border-selected); background: var(--color-bg-card-alt); }
 </style>
