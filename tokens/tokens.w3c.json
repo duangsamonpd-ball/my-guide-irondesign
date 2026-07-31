@@ -230,7 +230,12 @@
       "muted": {
         "$value": "#525252",
         "$type": "color",
-        "$description": "Neutral/600 — placeholders and captions (light). 7.13:1 — real text, so it must meet AA"
+        "$description": "Neutral/600 — captions, hints and field descriptions (light). 7.13:1 — real text, so it must meet AA"
+      },
+      "placeholder": {
+        "$value": "#525252",
+        "$type": "color",
+        "$description": "Neutral/600 — input placeholder text (light). Same value as muted today, but a separate token on purpose: a placeholder always sits on the input's own bg-base fill, while a hint sits on the page, which may be bg-shade. Different backgrounds, different contrast budgets — neutral/500 would pass on the first (4.74:1) and fail on the second (4.33:1)."
       },
       "disabled": {
         "$value": "#A1A1A1",
@@ -304,7 +309,12 @@
       "muted": {
         "$value": "#A1A1A1",
         "$type": "color",
-        "$description": "Neutral/400 — placeholders and captions (dark). 4.54:1"
+        "$description": "Neutral/400 — captions, hints and field descriptions (dark). 4.54:1"
+      },
+      "placeholder": {
+        "$value": "#A1A1A1",
+        "$type": "color",
+        "$description": "Neutral/400 — input placeholder text (dark). 5.81:1 on the iron-violet/900 page background."
       },
       "disabled": {
         "$value": "#737373",
