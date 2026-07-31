@@ -67,7 +67,8 @@ const inputId = id ?? `${name}-${value}`;
   .rdo.invalid .dot { border-color: var(--color-danger); }
   .rdo.invalid input:checked + .dot::after { background: var(--color-danger); }
   .rdo.disabled { cursor: not-allowed; opacity: .5; }
-  .rdo-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color .15s, background .15s; cursor: pointer; max-width: 400px; }
+  /* No max-width — same reasoning as .cbx-card, and the two must stay twins. */
+  .rdo-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color .15s, background .15s; cursor: pointer; }
   .rdo-card:hover { border-color: var(--color-border-strong); }
   .rdo-card:has(input:checked) { border-color: var(--color-border-selected); background: var(--color-bg-card-alt); }
 </style>

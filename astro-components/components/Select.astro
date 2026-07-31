@@ -18,6 +18,8 @@ interface Props {
   hint?: string;
   disabled?: boolean;
   required?: boolean;
+  /** Label typography ramp. 'md' (default) is the 14px form label; 'sm' is the 12px caption. */
+  labelSize?: 'sm' | 'md';
   class?: string;
 }
 
@@ -32,6 +34,7 @@ const {
   hint,
   disabled = false,
   required = false,
+  labelSize = 'md',
   class: className,
 } = Astro.props;
 
@@ -46,7 +49,7 @@ const listboxId = `${uid}-listbox`;
 const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : undefined;
 ---
 
-<div class:list={['sel', { error, disabled }, className]}>
+<div class:list={['sel', { error, disabled, 'sel--label-sm': labelSize === 'sm' }, className]}>
   {label && <label id={labelId} class="sel-label">{label}</label>}
   <button
     type="button"
@@ -90,8 +93,13 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
 </div>
 
 <style>
-  .sel { position: relative; width: 100%; max-width: 280px; }
+  /* Fills whatever the consumer gives it. It used to cap itself at 280px, which
+     every layout wider than that had to undo with `max-width: none`. */
+  .sel { position: relative; width: 100%; }
   .sel-label { display: block; font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-heading); margin-bottom: 6px; }
+  /* labelSize="sm" — the 12px caption ramp, for dense rows where this label sits
+     beside fields already labelled in captions. */
+  .sel--label-sm .sel-label { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); letter-spacing: var(--letter-spacing-caption-sm); }
   .sel-trigger {
     width: 100%; height: var(--size-input);
     border: var(--border-width-1-5) solid var(--color-border); border-radius: var(--rounded-md);
@@ -144,13 +152,28 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
 
       let activeIndex = Math.max(0, opts.findIndex((o) => o.classList.contains('selected')));
 
+      // Keep the active option in view by scrolling the MENU, never the page.
+      // scrollIntoView() walks up to the nearest scrollable ancestor, and since
+      // .sel-menu sets no max-height it never scrolls itself — so that ancestor
+      // was always the document, and opening a Select low on a long page jumped
+      // the viewport every time. Setting scrollTop here is a no-op while the
+      // menu still grows to fit, and does the right thing if it ever gets a cap.
+      const revealInMenu = (opt: HTMLElement) => {
+        const viewTop = menu.scrollTop;
+        const viewBottom = viewTop + menu.clientHeight;
+        const optTop = opt.offsetTop;
+        const optBottom = optTop + opt.offsetHeight;
+        if (optTop < viewTop) menu.scrollTop = optTop;
+        else if (optBottom > viewBottom) menu.scrollTop = optBottom - menu.clientHeight;
+      };
+
       const setActive = (index: number) => {
         activeIndex = Math.min(Math.max(index, 0), opts.length - 1);
         opts.forEach((o) => o.classList.remove('active'));
         const opt = opts[activeIndex];
         opt.classList.add('active');
         menu.setAttribute('aria-activedescendant', opt.id);
-        opt.scrollIntoView({ block: 'nearest' });
+        revealInMenu(opt);
       };
 
       const open = () => {
