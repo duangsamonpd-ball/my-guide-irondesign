@@ -42,6 +42,12 @@ jobs:
       - name: Check no page overrides the docs shell
         run: node scripts/check-docs-css.mjs
 
+      # Badge paints text onto saturated fills in twelve combinations. Every
+      # gate above stayed green while three of them failed WCAG AA, because
+      # none of them looks at what a colour resolves to.
+      - name: Check badge contrast meets WCAG AA
+        run: node scripts/check-contrast.mjs
+
   # Proves the theme actually compiles, and that every variable the components
   # read still resolves once Tailwind has processed it.
   compile:
