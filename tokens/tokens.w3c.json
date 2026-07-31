@@ -522,6 +522,7 @@
   "borderWidth": {
     "_source": "Figma / border-width variables",
     "1": { "$value": 1, "$type": "dimension", "$description": "Hairline — default dividers, inputs" },
+    "1-5": { "$value": 1.5, "$type": "dimension", "$description": "Text link underline default; also the input, select and file-drop borders. Figma calls this `border-width-1,5` — a comma is not a valid CSS ident character, so the CSS name is `--border-width-1-5`." },
     "2": { "$value": 2, "$type": "dimension", "$description": "Regular — focus rings, active nav" },
     "4": { "$value": 4, "$type": "dimension", "$description": "Medium — emphasis, selected states" },
     "8": { "$value": 8, "$type": "dimension", "$description": "Heavy — decorative accents, callouts" }
