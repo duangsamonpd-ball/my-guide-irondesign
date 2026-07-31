@@ -196,28 +196,24 @@
   --color-success-hover:    var(--iron-green-600);  /* #53A085 */
   --color-success-strong:   var(--iron-green-700);  /* #44806B — icons/text on light fills (4.62:1 on white) */
   --color-success-subtle:   var(--iron-green-100);  /* #E8F6F1 */
-  --color-success-on:       #FFFFFF;
 
   /* Warning = Iron Orange/500 — warnings, pending states */
   --color-warning:          var(--iron-orange-500); /* #FDA509 */
   --color-warning-hover:    var(--iron-orange-600); /* #D2890A */
   --color-warning-subtle:   var(--iron-orange-100); /* #FFF2DA */
   --color-warning-strong:   var(--iron-orange-700); /* #A66E0A — badge/warning text on the subtle fill */
-  --color-warning-on:       #FFFFFF;
 
   /* Danger = Iron Red/500 — validation errors, destructive actions */
   --color-danger:           var(--iron-red-500);    /* #E5242A */
   --color-danger-hover:     var(--iron-red-600);    /* #C91D23 */
   --color-danger-subtle:    var(--iron-red-100);    /* #FFE1E2 */
   --color-danger-strong:    var(--iron-red-700);    /* #A8181D — badge/danger text on the subtle fill */
-  --color-danger-on:        #FFFFFF;
 
   /* Info = Iron Blue/500 — info banners, help text */
   --color-info:             var(--iron-blue-500);   /* #2693EC */
   --color-info-hover:       var(--iron-blue-600);   /* #217BC4 */
   --color-info-subtle:      var(--iron-blue-100);   /* #DEEFFC */
   --color-info-strong:      var(--iron-blue-700);   /* #1D629B — badge/info text on the subtle fill */
-  --color-info-on:          #FFFFFF;
 
   /* Important = Iron Purple/500 — highlighted / important status (Figma: status/important) */
   --color-important:        var(--iron-purple-500); /* #563B99 */
