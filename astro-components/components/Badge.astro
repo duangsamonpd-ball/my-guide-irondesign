@@ -27,9 +27,11 @@ const {
   /*
     Subtle fill = --color-{intent}-subtle, text = --color-{intent}-strong; solid uses the
     base --color-{intent}. Every value is a semantic token (from the Figma color_ui
-    export), so dark mode is automatic: inside a `.dark` ancestor those tokens swap to the
-    Dark Purple values (see the .dark block in tokens.css) and the badge re-themes with no
-    per-component dark rule — verified against Figma node 776-899 ("Badge").
+    export), so for the SUBTLE variant dark mode is automatic: inside a `.dark` ancestor
+    those tokens swap to the Dark Purple values (see the .dark block in tokens.css) and the
+    badge re-themes with no per-component dark rule — verified against Figma node 776-899
+    ("Badge"). The SOLID variant is the exception: .dark does not remap the status base
+    colours, so its fill — and therefore its label colour — is identical in both modes.
     Default shape is --rounded-sm (Figma node 776-899 uses this on every badge, not a
     pill) — the old default was --rounded-full; `pill` now opts back into that shape.
   */
@@ -47,11 +49,18 @@ const {
   .badge--important { background: var(--color-important-subtle); color: var(--color-important-strong); }
   .badge--neutral   { background: var(--color-neutral-subtle);   color: var(--color-neutral-strong); }
 
-  .badge.solid { color: var(--color-primary-on); }
-  .badge.solid.badge--success   { background: var(--color-success); }
-  .badge.solid.badge--warning   { background: var(--color-warning); }
+  /*
+    Solid label colour is chosen per INTENT, not per theme. The solid fills are the
+    status base colours, and .dark remaps only the -subtle/-strong pairs — so a solid
+    badge is the same colour in both modes and one label colour cannot serve all six.
+    success / warning / info have light fills and take the inverse (neutral/900) label;
+    white on them is 2.17 / 1.99 / 3.25 and fails AA at 12px/700.
+  */
+  .badge.solid { color: var(--color-text-on-color-badge-solid); }
+  .badge.solid.badge--success   { background: var(--color-success);   color: var(--color-text-on-color-badge-solid-inverse); }
+  .badge.solid.badge--warning   { background: var(--color-warning);   color: var(--color-text-on-color-badge-solid-inverse); }
   .badge.solid.badge--danger    { background: var(--color-danger); }
-  .badge.solid.badge--info      { background: var(--color-secondary); }
+  .badge.solid.badge--info      { background: var(--color-secondary); color: var(--color-text-on-color-badge-solid-inverse); }
   .badge.solid.badge--important { background: var(--color-important); }
   .badge.solid.badge--neutral   { background: var(--color-neutral); }
 

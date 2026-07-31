@@ -295,6 +295,12 @@
   /* ── Text / On Color (text on coloured surfaces — same both modes) ── */
   --color-text-on-color-heading: #FFFFFF;                  /* white */
   --color-text-on-color-body:    var(--neutral-200);  /* #E5E5E5 — neutral/200 */
+  /* Solid-badge label. Which one a badge uses depends on how LIGHT its fill is,
+     not on the theme — .dark remaps only the -subtle/-strong pairs, never the
+     status base colours, so a solid badge is the same colour in both modes.
+     Do NOT remap either of these in .dark; that would break the contrast. */
+  --color-text-on-color-badge-solid:         #FFFFFF;             /* white — on DARK fills: danger 4.55:1, important 8.46:1, neutral 4.76:1 */
+  --color-text-on-color-badge-solid-inverse: var(--neutral-900);  /* #171717 — on LIGHT fills: success 8.25:1, warning 9.02:1, info 5.52:1 (white there is 2.17/1.99/3.25 — fails AA) */
 
   /* ── Surfaces — Light Theme (Figma: surface, light column) ── */
   --color-bg-base:          #FFFFFF;                  /* white — main page background */

@@ -339,6 +339,16 @@
         "$value": "#E5E5E5",
         "$type": "color",
         "$description": "Neutral/200 — body copy inside coloured surfaces"
+      },
+      "badge-solid": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "White — text on a solid badge whose fill is DARK (danger 4.55:1, important 8.46:1, neutral 4.76:1). Same in both modes: the solid fills are the status base colours, which .dark does not remap."
+      },
+      "badge-solid-inverse": {
+        "$value": "#171717",
+        "$type": "color",
+        "$description": "Neutral/900 — text on a solid badge whose fill is LIGHT (success 8.25:1, warning 9.02:1, info 5.52:1). White on those fills is 2.17/1.99/3.25 and fails AA. Same in both modes."
       }
     },
 

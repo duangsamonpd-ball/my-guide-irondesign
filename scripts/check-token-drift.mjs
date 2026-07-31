@@ -344,6 +344,8 @@ const COLORS = {
   'text-dark.link-hover': 'color-text-dark-link-hover',
   'text-on-color.heading': 'color-text-on-color-heading',
   'text-on-color.body': 'color-text-on-color-body',
+  'text-on-color.badge-solid': 'color-text-on-color-badge-solid',
+  'text-on-color.badge-solid-inverse': 'color-text-on-color-badge-solid-inverse',
 
   'surface.background': 'color-bg-base',      // w3c "surface", CSS "bg"
   'surface.background-shade': 'color-bg-shade',

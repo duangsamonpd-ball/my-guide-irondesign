@@ -59,11 +59,11 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       --color-important-subtle: var(--color-important-subtle-dark); --color-important-strong: var(--color-important-strong-dark);
       --color-neutral-subtle: var(--color-neutral-subtle-dark);     --color-neutral-strong: var(--color-neutral-strong-dark);
     }
-.badge.solid { color: var(--color-primary-on); }
-.badge.solid.badge--success   { background: var(--color-success); }
-.badge.solid.badge--warning   { background: var(--color-warning); }
+.badge.solid { color: var(--color-text-on-color-badge-solid); }
+.badge.solid.badge--success   { background: var(--color-success);   color: var(--color-text-on-color-badge-solid-inverse); }
+.badge.solid.badge--warning   { background: var(--color-warning);   color: var(--color-text-on-color-badge-solid-inverse); }
 .badge.solid.badge--danger    { background: var(--color-danger); }
-.badge.solid.badge--info      { background: var(--color-secondary); }
+.badge.solid.badge--info      { background: var(--color-secondary); color: var(--color-text-on-color-badge-solid-inverse); }
 .badge.solid.badge--important { background: var(--color-important); }
 .badge.solid.badge--neutral   { background: var(--color-neutral); }
 .badge.sm { font-size: 11px; padding: 3px 8px; }
@@ -340,7 +340,9 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
   background: <span class="c-str">var(--color-success-subtle)</span>;
   color: <span class="c-str">var(--color-success-strong)</span>;
 }
-<span class="c-key">.badge.solid.badge--success</span> { background: <span class="c-str">var(--color-success)</span>; color: #fff; }
+<span class="c-key">.badge.solid.badge--success</span> { background: <span class="c-str">var(--color-success)</span>; color: <span class="c-str">var(--color-text-on-color-badge-solid-inverse)</span>; }
+<span class="c-com">/* solid picks its label per intent, not per theme — white on the light
+   fills (success/warning/info) is 2.17/1.99/3.25 and fails WCAG AA */</span>
 
 <span class="c-com">/* dark mode lives in the theme, not the component: */</span>
 <span class="c-key">.dark</span> {

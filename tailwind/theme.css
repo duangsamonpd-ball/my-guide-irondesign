@@ -352,6 +352,8 @@
   --color-text-dark-link-hover: var(--iron-pink-400); /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
   --color-text-on-color-heading: #FFFFFF;     /* white */
   --color-text-on-color-body: var(--neutral-200); /* #E5E5E5 — neutral/200 */
+  --color-text-on-color-badge-solid: #FFFFFF; /* white — on DARK fills: danger 4.55:1, important 8.46:1, neutral 4.76:1 */
+  --color-text-on-color-badge-solid-inverse: var(--neutral-900); /* #171717 — on LIGHT fills: success 8.25:1, warning 9.02:1, info 5.52:1 (white there is 2.17/1.99/3.25 — fails AA) */
   --color-bg-base: #FFFFFF;                   /* white — main page background */
   --color-bg-shade: var(--slate-100);         /* #F1F5F9 — slate/100 — band fills, alternating sections */
   --color-bg-card: #FFFFFF;                   /* white — card, modal, panel backgrounds */
