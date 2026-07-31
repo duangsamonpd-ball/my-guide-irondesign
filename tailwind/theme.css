@@ -696,7 +696,7 @@
   --line-height-nav: 1;                       /* single-line — outside px scale (= 100%) */
   --line-height-nav-sub: var(--leading-5);    /* 20px — may wrap to two lines */
   --line-height-nav-label: var(--leading-4);  /* 16px */
-  --line-height-badge: 1;                     /* Badge — single-line (= 100%) */
+  --line-height-badge: var(--leading-4);      /* 16px — Figma Typography/UI/badge uses leading/4 */
   --line-height-badge-sm: 1;                  /* Badge · small — single-line (= 100%) */
   --focus-ring-blue: 0 0 0 3px rgba(38, 147, 236, 0.25); /* Focus ring — Button secondary/outline/ondark (iron-blue-500 @25%) */
   --focus-ring-white: 0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
