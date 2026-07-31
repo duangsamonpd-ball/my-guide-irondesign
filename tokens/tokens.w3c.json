@@ -98,9 +98,9 @@
         "$description": "Iron Green/100"
       },
       "success-strong": {
-        "$value": "#44806B",
+        "$value": "#345F50",
         "$type": "color",
-        "$description": "Iron Green/700 — badge/success text, icons on the subtle fill. 4.62:1 on white"
+        "$description": "Iron Green/800 — badge/success text, icons on the subtle fill. 6.51:1 on badge/success-subtle. Was Iron Green/700, which measured 4.15:1 there and failed AA at the 12px/700 badge text uses (changed 2026-07-31)."
       },
       "warning": {
         "$value": "#FDA509",
@@ -118,9 +118,9 @@
         "$description": "Iron Orange/100"
       },
       "warning-strong": {
-        "$value": "#A66E0A",
+        "$value": "#7B520B",
         "$type": "color",
-        "$description": "Iron Orange/700 — badge/warning text, icons on the subtle fill"
+        "$description": "Iron Orange/800 — badge/warning text, icons on the subtle fill. 6.21:1 on badge/warning-subtle. Was Iron Orange/700, which measured 3.91:1 there and failed AA (changed 2026-07-31)."
       },
       "error": {
         "$value": "#E5242A",

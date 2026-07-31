@@ -276,12 +276,12 @@
   --color-secondary-on: #FFFFFF;
   --color-success: var(--iron-green-500);     /* #63C1A0 */
   --color-success-hover: var(--iron-green-600); /* #53A085 */
-  --color-success-strong: var(--iron-green-700); /* #44806B — icons/text on light fills (4.62:1 on white) */
+  --color-success-strong: var(--iron-green-800); /* #345F50 — icons/text on light fills · 6.51:1 on --color-success-subtle (green/700 was 4.15:1 there and failed AA) */
   --color-success-subtle: var(--iron-green-100); /* #E8F6F1 */
   --color-warning: var(--iron-orange-500);    /* #FDA509 */
   --color-warning-hover: var(--iron-orange-600); /* #D2890A */
   --color-warning-subtle: var(--iron-orange-100); /* #FFF2DA */
-  --color-warning-strong: var(--iron-orange-700); /* #A66E0A — badge/warning text on the subtle fill */
+  --color-warning-strong: var(--iron-orange-800); /* #7B520B — badge/warning text on the subtle fill · 6.21:1 (orange/700 was 3.91:1 and failed AA) */
   --color-danger: var(--iron-red-500);        /* #E5242A */
   --color-danger-hover: var(--iron-red-600);  /* #C91D23 */
   --color-danger-subtle: var(--iron-red-100); /* #FFE1E2 */

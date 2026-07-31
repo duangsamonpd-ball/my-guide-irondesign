@@ -27,16 +27,13 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const AA = 4.5;
 
 /**
- * Pairs that do not clear AA today and are NOT ours to fix: both values come
- * straight from the Figma badge ramp (iron-green/100 on /700, iron-orange/100
- * on /700). Changing either is a design decision, so they warn instead of
- * failing. If Figma darkens the -strong step, this list must shrink — an entry
- * that starts passing is reported as an error, so it cannot quietly rot here.
+ * Pairs that do not clear AA and are a design decision rather than a bug — both
+ * values coming from Figma, say — so they warn instead of failing. Empty on
+ * purpose: the two subtle pairs that lived here were fixed on 2026-07-31 by
+ * darkening the -strong step to 800, and this check is what said so. An entry
+ * that starts passing is reported as an error, so the list cannot rot.
  */
-const KNOWN = new Map([
-  ['subtle/success/light', 'Figma badge/success-subtle on badge/success-strong'],
-  ['subtle/warning/light', 'Figma badge/warning-subtle on badge/warning-strong'],
-]);
+const KNOWN = new Map([]);
 
 /* ── read the two sources ─────────────────────────────────────────────────── */
 
