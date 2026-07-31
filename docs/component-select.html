@@ -37,7 +37,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 .sel { position:relative; width:100%; max-width:280px; }
 .sel-label { display:block; font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); margin-bottom:6px; }
-.sel-trigger { width:100%; height:var(--size-input); border:1.5px solid var(--color-border); border-radius:var(--rounded-md); background:var(--color-bg-base); padding:0 14px; display:flex; align-items:center; justify-content:space-between; gap:10px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); cursor:pointer; outline:none; transition:border-color .15s, box-shadow .15s; }
+.sel-trigger { width:100%; height:var(--size-input); border:var(--border-width-1-5) solid var(--color-border); border-radius:var(--rounded-md); background:var(--color-bg-base); padding:0 14px; display:flex; align-items:center; justify-content:space-between; gap:10px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); cursor:pointer; outline:none; transition:border-color .15s, box-shadow .15s; }
 .sel-trigger:hover { border-color:var(--color-border-strong); }
 .sel-trigger.is-placeholder { color:var(--color-text-placeholder); }
 .sel-trigger .chev { color:var(--color-text-support); transition:transform .18s; font-size:0.8rem; }
@@ -231,7 +231,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 <span class="c-com">&lt;!-- keyboard: ↑/↓ moves aria-activedescendant on the listbox, Enter/Space commits, Esc closes --&gt;</span></pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.sel-trigger</span> {
   width: 100%; height: <span class="c-str">var(--size-input)</span>;
-  border: 1.5px solid <span class="c-str">var(--color-border)</span>;
+  border: <span class="c-str">var(--border-width-1-5)</span> solid <span class="c-str">var(--color-border)</span>;
   border-radius: <span class="c-str">var(--rounded-md)</span>;
 }
 <span class="c-key">.sel.open .sel-trigger</span> { border-color: <span class="c-str">var(--color-secondary)</span>; box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }

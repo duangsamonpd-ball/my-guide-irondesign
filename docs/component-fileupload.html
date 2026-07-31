@@ -37,7 +37,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .atag b { color:#2693EC; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 .dropzone {
-    border: 1.5px dashed var(--color-border-strong); border-radius: var(--rounded-lg);
+    border: var(--border-width-1-5) dashed var(--color-border-strong); border-radius: var(--rounded-lg);
     background: var(--color-bg-base); padding: 24px;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
     cursor: pointer; position: relative;
@@ -205,7 +205,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
         <tr><td class="prop">Border</td><td class="token">--color-border-strong</td><td class="val"><span class="sw" style="background:#CAD5E2"></span>#CAD5E2</td></tr>
-        <tr><td class="prop">Border style</td><td class="token">— (fixed)</td><td class="val">dashed 1.5px</td></tr>
+        <tr><td class="prop">Border style</td><td class="token">--border-width-1-5</td><td class="val">1.5px · dashed</td></tr>
         <tr><td class="prop">Border · hover / drag-over</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
         <tr><td class="prop">Border · error</td><td class="token">--color-danger</td><td class="val"><span class="sw" style="background:#E5242A"></span>#E5242A</td></tr>
         <tr><td class="prop">Radius</td><td class="token">--rounded-lg</td><td class="val">8px</td></tr>
@@ -245,7 +245,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
   &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"dz-remove"</span>&gt;Remove&lt;/<span class="c-tag">button</span>&gt;
 &lt;/<span class="c-tag">div</span>&gt;</pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.dropzone</span> {
-  border: 1.5px dashed <span class="c-str">var(--color-border-strong)</span>;
+  border: <span class="c-str">var(--border-width-1-5)</span> dashed <span class="c-str">var(--color-border-strong)</span>;
   border-radius: <span class="c-str">var(--rounded-lg)</span>;
   padding: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
