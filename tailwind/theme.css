@@ -383,6 +383,7 @@
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
   --font-weight-black: 900;
+  --text-2xs: 10px;                           /* smallest step — micro-labels only, never running text */
   --text-xs: 12px;
   --text-sm: 14px;
   --text-base: 16px;
@@ -562,6 +563,7 @@
 /* Tailwind owns the --radius-*, --text-* and --tracking-* namespaces, so those
    families are registered under its names above and mirrored back here. */
 :root {
+  --font-size-2xs: var(--text-2xs);
   --font-size-xs: var(--text-xs);
   --font-size-sm: var(--text-sm);
   --font-size-base: var(--text-base);

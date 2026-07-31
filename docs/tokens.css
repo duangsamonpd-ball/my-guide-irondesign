@@ -374,6 +374,7 @@
   --font-weight-black:     900;
 
   /* ── Font-size scale (primitive) — Figma variables, t-shirt names ── */
+  --font-size-2xs:  10px;  /* smallest step — micro-labels only, never running text */
   --font-size-xs:   12px;
   --font-size-sm:   14px;
   --font-size-base: 16px;

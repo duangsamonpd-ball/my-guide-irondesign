@@ -685,6 +685,7 @@
     },
 
     "size": {
+      "2xs":  { "$value": "10px", "$type": "dimension", "$description": "Smallest step on the ramp. Below the 12px floor everything else sits on, so it is for non-essential micro-labels only — never running text." },
       "xs":   { "$value": "12px", "$type": "dimension" },
       "sm":   { "$value": "14px", "$type": "dimension" },
       "base": { "$value": "16px", "$type": "dimension" },
