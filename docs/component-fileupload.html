@@ -52,7 +52,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .dropzone-icon svg { width:18px; height:18px; }
 .dropzone-text { min-width:0; }
 .dropzone-text .title { font-size:var(--font-size-body); color:var(--color-text-body); margin-bottom:4px; }
-.dropzone-text .link { font-size: 1rem; font-weight: 700; color: var(--color-secondary); }
+.dropzone-text .link { font-size: var(--font-size-body); font-weight: 700; color: var(--color-secondary); }
 .dropzone-text .link:hover { color:var(--color-primary); }
 .dropzone-size { font-size:var(--font-size-body); color:var(--color-text-support); white-space:nowrap; flex-shrink:0; }
 .dropzone:hover, .dropzone.is-dragover { border-color: var(--color-secondary); background: var(--color-bg-card-alt); }
@@ -63,13 +63,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .dropzone.has-file { border-style: solid; border-color: var(--color-border); cursor: default; }
 .dropzone.has-file .dropzone-icon { background: color-mix(in srgb, var(--color-success-strong) 8%, transparent); border-color: color-mix(in srgb, var(--color-success-strong) 14%, transparent); color: var(--color-success-strong); }
 .dz-remove {
-    font-size: 0.72rem; font-weight: 700; color: var(--color-text-support);
+    font-size: var(--font-size-btn-sm); font-weight: 700; color: var(--color-text-support);
     background: none; border: none; cursor: pointer; padding: 4px 8px; position: relative; z-index: 1;
   }
 .dz-remove:hover { color:var(--color-danger); }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
 .dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-.dropzone-text .size-label { font-size: 0.85rem; color: var(--color-text-support); }
+.dropzone-text .size-label { font-size: var(--font-size-caption); color: var(--color-text-support); }
 .dropzone.is-disabled .dropzone-input { cursor: not-allowed; }
   </style>
 </head>
