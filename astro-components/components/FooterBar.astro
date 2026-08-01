@@ -26,9 +26,10 @@
  *  · The brand lockup's gap is bound to `spacing-xl` in Figma but resolves to
  *    6px, which is off our scale entirely (4 → 8). The lockup is one SVG here,
  *    so the question does not arise in code — but it is still wrong in Figma.
- *  · Capterra's stars bind `opacity-30` yet resolve to 1. The exported artwork
- *    already carries its own greys, so nothing extra is applied here. If the
- *    intent was a 30% wash, that binding needs fixing in Figma first.
+ *  · Both star rows are white at 30% — they are the *empty* state, which is why
+ *    they read as grey. G2 sets the opacity on each of the five stars and
+ *    Capterra sets it on the group; same result, two different ways of saying
+ *    it. Neither needs help from CSS, and adding any would double it.
  *  · The two lg variants disagree about the Slack row. Default places a 16px
  *    icon in a 20px row with the label at leading 20; Free tools version places
  *    a 24px icon in a 24px row at leading 18. Default wins here because that is
@@ -40,6 +41,13 @@
  *
  * Assets are real files, like Logo.astro — a partner logo is artwork, no token
  * can stand in for it. `basePath` points at wherever docs/assets/ was copied to.
+ *
+ * Every exported SVG here was cleaned before being committed. Figma's export
+ * carries the node's whole ancestor chain — the section frame, its fill, even
+ * the dashed selection outline — plus a canvas-sized backdrop rect, and it
+ * bakes in any opacity set on a parent group. Left alone that renders as a grey
+ * box behind each logo, and any opacity CSS then applies a second time. Only
+ * the innermost artwork group is kept.
  */
 import Logo from './Logo.astro';
 import { icons } from '../icons';
@@ -138,7 +146,10 @@ const {
   class: className,
 } = Astro.props;
 
-const asset = (file: string) => `${basePath}/${file}`;
+/* Asset names are encoded, not interpolated raw. `1% logo - Horizontal.png`
+   contains a percent sign, and `% l` is an invalid escape sequence — the browser
+   fails the whole URL and renders a broken image. */
+const asset = (file: string) => `${basePath}/${encodeURIComponent(file)}`;
 
 /* Figma keeps the Free Tools item in every variant and only toggles its
    visibility, so it belongs in the same list rather than in its own slot. It
@@ -187,7 +198,9 @@ if (freeTools) {
       </div>
 
       <div class="fb-brand">
-        <span class="fb-logo"><Logo kind="wordmark" brand="iron" variant="ondark" height={24} basePath={basePath} label="Iron Software" /></span>
+        {/* mono, not ondark: Figma's Main logo is the all-white lockup at 60%.
+            `ondark` carries the colour mark and a pink SOFTWARE. */}
+        <span class="fb-logo"><Logo kind="wordmark" brand="iron" variant="mono" height={24} basePath={basePath} label="Iron Software" /></span>
         <p class="fb-address">{address}</p>
       </div>
 
@@ -256,7 +269,7 @@ if (freeTools) {
   /* 1176px is Figma's own number for the menu row — not a container token. The
      items are centred inside it and only add up to ~866, so the width is
      headroom rather than a visible edge. */
-  .fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; max-width: 1176px; }
+  .fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; width: 100%; max-width: 1176px; }
   /* Figma overlaps every item and divider by 1px so a divider shares an edge
      with the item beside it (About Us ends at 257.5, News starts at 256.5).
      Without this the row is 14px wider than the design. */
@@ -266,8 +279,11 @@ if (freeTools) {
      baseline — a block <li> would put the inline label on a font strut instead,
      the same 1.4px drift TopNav hit. */
   .fb-menu li { display: flex; align-items: center; }
-  .fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
-  .fb-menu-link:hover { opacity: var(--opacity-hover-footer); }
+  .fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color .16s; }
+  /* The menu palette comes in a pair — link-menu resting, link-menu-hover on
+     hover. Same as TopNav's .tn-item. Dimming with opacity instead would drop
+     the brand pink the pair exists to deliver. */
+  .fb-menu-link:hover { color: var(--color-text-link-menu-hover); }
   /* Measured off the Free tools variant, where the item is visible: 16 padding,
      8 gap, 13x14 caret — 16+71+8+13+16 = the 124 Figma reports. The same node
      in the Default variant is hidden and keeps stale coordinates, so it cannot
@@ -283,10 +299,16 @@ if (freeTools) {
   .fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; }
 
   .fb-reviews { display: flex; align-items: flex-start; gap: var(--spacing-md); flex: 1 0 0; min-width: 0; }
-  .fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); border: var(--border-width-1) solid var(--transparent-white-10); border-radius: var(--rounded-sm); }
+  /* An inset shadow, not a border. Figma's 124x48 leaves no room for one
+     (8+32+8+68+8 = 124 exactly) because its stroke is drawn *inside* the frame;
+     a CSS border on an auto-width box adds 2px instead. */
+  .fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); box-shadow: inset 0 0 0 var(--border-width-1) var(--transparent-white-10); border-radius: var(--rounded-sm); }
   .fb-review-logo { width: 32px; height: 32px; display: block; flex-shrink: 0; }
   .fb-review-rating { display: flex; flex-direction: column; align-items: flex-start; }
   .fb-stars { width: 68px; height: 12px; display: block; }
+  /* Deliberately not flex: the "/ 5" has to keep the space in front of it, and
+     flex drops a leading whitespace text node. The 12px span makes the line box
+     1px taller than the 20px leading, which the card absorbs. */
   .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
   .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
 
@@ -309,7 +331,9 @@ if (freeTools) {
 
   /* ── band 3: partners, legal, donate ──────────────────────────────────── */
   .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
-  .fb-info-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
+  /* No gap: Figma's three columns are exactly a third of 1392 each, so any gap
+     here comes straight out of their width (16px of gap = 10.7px off each). */
+  .fb-info-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--size-container-max); }
 
   .fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
   /* Figma greys the partner marks with mix-blend-luminosity over the band fill,
@@ -320,8 +344,8 @@ if (freeTools) {
   .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
   .fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
   .fb-legal-links .fb-div { height: var(--leading-3); }
-  .fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
-  .fb-legal-link:hover { opacity: var(--opacity-hover-footer); }
+  .fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color .16s; }
+  .fb-legal-link:hover { color: var(--color-text-link-menu-hover); }
 
   .fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); }
   /* Figma sets line-height 1.2 on 12px = 14.4, which is off our leading ramp

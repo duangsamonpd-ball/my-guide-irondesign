@@ -51,21 +51,20 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
 .c-key{color:#E95F8B;}
-.fp-card { border:1px solid #E2E8F0; border-radius:16px; overflow:hidden; }
 .fb { width: 100%; font-family: 'Montserrat', sans-serif; }
 .fb-menu-bar { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-xs) var(--spacing-xl) 0; }
-.fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; max-width: 1176px; }
+.fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; width: 100%; max-width: 1176px; }
 .fb-menu li:not(:first-child) { margin-left: -1px; }
 .fb-menu .fb-div { margin-right: -1px; }
 .fb-menu li { display: flex; align-items: center; }
-.fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
-.fb-menu-link:hover { opacity: var(--opacity-hover-footer); }
+.fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color .16s; }
+.fb-menu-link:hover { color: var(--color-text-link-menu-hover); }
 .fb-caret { width: 13px; height: 14px; flex-shrink: 0; }
 .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
 .fb-mid { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl); }
 .fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; }
 .fb-reviews { display: flex; align-items: flex-start; gap: var(--spacing-md); flex: 1 0 0; min-width: 0; }
-.fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); border: var(--border-width-1) solid var(--transparent-white-10); border-radius: var(--rounded-sm); }
+.fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); box-shadow: inset 0 0 0 var(--border-width-1) var(--transparent-white-10); border-radius: var(--rounded-sm); }
 .fb-review-logo { width: 32px; height: 32px; display: block; flex-shrink: 0; }
 .fb-review-rating { display: flex; flex-direction: column; align-items: flex-start; }
 .fb-stars { width: 68px; height: 12px; display: block; }
@@ -84,15 +83,15 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
 .fb-slack:hover { opacity: var(--opacity-hover-footer); }
 .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
-.fb-info-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
+.fb-info-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--size-container-max); }
 .fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
 .fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
 .fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
 .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
 .fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
 .fb-legal-links .fb-div { height: var(--leading-3); }
-.fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
-.fb-legal-link:hover { opacity: var(--opacity-hover-footer); }
+.fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color .16s; }
+.fb-legal-link:hover { color: var(--color-text-link-menu-hover); }
 .fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); }
 .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
 .fb-donate-img { height: 32px; width: auto; display: block; }
@@ -156,7 +155,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
     <div class="sect">
       <div class="sect-h">Default</div>
       <div class="sect-sub">Figma&rsquo;s <code>Property 1=Default</code>. The menu row and the brand row are both <code>--color-bg-footer-alt</code>; only the legal row underneath is <code>--color-bg-footer</code> &mdash; the opposite way round to what the token names suggest.</div>
-      <div class="fp-card">
+      <div class="frame"><div class="frame-scroll">
         <!-- demo:default -->
         <footer class="fb">
           <nav class="fb-menu-bar" aria-label="Footer">
@@ -222,7 +221,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
               </div>
               <div class="fb-brand">
                 <span class="fb-logo"><span style="height:24px" class="logo logo--wordmark">
-                    <img src="assets/wordmark-iron-ondark.svg" alt="Iron Software" height="24">
+                    <img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="24">
                   </span></span>
                 <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
               </div>
@@ -264,19 +263,19 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
               </div>
               <div class="fb-donate">
                 <span class="fb-donate-label">Every Iron Suite Donates</span>
-                <img class="fb-donate-img" src="assets/1% logo - Horizontal.png" alt="1% For The Planet" height="32">
+                <img class="fb-donate-img" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet" height="32">
               </div>
             </div>
           </div>
         </footer>
         <!-- /demo:default -->
-      </div>
+      </div></div>
     </div>
 
     <div class="sect">
       <div class="sect-h">Free tools version</div>
       <div class="sect-sub">Figma&rsquo;s <code>Property 1=Free tools version</code>. In the design file this is the same layout with one hidden menu item switched on, so it is the <code>freeTools</code> prop here rather than a second component.</div>
-      <div class="fp-card">
+      <div class="frame"><div class="frame-scroll">
         <!-- demo:freetools -->
         <footer class="fb">
           <nav class="fb-menu-bar" aria-label="Footer">
@@ -348,7 +347,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
               </div>
               <div class="fb-brand">
                 <span class="fb-logo"><span style="height:24px" class="logo logo--wordmark">
-                    <img src="assets/wordmark-iron-ondark.svg" alt="Iron Software" height="24">
+                    <img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="24">
                   </span></span>
                 <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
               </div>
@@ -390,13 +389,13 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
               </div>
               <div class="fb-donate">
                 <span class="fb-donate-label">Every Iron Suite Donates</span>
-                <img class="fb-donate-img" src="assets/1% logo - Horizontal.png" alt="1% For The Planet" height="32">
+                <img class="fb-donate-img" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet" height="32">
               </div>
             </div>
           </div>
         </footer>
         <!-- /demo:freetools -->
-      </div>
+      </div></div>
     </div>
 
     <div class="sect">
@@ -423,7 +422,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
         <li><b>Gotham in a Montserrat system.</b> The review scores, &ldquo;Join Iron Slack&rdquo; and &ldquo;Every Iron Suite Donates&rdquo; are set in Gotham with no variable bound. They are Montserrat here.</li>
         <li><b>A raw Light Gray.</b> &ldquo;Join Iron Slack&rdquo; paints a Figma <i>style</i> rather than a variable; it uses <code>--color-text-on-color-body</code> here, like every other secondary line.</li>
         <li><b>A gap bound to the wrong step.</b> The brand lockup&rsquo;s gap binds <code>spacing-xl</code> but resolves to 6px &mdash; off the scale entirely, which goes 4 then 8.</li>
-        <li><b>An opacity that does nothing.</b> Capterra&rsquo;s stars bind <code>opacity-30</code> and resolve to 1. The exported artwork carries its own greys, so nothing extra is applied here.</li>
+        <li><b>Two ways to say 30%.</b> Both star rows are white at 30% &mdash; the empty state, which is why they read as grey. G2 sets it on each of the five stars, Capterra sets it on the group. Same result, stated two different ways.</li>
       </ul>
     </div>
 
