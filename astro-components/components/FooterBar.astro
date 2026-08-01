@@ -29,15 +29,26 @@
  *  · Capterra's stars bind `opacity-30` yet resolve to 1. The exported artwork
  *    already carries its own greys, so nothing extra is applied here. If the
  *    intent was a 30% wash, that binding needs fixing in Figma first.
+ *  · The two lg variants disagree about the Slack row. Default places a 16px
+ *    icon in a 20px row with the label at leading 20; Free tools version places
+ *    a 24px icon in a 24px row at leading 18. Default wins here because that is
+ *    the variant this implements — but one of the two is wrong.
+ *  · Every pair of menu items is separated by a divider except Free Tools and
+ *    Webinars, whose divider is hidden in both variants and carries stale
+ *    coordinates. That reads as a leftover rather than a decision, so the
+ *    divider is drawn here. Say so if it was deliberate.
  *
  * Assets are real files, like Logo.astro — a partner logo is artwork, no token
  * can stand in for it. `basePath` points at wherever docs/assets/ was copied to.
  */
 import Logo from './Logo.astro';
+import { icons } from '../icons';
 
 interface Link {
   label: string;
   href?: string;
+  /** Renders a caret after the label — the Free Tools item is the only one. */
+  caret?: boolean;
 }
 
 interface Review {
@@ -67,6 +78,11 @@ interface Partner {
 
 interface Props {
   menu?: Link[];
+  /** Figma's `Property 1=Free tools version` — shows the Free Tools item, which
+   *  exists in the Default variant too but is hidden there. */
+  freeTools?: boolean;
+  freeToolsLabel?: string;
+  freeToolsHref?: string;
   reviews?: Review[];
   address?: string;
   socials?: Social[];
@@ -104,6 +120,9 @@ const {
     { name: 'Facebook', icon: 'icon-facebook.svg' },
     { name: 'LinkedIn', icon: 'icon-linkedin.svg' },
   ],
+  freeTools = false,
+  freeToolsLabel = 'Free tools',
+  freeToolsHref,
   slackLabel = 'Join Iron Slack',
   slackHref,
   partners = [
@@ -120,15 +139,34 @@ const {
 } = Astro.props;
 
 const asset = (file: string) => `${basePath}/${file}`;
+
+/* Figma keeps the Free Tools item in every variant and only toggles its
+   visibility, so it belongs in the same list rather than in its own slot. It
+   sits between Academy and Webinars; if Webinars is not in the menu it goes
+   last, which is the only sensible answer for a caller with a custom list. */
+const items: Link[] = [...menu];
+if (freeTools) {
+  const at = items.findIndex((i) => i.label === 'Webinars');
+  items.splice(at === -1 ? items.length : at, 0, {
+    label: freeToolsLabel,
+    href: freeToolsHref,
+    caret: true,
+  });
+}
 ---
 
 <footer class:list={['fb', className]}>
   <nav class="fb-menu-bar" aria-label="Footer">
     <ul class="fb-menu">
-      {menu.map((item, i) => (
+      {items.map((item, i) => (
         <li>
           {i > 0 && <span class="fb-div" aria-hidden="true"></span>}
-          <a class="fb-menu-link" href={item.href ?? '#'}>{item.label}</a>
+          <a class="fb-menu-link" href={item.href ?? '#'}>
+            {item.label}
+            {item.caret && (
+              <svg class="fb-caret" viewBox={icons.chevronDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
+            )}
+          </a>
         </li>
       ))}
     </ul>
@@ -162,7 +200,7 @@ const asset = (file: string) => `${basePath}/${file}`;
           ))}
         </div>
         <a class="fb-slack" href={slackHref ?? '#'}>
-          <img src={asset('icon-slack.svg')} alt="" width="24" height="24" />
+          <img src={asset('icon-slack.svg')} alt="" width="16" height="16" />
           <span>{slackLabel}</span>
         </a>
       </div>
@@ -215,19 +253,34 @@ const asset = (file: string) => `${basePath}/${file}`;
 
   /* ── band 1: menu ─────────────────────────────────────────────────────── */
   .fb-menu-bar { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-xs) var(--spacing-xl) 0; }
-  .fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; max-width: var(--size-container-content); }
+  /* 1176px is Figma's own number for the menu row — not a container token. The
+     items are centred inside it and only add up to ~866, so the width is
+     headroom rather than a visible edge. */
+  .fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; max-width: 1176px; }
+  /* Figma overlaps every item and divider by 1px so a divider shares an edge
+     with the item beside it (About Us ends at 257.5, News starts at 256.5).
+     Without this the row is 14px wider than the design. */
+  .fb-menu li:not(:first-child) { margin-left: -1px; }
+  .fb-menu .fb-div { margin-right: -1px; }
   /* Each <li> is a flex container so the divider and the label share one
      baseline — a block <li> would put the inline label on a font strut instead,
      the same 1.4px drift TopNav hit. */
   .fb-menu li { display: flex; align-items: center; }
-  .fb-menu-link { display: inline-flex; align-items: center; padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
+  .fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
   .fb-menu-link:hover { opacity: var(--opacity-hover-footer); }
+  /* Measured off the Free tools variant, where the item is visible: 16 padding,
+     8 gap, 13x14 caret — 16+71+8+13+16 = the 124 Figma reports. The same node
+     in the Default variant is hidden and keeps stale coordinates, so it cannot
+     be measured there. */
+  .fb-caret { width: 13px; height: 14px; flex-shrink: 0; }
 
   .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
 
   /* ── band 2: reviews, brand, socials ──────────────────────────────────── */
   .fb-mid { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl); }
-  .fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
+  /* No max-width here on purpose: Figma's middle row is full width inside the
+     24px padding (1392 at a 1440 canvas). Only the legal row below is capped. */
+  .fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; }
 
   .fb-reviews { display: flex; align-items: flex-start; gap: var(--spacing-md); flex: 1 0 0; min-width: 0; }
   .fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); border: var(--border-width-1) solid var(--transparent-white-10); border-radius: var(--rounded-sm); }
@@ -247,7 +300,10 @@ const asset = (file: string) => `${basePath}/${file}`;
   .fb-social img { width: 16px; height: 16px; display: block; }
   .fb-socials:hover { opacity: 1; }
   .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; transition: opacity .16s; }
-  .fb-slack img { width: 24px; height: 24px; display: block; }
+  /* 16px, not the 24 the component's own frame reports — the *instance* placed
+     in this variant is 16, in a 20px-tall row. The Free tools variant places a
+     24px one instead; the two variants disagree in Figma. */
+  .fb-slack img { width: 16px; height: 16px; display: block; }
   .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
   .fb-slack:hover { opacity: var(--opacity-hover-footer); }
 
@@ -268,6 +324,9 @@ const asset = (file: string) => `${basePath}/${file}`;
   .fb-legal-link:hover { opacity: var(--opacity-hover-footer); }
 
   .fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); }
-  .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
+  /* Figma sets line-height 1.2 on 12px = 14.4, which is off our leading ramp
+     (12 → 16). 16 is the nearest step and the label stays centred against the
+     32px logo beside it, so the 1.6px is invisible. */
+  .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
   .fb-donate-img { height: 32px; width: auto; display: block; }
 </style>
