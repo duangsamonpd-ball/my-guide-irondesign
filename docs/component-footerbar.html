@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Footer Bar · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="docs.css">
+  <style>
+body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
+:root{
+      
+       --footer-bg:#260F27;   
+      --primary:#E01A59; --primary-hover:#BA174B; --secondary:#2693EC;
+      --on-color:#FFFFFF;                     
+      --on-color-body:#E5E5E5;                
+      --on-color-support:#CEA7C8;             
+      --on-color-dim:#F5F5F5;                 
+      --button-tertiary:#171717;                 
+      --button-tertiary-hover:#E01A59;           
+      --accent-sky:#89D3DF; --accent-green:#63C1A0; --accent-orange:#FDA509;
+      
+      --footer-bg-2:#171717;
+      --r-full:9999px;
+      --space-micro:4px; --space-xs:8px; --space-sm:12px; --space-md:16px; --space-lg:20px; --space-xl:24px; --space-2xl:32px; --space-3xl:48px; --space-4xl:64px; --space-hero:80px;
+      --text-xs:12px; --text-sm:14px; --text-base:16px; --text-lg:18px; --text-xl:20px; --text-3xl:30px;
+      --leading-none:1; 
+      --tracking-tight:-0.4px; --tracking-wide:0.4px; --tracking-wider:0.8px;
+      --maxw:1280px; --card-alt:#F2F9FE; --border-strong:#CAD5E2;
+       
+       
+    }
+.sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
+.sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+.sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+@media (max-width:768px){ .hamburger{display:flex;} .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} .sidebar.open{transform:translateX(0);} }
+.content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+.page-title { padding:40px 40px 28px; }
+.page-title h1 { font-size:2rem; font-weight:900; letter-spacing:-0.5px; margin-bottom:8px; }
+.page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:680px; }
+.chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
+.var-label { font-size:0.68rem; font-weight:700; color:#62748E; margin:10px 0 16px; }
+.var-label small { font-weight:500; color:#A1A1A1; font-family:'Roboto Mono',monospace; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; }
+.tok td.prop { color:#62748E; }
+.dd .card .top { padding:12px 16px; font-size:0.74rem; font-weight:800; display:flex; align-items:center; gap:7px; }
+.dd .suite .top { background:#F3E9F1; color:#84427C; }
+.dd .default .top { background:#EBF5FD; color:#185FA5; }
+.dd .body { padding:16px; font-size:0.78rem; color:#62748E; line-height:1.6; }
+.c-tag{color:#89D3DF;}
+.c-attr{color:#FDA509;}
+.c-key{color:#E95F8B;}
+.fp-card { border:1px solid #E2E8F0; border-radius:16px; overflow:hidden; }
+.fb { width: 100%; font-family: 'Montserrat', sans-serif; }
+.fb-menu-bar { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-xs) var(--spacing-xl) 0; }
+.fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; max-width: var(--size-container-content); }
+.fb-menu li { display: flex; align-items: center; }
+.fb-menu-link { display: inline-flex; align-items: center; padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
+.fb-menu-link:hover { opacity: var(--opacity-hover-footer); }
+.fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
+.fb-mid { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl); }
+.fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
+.fb-reviews { display: flex; align-items: flex-start; gap: var(--spacing-md); flex: 1 0 0; min-width: 0; }
+.fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); border: var(--border-width-1) solid var(--transparent-white-10); border-radius: var(--rounded-sm); }
+.fb-review-logo { width: 32px; height: 32px; display: block; flex-shrink: 0; }
+.fb-review-rating { display: flex; flex-direction: column; align-items: flex-start; }
+.fb-stars { width: 68px; height: 12px; display: block; }
+.fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
+.fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
+.fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
+.fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); }
+.fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
+.fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
+.fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); opacity: var(--opacity-60); }
+.fb-social { display: flex; transition: opacity .16s; }
+.fb-social img { width: 16px; height: 16px; display: block; }
+.fb-socials:hover { opacity: 1; }
+.fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; transition: opacity .16s; }
+.fb-slack img { width: 24px; height: 24px; display: block; }
+.fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
+.fb-slack:hover { opacity: var(--opacity-hover-footer); }
+.fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
+.fb-info-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
+.fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
+.fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
+.fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
+.fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
+.fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
+.fb-legal-links .fb-div { height: var(--leading-3); }
+.fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
+.fb-legal-link:hover { opacity: var(--opacity-hover-footer); }
+.fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); }
+.fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
+.fb-donate-img { height: 32px; width: auto; display: block; }
+.fp-row:hover .fp-desc { color: var(--color-text-on-color-body); }
+  </style>
+</head>
+<body>
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div><h1>Iron Software Design System</h1><p>Visual Token Reference — for everyone on the team</p></div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <div class="sidebar-tree">
+        <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+        <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
+        <a href="component-textlink.html" class="sidebar-link"><i class="sidebar-icon">🔗</i>Text Link</a>
+        <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
+        <a href="component-fileupload.html" class="sidebar-link"><i class="sidebar-icon">📎</i>File Upload</a>
+        <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
+        <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
+        <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
+        <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+        <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+        <a href="component-topnav.html" class="sidebar-link"><i class="sidebar-icon">📍</i>Top Nav</a>
+        <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
+        <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
+        <a href="component-footerbar.html" class="sidebar-link active"><i class="sidebar-icon">🧱</i>Footer Bar</a>
+        <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
+        <a href="component-formcard.html" class="sidebar-link"><i class="sidebar-icon">🗂️</i>Form Card</a>
+        <a href="component-trialkeycard.html" class="sidebar-link"><i class="sidebar-icon">🔑</i>Trial Key Card</a>
+      </div>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+  <div class="main-content"><div class="content">
+
+    <div class="page-title">
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Footer Bar</div>
+      <h1>Footer Bar</h1>
+      <p class="lead">The site footer bar: company menu, review badges, brand and address, socials, partner logos and the legal line. It sits <b>below</b> <a href="component-footer.html">Product Footer</a> — the two stack, they do not replace each other.</p>
+      <div class="meta-chips"><span class="chip">3 bands</span><span class="chip">1440 wide</span><span class="chip" style="background:#171717;color:#E5E5E5;">◆ Dark only</span><span class="chip new">Figma 877:2953</span></div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Default</div>
+      <div class="sect-sub">Figma&rsquo;s <code>Property 1=Default</code>. The menu row and the brand row are both <code>--color-bg-footer-alt</code>; only the legal row underneath is <code>--color-bg-footer</code> &mdash; the opposite way round to what the token names suggest.</div>
+      <div class="fp-card">
+        <!-- demo:default -->
+        <footer class="fb">
+          <nav class="fb-menu-bar" aria-label="Footer">
+            <ul class="fb-menu">
+              <li>
+                <a class="fb-menu-link" href="#">About Us</a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">News</a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">Customers</a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">Careers</a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">Academy</a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">Webinars</a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">Customer HUB Login</a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">Contact Us</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="fb-mid">
+            <div class="fb-mid-inner">
+              <div class="fb-reviews">
+                <div class="fb-review">
+                  <img class="fb-review-logo" src="assets/logo-g2.svg" alt="G2" width="32" height="32">
+                  <div class="fb-review-rating">
+                    <img class="fb-stars" src="assets/stars-g2.svg" alt="" width="68" height="12">
+                    <p class="fb-score">4.9<span class="fb-outof"> / 5</span></p>
+                  </div>
+                </div><div class="fb-review">
+                  <img class="fb-review-logo" src="assets/logo-capterra.svg" alt="Capterra" width="32" height="32">
+                  <div class="fb-review-rating">
+                    <img class="fb-stars" src="assets/stars-capterra.svg" alt="" width="68" height="12">
+                    <p class="fb-score">5<span class="fb-outof"> / 5</span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="fb-brand">
+                <span class="fb-logo"><span style="height:24px" class="logo logo--wordmark">
+                    <img src="assets/wordmark-iron-ondark.svg" alt="Iron Software" height="24">
+                  </span></span>
+                <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
+              </div>
+              <div class="fb-connect">
+                <div class="fb-socials">
+                  <a class="fb-social" href="#" aria-label="GitHub">
+                    <img src="assets/icon-github.svg" alt="" width="16" height="16">
+                  </a><a class="fb-social" href="#" aria-label="YouTube">
+                    <img src="assets/icon-youtube.svg" alt="" width="16" height="16">
+                  </a><a class="fb-social" href="#" aria-label="X">
+                    <img src="assets/icon-x.svg" alt="" width="16" height="16">
+                  </a><a class="fb-social" href="#" aria-label="Facebook">
+                    <img src="assets/icon-facebook.svg" alt="" width="16" height="16">
+                  </a><a class="fb-social" href="#" aria-label="LinkedIn">
+                    <img src="assets/icon-linkedin.svg" alt="" width="16" height="16">
+                  </a>
+                </div>
+                <a class="fb-slack" href="#">
+                  <img src="assets/icon-slack.svg" alt="" width="24" height="24">
+                  <span>Join Iron Slack</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="fb-info">
+            <div class="fb-info-inner">
+              <div class="fb-partners">
+                <img class="fb-partner" src="assets/logo-pdf-association-member.svg" alt="PDF Association Member" width="46" height="28"><img class="fb-partner" src="assets/logo-microsoft.svg" alt="Microsoft Partner" width="92" height="28"><img class="fb-partner" src="assets/logo-aws.svg" alt="AWS Partner Network" width="86" height="28">
+              </div>
+              <div class="fb-legal">
+                <p class="fb-copyright">Copyright © Iron Software 2013-2026</p>
+                <div class="fb-legal-links">
+                  <a class="fb-legal-link" href="#">Terms</a>
+                  <span class="fb-div" aria-hidden="true"></span>
+                  <a class="fb-legal-link" href="#">Privacy</a>
+                  <span class="fb-div" aria-hidden="true"></span>
+                  <a class="fb-legal-link" href="#">Cookie</a>
+                </div>
+              </div>
+              <div class="fb-donate">
+                <span class="fb-donate-label">Every Iron Suite Donates</span>
+                <img class="fb-donate-img" src="assets/1% logo - Horizontal.png" alt="1% For The Planet" height="32">
+              </div>
+            </div>
+          </div>
+        </footer>
+        <!-- /demo:default -->
+      </div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Token Reference</div>
+      <div class="sect-sub">This component is the first consumer either footer background token has ever had. Both were imported with the colour ramp and sat unread until now.</div>
+      <table class="tok">
+        <thead><tr><th>Figma variable</th><th>Token</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><td>surface/footer-alt</td><td><code>--color-bg-footer-alt</code></td><td>Menu row + brand row fill</td></tr>
+          <tr><td>surface/footer</td><td><code>--color-bg-footer</code></td><td>Legal row fill</td></tr>
+          <tr><td>text/default/link-menu</td><td><code>--color-text-link-menu</code></td><td>Menu and legal links</td></tr>
+          <tr><td>text/on color/heading</td><td><code>--color-text-on-color-heading</code></td><td>Review score</td></tr>
+          <tr><td>text/on color/body</td><td><code>--color-text-on-color-body</code></td><td>Address, Slack, copyright, donate</td></tr>
+          <tr><td>transparent/white/20</td><td><code>--transparent-white-20</code></td><td>Dividers</td></tr>
+          <tr><td>transparent/white/10</td><td><code>--transparent-white-10</code></td><td>Review card border</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Deviations from Figma</div>
+      <div class="sect-sub">Four things in the design file that the code deliberately does not copy. Each needs a fix on the Figma side, not here.</div>
+      <ul class="guide">
+        <li><b>Gotham in a Montserrat system.</b> The review scores, &ldquo;Join Iron Slack&rdquo; and &ldquo;Every Iron Suite Donates&rdquo; are set in Gotham with no variable bound. They are Montserrat here.</li>
+        <li><b>A raw Light Gray.</b> &ldquo;Join Iron Slack&rdquo; paints a Figma <i>style</i> rather than a variable; it uses <code>--color-text-on-color-body</code> here, like every other secondary line.</li>
+        <li><b>A gap bound to the wrong step.</b> The brand lockup&rsquo;s gap binds <code>spacing-xl</code> but resolves to 6px &mdash; off the scale entirely, which goes 4 then 8.</li>
+        <li><b>An opacity that does nothing.</b> Capterra&rsquo;s stars bind <code>opacity-30</code> and resolve to 1. The exported artwork carries its own greys, so nothing extra is applied here.</li>
+      </ul>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Not built yet</div>
+      <div class="sect-sub">Figma&rsquo;s <code>footer-lg</code> set has three variants and there are separate <code>footer-md</code> (768) and <code>footer-sm</code> (375) symbols. Only <b>Default</b> at lg is implemented.</div>
+      <ul class="guide">
+        <li><b>Free tools version</b> &mdash; adds a <i>Free tools</i> item with a caret to the menu row.</li>
+        <li><b>Free tool open</b> &mdash; expands a three-column panel (PDF Converters / PDF Editors / Others) under the menu.</li>
+        <li><b>md and sm</b> &mdash; the tablet and mobile layouts, both drawn in Figma and both unimplemented.</li>
+      </ul>
+    </div>
+
+    </div>
+
+    <footer class="docfoot">Iron Software Design System &nbsp;·&nbsp; Footer Bar component &nbsp;·&nbsp; 2025</footer>
+  </div></div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<script>
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
+  function showToast(msg){let el=document.getElementById('ds-toast');if(!el){el=document.createElement('div');el.id='ds-toast';document.body.appendChild(el);el.style.cssText='position:fixed;right:32px;bottom:32px;transform:translateY(20px);background:#171717;color:#fff;font-family:Montserrat,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:.01em;padding:11px 18px;border-radius:9999px;box-shadow:0 8px 28px rgba(15,23,43,0.28);z-index:200;opacity:0;transition:opacity .22s ease,transform .22s ease;display:flex;align-items:center;gap:8px;pointer-events:none;';}el.innerHTML='<span style="color:#3DDC97;font-weight:800;">✓</span>'+msg;setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);}
+  function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+  function copyCode(btn){const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}else{fallbackCopy(txt,done);}}
+</script>
+</body>
+</html>

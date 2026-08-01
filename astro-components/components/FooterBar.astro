@@ -1,0 +1,273 @@
+---
+/**
+ * FooterBar — the site footer bar from Figma's "Footer 2026" section
+ * (node 263:1386; the lg component set is `footer-lg`, 877:2953).
+ *
+ * NOT the same component as Footer.astro. Footer.astro is `.footer-top`, the
+ * violet IRONSUITE cross-sell band that sits ABOVE this; FooterBar is the black
+ * bar underneath it — menu, review badges, brand, socials, partner logos and
+ * legal line. They stack, they do not replace each other.
+ *
+ * Three bands, and the fills are the opposite way round to what the token names
+ * suggest: the menu row and the brand row are both `surface/footer-alt`
+ * (--color-bg-footer-alt, neutral/950) and only the bottom legal row is
+ * `surface/footer` (--color-bg-footer, neutral/900).
+ *
+ * This is the first consumer either of those tokens has ever had — they were
+ * imported with the colour ramp and sat unread until now.
+ *
+ * Deviations from the Figma node, all deliberate:
+ *  · Figma sets three text nodes in Gotham (the review ratings, "Join Iron
+ *    Slack", "Every Iron Suite Donates") inside a Montserrat system, with no
+ *    variable bound. They are Montserrat here.
+ *  · "Join Iron Slack" paints a raw colour from a Figma *style* named Light
+ *    Gray rather than a variable; it uses --color-text-on-color-body here, the
+ *    same as every other secondary line in the bar.
+ *  · The brand lockup's gap is bound to `spacing-xl` in Figma but resolves to
+ *    6px, which is off our scale entirely (4 → 8). The lockup is one SVG here,
+ *    so the question does not arise in code — but it is still wrong in Figma.
+ *  · Capterra's stars bind `opacity-30` yet resolve to 1. The exported artwork
+ *    already carries its own greys, so nothing extra is applied here. If the
+ *    intent was a 30% wash, that binding needs fixing in Figma first.
+ *
+ * Assets are real files, like Logo.astro — a partner logo is artwork, no token
+ * can stand in for it. `basePath` points at wherever docs/assets/ was copied to.
+ */
+import Logo from './Logo.astro';
+
+interface Link {
+  label: string;
+  href?: string;
+}
+
+interface Review {
+  /** Alt text and the label the rating is read as, e.g. "G2". */
+  name: string;
+  /** Artwork filename inside basePath, e.g. "logo-g2.svg". */
+  logo: string;
+  /** Star artwork filename inside basePath. */
+  stars: string;
+  /** e.g. "4.9" — rendered large; `outOf` follows it small. */
+  score: string;
+  outOf?: string;
+}
+
+interface Social {
+  name: string;
+  icon: string;
+  href?: string;
+}
+
+interface Partner {
+  name: string;
+  logo: string;
+  /** Rendered width in px; height is fixed at 28 to match the row. */
+  width: number;
+}
+
+interface Props {
+  menu?: Link[];
+  reviews?: Review[];
+  address?: string;
+  socials?: Social[];
+  slackLabel?: string;
+  slackHref?: string;
+  partners?: Partner[];
+  copyright?: string;
+  legal?: Link[];
+  donateLabel?: string;
+  donateImg?: string;
+  basePath?: string;
+  class?: string;
+}
+
+const {
+  menu = [
+    { label: 'About Us' },
+    { label: 'News' },
+    { label: 'Customers' },
+    { label: 'Careers' },
+    { label: 'Academy' },
+    { label: 'Webinars' },
+    { label: 'Customer HUB Login' },
+    { label: 'Contact Us' },
+  ],
+  reviews = [
+    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', score: '4.9', outOf: '/ 5' },
+    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', score: '5', outOf: '/ 5' },
+  ],
+  address = '205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088',
+  socials = [
+    { name: 'GitHub', icon: 'icon-github.svg' },
+    { name: 'YouTube', icon: 'icon-youtube.svg' },
+    { name: 'X', icon: 'icon-x.svg' },
+    { name: 'Facebook', icon: 'icon-facebook.svg' },
+    { name: 'LinkedIn', icon: 'icon-linkedin.svg' },
+  ],
+  slackLabel = 'Join Iron Slack',
+  slackHref,
+  partners = [
+    { name: 'PDF Association Member', logo: 'logo-pdf-association-member.svg', width: 46 },
+    { name: 'Microsoft Partner', logo: 'logo-microsoft.svg', width: 92 },
+    { name: 'AWS Partner Network', logo: 'logo-aws.svg', width: 86 },
+  ],
+  copyright = 'Copyright © Iron Software 2013-2026',
+  legal = [{ label: 'Terms' }, { label: 'Privacy' }, { label: 'Cookie' }],
+  donateLabel = 'Every Iron Suite Donates',
+  donateImg = '1% logo - Horizontal.png',
+  basePath = 'assets',
+  class: className,
+} = Astro.props;
+
+const asset = (file: string) => `${basePath}/${file}`;
+---
+
+<footer class:list={['fb', className]}>
+  <nav class="fb-menu-bar" aria-label="Footer">
+    <ul class="fb-menu">
+      {menu.map((item, i) => (
+        <li>
+          {i > 0 && <span class="fb-div" aria-hidden="true"></span>}
+          <a class="fb-menu-link" href={item.href ?? '#'}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="fb-mid">
+    <div class="fb-mid-inner">
+      <div class="fb-reviews">
+        {reviews.map((r) => (
+          <div class="fb-review">
+            <img class="fb-review-logo" src={asset(r.logo)} alt={r.name} width="32" height="32" />
+            <div class="fb-review-rating">
+              <img class="fb-stars" src={asset(r.stars)} alt="" width="68" height="12" />
+              <p class="fb-score">{r.score}{r.outOf && <span class="fb-outof"> {r.outOf}</span>}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="fb-brand">
+        <span class="fb-logo"><Logo kind="wordmark" brand="iron" variant="ondark" height={24} basePath={basePath} label="Iron Software" /></span>
+        <p class="fb-address">{address}</p>
+      </div>
+
+      <div class="fb-connect">
+        <div class="fb-socials">
+          {socials.map((s) => (
+            <a class="fb-social" href={s.href ?? '#'} aria-label={s.name}>
+              <img src={asset(s.icon)} alt="" width="16" height="16" />
+            </a>
+          ))}
+        </div>
+        <a class="fb-slack" href={slackHref ?? '#'}>
+          <img src={asset('icon-slack.svg')} alt="" width="24" height="24" />
+          <span>{slackLabel}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="fb-info">
+    <div class="fb-info-inner">
+      <div class="fb-partners">
+        {partners.map((p) => (
+          <img class="fb-partner" src={asset(p.logo)} alt={p.name} width={p.width} height="28" />
+        ))}
+      </div>
+
+      <div class="fb-legal">
+        <p class="fb-copyright">{copyright}</p>
+        <div class="fb-legal-links">
+          {legal.map((l, i) => (
+            <>
+              {i > 0 && <span class="fb-div" aria-hidden="true"></span>}
+              <a class="fb-legal-link" href={l.href ?? '#'}>{l.label}</a>
+            </>
+          ))}
+        </div>
+      </div>
+
+      <div class="fb-donate">
+        <span class="fb-donate-label">{donateLabel}</span>
+        <img class="fb-donate-img" src={asset(donateImg)} alt="1% For The Planet" height="32" />
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /*
+    Token map, 1:1 with the Figma variables on node 877:2953:
+      surface/footer-alt      → --color-bg-footer-alt   (menu + brand bands)
+      surface/footer          → --color-bg-footer       (legal band)
+      text/default/link-menu  → --color-text-link-menu
+      text/on color/heading   → --color-text-on-color-heading
+      text/on color/body      → --color-text-on-color-body
+      transparent/white/20    → --transparent-white-20  (dividers)
+      transparent/white/10    → --transparent-white-10  (review card border)
+      Typography/UI/Button default → --font-size-btn / --fw-btn / --leading-4
+      Typography/Caption SM        → --font-size-caption-sm / --fw-caption-sm
+                                     / --letter-spacing-caption-sm
+  */
+  .fb { width: 100%; font-family: 'Montserrat', sans-serif; }
+
+  /* ── band 1: menu ─────────────────────────────────────────────────────── */
+  .fb-menu-bar { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-xs) var(--spacing-xl) 0; }
+  .fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; max-width: var(--size-container-content); }
+  /* Each <li> is a flex container so the divider and the label share one
+     baseline — a block <li> would put the inline label on a font strut instead,
+     the same 1.4px drift TopNav hit. */
+  .fb-menu li { display: flex; align-items: center; }
+  .fb-menu-link { display: inline-flex; align-items: center; padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
+  .fb-menu-link:hover { opacity: var(--opacity-hover-footer); }
+
+  .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
+
+  /* ── band 2: reviews, brand, socials ──────────────────────────────────── */
+  .fb-mid { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl); }
+  .fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
+
+  .fb-reviews { display: flex; align-items: flex-start; gap: var(--spacing-md); flex: 1 0 0; min-width: 0; }
+  .fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); border: var(--border-width-1) solid var(--transparent-white-10); border-radius: var(--rounded-sm); }
+  .fb-review-logo { width: 32px; height: 32px; display: block; flex-shrink: 0; }
+  .fb-review-rating { display: flex; flex-direction: column; align-items: flex-start; }
+  .fb-stars { width: 68px; height: 12px; display: block; }
+  .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
+  .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
+
+  .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
+  .fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); }
+  .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
+
+  .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
+  .fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); opacity: var(--opacity-60); }
+  .fb-social { display: flex; transition: opacity .16s; }
+  .fb-social img { width: 16px; height: 16px; display: block; }
+  .fb-socials:hover { opacity: 1; }
+  .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; transition: opacity .16s; }
+  .fb-slack img { width: 24px; height: 24px; display: block; }
+  .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
+  .fb-slack:hover { opacity: var(--opacity-hover-footer); }
+
+  /* ── band 3: partners, legal, donate ──────────────────────────────────── */
+  .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
+  .fb-info-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
+
+  .fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
+  /* Figma greys the partner marks with mix-blend-luminosity over the band fill,
+     which is why they read as flat grey rather than tinted. */
+  .fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
+
+  .fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
+  .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
+  .fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
+  .fb-legal-links .fb-div { height: var(--leading-3); }
+  .fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: opacity .16s; }
+  .fb-legal-link:hover { opacity: var(--opacity-hover-footer); }
+
+  .fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); }
+  .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
+  .fb-donate-img { height: 32px; width: auto; display: block; }
+</style>

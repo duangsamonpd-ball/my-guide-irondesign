@@ -27,6 +27,7 @@ export { default as Button } from './components/Button.astro';
 export { default as Checkbox } from './components/Checkbox.astro';
 export { default as FileUpload } from './components/FileUpload.astro';
 export { default as Footer } from './components/Footer.astro';
+export { default as FooterBar } from './components/FooterBar.astro';
 export { default as FormCard } from './components/FormCard.astro';
 export { default as Input } from './components/Input.astro';
 export { default as Logo } from './components/Logo.astro';
