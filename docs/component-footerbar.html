@@ -417,7 +417,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 
     <div class="sect">
       <div class="sect-h">Deviations from Figma</div>
-      <div class="sect-sub">Four things in the design file that the code deliberately does not copy. Each needs a fix on the Figma side, not here.</div>
+      <div class="sect-sub">What the code does <b>not</b> copy from the design file, and why. Most of these want a fix on the Figma side rather than here; the two marked <i>settled</i> are decisions already taken.</div>
       <ul class="guide">
         <li><b>Gotham in a Montserrat system.</b> The review scores, &ldquo;Join Iron Slack&rdquo; and &ldquo;Every Iron Suite Donates&rdquo; are set in Gotham with no variable bound. They are Montserrat here.</li>
         <li><b>A raw Light Gray.</b> &ldquo;Join Iron Slack&rdquo; paints a Figma <i>style</i> rather than a variable; it uses <code>--color-text-on-color-body</code> here, like every other secondary line.</li>
@@ -430,10 +430,9 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 
     <div class="sect">
       <div class="sect-h">Not built yet</div>
-      <div class="sect-sub">Figma&rsquo;s <code>footer-lg</code> set has three variants and there are separate <code>footer-md</code> (768) and <code>footer-sm</code> (375) symbols. Only <b>Default</b> at lg is implemented.</div>
+      <div class="sect-sub">Figma&rsquo;s <code>footer-lg</code> set has three variants and there are separate <code>footer-md</code> (768) and <code>footer-sm</code> (375) symbols. <b>Default</b> and <b>Free tools version</b> are implemented &mdash; both are above.</div>
       <ul class="guide">
-        <li><b>Free tools version</b> &mdash; adds a <i>Free tools</i> item with a caret to the menu row.</li>
-        <li><b>Free tool open</b> &mdash; expands a three-column panel (PDF Converters / PDF Editors / Others) under the menu.</li>
+        <li><b>Free tool open</b> &mdash; expands a three-column panel (PDF Converters / PDF Editors / Others) under the menu. The only one of the three that needs new markup rather than a prop.</li>
         <li><b>md and sm</b> &mdash; the tablet and mobile layouts, both drawn in Figma and both unimplemented.</li>
       </ul>
     </div>
