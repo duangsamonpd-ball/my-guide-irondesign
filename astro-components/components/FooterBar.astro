@@ -30,14 +30,15 @@
  *    they read as grey. G2 sets the opacity on each of the five stars and
  *    Capterra sets it on the group; same result, two different ways of saying
  *    it. Neither needs help from CSS, and adding any would double it.
- *  · The two lg variants disagree about the Slack row. Default places a 16px
- *    icon in a 20px row with the label at leading 20; Free tools version places
- *    a 24px icon in a 24px row at leading 18. Default wins here because that is
- *    the variant this implements — but one of the two is wrong.
+ *  · The two lg variants disagree about the Slack row: Default places a 16px
+ *    icon in a 20px row with the label at leading 20, Free tools version a 24px
+ *    icon in a 24px row at leading 18. **Ball ruled for Default (2026-08-02)**,
+ *    so 16px is correct in both regions here and the Free tools variant is the
+ *    one to correct in Figma.
  *  · Every pair of menu items is separated by a divider except Free Tools and
  *    Webinars, whose divider is hidden in both variants and carries stale
- *    coordinates. That reads as a leftover rather than a decision, so the
- *    divider is drawn here. Say so if it was deliberate.
+ *    coordinates. **Ball ruled to draw it (2026-08-02)** — the hidden node is a
+ *    leftover, not a decision, and Figma is the side that needs the fix.
  *
  * Assets are real files, like Logo.astro — a partner logo is artwork, no token
  * can stand in for it. `basePath` points at wherever docs/assets/ was copied to.

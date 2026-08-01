@@ -423,6 +423,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
         <li><b>A raw Light Gray.</b> &ldquo;Join Iron Slack&rdquo; paints a Figma <i>style</i> rather than a variable; it uses <code>--color-text-on-color-body</code> here, like every other secondary line.</li>
         <li><b>A gap bound to the wrong step.</b> The brand lockup&rsquo;s gap binds <code>spacing-xl</code> but resolves to 6px &mdash; off the scale entirely, which goes 4 then 8.</li>
         <li><b>Two ways to say 30%.</b> Both star rows are white at 30% &mdash; the empty state, which is why they read as grey. G2 sets it on each of the five stars, Capterra sets it on the group. Same result, stated two different ways.</li>
+        <li><b>The two variants disagree about the Slack row.</b> Default places a 16px icon in a 20px row at leading 20; Free tools version places a 24px icon in a 24px row at leading 18. <b>Settled 2026-08-02: Default is correct</b>, so 16px is used in both regions and the Free tools variant is the one to correct in Figma.</li>
+        <li><b>A divider is missing between Free Tools and Webinars.</b> Every other pair of menu items has one; that node is hidden in both variants and keeps stale coordinates. <b>Settled 2026-08-02: draw it</b> &mdash; the hidden node is a leftover, and Figma is the side that needs the fix.</li>
       </ul>
     </div>
 
