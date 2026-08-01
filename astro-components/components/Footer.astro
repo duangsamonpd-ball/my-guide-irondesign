@@ -30,17 +30,25 @@ const {
   productLogoSrc = 'assets/logo.svg',
   class: className,
 } = Astro.props;
+
+/* These props are whole paths, so encode segment by segment — encoding the lot
+   would eat the slashes, and encodeURI would leave the `%` alone, which is the
+   one character that actually breaks. `1% logo - Horizontal.png` reaches the
+   browser as the invalid escape `% l` and the image never loads; it had been
+   broken in both variants since this component shipped, because every gate here
+   only ever asked whether the file exists on disk. */
+const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
 ---
 
 <div class:list={['footer-top', className]}>
   <div class="ft-inner">
     <div class="ft-left">
-      <div class="ft-donate">Every Iron Suite Donates <img src={donateImgSrc} alt="1% For The Planet" /></div>
+      <div class="ft-donate">Every Iron Suite Donates <img src={src(donateImgSrc)} alt="1% For The Planet" /></div>
       <div class="ft-main">
         <div class="ft-text">
           {variant === 'suite' ? (
             <div class="f-suite-logo">
-              <img src={suiteLogoImgSrc} alt="" />
+              <img src={src(suiteLogoImgSrc)} alt="" />
               <span><span class="hl">IRON</span><span class="ac">SUITE</span></span>
             </div>
           ) : (
@@ -59,7 +67,7 @@ const {
       <ul class="f-products">
         {products.map((p) => (
           <li class="fp-row">
-            <span class="fp-logo"><img src={productLogoSrc} alt="" /></span>
+            <span class="fp-logo"><img src={src(productLogoSrc)} alt="" /></span>
             <span class="fp-name">{p.prefix}<span class="suffix" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
             <span class="fp-sep">-</span>
             <span class="fp-desc">{p.desc}</span>
