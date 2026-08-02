@@ -323,30 +323,30 @@
   --color-button-dark-outline: var(--iron-violet-950); /* #260F27 — iron-violet/950 */
   --color-button-dark-outline-hover: var(--iron-violet-900); /* #391C39 — iron-violet/900 */
   --color-text-heading: var(--neutral-900);   /* #171717 — H1–H4, emphasized type */
-  --color-text-heading-alt: var(--iron-blue-600); /* #217BC4 — Coloured headline accents, kickers · 4.08:1 — LARGE TEXT ONLY (24px+, or 18.66px+ bold) */
+  --color-text-heading-alt: var(--iron-blue-600); /* #217BC4 — Coloured headline accents, kickers · 4.08:1 on --color-bg-shade — LARGE TEXT ONLY (24px+, or 18.66px+ bold) */
   --color-text-body: var(--neutral-800);      /* #262626 — Default running text */
-  --color-text-muted: var(--neutral-600);     /* #525252 — Captions, hints, field descriptions · 7.13:1 — real text, must meet AA */
+  --color-text-muted: var(--neutral-600);     /* #525252 — Captions, hints, field descriptions · 7.13:1 on --color-bg-shade — real text, must meet AA */
   --color-text-placeholder: var(--neutral-600); /* #525252 — Input placeholder text. Same value as muted today but deliberately NOT an alias of it: a placeholder sits on the input's own bg-base fill, a hint sits on the page (which may be bg-shade), so the two have different contrast budgets and must be free to diverge. */
   --color-text-disabled: var(--neutral-400);  /* #A1A1A1 — Disabled controls ONLY · exempt from contrast minimums; kept light so a disabled control reads as inert (5.86:1 away from body) */
-  --color-text-support: var(--slate-600);     /* #45556C — Support headlines, caption titles · 6.92:1 */
+  --color-text-support: var(--slate-600);     /* #45556C — Support headlines, caption titles · 6.92:1 on --color-bg-shade */
   --color-text-on-primary: #FFFFFF;           /* White text on CTA buttons (Figma: on action) */
   --color-text-on-action-hover: var(--iron-pink-500); /* #E01A59 — brand/primary — text on a hovered action */
   --color-text-on-action-tertiary: var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
   --color-text-on-action-tertiary-hover: var(--iron-pink-500); /* #E01A59 — hovered tertiary action */
   --color-on-tertiary: var(--color-text-on-action-tertiary); /* alias — Button outline/ghost/ondark text */
   --color-on-tertiary-hover: var(--color-text-on-action-tertiary-hover); /* alias — hover state */
-  --color-text-link: var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text · 2.96:1 — does NOT meet AA; kept as the brand blue by design decision. Pair links with an underline so colour is never the only cue. */
+  --color-text-link: var(--iron-blue-500);    /* #2693EC — Hyperlinks, anchor text · 2.96:1 on --color-bg-shade — does NOT meet AA; kept as the brand blue by design decision. Pair links with an underline so colour is never the only cue. */
   --color-text-link-hover: var(--iron-pink-500); /* #E01A59 — Hovered / active link state */
   --color-text-link-menu: #FFFFFF;            /* White — links in the dark footer / nav menu bar (Figma: link-menu) */
   --color-text-link-menu-hover: var(--iron-pink-500); /* #E01A59 — brand/primary — hovered menu-bar link */
   --color-text-dark-heading: var(--neutral-100); /* #F5F5F5 — neutral/100 */
   --color-text-dark-heading-alt: var(--iron-orange-500); /* #FDA509 — brand/accent 1 */
   --color-text-dark-body: var(--neutral-300); /* #D4D4D4 — neutral/300 */
-  --color-text-dark-muted: var(--neutral-400); /* #A1A1A1 — neutral/400 · 4.54:1 */
+  --color-text-dark-muted: var(--neutral-400); /* #A1A1A1 — neutral/400 · 4.54:1 on --color-bg-dark-card */
   --color-text-dark-placeholder: var(--neutral-400); /* #A1A1A1 — neutral/400 · 5.81:1 on the iron-violet/900 page background */
   --color-text-dark-disabled: var(--neutral-500); /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-dark-support: var(--iron-violet-300); /* #CEA7C8 — iron-violet/300 */
-  --color-text-dark-link: var(--iron-blue-400); /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 */
+  --color-text-dark-link: var(--iron-blue-400); /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
   --color-text-dark-link-hover: var(--iron-pink-400); /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
   --color-text-on-color-heading: #FFFFFF;     /* white */
   --color-text-on-color-body: var(--neutral-200); /* #E5E5E5 — neutral/200 */
@@ -776,11 +776,11 @@
   --color-text-heading: var(--color-text-dark-heading); /* #F5F5F5 — neutral/100 */
   --color-text-heading-alt: var(--color-text-dark-heading-alt); /* #FDA509 — brand/accent 1 */
   --color-text-body: var(--color-text-dark-body); /* #D4D4D4 — neutral/300 */
-  --color-text-muted: var(--color-text-dark-muted); /* #A1A1A1 — neutral/400 · 4.54:1 */
+  --color-text-muted: var(--color-text-dark-muted); /* #A1A1A1 — neutral/400 · 4.54:1 on --color-bg-dark-card */
   --color-text-placeholder: var(--color-text-dark-placeholder); /* #A1A1A1 — neutral/400 · 5.81:1 on the iron-violet/900 page background */
   --color-text-disabled: var(--color-text-dark-disabled); /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-support: var(--color-text-dark-support); /* #CEA7C8 — iron-violet/300 */
-  --color-text-link: var(--color-text-dark-link); /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 */
+  --color-text-link: var(--color-text-dark-link); /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
   --color-text-link-hover: var(--color-text-dark-link-hover); /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
   --color-bg-base: var(--color-bg-dark);      /* #391C39 — iron-violet/900 — main page background */
   --color-bg-shade: var(--color-bg-dark-shade); /* #260F27 — iron-violet/950 — band fills, alternating sections */
