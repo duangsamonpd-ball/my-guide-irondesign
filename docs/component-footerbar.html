@@ -68,6 +68,9 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-review-logo { width: 32px; height: 32px; display: block; flex-shrink: 0; }
 .fb-review-rating { display: flex; flex-direction: column; align-items: flex-start; }
 .fb-stars { width: 68px; height: 12px; display: block; }
+.fb-stars-hover { width: 68px; height: 12px; display: none; }
+.fb-review:hover .fb-stars { display: none; }
+.fb-review:hover .fb-stars-hover { display: block; }
 .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
 .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
 .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
@@ -78,10 +81,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-logo:hover .fb-logo-colour { display: block; }
 .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
 .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
-.fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); opacity: var(--opacity-60); transition: opacity .2s; }
-.fb-social { display: flex; }
+.fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); }
+.fb-social { display: flex; opacity: var(--opacity-60); }
 .fb-social img { width: 16px; height: 16px; display: block; }
-.fb-socials:hover { opacity: 1; }
+.fb-social:hover { opacity: 1; }
 .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; }
 .fb-slack img { width: 16px; height: 16px; display: block; }
 .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; transition: color .2s; }
@@ -89,8 +92,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
 .fb-info-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--size-container-max); }
 .fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
-.fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); transition: opacity .2s; }
-.fb-partners:has(:hover) .fb-partner { mix-blend-mode: normal; opacity: 1; }
+.fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
+.fb-partner:hover { mix-blend-mode: normal; opacity: 1; }
 .fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
 .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
 .fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
@@ -215,12 +218,14 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <img class="fb-review-logo" src="assets/logo-g2.svg" alt="G2" width="32" height="32">
                   <div class="fb-review-rating">
                     <img class="fb-stars" src="assets/stars-g2.svg" alt="" width="68" height="12">
+                    <img class="fb-stars-hover" src="assets/stars-g2-hover.svg" alt="" width="68" height="12">
                     <p class="fb-score">4.9<span class="fb-outof"> / 5</span></p>
                   </div>
                 </div><div class="fb-review">
                   <img class="fb-review-logo" src="assets/logo-capterra.svg" alt="Capterra" width="32" height="32">
                   <div class="fb-review-rating">
                     <img class="fb-stars" src="assets/stars-capterra.svg" alt="" width="68" height="12">
+                    <img class="fb-stars-hover" src="assets/stars-capterra-hover.svg" alt="" width="68" height="12">
                     <p class="fb-score">5<span class="fb-outof"> / 5</span></p>
                   </div>
                 </div>
@@ -346,12 +351,14 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <img class="fb-review-logo" src="assets/logo-g2.svg" alt="G2" width="32" height="32">
                   <div class="fb-review-rating">
                     <img class="fb-stars" src="assets/stars-g2.svg" alt="" width="68" height="12">
+                    <img class="fb-stars-hover" src="assets/stars-g2-hover.svg" alt="" width="68" height="12">
                     <p class="fb-score">4.9<span class="fb-outof"> / 5</span></p>
                   </div>
                 </div><div class="fb-review">
                   <img class="fb-review-logo" src="assets/logo-capterra.svg" alt="Capterra" width="32" height="32">
                   <div class="fb-review-rating">
                     <img class="fb-stars" src="assets/stars-capterra.svg" alt="" width="68" height="12">
+                    <img class="fb-stars-hover" src="assets/stars-capterra-hover.svg" alt="" width="68" height="12">
                     <p class="fb-score">5<span class="fb-outof"> / 5</span></p>
                   </div>
                 </div>

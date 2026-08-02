@@ -65,8 +65,17 @@ interface Review {
   name: string;
   /** Artwork filename inside basePath, e.g. "logo-g2.svg". */
   logo: string;
-  /** Star artwork filename inside basePath. */
+  /** Star artwork filename inside basePath — the resting row, white at 30%. */
   stars: string;
+  /**
+   * The filled row shown while the card is hovered — Figma binds those stars to
+   * `brand/accent-1`, which is `--color-accent-1` here (iron-orange/500). The
+   * value lives in the exported artwork, not in this component's CSS.
+   * A second file rather than a CSS filter: the 30% is baked into the resting
+   * artwork as `opacity="0.3"` on white paths, and nothing CSS can do to an
+   * `<img>` reaches inside it to raise the alpha, let alone recolour it.
+   */
+  starsHover: string;
   /** e.g. "4.9" — rendered large; `outOf` follows it small. */
   score: string;
   outOf?: string;
@@ -118,8 +127,8 @@ const {
     { label: 'Contact Us' },
   ],
   reviews = [
-    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', score: '4.9', outOf: '/ 5' },
-    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', score: '5', outOf: '/ 5' },
+    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', starsHover: 'stars-g2-hover.svg', score: '4.9', outOf: '/ 5' },
+    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/ 5' },
   ],
   address = '205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088',
   socials = [
@@ -192,6 +201,7 @@ if (freeTools) {
             <img class="fb-review-logo" src={asset(r.logo)} alt={r.name} width="32" height="32" />
             <div class="fb-review-rating">
               <img class="fb-stars" src={asset(r.stars)} alt="" width="68" height="12" />
+              <img class="fb-stars-hover" src={asset(r.starsHover)} alt="" width="68" height="12" />
               <p class="fb-score">{r.score}{r.outOf && <span class="fb-outof"> {r.outOf}</span>}</p>
             </div>
           </div>
@@ -312,7 +322,14 @@ if (freeTools) {
   .fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); box-shadow: inset 0 0 0 var(--border-width-1) var(--transparent-white-10); border-radius: var(--rounded-sm); }
   .fb-review-logo { width: 32px; height: 32px; display: block; flex-shrink: 0; }
   .fb-review-rating { display: flex; flex-direction: column; align-items: flex-start; }
+  /* Figma node 885:630 draws Default State and Hover State side by side for each
+     card: the logo and the score are already full strength at rest, and only the
+     star row changes — white at 30% to `brand/accent-1` (--color-accent-1) at
+     full. Each card hovers on its own. */
   .fb-stars { width: 68px; height: 12px; display: block; }
+  .fb-stars-hover { width: 68px; height: 12px; display: none; }
+  .fb-review:hover .fb-stars { display: none; }
+  .fb-review:hover .fb-stars-hover { display: block; }
   /* Deliberately not flex: the "/ 5" has to keep the space in front of it, and
      flex drops a leading whitespace text node. The 12px span makes the line box
      1px taller than the 20px leading, which the card absorbs. */
@@ -332,13 +349,18 @@ if (freeTools) {
   .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
 
   .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
-  /* The transition belongs on the element whose opacity actually changes. It sat
-     on .fb-social while .fb-socials was the one being dimmed, so the row snapped
-     instead of fading and the rule did nothing. */
-  .fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); opacity: var(--opacity-60); transition: opacity .2s; }
-  .fb-social { display: flex; }
+  /* Each icon lights on its own — Ball's call, 2026-08-02, matching the partner
+     marks. The dimming therefore sits on the icon, not on the row: with it on
+     .fb-socials there is no way to raise one child above its parent's opacity.
+
+     These five files carried the same baked `opacity="0.6"` the partner marks
+     did, here on a `<g id="socials">` — Figma had applied the socials group's
+     opacity to every icon on export. Combined with the CSS they rendered at 36%
+     and could not pass 60% hovered. Stripped 2026-08-02. */
+  .fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); }
+  .fb-social { display: flex; opacity: var(--opacity-60); }
   .fb-social img { width: 16px; height: 16px; display: block; }
-  .fb-socials:hover { opacity: 1; }
+  .fb-social:hover { opacity: 1; }
   .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; }
   /* 16px, not the 24 the component's own frame reports — the *instance* placed
      in this variant is 16, in a 20px-tall row. The Free tools variant places a
@@ -364,22 +386,26 @@ if (freeTools) {
      blend and the dimming so the mark returns to full colour.
 
      ironsoftware.com greys these with `filter: brightness(0) invert(.6)` instead —
-     a flat silhouette rather than a luminance-preserving blend — and lights each
-     logo on its own. Ball's call, 2026-08-02: light the whole ROW together, so
-     the three partner marks read as one lockup rather than three targets. The
-     REST appearance stays on Figma's mechanism, which is what the design file
+     a flat silhouette rather than a luminance-preserving blend. The REST
+     appearance stays on Figma's mechanism, which is what the design file
      specifies and is only a shade off the site's.
 
-     mix-blend-mode is not animatable, so only the opacity transitions.
+     Each mark lights on its own. This was briefly row-wide (`ab6eeee`); Figma
+     node 885:630 then drew Default and Hover per logo, so it is back to
+     per-element, which is also what the live site does.
 
-     `:has(:hover)` rather than `:hover` on the container: both this row and the
-     donate block are `flex: 1 0 0`, so each is a third of 1392 — 464px wide for
-     about 272px of content. A plain :hover would light the marks from ~192px of
-     empty band. `:has(:hover)` fires only when a mark itself is under the
-     pointer, and still lights all three. Same pattern as Checkbox/Radio's
-     `:has(input:checked)`. */
-  .fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); transition: opacity .2s; }
-  .fb-partners:has(:hover) .fb-partner { mix-blend-mode: normal; opacity: 1; }
+     No transition — Ball's call, 2026-08-02: the swap is immediate. `mix-blend-mode`
+     could not animate anyway, so a fading opacity next to a snapping blend mode was
+     never one movement.
+
+     The artwork must be full strength for this to work. All three files shipped with
+     `opacity="0.6"` baked onto their outer <g> by the Figma export, on top of the 60%
+     this CSS applies — so the rest state was really 36% and hover could never pass
+     60%, which is what Ball saw. Stripped from the SVGs, 2026-08-02; the dimming now
+     lives in exactly one place. **If these marks are ever re-exported, check the
+     outer <g> for `opacity` again — Figma bakes in any group opacity.** */
+  .fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
+  .fb-partner:hover { mix-blend-mode: normal; opacity: 1; }
 
   .fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
   .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }

@@ -182,6 +182,9 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
   <img id="blank" width="40" height="40" alt="blank"
     src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='none'/></svg>">
   <img id="real" src="assets/logo-g2.svg" width="40" height="40" alt="real">
+  <img id="hidden-blank" style="display:none" width="40" height="40" alt="hidden blank"
+    src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='none'/></svg>">
+  <img id="hidden-real" style="display:none" src="assets/logo-g2.svg" width="40" height="40" alt="hidden real">
   <p class="failing" style="color:#999999;background:#fff">grey on white, known 2.85:1</p>
   <p class="passing" style="color:#595959;background:#fff">grey on white, known 7.0:1</p>
   <div class="group" style="opacity:0.5;background:#000"><span style="color:#fff">half-opacity group</span></div>
@@ -463,16 +466,18 @@ async function auditAssets(scopeSel) {
       out.push(row);
       continue;
     }
-    if (rect.width < 1 || rect.height < 1) {
-      row.note = 'zero-size box';
-      out.push(row);
-      continue;
-    }
+
+    // An image with no box is usually a hover-state twin sitting behind
+    // display:none — hidden, not broken. Silencing those would also silence a
+    // hidden image that really is empty, so instead of skipping it, measure it
+    // at its natural size. The file still has to paint; only the placement is
+    // unverifiable, and the report says so.
+    row.hidden = rect.width < 1 || rect.height < 1;
 
     // Draw at the size it is actually placed at, capped so a hero image does
     // not cost a megapixel scan.
-    const w = Math.min(Math.ceil(rect.width), 160);
-    const h = Math.min(Math.ceil(rect.height), 160);
+    const w = Math.min(Math.ceil(row.hidden ? img.naturalWidth : rect.width), 160);
+    const h = Math.min(Math.ceil(row.hidden ? img.naturalHeight : rect.height), 160);
     const canvas = document.createElement('canvas');
     canvas.width = w;
     canvas.height = h;
@@ -559,12 +564,16 @@ if (opts['self-test']) {
   const run = (cls) => contrast.results.find((r) => r.where.includes(cls));
   const near = (a, b, tol) => Math.abs(a - b) <= tol;
 
-  const blank = assets.find((a) => (a.src ?? '').startsWith('data:'));
+  const blank = assets.find((a) => (a.src ?? '').startsWith('data:') && !a.hidden);
+  const hiddenBlank = assets.find((a) => (a.src ?? '').startsWith('data:') && a.hidden);
+  const hiddenReal = assets.find((a) => (a.src ?? '').includes('logo-g2') && a.hidden);
   const cases = [
     ['a 404 image is reported as broken', img('definitely-not-a-real-file')?.note === 'did not load'],
     ['a blank SVG loads', blank?.natural?.[0] > 0],
     ['…and is still caught, by painted pixels', blank?.painted === 0],
-    ['a real SVG paints pixels', img('logo-g2')?.painted > 0],
+    ['a real SVG paints pixels', assets.some((a) => (a.src ?? '').includes('logo-g2') && !a.hidden && a.painted > 0)],
+    ['a display:none image is not called broken', hiddenReal?.hidden === true && hiddenReal?.painted > 0],
+    ['…but a hidden BLANK one still is', hiddenBlank?.hidden === true && hiddenBlank?.painted === 0],
     ['#999999 on white measures 2.85:1', near(run('p.failing')?.ratio ?? 0, 2.85, 0.02)],
     ['…and is reported as failing AA', (run('p.failing')?.ratio ?? 0) < (run('p.failing')?.bar ?? 0)],
     ['#595959 on white passes AA', (run('p.passing')?.ratio ?? 0) >= 4.5],
@@ -668,8 +677,12 @@ for (const entry of report) {
       console.log(`  ${red('✖')} ${a.src} — ${a.note ?? 'painted nothing'} ${dim(`(${a.where}, box ${a.box.join('×')})`)}`);
     }
     const ok = entry.assets.length - broken.length;
+    const hidden = entry.assets.filter((a) => a.hidden && !isBroken(a)).length;
     if (entry.assets.length) {
-      console.log(`  ${broken.length ? yellow('·') : green('✔')} ${ok}/${entry.assets.length} image${entry.assets.length === 1 ? '' : 's'} paint pixels`);
+      console.log(
+        `  ${broken.length ? yellow('·') : green('✔')} ${ok}/${entry.assets.length} image${entry.assets.length === 1 ? '' : 's'} paint pixels` +
+          (hidden ? dim(`; ${hidden} of them hidden at rest, measured at natural size`) : '')
+      );
     }
   }
 
