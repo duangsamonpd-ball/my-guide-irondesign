@@ -61,7 +61,13 @@ const isPrimitive = (n) => /^(iron-(pink|blue|orange|green|sky|purple|violet|red
 const RENAME = { rounded: 'radius', 'font-size': 'text', 'letter-spacing': 'tracking' };
 
 /** Namespaces Tailwind understands, passed through unchanged. */
-const PASSTHROUGH = ['color', 'spacing', 'leading', 'font-weight', 'shadow', 'blur', 'breakpoint'];
+/* `ease` is a Tailwind v4 theme namespace, so --ease-* belongs in @theme and a
+   consumer gets `ease-emphasized` from it. `duration` is NOT one — v4's
+   duration utilities are a fixed set — so --duration-* stays a plain :root
+   variable, which is all the components need. Neither claim could be verified
+   here: this repo's own Tailwind invocation emits no utilities at all, only
+   variables, so it cannot tell you what a consumer's build would produce. */
+const PASSTHROUGH = ['color', 'spacing', 'leading', 'font-weight', 'shadow', 'blur', 'breakpoint', 'ease'];
 
 /** Everything else stays a plain `:root` variable — no utility, but still readable by components. */
 function route(name) {

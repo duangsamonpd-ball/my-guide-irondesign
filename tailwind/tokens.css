@@ -636,6 +636,23 @@
   --breakpoint-lg: 1024px;  /* Desktop */
   --breakpoint-xl: 1440px;  /* Desktop XL */
 
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     11. MOTION  (derived from the components, 2026-08-02 — Figma has no motion
+     variables, so this scale was read off what the code already did: 150ms in 34
+     declarations, then 160/180/200 in twelve and 260/340 in four. Three steps,
+     which are also real Tailwind steps, so consumers get `duration-*`/`ease-*`.)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --duration-fast: 150ms;   /* Control state — hover, focus, checked. The house default. */
+  --duration-base: 200ms;   /* Noticeable but not narrated — colour and opacity on larger surfaces */
+  --duration-slow: 300ms;   /* Disclosure — anything that changes the height of the page */
+
+  /* `ease` is what 57 of 61 declarations were already getting by omitting the
+     timing function; naming it makes that a decision instead of a default. */
+  --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1); /* Fast out, long settle — expanding panels */
+
 }
 
 

@@ -68,7 +68,7 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
     background: var(--color-bg-base); padding: 24px;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
     cursor: pointer; position: relative;
-    transition: border-color .15s, background .15s;
+    transition: border-color var(--duration-fast), background var(--duration-fast);
   }
   .dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .dropzone-left { display: flex; align-items: center; gap: 16px; min-width: 0; }

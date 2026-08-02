@@ -50,13 +50,13 @@ const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
     width: var(--size-box-md); height: var(--size-box-md); flex-shrink: 0; margin-top: 1px;
     border: var(--border-width-1) solid var(--color-border-strong); border-radius: var(--rounded-md);
     background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
-    transition: background .15s, border-color .15s, box-shadow .15s;
+    transition: background var(--duration-fast), border-color var(--duration-fast), box-shadow var(--duration-fast);
   }
   /* Sizes — Figma ships Small · Default · Large. The tick is 0.7 × the box at
      every size, and Small is the one that drops to the tighter --rounded-sm. */
   .cbx--sm .box { width: var(--size-box-sm); height: var(--size-box-sm); border-radius: var(--rounded-sm); }
   .cbx--lg .box { width: var(--size-box-lg); height: var(--size-box-lg); }
-  .cbx .box svg { width: 14px; height: 14px; color: var(--color-primary-on); opacity: 0; transform: scale(.5); transition: opacity .15s, transform .15s; }
+  .cbx .box svg { width: 14px; height: 14px; color: var(--color-primary-on); opacity: 0; transform: scale(.5); transition: opacity var(--duration-fast), transform var(--duration-fast); }
   .cbx--sm .box svg { width: 11.2px; height: 11.2px; }
   .cbx--lg .box svg { width: 16.8px; height: 16.8px; }
   /* Figma draws no border on a checked box; matching the border to the fill is
@@ -73,7 +73,7 @@ const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
   /* No max-width: the card takes the width of its slot, so it fills a grid cell
      instead of leaving a gap. Standalone it still shrinks to fit, because .cbx
      is inline-flex and .desc caps its own text. */
-  .cbx-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color .15s, background .15s; cursor: pointer; }
+  .cbx-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color var(--duration-fast), background var(--duration-fast); cursor: pointer; }
   .cbx-card:hover { border-color: var(--color-border-strong); }
   .cbx-card:has(input:checked) { border-color: var(--color-border-selected); background: var(--color-bg-card-alt); }
 </style>

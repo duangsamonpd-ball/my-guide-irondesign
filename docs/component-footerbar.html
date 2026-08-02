@@ -57,7 +57,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-menu li:not(:first-child) { margin-left: -1px; }
 .fb-menu .fb-div { margin-right: -1px; }
 .fb-menu li { display: flex; align-items: center; }
-.fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color .16s; }
+.fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color var(--duration-base); }
 .fb-menu-link:hover { color: var(--color-text-link-menu-hover); }
 .fb-caret { width: 13px; height: 14px; flex-shrink: 0; }
 .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
@@ -70,7 +70,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
    large makes the close look like it stalls, and either way the number goes
    stale the moment someone adds a link. 0fr→1fr animates to the content's own
    height with no measuring and no JS. */
-.fb-tools { display: grid; grid-template-rows: 0fr; background: var(--color-bg-footer-alt); transition: grid-template-rows .34s cubic-bezier(.22, 1, .36, 1); }
+.fb-tools { display: grid; grid-template-rows: 0fr; background: var(--color-bg-footer-alt); transition: grid-template-rows var(--duration-slow) var(--ease-emphasized); }
 .fb.fb-tools-open .fb-tools { grid-template-rows: 1fr; }
 .fb-tools-clip { min-height: 0; overflow: hidden; }
 
@@ -97,7 +97,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
    button defaults have to be undone before .fb-menu-link's own rules land. */
 .fb-tools-trigger { border: var(--border-width-1) solid transparent; background: none; font-family: inherit; cursor: pointer; border-radius: var(--rounded-lg) var(--rounded-lg) 0 0; }
 .fb.fb-tools-open .fb-tools-trigger { background: var(--slate-800); border-color: var(--transparent-white-10); border-bottom-color: transparent; }
-.fb-caret { transition: transform .34s cubic-bezier(.22, 1, .36, 1); }
+.fb-caret { transition: transform var(--duration-slow) var(--ease-emphasized); }
 .fb.fb-tools-open .fb-tools-trigger .fb-caret { transform: rotate(180deg); }
 
 /* Each column rises as the panel opens, one after the next. The delay is only
@@ -105,7 +105,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
    because the panel has already collapsed past the content by the time the
    last group starts fading. */
 .fb-tools-group,
-.fb-tools-close { opacity: 0; transform: translateY(8px); transition: opacity .26s ease, transform .26s cubic-bezier(.22, 1, .36, 1); }
+.fb-tools-close { opacity: 0; transform: translateY(8px); transition: opacity var(--duration-slow) var(--ease-default), transform var(--duration-slow) var(--ease-emphasized); }
 .fb.fb-tools-open .fb-tools-group,
 .fb.fb-tools-open .fb-tools-close { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 70ms + 80ms); }
 
@@ -131,7 +131,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
 .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
 .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
-.fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); transition: opacity .2s; }
+.fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); transition: opacity var(--duration-base); }
 .fb-logo:hover { opacity: 1; }
 .fb-logo-colour { display: none; }
 .fb-logo:hover .fb-logo-mono { display: none; }
@@ -144,7 +144,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-social:hover { opacity: 1; }
 .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; }
 .fb-slack img { width: 16px; height: 16px; display: block; }
-.fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; transition: color .2s; }
+.fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; transition: color var(--duration-base); }
 .fb-slack:hover span { color: var(--color-text-on-color-heading); }
 .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
 .fb-info-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--size-container-max); }
@@ -155,9 +155,9 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
 .fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
 .fb-legal-links .fb-div { height: var(--leading-3); }
-.fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color .16s; }
+.fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color var(--duration-base); }
 .fb-legal-link:hover { color: var(--color-text-link-menu-hover); }
-.fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); transition: opacity .2s; }
+.fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); transition: opacity var(--duration-base); }
 .fb-donate:has(:hover) { opacity: 1; }
 .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
 .fb-donate-img { height: 32px; width: auto; display: block; }

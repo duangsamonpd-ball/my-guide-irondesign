@@ -50,14 +50,14 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .fc-fields :global(.field) { max-width: none; }
 .fc-last { display: flex; flex-direction: column; gap: 12px; }
 .fc-submit {
-      width: 100%; height: var(--size-btn-lg); border: none; border-radius: var(--rounded-cta);
-      background: var(--color-primary); color: var(--color-primary-on); font-family: 'Montserrat', sans-serif;
-      font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); cursor: pointer;
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      transition: background .15s;
-    }
+    width: 100%; height: var(--size-btn-lg); border: none; border-radius: var(--rounded-cta);
+    background: var(--color-primary); color: var(--color-primary-on); font-family: 'Montserrat', sans-serif;
+    font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background var(--duration-fast);
+  }
 .fc-submit:hover { background: var(--color-primary-hover); }
-.fc-submit .arr { transition: transform .16s; }
+.fc-submit .arr { transition: transform var(--duration-base); }
 .fc-submit:hover .arr { transform: translateX(3px); }
 .fc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--font-size-caption-sm); color: var(--color-text-support); }
 .fc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); }

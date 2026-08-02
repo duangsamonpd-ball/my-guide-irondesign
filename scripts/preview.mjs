@@ -190,6 +190,8 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
   <div class="group" style="opacity:0.5;background:#000"><span style="color:#fff">half-opacity group</span></div>
   <label class="disabled" style="opacity:.5"><input type="checkbox" disabled><span>disabled control</span></label>
   <div style="background-image:linear-gradient(#000,#fff)"><span style="color:#888">over a gradient</span></div>
+  <div style="opacity:0"><span style="color:#999">invisible, not low contrast</span></div>
+  <div style="opacity:0.02"><span style="color:#999">faint but painted, still a finding</span></div>
 </div>
 <!-- /demo:self-test -->
 </body></html>`;
@@ -407,6 +409,13 @@ function auditContrast(scopeSel) {
       const fg = over(content(0, true), canvasColor);
       const bg = over(content(0, false), canvasColor);
 
+      // Text rendered at zero alpha is not low-contrast, it is absent — a panel
+      // waiting to animate open, a tooltip before it is summoned. Only an exact
+      // zero is skipped: at 0.02 it is faint and unreadable, which is a real
+      // finding and stays one.
+      const cumulativeOpacity = chain.reduce((p, n) => p * Number(getComputedStyle(n).opacity), 1);
+      if (cumulativeOpacity === 0 || parseColor(cs.color).a === 0) continue;
+
       const size = parseFloat(cs.fontSize);
       const weight = Number(cs.fontWeight) || 400;
       const large = size >= 24 || (size >= 18.66 && weight >= 700);
@@ -581,6 +590,8 @@ if (opts['self-test']) {
     ['…giving 3.98:1, where the flat model says 1.9:1', near(contrast.results.find((r) => r.bg === '#808080')?.ratio ?? 0, 3.98, 0.05)],
     ['a disabled control is exempt, not a failure', contrast.exempt.length === 1 && !contrast.results.some((r) => r.text.includes('disabled control'))],
     ['text over a gradient is unmeasured, not guessed', contrast.unmeasured.length === 1],
+    ['text at opacity 0 is skipped as absent', !contrast.results.some((r) => r.text.includes('invisible'))],
+    ['…but opacity 0.02 is still measured and fails', (contrast.results.find((r) => r.text.includes('faint'))?.ratio ?? 99) < 4.5],
   ];
 
   let bad = 0;

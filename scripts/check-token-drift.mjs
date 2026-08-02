@@ -189,6 +189,27 @@ for (const [family, prefix, norm] of [['borderWidth', 'border-width', px], ['opa
   }
 }
 
+// duration — `$value` is a CSS time string, so it compares as-is
+{
+  const keys = new Set();
+  for (const [k, v] of entries(W3C.duration)) {
+    keys.add(k);
+    compare({ family: 'duration', token: k, expected: v.$value, names: `duration-${k}`, normalise: (t) => String(t).trim() });
+  }
+  flagExtras('duration', 'duration', keys);
+}
+
+// easing — W3C stores a cubicBezier as [x1, y1, x2, y2]; CSS wants the function
+{
+  const keys = new Set();
+  const bezier = (v) => (Array.isArray(v) ? `cubic-bezier(${v.join(', ')})` : String(v).replace(/\s+/g, ' ').trim());
+  for (const [k, v] of entries(W3C.easing)) {
+    keys.add(k);
+    compare({ family: 'easing', token: k, expected: v.$value, names: `ease-${k}`, normalise: bezier });
+  }
+  flagExtras('easing', 'ease', keys);
+}
+
 // shadow
 {
   const keys = new Set();

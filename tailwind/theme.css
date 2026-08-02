@@ -491,6 +491,8 @@
   --breakpoint-md: 768px;                     /* Tablet Large */
   --breakpoint-lg: 1024px;                    /* Desktop */
   --breakpoint-xl: 1440px;                    /* Desktop XL */
+  --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1); /* Fast out, long settle — expanding panels */
   --color-primary-50: var(--iron-pink-50);
   --color-primary-100: var(--iron-pink-100);
   --color-primary-200: var(--iron-pink-200);
@@ -749,6 +751,9 @@
   --opacity-disabled: var(--opacity-50);      /* Disabled states */
   --opacity-hover-ghost: var(--opacity-90);   /* Ghost button hover */
   --opacity-hover-footer: var(--opacity-80);  /* Footer link hover */
+  --duration-fast: 150ms;                     /* Control state — hover, focus, checked. The house default. */
+  --duration-base: 200ms;                     /* Noticeable but not narrated — colour and opacity on larger surfaces */
+  --duration-slow: 300ms;                     /* Disclosure — anything that changes the height of the page */
 }
 
 
