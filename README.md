@@ -8,7 +8,7 @@
 
 [![Live Docs](https://img.shields.io/badge/docs-live-2693EC?style=flat-square)](https://duangsamonpd-ball.github.io/my-guide-irondesign/)
 [![Tokens](https://img.shields.io/badge/tokens-W3C%20%C2%B7%20Tailwind%20%C2%B7%20CSS-E01A59?style=flat-square)](tokens/)
-[![Astro](https://img.shields.io/badge/components-Astro%20%C2%B7%2014-FF5D01?style=flat-square)](astro-components/)
+[![Astro](https://img.shields.io/badge/components-Astro%20%C2%B7%2018-FF5D01?style=flat-square)](astro-components/)
 [![Font](https://img.shields.io/badge/type-Montserrat%20%2B%20Roboto%20Mono-63C1A0?style=flat-square)](docs/02-typography.html)
 [![License](https://img.shields.io/badge/internal-Iron%20Software-185FA5?style=flat-square)](#)
 
@@ -69,7 +69,7 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ## 🧬 Astro components
 
-17 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
+18 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
 
 | Component | Notes |
 |---|---|
@@ -81,16 +81,18 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 | `Select.astro` | Custom dropdown + a hidden native `<select>` so forms still work with JS off |
 | `Checkbox.astro` | Basic, with description, or whole-card `card` layout |
 | `Radio.astro` | Same three layouts as Checkbox, grouped by `name` |
-| `Badge.astro` | 5 intents, solid/subtle, small, square, leading dot |
+| `Badge.astro` | 6 intents × solid/subtle × sm/md, square, leading dot |
 | `Notice.astro` | Non-interactive info card — title+body, lead-in+text, or minimal label, 4 intents |
 | `Tooltip.astro` | Optional title, link, 4 placements, hover-with-a-gap JS interaction |
-| `Footer.astro` | Suite vs. Default headline variant, configurable product list |
+| `Logo.astro` | The product mark family — colour or mono, every product, all five lockups |
+| `TopNav.astro` | Site header — brand lockup, menu, address, CTA |
+| `ProductMenu.astro` | The product dropdown that hangs off Top Nav |
+| `Footer.astro` | The violet IRONSUITE cross-sell band — Suite vs. Default headline, configurable product list |
+| `FooterBar.astro` | The black site footer bar that sits **underneath** `Footer.astro` — the two stack, neither replaces the other |
 | `FormCard.astro` | Icon+title form card wrapper — compose with Input/Select/Textarea/FileUpload |
 | `TrialKeyCard.astro` | Centered single-field "instant capture" card |
 
 Every component's CSS references `tailwind/tokens.css` — import the token file once, globally, before using any component. Full usage examples and props are in [`astro-components/README.md`](astro-components/README.md).
-
-> **Known gap:** `Badge.astro`'s subtle-background and solid-text colors are copied from the docs page as-is and don't fully match the canonical `iron-*-100` scale (a couple of shades — success/warning text — don't exist as tokens anywhere yet). Flagged in the component's own code comment, pending a real color decision before promoting them to `tailwind/tokens.css`.
 
 ---
 
@@ -243,13 +245,14 @@ iron-design-system/
 ├── scripts/
 │   ├── build-theme.mjs        #    tokens.css → theme.css
 │   ├── check-token-drift.mjs  #    w3c ↔ tokens.css ↔ theme.css
-│   └── check-component-vars.mjs #  every component var resolves after compile
+│   ├── check-component-vars.mjs #  every component var resolves after compile
+│   └── preview.mjs            #    renders the docs in a real browser and measures them
 │
 ├── tokens/
 │   ├── tokens.w3c.json        # ⭐ Source of truth (W3C Design Token format)
 │   └── tokens.legacy.json     #    Tokens Studio format
 │
-└── astro-components/          # 🧬 .astro wrapper components (14, token-driven)
+└── astro-components/          # 🧬 .astro wrapper components (18, token-driven)
     ├── README.md               #   Props + usage for every component
     └── components/
         ├── Button.astro
@@ -322,21 +325,25 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 `tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check          # all six gates
+npm run check          # all eight gates
 ```
 
-Six gates run in order, and any one of them fails the build:
+Eight gates run in order, and any one of them fails the build:
 
 | Gate | Asserts |
 |---|---|
 | `check:theme` | `theme.css` has been regenerated from `tokens.css` |
-| `check:tokens` | 269 tokens agree across `tokens.w3c.json`, `tokens.css` and `theme.css` — and no component hardcodes a hex where a semantic token exists |
+| `check:tokens` | 301 tokens agree across `tokens.w3c.json`, `tokens.css` and `theme.css` — and no component hardcodes a hex where a semantic token exists |
 | `check:parity` | every CSS rule in a component's `<style>` also appears in its `docs/component-*.html` page |
 | `check:exports` | every component is in the barrel, and every `exports` map target resolves |
 | `check:vars` | every `var(--…)` a component reads still resolves once Tailwind has compiled the theme |
+| `check:docs-css` | no docs page redefines a rule it should be inheriting from the shared `docs.css` shell |
+| `check:contrast` | every colour pair Badge paints meets WCAG AA, derived from `Badge.astro` and resolved through `tokens.css` |
 | `check:render` | the demo **markup** in the docs pages still matches what the components actually render |
 
-The first five are plain Node with no dependencies. `check:render` is the exception: it builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
+Six of the eight are plain Node with no dependencies. Two are not: `check:vars` compiles `theme.css` with the real Tailwind v4 CLI first, because a `var()` that resolves in the source can still be missing after compilation; and `check:render` builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
+
+All eight read source text. For what a browser sees instead, see [Looking at the rendered result](#looking-at-the-rendered-result) below.
 
 Token coverage spans colors, spacing, radius, shadows, blur, opacity, sizing, the semantic type scale and breakpoints.
 
@@ -355,7 +362,7 @@ npm run check:theme    # fails if it is out of date
 
 **Fix the generated layer, not the source** — unless the design genuinely changed in Figma, in which case update `tokens.w3c.json` first and propagate outward.
 
-CI runs the first four gates on every push and PR, compiles `theme.css` with real Tailwind v4 in a second job so `check:vars` runs against a genuinely compiled stylesheet, and renders the components with Astro in a third so `check:render` can compare real markup ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
+CI runs the six dependency-free gates on every push and PR, compiles `theme.css` with real Tailwind v4 in a second job so `check:vars` runs against a genuinely compiled stylesheet, and renders the components with Astro in a third so `check:render` can compare real markup ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
 
 ### Generated demo markup
 
@@ -375,6 +382,40 @@ npm run check:render   # fails if they are out of date
 ```
 
 Edit the playground page, never the markup between the sentinels — the next `build:demos` overwrites it. See [`playground/README.md`](playground/README.md) for what the generator normalises and which regions are deliberately left hand-written.
+
+### Looking at the rendered result
+
+Every gate above reads source text, and all of them will happily stay green on a component that renders wrong. FooterBar shipped twice with a grey box behind every logo, a broken image and a pink wordmark where the design says white, with every gate passing throughout.
+
+`scripts/preview.mjs` opens the docs pages in a real browser and measures what comes out:
+
+```bash
+npm run preview -- footerbar                       # audit one component page
+npm run preview -- --all                           # audit every component page
+npm run preview -- footerbar --measure '.fb-menu'  # box metrics, to diff against Figma
+npm run preview -- footerbar --shot /tmp/fb.png    # full-page screenshot at 1440
+npm run preview -- footerbar --serve               # serve docs/ and leave it up
+```
+
+It reports three things, each one an answer to an instrument that has lied here before:
+
+| Probe | Asserts |
+|---|---|
+| **assets** | every `<img>` paints non-transparent pixels onto a canvas. `naturalWidth` is not evidence — it called all 13 FooterBar logos fine while 7 of them painted nothing |
+| **contrast** | every run of text, composited down its real ancestor chain with opacity groups included, meets WCAG AA. `check:contrast` resolves tokens on paper, so text dimmed to 60% by a CSS `opacity` rule reads there as full strength |
+| **measure** | `getBoundingClientRect` for any selector, to diff against the numbers in a Figma node tree |
+
+Disabled controls are exempt (WCAG 1.4.3 says so, and every disabled state here is drawn by dimming to 50%). Text over a gradient is reported as unmeasured rather than guessed at.
+
+This is **not** in `npm run check`: the gates run anywhere Node runs, and this needs Google Chrome installed. It exits non-zero, so it can be wired into CI the day CI has a browser.
+
+Before believing a reading, check the instrument:
+
+```bash
+npm run preview:self-test    # 11 cases whose answers are known before the browser starts
+```
+
+Each case corresponds to a real misfire — a file that exists on disk but 404s, an image that loads and paints nothing, and a colour pair whose contrast depends on how opacity groups are composited. The last one is the sharp one: the correct answer is 3.98:1 and the tempting shortcut says 1.9:1, so a refactor that flattens the compositor fails here instead of shipping.
 
 ### Deploy
 

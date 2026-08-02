@@ -20,10 +20,13 @@
     "check:render": "node scripts/build-demos.mjs --check",
     "check:docs-css": "node scripts/check-docs-css.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
-    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:contrast && npm run check:render"
+    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:contrast && npm run check:render",
+    "preview": "node scripts/preview.mjs",
+    "preview:self-test": "node scripts/preview.mjs --self-test"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
+    "playwright-core": "^1.62.1",
     "tailwindcss": "^4.3.3"
   },
   "exports": {
