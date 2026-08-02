@@ -61,6 +61,63 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-menu-link:hover { color: var(--color-text-link-menu-hover); }
 .fb-caret { width: 13px; height: 14px; flex-shrink: 0; }
 .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
+/* ── band 1b: the Free tools panel ───────────────────────────────────────
+   Figma's `Free tool open` variant (880:915, section 880:1078). The trigger
+   becomes a tab joined to the panel below it, so the two are styled together.
+
+   The open/close is `grid-template-rows: 0fr → 1fr` rather than an animated
+   max-height. A max-height has to be a guess: too small clips the panel, too
+   large makes the close look like it stalls, and either way the number goes
+   stale the moment someone adds a link. 0fr→1fr animates to the content's own
+   height with no measuring and no JS. */
+.fb-tools { display: grid; grid-template-rows: 0fr; background: var(--color-bg-footer-alt); transition: grid-template-rows .34s cubic-bezier(.22, 1, .36, 1); }
+.fb.fb-tools-open .fb-tools { grid-template-rows: 1fr; }
+.fb-tools-clip { min-height: 0; overflow: hidden; }
+
+.fb-tools-panel { position: relative; padding: var(--spacing-xl) var(--spacing-hero) var(--spacing-2xl); }
+/* Figma exports this as a raster. It is a pure vertical gradient — sampled
+   across every row the horizontal spread is 1/255 — so stretching it to any
+   width is lossless despite the frame being named "Free Tools + dots". */
+.fb-tools-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.fb-tools-inner { position: relative; display: flex; align-items: flex-start; justify-content: center; gap: var(--spacing-3xl); padding: 0 var(--spacing-xl); }
+
+.fb-tools-group { display: flex; flex-direction: column; gap: var(--spacing-md); }
+.fb-tools-group:last-of-type { flex: 1 0 0; min-width: 0; align-self: stretch; }
+.fb-tools-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); text-transform: uppercase; color: var(--color-text-on-color-heading); white-space: nowrap; }
+.fb-tools-cols { display: flex; align-items: flex-start; gap: var(--spacing-2xl); }
+.fb-tools-col { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.fb-tools-link { font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-link); text-decoration: none; white-space: nowrap; }
+.fb-tools-link:hover { color: var(--color-text-link-hover); }
+
+.fb-tools-close { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: var(--rounded-sm); background: var(--transparent-black-50); color: var(--color-text-link-menu); cursor: pointer; }
+.fb-tools-close svg { width: 14px; height: 14px; display: block; }
+.fb-tools-close:hover { color: var(--color-text-link-menu-hover); }
+
+/* The trigger is a <button> pretending to be a menu link, so the browser's
+   button defaults have to be undone before .fb-menu-link's own rules land. */
+.fb-tools-trigger { border: var(--border-width-1) solid transparent; background: none; font-family: inherit; cursor: pointer; border-radius: var(--rounded-lg) var(--rounded-lg) 0 0; }
+.fb.fb-tools-open .fb-tools-trigger { background: var(--slate-800); border-color: var(--transparent-white-10); border-bottom-color: transparent; }
+.fb-caret { transition: transform .34s cubic-bezier(.22, 1, .36, 1); }
+.fb.fb-tools-open .fb-tools-trigger .fb-caret { transform: rotate(180deg); }
+
+/* Each column rises as the panel opens, one after the next. The delay is only
+   applied on the way IN: leaving it on the way out makes closing feel broken,
+   because the panel has already collapsed past the content by the time the
+   last group starts fading. */
+.fb-tools-group,
+.fb-tools-close { opacity: 0; transform: translateY(8px); transition: opacity .26s ease, transform .26s cubic-bezier(.22, 1, .36, 1); }
+.fb.fb-tools-open .fb-tools-group,
+.fb.fb-tools-open .fb-tools-close { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 70ms + 80ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fb-tools,
+  .fb-tools-group,
+  .fb-tools-close,
+  .fb-caret { transition-duration: 1ms; }
+  .fb.fb-tools-open .fb-tools-group,
+  .fb.fb-tools-open .fb-tools-close { transition-delay: 0s; }
+}
+
 .fb-mid { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl); }
 .fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; }
 .fb-reviews { display: flex; align-items: flex-start; gap: var(--spacing-md); flex: 1 0 0; min-width: 0; }
@@ -284,6 +341,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
             </div>
           </div>
         </footer>
+        <script type="module">function e(e=document){e.querySelectorAll(`.fb:not([data-fb-init])`).forEach(e=>{let t=e.querySelector(`.fb-tools-trigger`),n=e.querySelector(`.fb-tools`);if(!t||!n)return;e.dataset.fbInit=`1`;let r=r=>{e.classList.toggle(`fb-tools-open`,r),t.setAttribute(`aria-expanded`,String(r)),r?n.removeAttribute(`inert`):n.setAttribute(`inert`,``)},i=n=>{e.classList.contains(`fb-tools-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`fb-tools-open`))),n.querySelector(`.fb-tools-close`)?.addEventListener(`click`,()=>i(!0)),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
         <!-- /demo:default -->
       </div></div>
     </div>
@@ -322,10 +380,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                 </a>
               </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
-                <a class="fb-menu-link" href="#">
+                <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded="false" aria-controls="fbtools-demo-1">
                   Free tools
                   <svg class="fb-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
-                </a>
+                </button>
               </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
                 <a class="fb-menu-link" href="#">
@@ -344,6 +402,50 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
               </li>
             </ul>
           </nav>
+          <div class="fb-tools" id="fbtools-demo-1" inert>
+            <div class="fb-tools-clip">
+              <div class="fb-tools-panel">
+                <img class="fb-tools-bg" src="assets/footerbar-freetools-bg.png" alt="" aria-hidden="true">
+                <div class="fb-tools-inner">
+                  <div class="fb-tools-group" style="--i:0">
+                    <p class="fb-tools-title">PDF Converters</p>
+                    <div class="fb-tools-cols">
+                      <div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">PDF to JPG</a><a class="fb-tools-link" href="#">URL to PDF</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">HTML to PDF</a><a class="fb-tools-link" href="#">PDF to PNG</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">Tiff to PDF</a><a class="fb-tools-link" href="#">SVG to PDF</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">JPG to PDF</a><a class="fb-tools-link" href="#">Docx to PDF</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">Text to PDF</a>
+                      </div>
+                    </div>
+                  </div><div class="fb-tools-group" style="--i:1">
+                    <p class="fb-tools-title">PDF Editors</p>
+                    <div class="fb-tools-cols">
+                      <div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">Password Protect PDF</a><a class="fb-tools-link" href="#">Flatten PDF Form</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">Merge PDF</a><a class="fb-tools-link" href="#">Compress PDF</a>
+                      </div>
+                    </div>
+                  </div><div class="fb-tools-group" style="--i:2">
+                    <p class="fb-tools-title">Others</p>
+                    <div class="fb-tools-cols">
+                      <div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">JSON to C#</a>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" class="fb-tools-close" style="--i:3" aria-label="Close free tools">
+                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM167 167c9.4-9.4 24.6-9.4 33.9 0l55 55 55-55c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-55 55 55 55c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-55-55-55 55c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l55-55-55-55c-9.4-9.4-9.4-24.6 0-33.9z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="fb-mid">
             <div class="fb-mid-inner">
               <div class="fb-reviews">
@@ -419,6 +521,184 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
         </footer>
         <!-- /demo:freetools -->
       </div></div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Free tool open</div>
+      <div class="sect-sub">Figma&rsquo;s <code>Property 1=Free tool open</code>. The Free Tools item becomes a disclosure button, and the panel it opens is a real expand &mdash; click it in the preview above. Shown here with <code>toolsOpen</code> so the still is the open state.</div>
+      <div class="frame"><div class="frame-scroll">
+        <!-- demo:toolsopen -->
+        <footer class="fb fb-tools-open">
+          <nav class="fb-menu-bar" aria-label="Footer">
+            <ul class="fb-menu">
+              <li>
+                <a class="fb-menu-link" href="#">
+                  About Us
+                </a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">
+                  News
+                </a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">
+                  Customers
+                </a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">
+                  Careers
+                </a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">
+                  Academy
+                </a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded="true" aria-controls="fbtools-demo-1">
+                  Free tools
+                  <svg class="fb-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
+                </button>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">
+                  Webinars
+                </a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">
+                  Customer HUB Login
+                </a>
+              </li><li>
+                <span class="fb-div" aria-hidden="true"></span>
+                <a class="fb-menu-link" href="#">
+                  Contact Us
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="fb-tools" id="fbtools-demo-1">
+            <div class="fb-tools-clip">
+              <div class="fb-tools-panel">
+                <img class="fb-tools-bg" src="assets/footerbar-freetools-bg.png" alt="" aria-hidden="true">
+                <div class="fb-tools-inner">
+                  <div class="fb-tools-group" style="--i:0">
+                    <p class="fb-tools-title">PDF Converters</p>
+                    <div class="fb-tools-cols">
+                      <div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">PDF to JPG</a><a class="fb-tools-link" href="#">URL to PDF</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">HTML to PDF</a><a class="fb-tools-link" href="#">PDF to PNG</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">Tiff to PDF</a><a class="fb-tools-link" href="#">SVG to PDF</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">JPG to PDF</a><a class="fb-tools-link" href="#">Docx to PDF</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">Text to PDF</a>
+                      </div>
+                    </div>
+                  </div><div class="fb-tools-group" style="--i:1">
+                    <p class="fb-tools-title">PDF Editors</p>
+                    <div class="fb-tools-cols">
+                      <div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">Password Protect PDF</a><a class="fb-tools-link" href="#">Flatten PDF Form</a>
+                      </div><div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">Merge PDF</a><a class="fb-tools-link" href="#">Compress PDF</a>
+                      </div>
+                    </div>
+                  </div><div class="fb-tools-group" style="--i:2">
+                    <p class="fb-tools-title">Others</p>
+                    <div class="fb-tools-cols">
+                      <div class="fb-tools-col">
+                        <a class="fb-tools-link" href="#">JSON to C#</a>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" class="fb-tools-close" style="--i:3" aria-label="Close free tools">
+                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM167 167c9.4-9.4 24.6-9.4 33.9 0l55 55 55-55c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-55 55 55 55c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-55-55-55 55c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l55-55-55-55c-9.4-9.4-9.4-24.6 0-33.9z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fb-mid">
+            <div class="fb-mid-inner">
+              <div class="fb-reviews">
+                <div class="fb-review">
+                  <img class="fb-review-logo" src="assets/logo-g2.svg" alt="G2" width="32" height="32">
+                  <div class="fb-review-rating">
+                    <img class="fb-stars" src="assets/stars-g2.svg" alt="" width="68" height="12">
+                    <img class="fb-stars-hover" src="assets/stars-g2-hover.svg" alt="" width="68" height="12">
+                    <p class="fb-score">4.9<span class="fb-outof"> / 5</span></p>
+                  </div>
+                </div><div class="fb-review">
+                  <img class="fb-review-logo" src="assets/logo-capterra.svg" alt="Capterra" width="32" height="32">
+                  <div class="fb-review-rating">
+                    <img class="fb-stars" src="assets/stars-capterra.svg" alt="" width="68" height="12">
+                    <img class="fb-stars-hover" src="assets/stars-capterra-hover.svg" alt="" width="68" height="12">
+                    <p class="fb-score">5<span class="fb-outof"> / 5</span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="fb-brand">
+                <span class="fb-logo">
+                  <span class="fb-logo-mono"><span style="height:24px" class="logo logo--wordmark">
+                      <img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="24">
+                    </span></span>
+                  <span class="fb-logo-colour" aria-hidden="true"><span style="height:24px" class="logo logo--wordmark">
+                      <img src="assets/wordmark-iron-ondark.svg" alt height="24">
+                    </span></span>
+                </span>
+                <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
+              </div>
+              <div class="fb-connect">
+                <div class="fb-socials">
+                  <a class="fb-social" href="#" aria-label="GitHub">
+                    <img src="assets/icon-github.svg" alt="" width="16" height="16">
+                  </a><a class="fb-social" href="#" aria-label="YouTube">
+                    <img src="assets/icon-youtube.svg" alt="" width="16" height="16">
+                  </a><a class="fb-social" href="#" aria-label="X">
+                    <img src="assets/icon-x.svg" alt="" width="16" height="16">
+                  </a><a class="fb-social" href="#" aria-label="Facebook">
+                    <img src="assets/icon-facebook.svg" alt="" width="16" height="16">
+                  </a><a class="fb-social" href="#" aria-label="LinkedIn">
+                    <img src="assets/icon-linkedin.svg" alt="" width="16" height="16">
+                  </a>
+                </div>
+                <a class="fb-slack" href="#">
+                  <img src="assets/icon-slack.svg" alt="" width="16" height="16">
+                  <span>Join Iron Slack</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="fb-info">
+            <div class="fb-info-inner">
+              <div class="fb-partners">
+                <img class="fb-partner" src="assets/logo-pdf-association-member.svg" alt="PDF Association Member" width="46" height="28"><img class="fb-partner" src="assets/logo-microsoft.svg" alt="Microsoft Partner" width="92" height="28"><img class="fb-partner" src="assets/logo-aws.svg" alt="AWS Partner Network" width="86" height="28">
+              </div>
+              <div class="fb-legal">
+                <p class="fb-copyright">Copyright © Iron Software 2013-2026</p>
+                <div class="fb-legal-links">
+                  <a class="fb-legal-link" href="#">Terms</a>
+                  <span class="fb-div" aria-hidden="true"></span>
+                  <a class="fb-legal-link" href="#">Privacy</a>
+                  <span class="fb-div" aria-hidden="true"></span>
+                  <a class="fb-legal-link" href="#">Cookie</a>
+                </div>
+              </div>
+              <div class="fb-donate">
+                <span class="fb-donate-label">Every Iron Suite Donates</span>
+                <img class="fb-donate-img" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet" height="32">
+              </div>
+            </div>
+          </div>
+        </footer>
+        <!-- /demo:toolsopen -->
+      </div></div>
+      <div class="sect-sub" style="margin-top:14px;">The panel animates with <code>grid-template-rows: 0fr &rarr; 1fr</code>, so it opens to whatever height its own content needs &mdash; no measured <code>max-height</code> to go stale when a link is added. Each column then rises in turn, and <code>prefers-reduced-motion</code> collapses all of it to a cut. Collapsed, the panel carries <code>inert</code>: it stays in the DOM to animate, and <code>inert</code> is what stops it from holding focus while it is closed.</div>
     </div>
 
     <div class="sect">

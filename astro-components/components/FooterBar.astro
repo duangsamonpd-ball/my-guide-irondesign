@@ -94,6 +94,17 @@ interface Partner {
   width: number;
 }
 
+/**
+ * One heading in the Free tools panel. `columns` is a list of columns, each a
+ * list of links — Figma lays PDF Converters out as five columns of two rather
+ * than one wrapping list, and column breaks are an editorial choice, not
+ * something a layout algorithm should guess at.
+ */
+interface ToolGroup {
+  title: string;
+  columns: Link[][];
+}
+
 interface Props {
   menu?: Link[];
   /** Figma's `Property 1=Free tools version` — shows the Free Tools item, which
@@ -101,6 +112,11 @@ interface Props {
   freeTools?: boolean;
   freeToolsLabel?: string;
   freeToolsHref?: string;
+  /** Figma's `Property 1=Free tool open` — the panel the Free Tools item opens. */
+  toolGroups?: ToolGroup[];
+  /** Render the panel already open. Off by default; the trigger owns it after that. */
+  toolsOpen?: boolean;
+  closeToolsLabel?: string;
   reviews?: Review[];
   address?: string;
   socials?: Social[];
@@ -141,6 +157,30 @@ const {
   freeTools = false,
   freeToolsLabel = 'Free tools',
   freeToolsHref,
+  /* Column breaks copied from Figma node 880:1078, which splits PDF Converters
+     into 5 columns, PDF Editors into 2 and Others into 1. */
+  toolGroups = [
+    {
+      title: 'PDF Converters',
+      columns: [
+        [{ label: 'PDF to JPG' }, { label: 'URL to PDF' }],
+        [{ label: 'HTML to PDF' }, { label: 'PDF to PNG' }],
+        [{ label: 'Tiff to PDF' }, { label: 'SVG to PDF' }],
+        [{ label: 'JPG to PDF' }, { label: 'Docx to PDF' }],
+        [{ label: 'Text to PDF' }],
+      ],
+    },
+    {
+      title: 'PDF Editors',
+      columns: [
+        [{ label: 'Password Protect PDF' }, { label: 'Flatten PDF Form' }],
+        [{ label: 'Merge PDF' }, { label: 'Compress PDF' }],
+      ],
+    },
+    { title: 'Others', columns: [[{ label: 'JSON to C#' }]] },
+  ],
+  toolsOpen = false,
+  closeToolsLabel = 'Close free tools',
   slackLabel = 'Join Iron Slack',
   slackHref,
   partners = [
@@ -165,6 +205,14 @@ const asset = (file: string) => `${basePath}/${encodeURIComponent(file)}`;
    visibility, so it belongs in the same list rather than in its own slot. It
    sits between Academy and Webinars; if Webinars is not in the menu it goes
    last, which is the only sensible answer for a caller with a custom list. */
+/* The Free Tools item becomes a real disclosure button when there is a panel to
+   disclose, and stays a plain link when there is not — so `freeTools` alone is
+   still the flat "Free tools version" of the design. The id follows the
+   `prefix-8hex` shape build-demos.mjs normalises, so the generated docs markup
+   does not churn on every build. */
+const hasPanel = freeTools && toolGroups.length > 0;
+const panelId = `fbtools-${Math.random().toString(16).slice(2, 10)}`;
+
 const items: Link[] = [...menu];
 if (freeTools) {
   const at = items.findIndex((i) => i.label === 'Webinars');
@@ -176,22 +224,58 @@ if (freeTools) {
 }
 ---
 
-<footer class:list={['fb', className]}>
+<footer class:list={['fb', { 'fb-tools-open': hasPanel && toolsOpen }, className]}>
   <nav class="fb-menu-bar" aria-label="Footer">
     <ul class="fb-menu">
       {items.map((item, i) => (
         <li>
           {i > 0 && <span class="fb-div" aria-hidden="true"></span>}
-          <a class="fb-menu-link" href={item.href ?? '#'}>
-            {item.label}
-            {item.caret && (
+          {item.caret && hasPanel ? (
+            <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded={toolsOpen ? 'true' : 'false'} aria-controls={panelId}>
+              {item.label}
               <svg class="fb-caret" viewBox={icons.chevronDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
-            )}
-          </a>
+            </button>
+          ) : (
+            <a class="fb-menu-link" href={item.href ?? '#'}>
+              {item.label}
+              {item.caret && (
+                <svg class="fb-caret" viewBox={icons.chevronDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
+              )}
+            </a>
+          )}
         </li>
       ))}
     </ul>
   </nav>
+
+  {hasPanel && (
+    <div class="fb-tools" id={panelId} inert={!toolsOpen}>
+      <div class="fb-tools-clip">
+        <div class="fb-tools-panel">
+          <img class="fb-tools-bg" src={asset('footerbar-freetools-bg.png')} alt="" aria-hidden="true" />
+          <div class="fb-tools-inner">
+            {toolGroups.map((group, gi) => (
+              <div class="fb-tools-group" style={`--i:${gi}`}>
+                <p class="fb-tools-title">{group.title}</p>
+                <div class="fb-tools-cols">
+                  {group.columns.map((col) => (
+                    <div class="fb-tools-col">
+                      {col.map((link) => (
+                        <a class="fb-tools-link" href={link.href ?? '#'}>{link.label}</a>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <button type="button" class="fb-tools-close" style={`--i:${toolGroups.length}`} aria-label={closeToolsLabel}>
+              <svg viewBox={icons.circleXmark.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleXmark.path} /></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
 
   <div class="fb-mid">
     <div class="fb-mid-inner">
@@ -309,6 +393,68 @@ if (freeTools) {
 
   .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
 
+  /* ── band 1b: the Free tools panel ───────────────────────────────────────
+     Figma's `Free tool open` variant (880:915, section 880:1078). The trigger
+     becomes a tab joined to the panel below it, so the two are styled together.
+
+     The open/close is `grid-template-rows: 0fr → 1fr` rather than an animated
+     max-height. A max-height has to be a guess: too small clips the panel, too
+     large makes the close look like it stalls, and either way the number goes
+     stale the moment someone adds a link. 0fr→1fr animates to the content's own
+     height with no measuring and no JS. */
+  .fb-tools { display: grid; grid-template-rows: 0fr; background: var(--color-bg-footer-alt); transition: grid-template-rows .34s cubic-bezier(.22, 1, .36, 1); }
+  .fb.fb-tools-open .fb-tools { grid-template-rows: 1fr; }
+  .fb-tools-clip { min-height: 0; overflow: hidden; }
+
+  .fb-tools-panel { position: relative; padding: var(--spacing-xl) var(--spacing-hero) var(--spacing-2xl); }
+  /* Figma exports this as a raster. It is a pure vertical gradient — sampled
+     across every row the horizontal spread is 1/255 — so stretching it to any
+     width is lossless despite the frame being named "Free Tools + dots". */
+  .fb-tools-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .fb-tools-inner { position: relative; display: flex; align-items: flex-start; justify-content: center; gap: var(--spacing-3xl); padding: 0 var(--spacing-xl); }
+
+  .fb-tools-group { display: flex; flex-direction: column; gap: var(--spacing-md); }
+  /* Figma gives the last group `flex: 1 0 0` and stretches it, which is what
+     puts the close button against the right edge — 1232 in a 1280 frame. Doing
+     it with `margin-left: auto` on the close instead lands the button in the
+     same place but leaves this group at its content width, so the measurement
+     against the design silently disagrees. */
+  .fb-tools-group:last-of-type { flex: 1 0 0; min-width: 0; align-self: stretch; }
+  .fb-tools-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); text-transform: uppercase; color: var(--color-text-on-color-heading); white-space: nowrap; }
+  .fb-tools-cols { display: flex; align-items: flex-start; gap: var(--spacing-2xl); }
+  .fb-tools-col { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+  .fb-tools-link { font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-link); text-decoration: none; white-space: nowrap; }
+  .fb-tools-link:hover { color: var(--color-text-link-hover); }
+
+  .fb-tools-close { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: var(--rounded-sm); background: var(--transparent-black-50); color: var(--color-text-link-menu); cursor: pointer; }
+  .fb-tools-close svg { width: 14px; height: 14px; display: block; }
+  .fb-tools-close:hover { color: var(--color-text-link-menu-hover); }
+
+  /* The trigger is a <button> pretending to be a menu link, so the browser's
+     button defaults have to be undone before .fb-menu-link's own rules land. */
+  .fb-tools-trigger { border: var(--border-width-1) solid transparent; background: none; font-family: inherit; cursor: pointer; border-radius: var(--rounded-lg) var(--rounded-lg) 0 0; }
+  .fb.fb-tools-open .fb-tools-trigger { background: var(--slate-800); border-color: var(--transparent-white-10); border-bottom-color: transparent; }
+  .fb-caret { transition: transform .34s cubic-bezier(.22, 1, .36, 1); }
+  .fb.fb-tools-open .fb-tools-trigger .fb-caret { transform: rotate(180deg); }
+
+  /* Each column rises as the panel opens, one after the next. The delay is only
+     applied on the way IN: leaving it on the way out makes closing feel broken,
+     because the panel has already collapsed past the content by the time the
+     last group starts fading. */
+  .fb-tools-group,
+  .fb-tools-close { opacity: 0; transform: translateY(8px); transition: opacity .26s ease, transform .26s cubic-bezier(.22, 1, .36, 1); }
+  .fb.fb-tools-open .fb-tools-group,
+  .fb.fb-tools-open .fb-tools-close { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 70ms + 80ms); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fb-tools,
+    .fb-tools-group,
+    .fb-tools-close,
+    .fb-caret { transition-duration: 1ms; }
+    .fb.fb-tools-open .fb-tools-group,
+    .fb.fb-tools-open .fb-tools-close { transition-delay: 0s; }
+  }
+
   /* ── band 2: reviews, brand, socials ──────────────────────────────────── */
   .fb-mid { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl); }
   /* No max-width here on purpose: Figma's middle row is full width inside the
@@ -424,3 +570,47 @@ if (freeTools) {
   .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
   .fb-donate-img { height: 32px; width: auto; display: block; }
 </style>
+
+<script>
+  // Disclosure pattern (WAI-ARIA APG): the trigger owns aria-expanded and points
+  // at the panel with aria-controls. The panel stays in the DOM so it can
+  // animate, which means it also stays in the tab order — `inert` is what keeps
+  // a collapsed panel from swallowing focus. Toggling display or visibility
+  // instead would fix focus and kill the animation.
+  function initFooterTools(root: ParentNode = document) {
+    root.querySelectorAll<HTMLElement>('.fb:not([data-fb-init])').forEach((fb) => {
+      const trigger = fb.querySelector<HTMLButtonElement>('.fb-tools-trigger');
+      const panel = fb.querySelector<HTMLElement>('.fb-tools');
+      if (!trigger || !panel) return;
+      fb.dataset.fbInit = '1';
+
+      const setOpen = (open: boolean) => {
+        fb.classList.toggle('fb-tools-open', open);
+        trigger.setAttribute('aria-expanded', String(open));
+        // inert lands immediately in both directions. It hides the subtree from
+        // focus and assistive tech without touching layout, so the closing
+        // animation still plays out underneath it.
+        if (open) panel.removeAttribute('inert');
+        else panel.setAttribute('inert', '');
+      };
+
+      const close = (returnFocus: boolean) => {
+        if (!fb.classList.contains('fb-tools-open')) return;
+        setOpen(false);
+        if (returnFocus) trigger.focus();
+      };
+
+      trigger.addEventListener('click', () => setOpen(!fb.classList.contains('fb-tools-open')));
+      panel.querySelector<HTMLButtonElement>('.fb-tools-close')?.addEventListener('click', () => close(true));
+
+      // Escape closes from anywhere inside the footer, and hands focus back to
+      // the trigger — otherwise it is left on a control that just went inert.
+      fb.addEventListener('keydown', (e) => {
+        if ((e as KeyboardEvent).key === 'Escape') close(true);
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => initFooterTools());
+  document.addEventListener('astro:page-load', () => initFooterTools());
+</script>

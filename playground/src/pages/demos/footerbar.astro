@@ -2,12 +2,16 @@
 /**
  * Demo source for docs/component-footerbar.html.
  *
- * Two of Figma's three `footer-lg` variants: Default, and Free tools version —
- * which in Figma is the same layout with one hidden menu item switched on, so
- * it is a prop here rather than a second component. `Free tool open` is still
- * unbuilt; it needs an expanding three-column panel.
+ * All three of Figma's `footer-lg` variants: Default; Free tools version — which
+ * in Figma is the same layout with one hidden menu item switched on, so it is a
+ * prop here rather than a second component; and Free tool open, the panel that
+ * item discloses.
  *
- * Both regions are complete real components, so nothing here has to stay
+ * `toolsOpen` renders the panel already open. The docs need a still of the open
+ * state, and a demo that can only be reached by clicking would snapshot closed —
+ * the trigger works either way once the page is live.
+ *
+ * All three regions are complete real components, so nothing here has to stay
  * hand-written the way Select's partial state grids do.
  */
 import { FooterBar } from '@iron-software/astro-components';
@@ -20,6 +24,9 @@ import { FooterBar } from '@iron-software/astro-components';
     </div>
     <div data-demo="freetools">
       <FooterBar freeTools />
+    </div>
+    <div data-demo="toolsopen">
+      <FooterBar freeTools toolsOpen />
     </div>
   </body>
 </html>
