@@ -178,14 +178,14 @@
      ═══════════════════════════════════════════════════════════════════════════ */
 
   /* Primary = Iron Pink/500 — all primary CTAs, brand wordmark */
-  --color-primary:          var(--iron-pink-500);   /* #E01A59 */
+  --color-primary:          var(--iron-pink-500);   /* #E01A59 · 3.78:1 on --color-bg-dark-shade — below AA as body text, kept as the brand primary (Ball's call, 2026-08-02). It clears the 3:1 large-text bar, which is how the 30px "SUITE" headline on the violet band passes and an 18px product suffix does not. The other three product accents sit at 8.19–10.55 there. */
   --color-primary-hover:    var(--iron-pink-600);   /* #BA174B */
   --color-primary-active:   var(--iron-pink-700);   /* #94153D */
   --color-primary-subtle:   var(--iron-pink-100);   /* #FADDE6 */
   --color-primary-on:       #FFFFFF;
 
   /* Secondary = Iron Blue/500 — secondary CTAs, alternative headline, link */
-  --color-secondary:          var(--iron-blue-500); /* #2693EC */
+  --color-secondary:          var(--iron-blue-500); /* #2693EC · as a solid fill (.btn--secondary) white text on it is 3.25:1 — below AA, kept as the brand secondary (Ball's call, 2026-08-02). No single label colour clears AA across the state chain: white is 3.25/4.47/6.42 and #171717 is 5.52/4.01/2.79 over default/hover/active, so fixing it means darkening the fill to iron-blue/700. */
   --color-secondary-hover:    var(--iron-blue-600); /* #217BC4 */
   --color-secondary-active:   var(--iron-blue-700); /* #1D629B */
   --color-secondary-subtle:   var(--iron-blue-100); /* #DEEFFC */

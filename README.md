@@ -405,7 +405,7 @@ It reports three things, each one an answer to an instrument that has lied here 
 | **contrast** | every run of text, composited down its real ancestor chain with opacity groups included, meets WCAG AA. `check:contrast` resolves tokens on paper, so text dimmed to 60% by a CSS `opacity` rule reads there as full strength |
 | **measure** | `getBoundingClientRect` for any selector, to diff against the numbers in a Figma node tree |
 
-Disabled controls are exempt (WCAG 1.4.3 says so, and every disabled state here is drawn by dimming to 50%). Text over a gradient is reported as unmeasured rather than guessed at.
+Disabled controls are exempt (WCAG 1.4.3 says so, and every disabled state here is drawn by dimming to 50%). Text over a gradient is reported as unmeasured rather than guessed at. Colour pairs that are a settled decision rather than a regression — the brand blue and the brand pink both sit below AA deliberately — are listed in `KNOWN` at the top of the script and warn instead of failing; an entry that stops coming up below its bar is reported as stale on a full sweep, so the list cannot rot.
 
 This is **not** in `npm run check`: the gates run anywhere Node runs, and this needs Google Chrome installed. It exits non-zero, so it can be wired into CI the day CI has a browser.
 

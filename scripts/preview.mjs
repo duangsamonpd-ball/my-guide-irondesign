@@ -64,6 +64,40 @@ const yellow = (s) => `\x1b[33m${s}\x1b[0m`;
 const dim = (s) => `\x1b[90m${s}\x1b[0m`;
 const bold = (s) => `\x1b[1m${s}\x1b[0m`;
 
+/* ── 0. colour pairs that are a decision, not a regression ────────────────── */
+
+/**
+ * Keyed on the composited pair, so one entry covers every place it appears.
+ *
+ * These warn instead of failing. The rule that keeps the list from rotting is
+ * the same one `check-contrast.mjs` uses: an entry that never fails anywhere in
+ * a run is reported as stale and exits non-zero, so a pair that gets fixed
+ * cannot leave its excuse behind.
+ *
+ * Ball's call, 2026-08-02, on being shown the measurements: these are the brand
+ * colours and they stay. The ratios are recorded here so the number is never
+ * argued from memory again — and so the next person reads a decision rather
+ * than rediscovering a bug.
+ */
+const KNOWN = new Map([
+  [
+    '#2693EC on #FFFFFF',
+    'Iron Blue 500, the brand link/accent colour. 3.25:1 on white, 2.96:1 on --color-bg-shade. ' +
+      'Already recorded on --color-text-link in tokens.css — pair links with an underline so colour is never the only cue.',
+  ],
+  [
+    '#FFFFFF on #2693EC',
+    'The same brand blue as a solid fill (.btn--secondary). 3.25:1. No single label colour clears AA across ' +
+      'the state chain — white is 3.25/4.47/6.42 and #171717 is 5.52/4.01/2.79 over default/hover/active — ' +
+      'so the fill would have to darken to iron-blue-700 to fix it. Kept as the brand secondary.',
+  ],
+  [
+    '#E01A59 on #260F27',
+    'Iron Pink 500 on the violet band. 3.78:1 at 18px (the other three product accents are 8.19–10.55). ' +
+      'Passes as large text at 30px, where the bar is 3:1. Kept as the brand primary.',
+  ],
+]);
+
 /* ── 1. arguments ─────────────────────────────────────────────────────────── */
 
 function parseArgs(argv) {
@@ -604,9 +638,14 @@ if (opts.json) {
 
 function hasProblem(entry) {
   const brokenImgs = (entry.assets ?? []).filter(isBroken).length;
-  const failedText = (entry.contrast?.results ?? []).filter((r) => r.ratio < r.bar).length;
+  const failedText = (entry.contrast?.results ?? []).filter(
+    (r) => r.ratio < r.bar && !KNOWN.has(`${r.fg} on ${r.bg}`)
+  ).length;
   return brokenImgs + failedText + entry.badRequests.length > 0;
 }
+
+/** Every KNOWN pair that actually turned up below its bar during this run. */
+const seenKnown = new Set();
 
 const isBroken = (a) => a.note !== null || a.painted === 0;
 
@@ -636,7 +675,10 @@ for (const entry of report) {
 
   if (entry.contrast) {
     const { results, unmeasured, exempt } = entry.contrast;
-    const failed = results.filter((r) => r.ratio < r.bar);
+    const below = results.filter((r) => r.ratio < r.bar);
+    const failed = below.filter((r) => !KNOWN.has(`${r.fg} on ${r.bg}`));
+    const excused = below.filter((r) => KNOWN.has(`${r.fg} on ${r.bg}`));
+    for (const r of excused) seenKnown.add(`${r.fg} on ${r.bg}`);
 
     // One colour pair used in forty places is one decision, not forty findings.
     // Printed ungrouped, a single grey caption style buried every real result
@@ -657,9 +699,15 @@ for (const entry of report) {
           `      ${dim(r.where)}  ${dim(`${r.size}px/${r.weight}`)}  "${r.text}"`
       );
     }
+    for (const pair of new Set(excused.map((r) => `${r.fg} on ${r.bg}`))) {
+      const worst = Math.min(...excused.filter((r) => `${r.fg} on ${r.bg}` === pair).map((r) => r.ratio));
+      console.log(`  ${yellow('!')} ${worst.toFixed(2)}:1 — ${pair} ${dim('· decided, not a regression')}`);
+      console.log(dim(`      ${KNOWN.get(pair)}`));
+    }
     if (results.length) {
       console.log(
-        `  ${failed.length ? yellow('·') : green('✔')} ${results.length - failed.length}/${results.length} text run${results.length === 1 ? '' : 's'} meet WCAG AA`
+        `  ${failed.length ? yellow('·') : green('✔')} ${results.length - below.length}/${results.length} text run${results.length === 1 ? '' : 's'} meet WCAG AA` +
+          (excused.length ? dim(`; ${excused.length} known exemption(s) above`) : '')
       );
     }
     if (exempt.length) {
@@ -691,6 +739,18 @@ for (const entry of report) {
   }
 
   if (entry.shot) console.log(dim(`  ·  screenshot → ${entry.shot}`));
+}
+
+// Anti-rot, and the reason this list is safe to have at all: an exemption that
+// no longer describes anything is deleted, not left to accumulate. Only checked
+// on a full sweep — a single-page run legitimately never sees most of them.
+if (opts.all && runContrast && !opts.scope) {
+  const stale = [...KNOWN.keys()].filter((k) => !seenKnown.has(k));
+  if (stale.length) {
+    problems += stale.length;
+    console.log(red(`\n✖  ${stale.length} exemption(s) in KNOWN never came up below AA — delete them`));
+    for (const k of stale) console.log(`    ${k}`);
+  }
 }
 
 console.log(
