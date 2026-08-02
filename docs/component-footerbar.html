@@ -71,28 +71,34 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
 .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
 .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
-.fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); }
+.fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); transition: opacity .2s; }
+.fb-logo:hover { opacity: 1; }
+.fb-logo-colour { display: none; }
+.fb-logo:hover .fb-logo-mono { display: none; }
+.fb-logo:hover .fb-logo-colour { display: block; }
 .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
 .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
-.fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); opacity: var(--opacity-60); }
-.fb-social { display: flex; transition: opacity .16s; }
+.fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); opacity: var(--opacity-60); transition: opacity .2s; }
+.fb-social { display: flex; }
 .fb-social img { width: 16px; height: 16px; display: block; }
 .fb-socials:hover { opacity: 1; }
-.fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; transition: opacity .16s; }
+.fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; }
 .fb-slack img { width: 16px; height: 16px; display: block; }
-.fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
-.fb-slack:hover { opacity: var(--opacity-hover-footer); }
+.fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; transition: color .2s; }
+.fb-slack:hover span { color: var(--color-text-on-color-heading); }
 .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
 .fb-info-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--size-container-max); }
 .fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
-.fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
+.fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); transition: opacity .2s; }
+.fb-partners:has(:hover) .fb-partner { mix-blend-mode: normal; opacity: 1; }
 .fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
 .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
 .fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
 .fb-legal-links .fb-div { height: var(--leading-3); }
 .fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color .16s; }
 .fb-legal-link:hover { color: var(--color-text-link-menu-hover); }
-.fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); }
+.fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); transition: opacity .2s; }
+.fb-donate:has(:hover) { opacity: 1; }
 .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
 .fb-donate-img { height: 32px; width: auto; display: block; }
   </style>
@@ -220,9 +226,14 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                 </div>
               </div>
               <div class="fb-brand">
-                <span class="fb-logo"><span style="height:24px" class="logo logo--wordmark">
-                    <img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="24">
-                  </span></span>
+                <span class="fb-logo">
+                  <span class="fb-logo-mono"><span style="height:24px" class="logo logo--wordmark">
+                      <img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="24">
+                    </span></span>
+                  <span class="fb-logo-colour" aria-hidden="true"><span style="height:24px" class="logo logo--wordmark">
+                      <img src="assets/wordmark-iron-ondark.svg" alt height="24">
+                    </span></span>
+                </span>
                 <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
               </div>
               <div class="fb-connect">
@@ -346,9 +357,14 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                 </div>
               </div>
               <div class="fb-brand">
-                <span class="fb-logo"><span style="height:24px" class="logo logo--wordmark">
-                    <img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="24">
-                  </span></span>
+                <span class="fb-logo">
+                  <span class="fb-logo-mono"><span style="height:24px" class="logo logo--wordmark">
+                      <img src="assets/wordmark-iron-mono.svg" alt="Iron Software" height="24">
+                    </span></span>
+                  <span class="fb-logo-colour" aria-hidden="true"><span style="height:24px" class="logo logo--wordmark">
+                      <img src="assets/wordmark-iron-ondark.svg" alt height="24">
+                    </span></span>
+                </span>
                 <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
               </div>
               <div class="fb-connect">

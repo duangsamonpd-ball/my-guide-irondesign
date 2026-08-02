@@ -199,9 +199,15 @@ if (freeTools) {
       </div>
 
       <div class="fb-brand">
-        {/* mono, not ondark: Figma's Main logo is the all-white lockup at 60%.
-            `ondark` carries the colour mark and a pink SOFTWARE. */}
-        <span class="fb-logo"><Logo kind="wordmark" brand="iron" variant="mono" height={24} basePath={basePath} label="Iron Software" /></span>
+        {/* Both lockups are rendered and swapped on hover, the same way TopNav
+            does it. At rest Figma's Main logo is the all-white `mono` at 60%;
+            hovering reveals `ondark`, which carries the colour mark and the pink
+            SOFTWARE. Swapping the file rather than filtering the mono one is
+            what makes the mark come back in its real brand colours. */}
+        <span class="fb-logo">
+          <span class="fb-logo-mono"><Logo kind="wordmark" brand="iron" variant="mono" height={24} basePath={basePath} label="Iron Software" /></span>
+          <span class="fb-logo-colour" aria-hidden="true"><Logo kind="wordmark" brand="iron" variant="ondark" height={24} basePath={basePath} label="" /></span>
+        </span>
         <p class="fb-address">{address}</p>
       </div>
 
@@ -314,21 +320,37 @@ if (freeTools) {
   .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
 
   .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
-  .fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); }
+  /* Everything in this bar that is dimmed at rest comes back to full strength on
+     hover — the brand lockup, the socials, the partner marks. Measured off
+     ironsoftware.com, which transitions these over .2s, not the .16s used for
+     link colour. */
+  .fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); transition: opacity .2s; }
+  .fb-logo:hover { opacity: 1; }
+  .fb-logo-colour { display: none; }
+  .fb-logo:hover .fb-logo-mono { display: none; }
+  .fb-logo:hover .fb-logo-colour { display: block; }
   .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
 
   .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
-  .fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); opacity: var(--opacity-60); }
-  .fb-social { display: flex; transition: opacity .16s; }
+  /* The transition belongs on the element whose opacity actually changes. It sat
+     on .fb-social while .fb-socials was the one being dimmed, so the row snapped
+     instead of fading and the rule did nothing. */
+  .fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); opacity: var(--opacity-60); transition: opacity .2s; }
+  .fb-social { display: flex; }
   .fb-social img { width: 16px; height: 16px; display: block; }
   .fb-socials:hover { opacity: 1; }
-  .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; transition: opacity .16s; }
+  .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; }
   /* 16px, not the 24 the component's own frame reports — the *instance* placed
      in this variant is 16, in a 20px-tall row. The Free tools variant places a
      24px one instead; the two variants disagree in Figma. */
   .fb-slack img { width: 16px; height: 16px; display: block; }
-  .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; }
-  .fb-slack:hover { opacity: var(--opacity-hover-footer); }
+  .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; transition: color .2s; }
+  /* This used to be `opacity: var(--opacity-hover-footer)` — 0.8 — so hovering
+     the row made it FAINTER, the opposite of every other hover in this bar.
+     Figma puts Join Slack outside the socials' opacity group, so there is no
+     dimming to undo here; the label goes from on-color/body to on-color/heading
+     instead, which is the same "back to full strength" move in colour terms. */
+  .fb-slack:hover span { color: var(--color-text-on-color-heading); }
 
   /* ── band 3: partners, legal, donate ──────────────────────────────────── */
   .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
@@ -338,8 +360,26 @@ if (freeTools) {
 
   .fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
   /* Figma greys the partner marks with mix-blend-luminosity over the band fill,
-     which is why they read as flat grey rather than tinted. */
-  .fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
+     which is why they read as flat grey rather than tinted. Hover drops both the
+     blend and the dimming so the mark returns to full colour.
+
+     ironsoftware.com greys these with `filter: brightness(0) invert(.6)` instead —
+     a flat silhouette rather than a luminance-preserving blend — and lights each
+     logo on its own. Ball's call, 2026-08-02: light the whole ROW together, so
+     the three partner marks read as one lockup rather than three targets. The
+     REST appearance stays on Figma's mechanism, which is what the design file
+     specifies and is only a shade off the site's.
+
+     mix-blend-mode is not animatable, so only the opacity transitions.
+
+     `:has(:hover)` rather than `:hover` on the container: both this row and the
+     donate block are `flex: 1 0 0`, so each is a third of 1392 — 464px wide for
+     about 272px of content. A plain :hover would light the marks from ~192px of
+     empty band. `:has(:hover)` fires only when a mark itself is under the
+     pointer, and still lights all three. Same pattern as Checkbox/Radio's
+     `:has(input:checked)`. */
+  .fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); transition: opacity .2s; }
+  .fb-partners:has(:hover) .fb-partner { mix-blend-mode: normal; opacity: 1; }
 
   .fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
   .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
@@ -348,7 +388,10 @@ if (freeTools) {
   .fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color .16s; }
   .fb-legal-link:hover { color: var(--color-text-link-menu-hover); }
 
-  .fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); }
+  /* Dimmed at rest and back to full on hover, same as the brand lockup, the
+     socials and the partner marks. Ball's call, 2026-08-02. */
+  .fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); transition: opacity .2s; }
+  .fb-donate:has(:hover) { opacity: 1; }
   /* Figma sets line-height 1.2 on 12px = 14.4, which is off our leading ramp
      (12 → 16). 16 is the nearest step and the label stays centred against the
      32px logo beside it, so the 1.6px is invisible. */
