@@ -8,11 +8,20 @@
  * whatever app consumes the library, and a stale `exports` target only fails
  * when someone imports that specific path.
  *
- * This asserts four things:
+ * This asserts six things:
  *   1. every components/*.astro is re-exported from the barrel
  *   2. every barrel export resolves to a file that exists
  *   3. barrel exports stay alphabetical (the file says they are)
  *   4. every `exports` target in either package.json exists on disk
+ *   5. every component has a `### `Name.astro`` section in the package README
+ *   6. the README's "N components ported" heading matches what is on disk
+ *
+ * 5 and 6 were added 2026-08-03. The README is the only hand-kept surface here
+ * that nothing watched: `FooterBar` shipped and then went through four more
+ * commits without ever being documented, while the heading still read "17
+ * components ported". Every other kind of drift in this repo has a gate —
+ * check:parity for CSS, check:render for markup, this file for the barrel — so
+ * prose was the one place a component could go missing quietly.
  *
  * It also warns — without failing — when a component has no docs/component-*.html,
  * since `check:parity` silently skips those and the gap is easy to miss.
@@ -120,6 +129,42 @@ for (const rel of ['package.json', 'astro-components/package.json']) {
   }
 }
 
+/* ── 5 & 6: the README ───────────────────────────────────────────────────── */
+
+const readmePath = join(PKG_DIR, 'README.md');
+const readme = readFileSync(readmePath, 'utf8');
+
+/* Section headings look like:  ### `Button.astro`  */
+const documented = new Set(
+  [...readme.matchAll(/^###\s+`(\w+)\.astro`/gm)].map((m) => m[1]),
+);
+
+for (const name of components) {
+  if (!documented.has(name)) {
+    errors.push({
+      where: 'astro-components/README.md',
+      what: `${bold(name)} has no section`,
+      fix: `add:  ### \`${name}.astro\`  — with a usage sample and its props, like the others`,
+    });
+  }
+}
+
+/* The "N components ported" heading is a number people read and trust. */
+const ported = readme.match(/^##\s+(\d+)\s+components ported/m);
+if (!ported) {
+  errors.push({
+    where: 'astro-components/README.md',
+    what: 'no "## N components ported" heading',
+    fix: 'restore it — this check counts against it',
+  });
+} else if (Number(ported[1]) !== components.length) {
+  errors.push({
+    where: 'astro-components/README.md',
+    what: `heading says ${bold(`${ported[1]} components ported`)}, but ${bold(components.length)} exist on disk`,
+    fix: `change the heading to "## ${components.length} components ported" and add the new name to the list under it`,
+  });
+}
+
 /* ── docs pages (warning only) ───────────────────────────────────────────── */
 
 for (const name of components) {
@@ -150,12 +195,13 @@ if (errors.length) {
       console.log(`      ${dim(fix)}`);
     }
   }
-  console.log(`\n  The barrel and the exports maps are hand-kept — a missing export otherwise`);
-  console.log(`  only surfaces as [MISSING_EXPORT] inside a consuming app.\n`);
+  console.log(`\n  The barrel, the exports maps and the README are all hand-kept — a missing`);
+  console.log(`  export otherwise surfaces only as [MISSING_EXPORT] inside a consuming app,`);
+  console.log(`  and a missing README section not at all.\n`);
   process.exit(1);
 }
 
 console.log(
   `\n\x1b[32m✔  Exports in sync — ${components.length} components exported, ` +
-    `all barrel and package.json targets resolve\x1b[0m\n`,
+    `all barrel and package.json targets resolve, all documented\x1b[0m\n`,
 );

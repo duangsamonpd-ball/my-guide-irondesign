@@ -268,6 +268,55 @@ Props: `variant` (`suite` shows the full-brand logo headline; `default` names th
 
 The "Start Free Trial" CTA's key icon is an inline **Font Awesome Free Solid** `key` SVG (`fill="currentColor"`) — no icon font or CDN dependency.
 
+### `FooterBar.astro`
+
+**Not the same component as `Footer.astro`, despite the name.** `Footer` is the violet IRONSUITE cross-sell band; `FooterBar` is the black bar that sits *underneath* it — menu, review badges, brand, socials, partner logos, legal line. They stack; neither replaces the other. From Figma's "Footer 2026" section (node `263:1386`, set `footer-lg` `877:2953`).
+
+```astro
+<!-- every band, all defaults -->
+<FooterBar basePath="/assets" />
+
+<!-- Figma's "Free tools version" — reveals the Free Tools menu item -->
+<FooterBar freeTools basePath="/assets" />
+
+<!-- Figma's "Free tool open" — the item becomes a disclosure for the tools panel -->
+<FooterBar freeTools toolsOpen basePath="/assets" />
+```
+
+**No `variant` prop**, unlike the other seven components that have one. Figma's `Property 1` axis (`Default` / `Free tools version` / `Free tool open`) is two booleans here, because the three values are not mutually exclusive looks — they are cumulative states, and `toolsOpen` is a starting position the component's own trigger takes over from the moment anyone clicks. A `variant` union would have made "open" a thing the caller sets and the component then contradicts.
+
+Props, all optional — every one has a real default, so `<FooterBar />` renders the whole Iron Software footer as drawn:
+
+| | |
+|---|---|
+| `menu` | `{ label, href?, caret? }[]` — the top row |
+| `freeTools` | reveals the Free Tools item (hidden in Figma's Default variant, not absent) |
+| `freeToolsLabel`, `freeToolsHref` | its label and target |
+| `toolGroups` | `{ title, icon?, columns }[]` — the panel. `columns` is `Link[][]`: a list *of columns*, each a list of links, because Figma's column breaks are editorial, not something a layout algorithm should guess at. `icon` is a named glyph (`arrowsRotate` \| `penToSquare` \| `wrench`) |
+| `toolsOpen` | render the panel already open; the trigger owns it after that |
+| `closeToolsLabel` | `aria-label` for the close button |
+| `reviews` | `{ name, logo, stars, starsHover, score, outOf? }[]` — two artwork files per row, not one plus a CSS filter (see below) |
+| `address`, `copyright` | single strings |
+| `socials` | `{ name, icon, href? }[]` |
+| `slackLabel`, `slackHref` | the Join Iron Slack row |
+| `partners` | `{ name, logo, width }[]` — `width` in px, height is fixed at 28 |
+| `legal` | `{ label, href? }[]` — the Terms / Privacy / Cookie line |
+| `donateLabel`, `donateImg` | the 1% for the Planet block |
+| `basePath` | where `docs/assets/` was copied to, default `assets` |
+| `class` | |
+
+Assets are real files here, like `Logo.astro` — a partner logo is artwork and no token can stand in for it. `basePath` is the escape hatch; filenames are URL-encoded rather than interpolated raw, because `1% logo - Horizontal.png` contains a percent sign and `% l` is an invalid escape sequence.
+
+Three things that look like bugs and are not:
+
+- **The band fills are the opposite way round to the token names.** The menu row and brand row are both `--color-bg-footer-alt`; only the bottom legal row is `--color-bg-footer`. This component is the first consumer either token has ever had.
+- **Both star rows are white at 30%** — that is the *empty* state, which is why they read as grey. The filled row is a second artwork file, not a CSS filter: the 30% is baked into the resting SVG as `opacity="0.3"` on white paths, and nothing CSS can do to an `<img>` reaches inside to raise the alpha, let alone recolour it.
+- **The Free tools panel opens with `grid-template-rows: 0fr → 1fr`**, not an animated `max-height` — no number to guess, no number to go stale when someone adds a link. It keeps `inert` while collapsed (it has to stay in the DOM to animate, and without `inert` a closed panel silently holds nine links in the tab order), and collapses to a cut under `prefers-reduced-motion`.
+
+Ships its own `<script>` for the disclosure — scoped per-instance, safe with multiple `<FooterBar>`s per page, re-initializes on Astro View Transitions, same pattern as `Tooltip`.
+
+**Only the `footer-lg` variants are built.** Figma also draws `footer-md` (768) and `footer-sm` (375); this component carries no `@media` rule at all. Deviations from the design file — including two the design side agreed to fix — are listed on `docs/component-footerbar.html`.
+
 ### `FormCard.astro`
 
 Generic wrapper for icon+title form cards (the "Request a Quote" / "Tell us what you're migrating from" pattern) — compose it with `Input` / `Select` / `Textarea` / `FileUpload` / a plain `<button>` submit as children:
@@ -474,14 +523,14 @@ design.
 
 ## Prop API conventions
 
-These are **descriptive, not aspirational** — they were read off the 17 existing
-components (159 prop declarations, 83 distinct names). Follow them so a new
+These are **descriptive, not aspirational** — they were read off the 18 existing
+components (181 prop declarations, 100 distinct names). Follow them so a new
 component feels like the rest of the family; where reality is already split, that
 is called out rather than papered over.
 
 ### The shape every component has
 
-Universal — all 17 do this, so a new component should too:
+Universal — all 18 do this, so a new component should too:
 
 ```astro
 ---
@@ -498,11 +547,11 @@ const { /* …defaults… */, class: className } = Astro.props;
 <style>/* one block, the source of truth for this component's CSS */</style>
 ```
 
-- **`class?: string`, destructured as `class: className`** — 17/17. `class` is a
+- **`class?: string`, destructured as `class: className`** — 18/18. `class` is a
   reserved word, so the alias is not optional.
-- **`class:list` on the root, with `className` last** — 17/17. Trailing position
+- **`class:list` on the root, with `className` last** — 18/18. Trailing position
   is what lets a caller's utility class land after the component's own.
-- **Exactly one `<style>` block** — 17/17, and it is the source of truth that
+- **Exactly one `<style>` block** — 18/18, and it is the source of truth that
   `check:parity` holds the docs page to.
 
 ### Choosing a prop shape
@@ -538,7 +587,7 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 8 of 17 components take a required
+  destructure rather than the interface. Only 8 of 18 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
   `Tooltip.body`, and the card components' labels.
@@ -599,14 +648,20 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 17 components ported
+## 18 components ported
 
 Button, TextLink, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge,
-Notice, Tooltip, Product Footer, FormCard, TrialKeyCard, Logo, TopNav and
-ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
-two-bar site header. If the design system docs (`docs/component-*.html`) gain a new
+Notice, Tooltip, Product Footer, FooterBar, FormCard, TrialKeyCard, Logo, TopNav
+and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
+two-bar site header, and `Footer` + `FooterBar` the full two-band site footer. If
+the design system docs (`docs/component-*.html`) gain a new
 variant or pattern, check it here too — the docs' own Code-tab samples have
 a history of drifting out of sync with the live markup on the same page.
+
+This count is a gate, not a claim: `check:exports` fails when a component has no
+``### `Name.astro` `` section below, and when the heading above disagrees with the
+number of components on disk. It went stale once — `FooterBar` shipped in four
+commits without ever reaching this file — which is what the check is for.
 
 `Logo` was ported from the "Logo" section of the Figma file (node `471:112`)
 together with its 34 new SVG assets; `docs/logo.html` is the brand-guidelines

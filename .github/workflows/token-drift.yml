@@ -32,9 +32,10 @@ jobs:
       - name: Check component ↔ docs CSS parity
         run: node scripts/check-component-parity.mjs
 
-      # The barrel and both exports maps are hand-kept — a missing export
-      # otherwise only fails inside a consuming app, never here.
-      - name: Check barrel & exports maps
+      # The barrel, both exports maps and the package README are hand-kept — a
+      # missing export otherwise only fails inside a consuming app, never here,
+      # and a component missing from the README fails nowhere at all.
+      - name: Check barrel, exports maps & README coverage
         run: node scripts/check-exports.mjs
 
       # The docs shell lives in one file now; a page re-declaring one of its
