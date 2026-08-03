@@ -57,9 +57,15 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
     color: var(--color-text-on-color-heading); position: relative; overflow: hidden;
   }
 .ft-inner { max-width: var(--size-container-content); margin: 0 auto; display: flex; align-items: stretch; padding: var(--spacing-4xl) 0; }
-.ft-left { flex: 1; padding: 0 var(--spacing-3xl); display: flex; flex-direction: column; }
+/* 24 outside, 48 in towards the divider — not 48 both sides. Figma insets the
+   row by 24 (node 566:8083, 1232 wide inside the 1280) and then leaves 48 to
+   the divider, which makes each column 567: 24 + 567 + 48 + 2 + 48 + 567 + 24.
+   At 48/48 the columns come out 543, and the right edges still line up, so the
+   24 that goes missing on each outer edge is invisible until something has to
+   fit — the two CTAs total 556.5 and were wrapping to a second line. */
+.ft-left { flex: 1; padding: 0 var(--spacing-3xl) 0 var(--spacing-xl); display: flex; flex-direction: column; }
 .ft-divider { background:var(--transparent-white-10); width:2px; flex-shrink:0; align-self:stretch; }
-.ft-right { flex: 1; padding: 0 var(--spacing-3xl); }
+.ft-right { flex: 1; padding: 0 var(--spacing-xl) 0 var(--spacing-3xl); }
 .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: 500; color: var(--color-text-on-color-heading); letter-spacing: var(--letter-spacing-nav-label); }
 .ft-donate img { height:30px; width:auto; display:block; }
 .ft-main { display: flex; flex-direction: column; gap: var(--spacing-2xl); padding-top: var(--spacing-3xl); }
@@ -68,22 +74,43 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .f-suite-logo img { height:30px; width:auto; display:block; }
 .ft-headline { font-weight: 700; font-size: var(--font-size-3xl); color: var(--color-text-on-color-heading); line-height: 1.2; }
 .ft-tagline { font-size: var(--font-size-xl); font-weight: 700; line-height: var(--leading-7); }
-.ft-actions { display: flex; align-items: center; gap: var(--spacing-2xl); flex-wrap: wrap; }
-.btn { display:inline-flex; align-items:center; gap:var(--space-sm); font-weight:700; font-size:var(--text-base); line-height:var(--leading-none); padding:var(--space-md) var(--space-2xl); border-radius:var(--r-full); border:2px solid transparent; cursor:pointer; text-decoration:none; white-space:nowrap; transition:background .16s; }
-.btn-dark {
-    display: inline-flex; align-items: center; gap: 8px; height: var(--size-btn-lg); padding: 0 var(--spacing-2xl);
-    border: none; border-radius: var(--rounded-cta); font-family: 'Montserrat', sans-serif; font-weight: 700;
-    cursor: pointer; text-decoration: none; background: var(--color-button-tertiary); color: var(--color-text-on-color-heading);
+/* Figma's CTA frame (507:4077) sets no gap — it is `justify-between` across the
+   567 column, and the 18px you can measure between the two buttons is just what
+   that produced at Figma's own widths. Ours come out 3-4px wider each (Solid
+   glyphs where Figma sets Regular, plus text rendering), so a fixed gap of any
+   size would push the pair past the column; space-between absorbs it. The row
+   gap is for the wrapped state only. */
+.ft-actions { display: flex; align-items: center; justify-content: space-between; row-gap: var(--spacing-md); flex-wrap: wrap; }
+/* Both CTAs are the DS Button (Figma composes two `button` instances here,
+   507:4078 tertiary and 507:4079 ghost, both large). This used to be a pair of
+   hand-rolled `.btn-dark` / `.btn-text-light` rules that had drifted: gap 8
+   against Figma's 12, and the second one was not a button at all — 19px tall,
+   no padding, no pill, white where Figma paints `on-action-tertiary` blue.
+   Button owns all of that now; what is left here is only what Button has no
+   opinion about. */
+.ft-cta svg { height: 1em; width: auto; flex-shrink: 0; }
+/* Not from Figma — this component has always slid the arrow on hover, and it
+   is worth keeping. Scoped to `.arr` so the leading key icon stays put. */
+.ft-cta .arr { transition: transform var(--duration-base); }
+.ft-cta:hover .arr { transform: translateX(3px); }
+/* Copied from Button.astro, like component-formcard.html copies Input's field
+   rules: the CTAs here are real <Button> instances, and this page has to render
+   standalone. Only the two variants the footer uses are brought across.
+   A stale `.btn` in the old `--space-*` vocabulary used to sit here — dead while
+   the CTAs were hand-rolled, and it would have quietly overridden this one. */
+.btn {
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif; border: var(--border-width-2) solid transparent; outline: none;
+    border-radius: var(--rounded-cta); white-space: nowrap; text-decoration: none;
+    transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast), box-shadow var(--duration-fast);
   }
-.btn-dark:hover { background: var(--color-button-tertiary-hover); }
-.btn-dark:focus-visible { outline:none; box-shadow:0 0 0 3px var(--transparent-white-40); }
-.btn-text-light {
-    background: none; border: none; color: var(--color-text-on-color-heading);
-    font-size: var(--font-size-base); font-weight: 700; display: inline-flex; align-items: center; gap: var(--spacing-sm);
-    cursor: pointer; padding: 0; text-decoration: none; transition: opacity var(--duration-base);
-  }
-.btn-text-light:hover { opacity:.8; }
-.key-icon { width:0.85rem; height:0.85rem; }
+.btn--lg { height: var(--size-btn-lg); padding: 0 var(--spacing-2xl); gap: var(--spacing-sm); font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
+.btn--tertiary  { background: var(--color-button-tertiary); color: var(--color-primary-on); }
+.btn--tertiary:hover  { background: var(--color-primary); }
+.btn--tertiary:focus-visible  { box-shadow: var(--focus-ring-white); }
+.btn--ghost     { background: transparent; color: var(--color-on-tertiary); }
+.btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
+.btn--ghost:focus-visible     { border-color: var(--color-border-focused); }
 .f-products { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; }
 .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: 1.5; gap: var(--spacing-micro); cursor: pointer; }
 .fp-logo { width:22px; height:22px; flex-shrink:0; display:flex; align-items:center; }
@@ -190,8 +217,15 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
                 </div>
                 <div class="ft-actions">
-                  <a href="#" class="btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
-                  <a href="#" class="btn-text-light"><svg class="key-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg> Start Free Trial <span class="arr">→</span></a>
+                  <a href="#" class="btn btn--lg btn--tertiary ft-cta">
+                    Get Full 10 products Suite
+                    <svg class="arr" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+                  </a>
+                  <a href="#" class="btn btn--lg btn--ghost ft-cta">
+                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg>
+                    Start Free Trial
+                    <svg class="arr" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+                  </a>
                 </div>
               </div>
             </div>
@@ -269,8 +303,15 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
                 </div>
                 <div class="ft-actions">
-                  <a href="#" class="btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
-                  <a href="#" class="btn-text-light"><svg class="key-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg> Start Free Trial <span class="arr">→</span></a>
+                  <a href="#" class="btn btn--lg btn--tertiary ft-cta">
+                    Get Full 10 products Suite
+                    <svg class="arr" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+                  </a>
+                  <a href="#" class="btn btn--lg btn--ghost ft-cta">
+                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg>
+                    Start Free Trial
+                    <svg class="arr" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+                  </a>
                 </div>
               </div>
             </div>
@@ -358,7 +399,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <div class="sect-sub">Three structural zones.</div>
       <div class="anat-legend">
         <div class="anat-item"><span class="anat-num">1</span><div><b>Variant content area</b> — the left headline; changes between Suite (brand logo) and Default (“<i>[Product]</i> is a part of IRONSUITE”).</div></div>
-        <div class="anat-item"><span class="anat-num">2</span><div><b>CTAs</b> — Tertiary <code>.btn-dark</code> “Get Full 10 products Suite” + Ghost <code>.btn-text-light</code> “Start Free Trial”.</div></div>
+        <div class="anat-item"><span class="anat-num">2</span><div><b>CTAs</b> — real <code>Button</code> instances, matching Figma, which composes the DS button here too: <code>&lt;Button variant="tertiary" size="lg"&gt;</code> “Get Full 10 products Suite” + <code>&lt;Button variant="ghost" size="lg"&gt;</code> “Start Free Trial”. Until 2026-08-03 these were hand-rolled <code>.btn-dark</code> / <code>.btn-text-light</code> rules that had drifted from the DS: gap 8 against 12, and the ghost one rendered as a 19px text link — no pill, no padding, and white where Figma paints <code>on-action-tertiary</code> blue.</div></div>
+        <div class="anat-item"><span class="anat-num">!</span><div><b>Ghost hover is 3.83:1 on this band.</b> At rest the blue label is 5.48:1 and clears AA. On hover the DS ghost turns the label <code>--color-on-tertiary-hover</code> (Iron Pink 500), which over the violet lands at 3.83:1 — under AA for 16px text, over the 3:1 large-text bar. This is the DS button behaving normally, not a footer-specific choice; it is the same brand pink already kept at 3.78:1 elsewhere on this page. <b>Settled 2026-08-03: keep it</b> — the DS button&rsquo;s own behaviour, and the colour is the brand&rsquo;s. Don&rsquo;t re-raise it.</div></div>
         <div class="anat-item"><span class="anat-num">3</span><div><b>Product links</b> — the 10-item list, each an instance of the <b>Product hover</b> sub-component.</div></div>
       </div>
     </div>

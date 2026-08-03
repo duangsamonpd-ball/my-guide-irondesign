@@ -1,4 +1,5 @@
 ---
+import Button from './Button.astro';
 import { icons } from '../icons';
 
 interface Product {
@@ -57,8 +58,15 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
           <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
         </div>
         <div class="ft-actions">
-          <a href="#" class="btn-dark">Get Full 10 products Suite <span class="arr">→</span></a>
-          <a href="#" class="btn-text-light"><svg class="key-icon" viewBox={icons.key.viewBox} fill="currentColor"><path d={icons.key.path}/></svg> Start Free Trial <span class="arr">→</span></a>
+          <Button variant="tertiary" size="lg" href="#" class="ft-cta">
+            Get Full 10 products Suite
+            <svg class="arr" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
+          </Button>
+          <Button variant="ghost" size="lg" href="#" class="ft-cta">
+            <svg viewBox={icons.key.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.key.path}/></svg>
+            Start Free Trial
+            <svg class="arr" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
+          </Button>
         </div>
       </div>
     </div>
@@ -85,9 +93,15 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
     color: var(--color-text-on-color-heading); position: relative; overflow: hidden;
   }
   .ft-inner { max-width: var(--size-container-content); margin: 0 auto; display: flex; align-items: stretch; padding: var(--spacing-4xl) 0; }
-  .ft-left { flex: 1; padding: 0 var(--spacing-3xl); display: flex; flex-direction: column; }
+  /* 24 outside, 48 in towards the divider — not 48 both sides. Figma insets the
+     row by 24 (node 566:8083, 1232 wide inside the 1280) and then leaves 48 to
+     the divider, which makes each column 567: 24 + 567 + 48 + 2 + 48 + 567 + 24.
+     At 48/48 the columns come out 543, and the right edges still line up, so the
+     24 that goes missing on each outer edge is invisible until something has to
+     fit — the two CTAs total 556.5 and were wrapping to a second line. */
+  .ft-left { flex: 1; padding: 0 var(--spacing-3xl) 0 var(--spacing-xl); display: flex; flex-direction: column; }
   .ft-divider { background: var(--transparent-white-10); width: 2px; flex-shrink: 0; align-self: stretch; }
-  .ft-right { flex: 1; padding: 0 var(--spacing-3xl); }
+  .ft-right { flex: 1; padding: 0 var(--spacing-xl) 0 var(--spacing-3xl); }
   .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: 500; color: var(--color-text-on-color-heading); letter-spacing: var(--letter-spacing-nav-label); }
   .ft-donate img { height: 30px; width: auto; display: block; }
   .ft-main { display: flex; flex-direction: column; gap: var(--spacing-2xl); padding-top: var(--spacing-3xl); }
@@ -100,23 +114,25 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
   .ft-tagline { font-size: var(--font-size-xl); font-weight: 700; line-height: var(--leading-7); }
   .ft-tagline .dim { color: var(--color-text-dark-heading); }     /* near-white */
   .ft-tagline .support { color: var(--color-text-dark-support); } /* dusty violet */
-  .ft-actions { display: flex; align-items: center; gap: var(--spacing-2xl); flex-wrap: wrap; }
-  .btn-dark {
-    display: inline-flex; align-items: center; gap: 8px; height: var(--size-btn-lg); padding: 0 var(--spacing-2xl);
-    border: none; border-radius: var(--rounded-cta); font-family: 'Montserrat', sans-serif; font-weight: 700;
-    cursor: pointer; text-decoration: none; background: var(--color-button-tertiary); color: var(--color-text-on-color-heading);
-  }
-  .btn-dark:hover { background: var(--color-button-tertiary-hover); }
-  .btn-dark:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--transparent-white-40); }
-  .btn-dark .arr, .btn-text-light .arr { transition: transform var(--duration-base); }
-  .btn-dark:hover .arr, .btn-text-light:hover .arr { transform: translateX(3px); }
-  .btn-text-light {
-    background: none; border: none; color: var(--color-text-on-color-heading);
-    font-size: var(--font-size-base); font-weight: 700; display: inline-flex; align-items: center; gap: var(--spacing-sm);
-    cursor: pointer; padding: 0; text-decoration: none; transition: opacity var(--duration-base);
-  }
-  .btn-text-light:hover { opacity: .8; }
-  .key-icon { width: 0.85rem; height: 0.85rem; }
+  /* Figma's CTA frame (507:4077) sets no gap — it is `justify-between` across the
+     567 column, and the 18px you can measure between the two buttons is just what
+     that produced at Figma's own widths. Ours come out 3-4px wider each (Solid
+     glyphs where Figma sets Regular, plus text rendering), so a fixed gap of any
+     size would push the pair past the column; space-between absorbs it. The row
+     gap is for the wrapped state only. */
+  .ft-actions { display: flex; align-items: center; justify-content: space-between; row-gap: var(--spacing-md); flex-wrap: wrap; }
+  /* Both CTAs are the DS Button (Figma composes two `button` instances here,
+     507:4078 tertiary and 507:4079 ghost, both large). This used to be a pair of
+     hand-rolled `.btn-dark` / `.btn-text-light` rules that had drifted: gap 8
+     against Figma's 12, and the second one was not a button at all — 19px tall,
+     no padding, no pill, white where Figma paints `on-action-tertiary` blue.
+     Button owns all of that now; what is left here is only what Button has no
+     opinion about. */
+  .ft-cta svg { height: 1em; width: auto; flex-shrink: 0; }
+  /* Not from Figma — this component has always slid the arrow on hover, and it
+     is worth keeping. Scoped to `.arr` so the leading key icon stays put. */
+  .ft-cta .arr { transition: transform var(--duration-base); }
+  .ft-cta:hover .arr { transform: translateX(3px); }
   .f-products { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; }
   .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: 1.5; gap: var(--spacing-micro); cursor: pointer; }
   .fp-logo { width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; }

@@ -94,7 +94,10 @@ const KNOWN = new Map([
   [
     '#E01A59 on #260F27',
     'Iron Pink 500 on the violet band. 3.78:1 at 18px (the other three product accents are 8.19–10.55). ' +
-      'Passes as large text at 30px, where the bar is 3:1. Kept as the brand primary.',
+      'Passes as large text at 30px, where the bar is 3:1. Kept as the brand primary. ' +
+      'The same ruling covers the footer ghost CTA on hover, which this probe does not reach because it ' +
+      'only measures the resting state: the label goes pink over --ghost-hover and lands at 3.83:1. ' +
+      "Ball's call, 2026-08-03 — it is the DS button behaving normally, and the colour is the brand's.",
   ],
 ]);
 

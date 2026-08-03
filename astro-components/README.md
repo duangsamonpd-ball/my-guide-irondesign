@@ -266,7 +266,9 @@ Ships its own `<script>` for the hover-with-a-gap interaction (JS open/close wit
 
 Props: `variant` (`suite` shows the full-brand logo headline; `default` names the current product for cross-sell, default `default`), `productName` (required when `variant="default"`), `products` (`{ prefix, suffix, desc, accent?, href? }[]`, required), `donateImgSrc`, `suiteLogoImgSrc`, `productLogoSrc` (asset path overrides — defaults point at the docs' relative paths, supply your own), `class`.
 
-The "Start Free Trial" CTA's key icon is an inline **Font Awesome Free Solid** `key` SVG (`fill="currentColor"`) — no icon font or CDN dependency.
+**The two CTAs are real `Button` instances** — `variant="tertiary"` and `variant="ghost"`, both `size="lg"` — because that is what Figma composes here (nodes `507:4078` / `507:4079`). They were hand-rolled `.btn-dark` / `.btn-text-light` rules until 2026-08-03 and had drifted: gap 8 against the DS's 12, and the ghost one was not a button at all, rendering as a 19px text link with no padding, no pill, and a white label where Figma paints `on-action-tertiary` blue. If you restyle these, restyle `Button.astro`.
+
+Their icons are inline **Font Awesome Free Solid** `key` and `arrow-right` SVGs. Figma sets both in FA 7 Pro *Regular*, which is not reachable — free-regular ships 273 icons and neither is among them — so Solid is the closest weight and the buttons come out 3–4px wider than the design file's. That is why the CTA row is `justify-content: space-between` with no column gap: Figma's own 18px spacing is what space-between produced at its narrower widths, and any fixed gap pushes the pair past the 567 column.
 
 ### `FooterBar.astro`
 
