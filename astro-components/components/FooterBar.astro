@@ -576,8 +576,22 @@ if (freeTools) {
      `opacity="0.6"` baked onto their outer <g> by the Figma export, on top of the 60%
      this CSS applies — so the rest state was really 36% and hover could never pass
      60%, which is what Ball saw. Stripped from the SVGs, 2026-08-02; the dimming now
-     lives in exactly one place. **If these marks are ever re-exported, check the
-     outer <g> for `opacity` again — Figma bakes in any group opacity.** */
+     lives in exactly one place.
+
+     The same export had also baked `style="mix-blend-mode:luminosity"` onto that <g>,
+     which survived the opacity sweep because we were only looking for `opacity`. It
+     cost nothing visible in Chrome and broke the hover completely in Safari: WebKit
+     flattens that inner blend group against black once, permanently, so the marks
+     were greyscale in the file itself and no CSS could bring the colour back. Chrome
+     treats the same group as a no-op, which is why it looked fine here for a week.
+     Stripped 2026-08-03; measured 0.000 → 0.487 saturation on hover in WebKit
+     afterwards, against 0.000 → 0.000 before. The CSS below did not change.
+
+     **If these marks are ever re-exported, strip BOTH `opacity` and
+     `mix-blend-mode` off the wrapper <g> — Figma bakes in every group-level paint
+     property, and a blend mode does it silently in one engine only.** The five other
+     assets carrying a baked `multiply` were checked at the same time and render the
+     same in both engines; luminosity is the one that flattens. */
   .fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
   .fb-partner:hover { mix-blend-mode: normal; opacity: 1; }
 
