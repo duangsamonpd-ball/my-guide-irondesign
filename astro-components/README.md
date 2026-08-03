@@ -591,6 +591,8 @@ nothing.
 
 To add another icon: temporarily `npm install @fortawesome/free-solid-svg-icons` somewhere scratch (not in this repo), `require()` the icon you need, and read `icon.icon` — it's `[width, height, ligatures, unicode, svgPathData]`. Use `viewBox="0 0 {width} {height}"` and that path data; put it in `icons.ts` if more than one component will draw it, then remove the temporary install. Free Solid icons are CC-BY-4.0-compatible for this kind of embedding. Never hand-draw path data — for vectors that only exist in Figma, export the node instead (see the navigation components above).
 
+**An icon in Figma may not be a vector at all.** The four in `FooterBar`'s Free tools panel are `<text>` nodes set in `Font Awesome 7 Pro: Solid`, so `download_assets` returns nothing for them and they look like a missing export. Read the character instead: `get_design_context` gives it back as an escape (`\uF021`), which is the Font Awesome code point and names the icon. Check the Free tier before assuming Pro is needed — all four of those were Free, and Free Solid 7.3.1 turned out to match every icon already in `icons.ts` byte for byte, so "Pro" in the font name says nothing about whether the artwork is reachable.
+
 ## Verifying changes
 
 There's no permanent Astro app in this repo to preview against. Before committing changes to any `.astro` file here, scaffold a throwaway Astro project (`npm init -y && npm install astro@latest`), copy the component(s) + `tailwind/tokens.css` (+ `icons.ts`, if the component imports it) in, write a quick test page, run `astro build`, and inspect the rendered HTML — then delete the throwaway project. Don't skip this just because there's nothing permanent to run it against.

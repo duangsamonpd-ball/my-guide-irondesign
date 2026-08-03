@@ -35,6 +35,12 @@
  *    icon in a 24px row at leading 18. **Ball ruled for Default (2026-08-02)**,
  *    so 16px is correct in both regions here and the Free tools variant is the
  *    one to correct in Figma.
+ *  · The Free tools panel's four icons — three headings plus the close button —
+ *    are *text* nodes in `Font Awesome 7 Pro: Solid` (U+F021, U+F044, U+F0AD,
+ *    U+F00D), not vectors, so nothing can be exported. All four code points are
+ *    in the Free tier and Free Solid 7.3.1 matches the nine icons already in
+ *    ../icons byte for byte, so they are inlined the same way — no Pro licence,
+ *    no new dependency. Checked 2026-08-03.
  *  · Every pair of menu items is separated by a divider except Free Tools and
  *    Webinars, whose divider is hidden in both variants and carries stale
  *    coordinates. **Ball ruled to draw it (2026-08-02)** — the hidden node is a
@@ -102,6 +108,14 @@ interface Partner {
  */
 interface ToolGroup {
   title: string;
+  /**
+   * Glyph shown before the title. Named, not free-form — same approach as
+   * FormCard/TrialKeyCard. Figma sets these as *text* in `Font Awesome 7 Pro:
+   * Solid`, so they cannot be exported as vectors; all three code points are in
+   * the Free tier, which is where the path data in ../icons comes from.
+   * Optional: a group without one still lays out, the title just sits alone.
+   */
+  icon?: 'arrowsRotate' | 'penToSquare' | 'wrench';
   columns: Link[][];
 }
 
@@ -162,6 +176,7 @@ const {
   toolGroups = [
     {
       title: 'PDF Converters',
+      icon: 'arrowsRotate',
       columns: [
         [{ label: 'PDF to JPG' }, { label: 'URL to PDF' }],
         [{ label: 'HTML to PDF' }, { label: 'PDF to PNG' }],
@@ -172,12 +187,13 @@ const {
     },
     {
       title: 'PDF Editors',
+      icon: 'penToSquare',
       columns: [
         [{ label: 'Password Protect PDF' }, { label: 'Flatten PDF Form' }],
         [{ label: 'Merge PDF' }, { label: 'Compress PDF' }],
       ],
     },
-    { title: 'Others', columns: [[{ label: 'JSON to C#' }]] },
+    { title: 'Others', icon: 'wrench', columns: [[{ label: 'JSON to C#' }]] },
   ],
   toolsOpen = false,
   closeToolsLabel = 'Close free tools',
@@ -256,7 +272,12 @@ if (freeTools) {
           <div class="fb-tools-inner">
             {toolGroups.map((group, gi) => (
               <div class="fb-tools-group" style={`--i:${gi}`}>
-                <p class="fb-tools-title">{group.title}</p>
+                <p class="fb-tools-title">
+                  {group.icon && (
+                    <svg class="fb-tools-title-icon" viewBox={icons[group.icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[group.icon].path} /></svg>
+                  )}
+                  {group.title}
+                </p>
                 <div class="fb-tools-cols">
                   {group.columns.map((col) => (
                     <div class="fb-tools-col">
@@ -269,7 +290,7 @@ if (freeTools) {
               </div>
             ))}
             <button type="button" class="fb-tools-close" style={`--i:${toolGroups.length}`} aria-label={closeToolsLabel}>
-              <svg viewBox={icons.circleXmark.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleXmark.path} /></svg>
+              <svg viewBox={icons.xmark.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.xmark.path} /></svg>
             </button>
           </div>
         </div>
@@ -421,13 +442,20 @@ if (freeTools) {
      against the design silently disagrees. */
   .fb-tools-group:last-of-type { flex: 1 0 0; min-width: 0; align-self: stretch; }
   .fb-tools-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); text-transform: uppercase; color: var(--color-text-on-color-heading); white-space: nowrap; }
+  /* Height, not width. Figma sets these as Font Awesome *text* at 12px, so the
+     glyph is 12 tall and as wide as its own aspect ratio makes it — square for
+     arrows-rotate and pen-to-square, 13.5 for the 576-wide wrench (Figma rounds
+     it to 14). Forcing a 12x12 box instead would squash the wrench. */
+  .fb-tools-title-icon { height: 1em; width: auto; flex-shrink: 0; }
   .fb-tools-cols { display: flex; align-items: flex-start; gap: var(--spacing-2xl); }
   .fb-tools-col { display: flex; flex-direction: column; gap: var(--spacing-xs); }
   .fb-tools-link { font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-link); text-decoration: none; white-space: nowrap; }
   .fb-tools-link:hover { color: var(--color-text-link-hover); }
 
   .fb-tools-close { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: var(--rounded-sm); background: var(--transparent-black-50); color: var(--color-text-link-menu); cursor: pointer; }
-  .fb-tools-close svg { width: 14px; height: 14px; display: block; }
+  /* Same rule as the group headings: 14 tall, width from the glyph. `xmark` is
+     384x512, so it lands at 10.5 wide against Figma's 11. */
+  .fb-tools-close svg { height: 14px; width: auto; display: block; }
   .fb-tools-close:hover { color: var(--color-text-link-menu-hover); }
 
   /* The trigger is a <button> pretending to be a menu link, so the browser's

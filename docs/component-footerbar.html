@@ -84,13 +84,20 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-tools-group { display: flex; flex-direction: column; gap: var(--spacing-md); }
 .fb-tools-group:last-of-type { flex: 1 0 0; min-width: 0; align-self: stretch; }
 .fb-tools-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); text-transform: uppercase; color: var(--color-text-on-color-heading); white-space: nowrap; }
+/* Height, not width. Figma sets these as Font Awesome *text* at 12px, so the
+   glyph is 12 tall and as wide as its own aspect ratio makes it — square for
+   arrows-rotate and pen-to-square, 13.5 for the 576-wide wrench (Figma rounds
+   it to 14). Forcing a 12x12 box instead would squash the wrench. */
+.fb-tools-title-icon { height: 1em; width: auto; flex-shrink: 0; }
 .fb-tools-cols { display: flex; align-items: flex-start; gap: var(--spacing-2xl); }
 .fb-tools-col { display: flex; flex-direction: column; gap: var(--spacing-xs); }
 .fb-tools-link { font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-link); text-decoration: none; white-space: nowrap; }
 .fb-tools-link:hover { color: var(--color-text-link-hover); }
 
 .fb-tools-close { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: var(--rounded-sm); background: var(--transparent-black-50); color: var(--color-text-link-menu); cursor: pointer; }
-.fb-tools-close svg { width: 14px; height: 14px; display: block; }
+/* Same rule as the group headings: 14 tall, width from the glyph. `xmark` is
+   384x512, so it lands at 10.5 wide against Figma's 11. */
+.fb-tools-close svg { height: 14px; width: auto; display: block; }
 .fb-tools-close:hover { color: var(--color-text-link-menu-hover); }
 
 /* The trigger is a <button> pretending to be a menu link, so the browser's
@@ -408,7 +415,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                 <img class="fb-tools-bg" src="assets/footerbar-freetools-bg.png" alt="" aria-hidden="true">
                 <div class="fb-tools-inner">
                   <div class="fb-tools-group" style="--i:0">
-                    <p class="fb-tools-title">PDF Converters</p>
+                    <p class="fb-tools-title">
+                      <svg class="fb-tools-title-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M65.9 228.5c13.3-93 93.4-164.5 190.1-164.5 53 0 101 21.5 135.8 56.2 .2 .2 .4 .4 .6 .6l7.6 7.2-47.9 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 53.4-11.3-10.7C390.5 28.6 326.5 0 256 0 127 0 20.3 95.4 2.6 219.5 .1 237 12.2 253.2 29.7 255.7s33.7-9.7 36.2-27.1zm443.5 64c2.5-17.5-9.7-33.7-27.1-36.2s-33.7 9.7-36.2 27.1c-13.3 93-93.4 164.5-190.1 164.5-53 0-101-21.5-135.8-56.2-.2-.2-.4-.4-.6-.6l-7.6-7.2 47.9 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 320c-8.5 0-16.7 3.4-22.7 9.5S-.1 343.7 0 352.3l1 127c.1 17.7 14.6 31.9 32.3 31.7S65.2 496.4 65 478.7l-.4-51.5 10.7 10.1c46.3 46.1 110.2 74.7 180.7 74.7 129 0 235.7-95.4 253.4-219.5z"></path></svg>
+                      PDF Converters
+                    </p>
                     <div class="fb-tools-cols">
                       <div class="fb-tools-col">
                         <a class="fb-tools-link" href="#">PDF to JPG</a><a class="fb-tools-link" href="#">URL to PDF</a>
@@ -423,7 +433,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                       </div>
                     </div>
                   </div><div class="fb-tools-group" style="--i:1">
-                    <p class="fb-tools-title">PDF Editors</p>
+                    <p class="fb-tools-title">
+                      <svg class="fb-tools-title-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L368 46.1 465.9 144 490.3 119.6c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L432 177.9 334.1 80 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"></path></svg>
+                      PDF Editors
+                    </p>
                     <div class="fb-tools-cols">
                       <div class="fb-tools-col">
                         <a class="fb-tools-link" href="#">Password Protect PDF</a><a class="fb-tools-link" href="#">Flatten PDF Form</a>
@@ -432,7 +445,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                       </div>
                     </div>
                   </div><div class="fb-tools-group" style="--i:2">
-                    <p class="fb-tools-title">Others</p>
+                    <p class="fb-tools-title">
+                      <svg class="fb-tools-title-icon" viewBox="0 0 576 512" fill="currentColor" aria-hidden="true"><path d="M509.4 98.6c7.6-7.6 20.3-5.7 24.1 4.3 6.8 17.7 10.5 37 10.5 57.1 0 88.4-71.6 160-160 160-17.5 0-34.4-2.8-50.2-8L146.9 498.9c-28.1 28.1-73.7 28.1-101.8 0s-28.1-73.7 0-101.8L232 210.2c-5.2-15.8-8-32.6-8-50.2 0-88.4 71.6-160 160-160 20.1 0 39.4 3.7 57.1 10.5 10 3.8 11.8 16.5 4.3 24.1l-88.7 88.7c-3 3-4.7 7.1-4.7 11.3l0 41.4c0 8.8 7.2 16 16 16l41.4 0c4.2 0 8.3-1.7 11.3-4.7l88.7-88.7z"></path></svg>
+                      Others
+                    </p>
                     <div class="fb-tools-cols">
                       <div class="fb-tools-col">
                         <a class="fb-tools-link" href="#">JSON to C#</a>
@@ -440,7 +456,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                     </div>
                   </div>
                   <button type="button" class="fb-tools-close" style="--i:3" aria-label="Close free tools">
-                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM167 167c9.4-9.4 24.6-9.4 33.9 0l55 55 55-55c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-55 55 55 55c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-55-55-55 55c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l55-55-55-55c-9.4-9.4-9.4-24.6 0-33.9z"></path></svg>
+                    <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"></path></svg>
                   </button>
                 </div>
               </div>
@@ -585,7 +601,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                 <img class="fb-tools-bg" src="assets/footerbar-freetools-bg.png" alt="" aria-hidden="true">
                 <div class="fb-tools-inner">
                   <div class="fb-tools-group" style="--i:0">
-                    <p class="fb-tools-title">PDF Converters</p>
+                    <p class="fb-tools-title">
+                      <svg class="fb-tools-title-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M65.9 228.5c13.3-93 93.4-164.5 190.1-164.5 53 0 101 21.5 135.8 56.2 .2 .2 .4 .4 .6 .6l7.6 7.2-47.9 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 53.4-11.3-10.7C390.5 28.6 326.5 0 256 0 127 0 20.3 95.4 2.6 219.5 .1 237 12.2 253.2 29.7 255.7s33.7-9.7 36.2-27.1zm443.5 64c2.5-17.5-9.7-33.7-27.1-36.2s-33.7 9.7-36.2 27.1c-13.3 93-93.4 164.5-190.1 164.5-53 0-101-21.5-135.8-56.2-.2-.2-.4-.4-.6-.6l-7.6-7.2 47.9 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 320c-8.5 0-16.7 3.4-22.7 9.5S-.1 343.7 0 352.3l1 127c.1 17.7 14.6 31.9 32.3 31.7S65.2 496.4 65 478.7l-.4-51.5 10.7 10.1c46.3 46.1 110.2 74.7 180.7 74.7 129 0 235.7-95.4 253.4-219.5z"></path></svg>
+                      PDF Converters
+                    </p>
                     <div class="fb-tools-cols">
                       <div class="fb-tools-col">
                         <a class="fb-tools-link" href="#">PDF to JPG</a><a class="fb-tools-link" href="#">URL to PDF</a>
@@ -600,7 +619,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                       </div>
                     </div>
                   </div><div class="fb-tools-group" style="--i:1">
-                    <p class="fb-tools-title">PDF Editors</p>
+                    <p class="fb-tools-title">
+                      <svg class="fb-tools-title-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L368 46.1 465.9 144 490.3 119.6c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L432 177.9 334.1 80 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"></path></svg>
+                      PDF Editors
+                    </p>
                     <div class="fb-tools-cols">
                       <div class="fb-tools-col">
                         <a class="fb-tools-link" href="#">Password Protect PDF</a><a class="fb-tools-link" href="#">Flatten PDF Form</a>
@@ -609,7 +631,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                       </div>
                     </div>
                   </div><div class="fb-tools-group" style="--i:2">
-                    <p class="fb-tools-title">Others</p>
+                    <p class="fb-tools-title">
+                      <svg class="fb-tools-title-icon" viewBox="0 0 576 512" fill="currentColor" aria-hidden="true"><path d="M509.4 98.6c7.6-7.6 20.3-5.7 24.1 4.3 6.8 17.7 10.5 37 10.5 57.1 0 88.4-71.6 160-160 160-17.5 0-34.4-2.8-50.2-8L146.9 498.9c-28.1 28.1-73.7 28.1-101.8 0s-28.1-73.7 0-101.8L232 210.2c-5.2-15.8-8-32.6-8-50.2 0-88.4 71.6-160 160-160 20.1 0 39.4 3.7 57.1 10.5 10 3.8 11.8 16.5 4.3 24.1l-88.7 88.7c-3 3-4.7 7.1-4.7 11.3l0 41.4c0 8.8 7.2 16 16 16l41.4 0c4.2 0 8.3-1.7 11.3-4.7l88.7-88.7z"></path></svg>
+                      Others
+                    </p>
                     <div class="fb-tools-cols">
                       <div class="fb-tools-col">
                         <a class="fb-tools-link" href="#">JSON to C#</a>
@@ -617,7 +642,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                     </div>
                   </div>
                   <button type="button" class="fb-tools-close" style="--i:3" aria-label="Close free tools">
-                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM167 167c9.4-9.4 24.6-9.4 33.9 0l55 55 55-55c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-55 55 55 55c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-55-55-55 55c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l55-55-55-55c-9.4-9.4-9.4-24.6 0-33.9z"></path></svg>
+                    <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"></path></svg>
                   </button>
                 </div>
               </div>
@@ -728,15 +753,15 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
         <li><b>Two ways to say 30%.</b> Both star rows are white at 30% &mdash; the empty state, which is why they read as grey. G2 sets it on each of the five stars, Capterra sets it on the group. Same result, stated two different ways.</li>
         <li><b>The two variants disagree about the Slack row.</b> Default places a 16px icon in a 20px row at leading 20; Free tools version places a 24px icon in a 24px row at leading 18. <b>Settled 2026-08-02: Default is correct</b>, so 16px is used in both regions and the Free tools variant is the one to correct in Figma.</li>
         <li><b>A divider is missing between Free Tools and Webinars.</b> Every other pair of menu items has one; that node is hidden in both variants and keeps stale coordinates. <b>Settled 2026-08-02: draw it</b> &mdash; the hidden node is a leftover, and Figma is the side that needs the fix.</li>
+        <li><b>The Free tools icons are typed, not drawn.</b> The three panel headings and the close button are <i>text</i> nodes set in <code>Font Awesome 7 Pro: Solid</code> &mdash; <code>U+F021</code>, <code>U+F044</code>, <code>U+F0AD</code> and <code>U+F00D</code> &mdash; so there is no vector to export. All four code points are in the <b>Free</b> tier, and Free Solid 7.3.1 is byte-identical to the nine icons this library already inlines, so they are inlined the same way with no new dependency. <b>Resolved 2026-08-03</b>; no export is owed from the design side after all.</li>
       </ul>
     </div>
 
     <div class="sect">
       <div class="sect-h">Not built yet</div>
-      <div class="sect-sub">Figma&rsquo;s <code>footer-lg</code> set has three variants and there are separate <code>footer-md</code> (768) and <code>footer-sm</code> (375) symbols. <b>Default</b> and <b>Free tools version</b> are implemented &mdash; both are above.</div>
+      <div class="sect-sub">Figma&rsquo;s <code>footer-lg</code> set has three variants and there are separate <code>footer-md</code> (768) and <code>footer-sm</code> (375) symbols. All three <code>footer-lg</code> variants are implemented &mdash; all are above.</div>
       <ul class="guide">
-        <li><b>Free tool open</b> &mdash; expands a three-column panel (PDF Converters / PDF Editors / Others) under the menu. The only one of the three that needs new markup rather than a prop.</li>
-        <li><b>md and sm</b> &mdash; the tablet and mobile layouts, both drawn in Figma and both unimplemented.</li>
+        <li><b>md and sm</b> &mdash; the tablet and mobile layouts, both drawn in Figma and both unimplemented. <code>FooterBar.astro</code> carries no <code>@media</code> rule at all.</li>
       </ul>
     </div>
 
