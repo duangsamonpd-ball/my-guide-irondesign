@@ -317,7 +317,9 @@ Three things that look like bugs and are not:
 
 Ships its own `<script>` for the disclosure — scoped per-instance, safe with multiple `<FooterBar>`s per page, re-initializes on Astro View Transitions, same pattern as `Tooltip`.
 
-**Only the `footer-lg` variants are built.** Figma also draws `footer-md` (768) and `footer-sm` (375); this component carries no `@media` rule at all. Deviations from the design file — including two the design side agreed to fix — are listed on `docs/component-footerbar.html`.
+**All three of Figma's frames are built** — `footer-lg` (877:2953), `footer-md` (879:649) and `footer-sm` (879:650) — mapped onto the project's own breakpoints: lg holds down to 1024, md covers 768–1023, sm everything below. The two smaller frames are two bands where lg is three, but the top two lg bands already share a fill, so only padding and gaps change; the menu drops its 16px per-item padding for a flat 12px gap and wraps, and the middle and legal bands become grids so the brand lockup and the socials can stay on one row at md while everything centres and stacks at sm. The breakpoints are literal numbers, not `var(--breakpoint-lg)` — a custom property in a media query condition never matches.
+
+**The Free tools panel has no md or sm frame**; all three of its variants live on `footer-lg`. What ships below 1024 is a fallback that keeps the columns from overflowing, not a design — see `docs/component-footerbar.html`. Deviations from the design file — including two the design side agreed to fix — are listed there too.
 
 ### `FormCard.astro`
 

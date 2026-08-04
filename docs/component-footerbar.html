@@ -136,13 +136,14 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-review:hover .fb-stars { display: none; }
 .fb-review:hover .fb-stars-hover { display: block; }
 .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
-.fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
+.fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: 1; }
 .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
 .fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); transition: opacity var(--duration-base); }
 .fb-logo:hover { opacity: 1; }
+.fb-logo-mono { display: flex; }
 .fb-logo-colour { display: none; }
 .fb-logo:hover .fb-logo-mono { display: none; }
-.fb-logo:hover .fb-logo-colour { display: block; }
+.fb-logo:hover .fb-logo-colour { display: flex; }
 .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
 .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
 .fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); }
@@ -168,6 +169,64 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-donate:has(:hover) { opacity: 1; }
 .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
 .fb-donate-img { height: 32px; width: auto; display: block; }
+
+@media (max-width: 1023.98px) {
+  .fb-menu-bar { padding: var(--spacing-xl) var(--spacing-xl) 0; }
+  .fb-mid { padding: var(--spacing-xl); }
+  .fb-menu { gap: var(--spacing-sm); align-content: center; }
+  .fb-menu li { gap: var(--spacing-sm); }
+  .fb-menu li:not(:first-child) { margin-left: 0; }
+  .fb-menu .fb-div { margin-right: 0; }
+  .fb-menu-link { padding: 0; }
+  .fb-tools-trigger { padding: 0 var(--spacing-xs); margin: 0 calc(var(--spacing-xs) * -1); }
+  .fb-mid-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: 'reviews reviews' 'brand connect';
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+  .fb-reviews { grid-area: reviews; justify-content: center; }
+  .fb-brand { grid-area: brand; flex-direction: column; align-items: flex-start; gap: var(--spacing-micro); }
+  .fb-connect { grid-area: connect; }
+  .fb-address { text-align: left; }
+  .fb-info-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: 'partners donate' 'legal legal';
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+  .fb-partners { grid-area: partners; }
+  .fb-donate { grid-area: donate; }
+  .fb-legal { grid-area: legal; }
+  .fb-tools-panel { padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-2xl); }
+  .fb-tools-inner { flex-wrap: wrap; gap: var(--spacing-xl); padding: 0; }
+  .fb-tools-cols { flex-wrap: wrap; }
+  .fb-tools-group:last-of-type { flex: 0 0 auto; align-self: auto; }
+  .fb-tools-close { margin-left: auto; }
+}
+
+@media (max-width: 767.98px) {
+  .fb-menu-bar { padding: var(--spacing-xl) var(--spacing-md) 0; }
+  .fb-mid { padding: var(--spacing-xl) var(--spacing-md); }
+  .fb-info { padding: var(--spacing-xl) var(--spacing-md); }
+  .fb-mid-inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'reviews' 'brand' 'connect';
+    gap: var(--spacing-2xl);
+  }
+  .fb-brand { align-items: center; }
+  .fb-connect { align-items: center; }
+  .fb-address { white-space: normal; text-align: center; }
+  .fb-info-inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'partners' 'donate' 'legal';
+  }
+  .fb-partners { justify-content: center; }
+  .fb-donate { justify-content: center; }
+  .fb-legal { flex-direction: column; gap: var(--spacing-sm); }
+}
   </style>
 </head>
 <body>
@@ -303,7 +362,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                       <img src="assets/wordmark-iron-ondark.svg" alt height="24">
                     </span></span>
                 </span>
-                <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
+                <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
               </div>
               <div class="fb-connect">
                 <div class="fb-socials">
@@ -490,7 +549,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                       <img src="assets/wordmark-iron-ondark.svg" alt height="24">
                     </span></span>
                 </span>
-                <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
+                <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
               </div>
               <div class="fb-connect">
                 <div class="fb-socials">
@@ -676,7 +735,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                       <img src="assets/wordmark-iron-ondark.svg" alt height="24">
                     </span></span>
                 </span>
-                <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
+                <p class="fb-address">205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088</p>
               </div>
               <div class="fb-connect">
                 <div class="fb-socials">

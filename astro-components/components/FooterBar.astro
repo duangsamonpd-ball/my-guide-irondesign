@@ -41,6 +41,11 @@
  *    in the Free tier and Free Solid 7.3.1 matches the nine icons already in
  *    ../icons byte for byte, so they are inlined the same way — no Pro licence,
  *    no new dependency. Checked 2026-08-03.
+ *  · At md and sm the menu wraps, and Figma's own wrap is a flat list: at 768
+ *    a divider is left dangling at the end of row 1, at 375 one leads row 3.
+ *    Here a divider is always grouped with the label it precedes, so it never
+ *    strands at a row end — 375 matches Figma exactly and 768 differs by that
+ *    one divider. It is a wrap artifact on Figma's side, not a decision.
  *  · Every pair of menu items is separated by a divider except Free Tools and
  *    Webinars, whose divider is hidden in both variants and carries stale
  *    coordinates. **Ball ruled to draw it (2026-08-02)** — the hidden node is a
@@ -160,7 +165,14 @@ const {
     { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', starsHover: 'stars-g2-hover.svg', score: '4.9', outOf: '/ 5' },
     { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/ 5' },
   ],
-  address = '205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088',
+  /* The spaces inside the phone number are non-breaking on purpose. This is
+     one line at 1440 and 768, but at 375 it wraps, and left to itself the
+     browser breaks at the widest space that fits — which lands mid-number,
+     "+1 (312)" over "252-3088". Holding the number together moves the break to
+     the space before it, which is where Figma puts it (879:541 is two lines,
+     address then phone). Only this default is treated that way; a caller's own
+     string is passed through untouched. */
+  address = '205 N. Michigan Ave. Chicago, IL 60611 USA +1\u00A0(312)\u00A0252-3088',
   socials = [
     { name: 'GitHub', icon: 'icon-github.svg' },
     { name: 'YouTube', icon: 'icon-youtube.svg' },
@@ -508,7 +520,15 @@ if (freeTools) {
      flex drops a leading whitespace text node. The 12px span makes the line box
      1px taller than the 20px leading, which the card absorbs. */
   .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
-  .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); }
+  /* line-height 1 is not a style choice, it stops this span from growing the
+     line box. Two font sizes share one line: the 14px strut is 20 tall, but a
+     12px inline box with the same 20px leading has a lower baseline, and the
+     line box is the union of both — 20.74, which the card rounds up to 49
+     against Figma's 124x48. Capping the smaller run's own leading pulls its
+     box back inside the strut without moving the glyphs, which sit on the
+     baseline either way. This is also the 1px that made the lg bar 225 tall
+     against the 56/88/80 = 224 the design file measures. */
+  .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: 1; }
 
   .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
   /* Everything in this bar that is dimmed at rest comes back to full strength on
@@ -517,9 +537,16 @@ if (freeTools) {
      link colour. */
   .fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); transition: opacity var(--duration-base); }
   .fb-logo:hover { opacity: 1; }
+  /* Both wrappers are flex, not the default inline. Logo.astro's root is an
+     `inline-flex`, so inside an inline-level wrapper it sits on a baseline and
+     the line box adds a 4px descender under a 24px lockup. At 1440 that box is
+     centred in a 49px row and the 4 is invisible, but stacked at 768 and 375 it
+     lands on the band height — footer-md measured 353 against Figma's 348 until
+     this changed. */
+  .fb-logo-mono { display: flex; }
   .fb-logo-colour { display: none; }
   .fb-logo:hover .fb-logo-mono { display: none; }
-  .fb-logo:hover .fb-logo-colour { display: block; }
+  .fb-logo:hover .fb-logo-colour { display: flex; }
   .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
 
   .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
@@ -611,6 +638,123 @@ if (freeTools) {
      32px logo beside it, so the 1.6px is invisible. */
   .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
   .fb-donate-img { height: 32px; width: auto; display: block; }
+
+  /* ── responsive ───────────────────────────────────────────────────────────
+     Figma draws three frames: footer-lg (877:2953), footer-md (879:649, at
+     768) and footer-sm (879:650, at 375). They land on the project's own
+     breakpoint scale — --breakpoint-md is 768 and --breakpoint-lg is 1024 — so
+     the lg layout holds down to 1024, footer-md covers 768 to 1023 and
+     footer-sm everything below. 1024 is also where the lg layout genuinely
+     stops fitting: its middle band puts the reviews, the brand lockup, the
+     nowrap address and the socials on one line, which needs about 995px inside
+     the 24px padding.
+
+     The numbers are written out rather than read from --breakpoint-md/-lg
+     because a custom property is not allowed in a media query's condition —
+     `@media (max-width: var(--breakpoint-lg))` never matches anything. The .98
+     keeps 768 and 1024 themselves on the larger layout, which matters because
+     Figma drew footer-md *at* 768.
+
+     Both small frames are two bands where lg is three, but the top two lg
+     bands already carry the same fill (surface/footer-alt), so nothing has to
+     merge in the DOM — only the padding and the gaps change. */
+
+  /* ── footer-md (879:649) · 768 – 1023 ─────────────────────────────────── */
+  @media (max-width: 1023.98px) {
+    /* Figma has one container padded 24 on every side. Here that is still two
+       elements sharing a fill, so the 24 between the menu and the reviews is
+       the menu band's 0 bottom plus the middle band's 24 top. */
+    .fb-menu-bar { padding: var(--spacing-xl) var(--spacing-xl) 0; }
+    .fb-mid { padding: var(--spacing-xl); }
+
+    /* The menu stops being a row of padded links and becomes a wrapping row on
+       a flat 12 gap — including between a divider and the label it belongs to,
+       which is why the gap is set on the <li> as well. The 1px overlap goes
+       with the padding: it only ever existed to close the gap the padding
+       opened between an item and the divider beside it. */
+    .fb-menu { gap: var(--spacing-sm); align-content: center; }
+    .fb-menu li { gap: var(--spacing-sm); }
+    .fb-menu li:not(:first-child) { margin-left: 0; }
+    .fb-menu .fb-div { margin-right: 0; }
+    .fb-menu-link { padding: 0; }
+    /* At padding 0 the open Free-tools tab would paint tight against its
+       label, so the trigger keeps 8 of its own and pulls it back out of the
+       layout — the item still sits on the same 12 grid as its neighbours. */
+    .fb-tools-trigger { padding: 0 var(--spacing-xs); margin: 0 calc(var(--spacing-xs) * -1); }
+
+    /* Reviews take a centred row of their own and the brand lockup and the
+       socials share the one below. A grid rather than a wrap because those two
+       have to stay on one line while the reviews span both columns. */
+    .fb-mid-inner {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'reviews reviews' 'brand connect';
+      gap: var(--spacing-xl);
+      align-items: center;
+    }
+    .fb-reviews { grid-area: reviews; justify-content: center; }
+    /* Side by side at 1440, stacked here, and on 4 rather than the 20 the
+       horizontal version uses. */
+    .fb-brand { grid-area: brand; flex-direction: column; align-items: flex-start; gap: var(--spacing-micro); }
+    .fb-connect { grid-area: connect; }
+    .fb-address { text-align: left; }
+
+    /* The partner marks and the donate block keep a row; copyright and the
+       legal links drop to a centred row underneath. */
+    .fb-info-inner {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'partners donate' 'legal legal';
+      gap: var(--spacing-xl);
+      align-items: center;
+    }
+    .fb-partners { grid-area: partners; }
+    .fb-donate { grid-area: donate; }
+    .fb-legal { grid-area: legal; }
+
+    /* NOT DRAWN. Figma has no md or sm frame for the Free tools panel — the
+       three variants all live on footer-lg. This is only enough to stop three
+       columns of links overflowing a 768 viewport: the hero-scale side padding
+       goes, and both the groups and their own columns wrap. It needs a ruling
+       before anyone treats it as the design. */
+    .fb-tools-panel { padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-2xl); }
+    .fb-tools-inner { flex-wrap: wrap; gap: var(--spacing-xl); padding: 0; }
+    .fb-tools-cols { flex-wrap: wrap; }
+    .fb-tools-group:last-of-type { flex: 0 0 auto; align-self: auto; }
+    .fb-tools-close { margin-left: auto; }
+  }
+
+  /* ── footer-sm (879:650) · below 768 ──────────────────────────────────── */
+  @media (max-width: 767.98px) {
+    /* 16 at the sides instead of 24. The vertical 24 does not change. */
+    .fb-menu-bar { padding: var(--spacing-xl) var(--spacing-md) 0; }
+    .fb-mid { padding: var(--spacing-xl) var(--spacing-md); }
+    .fb-info { padding: var(--spacing-xl) var(--spacing-md); }
+
+    /* Everything below the menu stacks and centres, and the rhythm opens from
+       24 to 32 — Figma sets that gap on both the reviews-to-brand step and the
+       brand-to-socials one. */
+    .fb-mid-inner {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'reviews' 'brand' 'connect';
+      gap: var(--spacing-2xl);
+    }
+    .fb-brand { align-items: center; }
+    .fb-connect { align-items: center; }
+    /* The one width where the address is allowed to break. At 1440 and at 768
+       it is a single nowrap line; at 375 Figma gives it the full 343 and it
+       falls onto two, breaking after USA on its own. */
+    .fb-address { white-space: normal; text-align: center; }
+
+    .fb-info-inner {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'partners' 'donate' 'legal';
+    }
+    .fb-partners { justify-content: center; }
+    .fb-donate { justify-content: center; }
+    /* Copyright above the links rather than beside them, and at 12 not 20. */
+    .fb-legal { flex-direction: column; gap: var(--spacing-sm); }
+  }
 </style>
 
 <script>
