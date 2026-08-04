@@ -134,15 +134,41 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
   .ft-cta .arr { transition: transform var(--duration-base); }
   .ft-cta:hover .arr { transform: translateX(3px); }
   .f-products { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; }
-  .fp-row { display: flex; align-items: center; white-space: nowrap; line-height: 1.5; gap: var(--spacing-micro); cursor: pointer; }
-  .fp-logo { width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; }
+  /* Wraps, and that is the whole point — it used to be `white-space: nowrap`,
+     which floored the row at its widest sentence (500px) and made it wider than
+     its own column below 499. The band clips rather than scrolls, so what that
+     produced was descriptions cut mid-word with no scrollbar to hint at it: 125px
+     gone at 375, 180px at 320. `.fp-name` is its own flex row, so IRONPDF still
+     never breaks apart; only the sentence after the separator reflows. */
+  /* The 26 of padding and the matching negative margin are a hanging indent, and
+     they only matter once the row wraps. The logo is 22 wide, invisible until
+     hover, and it used to push the name in by 26 while a wrapped description
+     started at 0 — a ragged left edge that read as a bug. Now every line in the
+     row starts at 26 and the logo hangs back into the padding, so nothing moves
+     at full width and the wrapped state lines up. */
+  .fp-row { display: flex; align-items: center; flex-wrap: wrap; line-height: 1.5; gap: var(--spacing-micro); cursor: pointer; padding-left: 26px; }
+  .fp-logo { width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; margin-left: -26px; }
   .fp-logo img { width: 22px; height: 22px; display: block; opacity: 0; transition: opacity var(--duration-base); }
   .fp-row:hover .fp-logo img { opacity: 1; }
   .fp-name { font-size: var(--font-size-lg); font-weight: 700; letter-spacing: var(--letter-spacing-h4); color: var(--color-text-on-color-heading); display: flex; align-items: baseline; }
   .fp-name .suffix { font-weight: 400; }
   .fp-sep { font-size: var(--font-size-sm); color: var(--color-text-dark-support); margin: 0 var(--spacing-micro); transition: color var(--duration-base); }
   .fp-row:hover .fp-sep { color: var(--color-text-on-color-heading); }
-  .fp-desc { font-size: var(--font-size-sm); color: var(--color-text-dark-support); transition: color var(--duration-base); }
+  /* min-width:0 so the sentence can shrink under its own min-content and wrap
+     internally. Without it a flex item refuses to go narrower than its longest
+     word, and the row overflows again one line further down. */
+  .fp-desc { font-size: var(--font-size-sm); color: var(--color-text-dark-support); transition: color var(--duration-base); min-width: 0; }
   .fp-row:hover .fp-desc { color: var(--color-text-on-color-body); }
-  @media (max-width: 640px) { .ft-inner { flex-direction: column; gap: 32px; } .ft-divider { display: none; } }
+
+  /* 1024, not the 640 this shipped with. The two halves need 953px together —
+     `.ft-left` floors at 381 and `.ft-right` at 572, both on nowrap text — so a
+     640 breakpoint left 641–952 rendering a row that does not fit, 768 among
+     them. `.footer-top` is `overflow: hidden`, so that clipped rather than
+     scrolled: descriptions cut mid-word, no scrollbar, and
+     `document.scrollWidth` clean throughout, which is how nine gates and every
+     render pass missed it for months. 1024 is `--breakpoint-lg`, and the .98
+     keeps 1024 itself on the row layout. Worth knowing: the halves fit
+     1022-into-1024, so there are 2px of slack and a longer product name reopens
+     this. */
+  @media (max-width: 1023.98px) { .ft-inner { flex-direction: column; gap: 32px; } .ft-divider { display: none; } }
 </style>

@@ -113,15 +113,15 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
 .btn--ghost:focus-visible     { border-color: var(--color-border-focused); }
 .f-products { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; }
-.fp-row { display: flex; align-items: center; white-space: nowrap; line-height: 1.5; gap: var(--spacing-micro); cursor: pointer; }
-.fp-logo { width:22px; height:22px; flex-shrink:0; display:flex; align-items:center; }
+.fp-row { display: flex; align-items: center; flex-wrap: wrap; line-height: 1.5; gap: var(--spacing-micro); cursor: pointer; padding-left: 26px; }
+.fp-logo { width:22px; height:22px; flex-shrink:0; display:flex; align-items:center; margin-left:-26px; }
 .fp-logo img { width: 22px; height: 22px; display: block; opacity: 0; transition: opacity var(--duration-base); }
 .fp-row:hover .fp-logo img, .fp-row.is-hover .fp-logo img { opacity:1; }
 .fp-name { font-size: var(--font-size-lg); font-weight: 700; letter-spacing: var(--letter-spacing-h4); color: var(--color-text-on-color-heading); display: flex; align-items: baseline; }
 .fp-name .suffix { font-weight:400; }
 .fp-sep { font-size: var(--font-size-sm); color: var(--color-text-dark-support); margin: 0 var(--spacing-micro); transition: color var(--duration-base); }
 .fp-row:hover .fp-sep, .fp-row.is-hover .fp-sep { color:var(--on-color); }
-.fp-desc { font-size: var(--font-size-sm); color: var(--color-text-dark-support); transition: color var(--duration-base); }
+.fp-desc { font-size: var(--font-size-sm); color: var(--color-text-dark-support); transition: color var(--duration-base); min-width: 0; }
 .fp-row:hover .fp-desc, .fp-row.is-hover .fp-desc { color:var(--on-color-body); }
 .hover-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .hover-card { background:var(--footer-bg); border:1px solid #3A2A3C; border-radius:14px; padding:24px; }
@@ -130,7 +130,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .anat-item { display:flex; gap:10px; align-items:flex-start; font-size:0.8rem; color:#45556C; line-height:1.5; }
 .anat-num { flex-shrink:0; width:20px; height:20px; border-radius:50%; background:#171717; color:#fff; font-size:0.66rem; font-weight:800; display:flex; align-items:center; justify-content:center; }
 @media (max-width:900px){ .dd,.hover-cards{grid-template-columns:1fr;} }
-@media (max-width: 640px) { .ft-inner { flex-direction: column; gap: 32px; } .ft-divider { display: none; } }
+@media (max-width: 1023.98px) { .ft-inner { flex-direction: column; gap: 32px; } .ft-divider { display: none; } }
 .ft-headline .hl, .f-suite-logo .hl { color: var(--color-text-on-color-heading); font-weight: 700; }
 .ft-headline .ac, .f-suite-logo .ac { color: var(--color-primary); font-weight: 400; }
 .ft-tagline .dim { color: var(--color-text-dark-heading); }
@@ -409,7 +409,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
     <!-- Token reference -->
     <div class="sect">
       <div class="sect-h">Responsive</div>
-      <div class="sect-sub">This band carries a single breakpoint: below <b>640</b> <code>.ft-inner</code> stacks to a column on a 32px gap and the divider between the two halves is hidden. Nothing below 1440 was drawn in Figma, so that number is an implementation decision &mdash; and note it is not on the project&rsquo;s breakpoint scale either, which runs <code>--breakpoint-sm</code> 480 then <code>--breakpoint-md</code> 768.</div>
+      <div class="sect-sub">This band carries a single breakpoint: below <code>--breakpoint-lg</code> <b>1024</b> <code>.ft-inner</code> stacks to a column on a 32px gap and the divider between the halves is hidden. <b>It was 640 until 2026-08-05, and that was wrong by 312px of viewport.</b> The two halves need <b>953</b> together &mdash; <code>.ft-left</code> floors at 381 and <code>.ft-right</code> at 572 &mdash; so everything from 641 to 952, <b>768 included</b>, rendered a row that did not fit. Because <code>.footer-top</code> is <code>overflow: hidden</code> that <i>clipped</i> instead of scrolling: product descriptions cut mid-word, no scrollbar, and <code>document.scrollWidth</code> clean the whole time, which is how nine gates and every render pass missed it. The preview below is what found it. One caveat worth carrying: at 1024 the halves fit 1022-into-1024, so there are <b>2px</b> of slack and a longer product name would reopen this.</div>
+      <div class="sect-sub" style="margin-top:14px;">The product rows now <b>wrap</b> too. They were <code>white-space: nowrap</code>, which floored each row at its widest sentence (500px) and made it wider than its own column below 499 &mdash; clipped by 125px at 375 and 180px at 320, stacked or not. <code>.fp-name</code> is its own flex row, so IRONPDF never breaks apart; only the sentence after the separator reflows.</div>
       <div class="sect-sub" style="margin-top:14px;">The preview is an <code>&lt;iframe&gt;</code> loading this same page at <code>?frame=</code>, because an iframe is the only box on a page with a viewport of its own &mdash; the demo frames above are pinned to 1440 by <code>.frame-scroll</code> and will never show this. Nothing is duplicated to make it work.</div>
       <div class="vp">
         <div class="vp-bar">
@@ -426,13 +427,13 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
           <output class="vp-w">768<span>px</span></output>
         </div>
         <div class="vp-stage">
-          <div class="vp-shell" data-vp-layouts="641:one row, 0:stacked">
+          <div class="vp-shell" data-vp-layouts="1024:one row, 0:stacked">
             <iframe class="vp-frame" title="Product Footer preview"></iframe>
             <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="768"></div>
           </div>
         </div>
       </div>
-      <div class="sect-sub" style="margin-top:14px;">Drag across <b>640</b> to see the row become a column. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
+      <div class="sect-sub" style="margin-top:14px;">Drag across <b>1024</b> to see the row become a column, and down past <b>499</b> to watch the descriptions reflow rather than get cut. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
     </div>
 
     <div class="sect">
