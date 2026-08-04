@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <script src="preview-frame.js"></script>
   <style>
 body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 :root{
@@ -406,6 +407,34 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
     </div>
 
     <!-- Token reference -->
+    <div class="sect">
+      <div class="sect-h">Responsive</div>
+      <div class="sect-sub">This band carries a single breakpoint: below <b>640</b> <code>.ft-inner</code> stacks to a column on a 32px gap and the divider between the two halves is hidden. Nothing below 1440 was drawn in Figma, so that number is an implementation decision &mdash; and note it is not on the project&rsquo;s breakpoint scale either, which runs <code>--breakpoint-sm</code> 480 then <code>--breakpoint-md</code> 768.</div>
+      <div class="sect-sub" style="margin-top:14px;">The preview is an <code>&lt;iframe&gt;</code> loading this same page at <code>?frame=</code>, because an iframe is the only box on a page with a viewport of its own &mdash; the demo frames above are pinned to 1440 by <code>.frame-scroll</code> and will never show this. Nothing is duplicated to make it work.</div>
+      <div class="vp">
+        <div class="vp-bar">
+          <div class="vp-seg" role="group" aria-label="Variant">
+            <button type="button" class="vp-btn" data-region="default" aria-pressed="true">Default</button>
+            <button type="button" class="vp-btn" data-region="suite" aria-pressed="false">Suite</button>
+          </div>
+          <div class="vp-seg" role="group" aria-label="Preview width">
+            <button type="button" class="vp-btn" data-w="375" aria-pressed="false">375</button>
+            <button type="button" class="vp-btn" data-w="768" aria-pressed="true">768</button>
+            <button type="button" class="vp-btn" data-w="1024" aria-pressed="false">1024</button>
+            <button type="button" class="vp-btn" data-w="1440" aria-pressed="false">1440</button>
+          </div>
+          <output class="vp-w">768<span>px</span></output>
+        </div>
+        <div class="vp-stage">
+          <div class="vp-shell" data-vp-layouts="641:one row, 0:stacked">
+            <iframe class="vp-frame" title="Product Footer preview"></iframe>
+            <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="768"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sect-sub" style="margin-top:14px;">Drag across <b>640</b> to see the row become a column. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
+    </div>
+
     <div class="sect">
       <div class="sect-h">Token Reference</div>
       <table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>

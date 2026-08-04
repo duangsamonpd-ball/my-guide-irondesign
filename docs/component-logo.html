@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <script src="preview-frame.js"></script>
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -351,6 +352,34 @@ a.logo:focus-visible { outline: var(--border-width-2) solid var(--color-border-s
             <img src="assets/lockup-stack.svg" alt="Iron Software" height="150">
           </span></div>
         <!-- /demo:lockups -->
+      </div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Responsive</div>
+      <div class="sect-sub"><b>This component has no <code>@media</code> rule, and does not need one.</b> Unlike Top Nav, Product Menu, Product Footer and Footer Bar there is no breakpoint here and nothing switches layout &mdash; a logo is one image, sized by its <code>height</code> prop. What the preview is for is the other half of that claim: <code>max-width: 100%</code> means the artwork <i>scales</i> when its container runs out of room instead of clipping or overflowing. The widest thing this component renders is the 371px basic lockup, and it fits a 160px box with zero overflow.</div>
+      <div class="sect-sub" style="margin-top:14px;">So drag it as far left as it goes: the readout carries no layout name because there are no layouts, and nothing should ever spill past the edge of the frame.</div>
+      <div class="vp">
+        <div class="vp-bar">
+          <div class="vp-seg" role="group" aria-label="Variant">
+            <button type="button" class="vp-btn" data-region="lockups" aria-pressed="true">Lockups</button>
+            <button type="button" class="vp-btn" data-region="wordmarks" aria-pressed="false">Wordmarks</button>
+            <button type="button" class="vp-btn" data-region="sizes" aria-pressed="false">Sizes</button>
+          </div>
+          <div class="vp-seg" role="group" aria-label="Preview width">
+            <button type="button" class="vp-btn" data-w="375" aria-pressed="false">375</button>
+            <button type="button" class="vp-btn" data-w="768" aria-pressed="true">768</button>
+            <button type="button" class="vp-btn" data-w="1024" aria-pressed="false">1024</button>
+            <button type="button" class="vp-btn" data-w="1440" aria-pressed="false">1440</button>
+          </div>
+          <output class="vp-w">768<span>px</span></output>
+        </div>
+        <div class="vp-stage">
+          <div class="vp-shell">
+            <iframe class="vp-frame" title="Logo preview"></iframe>
+            <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="768"></div>
+          </div>
+        </div>
       </div>
     </div>
 
