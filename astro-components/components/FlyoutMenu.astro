@@ -262,8 +262,22 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
       });
 
       trigger.addEventListener('click', () => {
-        if (fm.classList.contains(OPEN)) closeFlyout(fm);
-        else openFlyout(fm);
+        if (!fm.classList.contains(OPEN)) { openFlyout(fm); return; }
+        // Ball's call, 2026-08-05: on a hover flyout a click must never close.
+        // The failure it fixes is common and feels broken — the pointer arrives,
+        // the panel opens, and the user clicks the trigger anyway because that
+        // is what triggers are for, which shut the panel in their face and left
+        // it shut until they moved away and came back.
+        //
+        // The `:hover` test is what keeps that from costing the keyboard its
+        // toggle. A disclosure that reports `aria-expanded="true"` and then
+        // refuses to collapse on Enter is a broken contract, so the rule is
+        // narrowed to what Ball actually described: a click that lands while
+        // the pointer is over the component, which is the only way a hover
+        // could have opened it. Opened by Tab and Enter, it still closes on
+        // Enter.
+        if (fm.dataset.fmHover !== undefined && fm.matches(':hover')) return;
+        closeFlyout(fm);
       });
 
       // Tabbing out of the last link is a dismissal. relatedTarget is where

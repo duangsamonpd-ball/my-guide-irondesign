@@ -277,6 +277,8 @@ The panel is a slot — whatever you put in it becomes the flyout. Its direct ch
 
 `openOnHover` adds hover *on top of* click and focus rather than replacing them, ignores `pointerType: 'touch'` so a tap is never read as a hover, and carries a 150ms close delay so a diagonal cursor path from trigger to panel does not drop it.
 
+**On a hover flyout a click only ever opens** (Ball's call, 2026-08-05). The failure that fixes is common and feels broken: the pointer arrives, the panel opens, and the user clicks the trigger anyway — because that is what triggers are for — which shuts the panel in their face and leaves it shut until they move away and come back. The rule is narrowed by a `:hover` test rather than applied blindly, so the keyboard keeps its toggle: a disclosure reporting `aria-expanded="true"` that refuses to collapse on Enter is a broken contract, and opened by Tab and Enter it still closes on Enter. Escape, an outside press and focus leaving all still close it either way.
+
 **The visual layer is provisional** — built ahead of the Figma frame on purpose, since the interaction contract does not depend on it. Padding, radius, shadow, panel width and the caret are neutral token placeholders. The live site's own nav fails three things this does not: its trigger is an `<a href>` so the panel is hover-only, its `aria-expanded` is hard-coded `false` and never updates, and its `aria-haspopup="true"` promises a `role="menu"` that is not there.
 
 ### `Footer.astro`
