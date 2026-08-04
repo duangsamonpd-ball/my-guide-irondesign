@@ -712,16 +712,40 @@ if (freeTools) {
     .fb-donate { grid-area: donate; }
     .fb-legal { grid-area: legal; }
 
-    /* NOT DRAWN. Figma has no md or sm frame for the Free tools panel — the
-       three variants all live on footer-lg. This is only enough to stop three
-       columns of links overflowing a 768 viewport: the hero-scale side padding
-       goes, and both the groups and their own columns wrap. It needs a ruling
-       before anyone treats it as the design. */
-    .fb-tools-panel { padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-2xl); }
-    .fb-tools-inner { flex-wrap: wrap; gap: var(--spacing-xl); padding: 0; }
-    .fb-tools-cols { flex-wrap: wrap; }
+    /* NOT DRAWN — Figma has no md or sm frame for the Free tools panel, all
+       three of its variants live on footer-lg. So rather than invent two fixed
+       layouts, this one fits itself to whatever width it is given and there is
+       not a single breakpoint-specific number in it.
+
+       The groups stack: three side-by-side lists cannot survive 768. Inside a
+       group, Figma's editorial column breaks stay intact — each .fb-tools-col
+       is still exactly the pair of links the design put together, and auto-fill
+       only decides how many of those sit per row. That is the part worth
+       protecting: the breaks are an editorial choice, so reflowing the columns
+       is fine and redistributing the links between them would not be. */
+    .fb-tools-panel { padding: var(--spacing-xl); }
+    .fb-tools-inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--spacing-xl); padding: 0; }
     .fb-tools-group:last-of-type { flex: 0 0 auto; align-self: auto; }
-    .fb-tools-close { margin-left: auto; }
+    /* 160 is the floor a track may not go under, not a column width; 1fr then
+       spreads whatever is left over. It comes from the longest label actually
+       in the set — "Password Protect PDF" measures 149px at 12px Montserrat —
+       plus headroom, because the labels are `nowrap` and a track narrower than
+       its text overflows rather than wrapping.
+
+       The gap drops from lg's 32 to 16 because the two numbers are not
+       independent: auto-fill fits n tracks when n*floor + (n-1)*gap clears the
+       width, so the gap is spending the same pixels the floor needs. At 720 a
+       32 gap holds four 150s but only three 160s, and at 343 it holds two 150s
+       but only one 160 — raising the floor for safety silently halved the
+       columns. At 16 the counts are 4 per row at 768 and 2 at 375 with the
+       full 11px of headroom kept. Measured, not reasoned: every one of the 14
+       labels was checked against its own track at 1440/768/375/320. */
+    .fb-tools-cols { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--spacing-md); }
+    /* Last in flow rather than pinned to a corner. Absolute top-right would sit
+       on top of the first group's links once the groups span the full width,
+       and moving it up visually would put it first on screen while it stays
+       last in the tab order. Escape still closes from anywhere in the bar. */
+    .fb-tools-close { justify-self: end; }
   }
 
   /* ── footer-sm (879:650) · below 768 ──────────────────────────────────── */
@@ -730,6 +754,8 @@ if (freeTools) {
     .fb-menu-bar { padding: var(--spacing-xl) var(--spacing-md) 0; }
     .fb-mid { padding: var(--spacing-xl) var(--spacing-md); }
     .fb-info { padding: var(--spacing-xl) var(--spacing-md); }
+    /* The panel narrows with the bands it sits between. */
+    .fb-tools-panel { padding: var(--spacing-xl) var(--spacing-md); }
 
     /* Everything below the menu stacks and centres, and the rhythm opens from
        24 to 32 — Figma sets that gap on both the reviews-to-brand step and the

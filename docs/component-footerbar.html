@@ -200,17 +200,18 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
   .fb-partners { grid-area: partners; }
   .fb-donate { grid-area: donate; }
   .fb-legal { grid-area: legal; }
-  .fb-tools-panel { padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-2xl); }
-  .fb-tools-inner { flex-wrap: wrap; gap: var(--spacing-xl); padding: 0; }
-  .fb-tools-cols { flex-wrap: wrap; }
+  .fb-tools-panel { padding: var(--spacing-xl); }
+  .fb-tools-inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--spacing-xl); padding: 0; }
   .fb-tools-group:last-of-type { flex: 0 0 auto; align-self: auto; }
-  .fb-tools-close { margin-left: auto; }
+  .fb-tools-cols { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--spacing-md); }
+  .fb-tools-close { justify-self: end; }
 }
 
 @media (max-width: 767.98px) {
   .fb-menu-bar { padding: var(--spacing-xl) var(--spacing-md) 0; }
   .fb-mid { padding: var(--spacing-xl) var(--spacing-md); }
   .fb-info { padding: var(--spacing-xl) var(--spacing-md); }
+  .fb-tools-panel { padding: var(--spacing-xl) var(--spacing-md); }
   .fb-mid-inner {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: 'reviews' 'brand' 'connect';
