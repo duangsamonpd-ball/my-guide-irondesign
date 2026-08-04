@@ -1,0 +1,78 @@
+---
+/**
+ * Demo source for docs/component-flyoutmenu.html.
+ *
+ * Built ahead of the Figma frame, so the panel contents here are plain markup
+ * rather than a sub-component: the point of the demo is the interaction and the
+ * reveal, and the columns are a stand-in for whatever the design lands on. The
+ * grouping mirrors ironsoftware.com's PRODUCTS mega-menu, which is the target.
+ *
+ * `.fmd-*` is demo-only styling and lives on the docs page, not in the
+ * component — the same arrangement as Tooltip's `.tt-trigger`.
+ */
+import { FlyoutMenu } from '@iron-software/astro-components';
+
+const groups = [
+  {
+    title: 'Document editing',
+    items: [
+      ['IronPDF', 'Create, Edit, & Convert PDFs'],
+      ['IronWord', 'Create & Edit DOCX Word Files'],
+      ['IronXL', 'Read & Write Excel Spreadsheets'],
+      ['IronPPT', 'Create & Edit PPT Presentations'],
+    ],
+  },
+  {
+    title: 'Imaging & recognition',
+    items: [
+      ['IronOCR', 'OCR Image Text in 127 Languages'],
+      ['IronBarcode', 'Read & Write Barcode Formats'],
+      ['IronQR', 'Read & Write QR Codes'],
+    ],
+  },
+  {
+    title: 'Utilities',
+    items: [
+      ['IronPrint', 'Print Documents'],
+      ['IronZip', 'Zip & Unzip Archives'],
+      ['IronWebscraper', 'Scrape Web Pages for Data'],
+    ],
+  },
+];
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <FlyoutMenu label="Products" align="center" notch>
+        {groups.map((g) => (
+          <div class="fmd-col">
+            <p class="fmd-title">{g.title}</p>
+            {g.items.map(([name, desc]) => (
+              <a class="fmd-item" href="#">
+                <span class="fmd-name">{name}</span>
+                <span class="fmd-desc">{desc}</span>
+              </a>
+            ))}
+          </div>
+        ))}
+      </FlyoutMenu>
+
+      <FlyoutMenu label="Resources">
+        <div class="fmd-col">
+          <a class="fmd-item" href="#"><span class="fmd-name">Documentation</span></a>
+          <a class="fmd-item" href="#"><span class="fmd-name">Code examples</span></a>
+          <a class="fmd-item" href="#"><span class="fmd-name">Tutorials</span></a>
+        </div>
+      </FlyoutMenu>
+
+      <FlyoutMenu label="Opens on hover too" openOnHover align="end">
+        <div class="fmd-col">
+          <a class="fmd-item" href="#"><span class="fmd-name">Still opens on click</span></a>
+          <a class="fmd-item" href="#"><span class="fmd-name">Still opens on focus</span></a>
+          <a class="fmd-item" href="#"><span class="fmd-name">Escape still closes</span></a>
+        </div>
+      </FlyoutMenu>
+    </div>
+  </body>
+</html>

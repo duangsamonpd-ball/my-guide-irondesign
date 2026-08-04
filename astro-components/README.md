@@ -251,6 +251,34 @@ Props: `title` (omit for the compact, title-less variant), `body` (required), `l
 
 Ships its own `<script>` for the hover-with-a-gap interaction (JS open/close with a 200ms close-delay, since pure CSS `:hover` breaks once there's a gap between trigger and bubble and the mouse can't reach a link inside) — scoped per-instance, safe with multiple `<Tooltip>`s per page, re-initializes on Astro View Transitions.
 
+### `FlyoutMenu.astro`
+
+A trigger that reveals a floating panel of navigation links — the mega-menu behind **PRODUCTS** on ironsoftware.com, built for `TopNav` to compose.
+
+```astro
+<FlyoutMenu label="Products" align="center" notch>
+  <div class="my-column">…</div>
+  <div class="my-column">…</div>
+</FlyoutMenu>
+```
+
+| Prop | |
+|---|---|
+| `label` | trigger text, required |
+| `openOnHover` | adds hover to click and focus; off by default |
+| `align` | `start` / `center` / `end` — which edge the panel pins to |
+| `notch` | draws the pointer up at the trigger |
+| `open` | render open on first paint, for docs and tests |
+| `class` | |
+
+The panel is a slot — whatever you put in it becomes the flyout. Its direct children are numbered by the script and rise in turn as it opens, so composing columns needs no hand-numbering and a column inserted in the middle cannot leave the sequence stale.
+
+**It is a disclosure, not a `role="menu"`, and that is the one decision here worth defending.** `menuitem` tells assistive tech the contents are *commands*, which strips link semantics — a screen reader stops announcing "link" and stops listing them — and it commits to arrow-key navigation with a roving `tabindex` where Tab leaves the whole menu instead of walking it. This follows the WAI-ARIA APG's Disclosure Navigation pattern instead, the same as `FooterBar`'s Free tools panel: `aria-expanded` + `aria-controls` on a real `<button>`, ordinary links inside, `inert` while closed, Escape closing and returning focus, focus leaving the component closing it, a pointer press outside closing it, and only one open at a time across the page.
+
+`openOnHover` adds hover *on top of* click and focus rather than replacing them, ignores `pointerType: 'touch'` so a tap is never read as a hover, and carries a 150ms close delay so a diagonal cursor path from trigger to panel does not drop it.
+
+**The visual layer is provisional** — built ahead of the Figma frame on purpose, since the interaction contract does not depend on it. Padding, radius, shadow, panel width and the caret are neutral token placeholders. The live site's own nav fails three things this does not: its trigger is an `<a href>` so the panel is hover-only, its `aria-expanded` is hard-coded `false` and never updates, and its `aria-haspopup="true"` promises a `role="menu"` that is not there.
+
 ### `Footer.astro`
 
 ```astro
@@ -654,7 +682,7 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 18 components ported
+## 19 components ported
 
 Button, TextLink, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge,
 Notice, Tooltip, Product Footer, FooterBar, FormCard, TrialKeyCard, Logo, TopNav

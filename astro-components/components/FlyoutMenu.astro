@@ -1,0 +1,320 @@
+---
+/**
+ * FlyoutMenu — a trigger that reveals a floating panel of navigation links.
+ *
+ * **The visual layer here is provisional.** This was built ahead of the Figma
+ * frame, on purpose: the interaction and accessibility contract is the same
+ * whatever the panel ends up looking like, and it is the half that is expensive
+ * to get wrong. Padding, radius, shadow, panel width and the caret are neutral
+ * token-based placeholders — expect all of them to change on reconciliation.
+ * What should NOT change is anything in the script or the ARIA below.
+ *
+ * ## It is a disclosure, not a menu — and that is deliberate
+ *
+ * The obvious-looking `role="menu"` + `role="menuitem"` is wrong for this. That
+ * pattern is for application menus (the things in a menu bar: Cut, Copy, Paste)
+ * and it makes two promises this component cannot keep. It tells assistive tech
+ * that the contents are *commands*, which strips the link semantics from every
+ * link inside — a screen reader stops announcing "link" and stops offering them
+ * in its links list. And it commits to arrow-key navigation with roving
+ * tabindex, where Tab moves out of the whole menu rather than through it, which
+ * is not what anyone expects from a site nav.
+ *
+ * So this follows the WAI-ARIA APG's **Disclosure Navigation** pattern instead,
+ * exactly like FooterBar's Free tools panel: a `<button>` owning `aria-expanded`
+ * and pointing at the panel with `aria-controls`, the panel holding ordinary
+ * links, and Tab walking through them in DOM order.
+ *
+ * ## What the script guarantees
+ *
+ *  · **`inert` while closed.** The panel stays in the DOM so it can animate, and
+ *    that means it also stays in the tab order — `inert` is the only thing that
+ *    keeps a closed panel from swallowing focus. Toggling `display` would fix
+ *    focus and kill the animation.
+ *  · **Escape closes and gives focus back to the trigger.** Without the second
+ *    half, focus is left on a control that just went inert.
+ *  · **Focus leaving the component closes it.** Tabbing past the last link is a
+ *    dismissal, and `focusout` with a `relatedTarget` check is how you tell that
+ *    apart from moving between two links inside.
+ *  · **A pointer press outside closes it.** `pointerdown`, not `click`, so it
+ *    closes on press rather than release — a `click` listener also fires after a
+ *    drag that started inside, which reads as a stray dismissal.
+ *  · **One open at a time.** Opening any flyout closes every other one on the
+ *    page. Two open panels in a nav is always a bug, never a feature.
+ *  · **Hover is opt-in and never the only way in.** `openOnHover` adds hover on
+ *    top of click and focus; it does not replace them. Hover-only flyouts are
+ *    unreachable by keyboard and unusable on touch, where the first tap becomes
+ *    a hover and the panel opens and closes in the same gesture. There is a
+ *    close delay so a diagonal cursor path between trigger and panel does not
+ *    drop it.
+ *  · **`prefers-reduced-motion` collapses the transition to a cut.**
+ *
+ * Escape and outside-press are bound once at document level rather than per
+ * instance — the alternative is N listeners doing identical work, and they would
+ * each have to re-derive which flyout the event happened in anyway.
+ */
+import { icons } from '../icons';
+
+interface Props {
+  /** Trigger label. */
+  label: string;
+  /**
+   * Opens on hover as well as on click/focus. Off by default: on touch there is
+   * no hover to leave, and the pattern is only ever an enhancement.
+   */
+  openOnHover?: boolean;
+  /** Render open on first paint — for docs and tests, not for a live nav. */
+  open?: boolean;
+  /**
+   * Which edge the panel is pinned to. A wide mega-menu under a trigger near the
+   * right of the bar has to hang left or it leaves the viewport; `center` is the
+   * ironsoftware.com arrangement, where the panel is much wider than its trigger.
+   */
+  align?: 'start' | 'center' | 'end';
+  /** Draws the notch pointing up at the trigger. */
+  notch?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  openOnHover = false,
+  open = false,
+  align = 'start',
+  notch = false,
+  class: className,
+} = Astro.props;
+
+/* The `prefix-8hex` shape build-demos.mjs normalises, so generated docs markup
+   does not churn on every build. Same approach as FooterBar's panel id. */
+const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
+---
+
+<div class:list={['fm', { 'is-open': open }, className]} data-fm data-fm-hover={openOnHover ? '' : undefined}>
+  <button type="button" class="fm-trigger" aria-expanded={open ? 'true' : 'false'} aria-controls={panelId}>
+    <span>{label}</span>
+    <svg class="fm-caret" viewBox={icons.chevronDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
+  </button>
+
+  <div class:list={['fm-panel', `fm-${align}`, { 'fm-notch': notch }]} id={panelId} inert={!open}>
+    <div class="fm-panel-inner"><slot /></div>
+  </div>
+</div>
+
+<style>
+  /* PROVISIONAL — see the note at the top of this file. Every value below is a
+     neutral token choice made to be legible, not a design decision. */
+  .fm { position: relative; display: inline-block; }
+
+  .fm-trigger {
+    display: inline-flex; align-items: center; gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-family: inherit; font-size: var(--font-size-btn); font-weight: var(--fw-btn);
+    line-height: var(--leading-5); letter-spacing: var(--letter-spacing-btn);
+    color: var(--color-text-body); background: none;
+    border: var(--border-width-1) solid transparent; border-radius: var(--rounded-md);
+    cursor: pointer; transition: color var(--duration-base);
+  }
+  .fm-trigger:hover { color: var(--color-text-link); }
+  .fm-trigger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
+  .fm-caret { width: 12px; height: 12px; flex-shrink: 0; transition: transform var(--duration-base) var(--ease-emphasized); }
+  .fm.is-open .fm-caret { transform: rotate(180deg); }
+
+  /* `visibility` is doing real work, not decoration: at opacity 0 the panel is
+     invisible but still hit-testable, so it would swallow clicks meant for the
+     page underneath. It is transitioned with a delay rather than a duration so
+     it flips at the END of the fade out and at the START of the fade in. */
+  .fm-panel {
+    position: absolute; top: calc(100% + var(--spacing-sm)); z-index: 20;
+    min-width: 220px;
+    background: var(--color-bg-card);
+    border: var(--border-width-1) solid var(--color-border);
+    border-radius: var(--rounded-lg);
+    box-shadow: var(--shadow-float);
+    opacity: 0; visibility: hidden;
+    /* The lift and the scale are one movement, and the scale is the part that
+       makes it read as "coming from" the trigger rather than sliding in from
+       nowhere. `transform-origin` is what aims it, so it has to follow `align`. */
+    transform: translateY(-6px) scale(0.98);
+    transition:
+      opacity var(--duration-base) var(--ease-default),
+      transform var(--duration-base) var(--ease-emphasized),
+      visibility 0s linear var(--duration-base);
+  }
+  .fm-start  { left: 0;  transform-origin: top left; }
+  .fm-end    { right: 0; transform-origin: top right; }
+  .fm-center { left: 50%; margin-left: 0; transform-origin: top center; }
+  /* The centring translate has to live in the same `transform` as the animation,
+     or the later declaration wins and the panel jumps back to the left edge. */
+  .fm-center { transform: translate(-50%, -6px) scale(0.98); }
+  .fm.is-open .fm-center { transform: translate(-50%, 0) scale(1); }
+
+  .fm.is-open .fm-panel {
+    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+    transition-delay: 0s;
+  }
+  /* A row, because the shape this exists to serve is a mega-menu: several
+     columns side by side. One child still lays out as one column, so the simple
+     case costs nothing. `flex-start` keeps columns of different lengths topped
+     out rather than stretched to the tallest. */
+  .fm-panel-inner { display: flex; align-items: flex-start; padding: var(--spacing-xs); }
+
+  /* The notch is a rotated square with the panel's own border on two sides, so
+     it inherits any border/background change for free. It sits one pixel under
+     the panel edge to hide the seam. */
+  .fm-notch::before {
+    content: ''; position: absolute; top: -6px; width: 10px; height: 10px;
+    background: var(--color-bg-card);
+    border-left: var(--border-width-1) solid var(--color-border);
+    border-top: var(--border-width-1) solid var(--color-border);
+    transform: rotate(45deg);
+  }
+  .fm-start.fm-notch::before  { left: var(--spacing-lg); }
+  .fm-end.fm-notch::before    { right: var(--spacing-lg); }
+  .fm-center.fm-notch::before { left: calc(50% - 5px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fm-panel,
+    .fm-caret { transition-duration: 1ms; }
+    .fm-panel { transition-delay: 0s; }
+  }
+</style>
+
+<!--
+  The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
+  works by stamping a data attribute on the elements this component renders,
+  and slotted content belongs to the caller, so it never gets one.
+
+  The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
+  to carry each rule verbatim for check:parity, and `:global()` is not a real
+  pseudo-class, so the browser drops the whole rule there. On FormCard that
+  costs a `max-width`. Here it would cost exactly the thing this block exists to
+  show. `is:global` emits plain CSS instead, which is valid in both places.
+
+  Kept to one distinctive class so the global scope stays narrow.
+-->
+<style is:global>
+  /* Children rise in turn behind the panel. `--i` is set per child by the
+     script, so a caller composing arbitrary columns gets the stagger without
+     numbering anything by hand. The delay applies only on the way IN — kept on
+     the way out, the panel has already faded past the content before the last
+     column starts leaving, which reads as broken. Same rule as FooterBar's Free
+     tools panel. */
+  .fm-panel-inner > * {
+    /* Declared here, not just read with a fallback: the stylesheet is where the
+       variable's contract belongs, and the script only overrides it per child.
+       It also keeps check:vars honest — a `var()` whose name is never declared
+       anywhere in the source reads to that gate as a missing theme token. */
+    --i: 0;
+    opacity: 0; transform: translateY(6px);
+    transition:
+      opacity var(--duration-base) var(--ease-default),
+      transform var(--duration-base) var(--ease-emphasized);
+  }
+  .fm.is-open .fm-panel-inner > * {
+    opacity: 1; transform: none;
+    transition-delay: calc(var(--i, 0) * 40ms + 60ms);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fm-panel-inner > * { transition-duration: 1ms; }
+    .fm.is-open .fm-panel-inner > * { transition-delay: 0s; }
+  }
+</style>
+
+<script>
+  // Disclosure Navigation (WAI-ARIA APG). See the file header for why this is
+  // not role="menu" — that decision is the one thing here worth defending.
+  const OPEN = 'is-open';
+
+  function closeFlyout(fm: HTMLElement, returnFocus = false) {
+    if (!fm.classList.contains(OPEN)) return;
+    fm.classList.remove(OPEN);
+    const trigger = fm.querySelector<HTMLButtonElement>('.fm-trigger');
+    const panel = fm.querySelector<HTMLElement>('.fm-panel');
+    trigger?.setAttribute('aria-expanded', 'false');
+    panel?.setAttribute('inert', '');
+    if (returnFocus) trigger?.focus();
+  }
+
+  function openFlyout(fm: HTMLElement) {
+    // One at a time. Any other open flyout on the page is closed first —
+    // including ones in a different nav, which is still what you want.
+    document.querySelectorAll<HTMLElement>('[data-fm].' + OPEN).forEach((other) => {
+      if (other !== fm) closeFlyout(other);
+    });
+    fm.classList.add(OPEN);
+    fm.querySelector('.fm-trigger')?.setAttribute('aria-expanded', 'true');
+    fm.querySelector('.fm-panel')?.removeAttribute('inert');
+  }
+
+  function initFlyouts(root: ParentNode = document) {
+    root.querySelectorAll<HTMLElement>('[data-fm]:not([data-fm-init])').forEach((fm) => {
+      const trigger = fm.querySelector<HTMLButtonElement>('.fm-trigger');
+      if (!trigger) return;
+      fm.dataset.fmInit = '1';
+
+      // Number the panel's own children so each one can be delayed a step
+      // further into the reveal. Done here rather than asked of the caller —
+      // whoever composes the columns should not have to hand-number them, and
+      // they would go stale the moment one was inserted in the middle.
+      fm.querySelectorAll<HTMLElement>('.fm-panel-inner > *').forEach((child, i) => {
+        child.style.setProperty('--i', String(i));
+      });
+
+      trigger.addEventListener('click', () => {
+        if (fm.classList.contains(OPEN)) closeFlyout(fm);
+        else openFlyout(fm);
+      });
+
+      // Tabbing out of the last link is a dismissal. relatedTarget is where
+      // focus is going — inside the component means it was just a move between
+      // two links, and null means focus left the document entirely (a blur to
+      // the browser chrome), which is not a reason to close.
+      fm.addEventListener('focusout', (e) => {
+        const to = (e as FocusEvent).relatedTarget as Node | null;
+        if (to && !fm.contains(to)) closeFlyout(fm);
+      });
+
+      if (fm.dataset.fmHover !== undefined) {
+        // The delay covers the diagonal: the cursor leaves the trigger, crosses
+        // the gap and lands on the panel, and without it the panel closes
+        // mid-journey. Cancelled the moment the pointer arrives anywhere in the
+        // component, so it never fights a real re-entry.
+        let closeTimer: number | undefined;
+        const cancel = () => { clearTimeout(closeTimer); closeTimer = undefined; };
+        fm.addEventListener('pointerenter', (e) => {
+          if ((e as PointerEvent).pointerType === 'touch') return; // a tap is not a hover
+          cancel();
+          openFlyout(fm);
+        });
+        fm.addEventListener('pointerleave', (e) => {
+          if ((e as PointerEvent).pointerType === 'touch') return;
+          cancel();
+          closeTimer = window.setTimeout(() => closeFlyout(fm), 150);
+        });
+        fm.addEventListener('pointerdown', cancel);
+      }
+    });
+  }
+
+  // Bound once for the whole document rather than per instance: N copies would
+  // do identical work and each would still have to work out which flyout the
+  // event landed in.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const open = document.querySelector<HTMLElement>('[data-fm].' + OPEN);
+    if (open) closeFlyout(open, true);
+  });
+
+  // pointerdown, not click: it dismisses on press, and a click listener would
+  // also fire at the end of a drag that began inside the panel.
+  document.addEventListener('pointerdown', (e) => {
+    const target = e.target as Node;
+    document.querySelectorAll<HTMLElement>('[data-fm].' + OPEN).forEach((fm) => {
+      if (!fm.contains(target)) closeFlyout(fm);
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => initFlyouts());
+  document.addEventListener('astro:page-load', () => initFlyouts());
+</script>

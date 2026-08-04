@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flyout Menu · Components · Iron Software DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="docs.css">
+  <style>
+body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+.sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
+.sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+.sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+@media (max-width:768px){ .hamburger{display:flex;} .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} .sidebar.open{transform:translateX(0);} }
+.content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+.page-title { padding:40px 40px 28px; }
+.page-title h1 { font-size:2rem; font-weight:900; letter-spacing:-0.5px; margin-bottom:8px; }
+.page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:680px; }
+.chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
+.canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:56px 40px; display:flex; gap:56px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+.cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 16px 18px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; position:relative; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; }
+.tok td.prop { color:#62748E; }
+.c-tag{color:#89D3DF;}
+.c-attr{color:#FDA509;}
+.c-key{color:#E95F8B;}
+.dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
+.dd .body { padding:22px; background:#FCFCFD; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; min-height:60px; }
+.dd ul { margin:0 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
+.anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:70px 34px 44px; display:flex; flex-direction:column; align-items:center; gap:26px; }
+.atag b { color:#2E9468; }
+@media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:44px 20px;gap:32px;} }
+
+
+  /* PROVISIONAL — see the note at the top of this file. Every value below is a
+     neutral token choice made to be legible, not a design decision. */
+  .fm { position: relative; display: inline-block; }
+
+  .fm-trigger {
+    display: inline-flex; align-items: center; gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-family: inherit; font-size: var(--font-size-btn); font-weight: var(--fw-btn);
+    line-height: var(--leading-5); letter-spacing: var(--letter-spacing-btn);
+    color: var(--color-text-body); background: none;
+    border: var(--border-width-1) solid transparent; border-radius: var(--rounded-md);
+    cursor: pointer; transition: color var(--duration-base);
+  }
+  .fm-trigger:hover { color: var(--color-text-link); }
+  .fm-trigger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
+  .fm-caret { width: 12px; height: 12px; flex-shrink: 0; transition: transform var(--duration-base) var(--ease-emphasized); }
+  .fm.is-open .fm-caret { transform: rotate(180deg); }
+
+  /* `visibility` is doing real work, not decoration: at opacity 0 the panel is
+     invisible but still hit-testable, so it would swallow clicks meant for the
+     page underneath. It is transitioned with a delay rather than a duration so
+     it flips at the END of the fade out and at the START of the fade in. */
+  .fm-panel {
+    position: absolute; top: calc(100% + var(--spacing-sm)); z-index: 20;
+    min-width: 220px;
+    background: var(--color-bg-card);
+    border: var(--border-width-1) solid var(--color-border);
+    border-radius: var(--rounded-lg);
+    box-shadow: var(--shadow-float);
+    opacity: 0; visibility: hidden;
+    /* The lift and the scale are one movement, and the scale is the part that
+       makes it read as "coming from" the trigger rather than sliding in from
+       nowhere. `transform-origin` is what aims it, so it has to follow `align`. */
+    transform: translateY(-6px) scale(0.98);
+    transition:
+      opacity var(--duration-base) var(--ease-default),
+      transform var(--duration-base) var(--ease-emphasized),
+      visibility 0s linear var(--duration-base);
+  }
+  .fm-start  { left: 0;  transform-origin: top left; }
+  .fm-end    { right: 0; transform-origin: top right; }
+  .fm-center { left: 50%; margin-left: 0; transform-origin: top center; }
+  /* The centring translate has to live in the same `transform` as the animation,
+     or the later declaration wins and the panel jumps back to the left edge. */
+  .fm-center { transform: translate(-50%, -6px) scale(0.98); }
+  .fm.is-open .fm-center { transform: translate(-50%, 0) scale(1); }
+
+  .fm.is-open .fm-panel {
+    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+    transition-delay: 0s;
+  }
+  /* A row, because the shape this exists to serve is a mega-menu: several
+     columns side by side. One child still lays out as one column, so the simple
+     case costs nothing. `flex-start` keeps columns of different lengths topped
+     out rather than stretched to the tallest. */
+  .fm-panel-inner { display: flex; align-items: flex-start; padding: var(--spacing-xs); }
+
+  /* The notch is a rotated square with the panel's own border on two sides, so
+     it inherits any border/background change for free. It sits one pixel under
+     the panel edge to hide the seam. */
+  .fm-notch::before {
+    content: ''; position: absolute; top: -6px; width: 10px; height: 10px;
+    background: var(--color-bg-card);
+    border-left: var(--border-width-1) solid var(--color-border);
+    border-top: var(--border-width-1) solid var(--color-border);
+    transform: rotate(45deg);
+  }
+  .fm-start.fm-notch::before  { left: var(--spacing-lg); }
+  .fm-end.fm-notch::before    { right: var(--spacing-lg); }
+  .fm-center.fm-notch::before { left: calc(50% - 5px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fm-panel,
+    .fm-caret { transition-duration: 1ms; }
+    .fm-panel { transition-delay: 0s; }
+  }
+
+
+  /* Children rise in turn behind the panel. `--i` is set per child by the
+     script, so a caller composing arbitrary columns gets the stagger without
+     numbering anything by hand. The delay applies only on the way IN — kept on
+     the way out, the panel has already faded past the content before the last
+     column starts leaving, which reads as broken. Same rule as FooterBar's Free
+     tools panel. */
+  .fm-panel-inner > * {
+    /* Declared here, not just read with a fallback: the stylesheet is where the
+       variable's contract belongs, and the script only overrides it per child.
+       It also keeps check:vars honest — a `var()` whose name is never declared
+       anywhere in the source reads to that gate as a missing theme token. */
+    --i: 0;
+    opacity: 0; transform: translateY(6px);
+    transition:
+      opacity var(--duration-base) var(--ease-default),
+      transform var(--duration-base) var(--ease-emphasized);
+  }
+  .fm.is-open .fm-panel-inner > * {
+    opacity: 1; transform: none;
+    transition-delay: calc(var(--i, 0) * 40ms + 60ms);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fm-panel-inner > * { transition-duration: 1ms; }
+    .fm.is-open .fm-panel-inner > * { transition-delay: 0s; }
+  }
+
+/* Demo-only — these live here, not in the component, the same way Tooltip's
+   .tt-trigger does. The component owns the panel and the reveal; what a caller
+   puts inside it is theirs. */
+.fmd-col { display: flex; flex-direction: column; gap: 2px; min-width: 210px; padding: 8px; }
+.fmd-title { margin: 0 0 6px; padding: 0 8px; font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #62748E; }
+.fmd-item { display: flex; flex-direction: column; gap: 1px; padding: 7px 8px; border-radius: 6px; text-decoration: none; transition: background .14s; }
+.fmd-item:hover { background: #F1F5F9; }
+.fmd-name { font-size: 0.82rem; font-weight: 700; color: #171717; }
+.fmd-desc { font-size: 0.72rem; color: #62748E; }
+.fmd-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 22px 24px 120px; }
+  </style>
+</head>
+<body>
+<header>
+  <img class="logo-badge" src="assets/logo.svg" alt="Iron Software">
+  <div><h1>Iron Software Design System</h1><p>Visual Token Reference — for everyone on the team</p></div>
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
+      <div class="sidebar-category">Foundations</div>
+      <a href="logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
+      <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
+      <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
+      <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
+      <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <div class="sidebar-category">Components</div>
+      <div class="sidebar-tree">
+        <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
+        <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
+        <a href="component-textlink.html" class="sidebar-link"><i class="sidebar-icon">🔗</i>Text Link</a>
+        <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
+        <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
+        <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
+        <a href="component-fileupload.html" class="sidebar-link"><i class="sidebar-icon">📎</i>File Upload</a>
+        <a href="component-flyoutmenu.html" class="sidebar-link active"><i class="sidebar-icon">🪟</i>Flyout Menu</a>
+        <a href="component-radio.html" class="sidebar-link"><i class="sidebar-icon">⦿</i>Radio</a>
+        <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
+        <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
+        <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+        <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
+        <a href="component-topnav.html" class="sidebar-link"><i class="sidebar-icon">📍</i>Top Nav</a>
+        <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
+        <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
+        <a href="component-footerbar.html" class="sidebar-link"><i class="sidebar-icon">🧱</i>Footer Bar</a>
+        <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
+        <a href="component-formcard.html" class="sidebar-link"><i class="sidebar-icon">🗂️</i>Form Card</a>
+        <a href="component-trialkeycard.html" class="sidebar-link"><i class="sidebar-icon">🔑</i>Trial Key Card</a>
+      </div>
+      <div class="sidebar-category">Reference</div>
+      <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
+    </nav>
+    <div class="sidebar-version">v1.0.0</div>
+  </aside>
+  <div class="main-content"><div class="content">
+
+    <div class="page-title">
+      <div class="crumb"><a href="07-components.html">Components</a> &nbsp;/&nbsp; Flyout Menu</div>
+      <h1>Flyout Menu</h1>
+      <p class="lead">A trigger that reveals a floating panel of navigation links &mdash; the mega-menu pattern behind <b>PRODUCTS</b> on ironsoftware.com. Built for <a href="component-topnav.html">Top Nav</a> to compose.</p>
+      <div class="meta-chips"><span class="chip">3 props</span><span class="chip">Disclosure, not menu</span><span class="chip new">Awaiting Figma</span></div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Preview</div>
+      <div class="sect-sub"><b>The visual layer is provisional.</b> This was built ahead of the Figma frame on purpose &mdash; the interaction and accessibility contract is the same whatever the panel ends up looking like, and it is the half that is expensive to get wrong. Padding, radius, shadow, panel width and the caret are neutral token placeholders. What should not change is the script or the ARIA.</div>
+      <div class="frame">
+        <div class="fmd-bar">
+        <!-- demo:preview -->
+        <div class="fm" data-fm>
+          <button type="button" class="fm-trigger" aria-expanded="false" aria-controls="fm-demo-1">
+            <span>Products</span>
+            <svg class="fm-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
+          </button>
+          <div class="fm-panel fm-center fm-notch" id="fm-demo-1" inert>
+            <div class="fm-panel-inner"><div class="fmd-col">
+                <p class="fmd-title">Document editing</p>
+                <a class="fmd-item" href="#">
+                  <span class="fmd-name">IronPDF</span>
+                  <span class="fmd-desc">Create, Edit, &amp; Convert PDFs</span>
+                </a><a class="fmd-item" href="#">
+                  <span class="fmd-name">IronWord</span>
+                  <span class="fmd-desc">Create &amp; Edit DOCX Word Files</span>
+                </a><a class="fmd-item" href="#">
+                  <span class="fmd-name">IronXL</span>
+                  <span class="fmd-desc">Read &amp; Write Excel Spreadsheets</span>
+                </a><a class="fmd-item" href="#">
+                  <span class="fmd-name">IronPPT</span>
+                  <span class="fmd-desc">Create &amp; Edit PPT Presentations</span>
+                </a>
+              </div><div class="fmd-col">
+                <p class="fmd-title">Imaging &amp; recognition</p>
+                <a class="fmd-item" href="#">
+                  <span class="fmd-name">IronOCR</span>
+                  <span class="fmd-desc">OCR Image Text in 127 Languages</span>
+                </a><a class="fmd-item" href="#">
+                  <span class="fmd-name">IronBarcode</span>
+                  <span class="fmd-desc">Read &amp; Write Barcode Formats</span>
+                </a><a class="fmd-item" href="#">
+                  <span class="fmd-name">IronQR</span>
+                  <span class="fmd-desc">Read &amp; Write QR Codes</span>
+                </a>
+              </div><div class="fmd-col">
+                <p class="fmd-title">Utilities</p>
+                <a class="fmd-item" href="#">
+                  <span class="fmd-name">IronPrint</span>
+                  <span class="fmd-desc">Print Documents</span>
+                </a><a class="fmd-item" href="#">
+                  <span class="fmd-name">IronZip</span>
+                  <span class="fmd-desc">Zip &amp; Unzip Archives</span>
+                </a><a class="fmd-item" href="#">
+                  <span class="fmd-name">IronWebscraper</span>
+                  <span class="fmd-desc">Scrape Web Pages for Data</span>
+                </a>
+              </div></div>
+          </div>
+        </div>
+        <!--
+        The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
+        works by stamping a data attribute on the elements this component renders,
+        and slotted content belongs to the caller, so it never gets one.
+        The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
+        to carry each rule verbatim for check:parity, and `:global()` is not a real
+        pseudo-class, so the browser drops the whole rule there. On FormCard that
+        costs a `max-width`. Here it would cost exactly the thing this block exists to
+        show. `is:global` emits plain CSS instead, which is valid in both places.
+        Kept to one distinctive class so the global scope stays narrow.
+        -->
+        <script type="module">var e=`is-open`;function t(t,n=!1){if(!t.classList.contains(e))return;t.classList.remove(e);let r=t.querySelector(`.fm-trigger`),i=t.querySelector(`.fm-panel`);r?.setAttribute(`aria-expanded`,`false`),i?.setAttribute(`inert`,``),n&&r?.focus()}function n(n){document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e!==n&&t(e)}),n.classList.add(e),n.querySelector(`.fm-trigger`)?.setAttribute(`aria-expanded`,`true`),n.querySelector(`.fm-panel`)?.removeAttribute(`inert`)}function r(r=document){r.querySelectorAll(`[data-fm]:not([data-fm-init])`).forEach(r=>{let i=r.querySelector(`.fm-trigger`);if(i&&(r.dataset.fmInit=`1`,r.querySelectorAll(`.fm-panel-inner > *`).forEach((e,t)=>{e.style.setProperty(`--i`,String(t))}),i.addEventListener(`click`,()=>{r.classList.contains(e)?t(r):n(r)}),r.addEventListener(`focusout`,e=>{let n=e.relatedTarget;n&&!r.contains(n)&&t(r)}),r.dataset.fmHover!==void 0)){let e,i=()=>{clearTimeout(e),e=void 0};r.addEventListener(`pointerenter`,e=>{e.pointerType!==`touch`&&(i(),n(r))}),r.addEventListener(`pointerleave`,n=>{n.pointerType!==`touch`&&(i(),e=window.setTimeout(()=>t(r),150))}),r.addEventListener(`pointerdown`,i)}})}document.addEventListener(`keydown`,e=>{if(e.key!==`Escape`)return;let n=document.querySelector(`[data-fm].is-open`);n&&t(n,!0)}),document.addEventListener(`pointerdown`,e=>{let n=e.target;document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e.contains(n)||t(e)})}),document.addEventListener(`DOMContentLoaded`,()=>r()),document.addEventListener(`astro:page-load`,()=>r());</script>
+        <div class="fm" data-fm>
+          <button type="button" class="fm-trigger" aria-expanded="false" aria-controls="fm-demo-2">
+            <span>Resources</span>
+            <svg class="fm-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
+          </button>
+          <div class="fm-panel fm-start" id="fm-demo-2" inert>
+            <div class="fm-panel-inner">
+              <div class="fmd-col">
+                <a class="fmd-item" href="#"><span class="fmd-name">Documentation</span></a>
+                <a class="fmd-item" href="#"><span class="fmd-name">Code examples</span></a>
+                <a class="fmd-item" href="#"><span class="fmd-name">Tutorials</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--
+        The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
+        works by stamping a data attribute on the elements this component renders,
+        and slotted content belongs to the caller, so it never gets one.
+        The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
+        to carry each rule verbatim for check:parity, and `:global()` is not a real
+        pseudo-class, so the browser drops the whole rule there. On FormCard that
+        costs a `max-width`. Here it would cost exactly the thing this block exists to
+        show. `is:global` emits plain CSS instead, which is valid in both places.
+        Kept to one distinctive class so the global scope stays narrow.
+        -->
+        <div class="fm" data-fm data-fm-hover>
+          <button type="button" class="fm-trigger" aria-expanded="false" aria-controls="fm-demo-3">
+            <span>Opens on hover too</span>
+            <svg class="fm-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
+          </button>
+          <div class="fm-panel fm-end" id="fm-demo-3" inert>
+            <div class="fm-panel-inner">
+              <div class="fmd-col">
+                <a class="fmd-item" href="#"><span class="fmd-name">Still opens on click</span></a>
+                <a class="fmd-item" href="#"><span class="fmd-name">Still opens on focus</span></a>
+                <a class="fmd-item" href="#"><span class="fmd-name">Escape still closes</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--
+        The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
+        works by stamping a data attribute on the elements this component renders,
+        and slotted content belongs to the caller, so it never gets one.
+        The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
+        to carry each rule verbatim for check:parity, and `:global()` is not a real
+        pseudo-class, so the browser drops the whole rule there. On FormCard that
+        costs a `max-width`. Here it would cost exactly the thing this block exists to
+        show. `is:global` emits plain CSS instead, which is valid in both places.
+        Kept to one distinctive class so the global scope stays narrow.
+        -->
+        <!-- /demo:preview -->
+        </div>
+      </div>
+      <div class="sect-sub" style="margin-top:14px;">Click a trigger, or tab to it and press <kbd>Enter</kbd>. <kbd>Esc</kbd> closes and hands focus back. Tabbing past the last link closes it. Pressing anywhere outside closes it. Opening one closes the others &mdash; two open panels in a nav is always a bug.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">It is a disclosure, not a menu</div>
+      <div class="sect-sub">The obvious-looking <code>role="menu"</code> + <code>role="menuitem"</code> is wrong here, and the live site gets this wrong today. That pattern is for application menus &mdash; the Cut/Copy/Paste kind &mdash; and it makes two promises this component cannot keep.</div>
+      <ul class="guide">
+        <li><b>It strips link semantics.</b> <code>menuitem</code> tells assistive tech the contents are <i>commands</i>, so a screen reader stops announcing &ldquo;link&rdquo; and stops offering them in its links list.</li>
+        <li><b>It commits to arrow-key navigation</b> with a roving <code>tabindex</code>, where <kbd>Tab</kbd> leaves the whole menu rather than moving through it. Nobody expects that from a site nav.</li>
+        <li>So this follows the WAI-ARIA APG&rsquo;s <b>Disclosure Navigation</b> pattern instead: a <code>&lt;button&gt;</code> owning <code>aria-expanded</code> and pointing at the panel with <code>aria-controls</code>, ordinary links inside, and <kbd>Tab</kbd> walking them in DOM order. Same as <a href="component-footerbar.html">Footer Bar</a>&rsquo;s Free tools panel.</li>
+      </ul>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Measured against ironsoftware.com</div>
+      <div class="sect-sub">The live nav was probed on 2026-08-05 to ground this. Its <b>PRODUCTS</b> panel is <code>DIV.collapse.menuCollapse</code>, toggled <code>display:none</code> &rarr; <code>flex</code> on hover. Three things it does that this component deliberately does not:</div>
+      <ul class="guide">
+        <li><b>The trigger is an <code>&lt;a href="/suite/"&gt;</code>, not a button.</b> Clicking navigates away instead of opening, so the panel is hover-only &mdash; unreachable by keyboard and awkward on touch, where the first tap is both the hover and the click.</li>
+        <li><b><code>aria-expanded</code> is hard-coded <code>false</code></b> and never updates, measured while the panel was open. A screen reader is told the thing is closed the entire time it is on screen.</li>
+        <li><b><code>aria-haspopup="true"</code> promises a <code>role="menu"</code></b> that is not there, and there is no <code>aria-controls</code> at all.</li>
+      </ul>
+      <div class="sect-sub" style="margin-top:14px;">The design is the thing worth copying; the markup is not. Here <code>openOnHover</code> adds hover <i>on top of</i> click and focus rather than replacing them, and skips <code>pointerType: 'touch'</code> so a tap is never treated as a hover. It carries a 150ms close delay so a diagonal cursor path from trigger to panel does not drop it.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Props</div>
+      <table class="tok">
+        <thead><tr><th>Prop</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>label</code></td><td>Trigger text. Required.</td></tr>
+          <tr><td><code>openOnHover</code></td><td>Adds hover to click and focus. Off by default &mdash; hover is only ever an enhancement.</td></tr>
+          <tr><td><code>align</code></td><td><code>start</code> / <code>center</code> / <code>end</code> &mdash; which edge the panel pins to. A wide panel under a trigger near the right of the bar has to hang left or it leaves the viewport.</td></tr>
+          <tr><td><code>notch</code></td><td>Draws the pointer up at the trigger.</td></tr>
+          <tr><td><code>open</code></td><td>Render open on first paint &mdash; for docs and tests, not for a live nav.</td></tr>
+          <tr><td><code>class</code></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="sect-sub" style="margin-top:14px;">The panel is a slot: whatever you put in it becomes the flyout. Its direct children are numbered by the script and rise in turn as it opens, so composing columns needs no hand-numbering &mdash; and a column inserted in the middle cannot leave the sequence stale.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Still open</div>
+      <ul class="guide">
+        <li><b>No Figma frame yet.</b> Everything visual here is a placeholder. What is needed to reconcile: a node-specific URL, the component set with its variants, and hover/active states drawn &mdash; on Footer Bar those were missing from the set and had to be drawn separately afterwards.</li>
+        <li><b>Where it lives is undecided.</b> This is a standalone component today; it may belong inside <a href="component-topnav.html">Top Nav</a> as a variant instead, which would change whether Top Nav composes it or absorbs it.</li>
+      </ul>
+    </div>
+
+    <footer class="docfoot">Iron Software Design System &nbsp;·&nbsp; Flyout Menu component &nbsp;·&nbsp; 2026</footer>
+  </div></div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<script>
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+  function showToast(msg){
+    let el=document.getElementById('ds-toast');
+    if(!el){el=document.createElement('div');el.id='ds-toast';document.body.appendChild(el);
+      el.style.cssText='position:fixed;right:32px;bottom:32px;transform:translateY(20px);background:#171717;color:#fff;font-family:Montserrat,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:.01em;padding:11px 18px;border-radius:9999px;box-shadow:0 8px 28px rgba(15,23,43,0.28);z-index:200;opacity:0;transition:opacity .22s ease,transform .22s ease;display:flex;align-items:center;gap:8px;pointer-events:none;';}
+    el.innerHTML='<span style="color:#3DDC97;font-weight:800;">✓</span>'+msg;
+    setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);
+    clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);
+  }
+  function switchTab(btn,lang){const w=btn.closest('.code-wrap');w.querySelectorAll('.code-tab').forEach(t=>t.classList.toggle('active',t===btn));w.querySelectorAll('.code-pane').forEach(p=>p.classList.toggle('active',p.dataset.lang===lang));}
+  function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+  function copyCode(btn){
+    const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;
+    const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
+    else{fallbackCopy(txt,done);}
+  }
+
+</script>
+</body>
+</html>
