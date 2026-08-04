@@ -229,46 +229,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
   .fb-legal { flex-direction: column; gap: var(--spacing-sm); }
 }
 
-/* ── responsive previews (page-local, not part of the component) ───────────
-   The md and sm layouts key off the VIEWPORT, and every demo frame on this
-   page is pinned to 1440 by docs.css's `.frame-scroll > * { min-width }`, so
-   no amount of narrowing an element will trigger them. An iframe is the only
-   box on a page that carries a viewport of its own, so each preview loads
-   THIS page again with `?frame=<region>` and shows a single demo region.
-   Same file, same markup, same stylesheet — nothing is duplicated and there
-   is no second copy to drift out of sync. */
-.fbr-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
-.fbr-seg { display: flex; gap: 2px; padding: 2px; background: #F1F5F9; border-radius: 8px; }
-.fbr-btn { font: inherit; font-size: 0.72rem; font-weight: 600; color: #52525B; background: none; border: 0; border-radius: 6px; padding: 5px 11px; cursor: pointer; }
-.fbr-btn:hover { color: #0F172B; }
-.fbr-btn[aria-pressed="true"] { background: #FFFFFF; color: #0F172B; box-shadow: 0 1px 2px rgba(15,23,43,0.12); }
-.fbr-w { margin-left: auto; font-size: 0.72rem; font-weight: 600; color: #0F172B; font-variant-numeric: tabular-nums; }
-.fbr-w span { color: #52525B; font-weight: 500; }
-.fbr-w b { font-weight: 600; color: #52525B; }
-
-/* The stage scrolls rather than squeezing the shell: an iframe narrowed to fit
-   the page would still be labelled 768 while rendering something else, and a
-   width preview that lies about its width is worse than no preview. */
-.fbr-stage { overflow-x: auto; padding-right: 16px; }
-.fbr-shell { position: relative; width: 768px; max-width: none; }
-/* A ring, not a border. docs.css sets `box-sizing: border-box` on everything,
-   so a 1px border would take its 2px out of the iframe's own width — the
-   viewport inside would be 766 and the whole point of the preview is lost.
-   A shadow paints in the same place and costs no layout. */
-.fbr-frame { display: block; width: 100%; height: 348px; border: 0; border-radius: 10px; background: #0A0A0A; box-shadow: 0 0 0 1px rgba(15,23,43,0.14); }
-.fbr-grip { position: absolute; left: 100%; top: 0; bottom: 0; width: 16px; cursor: ew-resize; display: flex; align-items: center; justify-content: center; touch-action: none; }
-.fbr-grip::before { content: ''; width: 4px; height: 40px; border-radius: 2px; background: #CBD5E1; }
-.fbr-grip:hover::before, .fbr-grip:focus-visible::before { background: #2693EC; }
-.fbr-grip:focus-visible { outline: 2px solid #2693EC; outline-offset: 2px; border-radius: 4px; }
-
-/* `?frame=` mode: this page rendered as nothing but one demo region, for an
-   iframe to point at. */
-html.fbr-only, html.fbr-only body { margin: 0; padding: 0; background: transparent; overflow-x: hidden; }
   </style>
-  <script>
-    /* Set before first paint so the chrome never flashes inside the iframe. */
-    if (new URLSearchParams(location.search).get('frame')) document.documentElement.classList.add('fbr-only');
-  </script>
+  <script src="preview-frame.js"></script>
 </head>
 <body>
 <header>
@@ -830,28 +792,25 @@ html.fbr-only, html.fbr-only body { margin: 0; padding: 0; background: transpare
       <div class="sect-h">Responsive</div>
       <div class="sect-sub">Figma draws <code>footer-md</code> (768) and <code>footer-sm</code> (375) as separate symbols. They are mapped onto this project&rsquo;s own breakpoints &mdash; <code>--breakpoint-lg</code> 1024 and <code>--breakpoint-md</code> 768 &mdash; so the wide layout holds down to 1024, md covers 768&ndash;1023 and sm everything below. Those numbers are written out in the <code>@media</code> conditions rather than read from the tokens, because <b>a custom property in a media query condition never matches</b>.</div>
       <div class="sect-sub" style="margin-top:14px;">Each preview below is an <code>&lt;iframe&gt;</code> loading this same page at <code>?frame=</code>, because an iframe is the only thing on a page with a viewport of its own &mdash; the demo frames above are pinned to 1440 and will never show these. Nothing is duplicated to make them work.</div>
-      <div class="fbr-bar">
-        <div class="fbr-seg" role="group" aria-label="Variant">
-          <button type="button" class="fbr-btn" data-region="default" aria-pressed="true">Default</button>
-          <button type="button" class="fbr-btn" data-region="toolsopen" aria-pressed="false">Free tools open</button>
+      <div class="vp">
+        <div class="vp-bar">
+          <div class="vp-seg" role="group" aria-label="Variant">
+            <button type="button" class="vp-btn" data-region="default" aria-pressed="true">Default</button>
+            <button type="button" class="vp-btn" data-region="toolsopen" aria-pressed="false">Free tools open</button>
+          </div>
+          <div class="vp-seg" role="group" aria-label="Preview width">
+            <button type="button" class="vp-btn" data-w="375" aria-pressed="false">375</button>
+            <button type="button" class="vp-btn" data-w="768" aria-pressed="true">768</button>
+            <button type="button" class="vp-btn" data-w="1024" aria-pressed="false">1024</button>
+            <button type="button" class="vp-btn" data-w="1440" aria-pressed="false">1440</button>
+          </div>
+          <output class="vp-w">768<span>px</span></output>
         </div>
-        <div class="fbr-seg" role="group" aria-label="Preview width">
-          <button type="button" class="fbr-btn" data-w="375" aria-pressed="false">375</button>
-          <button type="button" class="fbr-btn" data-w="768" aria-pressed="true">768</button>
-          <button type="button" class="fbr-btn" data-w="1024" aria-pressed="false">1024</button>
-        </div>
-        <output class="fbr-w" id="fbr-w" for="fbr-frame">768<span>px</span> &nbsp;·&nbsp; <b>footer-md</b></output>
-      </div>
-      <div class="fbr-stage">
-        <div class="fbr-shell" id="fbr-shell">
-          <!-- `data-src`, not `src`. In ?frame= mode this page still parses in
-               full before the script below trims it, so a real `src` here makes
-               the preview load a nested copy of itself — a wasted document
-               fetch that then aborts when the body is replaced, which reads in
-               any request log exactly like a broken link. The parent branch is
-               the only one that ever promotes it. -->
-          <iframe class="fbr-frame" id="fbr-frame" data-src="component-footerbar.html?frame=default" title="Footer Bar preview"></iframe>
-          <div class="fbr-grip" id="fbr-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="768" aria-valuetext="768 pixels"></div>
+        <div class="vp-stage">
+          <div class="vp-shell" data-vp-layouts="1024:footer-lg, 768:footer-md, 0:footer-sm">
+            <iframe class="vp-frame" title="Footer Bar preview"></iframe>
+            <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="768"></div>
+          </div>
         </div>
       </div>
       <div class="sect-sub" style="margin-top:14px;">Drag the handle, or use the presets &mdash; the readout names the layout you are looking at, and the frame reports its own height back so nothing is a guessed number. The handle takes arrow keys too (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is worth having: dragging to find the exact pixel where a layout flips is how you check a breakpoint landed where you meant it to. The menu drops its per-item padding for a flat 12px gap and wraps &mdash; two rows at 768, three at 375, matching Figma&rsquo;s wrap points exactly. The Free tools panel has no frame to match: its groups stack, and inside each one the design&rsquo;s editorial column breaks stay intact while <code>auto-fill</code> decides how many sit per row &mdash; 4 at 768, 2 at 375, 1 at 320.</div>
@@ -911,145 +870,6 @@ html.fbr-only, html.fbr-only body { margin: 0; padding: 0; background: transpare
   function showToast(msg){let el=document.getElementById('ds-toast');if(!el){el=document.createElement('div');el.id='ds-toast';document.body.appendChild(el);el.style.cssText='position:fixed;right:32px;bottom:32px;transform:translateY(20px);background:#171717;color:#fff;font-family:Montserrat,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:.01em;padding:11px 18px;border-radius:9999px;box-shadow:0 8px 28px rgba(15,23,43,0.28);z-index:200;opacity:0;transition:opacity .22s ease,transform .22s ease;display:flex;align-items:center;gap:8px;pointer-events:none;';}el.innerHTML='<span style="color:#3DDC97;font-weight:800;">✓</span>'+msg;setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},20);clearTimeout(el._h);el._h=setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(20px)';},1700);}
   function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
   function copyCode(btn){const txt=btn.closest('.code-wrap').querySelector('.code-pane.active').innerText;const done=()=>{const o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1600);showToast('Copied to clipboard');};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}else{fallbackCopy(txt,done);}}
-</script>
-<script>
-  /* Two halves of the responsive previews.
-
-     In the IFRAME (`?frame=<region>`): keep only that demo region and throw the
-     rest of the page away. The region is delimited by the same
-     `demo:<name>` / `/demo:<name>` comment pair build-demos.mjs writes (spelled
-     without its angle brackets here, because check:render scans this file for
-     that exact shape and would read the example as a fourth region), so this
-     walks the comment nodes rather than guessing at a wrapper selector — the
-     same way preview.mjs scopes its probes. This runs at the end of body, when
-     the markup is parsed but before DOMContentLoaded, so nothing has bound to
-     the nodes that are about to be discarded.
-
-     In the PARENT: size each iframe from what its own document reports. The
-     height is posted out rather than read in through `contentDocument`, which
-     a browser refuses across origins — and two `file://` pages in the same
-     folder are two different opaque origins, so reading in would work when the
-     docs are served and fail silently when they are opened as files. */
-  (function () {
-    var region = new URLSearchParams(location.search).get('frame');
-
-    if (region) {
-      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT);
-      var open = null, node;
-      while ((node = walker.nextNode())) {
-        if (node.nodeValue.trim() === 'demo:' + region) { open = node; break; }
-      }
-      var kept = null;
-      if (open) {
-        kept = document.createElement('div');
-        for (var s = open.nextSibling; s; s = s.nextSibling) {
-          if (s.nodeType === Node.COMMENT_NODE && s.nodeValue.trim() === '/demo:' + region) break;
-          kept.appendChild(s.cloneNode(true));
-        }
-        document.body.replaceChildren(kept);
-      }
-      /* Measure the content, NOT documentElement.scrollHeight. An iframe's
-         scrollHeight can never report less than its own viewport height, so
-         once the parent has sized the frame to 552 the number sticks at 552
-         and the frame will grow but never shrink — widening to the 224-tall
-         desktop layout leaves 328px of empty black. The wrapper this script
-         builds is a plain block, so its box IS the content height. */
-      var post = function () {
-        var h = kept ? Math.ceil(kept.getBoundingClientRect().height) : document.documentElement.scrollHeight;
-        parent.postMessage({ fbrHeight: h }, '*');
-      };
-      post();
-      addEventListener('load', post);
-      if (window.ResizeObserver) {
-        var ro = new ResizeObserver(post);
-        ro.observe(document.documentElement);
-        if (kept) ro.observe(kept);
-      }
-      return;
-    }
-
-    var shell = document.getElementById('fbr-shell');
-    var frame = document.getElementById('fbr-frame');
-    var grip = document.getElementById('fbr-grip');
-    var out = document.getElementById('fbr-w');
-    if (!shell) return;
-
-    addEventListener('message', function (e) {
-      if (e.source === frame.contentWindow && e.data && typeof e.data.fbrHeight === 'number') {
-        frame.style.height = e.data.fbrHeight + 'px';
-      }
-    });
-
-    /* The same three thresholds the component's own @media rules use. Naming
-       the layout in the readout is the point of the whole control: a width on
-       its own does not tell you which of the three you are looking at, and the
-       boundary is exactly where a mistake would hide. */
-    function layoutAt(w) { return w >= 1024 ? 'footer-lg' : w >= 768 ? 'footer-md' : 'footer-sm'; }
-
-    var MIN = 320;
-    function maxWidth() { return Math.max(MIN, shell.parentNode.clientWidth - 16); }
-
-    function setWidth(w) {
-      w = Math.round(Math.min(Math.max(w, MIN), maxWidth()));
-      shell.style.width = w + 'px';
-      out.innerHTML = w + '<span>px</span> &nbsp;·&nbsp; <b>' + layoutAt(w) + '</b>';
-      grip.setAttribute('aria-valuenow', w);
-      grip.setAttribute('aria-valuemax', maxWidth());
-      grip.setAttribute('aria-valuetext', w + ' pixels, ' + layoutAt(w));
-      document.querySelectorAll('.fbr-btn[data-w]').forEach(function (b) {
-        b.setAttribute('aria-pressed', String(+b.dataset.w === w));
-      });
-    }
-
-    document.querySelectorAll('.fbr-btn[data-w]').forEach(function (b) {
-      b.addEventListener('click', function () { setWidth(+b.dataset.w); });
-    });
-
-    document.querySelectorAll('.fbr-btn[data-region]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        document.querySelectorAll('.fbr-btn[data-region]').forEach(function (o) {
-          o.setAttribute('aria-pressed', String(o === b));
-        });
-        frame.src = 'component-footerbar.html?frame=' + b.dataset.region;
-      });
-    });
-
-    /* Pointer events rather than mouse: one path covers mouse, trackpad, pen
-       and touch, and setPointerCapture is what keeps the drag alive when the
-       cursor outruns the 16px handle. */
-    grip.addEventListener('pointerdown', function (e) {
-      e.preventDefault();
-      grip.setPointerCapture(e.pointerId);
-      var startX = e.clientX, startW = shell.getBoundingClientRect().width;
-      /* The iframe swallows pointer events while the cursor is over it, which
-         would drop the drag the moment it crosses back inside. */
-      frame.style.pointerEvents = 'none';
-      var move = function (ev) { setWidth(startW + (ev.clientX - startX)); };
-      var up = function () {
-        frame.style.pointerEvents = '';
-        grip.removeEventListener('pointermove', move);
-        grip.removeEventListener('pointerup', up);
-        grip.removeEventListener('pointercancel', up);
-      };
-      grip.addEventListener('pointermove', move);
-      grip.addEventListener('pointerup', up);
-      grip.addEventListener('pointercancel', up);
-    });
-
-    grip.addEventListener('keydown', function (e) {
-      var step = e.shiftKey ? 1 : 16;
-      var w = shell.getBoundingClientRect().width;
-      if (e.key === 'ArrowLeft') setWidth(w - step);
-      else if (e.key === 'ArrowRight') setWidth(w + step);
-      else if (e.key === 'Home') setWidth(MIN);
-      else if (e.key === 'End') setWidth(maxWidth());
-      else return;
-      e.preventDefault();
-    });
-
-    setWidth(768);
-    frame.src = frame.dataset.src;
-  })();
 </script>
 </body>
 </html>

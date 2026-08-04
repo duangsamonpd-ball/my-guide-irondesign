@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <script src="preview-frame.js"></script>
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -366,6 +367,35 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <tr><td class="prop">showLanguage</td><td class="token">boolean</td><td class="val">true</td><td>Hides the globe + locale group.</td></tr>
         <tr><td class="prop">brandHref</td><td class="token">string</td><td class="val">'/'</td><td>Target of the Iron Software lockup.</td></tr>
       </tbody></table>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Responsive</div>
+      <div class="sect-sub">The navigation canvas in Figma is <b>1440 desktop only</b>, so unlike Footer Bar there is no md or sm frame to match &mdash; what this component does as it narrows is an implementation decision, not a drawn one. It hides the address below <b>1100</b> and the menu below <b>720</b>. Neither number is on the project&rsquo;s breakpoint scale (<code>--breakpoint-md</code> 768, <code>--breakpoint-lg</code> 1024), which is worth knowing before anyone treats them as settled.</div>
+      <div class="sect-sub" style="margin-top:14px;">The preview is an <code>&lt;iframe&gt;</code> loading this same page at <code>?frame=</code>, because an iframe is the only box on a page with a viewport of its own &mdash; the demo frames above are pinned to 1440 by <code>.frame-scroll</code> and will never show this. Nothing is duplicated to make it work.</div>
+      <div class="vp">
+        <div class="vp-bar">
+          <div class="vp-seg" role="group" aria-label="Variant">
+            <button type="button" class="vp-btn" data-region="default" aria-pressed="true">Default</button>
+            <button type="button" class="vp-btn" data-region="transparent" aria-pressed="false">Transparent</button>
+            <button type="button" class="vp-btn" data-region="trimmed" aria-pressed="false">Trimmed</button>
+          </div>
+          <div class="vp-seg" role="group" aria-label="Preview width">
+            <button type="button" class="vp-btn" data-w="375" aria-pressed="false">375</button>
+            <button type="button" class="vp-btn" data-w="768" aria-pressed="false">768</button>
+            <button type="button" class="vp-btn" data-w="1024" aria-pressed="true">1024</button>
+            <button type="button" class="vp-btn" data-w="1440" aria-pressed="false">1440</button>
+          </div>
+          <output class="vp-w">1024<span>px</span></output>
+        </div>
+        <div class="vp-stage">
+          <div class="vp-shell" data-vp-layouts="1101:full, 721:address hidden, 0:address + menu hidden">
+            <iframe class="vp-frame" title="Top Nav preview"></iframe>
+            <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="1024"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sect-sub" style="margin-top:14px;">Drag the handle across <b>1100</b> and <b>720</b> to watch each element go. The presets are deliberately not this component&rsquo;s own thresholds, so the gap between the two is visible: at the <code>--breakpoint-lg</code> preset of 1024 the address is already gone, and at <code>--breakpoint-md</code> 768 the menu is still there with 48px to spare. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>

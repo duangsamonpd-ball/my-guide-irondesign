@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <script src="preview-frame.js"></script>
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 .sidebar { width:248px; flex-shrink:0; background:#fff; border-right:1px solid #E2E8F0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; scrollbar-width:thin; }
@@ -314,6 +315,34 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <tr><td class="prop">searchLabel / askAiLabel</td><td class="token">string</td><td class="val">'Search' / 'Ask AI'</td><td>Accessible names — the bubbles are icon-only.</td></tr>
         <tr><td class="prop">basePath</td><td class="token">string</td><td class="val">'assets'</td><td>Where the mark SVGs live. Use an absolute path (<code>/assets</code>) on nested routes.</td></tr>
       </tbody></table>
+    </div>
+
+    <div class="sect">
+      <div class="sect-h">Responsive</div>
+      <div class="sect-sub">Same as Top Nav: the Figma canvas is <b>1440 desktop only</b>, so everything below it is an implementation decision. This one sheds in three steps &mdash; the runtime badge below <b>1180</b>, the utilities below <b>1024</b>, and the centre group below <b>768</b>, after which the menu and the sub-menu scroll sideways instead of wrapping.</div>
+      <div class="sect-sub" style="margin-top:14px;">The preview is an <code>&lt;iframe&gt;</code> loading this same page at <code>?frame=</code>, because an iframe is the only box on a page with a viewport of its own &mdash; the demo frames above are pinned to 1440 by <code>.frame-scroll</code> and will never show this. Nothing is duplicated to make it work.</div>
+      <div class="vp">
+        <div class="vp-bar">
+          <div class="vp-seg" role="group" aria-label="Variant">
+            <button type="button" class="vp-btn" data-region="default" aria-pressed="true">Default</button>
+            <button type="button" class="vp-btn" data-region="submenu" aria-pressed="false">Sub-menu</button>
+          </div>
+          <div class="vp-seg" role="group" aria-label="Preview width">
+            <button type="button" class="vp-btn" data-w="375" aria-pressed="false">375</button>
+            <button type="button" class="vp-btn" data-w="768" aria-pressed="false">768</button>
+            <button type="button" class="vp-btn" data-w="1024" aria-pressed="true">1024</button>
+            <button type="button" class="vp-btn" data-w="1440" aria-pressed="false">1440</button>
+          </div>
+          <output class="vp-w">1024<span>px</span></output>
+        </div>
+        <div class="vp-stage">
+          <div class="vp-shell" data-vp-layouts="1181:full, 1025:runtime hidden, 769:utils hidden, 0:center hidden">
+            <iframe class="vp-frame" title="Product Menu preview"></iframe>
+            <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="1024"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sect-sub" style="margin-top:14px;">Only <b>1024</b> and <b>768</b> of those three are on the project&rsquo;s breakpoint scale; <b>1180</b> is not. Drag across each to see what goes. The horizontal scroll below 1024 is deliberate &mdash; a nav that wraps to two rows moves everything under it, which is worse than one that scrolls. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
     </div>
 
     <div class="sect"><div class="sect-h">Token Reference</div>
