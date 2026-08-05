@@ -25,11 +25,18 @@ header {
       padding: 24px 48px; display: flex; align-items: center; gap: 16px;
     }
 .logo-badge { width: 40px; height: 40px; flex-shrink: 0; }
-header h1 {
+/* index.html is the one page whose subject IS the design system, so it keeps
+   the masthead as its <h1>. Everywhere else the masthead is site branding
+   repeated on every page, and a second <h1> alongside the page title left 29
+   pages with two competing main headings. Those render a .site-name span. */
+header h1, header .site-name {
   color: #171717;
   font-size: 1.25rem;
   font-weight: 700;
 }
+/* Only the span needs this — an <h1> is already a block box, and setting it on
+   both re-rendered index.html's gradients a dithering step for no reason. */
+header .site-name { display: block; }
 header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
 .hamburger {
   background: none;
@@ -95,7 +102,18 @@ header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
 }
 .main-content { flex: 1; min-width: 0; overflow: hidden; }
 .sidebar-overlay.open { display: block; }
+/* A breadcrumb is a navigation landmark containing an ordered list, not a
+   line of text with a slash in it. The separator moves out of the markup
+   into ::before so it is decoration a screen reader never reads, and the
+   JSON-LD BreadcrumbList on every component page now mirrors real markup. */
 .crumb { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#A1A1A1; margin-bottom:10px; }
+.crumb ol { list-style:none; display:flex; flex-wrap:wrap; }
+/* Four non-breaking spaces, two a side. The hand-written markup was
+   `</a> &nbsp;/&nbsp; Badge` — a collapsible space AND an nbsp on each side, both
+   of which rendered. All four must be nbsp here: the <li>s are flex items, and a
+   plain leading or trailing space in `content` is trimmed as line-box white
+   space, which tightened the separator by two space-widths. */
+.crumb li + li::before { content:'\00a0\00a0/\00a0\00a0'; }
 .crumb a { color:#2693EC; text-decoration:none; }
 .meta-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
 .chip.new { background:#EBF9F3; color:#2E9468; }
@@ -184,7 +202,7 @@ header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
       display: flex; gap: 16px; align-items: flex-start;
     }
 .palette-page-intro .icon { font-size: 2rem; line-height: 1; }
-.palette-page-intro h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+.palette-page-intro h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
 .palette-page-intro p  { font-size: 0.8rem; color: #62748E; line-height: 1.6; }
 .palette-group { margin-bottom: 48px; }
 .palette-group-header {

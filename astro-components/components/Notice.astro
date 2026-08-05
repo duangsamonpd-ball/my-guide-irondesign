@@ -4,10 +4,23 @@ interface Props {
   intent?: 'info' | 'success' | 'important' | 'warning' | 'danger';
   title: string;
   text: string;
+  /**
+   * Whether the notice announces itself to a screen reader.
+   * Default: `true` for a notice that appeared in response to something the user
+   * did, which is what the intents describe. Pass `false` when the notice is
+   * static page furniture — a live region that is already on screen at load can
+   * be announced out of nowhere, which is worse than saying nothing.
+   */
+  live?: boolean;
   class?: string;
 }
 
-const { variant = 'filled', intent = 'info', title, text, class: className } = Astro.props;
+const { variant = 'filled', intent = 'info', title, text, live = true, class: className } = Astro.props;
+
+/* warning and danger interrupt; the rest wait for a pause. Nothing here invents a
+   role for a notice that opted out of being live — `role="status"` with no live
+   behaviour would be a lie to the accessibility tree. */
+const role = !live ? undefined : intent === 'danger' || intent === 'warning' ? 'alert' : 'status';
 
 import { icons } from '../icons';
 
@@ -22,27 +35,40 @@ const iconPathFor = {
 } as const;
 ---
 
-<div class:list={['notice', `notice--${variant}`, `notice--${intent}`, className]}>
+<aside class:list={['notice', `notice--${variant}`, `notice--${intent}`, className]} role={role}>
   {variant === 'filled' ? (
     <>
-      <div class="notice-header">
-        <svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d={iconPathFor[intent]} /></svg>
-        <span class="notice-title">{title}</span>
-      </div>
+      <p class="notice-header">
+        <svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d={iconPathFor[intent]} /></svg>
+        <strong class="notice-title">{title}</strong>
+      </p>
       <p class="notice-text">{text}</p>
     </>
   ) : (
-    <p class="notice-text"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d={iconPathFor[intent]} /></svg> <b>{title}:</b> {text}</p>
+    <p class="notice-text"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d={iconPathFor[intent]} /></svg> <strong>{title}:</strong> {text}</p>
   )}
-</div>
+</aside>
 
 <style>
+  /*
+    The root is <aside> on purpose. The HTML spec names "call-out boxes" as an
+    aside, which is exactly what this is — and the element costs nothing in the
+    accessibility tree here, because the default `role` prop puts status/alert on
+    it and an explicit role overrides the complementary landmark. Only a notice
+    built with `live={false}` becomes a landmark, which is the one case where a
+    standing call-out genuinely is complementary content.
+
+    Both paragraphs zero their own margin. The docs pages get this free from the
+    `*` reset in docs.css, so nothing here re-renders — but a consumer app with no
+    reset was picking up the UA's 1em block margins on top of the flex `gap`, and
+    the component cannot assume someone else zeroed them.
+  */
   .notice { display: flex; flex-direction: column; gap: 8px; padding: 24px; max-width: 560px; }
   .notice-icon { width: 1rem; height: 1rem; flex-shrink: 0; vertical-align: -0.1em; }
-  .notice-header { display: flex; align-items: center; gap: 8px; }
+  .notice-header { display: flex; align-items: center; gap: 8px; margin: 0; }
   .notice-title { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-title-lg); font-weight: 700; color: var(--color-text-heading); }
-  .notice-text { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); line-height: 1.6; }
-  .notice-text b { font-weight: 700; }
+  .notice-text { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); line-height: 1.6; margin: 0; }
+  .notice-text strong { font-weight: 700; }
 
   /* filled — tinted rounded card, only the icon carries the intent colour */
   .notice--filled { border-radius: var(--rounded-lg); }

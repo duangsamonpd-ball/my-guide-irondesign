@@ -9,10 +9,26 @@ interface Props {
   headingSuffix?: string;
   inputPlaceholder: string;
   inputName?: string;
+  /**
+   * The field's real label. The card's design has no room for a visible one, so
+   * it is rendered visually hidden rather than left out — a placeholder is not a
+   * label: it is not announced by every screen reader, and it disappears the
+   * moment the user types, taking the only description of the field with it.
+   * Defaults to the placeholder text.
+   */
+  inputLabel?: string;
   hint?: string;
   submitLabel: string;
   submitIcon?: 'quote' | 'key' | 'check';
   footerNotes: string[];
+  /**
+   * Heading level for the card's headline. It was a `<p>`, so the card
+   * contributed nothing to the page outline. Default 3.
+   */
+  headingLevel?: 2 | 3 | 4 | 5;
+  /** Where the form posts. Omitted means the current URL. */
+  action?: string;
+  method?: 'get' | 'post';
   class?: string;
 }
 
@@ -23,34 +39,57 @@ const {
   headingSuffix = 'instantly.',
   inputPlaceholder,
   inputName,
+  inputLabel,
   hint,
   submitLabel,
   submitIcon,
   footerNotes,
+  headingLevel = 3,
+  action,
+  method,
   class: className,
 } = Astro.props;
 
+const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5';
+/* base-16, 8 digits — the shape build-demos.mjs normalises. See FormCard. */
+const uid = `tc-${Math.random().toString(16).slice(2, 10)}`;
+const inputId = `${uid}-email`;
+const hintId = hint ? `${uid}-hint` : undefined;
 ---
 
-<div class:list={['trial-card', className]}>
-  <span class="tc-icon"><svg viewBox={icons[icon].viewBox} fill="currentColor"><path d={icons[icon].path} /></svg></span>
-  <p class="tc-heading">{headingPrefix} <b>{headingBold}</b> {headingSuffix}</p>
+<form class:list={['trial-card', className]} action={action} method={method} aria-labelledby={`${uid}-title`}>
+  <span class="tc-icon"><svg viewBox={icons[icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[icon].path} /></svg></span>
+  {/* The spaces are `{' '}` expressions, not literal text. Under a dynamic <Tag>
+      Astro drops a whitespace-only text node that sits between an expression and
+      an element, so `{headingPrefix} <b>` rendered as "Get your free30-day Trial
+      Key". An expression that evaluates to a space survives. */}
+  <Heading class="tc-heading" id={`${uid}-title`}>{headingPrefix}{' '}<b>{headingBold}</b>{' '}{headingSuffix}</Heading>
   <div class="tc-field">
-    <input class="tc-input" type="email" name={inputName} placeholder={inputPlaceholder} />
-    {hint && <span class="tc-hint">{hint}</span>}
+    <label class="tc-label" for={inputId}>{inputLabel ?? inputPlaceholder}</label>
+    <input
+      class="tc-input"
+      id={inputId}
+      type="email"
+      name={inputName}
+      placeholder={inputPlaceholder}
+      autocomplete="email"
+      aria-describedby={hintId}
+      required
+    />
+    {hint && <span class="tc-hint" id={hintId}>{hint}</span>}
   </div>
-  <button type="submit" class="tc-submit">{submitLabel} {submitIcon && <svg viewBox={icons[submitIcon].viewBox} fill="currentColor"><path d={icons[submitIcon].path} /></svg>}</button>
+  <button type="submit" class="tc-submit">{submitLabel} {submitIcon && <svg viewBox={icons[submitIcon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[submitIcon].path} /></svg>}</button>
   {footerNotes.length > 0 && (
-    <div class="tc-notes">
+    <ul class="tc-notes">
       {footerNotes.map((note, i) => (
-        <>
-          {i > 0 && <span class="tc-sep"></span>}
+        <li>
+          {i > 0 && <span class="tc-sep" aria-hidden="true"></span>}
           <span>{note}</span>
-        </>
+        </li>
       ))}
-    </div>
+    </ul>
   )}
-</div>
+</form>
 
 <style>
   .trial-card {
@@ -64,9 +103,16 @@ const {
     display: flex; align-items: center; justify-content: center;
   }
   .tc-icon svg { width: 28px; height: 28px; }
-  .tc-heading { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-title-lg); color: var(--color-text-body); line-height: 1.4; }
-  .tc-heading b { color: var(--color-text-heading); }
+  /* A heading now, so it needs the UA weight and margin overridden — the visual
+     stays exactly what the <p> produced. `<b>`, not `<strong>`: inside a heading
+     the whole line is already important, and what the bold half carries here is
+     a colour difference, which is precisely what <b> is for. */
+  .tc-heading { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-title-lg); color: var(--color-text-body); line-height: 1.4; font-weight: 400; margin: 0; }
+  .tc-heading b { color: var(--color-text-heading); font-weight: 700; }
   .tc-field { width: 100%; display: flex; flex-direction: column; gap: var(--spacing-xs); }
+  /* The label exists for assistive tech only — the design has no room for it.
+     Not `display:none`, which would hide it from screen readers as well. */
+  .tc-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
   .tc-input {
     width: 100%; height: var(--size-input); border: var(--border-width-1-5) solid var(--color-border); border-radius: var(--rounded-md);
     padding: 0 16px; font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); color: var(--color-text-body);
@@ -84,6 +130,11 @@ const {
   }
   .tc-submit:hover { background: var(--color-primary-hover); }
   .tc-submit svg { width: 14px; height: 14px; }
-  .tc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--font-size-caption-sm); color: var(--color-text-support); flex-wrap: wrap; }
-  .tc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); }
+  /* A dot-separated run of notes is a list, so it is one. Each separator lives
+     INSIDE the item it precedes rather than between items — the row wraps, and a
+     separator that is its own flex child can be left stranded at the end of a
+     line. Same reasoning as the FooterBar menu dividers. */
+  .tc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--font-size-caption-sm); color: var(--color-text-support); flex-wrap: wrap; margin: 0; list-style: none; padding: 0; }
+  .tc-notes li { display: flex; align-items: center; gap: 12px; }
+  .tc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); flex-shrink: 0; }
 </style>

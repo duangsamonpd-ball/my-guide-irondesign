@@ -44,7 +44,7 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
 <label class:list={['dropzone', { error, 'has-file': hasFile, 'is-disabled': disabled }, className]}>
   <input type="file" name={name} accept={accept} disabled={disabled} class="dropzone-input" />
   <div class="dropzone-left">
-    <span class="dropzone-icon"><svg viewBox={icons[iconKey].viewBox} fill="currentColor"><path d={icons[iconKey].path} /></svg></span>
+    <span class="dropzone-icon"><svg viewBox={icons[iconKey].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[iconKey].path} /></svg></span>
     <div class="dropzone-text">
       {hasFile ? (
         <div class="title">{fileName}</div>

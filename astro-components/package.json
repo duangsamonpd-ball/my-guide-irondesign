@@ -10,6 +10,7 @@
     ".": "./index.ts",
     "./components/*": "./components/*",
     "./icons": "./icons.ts",
+    "./components.json": "./components.json",
     "./package.json": "./package.json"
   }
 }

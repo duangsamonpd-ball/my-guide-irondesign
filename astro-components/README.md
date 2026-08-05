@@ -71,6 +71,39 @@ inside the consuming app, which is a long way from the mistake.
 Adjust the relative path to wherever you copy/symlink `tailwind/tokens.css`
 into your Astro project.
 
+## Where these sit
+
+**No component here renders a page-level landmark it cannot own.** A component
+knows what it is; only the page knows where it is. So `TopNav` and `ProductMenu`
+each emit their own `<nav>` with a name, but neither emits `<header>` — two
+headers on one page would be wrong — and `Footer.astro` is a `<section>`, because
+it is a band that stacks above `FooterBar`, which *is* the `<footer>`.
+
+```astro
+<header>
+  <TopNav items={items} />          <!-- <nav aria-label="Corporate"> -->
+  <ProductMenu … />                 <!-- <nav aria-label="Product">   -->
+</header>
+
+<main>
+  <h1>…</h1>                        <!-- one per page, and it is the subject -->
+  <FormCard headingLevel={2} … />   <!-- the card is the <form> -->
+</main>
+
+<footer>
+  <Footer products={products} />    <!-- a <section>, named by `label` -->
+  <FooterBar />                     <!-- already a <footer>; do not wrap it -->
+</footer>
+```
+
+The same rule governs headings: a component that hard-codes its level breaks the
+outline wherever it does not happen to sit at that depth, so `Footer`, `FormCard`
+and `TrialKeyCard` take a `headingLevel` prop and default to what they rendered
+before.
+
+The full reference — element-by-element, with the mistakes this library actually
+had — is `docs/09-semantic-html.html`.
+
 ## Components
 
 ### `Button.astro`
@@ -230,7 +263,9 @@ Non-interactive informational block — disclaimers, notes, tips, callouts. Two 
 <Notice variant="filled" intent="important" title="Important" text="Requires design sign-off before shipping." />
 ```
 
-Props: `variant` (`filled` | `bordered`, default `filled`), `intent` (`info` | `success` | `important` | `warning` | `danger`, default `info`), `title` (required), `text` (required), `class`.
+Props: `variant` (`filled` | `bordered`, default `filled`), `intent` (`info` | `success` | `important` | `warning` | `danger`, default `info`), `title` (required), `text` (required), `live` (default `true`), `class`.
+
+The root is an `<aside>` — the HTML spec names "call-out boxes" as an aside, which is what this is. By default it also carries a live-region role derived from the intent: `alert` for `warning` and `danger`, `status` for the rest. Because an explicit role overrides the element's implicit one, a default notice adds **no** complementary landmark. Pass `live={false}` for a notice that is standing page furniture rather than a response to something the user did — a live region already on screen at load can be announced out of nowhere. That variant does become a landmark, which is the case where a standing call-out genuinely is complementary content.
 
 Only the icon (and, on `bordered`, the left bar) carries the intent colour — the title and paragraph always stay neutral (`--color-text-heading` on `filled`, `--color-text-body` on `bordered`). `important` is a genuinely new intent (not one of the system's original 4 semantic colours) — it uses the `iron-purple-50`/`iron-purple-500` primitives directly since there's no `status/important` semantic token yet.
 
@@ -294,7 +329,9 @@ The panel is a slot — whatever you put in it becomes the flyout. Its direct ch
 />
 ```
 
-Props: `variant` (`suite` shows the full-brand logo headline; `default` names the current product for cross-sell, default `default`), `productName` (required when `variant="default"`), `products` (`{ prefix, suffix, desc, accent?, href? }[]`, required), `donateImgSrc`, `suiteLogoImgSrc`, `productLogoSrc` (asset path overrides — defaults point at the docs' relative paths, supply your own), `class`.
+Props: `variant` (`suite` shows the full-brand logo headline; `default` names the current product for cross-sell, default `default`), `productName` (required when `variant="default"`), `products` (`{ prefix, suffix, desc, accent?, href? }[]`, required), `headingLevel` (`2` | `3` | `4`, default `2`), `label` (landmark name, default `Iron Suite`), `donateImgSrc`, `suiteLogoImgSrc`, `productLogoSrc` (asset path overrides — defaults point at the docs' relative paths, supply your own), `class`.
+
+**`product.href` is rendered.** Each row is an `<a>`. It had been in the interface since this component shipped and was never used — the rows were `<span>`s with `cursor: pointer`, so ten internal links were invisible to a crawler and unreachable by keyboard. Rows with no `href` fall back to `#`, matching every other component here. The band's root is a `<section>` named by `label`, and the headline is a real heading whose level you set with `headingLevel` — the band cannot know how deep it sits in your page.
 
 **The two CTAs are real `Button` instances** — `variant="tertiary"` and `variant="ghost"`, both `size="lg"` — because that is what Figma composes here (nodes `507:4078` / `507:4079`). They were hand-rolled `.btn-dark` / `.btn-text-light` rules until 2026-08-03 and had drifted: gap 8 against the DS's 12, and the ghost one was not a button at all, rendering as a 19px text link with no padding, no pill, and a white label where Figma paints `on-action-tertiary` blue. If you restyle these, restyle `Button.astro`.
 
@@ -358,24 +395,26 @@ The docs page previews all of this in a **resizable frame** — drag the handle 
 Generic wrapper for icon+title form cards (the "Request a Quote" / "Tell us what you're migrating from" pattern) — compose it with `Input` / `Select` / `Textarea` / `FileUpload` / a plain `<button>` submit as children:
 
 ```astro
-<form>
-  <FormCard
-    icon="quote"
-    title="Request Your Discounted Quote"
-    submitLabel="Get Your Migration Quote"
-    noteLeft="No obligation to proceed"
-    noteRight="Response within 1 business day"
-  >
-    <Input label="First name *" name="firstName" />
-    <Input label="Last name *" name="lastName" />
-    <Input label="Email address *" name="email" type="email" placeholder="you@example.com" />
-    <Select label="Document library I am replacing" name="library" placeholder="Choose option" options={[...]} />
-    <FileUpload name="quoteFile" />
-  </FormCard>
-</form>
+<FormCard
+  icon="quote"
+  title="Request Your Discounted Quote"
+  submitLabel="Get Your Migration Quote"
+  action="/api/quote"
+  method="post"
+  noteLeft="No obligation to proceed"
+  noteRight="Response within 1 business day"
+>
+  <Input label="First name *" name="firstName" />
+  <Input label="Last name *" name="lastName" />
+  <Input label="Email address *" name="email" type="email" placeholder="you@example.com" />
+  <Select label="Document library I am replacing" name="library" placeholder="Choose option" options={[...]} />
+  <FileUpload name="quoteFile" />
+</FormCard>
 ```
 
-Props: `icon` (`'quote' | 'key' | 'check'`), `title`, `subtitle`, `submitLabel`, `noteLeft`, `noteRight`, `class`. Fields go in the default slot.
+Props: `icon` (`'quote' | 'key' | 'check'`), `title`, `subtitle`, `submitLabel`, `noteLeft`, `noteRight`, `headingLevel` (`2`–`5`, default `3`), `action`, `method` (`get` | `post`), `class`. Fields go in the default slot.
+
+**The card's root is the `<form>` — do not wrap it in one.** It used to be a `<div>` holding a `type="submit"` button with no form anywhere, so the submit did nothing on its own and this README told you to add the `<form>` yourself; nesting one now would be invalid HTML. Omit `action` to post to the current URL. The form is named by its own title via `aria-labelledby`, and the title's level is a prop — it was a hard-coded `<h3>`, which broke the page outline anywhere the card did not happen to sit under an `<h2>`.
 
 `icon` is a named icon, not a free-form string — it resolves to an inline **Font Awesome Free Solid** SVG (`file-invoice` / `key` / `check`) inside the component, same approach as `Notice.astro`/`FileUpload.astro`. Previously this took an emoji string directly; changed 2026-07-17 for consistency with the rest of the icon system. Ask before adding a 4th icon name — extract the path data with the method in "Icon strategy" below.
 
@@ -396,9 +435,13 @@ The centered, single-field "instant capture" card pattern (different enough from
 />
 ```
 
-Props: `icon` (`'quote' | 'key' | 'check'`), `headingPrefix` (default `"Get your free"`), `headingBold` (required — rendered bold), `headingSuffix` (default `"instantly."`), `inputPlaceholder`, `inputName`, `hint`, `submitLabel`, `submitIcon` (same 3-value type, optional), `footerNotes` (`string[]`), `class`.
+Props: `icon` (`'quote' | 'key' | 'check'`), `headingPrefix` (default `"Get your free"`), `headingBold` (required — rendered bold), `headingSuffix` (default `"instantly."`), `inputPlaceholder`, `inputName`, `inputLabel` (defaults to the placeholder), `hint`, `submitLabel`, `submitIcon` (same 3-value type, optional), `footerNotes` (`string[]`), `headingLevel` (`2`–`5`, default `3`), `action`, `method` (`get` | `post`), `class`.
 
 Both `icon` and `submitIcon` resolve to inline Font Awesome SVGs the same way as `FormCard.astro` — see that section above.
+
+**The root is the `<form>`** (same change as `FormCard`), and the email field now has a real `<label>`, rendered visually hidden because the design has no room for a visible one. A placeholder is not a label: it is not announced by every screen reader, and it vanishes the moment the user types, taking the only description of the field with it. Override the wording with `inputLabel`. The field also gained `autocomplete="email"` and `required`, and the headline is a real heading rather than a `<p>`, so the card contributes to the page outline.
+
+The `footerNotes` row is a `<ul>`, and each dot separator sits **inside** the item it precedes rather than between items — the row wraps, and a separator that is its own flex child gets stranded at the end of a line. Same convention as the `FooterBar` menu dividers. This is the one visible change in the semantic pass: where the row wraps, the dot now travels to the next line with its label instead of dangling at the end of the previous one.
 
 ### `Logo.astro`
 
@@ -518,14 +561,17 @@ The 40px corporate utility strip that sits above `ProductMenu`, from Figma node
 `507:5349`:
 
 ```astro
-<TopNav items={[
-  { label: 'Products', href: '/products' },
-  { label: 'Enterprise' },
-  { label: 'Solutions' },
-  { label: 'Resources' },
-  { label: 'About US' },
-]} />
-<ProductMenu product="pdf" productName="PDF" items={menu} />
+<!-- both strips belong inside the page's own <header> — see "Where these sit" -->
+<header>
+  <TopNav items={[
+    { label: 'Products', href: '/products' },
+    { label: 'Enterprise' },
+    { label: 'Solutions' },
+    { label: 'Resources' },
+    { label: 'About US' },
+  ]} />
+  <ProductMenu product="pdf" productName="PDF" items={menu} />
+</header>
 
 <!-- over a hero image -->
 <TopNav variant="transparent" items={items} />
@@ -533,6 +579,8 @@ The 40px corporate utility strip that sits above `ProductMenu`, from Figma node
 <!-- region-neutral, single locale -->
 <TopNav items={items} showAddress={false} showLanguage={false} />
 ```
+
+The office line renders as `<address>`, the element for the contact details of the nearest article or document. It costs two resets the component already carries — the UA italicises `<address>` and gives it block margins.
 
 Props: `variant` (`default` | `transparent` — Figma's "Without bg"), `items`
 (`{ label, href?, caret? }[]`, caret on by default), `showAddress` (Figma's own

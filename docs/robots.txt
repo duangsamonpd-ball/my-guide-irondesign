@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://duangsamonpd-ball.github.io/my-guide-irondesign/sitemap.xml

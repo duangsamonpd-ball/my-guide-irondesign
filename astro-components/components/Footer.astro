@@ -16,6 +16,14 @@ interface Props {
   /** Required when variant="default" — e.g. "IronPDF" */
   productName?: string;
   products: Product[];
+  /**
+   * Heading level for the band's headline. The band is a section of a page, not a
+   * page of its own, so it cannot know how deep it sits — pass the level that
+   * keeps the host page's outline unbroken. Default 2.
+   */
+  headingLevel?: 2 | 3 | 4;
+  /** Accessible name for the band's landmark, read by the "list of regions" view. */
+  label?: string;
   donateImgSrc?: string;
   suiteLogoImgSrc?: string;
   productLogoSrc?: string;
@@ -26,11 +34,15 @@ const {
   variant = 'default',
   productName,
   products,
+  headingLevel = 2,
+  label = 'Iron Suite',
   donateImgSrc = 'assets/1% logo - Horizontal.png',
   suiteLogoImgSrc = 'assets/hash-white color.svg',
   productLogoSrc = 'assets/logo.svg',
   class: className,
 } = Astro.props;
+
+const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
 
 /* These props are whole paths, so encode segment by segment — encoding the lot
    would eat the slashes, and encodeURI would leave the `%` alone, which is the
@@ -41,19 +53,19 @@ const {
 const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
 ---
 
-<div class:list={['footer-top', className]}>
+<section class:list={['footer-top', className]} aria-label={label}>
   <div class="ft-inner">
     <div class="ft-left">
-      <div class="ft-donate">Every Iron Suite Donates <img src={src(donateImgSrc)} alt="1% For The Planet" /></div>
+      <p class="ft-donate">Every Iron Suite Donates <img src={src(donateImgSrc)} alt="1% For The Planet" /></p>
       <div class="ft-main">
         <div class="ft-text">
           {variant === 'suite' ? (
-            <div class="f-suite-logo">
+            <Heading class="f-suite-logo">
               <img src={src(suiteLogoImgSrc)} alt="" />
               <span><span class="hl">IRON</span><span class="ac">SUITE</span></span>
-            </div>
+            </Heading>
           ) : (
-            <div class="ft-headline">{productName} is a part of <span class="hl">IRON</span><span class="ac">SUITE</span></div>
+            <Heading class="ft-headline">{productName}{' is a part of '}<span class="hl">IRON</span><span class="ac">SUITE</span></Heading>
           )}
           <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
         </div>
@@ -70,21 +82,23 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
         </div>
       </div>
     </div>
-    <div class="ft-divider"></div>
+    <div class="ft-divider" aria-hidden="true"></div>
     <div class="ft-right">
       <ul class="f-products">
         {products.map((p) => (
-          <li class="fp-row">
-            <span class="fp-logo"><img src={src(productLogoSrc)} alt="" /></span>
-            <span class="fp-name">{p.prefix}<span class="suffix" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
-            <span class="fp-sep">-</span>
-            <span class="fp-desc">{p.desc}</span>
+          <li>
+            <a class="fp-row" href={p.href ?? '#'}>
+              <span class="fp-logo"><img src={src(productLogoSrc)} alt="" /></span>
+              <span class="fp-name">{p.prefix}<span class="suffix" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
+              <span class="fp-sep" aria-hidden="true">-</span>
+              <span class="fp-desc">{p.desc}</span>
+            </a>
           </li>
         ))}
       </ul>
     </div>
   </div>
-</div>
+</section>
 
 <style>
   .footer-top {
@@ -102,16 +116,19 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
   .ft-left { flex: 1; padding: 0 var(--spacing-3xl) 0 var(--spacing-xl); display: flex; flex-direction: column; }
   .ft-divider { background: var(--transparent-white-10); width: 2px; flex-shrink: 0; align-self: stretch; }
   .ft-right { flex: 1; padding: 0 var(--spacing-xl) 0 var(--spacing-3xl); }
-  .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: 500; color: var(--color-text-on-color-heading); letter-spacing: var(--letter-spacing-nav-label); }
+  /* The headline and the donate line are a heading and a paragraph now, so both
+     zero the UA's block margins. docs.css already resets `*`, so the docs pages
+     render byte-identically; this is for consumers with no reset. */
+  .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: 500; color: var(--color-text-on-color-heading); letter-spacing: var(--letter-spacing-nav-label); margin: 0; }
   .ft-donate img { height: 30px; width: auto; display: block; }
   .ft-main { display: flex; flex-direction: column; gap: var(--spacing-2xl); padding-top: var(--spacing-3xl); }
   .ft-text { display: flex; flex-direction: column; gap: var(--spacing-md); }
-  .f-suite-logo { font-weight: 700; font-size: var(--font-size-3xl); display: flex; align-items: center; gap: var(--spacing-micro); }
+  .f-suite-logo { font-weight: 700; font-size: var(--font-size-3xl); display: flex; align-items: center; gap: var(--spacing-micro); margin: 0; }
   .f-suite-logo img { height: 30px; width: auto; display: block; }
-  .ft-headline { font-weight: 700; font-size: var(--font-size-3xl); color: var(--color-text-on-color-heading); line-height: 1.2; }
+  .ft-headline { font-weight: 700; font-size: var(--font-size-3xl); color: var(--color-text-on-color-heading); line-height: 1.2; margin: 0; }
   .ft-headline .hl, .f-suite-logo .hl { color: var(--color-text-on-color-heading); font-weight: 700; }
   .ft-headline .ac, .f-suite-logo .ac { color: var(--color-primary); font-weight: 400; }
-  .ft-tagline { font-size: var(--font-size-xl); font-weight: 700; line-height: var(--leading-7); }
+  .ft-tagline { font-size: var(--font-size-xl); font-weight: 700; line-height: var(--leading-7); margin: 0; }
   .ft-tagline .dim { color: var(--color-text-dark-heading); }     /* near-white */
   .ft-tagline .support { color: var(--color-text-dark-support); } /* dusty violet */
   /* Figma's CTA frame (507:4077) sets no gap — it is `justify-between` across the
@@ -146,19 +163,25 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
      started at 0 — a ragged left edge that read as a bug. Now every line in the
      row starts at 26 and the logo hangs back into the padding, so nothing moves
      at full width and the wrapped state lines up. */
-  .fp-row { display: flex; align-items: center; flex-wrap: wrap; line-height: 1.5; gap: var(--spacing-micro); cursor: pointer; padding-left: 26px; }
+  /* Each row is a real <a> now. `Product.href` had been in the interface since this
+     component shipped and was never rendered — the rows were spans with
+     `cursor: pointer`, so ten internal links were invisible to a crawler and
+     unreachable by keyboard. The pointer cursor is the anchor's own default now,
+     and the row inherits colour so every span inside keeps the colour it had. */
+  .fp-row { display: flex; align-items: center; flex-wrap: wrap; line-height: 1.5; gap: var(--spacing-micro); padding-left: 26px; text-decoration: none; color: inherit; }
+  .fp-row:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; border-radius: var(--rounded-sm); }
   .fp-logo { width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; margin-left: -26px; }
   .fp-logo img { width: 22px; height: 22px; display: block; opacity: 0; transition: opacity var(--duration-base); }
-  .fp-row:hover .fp-logo img { opacity: 1; }
+  .fp-row:hover .fp-logo img, .fp-row:focus-visible .fp-logo img { opacity: 1; }
   .fp-name { font-size: var(--font-size-lg); font-weight: 700; letter-spacing: var(--letter-spacing-h4); color: var(--color-text-on-color-heading); display: flex; align-items: baseline; }
   .fp-name .suffix { font-weight: 400; }
   .fp-sep { font-size: var(--font-size-sm); color: var(--color-text-dark-support); margin: 0 var(--spacing-micro); transition: color var(--duration-base); }
-  .fp-row:hover .fp-sep { color: var(--color-text-on-color-heading); }
+  .fp-row:hover .fp-sep, .fp-row:focus-visible .fp-sep { color: var(--color-text-on-color-heading); }
   /* min-width:0 so the sentence can shrink under its own min-content and wrap
      internally. Without it a flex item refuses to go narrower than its longest
      word, and the row overflows again one line further down. */
   .fp-desc { font-size: var(--font-size-sm); color: var(--color-text-dark-support); transition: color var(--duration-base); min-width: 0; }
-  .fp-row:hover .fp-desc { color: var(--color-text-on-color-body); }
+  .fp-row:hover .fp-desc, .fp-row:focus-visible .fp-desc { color: var(--color-text-on-color-body); }
 
   /* 1024, not the 640 this shipped with. The two halves need 953px together —
      `.ft-left` floors at 381 and `.ft-right` at 572, both on nowrap text — so a
