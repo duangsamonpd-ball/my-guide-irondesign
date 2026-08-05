@@ -64,6 +64,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="utilities.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -93,31 +94,11 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-.field { display: flex; flex-direction: column; gap: var(--spacing-xs); width: 100%; max-width: 340px; }
-.field-label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-body); line-height: var(--leading-5); }
-.field-label .req { color: var(--color-danger); }
-.input-wrap { position: relative; display: flex; align-items: center; }
-.input {
-    width: 100%; height: var(--size-input);
-    border: var(--border-width-1) solid var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 0 14px; font-family: 'Montserrat', sans-serif;
-    font-size: var(--font-size-body); color: var(--color-text-body);
-    background: var(--color-bg-base); outline: none;
-    transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
-  }
-.input::placeholder { color: var(--color-text-placeholder); }
-.input:hover { border-color: var(--color-border-strong); }
-.input.error { border-color: var(--color-danger); }
-.input.error:focus, .input.error.is-focus { box-shadow:var(--shadow-focus-magenta); }
-.input:disabled, .input.is-disabled { background:#F8FAFC; color:var(--color-text-disabled); cursor:not-allowed; }
-.field-hint  { font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--leading-5); }
-.field-error { font-size: var(--font-size-caption); color: var(--color-danger); font-weight: var(--fw-label); line-height: var(--leading-5); }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-.input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
-.input.error:focus { box-shadow: var(--shadow-focus-magenta); }
-.input:disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); cursor: not-allowed; }
-  </style>
+  
+.demo-focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
+.demo-disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); cursor: not-allowed; }
+</style>
 </head>
 <body>
 <header>
@@ -184,14 +165,14 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><h2 class="sect-h">Preview</h2>
       <div class="canvas col" style="max-width:420px;margin:0 auto;">
         <!-- demo:preview -->
-        <div class="field">
-          <label class="field-label" for="email-address">
+        <div class="flex flex-col gap-xs w-full max-w-[340px]">
+          <label class="text-label font-medium text-text-body leading-5" for="email-address">
             Email address
           </label>
-          <div class="input-wrap">
-            <input id="email-address" name="email-address" type="email" class="input" placeholder="you@example.com">
+          <div class="relative flex items-center">
+            <input id="email-address" name="email-address" type="email" class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="you@example.com">
           </div>
-          <span class="field-hint">We&#39;ll never share your email.</span>
+          <span class="text-caption text-text-muted leading-5">We&#39;ll never share your email.</span>
         </div>
         <!-- /demo:preview -->
       </div>
@@ -200,26 +181,26 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><h2 class="sect-h">States</h2>
       <div class="sect-sub">Default → hover → focus (secondary ring) → error (danger) → disabled.</div>
       <div class="grid">
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input" placeholder="Placeholder"></div></div><div class="lbl">Default</div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input is-focus" value="Focused"></div></div><div class="lbl">Focus<small>secondary ring</small></div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input" value="Jane Cooper"></div></div><div class="lbl">Filled</div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input error" value="not-an-email"></div><span class="field-error">Enter a valid email.</span></div><div class="lbl">Error<small>danger border</small></div></div>
-        <div class="cell"><div class="field"><div class="input-wrap"><input class="input is-disabled" value="Disabled" disabled></div></div><div class="lbl">Disabled</div></div>
+        <div class="cell"><div class="flex flex-col gap-xs w-full max-w-[340px]"><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="Placeholder"></div></div><div class="lbl">Default</div></div>
+        <div class="cell"><div class="flex flex-col gap-xs w-full max-w-[340px]"><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue demo-focus" value="Focused"></div></div><div class="lbl">Focus<small>secondary ring</small></div></div>
+        <div class="cell"><div class="flex flex-col gap-xs w-full max-w-[340px]"><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" value="Jane Cooper"></div></div><div class="lbl">Filled</div></div>
+        <div class="cell"><div class="flex flex-col gap-xs w-full max-w-[340px]"><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-danger focus:border-danger focus:shadow-focus-magenta" value="not-an-email"></div><span class="text-caption text-danger font-medium leading-5">Enter a valid email.</span></div><div class="lbl">Error<small>danger border</small></div></div>
+        <div class="cell"><div class="flex flex-col gap-xs w-full max-w-[340px]"><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue demo-disabled" value="Disabled" disabled></div></div><div class="lbl">Disabled</div></div>
       </div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Compositions</h2>
       <div class="sect-sub">Label, required marker, and error message — combine as needed.</div>
       <div class="canvas col" style="max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Full name <span class="req">*</span></label><div class="input-wrap"><input class="input" placeholder="Jane Cooper"></div></div>
-        <div class="field"><label class="field-label">Password</label><div class="input-wrap"><input class="input error" type="password" value="123"></div><span class="field-error">Must be at least 8 characters.</span></div>
+        <div class="flex flex-col gap-xs w-full max-w-[340px]"><label class="text-label font-medium text-text-body leading-5">Full name <span class="text-danger">*</span></label><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="Jane Cooper"></div></div>
+        <div class="flex flex-col gap-xs w-full max-w-[340px]"><label class="text-label font-medium text-text-body leading-5">Password</label><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-danger focus:border-danger focus:shadow-focus-magenta" type="password" value="123"></div><span class="text-caption text-danger font-medium leading-5">Must be at least 8 characters.</span></div>
       </div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="sect-sub">The parts of a field and the token each is bound to.</div>
       <div class="anatomy" style="align-items:stretch;max-width:420px;margin:0 auto;">
-        <div class="field"><label class="field-label">Email address</label><div class="input-wrap"><input class="input" placeholder="you@example.com"></div><span class="field-hint">Helper text.</span></div>
+        <div class="flex flex-col gap-xs w-full max-w-[340px]"><label class="text-label font-medium text-text-body leading-5">Email address</label><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="you@example.com"></div><span class="text-caption text-text-muted leading-5">Helper text.</span></div>
         <div class="anatomy-tags">
           <span class="atag">height → <b>--size-input</b> (44px)</span>
           <span class="atag">border → <b>--color-border</b></span>
@@ -289,9 +270,9 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Guidelines</h2>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="field"><label class="field-label">Email</label><div class="input-wrap"><input class="input" placeholder="you@example.com"></div></div></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="flex flex-col gap-xs w-full max-w-[340px]"><label class="text-label font-medium text-text-body leading-5">Email</label><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="you@example.com"></div></div></div>
           <ul><li>Always pair the input with a <b>visible label</b>.</li><li>Use the hint for format help, the error for what went wrong.</li><li>Show the error state only after the user leaves the field.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="field"><div class="input-wrap"><input class="input" placeholder="Email"></div></div></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="flex flex-col gap-xs w-full max-w-[340px]"><div class="relative flex items-center"><input class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="Email"></div></div></div>
           <ul><li>Don't use placeholder as the only label — it vanishes on type.</li><li>Don't hard-code the focus colour; use the token.</li><li>Don't make fields shorter than the 44px tap target.</li></ul></div>
       </div>
     </div>

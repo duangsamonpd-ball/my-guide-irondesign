@@ -32,18 +32,31 @@ const {
 const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<div class:list={['field', className]}>
+<div class:list={['flex flex-col gap-xs w-full max-w-[340px]', className]}>
   {label && (
-    <label class="field-label" for={inputId}>
-      {label}{required && <span class="req"> *</span>}
+    <label class="text-label font-medium text-text-body leading-5" for={inputId}>
+      {label}{required && <span class="text-danger"> *</span>}
     </label>
   )}
-  <div class="input-wrap">
+  <div class="relative flex items-center">
     <input
       id={inputId}
       name={name}
       type={type}
-      class:list={['input', { error }]}
+      class:list={[
+        'w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body',
+        'bg-bg-base border outline-none',
+        'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
+        'placeholder:text-text-placeholder',
+        'disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed',
+        /* Same two branches as Textarea, and for the same reason: `.input.error`
+           and `.input:hover` had equal specificity with error later in the file,
+           so an errored field never took the hover border and its focus ring was
+           the danger-coloured one. Writing both out says that outright. */
+        error
+          ? 'border-danger focus:border-danger focus:shadow-focus-magenta'
+          : 'border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue',
+      ]}
       placeholder={placeholder}
       value={value}
       disabled={disabled}
@@ -51,32 +64,8 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
     />
   </div>
   {error && errorMessage ? (
-    <span class="field-error">{errorMessage}</span>
+    <span class="text-caption text-danger font-medium leading-5">{errorMessage}</span>
   ) : hint ? (
-    <span class="field-hint">{hint}</span>
+    <span class="text-caption text-text-muted leading-5">{hint}</span>
   ) : null}
 </div>
-
-<style>
-  .field { display: flex; flex-direction: column; gap: var(--spacing-xs); width: 100%; max-width: 340px; }
-  .field-label { font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-body); line-height: var(--leading-5); }
-  .field-label .req { color: var(--color-danger); }
-  .input-wrap { position: relative; display: flex; align-items: center; }
-  .input {
-    width: 100%; height: var(--size-input);
-    border: var(--border-width-1) solid var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 0 14px; font-family: 'Montserrat', sans-serif;
-    font-size: var(--font-size-body); color: var(--color-text-body);
-    background: var(--color-bg-base); outline: none;
-    transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
-  }
-  .input::placeholder { color: var(--color-text-placeholder); }
-  .input:hover { border-color: var(--color-border-strong); }
-  .input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
-  .input.error { border-color: var(--color-danger); }
-  .input.error:focus { box-shadow: var(--shadow-focus-magenta); }   /* danger-coloured ring */
-  .input:disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); cursor: not-allowed; }
-  .field-hint  { font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--leading-5); }
-  .field-error { font-size: var(--font-size-caption); color: var(--color-danger); font-weight: var(--fw-label); line-height: var(--leading-5); }
-</style>
