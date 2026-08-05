@@ -221,6 +221,49 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).s
   }
 }
 
+/* ── every page that WEARS utilities must link them ──────────────────────── */
+
+/**
+ * The mode-B check above only looks at a converted component's own docs page.
+ * That is not where utility classes stop appearing: a component that composes a
+ * converted one inherits its classes when build-demos re-renders it. Converting
+ * Input put utility classes into docs/component-formcard.html — a page for a
+ * component that still has its own <style>, so nothing checked it, and it did
+ * not link utilities.css.
+ *
+ * So the question is asked of every page instead of every component: if the
+ * markup uses a class that ONLY docs/utilities.css declares, the page has to
+ * link it.
+ */
+const utilityOnly = existsSync(UTILITIES)
+  ? new Set(
+      [...readFileSync(UTILITIES, 'utf8').matchAll(/^\s*\.((?:[\w-]|\\.)+)/gm)]
+        .map((m) => m[1].replace(/\\(.)/g, '$1')),
+    )
+  : new Set();
+for (const n of [...shellCss.matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => m[1].replace(/\\(.)/g, '$1'))) {
+  utilityOnly.delete(n);
+}
+
+const unlinked = [];
+for (const file of readdirSync(DOCS).filter((f) => f.endsWith('.html'))) {
+  const page = readFileSync(join(DOCS, file), 'utf8');
+  if (/<link[^>]+href="utilities\.css"/.test(page)) continue;
+  const own = new Set([...styleBlocks(page).matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => m[1].replace(/\\(.)/g, '$1')));
+  const wears = [...classesInMarkup(page)].filter((c) => utilityOnly.has(c) && !own.has(c));
+  if (wears.length) unlinked.push({ file, wears });
+}
+
+if (unlinked.length) {
+  console.log(`\n\x1b[31m✖  ${unlinked.length} docs page(s) use utility classes without linking utilities.css\x1b[0m`);
+  for (const { file, wears } of unlinked) {
+    console.log(`    \x1b[31m✖\x1b[0m docs/${file} — ${wears.length} class(es), e.g. ${wears.slice(0, 4).join(', ')}`);
+  }
+  console.log(`\n  A page picks these up by composing a converted component, not only by`);
+  console.log(`  being one. Add <link rel="stylesheet" href="utilities.css"> to it.\n`);
+  process.exit(1);
+}
+
 /* ── report ──────────────────────────────────────────────────────────────── */
 
 if (skipped.length) {
