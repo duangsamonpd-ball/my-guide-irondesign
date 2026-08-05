@@ -64,6 +64,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="utilities.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -108,37 +109,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     }
 .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 16px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
-.btn {
-    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
-    font-family: 'Montserrat', sans-serif; border: var(--border-width-2) solid transparent; outline: none;
-    border-radius: var(--rounded-cta); white-space: nowrap; text-decoration: none;
-    transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast), box-shadow var(--duration-fast);
-  }
-.btn--lg { height: var(--size-btn-lg); padding: 0 var(--spacing-2xl); gap: var(--spacing-sm); font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
-.btn--md { height: var(--size-btn-md); padding: 0 var(--spacing-xl); gap: var(--spacing-xs); font-size: var(--font-size-btn); font-weight: var(--fw-btn); letter-spacing: 0; }
-.btn--sm { height: var(--size-btn-sm); padding: 0 var(--spacing-md); gap: var(--spacing-micro); font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn); letter-spacing: 0.4px; }
-.btn--primary   { background: var(--color-primary); color: var(--color-primary-on); }
-.btn--primary:hover   { background: var(--color-primary-hover); }
-.btn--secondary { background: var(--color-secondary); color: var(--color-primary-on); }
-.btn--secondary:hover { background: var(--color-secondary-hover); }
-.btn--tertiary  { background: var(--color-button-tertiary); color: var(--color-primary-on); }
-.btn--tertiary:hover  { background: var(--color-primary); }
-.btn--outline   { background: var(--color-bg-base); color: var(--color-on-tertiary); border-color: var(--color-border); }
-.btn--outline:hover   { background: var(--color-button-outline-hover); border-color: var(--color-border-strong); color: var(--color-on-tertiary-hover); }
-.btn--ondark    { background: var(--ondark-tint); color: var(--color-primary-on); border-color: var(--ondark-border); backdrop-filter: blur(var(--blur-xs)); }
-.btn--ondark:hover    { color: var(--color-on-tertiary-hover); border-color: var(--ondark-border-hover); }
-.btn--ghost     { background: transparent; color: var(--color-on-tertiary); }
-.btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
-.btn--primary:focus-visible,   .btn--primary.is-focus   { box-shadow: var(--shadow-focus-magenta); }
-.btn--secondary:focus-visible, .btn--secondary.is-focus { box-shadow: var(--focus-ring-blue); }
-.btn--tertiary:focus-visible,  .btn--tertiary.is-focus  { box-shadow: var(--focus-ring-white); }
-.btn--outline:focus-visible,   .btn--outline.is-focus   { box-shadow: var(--focus-ring-blue); }
-.btn--ondark:focus-visible,    .btn--ondark.is-focus    { box-shadow: var(--focus-ring-blue); }
-.btn--ghost:focus-visible,     .btn--ghost.is-focus     { border-color: var(--color-border-focused); }
-.btn[disabled], .btn.is-disabled { opacity: .5; cursor: not-allowed; }
-.btn .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.btn .ico { font-size: 0.9em; }
 .btn-nuget {
       display: inline-flex; align-items: center; gap: var(--space-xs); cursor: pointer;
       height: var(--size-btn-lg); padding: 0 var(--space-2xl);
@@ -169,14 +140,14 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;}
       .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:28px;}
     }
-.btn--primary:focus-visible   { box-shadow: var(--shadow-focus-magenta); }
-.btn--secondary:focus-visible { box-shadow: var(--focus-ring-blue); }
-.btn--tertiary:focus-visible  { box-shadow: var(--focus-ring-white); }
-.btn--outline:focus-visible   { box-shadow: var(--focus-ring-blue); }
-.btn--ondark:focus-visible    { box-shadow: var(--focus-ring-blue); }
-.btn--ghost:focus-visible     { border-color: var(--color-border-focused); }
-.btn[disabled], .btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
-  </style>
+  
+.spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.ico { font-size: 0.9em; }
+.demo-focus-magenta { box-shadow: var(--shadow-focus-magenta); }
+.demo-focus-ghost { border-color: var(--color-border-focused); }
+.demo-disabled-btn { opacity: .5; cursor: not-allowed; pointer-events: none; }
+</style>
 </head>
 <body>
 
@@ -257,13 +228,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <h2 class="sect-h">Preview</h2>
         <div class="canvas">
         <!-- demo:preview -->
-        <button type="button" class="btn btn--lg btn--primary">
+        <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">
           Download Free Trial
         </button>
-        <button type="button" class="btn btn--lg btn--outline">
+        <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-bg-base text-on-tertiary border-border hover:bg-button-outline-hover hover:border-border-strong hover:text-on-tertiary-hover focus-visible:shadow-[var(--focus-ring-blue)]">
           Learn more
         </button>
-        <button type="button" class="btn btn--lg btn--ghost">
+        <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused">
           Docs<span class="ico">→</span>
         </button>
         <!-- /demo:preview -->
@@ -277,34 +248,34 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="grid">
         <!-- demo:variants -->
         <div class="cell">
-          <button type="button" class="btn btn--md btn--primary">
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">
             Primary
           </button>
           <div class="lbl">Primary<small>button/primary</small></div>
         </div><div class="cell">
-          <button type="button" class="btn btn--md btn--secondary">
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-secondary text-primary-on border-transparent hover:bg-secondary-hover focus-visible:shadow-[var(--focus-ring-blue)]">
             Secondary
           </button>
           <div class="lbl">Secondary<small>button/secondary</small></div>
         </div><div class="cell">
-          <button type="button" class="btn btn--md btn--tertiary">
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-button-tertiary text-primary-on border-transparent hover:bg-primary focus-visible:shadow-[var(--focus-ring-white)]">
             Tertiary
           </button>
           <div class="lbl">Tertiary<small>button/tertiary → pink</small></div>
         </div><div class="cell">
-          <button type="button" class="btn btn--md btn--outline">
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-bg-base text-on-tertiary border-border hover:bg-button-outline-hover hover:border-border-strong hover:text-on-tertiary-hover focus-visible:shadow-[var(--focus-ring-blue)]">
             Outline
           </button>
           <div class="lbl">Outline<small>border/default</small></div>
         </div>
         <div class="cell" style="background:#1D293D;border-color:#334155;">
-          <button type="button" class="btn btn--md btn--ondark">
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-[var(--ondark-tint)] text-primary-on border-[var(--ondark-border)] backdrop-blur-xs hover:text-on-tertiary-hover hover:border-[var(--ondark-border-hover)] focus-visible:shadow-[var(--focus-ring-blue)]">
             On-dark
           </button>
           <div class="lbl" style="color:#CAD5E2;">Outline · on-dark<small style="color:#90A1B9;">transparent + blur</small></div>
         </div>
         <div class="cell">
-          <button type="button" class="btn btn--md btn--ghost">
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused">
             Ghost
           </button>
           <div class="lbl">Ghost<small>text only</small></div>
@@ -319,13 +290,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="sect-sub">Three heights. Size sets font-size, weight, padding and tracking together via the UI type scale.</div>
         <div class="canvas left">
         <!-- demo:sizes -->
-        <button type="button" class="btn btn--lg btn--primary">
+        <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">
           Large
         </button>
-        <button type="button" class="btn btn--md btn--primary">
+        <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">
           Default
         </button>
-        <button type="button" class="btn btn--sm btn--primary">
+        <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-sm)] px-md gap-micro text-btn-sm [font-weight:var(--fw-btn)] tracking-[0.4px] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">
           Small
         </button>
         <!-- /demo:sizes -->
@@ -345,12 +316,12 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <h2 class="sect-h">States</h2>
         <div class="sect-sub">Four states from Figma — <b>default · hover · focus · disabled</b>. Focus shows a 3px coloured halo matching the button (pink · blue · white @25%); ghost focus uses a blue border. (Loading is a UI extra.)</div>
         <div class="grid">
-          <div class="cell"><button class="btn btn--md btn--primary">Default</button><div class="lbl">Default</div></div>
-          <div class="cell"><button class="btn btn--md btn--primary" style="background:var(--color-primary-hover);">Hover</button><div class="lbl">Hover<small>primary-hover</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--primary is-focus">Focus</button><div class="lbl">Focus<small>pink halo</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--primary is-disabled" disabled>Disabled</button><div class="lbl">Disabled<small>opacity .5</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--ghost is-focus">Focus</button><div class="lbl">Ghost focus<small>border/focused</small></div></div>
-          <div class="cell"><button class="btn btn--md btn--primary"><span class="spin"></span>Loading</button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
+          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">Default</button><div class="lbl">Default</div></div>
+          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta" style="background:var(--color-primary-hover);">Hover</button><div class="lbl">Hover<small>primary-hover</small></div></div>
+          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta demo-focus-magenta">Focus</button><div class="lbl">Focus<small>pink halo</small></div></div>
+          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta demo-disabled-btn" disabled>Disabled</button><div class="lbl">Disabled<small>opacity .5</small></div></div>
+          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused demo-focus-ghost">Focus</button><div class="lbl">Ghost focus<small>border/focused</small></div></div>
+          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta"><span class="spin"></span>Loading</button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
         </div>
       </div>
 
@@ -380,7 +351,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <h2 class="sect-h">Anatomy</h2>
         <div class="sect-sub">The parts of a button and the token each one is bound to.</div>
         <div class="anatomy">
-          <button class="btn btn--lg btn--primary"><span class="ico">↓</span> Download Free Trial</button>
+          <button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta"><span class="ico">↓</span> Download Free Trial</button>
           <div class="anatomy-tags">
             <span class="atag">height → <b>--size-btn-lg</b></span>
             <span class="atag">fill → <b>--color-button-primary</b></span>
@@ -466,7 +437,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="dd">
           <div class="card do">
             <div class="top">✓ Do</div>
-            <div class="body"><button class="btn btn--md btn--primary">Get started</button></div>
+            <div class="body"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">Get started</button></div>
             <ul>
               <li>One <b>Primary</b> button per view — the single main action.</li>
               <li>Pair with Outline / Ghost for secondary actions.</li>
@@ -476,8 +447,8 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <div class="card dont">
             <div class="top">✗ Don't</div>
             <div class="body" style="gap:10px;">
-              <button class="btn btn--md btn--primary">Save</button>
-              <button class="btn btn--md btn--primary">Cancel</button>
+              <button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">Save</button>
+              <button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0] bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta">Cancel</button>
             </div>
             <ul>
               <li>Don't stack two Primary buttons — they compete.</li>
