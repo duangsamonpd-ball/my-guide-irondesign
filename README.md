@@ -69,7 +69,7 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ## 🧬 Astro components
 
-18 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — copy them straight into an Astro project instead of copy-pasting markup out of the docs.
+19 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — use them instead of copy-pasting markup out of the docs. **8 of them are styled with Tailwind utility classes and need either Tailwind or the pre-compiled `docs/utilities.css`** — see [the package README's Setup section](astro-components/README.md#setup), which is gated so it cannot go stale.
 
 | Component | Notes |
 |---|---|

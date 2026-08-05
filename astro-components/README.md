@@ -1,17 +1,57 @@
 # Iron Software Astro Components
 
-Astro wrapper components for the Iron Software Design System. Each component's
-`<style>` block is the **source of truth** for its CSS; the matching docs demo
-page under `../docs/component-*.html` mirrors that CSS inline so it renders
-standalone on GitHub Pages. `npm run check:parity` (and CI) asserts every rule
-in a component's `<style>` also appears in its docs page, so the two can never
-silently drift.
+Astro wrapper components for the Iron Software Design System.
+
+A component is styled one of two ways, and `npm run check:parity` checks both —
+which one applies to a given component is read from the file, never assumed:
+
+- **scoped `<style>`** — that block is the source of truth, and the matching docs
+  page under `../docs/component-*.html` must mirror every rule in it inline, so
+  the page renders standalone on GitHub Pages.
+- **Tailwind utility classes** — nothing to mirror, so the checks change: the docs
+  page must link `utilities.css`, every class in its markup must resolve, and no
+  rule may be left behind describing markup the component no longer emits.
+
+See [Setup](#setup) for what each kind needs from you.
 
 ## Setup
 
 These components are token-driven — they don't ship their own colors, sizes,
 or radii. Import the design system's token file once, globally, before using
 any component (e.g. in your root layout).
+
+### Two kinds of component, and they need different things
+
+The components are being converted from scoped `<style>` blocks to Tailwind
+utility classes, at the request of Iron Software's dev team. Both kinds are in
+this package right now, and they do not have the same requirements:
+
+| | Styled by | You need |
+|---|---|---|
+| **Converted** (8 of 19) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
+| **Not yet converted** (11 of 19) | their own scoped `<style>` | the tokens, nothing else |
+
+Every converted component's section below carries a **Needs Tailwind** note, and
+`npm run check:exports` fails if one is missing or stale — the list above is not
+kept by hand.
+
+**If you run Tailwind**, import the theme and make sure your content glob reaches
+this package:
+
+```css
+@import "@iron-software/design-system/theme.css";
+```
+
+**If you do not**, link the pre-compiled stylesheet instead. It is generated from
+the components' own class usage and committed, so it never goes stale:
+
+```html
+<link rel="stylesheet" href="…/docs/utilities.css">
+```
+
+A converted component copied into a project with neither renders as **unstyled
+markup, with no error anywhere** — no build warning, no console message. That is
+the whole reason this section exists.
 
 **Resolved by package name** (preferred). Both packages are `private`, so make
 them resolvable first — a workspace entry in a monorepo, otherwise `npm link` or
@@ -108,6 +148,9 @@ had — is `docs/09-semantic-html.html`.
 
 ### `Button.astro`
 
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
 ```astro
 ---
 import Button from '.../astro-components/components/Button.astro';
@@ -144,6 +187,9 @@ Props: `href` (required), `variant` (`plain` | `underline`, default `plain`), `d
 
 ### `Input.astro`
 
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
 ```astro
 <Input label="Email address" name="email" type="email" placeholder="you@example.com" hint="We'll never share your email." />
 <Input label="Email address" name="email" error errorMessage="Enter a valid email address." value="not-an-email" />
@@ -153,6 +199,9 @@ Props: `label`, `id`, `name`, `type` (default `text`), `placeholder`, `value`, `
 `error`, `errorMessage`, `disabled`, `required`, `class`.
 
 ### `Textarea.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
 
 ```astro
 <Textarea label="Message" name="message" placeholder="Type your message here…" hint="Tell us a bit about what you need." />
@@ -231,6 +280,9 @@ Props: `name` (required — groups radios), `value` (required), `label`, `descri
 
 ### `Badge.astro`
 
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
 ```astro
 <Badge intent="success" dot>Active</Badge>
 <Badge intent="warning">Pending</Badge>
@@ -245,7 +297,6 @@ Props: `name` (required — groups radios), `value` (required), `label`, `descri
 
 Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `solid`, `small`, `pill`, `dot`, `class`.
 
-> **Badge is the first component styled with Tailwind utility classes rather than a scoped `<style>` block**, at the request of Iron Software's dev team. The props and the rendered result are unchanged — but unlike the others, it needs the utilities to exist. Either run Tailwind over it (`import "@iron-software/design-system/theme.css"`, with a content glob that reaches this package), or link the pre-compiled `docs/utilities.css`. The rest of the components still carry their own CSS and need neither; they are being converted one at a time.
 
 Subtle fill/text use the semantic `--color-{intent}-subtle` / `--color-{intent}-strong` pair; solid uses the base `--color-{intent}` (verified against Figma node `776-899`). Every value is a semantic token, so dark mode needs no per-badge rule — inside a `.dark` ancestor those tokens swap to their Dark Purple counterparts (see the `.dark` block in `tokens.css`) and the badge re-themes automatically. `important` and `neutral` are full semantic intents with their own subtle/strong/base tokens (from the Figma color_ui export), the same as the original four.
 
@@ -319,6 +370,9 @@ The panel is a slot — whatever you put in it becomes the flyout. Its direct ch
 **The visual layer is provisional** — built ahead of the Figma frame on purpose, since the interaction contract does not depend on it. Padding, radius, shadow, panel width and the caret are neutral token placeholders. The live site's own nav fails three things this does not: its trigger is an `<a href>` so the panel is hover-only, its `aria-expanded` is hard-coded `false` and never updates, and its `aria-haspopup="true"` promises a `role="menu"` that is not there.
 
 ### `Footer.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
 
 ```astro
 <Footer
@@ -394,6 +448,9 @@ The docs page previews all of this in a **resizable frame** — drag the handle 
 
 ### `FormCard.astro`
 
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
 Generic wrapper for icon+title form cards (the "Request a Quote" / "Tell us what you're migrating from" pattern) — compose it with `Input` / `Select` / `Textarea` / `FileUpload` / a plain `<button>` submit as children:
 
 ```astro
@@ -422,6 +479,9 @@ Props: `icon` (`'quote' | 'key' | 'check'`), `title`, `subtitle`, `submitLabel`,
 
 ### `TrialKeyCard.astro`
 
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
 The centered, single-field "instant capture" card pattern (different enough from `FormCard` — centered icon halo, one input, no label row — that it's its own component rather than a `FormCard` variant):
 
 ```astro
@@ -446,6 +506,9 @@ Both `icon` and `submitIcon` resolve to inline Font Awesome SVGs the same way as
 The `footerNotes` row is a `<ul>`, and each dot separator sits **inside** the item it precedes rather than between items — the row wraps, and a separator that is its own flex child gets stranded at the end of a line. Same convention as the `FooterBar` menu dividers. This is the one visible change in the semantic pass: where the row wraps, the dot now travels to the next line with its label instead of dangling at the end of the previous one.
 
 ### `Logo.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
 
 The three logo families from Figma section `471:112` behind one prop API:
 
@@ -673,7 +736,7 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 8 of 18 components take a required
+  destructure rather than the interface. Only 8 of 19 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
   `Tooltip.body`, and the card components' labels.

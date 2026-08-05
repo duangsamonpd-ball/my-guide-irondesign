@@ -165,6 +165,90 @@ if (!ported) {
   });
 }
 
+/* ── 7: every OTHER sentence that states the count ───────────────────────── */
+
+/**
+ * Check 6 gates one heading. The same number appears in ordinary sentences too,
+ * and those drift freely: on 2026-08-05 the root README said "18 components are
+ * ported" and this package's own prose said "8 of 18 components take a required
+ * prop", both while the gated heading correctly said 19 and 19 files sat on
+ * disk. A fact worth gating in one place is worth gating everywhere it is
+ * repeated — otherwise the gate protects the sentence nobody was going to get
+ * wrong and leaves the two that were.
+ *
+ * Only "<n> components" is matched, and only where it is a claim about this
+ * library. A sentence counting something else says what it counts.
+ */
+const COUNTED = [
+  ['README.md', join(ROOT, 'README.md')],
+  ['astro-components/README.md', readmePath],
+];
+
+for (const [label, path] of COUNTED) {
+  let text;
+  try { text = readFileSync(path, 'utf8'); } catch { continue; }
+  for (const m of text.matchAll(/\b(\d+)\s+components\b/g)) {
+    const n = Number(m[1]);
+    if (n === components.length) continue;
+    /* "8 of 18 components" — the second number is the total, the first is not */
+    const line = text.slice(0, m.index).split('\n').length;
+    errors.push({
+      where: label,
+      what: `line ${line} says ${bold(`${n} components`)}, but ${bold(components.length)} exist on disk`,
+      fix: `change it to ${components.length}, or reword so it is not a claim about the library's size`,
+    });
+  }
+}
+
+/* ── 8: a converted component has to say it needs Tailwind ───────────────── */
+
+/**
+ * A component with no <style> block is styled entirely by utility classes, so
+ * copying it into a project that does not run Tailwind — which is exactly what
+ * this README told people to do — yields unstyled markup and no error anywhere.
+ *
+ * That is not a documentation nicety; it is the difference between the package
+ * working and not. And it cannot be left to memory: the note went in when Badge
+ * was the only converted component and still read "Badge is the first … the rest
+ * carry their own CSS" after seven more had followed it.
+ *
+ * Derivable, so gated: no <style> in the component → its README section has to
+ * carry the marker below.
+ */
+const TAILWIND_MARKER = 'Needs Tailwind';
+
+/** Section body = from this component's heading to the next `###`. */
+function sectionOf(name) {
+  const start = readme.search(new RegExp(`^###\\s+\`${name}\\.astro\``, 'm'));
+  if (start === -1) return null;
+  const rest = readme.slice(start + 1);
+  const next = rest.search(/^###\s+`/m);
+  return next === -1 ? rest : rest.slice(0, next);
+}
+
+for (const name of components) {
+  const src = readFileSync(join(PKG_DIR, 'components', `${name}.astro`), 'utf8');
+  const hasStyle = /<style[^>]*>[\s\S]*\S[\s\S]*<\/style>/i.test(src);
+  const section = sectionOf(name);
+  if (section === null) continue; // check 5 already reports the missing section
+  const claims = section.includes(TAILWIND_MARKER);
+
+  if (!hasStyle && !claims) {
+    errors.push({
+      where: 'astro-components/README.md',
+      what: `${bold(name)} ships no CSS of its own, and its section does not say so`,
+      fix: `add a "> **${TAILWIND_MARKER}** …" note to its section — copied into a project without Tailwind it renders unstyled`,
+    });
+  }
+  if (hasStyle && claims) {
+    errors.push({
+      where: 'astro-components/README.md',
+      what: `${bold(name)} still ships its own CSS, but its section claims "${TAILWIND_MARKER}"`,
+      fix: 'drop the note — it is not converted yet, so it needs nothing',
+    });
+  }
+}
+
 /* ── docs pages (warning only) ───────────────────────────────────────────── */
 
 for (const name of components) {
