@@ -57,17 +57,17 @@ const inputId = `${uid}-email`;
 const hintId = hint ? `${uid}-hint` : undefined;
 ---
 
-<form class:list={['trial-card', className]} action={action} method={method} aria-labelledby={`${uid}-title`}>
-  <span class="tc-icon"><svg viewBox={icons[icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[icon].path} /></svg></span>
+<form class:list={['bg-bg-base border border-border rounded-2xl py-[40px] px-[32px] flex flex-col items-center gap-[20px] max-w-[420px] text-center', className]} action={action} method={method} aria-labelledby={`${uid}-title`}>
+  <span class="size-[64px] rounded-full flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[28px]" viewBox={icons[icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[icon].path} /></svg></span>
   {/* The spaces are `{' '}` expressions, not literal text. Under a dynamic <Tag>
       Astro drops a whitespace-only text node that sits between an expression and
       an element, so `{headingPrefix} <b>` rendered as "Get your free30-day Trial
       Key". An expression that evaluates to a space survives. */}
-  <Heading class="tc-heading" id={`${uid}-title`}>{headingPrefix}{' '}<b>{headingBold}</b>{' '}{headingSuffix}</Heading>
-  <div class="tc-field">
-    <label class="tc-label" for={inputId}>{inputLabel ?? inputPlaceholder}</label>
+  <Heading class="font-sans text-title-lg text-text-body leading-[1.4] font-normal m-0" id={`${uid}-title`}>{headingPrefix}{' '}<b class="text-text-heading font-bold">{headingBold}</b>{' '}{headingSuffix}</Heading>
+  <div class="w-full flex flex-col gap-xs">
+    <label class="sr-only" for={inputId}>{inputLabel ?? inputPlaceholder}</label>
     <input
-      class="tc-input"
+      class="w-full h-[var(--size-input)] border-[length:var(--border-width-1-5)] border-border rounded-md px-[16px] font-sans text-body text-text-body bg-bg-base outline-none text-center transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder hover:border-border-strong focus:border-secondary focus:shadow-focus-blue"
       id={inputId}
       type="email"
       name={inputName}
@@ -76,14 +76,14 @@ const hintId = hint ? `${uid}-hint` : undefined;
       aria-describedby={hintId}
       required
     />
-    {hint && <span class="tc-hint" id={hintId}>{hint}</span>}
+    {hint && <span class="text-caption text-text-support" id={hintId}>{hint}</span>}
   </div>
-  <button type="submit" class="tc-submit">{submitLabel} {submitIcon && <svg viewBox={icons[submitIcon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[submitIcon].path} /></svg>}</button>
+  <button type="submit" class="w-full h-[var(--size-btn-lg)] border-0 rounded-cta bg-primary text-primary-on font-sans text-btn-lg font-bold cursor-pointer inline-flex items-center justify-center gap-[8px] transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">{submitLabel} {submitIcon && <svg class="size-[14px]" viewBox={icons[submitIcon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[submitIcon].path} /></svg>}</button>
   {footerNotes.length > 0 && (
-    <ul class="tc-notes">
+    <ul class="flex items-center justify-center gap-[12px] text-caption-sm text-text-support flex-wrap m-0 list-none p-0">
       {footerNotes.map((note, i) => (
-        <li>
-          {i > 0 && <span class="tc-sep" aria-hidden="true"></span>}
+        <li class="flex items-center gap-[12px]">
+          {i > 0 && <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>}
           <span>{note}</span>
         </li>
       ))}
@@ -91,50 +91,3 @@ const hintId = hint ? `${uid}-hint` : undefined;
   )}
 </form>
 
-<style>
-  .trial-card {
-    background: var(--color-bg-base); border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-2xl);
-    padding: 40px 32px; display: flex; flex-direction: column; align-items: center; gap: 20px;
-    max-width: 420px; text-align: center;
-  }
-  .tc-icon {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: color-mix(in srgb, var(--color-secondary) 10%, transparent); color: var(--color-secondary);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .tc-icon svg { width: 28px; height: 28px; }
-  /* A heading now, so it needs the UA weight and margin overridden — the visual
-     stays exactly what the <p> produced. `<b>`, not `<strong>`: inside a heading
-     the whole line is already important, and what the bold half carries here is
-     a colour difference, which is precisely what <b> is for. */
-  .tc-heading { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-title-lg); color: var(--color-text-body); line-height: 1.4; font-weight: 400; margin: 0; }
-  .tc-heading b { color: var(--color-text-heading); font-weight: 700; }
-  .tc-field { width: 100%; display: flex; flex-direction: column; gap: var(--spacing-xs); }
-  /* The label exists for assistive tech only — the design has no room for it.
-     Not `display:none`, which would hide it from screen readers as well. */
-  .tc-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
-  .tc-input {
-    width: 100%; height: var(--size-input); border: var(--border-width-1-5) solid var(--color-border); border-radius: var(--rounded-md);
-    padding: 0 16px; font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); color: var(--color-text-body);
-    background: var(--color-bg-base); outline: none; text-align: center; transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
-  }
-  .tc-input::placeholder { color: var(--color-text-placeholder); }
-  .tc-input:hover { border-color: var(--color-border-strong); }
-  .tc-input:focus { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
-  .tc-hint { font-size: var(--font-size-caption); color: var(--color-text-support); }
-  .tc-submit {
-    width: 100%; height: var(--size-btn-lg); border: none; border-radius: var(--rounded-cta);
-    background: var(--color-primary); color: var(--color-primary-on); font-family: 'Montserrat', sans-serif;
-    font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: background var(--duration-fast);
-  }
-  .tc-submit:hover { background: var(--color-primary-hover); }
-  .tc-submit svg { width: 14px; height: 14px; }
-  /* A dot-separated run of notes is a list, so it is one. Each separator lives
-     INSIDE the item it precedes rather than between items — the row wraps, and a
-     separator that is its own flex child can be left stranded at the end of a
-     line. Same reasoning as the FooterBar menu dividers. */
-  .tc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--font-size-caption-sm); color: var(--color-text-support); flex-wrap: wrap; margin: 0; list-style: none; padding: 0; }
-  .tc-notes li { display: flex; align-items: center; gap: 12px; }
-  .tc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); flex-shrink: 0; }
-</style>

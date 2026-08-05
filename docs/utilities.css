@@ -59,6 +59,7 @@
     --text-7xl: 60px;
     --text-8xl: 72px;
     --text-9xl: 96px;
+    --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
@@ -430,6 +431,17 @@
 .collapse {
   visibility: collapse;
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
 .relative {
   position: relative;
 }
@@ -465,9 +477,17 @@
   width: calc(var(--spacing) * 1.5);
   height: calc(var(--spacing) * 1.5);
 }
+.size-\[14px\] {
+  width: 14px;
+  height: 14px;
+}
 .size-\[26px\] {
   width: 26px;
   height: 26px;
+}
+.size-\[28px\] {
+  width: 28px;
+  height: 28px;
 }
 .size-\[64px\] {
   width: 64px;
@@ -504,6 +524,9 @@
 .max-w-\[340px\] {
   max-width: 340px;
 }
+.max-w-\[420px\] {
+  max-width: 420px;
+}
 .max-w-\[540px\] {
   max-width: 540px;
 }
@@ -527,6 +550,9 @@
 }
 .flex-col {
   flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
 }
 .items-center {
   align-items: center;
@@ -581,6 +607,10 @@
   border-style: var(--tw-border-style);
   border-width: 0px;
 }
+.border-\[length\:var\(--border-width-1-5\)\] {
+  border-style: var(--tw-border-style);
+  border-width: var(--border-width-1-5);
+}
 .border-\[color-mix\(in_srgb\,var\(--color-secondary\)_10\%\,transparent\)\] {
   border-color: var(--color-secondary);
   @supports (color: color-mix(in lab, red, red)) {
@@ -597,6 +627,12 @@
   background-color: var(--color-secondary);
   @supports (color: color-mix(in lab, red, red)) {
     background-color: color-mix(in srgb,var(--color-secondary) 6%,transparent);
+  }
+}
+.bg-\[color-mix\(in_srgb\,var\(--color-secondary\)_10\%\,transparent\)\] {
+  background-color: var(--color-secondary);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in srgb,var(--color-secondary) 10%,transparent);
   }
 }
 .bg-bg-base {
@@ -659,14 +695,23 @@
 .px-\[16px\] {
   padding-inline: 16px;
 }
+.px-\[32px\] {
+  padding-inline: 32px;
+}
 .px-xs {
   padding-inline: var(--spacing-xs);
 }
 .py-\[14px\] {
   padding-block: 14px;
 }
+.py-\[40px\] {
+  padding-block: 40px;
+}
 .py-micro {
   padding-block: var(--spacing-micro);
+}
+.text-center {
+  text-align: center;
 }
 .font-sans {
   font-family: var(--font-sans);
@@ -695,6 +740,9 @@
 .text-label {
   font-size: var(--text-label);
 }
+.text-title-lg {
+  font-size: var(--text-title-lg);
+}
 .leading-3 {
   --tw-leading: var(--leading-3);
   line-height: var(--leading-3);
@@ -715,6 +763,10 @@
   --tw-leading: 0;
   line-height: 0;
 }
+.leading-\[1\.4\] {
+  --tw-leading: 1.4;
+  line-height: 1.4;
+}
 .font-bold {
   --tw-font-weight: var(--font-weight-bold);
   font-weight: var(--font-weight-bold);
@@ -722,6 +774,10 @@
 .font-medium {
   --tw-font-weight: var(--font-weight-medium);
   font-weight: var(--font-weight-medium);
+}
+.font-normal {
+  --tw-font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-normal);
 }
 .tracking-badge {
   --tw-tracking: var(--tracking-badge);
