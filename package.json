@@ -11,7 +11,9 @@
   ],
   "scripts": {
     "build:theme": "node scripts/build-theme.mjs",
+    "build:utilities": "node scripts/build-utilities.mjs",
     "check:theme": "node scripts/build-theme.mjs --check",
+    "check:utilities": "node scripts/build-utilities.mjs --check",
     "check:tokens": "node scripts/check-token-drift.mjs",
     "check:parity": "node scripts/check-component-parity.mjs",
     "check:exports": "node scripts/check-exports.mjs",
@@ -24,7 +26,7 @@
     "build:manifest": "node scripts/build-manifest.mjs",
     "check:manifest": "node scripts/build-manifest.mjs --check",
     "check:seo": "node scripts/build-seo.mjs --check",
-    "check": "npm run check:theme && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:contrast && npm run check:seo && npm run check:manifest && npm run check:render",
+    "check": "npm run check:theme && npm run check:utilities && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:contrast && npm run check:seo && npm run check:manifest && npm run check:render",
     "preview": "node scripts/preview.mjs",
     "preview:self-test": "node scripts/preview.mjs --self-test"
   },

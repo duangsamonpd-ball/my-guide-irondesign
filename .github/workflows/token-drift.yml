@@ -81,6 +81,13 @@ jobs:
       - name: Every component variable must resolve
         run: node scripts/check-component-vars.mjs /tmp/out.css
 
+      # docs/utilities.css is generated and committed: the 32 docs pages are
+      # static HTML with no build step, so nothing else compiles the utility
+      # classes the components are moving to. Needs the CLI, which is why this
+      # lives here and not in the dependency-free `check` job above.
+      - name: Check compiled utilities are regenerated
+        run: node scripts/build-utilities.mjs --check
+
   # The only job that needs a real install: it renders the components with Astro
   # and asserts the docs demo markup still matches. CSS parity above cannot see
   # a DOM change — this is the gate that can.
