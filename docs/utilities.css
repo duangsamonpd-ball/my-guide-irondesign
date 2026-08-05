@@ -79,6 +79,8 @@
     --blur-xl: 12px;
     --blur-2xl: 20px;
     --blur-3xl: 32px;
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --color-iron-pink-50: var(--iron-pink-50);
     --color-iron-pink-100: var(--iron-pink-100);
     --color-iron-pink-200: var(--iron-pink-200);
@@ -445,11 +447,30 @@
   width: calc(var(--spacing) * 1.5);
   height: calc(var(--spacing) * 1.5);
 }
+.size-full {
+  width: 100%;
+  height: 100%;
+}
+.h-full {
+  height: 100%;
+}
+.w-auto {
+  width: auto;
+}
+.max-w-full {
+  max-width: 100%;
+}
+.shrink-0 {
+  flex-shrink: 0;
+}
 .transform {
   transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
 }
 .items-center {
   align-items: center;
+}
+.justify-center {
+  justify-content: center;
 }
 .gap-micro {
   gap: var(--spacing-micro);
@@ -522,6 +543,10 @@
   --tw-leading: var(--leading-4);
   line-height: var(--leading-4);
 }
+.leading-\[0\] {
+  --tw-leading: 0;
+  line-height: 0;
+}
 .font-bold {
   --tw-font-weight: var(--font-weight-bold);
   font-weight: var(--font-weight-bold);
@@ -571,6 +596,34 @@
 .blur {
   --tw-blur: blur(8px);
   filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+}
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+.duration-\[var\(--duration-fast\)\] {
+  --tw-duration: var(--duration-fast);
+  transition-duration: var(--duration-fast);
+}
+.ease-default {
+  --tw-ease: var(--ease-default);
+  transition-timing-function: var(--ease-default);
+}
+@media (hover: hover) {
+  .hover\:opacity-85:hover {
+    opacity: 85%;
+  }
+}
+.focus-visible\:outline-2:focus-visible {
+  outline-style: var(--tw-outline-style);
+  outline-width: 2px;
+}
+.focus-visible\:outline-offset-\[3px\]:focus-visible {
+  outline-offset: 3px;
+}
+.focus-visible\:outline-border-selected:focus-visible {
+  outline-color: var(--color-border-selected);
 }
 :root {
   --iron-pink-50: #FDF1F5;
@@ -984,6 +1037,14 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ease {
+  syntax: "*";
+  inherits: false;
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
@@ -1009,6 +1070,8 @@
       --tw-drop-shadow-color: initial;
       --tw-drop-shadow-alpha: 100%;
       --tw-drop-shadow-size: initial;
+      --tw-duration: initial;
+      --tw-ease: initial;
     }
   }
 }

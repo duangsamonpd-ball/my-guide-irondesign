@@ -105,7 +105,7 @@ const utilitiesCss = readFileSync(join(ROOT, 'docs/utilities.css'), 'utf8');
 
 /** class name → { property: value } straight out of the compiled sheet. */
 const utility = new Map();
-for (const m of utilitiesCss.matchAll(/^\.((?:[\w-]|\\.)+)\s*\{([^}]*)\}/gm)) {
+for (const m of utilitiesCss.matchAll(/^\s*\.((?:[\w-]|\\.)+)\s*\{([^}]*)\}/gm)) {
   const decls = {};
   for (const d of m[2].matchAll(/([\w-]+)\s*:\s*([^;]+)/g)) decls[d[1].trim()] = d[2].trim();
   utility.set(m[1].replace(/\\(.)/g, '$1'), decls);

@@ -105,20 +105,26 @@ const Tag = href ? 'a' : 'span';
 ---
 
 <Tag
-  class:list={['logo', `logo--${kind}`, className]}
+  class:list={[
+    'inline-flex items-center justify-center shrink-0 leading-[0]',
+    /* Only the anchor form is interactive. The <style> version expressed this as
+       `a.logo`; with utilities the condition has to be evaluated here, because a
+       class list cannot ask what element it is on. */
+    href && 'rounded-sm transition-opacity duration-[var(--duration-fast)] ease-default ' +
+      'hover:opacity-85 focus-visible:outline-2 focus-visible:outline-border-selected focus-visible:outline-offset-[3px]',
+    className,
+  ]}
   style={box}
   href={href}
   aria-label={href && altText ? altText : undefined}
 >
-  <img src={src} alt={altText} width={sizedByHeight ? undefined : size} height={sizedByHeight ? height : size} />
+  {/* `.logo img` and the two size rules were descendant selectors; the utilities
+      move onto the element they were always describing. */}
+  <img
+    class:list={['block max-w-full', sizedByHeight ? 'w-auto h-full' : 'size-full']}
+    src={src}
+    alt={altText}
+    width={sizedByHeight ? undefined : size}
+    height={sizedByHeight ? height : size}
+  />
 </Tag>
-
-<style>
-  .logo { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
-  .logo img { display: block; max-width: 100%; }
-  .logo--mark img, .logo--element img { width: 100%; height: 100%; }
-  .logo--wordmark img, .logo--lockup img { width: auto; height: 100%; }
-  a.logo { border-radius: var(--rounded-sm); transition: opacity var(--duration-fast) var(--ease-default); }
-  a.logo:hover { opacity: 0.85; }
-  a.logo:focus-visible { outline: var(--border-width-2) solid var(--color-border-selected); outline-offset: 3px; }
-</style>

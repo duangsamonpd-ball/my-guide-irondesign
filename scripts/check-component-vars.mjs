@@ -46,7 +46,7 @@ const used = new Map();
  * toolchain — it is simply a badge with no background, discovered by eye.
  */
 const utilities = new Set(
-  [...readFileSync(join(ROOT, 'docs/utilities.css'), 'utf8').matchAll(/^\.((?:[\w-]|\\.)+)/gm)]
+  [...readFileSync(join(ROOT, 'docs/utilities.css'), 'utf8').matchAll(/^\s*\.((?:[\w-]|\\.)+)/gm)]
     .map((m) => m[1].replace(/\\(.)/g, '$1')),
 );
 
@@ -84,16 +84,37 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) 
   const hasStyle = /<style[^>]*>[\s\S]*\S[\s\S]*<\/style>/i.test(src);
   let classes = 0;
   if (!hasStyle) {
-    const strings = [...src.matchAll(/'([^']*)'/g)].map((m) => m[1]);
+    /**
+     * Comment-stripped source, for a reason that is not obvious: an apostrophe
+     * in prose — "Figma's", "the component's" — is an unpaired quote, and it
+     * shifts every `'…'` match after it by one. Read straight off `src`, Logo's
+     * class strings came back as fragments of English and NOT ONE of its
+     * utilities was checked, while the gate printed a tick.
+     */
+    const strings = [...code.matchAll(/'([^']*)'/g)].map((m) => m[1]);
     for (const s of strings) {
-      for (const c of s.split(/\s+/)) {
-        // Only judge strings that are plausibly class lists: a token that is
-        // already a known utility, or one that looks like `prefix-value`.
-        if (!c || !/^[a-z][\w.\/-]*$/.test(c)) continue;
-        if (utilities.has(c)) { classes++; continue; }
-        if (/^(bg|text|border|rounded|p|px|py|m|mx|my|gap|size|w|h|flex|items|justify|leading|tracking|font|shadow|ring|opacity|inline|grid|shrink|grow|whitespace)-/.test(c)) {
-          unknown.push({ file, cls: c });
-        }
+      /**
+       * The token pattern has to admit variant prefixes and arbitrary values,
+       * or the classes most likely to be wrong are the ones never checked:
+       * `hover:opacity-85` and `duration-[var(--duration-fast)]` were both
+       * skipped by a `[\w.\/-]` character class.
+       */
+      const tokens = s.split(/\s+/).filter((c) => c && /^[a-z][\w.:/[\]()%,#-]*$/.test(c));
+      const known = tokens.filter((c) => utilities.has(c));
+      classes += known.length;
+
+      /**
+       * A string that contains at least one real utility is a class list, so
+       * anything else in it that looks like a class is suspect. Matching a
+       * known PREFIX instead — `bg-`, `opacity-` — only catches typos in the
+       * value half: `bg-sucess-subtle` is caught, `hover:opactiy-85` is not,
+       * because a misspelt prefix matches no prefix. Strings with no utility in
+       * them at all are left alone; that is where the union types live.
+       */
+      if (!known.length) continue;
+      for (const c of tokens) {
+        if (utilities.has(c) || !/[-:]/.test(c)) continue;
+        unknown.push({ file, cls: c });
       }
     }
   }

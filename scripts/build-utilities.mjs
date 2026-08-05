@@ -198,7 +198,7 @@ const out = HEADER + readFileSync(compiledPath, 'utf8');
  * above. Counting them by indentation is how this reported 0 for a stylesheet
  * that had 47 of them, right after they stopped being nested in `@layer`.
  */
-const utilities = [...out.matchAll(/^\.([a-zA-Z][^\s,{:]*)/gm)].map((m) => m[1]);
+const utilities = [...out.matchAll(/^\s*\.([a-zA-Z][^\s,{:]*)/gm)].map((m) => m[1]);
 const distinct = new Set(utilities).size;
 
 if (CHECK) {

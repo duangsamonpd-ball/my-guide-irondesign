@@ -130,7 +130,7 @@ function checkConverted(file, name, docsPath) {
    */
   const unescape = (s) => s.replace(/\\(.)/g, '$1');
   const declared = new Set([
-    ...[...readFileSync(UTILITIES, 'utf8').matchAll(/^\.((?:[\w-]|\\.)+)/gm)].map((m) => unescape(m[1])),
+    ...[...readFileSync(UTILITIES, 'utf8').matchAll(/^\s*\.((?:[\w-]|\\.)+)/gm)].map((m) => unescape(m[1])),
     ...[...shellCss.matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => unescape(m[1])),
     ...[...styleBlocks(page).matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => unescape(m[1])),
   ]);
