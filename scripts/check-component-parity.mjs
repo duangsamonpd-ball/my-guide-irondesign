@@ -30,9 +30,12 @@ const DOCS = join(ROOT, 'docs');
 
 const errors = [];
 const skipped = [];
-const empty = [];
+const converted = [];
 const perFile = [];
 let rulesChecked = 0;
+
+const UTILITIES = join(DOCS, 'utilities.css');
+const shellCss = readFileSync(join(DOCS, 'docs.css'), 'utf8');
 
 /* ── CSS extraction ──────────────────────────────────────────────────────── */
 
@@ -71,6 +74,95 @@ const normalise = (rule) =>
     .replace(/;}/g, '}')
     .trim();
 
+/* ── mode B: a component that has converted to utility classes ───────────── */
+
+/** Every class name that appears in a `class="…"` attribute in some markup. */
+function classesInMarkup(html) {
+  const out = new Set();
+  for (const m of html.matchAll(/class="([^"]*)"/g)) {
+    for (const c of m[1].split(/\s+/)) if (c) out.add(c);
+  }
+  return out;
+}
+
+/**
+ * A converted component ships no CSS of its own, so the question changes. It is
+ * no longer "does the docs page carry the same rules" — there are none to carry.
+ * It is: will that page still render the component, and has the CSS it used to
+ * need been cleared out?
+ *
+ * Two failures, both of which happened on the POC branch and neither of which
+ * any existing gate saw:
+ *
+ *  1. The page does not link the compiled utilities, so every demo on it renders
+ *     as unstyled text. Worse, the hand-written cells further down the same page
+ *     kept working off the old CSS, so it read as half broken rather than broken.
+ *  2. The old rules stay behind — 18 of them for Badge — styling class names the
+ *     component no longer emits. Dead CSS on a page nobody rereads is how the
+ *     next person concludes the component still works that way.
+ */
+function checkConverted(file, name, docsPath) {
+  const page = readFileSync(docsPath, 'utf8');
+  const problems = [];
+
+  if (!/<link[^>]+href="utilities\.css"/.test(page)) {
+    problems.push(`does not link utilities.css — every demo on it renders unstyled`);
+  }
+
+  /**
+   * The check that matters most, and the one whose absence bit first. Deleting
+   * the component's old rules from the page is only safe if nothing on the page
+   * still uses them — and on Badge, seven hand-written elements outside the
+   * generated demo regions did: an anatomy example and six token-table swatches.
+   * They kept `class="badge badge--success"` while the rules that styled it were
+   * removed, so they rendered as bare text on a page that otherwise looked fine.
+   *
+   * The dead-rule check below cannot see this. It asks whether a RULE has lost
+   * its markup; this asks whether MARKUP has lost its rule. Both directions have
+   * now happened, on the same page, within an hour of each other.
+   */
+  /**
+   * `\\.` in the pattern is not optional. Tailwind escapes any character that is
+   * not valid in an identifier, so `size-1.5` is emitted as `.size-1\.5` — read
+   * with a plain `[\w-]+` that comes back as `size-1`, the real class looks
+   * undeclared, and this gate reports a class that is right there in the file.
+   * It did exactly that the first time it ran.
+   */
+  const unescape = (s) => s.replace(/\\(.)/g, '$1');
+  const declared = new Set([
+    ...[...readFileSync(UTILITIES, 'utf8').matchAll(/^\.((?:[\w-]|\\.)+)/gm)].map((m) => unescape(m[1])),
+    ...[...shellCss.matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => unescape(m[1])),
+    ...[...styleBlocks(page).matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => unescape(m[1])),
+  ]);
+  const used = classesInMarkup(page);
+  const unstyled = [...used].filter((c) => !declared.has(c));
+  if (unstyled.length) {
+    problems.push(
+      `${unstyled.length} class${unstyled.length > 1 ? 'es' : ''} in its markup resolve nowhere — ` +
+        `not in utilities.css, docs.css or the page: ${unstyled.slice(0, 8).join(', ')}` +
+        (unstyled.length > 8 ? ', …' : ''),
+    );
+  }
+
+  const dead = [];
+  for (const rule of topLevelRules(styleBlocks(page))) {
+    const sel = rule.slice(0, rule.indexOf('{')).replace(/\s+/g, ' ').trim();
+    // Only judge selectors built purely from class names; anything with an
+    // element, id, attribute or at-rule in it is the page's own chrome.
+    if (!/^(\.[\w-]+)+(\s*[,>+~]?\s*(\.[\w-]+)+)*$/.test(sel)) continue;
+    const names = [...sel.matchAll(/\.([\w-]+)/g)].map((m) => m[1]);
+    if (names.every((n) => !used.has(n))) dead.push(sel);
+  }
+  if (dead.length) {
+    problems.push(
+      `${dead.length} dead rule${dead.length > 1 ? 's' : ''} for classes its markup no longer uses: ` +
+        dead.slice(0, 6).join(', ') + (dead.length > 6 ? ', …' : ''),
+    );
+  }
+
+  return { file, name, docsPath, problems, utilities: [...used].length };
+}
+
 /* ── compare each component against its docs page ────────────────────────── */
 
 for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).sort()) {
@@ -86,23 +178,19 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).s
   const docsRules = new Set(topLevelRules(styleBlocks(readFileSync(docsPath, 'utf8'))).map(normalise));
 
   /**
-   * A component that contributes no rules passes this check vacuously — the
-   * assertion is astro ⊆ docs, and the empty set is a subset of anything. So
-   * emptying a component's <style> does not turn this gate red, it turns it
-   * SILENT: the count drops, the tick stays, and the docs page keeps carrying
-   * rules that describe markup which no longer exists.
+   * A component with no <style> is now the EXPECTED end state, not a mistake:
+   * the components are converting to Tailwind utility classes (Ball's call
+   * 2026-08-05). But the two shapes cannot be checked the same way, and the
+   * empty set is a subset of anything — so left alone this gate would not fail
+   * on a converted component, it would go SILENT, exactly as it did on the POC
+   * branch where 456 rules became 438 and it still printed a tick.
    *
-   * Found 2026-08-05 on the Tailwind POC branch, where rewriting Badge as
-   * utility classes took parity from 456 rules to 438 and still reported ✔.
-   * It is not a Tailwind problem — any edit that empties a <style> does it.
-   *
-   * Every one of the 19 components has CSS today (7 to 116 rules), so requiring
-   * at least one needs no baseline file to keep in sync. If a component ever
-   * legitimately ships without CSS, add it to a documented exempt list here
-   * rather than deleting this check.
+   * So: a component either has scoped CSS and is checked against its docs page
+   * as before, or it has none and is checked against the compiled utilities
+   * instead. What is not allowed is falling through unchecked.
    */
   if (astroRules.length === 0) {
-    empty.push(file);
+    converted.push(checkConverted(file, name, docsPath));
     continue;
   }
   perFile.push({ file, count: astroRules.length });
@@ -122,12 +210,25 @@ if (skipped.length) {
   console.log(`\n\x1b[90m·  skipped ${skipped.length}: ${skipped.map((s) => s.split(' — ')[0]).join(', ')}\x1b[0m`);
 }
 
-if (empty.length) {
-  console.log(`\n\x1b[31m✖  ${empty.length} component${empty.length > 1 ? 's have' : ' has'} no CSS for this gate to check\x1b[0m`);
-  for (const file of empty) console.log(`    \x1b[31m✖\x1b[0m ${file} — <style> is empty or absent`);
-  console.log(`\n  This gate compares a component's rules against its docs page. With no`);
-  console.log(`  rules it passes on a technicality while the docs page keeps the old CSS.`);
-  console.log(`  If that is intended, add the file to an exempt list in this script.\n`);
+const broken = converted.filter((c) => c.problems.length);
+if (broken.length) {
+  console.log(`\n\x1b[31m✖  ${broken.length} converted component${broken.length > 1 ? 's' : ''} left its docs page unable to render it\x1b[0m`);
+  for (const { file, name, problems } of broken) {
+    console.log(`\n  \x1b[1m${file}\x1b[0m  ↔  docs/component-${name}.html`);
+    for (const p of problems) console.log(`    \x1b[31m✖\x1b[0m ${p}`);
+  }
+  console.log(`\n  A component with no <style> is styled by docs/utilities.css. Link it on the`);
+  console.log(`  page, and delete the rules the old markup needed.\n`);
+  process.exit(1);
+}
+
+/**
+ * utilities.css must exist the moment any component depends on it. Without this
+ * the whole mode-B branch checks a file that is not there and says nothing.
+ */
+if (converted.length && !existsSync(UTILITIES)) {
+  console.log(`\n\x1b[31m✖  ${converted.length} component(s) rely on docs/utilities.css, which is missing\x1b[0m`);
+  console.log(`   Run: node scripts/build-utilities.mjs\n`);
   process.exit(1);
 }
 
@@ -151,4 +252,13 @@ const smallest = [...perFile].sort((a, b) => a.count - b.count)[0];
 console.log(
   `\n\x1b[32m✔  Component CSS in sync — ${rulesChecked} rules match across ${perFile.length} components and their docs pages\x1b[0m`,
 );
-console.log(`\x1b[90m   every component contributes CSS; fewest is ${smallest.file} at ${smallest.count} rules\x1b[0m\n`);
+if (smallest) {
+  console.log(`\x1b[90m   fewest is ${smallest.file} at ${smallest.count} rules\x1b[0m`);
+}
+if (converted.length) {
+  console.log(
+    `\x1b[32m✔  ${converted.length} converted component${converted.length > 1 ? 's' : ''} styled by docs/utilities.css\x1b[0m` +
+      `\x1b[90m — ${converted.map((c) => c.file).join(', ')}\x1b[0m`,
+  );
+}
+console.log();

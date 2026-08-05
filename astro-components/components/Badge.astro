@@ -1,4 +1,9 @@
 ---
+/**
+ * POC — Badge rewritten as Tailwind utilities instead of a scoped <style>.
+ * Branch `poc/badge-tailwind` only. Not for merge; see the notes at the bottom.
+ */
+
 interface Props {
   intent?: 'success' | 'warning' | 'danger' | 'info' | 'important' | 'neutral';
   solid?: boolean;
@@ -16,58 +21,79 @@ const {
   dot = false,
   class: className,
 } = Astro.props;
+
+/**
+ * Every intent/variant pair has to exist as a LITERAL string here.
+ * Tailwind scans source as plain text — it never evaluates it — so the
+ * `.badge--${intent}` pattern the CSS version used has no equivalent:
+ * `bg-${intent}-subtle` is scanned as that exact text and no rule is emitted.
+ * Six intents x two fills = twelve strings that must be written out and kept in
+ * step by hand. The CSS version needed one rule per intent and derived the rest.
+ */
+const SUBTLE = {
+  success: 'bg-success-subtle text-success-strong',
+  warning: 'bg-warning-subtle text-warning-strong',
+  danger: 'bg-danger-subtle text-danger-strong',
+  info: 'bg-info-subtle text-info-strong',
+  important: 'bg-important-subtle text-important-strong',
+  neutral: 'bg-neutral-subtle text-neutral-strong',
+} as const;
+
+/**
+ * Solid label colour is per INTENT, not per theme — `.dark` remaps only the
+ * -subtle/-strong pairs, so a solid badge is identical in both modes and one
+ * label colour cannot serve all six. success/warning/info have light fills and
+ * take the inverse label; white on them is 2.17 / 1.99 / 3.25 and fails AA.
+ */
+const SOLID = {
+  success: 'bg-success text-text-on-color-badge-solid-inverse',
+  warning: 'bg-warning text-text-on-color-badge-solid-inverse',
+  danger: 'bg-danger text-text-on-color-badge-solid',
+  info: 'bg-secondary text-text-on-color-badge-solid-inverse',
+  important: 'bg-important text-text-on-color-badge-solid',
+  neutral: 'bg-neutral text-text-on-color-badge-solid',
+} as const;
+
+const base = 'inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro';
+
+/* --fw-badge and --line-height-badge have NO semantic counterpart in @theme:
+   build-theme.mjs maps --font-size-* → --text-* and --letter-spacing-* →
+   --tracking-*, but a weight or a line-height only survives as a SCALE step.
+   So `font-bold` and `leading-4` are the raw scale, and the fact that they are
+   the badge's values is no longer expressed anywhere. */
+const type = small
+  ? 'text-badge-sm leading-3 tracking-badge-sm'
+  : 'text-badge leading-4 tracking-badge';
+
+/* Figma node 776-899 uses --rounded-sm on every badge, not a pill; `pill` opts
+   back into the old default. */
+const shape = pill ? 'rounded-full' : 'rounded-sm';
+
+/* The dot is 6px / 4px. This theme defines only NAMED --spacing-* (micro, xs,
+   sm…) and no `--spacing` base — but Tailwind's own default theme still supplies
+   `--spacing: 0.25rem`, so the numeric scale survives and size-1.5 is exactly
+   6px. Verified in the compiled output, not assumed. */
+const dotSize = small ? 'size-1' : 'size-1.5';
 ---
 
-<span class:list={['badge', `badge--${intent}`, { solid, sm: small, pill }, className]}>
-  {dot && <span class="bdot"></span>}
+<span class:list={[base, type, shape, solid ? SOLID[intent] : SUBTLE[intent], className]}>
+  {dot && <span class:list={['rounded-full bg-current', dotSize]}></span>}
   <slot />
 </span>
 
-<style>
-  /*
-    Subtle fill = --color-{intent}-subtle, text = --color-{intent}-strong; solid uses the
-    base --color-{intent}. Every value is a semantic token (from the Figma color_ui
-    export), so for the SUBTLE variant dark mode is automatic: inside a `.dark` ancestor
-    those tokens swap to the Dark Purple values (see the .dark block in tokens.css) and the
-    badge re-themes with no per-component dark rule — verified against Figma node 776-899
-    ("Badge"). The SOLID variant is the exception: .dark does not remap the status base
-    colours, so its fill — and therefore its label colour — is identical in both modes.
-    Default shape is --rounded-sm (Figma node 776-899 uses this on every badge, not a
-    pill) — the old default was --rounded-full; `pill` now opts back into that shape.
-  */
-  .badge {
-    display: inline-flex; align-items: center; gap: var(--spacing-micro);
-    font-family: 'Montserrat', sans-serif; font-size: var(--font-size-badge); font-weight: var(--fw-badge);
-    line-height: var(--line-height-badge); padding: var(--spacing-micro) var(--spacing-xs); border-radius: var(--rounded-sm); white-space: nowrap; letter-spacing: var(--letter-spacing-badge);
-  }
-  .badge .bdot { width: 6px; height: 6px; border-radius: var(--rounded-full); background: currentColor; }
+{/*
+  WHAT THIS POC SHOWS
 
-  .badge--success   { background: var(--color-success-subtle); color: var(--color-success-strong); }
-  .badge--warning   { background: var(--color-warning-subtle); color: var(--color-warning-strong); }
-  .badge--danger    { background: var(--color-danger-subtle);  color: var(--color-danger-strong); }
-  .badge--info      { background: var(--color-info-subtle);    color: var(--color-info-strong); }
-  .badge--important { background: var(--color-important-subtle); color: var(--color-important-strong); }
-  .badge--neutral   { background: var(--color-neutral-subtle);   color: var(--color-neutral-strong); }
+  It works, and dark mode still works — `bg-success-subtle` compiles to
+  `background-color: var(--color-success-subtle)`, and `.dark` in tokens.css
+  still remaps that variable, so re-theming survives the rewrite untouched.
 
-  /*
-    Solid label colour is chosen per INTENT, not per theme. The solid fills are the
-    status base colours, and .dark remaps only the -subtle/-strong pairs — so a solid
-    badge is the same colour in both modes and one label colour cannot serve all six.
-    success / warning / info have light fills and take the inverse (neutral/900) label;
-    white on them is 2.17 / 1.99 / 3.25 and fails AA at 12px/700.
-  */
-  .badge.solid { color: var(--color-text-on-color-badge-solid); }
-  .badge.solid.badge--success   { background: var(--color-success);   color: var(--color-text-on-color-badge-solid-inverse); }
-  .badge.solid.badge--warning   { background: var(--color-warning);   color: var(--color-text-on-color-badge-solid-inverse); }
-  .badge.solid.badge--danger    { background: var(--color-danger); }
-  .badge.solid.badge--info      { background: var(--color-secondary); color: var(--color-text-on-color-badge-solid-inverse); }
-  .badge.solid.badge--important { background: var(--color-important); }
-  .badge.solid.badge--neutral   { background: var(--color-neutral); }
+  What it costs is in the four notes above:
+   · twelve literal strings replace six derived rules
+   · font-weight and line-height lose their semantic names
+   · the component now only renders correctly if the CONSUMER runs Tailwind with
+     a content glob that reaches into node_modules. Today they import one
+     stylesheet and are done.
 
-  .badge.sm {
-    font-size: var(--font-size-badge-sm); line-height: var(--line-height-badge-sm);
-    padding: var(--spacing-micro) var(--spacing-xs);
-  }
-  .badge.sm .bdot { width: 4px; height: 4px; }
-  .badge.pill { border-radius: var(--rounded-full); }
-</style>
+  And the repo cost, measured on this branch — see the report.
+*/}

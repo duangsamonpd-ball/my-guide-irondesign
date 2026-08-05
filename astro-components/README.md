@@ -245,6 +245,8 @@ Props: `name` (required — groups radios), `value` (required), `label`, `descri
 
 Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `solid`, `small`, `pill`, `dot`, `class`.
 
+> **Badge is the first component styled with Tailwind utility classes rather than a scoped `<style>` block**, at the request of Iron Software's dev team. The props and the rendered result are unchanged — but unlike the others, it needs the utilities to exist. Either run Tailwind over it (`import "@iron-software/design-system/theme.css"`, with a content glob that reaches this package), or link the pre-compiled `docs/utilities.css`. The rest of the components still carry their own CSS and need neither; they are being converted one at a time.
+
 Subtle fill/text use the semantic `--color-{intent}-subtle` / `--color-{intent}-strong` pair; solid uses the base `--color-{intent}` (verified against Figma node `776-899`). Every value is a semantic token, so dark mode needs no per-badge rule — inside a `.dark` ancestor those tokens swap to their Dark Purple counterparts (see the `.dark` block in `tokens.css`) and the badge re-themes automatically. `important` and `neutral` are full semantic intents with their own subtle/strong/base tokens (from the Figma color_ui export), the same as the original four.
 
 Default shape is `--rounded-sm` — Figma's Badge frame (node `776-899`) uses this on every badge, not a pill. `pill` opts into the fully-rounded `--rounded-full` shape instead (this used to be the component's default, with a `square` prop for the opposite; the default and prop were swapped 2026-07-17 to match Figma).

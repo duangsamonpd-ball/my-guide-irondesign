@@ -10,8 +10,15 @@
  * badges were failing WCAG AA.
  *
  * Nothing here is hand-copied. The pairings are derived from Badge.astro's own
- * <style> block and the colours are resolved through tailwind/tokens.css, so the
- * check moves whenever the component does.
+ * SUBTLE/SOLID class maps, what those classes compile to in docs/utilities.css,
+ * and the colours those resolve to in tailwind/tokens.css — so the check moves
+ * whenever the component does.
+ *
+ * Until 2026-08-05 the pairings came out of Badge's <style> block. The component
+ * has no <style> any more, and this was the gate the Tailwind POC broke worst:
+ * with nothing to parse it derived 0 pairs of the 12 it expects. Rebuilt against
+ * the compiled utilities, it reproduces the same three failures it originally
+ * found — 2.17, 1.99 and 3.25:1 — when white is put back on the light fills.
  *
  * Badge text is 12px/700 — under the 18.66px-bold threshold for "large" — so the
  * bar is the full AA 4.5:1.
@@ -81,27 +88,60 @@ const contrast = (a, b) => {
 
 /* ── derive every pair Badge.astro actually paints ────────────────────────── */
 
-const styles = badge.slice(badge.indexOf('<style>'), badge.indexOf('</style>'));
-const decl = (body, prop) => body.match(new RegExp(`${prop}:\\s*([^;]+);`))?.[1];
-const rule = (selector) =>
-  styles.match(new RegExp(`${selector.replace(/[.]/g, '\\.')}\\s*\\{([^}]*)\\}`))?.[1];
+/**
+ * Badge has no <style> block any more — it is utility classes now. The pairings
+ * therefore come from two places instead of one, and neither is hand-copied:
+ *
+ *   Badge.astro's SUBTLE / SOLID maps   which classes each intent wears
+ *   docs/utilities.css                  what those classes resolve to
+ *
+ * Reading the compiled stylesheet rather than mapping `bg-success-subtle` to
+ * `--color-success-subtle` by string surgery is the point: a guessed mapping is
+ * a second source of truth that can be wrong while looking right. This one is
+ * what Tailwind actually emitted, so if the class stops producing that colour —
+ * or stops existing — the pair changes here too.
+ */
+const utilitiesCss = readFileSync(join(ROOT, 'docs/utilities.css'), 'utf8');
+
+/** class name → { property: value } straight out of the compiled sheet. */
+const utility = new Map();
+for (const m of utilitiesCss.matchAll(/^\.((?:[\w-]|\\.)+)\s*\{([^}]*)\}/gm)) {
+  const decls = {};
+  for (const d of m[2].matchAll(/([\w-]+)\s*:\s*([^;]+)/g)) decls[d[1].trim()] = d[2].trim();
+  utility.set(m[1].replace(/\\(.)/g, '$1'), decls);
+}
+
+/** The object literals in the frontmatter, e.g. success: 'bg-… text-…'. */
+function classMap(name) {
+  const block = badge.match(new RegExp(`const ${name} = \\{([\\s\\S]*?)\\}`))?.[1];
+  if (!block) throw new Error(`could not find the ${name} map in Badge.astro`);
+  const out = new Map();
+  for (const m of block.matchAll(/(\w+):\s*'([^']+)'/g)) out.set(m[1], m[2].split(/\s+/));
+  return out;
+}
 
 const INTENTS = ['success', 'warning', 'danger', 'info', 'important', 'neutral'];
-const solidFallback = decl(rule('.badge.solid') ?? '', 'color');
+const MAPS = { subtle: classMap('SUBTLE'), solid: classMap('SOLID') };
+
+/** The first class in the list that declares `prop`, as its raw value. */
+const from = (classes, prop) => {
+  for (const c of classes) {
+    const v = utility.get(c)?.[prop];
+    if (v) return v;
+  }
+  return undefined;
+};
 
 const pairs = [];
-for (const intent of INTENTS) {
-  const subtle = rule(`.badge--${intent}`);
-  if (subtle) {
-    pairs.push({ variant: 'subtle', intent, bg: decl(subtle, 'background'), fg: decl(subtle, 'color') });
-  }
-  const solid = rule(`.badge.solid.badge--${intent}`);
-  if (solid) {
+for (const variant of ['subtle', 'solid']) {
+  for (const intent of INTENTS) {
+    const classes = MAPS[variant].get(intent);
+    if (!classes) continue;
     pairs.push({
-      variant: 'solid',
+      variant,
       intent,
-      bg: decl(solid, 'background'),
-      fg: decl(solid, 'color') ?? solidFallback,
+      bg: from(classes, 'background-color'),
+      fg: from(classes, 'color'),
     });
   }
 }

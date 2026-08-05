@@ -19,7 +19,7 @@
  * Run:    node scripts/build-utilities.mjs
  * Verify: node scripts/build-utilities.mjs --check   (fails if the output is stale)
  *
- * TWO THINGS THIS FILE EXISTS TO GET RIGHT, both verified by measurement rather
+ * FOUR THINGS THIS FILE EXISTS TO GET RIGHT, each verified by measurement rather
  * than assumed — see the notes at each one.
  */
 
@@ -62,7 +62,7 @@ const ANCHOR = '@import "tailwindcss";';
 const REPLACEMENT = [
   '@layer theme, base, components, utilities;',
   '@import "tailwindcss/theme.css" layer(theme);',
-  '@import "tailwindcss/utilities.css" layer(utilities) source(none);',
+  '@import "tailwindcss/utilities.css" source(none);',
   `@source "${SCAN}/*.astro";`,
 ].join('\n');
 
@@ -112,10 +112,9 @@ mkdirSync(TMP, { recursive: true });
  * That noise is not free. Two of the 31 — `grid` and `underline` — are also
  * class names the docs pages use (14 pages and 1), and shipping a rule for a
  * name someone else already uses is how you change a page you never touched.
- * `@layer utilities` makes it survivable, because an unlayered rule beats a
- * layered one whatever the specificity — verified in Chrome, not assumed:
- * `.plain { display:block }` unlayered wins over a layered `.flex`. But it is
- * only survivable where the docs rule happens to declare the same property.
+ * Both are harmless as it stands: the pages' own `.grid` and `.tlink.underline`
+ * declare the same properties and, being later in the cascade at equal
+ * specificity, win.
  *
  * A class name can never appear inside a <style> block, so scanning a copy with
  * those blocks and comments removed cannot lose a real one. Everything that
@@ -128,9 +127,27 @@ mkdirSync(TMP, { recursive: true });
  * `inline` and `underline` from variant union types — Button's `'outline'`,
  * TextLink's `'underline'`. Prose in a design system uses the same words its
  * utilities do; separating them needs a real parser, not a bigger regex. They
- * cost ~300 bytes and, being layered, lose to any docs rule that sets the same
- * property. Do not chase this to zero by stripping more text — the failure that
- * costs is a MISSING utility, and every strip added here risks one.
+ * cost ~300 bytes. Do not chase this to zero by stripping more text — the
+ * failure that costs is a MISSING utility, and every strip added here risks one.
+ *
+ * ── 4. THE UTILITIES MUST NOT BE IN A LAYER ─────────────────────────────────
+ *
+ * The obvious way to keep the collisions above safe is to put the utilities in
+ * `@layer utilities`, because an unlayered rule beats a layered one whatever
+ * the specificity. That was the first build here, and it is wrong, for exactly
+ * the same reason it looked right.
+ *
+ * docs/docs.css line 22 is `* { margin: 0; padding: 0; box-sizing: border-box }`
+ * — unlayered. So it beat every layered padding and margin utility on the page.
+ * The converted Badge rendered with the right colours, the right radius, the
+ * right type, and no padding at all: `px-xs py-micro` resolved to nothing while
+ * everything around it looked correct. Chrome's matched-rules list is what
+ * showed it — `.px-xs` was not in the list, and `*` was.
+ *
+ * Unlayered, `.px-xs` is (0,1,0) against the reset's (0,0,0) and wins normally.
+ * Against a docs page rule of equal specificity the page still wins on source
+ * order, which is the behaviour we want: the pages keep their own chrome and
+ * only the demo markup, which uses nothing but utilities, is styled from here.
  */
 mkdirSync(SCAN, { recursive: true });
 for (const f of readdirSync(SCAN)) rmSync(join(SCAN, f));
@@ -176,8 +193,12 @@ const out = HEADER + readFileSync(compiledPath, 'utf8');
 
 /* ── report ──────────────────────────────────────────────────────────────── */
 
-/** Utility rules are emitted indented inside `@layer utilities { … }`. */
-const utilities = [...out.matchAll(/^\s+\.([a-zA-Z][^\s,{:]*)/gm)].map((m) => m[1]);
+/**
+ * Utility rules sit at the top level of the sheet — see the note on layering
+ * above. Counting them by indentation is how this reported 0 for a stylesheet
+ * that had 47 of them, right after they stopped being nested in `@layer`.
+ */
+const utilities = [...out.matchAll(/^\.([a-zA-Z][^\s,{:]*)/gm)].map((m) => m[1]);
 const distinct = new Set(utilities).size;
 
 if (CHECK) {

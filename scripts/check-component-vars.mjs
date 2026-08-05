@@ -32,18 +32,100 @@ const COMPONENTS = join(ROOT, 'astro-components/components');
 /** @type {Map<string, string[]>} variable → components that use it */
 const used = new Map();
 
+/**
+ * This gate was built when every component read tokens as `var(--…)` inside its
+ * own <style>. As components convert to utility classes those usages disappear,
+ * and a check that counts them does not fail — it goes quiet, the same way
+ * check:parity did. Badge alone took it from 168 variables to 149 while still
+ * printing a tick.
+ *
+ * So a converted component is checked a different way rather than not at all:
+ * every utility class it wears must exist in the compiled stylesheet. That
+ * matters more here than it looks, because Tailwind emits NOTHING for a class
+ * it does not recognise. `bg-sucess-subtle` is not an error anywhere in the
+ * toolchain — it is simply a badge with no background, discovered by eye.
+ */
+const utilities = new Set(
+  [...readFileSync(join(ROOT, 'docs/utilities.css'), 'utf8').matchAll(/^\.((?:[\w-]|\\.)+)/gm)]
+    .map((m) => m[1].replace(/\\(.)/g, '$1')),
+);
+
+/** @type {{file: string, vars: number, classes: number}[]} */
+const perFile = [];
+const unknown = [];
+
 for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) {
   const src = readFileSync(join(COMPONENTS, file), 'utf8');
   // A component may declare its own custom properties in its <style> block;
   // those resolve locally and never need to come from the theme, so don't
   // count them as usages that the compiled CSS has to satisfy.
   const localDefs = new Set([...src.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]));
-  for (const [, name] of src.matchAll(/var\((--[\w-]+)/g)) {
+  /**
+   * Comments are stripped before counting. A component that documents its
+   * tokens in prose — Badge's closing note names `var(--color-success-subtle)`
+   * while using none — otherwise reports a usage it does not have, and that one
+   * phantom is enough to keep the guard below from ever firing.
+   */
+  const code = src.replace(/\{\/\*[\s\S]*?\*\/\}/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/<!--[\s\S]*?-->/g, '');
+  let vars = 0;
+  for (const [, name] of code.matchAll(/var\((--[\w-]+)/g)) {
     if (localDefs.has(name)) continue;
+    vars++;
     if (!used.has(name)) used.set(name, []);
     const list = used.get(name);
     if (!list.includes(file)) list.push(file);
   }
+
+  /**
+   * Only for components that have given up their <style>. Scanning class
+   * strings on a component that still has scoped CSS would flag every semantic
+   * class it owns — `badge`, `bdot` — as an unknown utility.
+   */
+  const hasStyle = /<style[^>]*>[\s\S]*\S[\s\S]*<\/style>/i.test(src);
+  let classes = 0;
+  if (!hasStyle) {
+    const strings = [...src.matchAll(/'([^']*)'/g)].map((m) => m[1]);
+    for (const s of strings) {
+      for (const c of s.split(/\s+/)) {
+        // Only judge strings that are plausibly class lists: a token that is
+        // already a known utility, or one that looks like `prefix-value`.
+        if (!c || !/^[a-z][\w.\/-]*$/.test(c)) continue;
+        if (utilities.has(c)) { classes++; continue; }
+        if (/^(bg|text|border|rounded|p|px|py|m|mx|my|gap|size|w|h|flex|items|justify|leading|tracking|font|shadow|ring|opacity|inline|grid|shrink|grow|whitespace)-/.test(c)) {
+          unknown.push({ file, cls: c });
+        }
+      }
+    }
+  }
+  perFile.push({ file, vars, classes });
+}
+
+/**
+ * The anti-silence guard. A component that contributes no variables AND no
+ * recognised utility classes is not being checked by anything here, and this
+ * script would still exit 0.
+ */
+const unchecked = perFile.filter((f) => f.vars === 0 && f.classes === 0);
+if (unchecked.length) {
+  console.error(`\n\x1b[31m✖  ${unchecked.length} component(s) contribute nothing for this gate to check\x1b[0m\n`);
+  for (const { file } of unchecked) console.error(`    \x1b[31m✖\x1b[0m ${file} — no var(--…) usages and no known utility classes`);
+  console.error(`\n  Either it reads tokens through its <style>, or it wears utility classes that`);
+  console.error(`  docs/utilities.css defines. Neither means nothing is verifying its styling.\n`);
+  process.exit(1);
+}
+
+if (unknown.length) {
+  console.error(`\n\x1b[31m✖  ${unknown.length} utility class${unknown.length > 1 ? 'es' : ''} used by a component but not emitted by Tailwind\x1b[0m\n`);
+  const byFile = new Map();
+  for (const u of unknown) (byFile.get(u.file) ?? byFile.set(u.file, []).get(u.file)).push(u.cls);
+  for (const [file, list] of byFile) {
+    console.error(`    \x1b[1m${file}\x1b[0m`);
+    for (const c of new Set(list)) console.error(`      \x1b[31m✖\x1b[0m ${c}`);
+  }
+  console.error(`\n  Tailwind emits nothing for a class it does not recognise — no warning, no`);
+  console.error(`  error, just an element with that styling missing. Check the spelling, or`);
+  console.error(`  add the token behind it to tailwind/tokens.css.\n`);
+  process.exit(1);
 }
 
 const missing = [...used.keys()].filter((v) => !defined.has(v)).sort();
@@ -122,5 +204,10 @@ if (docErrors.length) {
   process.exit(1);
 }
 
+const converted = perFile.filter((f) => f.classes > 0);
 console.log(`\n\x1b[32m✔  All ${used.size} component variables resolve in ${basename(compiledPath)}\x1b[0m`);
+if (converted.length) {
+  const total = converted.reduce((n, f) => n + f.classes, 0);
+  console.log(`\x1b[32m✔  ${total} utility classes across ${converted.length} converted component(s) are all emitted\x1b[0m`);
+}
 console.log(`\x1b[32m✔  ${docsChecked} docs pages resolve every variable their CSS uses\x1b[0m\n`);

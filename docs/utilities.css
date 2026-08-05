@@ -41,6 +41,7 @@
     --color-neutral-800: var(--neutral-800);
     --color-neutral-900: var(--neutral-900);
     --color-neutral-950: var(--neutral-950);
+    --spacing: 0.25rem;
     --breakpoint-sm: 480px;
     --breakpoint-md: 768px;
     --breakpoint-lg: 1024px;
@@ -424,30 +425,152 @@
     --color-info-950: var(--iron-blue-950);
   }
 }
-@layer utilities {
-  .collapse {
-    visibility: collapse;
-  }
-  .block {
-    display: block;
-  }
-  .inline {
-    display: inline;
-  }
-  .transform {
-    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-  }
-  .underline {
-    text-decoration-line: underline;
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
-  .blur {
-    --tw-blur: blur(8px);
-    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
-  }
+.collapse {
+  visibility: collapse;
+}
+.block {
+  display: block;
+}
+.inline {
+  display: inline;
+}
+.inline-flex {
+  display: inline-flex;
+}
+.size-1 {
+  width: var(--spacing);
+  height: var(--spacing);
+}
+.size-1\.5 {
+  width: calc(var(--spacing) * 1.5);
+  height: calc(var(--spacing) * 1.5);
+}
+.transform {
+  transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+}
+.items-center {
+  align-items: center;
+}
+.gap-micro {
+  gap: var(--spacing-micro);
+}
+.rounded-full {
+  border-radius: var(--radius-full);
+}
+.rounded-sm {
+  border-radius: var(--radius-sm);
+}
+.bg-current {
+  background-color: currentcolor;
+}
+.bg-danger {
+  background-color: var(--color-danger);
+}
+.bg-danger-subtle {
+  background-color: var(--color-danger-subtle);
+}
+.bg-important {
+  background-color: var(--color-important);
+}
+.bg-important-subtle {
+  background-color: var(--color-important-subtle);
+}
+.bg-info-subtle {
+  background-color: var(--color-info-subtle);
+}
+.bg-neutral {
+  background-color: var(--color-neutral);
+}
+.bg-neutral-subtle {
+  background-color: var(--color-neutral-subtle);
+}
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+.bg-success {
+  background-color: var(--color-success);
+}
+.bg-success-subtle {
+  background-color: var(--color-success-subtle);
+}
+.bg-warning {
+  background-color: var(--color-warning);
+}
+.bg-warning-subtle {
+  background-color: var(--color-warning-subtle);
+}
+.px-xs {
+  padding-inline: var(--spacing-xs);
+}
+.py-micro {
+  padding-block: var(--spacing-micro);
+}
+.font-sans {
+  font-family: var(--font-sans);
+}
+.text-badge {
+  font-size: var(--text-badge);
+}
+.text-badge-sm {
+  font-size: var(--text-badge-sm);
+}
+.leading-3 {
+  --tw-leading: var(--leading-3);
+  line-height: var(--leading-3);
+}
+.leading-4 {
+  --tw-leading: var(--leading-4);
+  line-height: var(--leading-4);
+}
+.font-bold {
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+}
+.tracking-badge {
+  --tw-tracking: var(--tracking-badge);
+  letter-spacing: var(--tracking-badge);
+}
+.tracking-badge-sm {
+  --tw-tracking: var(--tracking-badge-sm);
+  letter-spacing: var(--tracking-badge-sm);
+}
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+.text-danger-strong {
+  color: var(--color-danger-strong);
+}
+.text-important-strong {
+  color: var(--color-important-strong);
+}
+.text-info-strong {
+  color: var(--color-info-strong);
+}
+.text-neutral-strong {
+  color: var(--color-neutral-strong);
+}
+.text-success-strong {
+  color: var(--color-success-strong);
+}
+.text-text-on-color-badge-solid {
+  color: var(--color-text-on-color-badge-solid);
+}
+.text-text-on-color-badge-solid-inverse {
+  color: var(--color-text-on-color-badge-solid-inverse);
+}
+.text-warning-strong {
+  color: var(--color-warning-strong);
+}
+.underline {
+  text-decoration-line: underline;
+}
+.outline {
+  outline-style: var(--tw-outline-style);
+  outline-width: 1px;
+}
+.blur {
+  --tw-blur: blur(8px);
+  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
 }
 :root {
   --iron-pink-50: #FDF1F5;
@@ -791,6 +914,18 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-tracking {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-outline-style {
   syntax: "*";
   inherits: false;
@@ -857,6 +992,9 @@
       --tw-rotate-z: initial;
       --tw-skew-x: initial;
       --tw-skew-y: initial;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-tracking: initial;
       --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
