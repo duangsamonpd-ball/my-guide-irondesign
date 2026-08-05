@@ -639,13 +639,28 @@ for (const page of pages) {
     continue;
   }
   bad++;
-  console.log(red(`  ✖  ${findings.length} element state(s) differ`) + dim(` of ${compared} compared`));
+  /**
+   * Full-page shots mean every element in the same state produces the SAME
+   * image, so an unchanged page-level difference is reported once per element —
+   * FormCard listed one 2491px difference five times, against five different
+   * paths, as though five things had changed. Collapse identical readings and
+   * name how many elements were driven into that state instead.
+   */
+  const seen = new Map();
   for (const f of findings) {
+    const key = [f.state, f.differing, f.maxDelta, f.sizeMismatch ?? ""].join("|");
+    const cur = seen.get(key);
+    if (cur) cur.also++;
+    else seen.set(key, { ...f, also: 0 });
+  }
+  const shown = [...seen.values()];
+  console.log(red(`  ✖  ${shown.length} difference(s) across ${findings.length} element state(s)`) + dim(` of ${compared} compared`));
+  for (const f of shown) {
     const where = f.sizeMismatch
       ? `size ${f.sizeMismatch}`
       : `${f.differing} px (${f.pct.toFixed(2)}%), max Δ${f.maxDelta}, at ${f.box.x},${f.box.y} ${f.box.w}x${f.box.h}`;
     console.log(`     ${f.state.padEnd(6)} ${dim(f.region)} ${f.tag}  ${where}`);
-    console.log(dim(`            ${f.path}`));
+    console.log(dim(`            ${f.path}${f.also ? ` (and ${f.also} more element(s) in this state)` : ""}`));
   }
   if (truncated) console.log(dim(`     … stopped at --max ${opts.max}`));
 }

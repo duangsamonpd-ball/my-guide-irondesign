@@ -91,36 +91,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-.form-card {
-      background: var(--color-bg-base); border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-2xl);
-      padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 540px;
-    }
-.fc-title { display: flex; align-items: center; gap: 16px; }
-.fc-icon {
-      width: 64px; height: 64px; flex-shrink: 0; border-radius: var(--rounded-lg);
-      background: color-mix(in srgb, var(--color-secondary) 6%, transparent); border: var(--border-width-1) solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
-      display: flex; align-items: center; justify-content: center; color: var(--color-secondary);
-    }
-.fc-icon svg { width: 26px; height: 26px; }
-.fc-heading .fc-h { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-h4); font-weight: 700; color: var(--color-text-heading); margin: 0; }
-.fc-heading p { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-caption); color: var(--color-text-support); margin: 4px 0 0; }
-.fc-fields { display: flex; flex-direction: column; gap: 20px; }
-.fc-fields :global(.field) { max-width: none; }
-.fc-last { display: flex; flex-direction: column; gap: 12px; }
-.fc-submit {
-    width: 100%; height: var(--size-btn-lg); border: none; border-radius: var(--rounded-cta);
-    background: var(--color-primary); color: var(--color-primary-on); font-family: 'Montserrat', sans-serif;
-    font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    transition: background var(--duration-fast);
-  }
-.fc-submit:hover { background: var(--color-primary-hover); }
-.fc-submit .arr { transition: transform var(--duration-base); }
-.fc-submit:hover .arr { transform: translateX(3px); }
-.fc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--font-size-caption-sm); color: var(--color-text-support); list-style: none; margin: 0; padding: 0; }
-.fc-notes li { display: flex; align-items: center; gap: 12px; }
-.fc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); flex-shrink: 0; }
-.fc-fields .field { max-width: none; }
 .field { display:flex; flex-direction:column; gap:var(--spacing-xs); width:100%; }
 .field-label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); }
 .field-label .req { color:var(--color-danger); }
@@ -128,7 +98,6 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .input { width:100%; height:var(--size-input); border:var(--border-width-1-5) solid var(--color-border); border-radius:var(--rounded-md); padding:0 14px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); background:var(--color-bg-base); outline:none; transition:border-color .15s, box-shadow .15s; }
 .input::placeholder { color:var(--color-text-placeholder); }
 .input:hover { border-color:var(--color-border-strong); }
-.field-hint { font-size:var(--font-size-caption); color:var(--color-text-support); }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
 </head>
@@ -197,42 +166,51 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><h2 class="sect-h">Preview</h2>
       <div class="canvas col" style="max-width:600px;margin:0 auto;">
         <!-- demo:preview -->
-        <form class="form-card" aria-labelledby="fc-demo-1">
-          <div class="fc-title">
-            <span class="fc-icon"><svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-277.5c0-17-6.7-33.3-18.7-45.3L258.7 18.7C246.7 6.7 230.5 0 213.5 0L64 0zM325.5 176L232 176c-13.3 0-24-10.7-24-24L208 58.5 325.5 176zM64 384l0-64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 416c-17.7 0-32-14.3-32-32zM88 64l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24S74.7 64 88 64zm0 96l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"></path></svg></span>
-            <div class="fc-heading">
-              <h3 class="fc-h" id="fc-demo-1">Request Your Discounted Quote</h3>
-              <p>Tell us what you&#39;re migrating from and we&#39;ll do the rest.</p>
+        <form class="bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px]" aria-labelledby="fc-demo-1">
+          <div class="flex items-center gap-[16px]">
+            <span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary
+            bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)]
+            border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]">
+            <svg class="size-[26px]" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-277.5c0-17-6.7-33.3-18.7-45.3L258.7 18.7C246.7 6.7 230.5 0 213.5 0L64 0zM325.5 176L232 176c-13.3 0-24-10.7-24-24L208 58.5 325.5 176zM64 384l0-64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 416c-17.7 0-32-14.3-32-32zM88 64l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24S74.7 64 88 64zm0 96l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"></path></svg>
+          </span>
+          <div>
+            <h3 class="font-sans text-h4 font-bold text-text-heading m-0" id="fc-demo-1">Request Your Discounted Quote</h3>
+            <p class="font-sans text-caption text-text-support mt-[4px] mb-0 mx-0">Tell us what you&#39;re migrating from and we&#39;ll do the rest.</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-[20px] [&amp;&gt;*]:max-w-none">
+          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+            <label class="text-label font-medium text-text-body leading-5" for="full-name">
+              Full name<span class="text-danger"> *</span>
+            </label>
+            <div class="relative flex items-center">
+              <input id="full-name" name="full-name" type="text" class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="Jane Cooper" required>
             </div>
           </div>
-          <div class="fc-fields">
-            <div class="flex flex-col gap-xs w-full max-w-[340px]">
-              <label class="text-label font-medium text-text-body leading-5" for="full-name">
-                Full name<span class="text-danger"> *</span>
-              </label>
-              <div class="relative flex items-center">
-                <input id="full-name" name="full-name" type="text" class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="Jane Cooper" required>
-              </div>
-            </div>
-            <div class="flex flex-col gap-xs w-full max-w-[340px]">
-              <label class="text-label font-medium text-text-body leading-5" for="work-email">
-                Work email<span class="text-danger"> *</span>
-              </label>
-              <div class="relative flex items-center">
-                <input id="work-email" name="work-email" type="email" class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="you@example.com" required>
-              </div>
+          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+            <label class="text-label font-medium text-text-body leading-5" for="work-email">
+              Work email<span class="text-danger"> *</span>
+            </label>
+            <div class="relative flex items-center">
+              <input id="work-email" name="work-email" type="email" class="w-full h-[var(--size-input)] rounded-md px-[14px] font-sans text-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue" placeholder="you@example.com" required>
             </div>
           </div>
-          <div class="fc-last">
-            <button type="submit" class="fc-submit">Get Your Migration Quote <span class="arr">→</span></button>
-            <ul class="fc-notes">
-              <li><span>No obligation to proceed</span></li>
-              <li>
-                <span class="fc-sep" aria-hidden="true"></span>
-                <span>Response within 1 business day</span>
-              </li>
-            </ul>
-          </div>
+        </div>
+        <div class="flex flex-col gap-[12px]">
+          <button type="submit" class="group w-full h-[var(--size-btn-lg)] border-0 rounded-cta bg-primary text-primary-on
+          font-sans text-btn-lg font-bold cursor-pointer inline-flex items-center justify-center gap-[8px]
+          transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">
+          Get Your Migration Quote
+          <span class="transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]">→</span>
+        </button>
+        <ul class="flex items-center justify-center gap-[12px] text-caption-sm text-text-support list-none m-0 p-0">
+          <li class="flex items-center gap-[12px]"><span>No obligation to proceed</span></li>
+          <li class="flex items-center gap-[12px]">
+            <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>
+            <span>Response within 1 business day</span>
+          </li>
+        </ul>
+        </div>
         </form>
         <!-- /demo:preview -->
       </div>
@@ -241,22 +219,22 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><h2 class="sect-h">Icons</h2>
       <div class="sect-sub">The <code>icon</code> prop resolves to an inline Font Awesome Free Solid SVG — one of three named icons, tinted with <b>--color-secondary</b>.</div>
       <div class="grid">
-        <div class="cell" style="align-items:center;"><span class="fc-icon"><svg viewBox="0 0 384 512" fill="currentColor"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-277.5c0-17-6.7-33.3-18.7-45.3L258.7 18.7C246.7 6.7 230.5 0 213.5 0L64 0zM325.5 176L232 176c-13.3 0-24-10.7-24-24L208 58.5 325.5 176zM64 384l0-64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 416c-17.7 0-32-14.3-32-32zM88 64l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24S74.7 64 88 64zm0 96l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg></span><div class="lbl" style="text-align:center;">quote<small>file-invoice</small></div></div>
-        <div class="cell" style="align-items:center;"><span class="fc-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span><div class="lbl" style="text-align:center;">key<small>key</small></div></div>
-        <div class="cell" style="align-items:center;"><span class="fc-icon"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span><div class="lbl" style="text-align:center;">check<small>check</small></div></div>
+        <div class="cell" style="align-items:center;"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 384 512" fill="currentColor"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-277.5c0-17-6.7-33.3-18.7-45.3L258.7 18.7C246.7 6.7 230.5 0 213.5 0L64 0zM325.5 176L232 176c-13.3 0-24-10.7-24-24L208 58.5 325.5 176zM64 384l0-64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 416c-17.7 0-32-14.3-32-32zM88 64l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24S74.7 64 88 64zm0 96l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg></span><div class="lbl" style="text-align:center;">quote<small>file-invoice</small></div></div>
+        <div class="cell" style="align-items:center;"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span><div class="lbl" style="text-align:center;">key<small>key</small></div></div>
+        <div class="cell" style="align-items:center;"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span><div class="lbl" style="text-align:center;">check<small>check</small></div></div>
       </div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="sect-sub">The parts of the card and the token each is bound to.</div>
       <div class="anatomy" style="align-items:stretch;max-width:600px;margin:0 auto;">
-        <div class="form-card" style="max-width:none;">
-          <div class="fc-title">
-            <span class="fc-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span>
-            <div class="fc-heading"><h3 class="fc-h">Card title</h3><p>Optional subtitle.</p></div>
+        <div class="bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px]" style="max-width:none;">
+          <div class="flex items-center gap-[16px]">
+            <span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span>
+            <div ><h3 class="font-sans text-h4 font-bold text-text-heading m-0">Card title</h3><p class="font-sans text-caption text-text-support mt-[4px] mb-0 mx-0">Optional subtitle.</p></div>
           </div>
-          <div class="fc-fields"><div class="field"><label class="field-label">Slotted field</label><div class="input-wrap"><input class="input" placeholder="Your fields go here"></div></div></div>
-          <div class="fc-last"><button type="submit" class="fc-submit">Submit label <span class="arr">→</span></button><div class="fc-notes"><span>Note left</span><span class="fc-sep"></span><span>Note right</span></div></div>
+          <div class="flex flex-col gap-[20px] [&>*]:max-w-none"><div class="field"><label class="field-label">Slotted field</label><div class="input-wrap"><input class="input" placeholder="Your fields go here"></div></div></div>
+          <div class="flex flex-col gap-[12px]"><button type="submit" class="group w-full h-[var(--size-btn-lg)] border-0 rounded-cta bg-primary text-primary-on font-sans text-btn-lg font-bold cursor-pointer inline-flex items-center justify-center gap-[8px] transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">Submit label <span class="transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]">→</span></button><div class="flex items-center justify-center gap-[12px] text-caption-sm text-text-support list-none m-0 p-0"><span>Note left</span><span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0"></span><span>Note right</span></div></div>
         </div>
         <div class="anatomy-tags">
           <span class="atag">frame → <b>--rounded-2xl</b> + <b>--color-border</b></span>
@@ -331,9 +309,9 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Guidelines</h2>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="fc-title"><span class="fc-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span><div class="fc-heading"><h3 class="fc-h">Start Free Trial</h3><p>One clear ask per card.</p></div></div></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="flex items-center gap-[16px]"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span><div ><h3 class="font-sans text-h4 font-bold text-text-heading m-0">Start Free Trial</h3><p class="font-sans text-caption text-text-support mt-[4px] mb-0 mx-0">One clear ask per card.</p></div></div></div>
           <ul><li>Keep one primary action per card — a single submit.</li><li>Use the subtitle to set expectations, notes to reduce friction.</li><li>Match the icon to the intent: <b>quote</b>, <b>key</b> or <b>check</b>.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="fc-title"><span class="fc-icon"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span><div class="fc-heading"><h3 class="fc-h">Sign up · Log in · Learn more</h3><p>Too many competing asks.</p></div></div></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="flex items-center gap-[16px]"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span><div ><h3 class="font-sans text-h4 font-bold text-text-heading m-0">Sign up · Log in · Learn more</h3><p class="font-sans text-caption text-text-support mt-[4px] mb-0 mx-0">Too many competing asks.</p></div></div></div>
           <ul><li>Don't stack multiple submits or CTAs in one card.</li><li>Don't hard-code the pink submit fill — use <b>--color-primary</b>.</li><li>Don't drop the visible labels on the slotted fields.</li></ul></div>
       </div>
     </div>

@@ -43,25 +43,54 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5';
 const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
 ---
 
-<form class:list={['form-card', className]} action={action} method={method} aria-labelledby={titleId}>
-  <div class="fc-title">
-    <span class="fc-icon"><svg viewBox={icons[icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[icon].path} /></svg></span>
-    <div class="fc-heading">
-      <Heading class="fc-h" id={titleId}>{title}</Heading>
-      {subtitle && <p>{subtitle}</p>}
+<form
+  class:list={[
+    'bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px]',
+    className,
+  ]}
+  action={action}
+  method={method}
+  aria-labelledby={titleId}
+>
+  <div class="flex items-center gap-[16px]">
+    <span
+      class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary
+             bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)]
+             border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"
+    >
+      <svg class="size-[26px]" viewBox={icons[icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[icon].path} /></svg>
+    </span>
+    <div>
+      <Heading class="font-sans text-h4 font-bold text-text-heading m-0" id={titleId}>{title}</Heading>
+      {subtitle && <p class="font-sans text-caption text-text-support mt-[4px] mb-0 mx-0">{subtitle}</p>}
     </div>
   </div>
-  <div class="fc-fields">
+  {/*
+    `.fc-fields :global(.field) { max-width: none }` reached into slotted markup
+    to unpin the 340px cap Input and Textarea set on themselves. A class list
+    cannot reach into a slot, and after the conversion there is no `.field`
+    class left to aim at either — so the same override is written as an
+    arbitrary variant on the direct children, which is what that selector meant.
+  */}
+  <div class="flex flex-col gap-[20px] [&>*]:max-w-none">
     <slot />
   </div>
-  <div class="fc-last">
-    <button type="submit" class="fc-submit">{submitLabel} <span class="arr">→</span></button>
+  <div class="flex flex-col gap-[12px]">
+    <button
+      type="submit"
+      class="group w-full h-[var(--size-btn-lg)] border-0 rounded-cta bg-primary text-primary-on
+             font-sans text-btn-lg font-bold cursor-pointer inline-flex items-center justify-center gap-[8px]
+             transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover"
+    >
+      {submitLabel}
+      <span class="transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]">→</span>
+    </button>
     {(noteLeft || noteRight) && (
-      <ul class="fc-notes">
-        {noteLeft && <li><span>{noteLeft}</span></li>}
+      <ul class="flex items-center justify-center gap-[12px] text-caption-sm text-text-support list-none m-0 p-0">
+        {noteLeft && <li class="flex items-center gap-[12px]"><span>{noteLeft}</span></li>}
         {noteRight && (
-          <li>
-            {noteLeft && <span class="fc-sep" aria-hidden="true"></span>}
+          <li class="flex items-center gap-[12px]">
+            {noteLeft && <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>}
             <span>{noteRight}</span>
           </li>
         )}
@@ -70,37 +99,3 @@ const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
   </div>
 </form>
 
-<style>
-  .form-card {
-    background: var(--color-bg-base); border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-2xl);
-    padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 540px;
-  }
-  .fc-title { display: flex; align-items: center; gap: 16px; }
-  .fc-icon {
-    width: 64px; height: 64px; flex-shrink: 0; border-radius: var(--rounded-lg);
-    background: color-mix(in srgb, var(--color-secondary) 6%, transparent); border: var(--border-width-1) solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
-    display: flex; align-items: center; justify-content: center; color: var(--color-secondary);
-  }
-  .fc-icon svg { width: 26px; height: 26px; }
-  /* Selected by class, not by `h3` — the level is a prop now, so the tag is not
-     knowable from the stylesheet. */
-  .fc-heading .fc-h { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-h4); font-weight: 700; color: var(--color-text-heading); margin: 0; }
-  .fc-heading p { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-caption); color: var(--color-text-support); margin: 4px 0 0; }
-  .fc-fields { display: flex; flex-direction: column; gap: 20px; }
-  .fc-fields :global(.field) { max-width: none; }
-  .fc-last { display: flex; flex-direction: column; gap: 12px; }
-  .fc-submit {
-    width: 100%; height: var(--size-btn-lg); border: none; border-radius: var(--rounded-cta);
-    background: var(--color-primary); color: var(--color-primary-on); font-family: 'Montserrat', sans-serif;
-    font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    transition: background var(--duration-fast);
-  }
-  .fc-submit:hover { background: var(--color-primary-hover); }
-  .fc-submit .arr { transition: transform var(--duration-base); }
-  .fc-submit:hover .arr { transform: translateX(3px); }
-  /* A list, with the separator inside the item it precedes — see TrialKeyCard. */
-  .fc-notes { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--font-size-caption-sm); color: var(--color-text-support); list-style: none; margin: 0; padding: 0; }
-  .fc-notes li { display: flex; align-items: center; gap: 12px; }
-  .fc-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border-strong); flex-shrink: 0; }
-</style>
