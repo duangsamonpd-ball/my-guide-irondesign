@@ -114,6 +114,17 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) 
       if (!known.length) continue;
       for (const c of tokens) {
         if (utilities.has(c) || !/[-:]/.test(c)) continue;
+        /**
+         * A token whose brackets do not balance is this reader's own damage, not
+         * a class. `bg-[url(assets/Rainbow.svg)]` written with inner quotes ends
+         * the surrounding `'…'` early, and what comes back is `bg-[url(` — which
+         * was duly reported as a utility Tailwind had failed to emit, while the
+         * rule sat in the compiled sheet the whole time. Third time a quote has
+         * fooled this file; the other two are noted above.
+         */
+        const balanced = (open, close) =>
+          c.split(open).length === c.split(close).length;
+        if (!balanced('[', ']') || !balanced('(', ')')) continue;
         unknown.push({ file, cls: c });
       }
     }

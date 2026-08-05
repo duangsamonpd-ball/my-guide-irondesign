@@ -151,8 +151,24 @@ function checkConverted(file, name, docsPath) {
    */
   const MARKERS = new Set(['group', 'peer']);
 
+  /**
+   * A class a script looks for is a hook, not a style, and is allowed to resolve
+   * to nothing. `docs/preview-frame.js` finds its wrapper with `.vp` — declared
+   * nowhere in CSS on purpose, because only `.vp-bar`, `.vp-stage` and the rest
+   * are painted. Reported as an unstyled class it looks exactly like a deletion
+   * that went too far.
+   */
+  const scripts = [
+    ...[...page.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]),
+    ...[...page.matchAll(/<script[^>]+src="([^"]+)"/gi)]
+      .filter(([, src]) => !/^https?:/i.test(src))
+      .map(([, src]) => { try { return readFileSync(join(DOCS, src), 'utf8'); } catch { return ''; } }),
+  ].join('\n');
+
   const used = classesInMarkup(page);
-  const unstyled = [...used].filter((c) => !declared.has(c) && !MARKERS.has(c));
+  const unstyled = [...used].filter(
+    (c) => !declared.has(c) && !MARKERS.has(c) && !scripts.includes(`'${c}'`) && !scripts.includes(`"${c}"`) && !scripts.includes(`.${c}`),
+  );
   if (unstyled.length) {
     problems.push(
       `${unstyled.length} class${unstyled.length > 1 ? 'es' : ''} in its markup resolve nowhere — ` +

@@ -278,9 +278,7 @@
       "file": "astro-components/components/Footer.astro",
       "docs": "docs/component-footer.html",
       "interactive": false,
-      "figmaNodes": [
-        "566:8083"
-      ],
+      "figmaNodes": [],
       "props": [
         {
           "name": "variant",

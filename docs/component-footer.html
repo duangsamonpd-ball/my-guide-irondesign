@@ -110,78 +110,6 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
 .c-key{color:#E95F8B;}
-.footer-top {
-    background-color: var(--color-bg-dark-shade);
-    background-image: url('assets/Rainbow.svg'); background-size: cover; background-position: center;
-    color: var(--color-text-on-color-heading); position: relative; overflow: hidden;
-  }
-.ft-inner { max-width: var(--size-container-content); margin: 0 auto; display: flex; align-items: stretch; padding: var(--spacing-4xl) 0; }
-/* 24 outside, 48 in towards the divider — not 48 both sides. Figma insets the
-   row by 24 (node 566:8083, 1232 wide inside the 1280) and then leaves 48 to
-   the divider, which makes each column 567: 24 + 567 + 48 + 2 + 48 + 567 + 24.
-   At 48/48 the columns come out 543, and the right edges still line up, so the
-   24 that goes missing on each outer edge is invisible until something has to
-   fit — the two CTAs total 556.5 and were wrapping to a second line. */
-.ft-left { flex: 1; padding: 0 var(--spacing-3xl) 0 var(--spacing-xl); display: flex; flex-direction: column; }
-.ft-divider { background:var(--transparent-white-10); width:2px; flex-shrink:0; align-self:stretch; }
-.ft-right { flex: 1; padding: 0 var(--spacing-xl) 0 var(--spacing-3xl); }
-.ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: 500; color: var(--color-text-on-color-heading); letter-spacing: var(--letter-spacing-nav-label); margin: 0; }
-.ft-donate img { height:30px; width:auto; display:block; }
-.ft-main { display: flex; flex-direction: column; gap: var(--spacing-2xl); padding-top: var(--spacing-3xl); }
-.ft-text { display: flex; flex-direction: column; gap: var(--spacing-md); }
-.f-suite-logo { font-weight: 700; font-size: var(--font-size-3xl); display: flex; align-items: center; gap: var(--spacing-micro); margin: 0; }
-.f-suite-logo img { height:30px; width:auto; display:block; }
-.ft-headline { font-weight: 700; font-size: var(--font-size-3xl); color: var(--color-text-on-color-heading); line-height: 1.2; margin: 0; }
-.ft-tagline { font-size: var(--font-size-xl); font-weight: 700; line-height: var(--leading-7); margin: 0; }
-/* Figma's CTA frame (507:4077) sets no gap — it is `justify-between` across the
-   567 column, and the 18px you can measure between the two buttons is just what
-   that produced at Figma's own widths. Ours come out 3-4px wider each (Solid
-   glyphs where Figma sets Regular, plus text rendering), so a fixed gap of any
-   size would push the pair past the column; space-between absorbs it. The row
-   gap is for the wrapped state only. */
-.ft-actions { display: flex; align-items: center; justify-content: space-between; row-gap: var(--spacing-md); flex-wrap: wrap; }
-/* Both CTAs are the DS Button (Figma composes two `button` instances here,
-   507:4078 tertiary and 507:4079 ghost, both large). This used to be a pair of
-   hand-rolled `.btn-dark` / `.btn-text-light` rules that had drifted: gap 8
-   against Figma's 12, and the second one was not a button at all — 19px tall,
-   no padding, no pill, white where Figma paints `on-action-tertiary` blue.
-   Button owns all of that now; what is left here is only what Button has no
-   opinion about. */
-.ft-cta svg { height: 1em; width: auto; flex-shrink: 0; }
-/* Not from Figma — this component has always slid the arrow on hover, and it
-   is worth keeping. Scoped to `.arr` so the leading key icon stays put. */
-.ft-cta .arr { transition: transform var(--duration-base); }
-.ft-cta:hover .arr { transform: translateX(3px); }
-/* Copied from Button.astro, like component-formcard.html copies Input's field
-   rules: the CTAs here are real <Button> instances, and this page has to render
-   standalone. Only the two variants the footer uses are brought across.
-   A stale `.btn` in the old `--space-*` vocabulary used to sit here — dead while
-   the CTAs were hand-rolled, and it would have quietly overridden this one. */
-.btn {
-    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
-    font-family: 'Montserrat', sans-serif; border: var(--border-width-2) solid transparent; outline: none;
-    border-radius: var(--rounded-cta); white-space: nowrap; text-decoration: none;
-    transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast), box-shadow var(--duration-fast);
-  }
-.btn--lg { height: var(--size-btn-lg); padding: 0 var(--spacing-2xl); gap: var(--spacing-sm); font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); letter-spacing: 0; }
-.btn--tertiary  { background: var(--color-button-tertiary); color: var(--color-primary-on); }
-.btn--tertiary:hover  { background: var(--color-primary); }
-.btn--tertiary:focus-visible  { box-shadow: var(--focus-ring-white); }
-.btn--ghost     { background: transparent; color: var(--color-on-tertiary); }
-.btn--ghost:hover     { background: var(--ghost-hover); color: var(--color-on-tertiary-hover); }
-.btn--ghost:focus-visible     { border-color: var(--color-border-focused); }
-.f-products { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; }
-.fp-row { display: flex; align-items: center; flex-wrap: wrap; line-height: 1.5; gap: var(--spacing-micro); padding-left: 26px; text-decoration: none; color: inherit; }
-.fp-row:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; border-radius: var(--rounded-sm); }
-.fp-logo { width:22px; height:22px; flex-shrink:0; display:flex; align-items:center; margin-left:-26px; }
-.fp-logo img { width: 22px; height: 22px; display: block; opacity: 0; transition: opacity var(--duration-base); }
-.fp-row:hover .fp-logo img, .fp-row.is-hover .fp-logo img { opacity:1; }
-.fp-name { font-size: var(--font-size-lg); font-weight: 700; letter-spacing: var(--letter-spacing-h4); color: var(--color-text-on-color-heading); display: flex; align-items: baseline; }
-.fp-name .suffix { font-weight:400; }
-.fp-sep { font-size: var(--font-size-sm); color: var(--color-text-dark-support); margin: 0 var(--spacing-micro); transition: color var(--duration-base); }
-.fp-row:hover .fp-sep, .fp-row.is-hover .fp-sep { color:var(--on-color); }
-.fp-desc { font-size: var(--font-size-sm); color: var(--color-text-dark-support); transition: color var(--duration-base); min-width: 0; }
-.fp-row:hover .fp-desc, .fp-row.is-hover .fp-desc { color:var(--on-color-body); }
 .hover-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .hover-card { background:var(--footer-bg); border:1px solid #3A2A3C; border-radius:14px; padding:24px; }
 .hover-card .hc-lbl { font-size:0.66rem; font-weight:700; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:0.08em; margin-top:16px; }
@@ -189,16 +117,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .anat-item { display:flex; gap:10px; align-items:flex-start; font-size:0.8rem; color:#45556C; line-height:1.5; }
 .anat-num { flex-shrink:0; width:20px; height:20px; border-radius:50%; background:#171717; color:#fff; font-size:0.66rem; font-weight:800; display:flex; align-items:center; justify-content:center; }
 @media (max-width:900px){ .dd,.hover-cards{grid-template-columns:1fr;} }
-@media (max-width: 1023.98px) { .ft-inner { flex-direction: column; gap: 32px; } .ft-divider { display: none; } }
-.ft-headline .hl, .f-suite-logo .hl { color: var(--color-text-on-color-heading); font-weight: 700; }
-.ft-headline .ac, .f-suite-logo .ac { color: var(--color-primary); font-weight: 400; }
-.ft-tagline .dim { color: var(--color-text-dark-heading); }
-.ft-tagline .support { color: var(--color-text-dark-support); }
-.btn-dark .arr, .btn-text-light .arr { transition: transform var(--duration-base); }
-.btn-dark:hover .arr, .btn-text-light:hover .arr { transform: translateX(3px); }
-.fp-row:hover .fp-logo img, .fp-row:focus-visible .fp-logo img { opacity: 1; }
-.fp-row:hover .fp-sep, .fp-row:focus-visible .fp-sep { color: var(--color-text-on-color-heading); }
-.fp-row:hover .fp-desc, .fp-row:focus-visible .fp-desc { color: var(--color-text-on-color-body); }
+.demo-row-hover img { opacity: 1; }
+.demo-row-hover .text-text-dark-support { color: var(--color-text-on-color-heading); }
   </style>
 </head>
 <body>
@@ -271,103 +191,103 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <div class="var-label">Suite &nbsp;<small>Property 1=Suite — homepage &amp; generic landing pages</small></div>
       <div class="frame"><div class="frame-scroll">
         <!-- demo:suite -->
-        <section class="footer-top" aria-label="Iron Suite">
-          <div class="ft-inner">
-            <div class="ft-left">
-              <p class="ft-donate">Every Iron Suite Donates <img src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet"></p>
-              <div class="ft-main">
-                <div class="ft-text">
-                  <h2 class="f-suite-logo">
-                    <img src="assets/hash-white%20color.svg" alt="">
-                    <span><span class="hl">IRON</span><span class="ac">SUITE</span></span>
+        <section class="bg-bg-dark-shade bg-[url(assets/Rainbow.svg)] bg-cover bg-center text-text-on-color-heading relative overflow-hidden" aria-label="Iron Suite">
+          <div class="max-w-[var(--size-container-content)] mx-auto flex items-stretch py-4xl max-lg:flex-col max-lg:gap-[32px]">
+            <div class="flex-1 pl-xl pr-3xl flex flex-col">
+              <p class="flex items-center justify-end gap-xs text-xs leading-[normal] font-medium text-text-on-color-heading tracking-nav-label m-0">Every Iron Suite Donates <img class="h-[30px] w-auto block" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet"></p>
+              <div class="flex flex-col gap-2xl pt-3xl">
+                <div class="flex flex-col gap-md">
+                  <h2 class="font-bold text-3xl leading-[normal] flex items-center gap-micro m-0">
+                    <img class="h-[30px] w-auto block" src="assets/hash-white%20color.svg" alt="">
+                    <span><span class="text-text-on-color-heading font-bold">IRON</span><span class="text-primary font-normal">SUITE</span></span>
                   </h2>
-                  <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
+                  <p class="text-xl font-bold leading-7 m-0"><span class="text-text-dark-heading">10 .NET API products</span><span class="text-text-dark-support"> for your office documents</span></p>
                 </div>
-                <div class="ft-actions">
-                  <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-button-tertiary text-primary-on border-transparent hover:bg-primary focus-visible:shadow-[var(--focus-ring-white)] ft-cta">
+                <div class="flex items-center justify-between gap-y-md flex-wrap">
+                  <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-button-tertiary text-primary-on border-transparent hover:bg-primary focus-visible:shadow-[var(--focus-ring-white)] group">
                     Get Full 10 products Suite
-                    <svg class="arr" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+                    <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
                   </a>
-                  <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused ft-cta">
-                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg>
+                  <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused group">
+                    <svg class="h-[1em] w-auto shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg>
                     Start Free Trial
-                    <svg class="arr" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+                    <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
                   </a>
                 </div>
               </div>
             </div>
-            <div class="ft-divider" aria-hidden="true"></div>
-            <div class="ft-right">
-              <ul class="f-products">
+            <div class="bg-[var(--transparent-white-10)] w-[2px] shrink-0 self-stretch max-lg:hidden" aria-hidden="true"></div>
+            <div class="flex-1 pl-3xl pr-xl">
+              <ul class="list-none flex flex-col gap-[6px] m-0 p-0">
                 <li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-pink-500)">PDF</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Create, read, and edit PDFs. HTML to PDF for .NET.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-pink-500)">PDF</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Create, read, and edit PDFs. HTML to PDF for .NET.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-sky-500)">WORD</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Edit DOCX Word Files. No Office Interop required.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-sky-500)">WORD</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Edit DOCX Word Files. No Office Interop required.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">XL</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Edit Excel &amp; CSV files. No Office Interop required.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-green-500)">XL</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Edit Excel &amp; CSV files. No Office Interop required.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-pink-500)">PTT</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Edit Powerpoint files. No Office Interop required.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-pink-500)">PTT</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Edit Powerpoint files. No Office Interop required.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-sky-500)">OCR</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">OCR (extract text from images) in 127 languages.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-sky-500)">OCR</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">OCR (extract text from images) in 127 languages.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">BARCODE</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Read and write QR &amp; Barcodes.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-green-500)">BARCODE</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Read and write QR &amp; Barcodes.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">QR</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Read and write QR codes.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-green-500)">QR</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Read and write QR codes.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">ZIP</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Zip and unzip archives.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-orange-500)">ZIP</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Zip and unzip archives.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">PRINT</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Print documents in .NET applications.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-orange-500)">PRINT</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Print documents in .NET applications.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">WEBSCRAPER</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Scrape structured data from websites.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-orange-500)">WEBSCRAPER</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Scrape structured data from websites.</span>
                   </a>
                 </li>
               </ul>
@@ -380,100 +300,100 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <div class="var-label" style="margin-top:32px;">Default &nbsp;<small>Property 1=Default — individual product pages (cross-sell)</small></div>
       <div class="frame"><div class="frame-scroll">
         <!-- demo:default -->
-        <section class="footer-top" aria-label="Iron Suite">
-          <div class="ft-inner">
-            <div class="ft-left">
-              <p class="ft-donate">Every Iron Suite Donates <img src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet"></p>
-              <div class="ft-main">
-                <div class="ft-text">
-                  <h2 class="ft-headline">IronPDF is a part of <span class="hl">IRON</span><span class="ac">SUITE</span></h2>
-                  <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
+        <section class="bg-bg-dark-shade bg-[url(assets/Rainbow.svg)] bg-cover bg-center text-text-on-color-heading relative overflow-hidden" aria-label="Iron Suite">
+          <div class="max-w-[var(--size-container-content)] mx-auto flex items-stretch py-4xl max-lg:flex-col max-lg:gap-[32px]">
+            <div class="flex-1 pl-xl pr-3xl flex flex-col">
+              <p class="flex items-center justify-end gap-xs text-xs leading-[normal] font-medium text-text-on-color-heading tracking-nav-label m-0">Every Iron Suite Donates <img class="h-[30px] w-auto block" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% For The Planet"></p>
+              <div class="flex flex-col gap-2xl pt-3xl">
+                <div class="flex flex-col gap-md">
+                  <h2 class="font-bold text-3xl text-text-on-color-heading leading-[1.2] m-0">IronPDF is a part of <span class="text-text-on-color-heading font-bold">IRON</span><span class="text-primary font-normal">SUITE</span></h2>
+                  <p class="text-xl font-bold leading-7 m-0"><span class="text-text-dark-heading">10 .NET API products</span><span class="text-text-dark-support"> for your office documents</span></p>
                 </div>
-                <div class="ft-actions">
-                  <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-button-tertiary text-primary-on border-transparent hover:bg-primary focus-visible:shadow-[var(--focus-ring-white)] ft-cta">
+                <div class="flex items-center justify-between gap-y-md flex-wrap">
+                  <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-button-tertiary text-primary-on border-transparent hover:bg-primary focus-visible:shadow-[var(--focus-ring-white)] group">
                     Get Full 10 products Suite
-                    <svg class="arr" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+                    <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
                   </a>
-                  <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused ft-cta">
-                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg>
+                  <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused group">
+                    <svg class="h-[1em] w-auto shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg>
                     Start Free Trial
-                    <svg class="arr" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+                    <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
                   </a>
                 </div>
               </div>
             </div>
-            <div class="ft-divider" aria-hidden="true"></div>
-            <div class="ft-right">
-              <ul class="f-products">
+            <div class="bg-[var(--transparent-white-10)] w-[2px] shrink-0 self-stretch max-lg:hidden" aria-hidden="true"></div>
+            <div class="flex-1 pl-3xl pr-xl">
+              <ul class="list-none flex flex-col gap-[6px] m-0 p-0">
                 <li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-pink-500)">PDF</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Create, read, and edit PDFs. HTML to PDF for .NET.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-pink-500)">PDF</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Create, read, and edit PDFs. HTML to PDF for .NET.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-sky-500)">WORD</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Edit DOCX Word Files. No Office Interop required.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-sky-500)">WORD</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Edit DOCX Word Files. No Office Interop required.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">XL</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Edit Excel &amp; CSV files. No Office Interop required.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-green-500)">XL</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Edit Excel &amp; CSV files. No Office Interop required.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-pink-500)">PTT</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Edit Powerpoint files. No Office Interop required.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-pink-500)">PTT</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Edit Powerpoint files. No Office Interop required.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-sky-500)">OCR</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">OCR (extract text from images) in 127 languages.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-sky-500)">OCR</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">OCR (extract text from images) in 127 languages.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">BARCODE</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Read and write QR &amp; Barcodes.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-green-500)">BARCODE</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Read and write QR &amp; Barcodes.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-green-500)">QR</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Read and write QR codes.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-green-500)">QR</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Read and write QR codes.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">ZIP</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Zip and unzip archives.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-orange-500)">ZIP</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Zip and unzip archives.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">PRINT</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Print documents in .NET applications.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-orange-500)">PRINT</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Print documents in .NET applications.</span>
                   </a>
                 </li><li>
-                  <a class="fp-row" href="#">
-                    <span class="fp-logo"><img src="assets/logo.svg" alt=""></span>
-                    <span class="fp-name">IRON<span class="suffix" style="color:var(--iron-orange-500)">WEBSCRAPER</span></span>
-                    <span class="fp-sep" aria-hidden="true">-</span>
-                    <span class="fp-desc">Scrape structured data from websites.</span>
+                  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href="#">
+                    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span>
+                    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--iron-orange-500)">WEBSCRAPER</span></span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+                    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Scrape structured data from websites.</span>
                   </a>
                 </li>
               </ul>
@@ -490,11 +410,11 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <div class="sect-sub">Every product link is built from this. On hover the product icon fades in, the name suffix keeps its brand colour, and the description brightens.</div>
       <div class="hover-cards">
         <div class="hover-card">
-          <ul class="f-products"><li class="fp-row"><span class="fp-logo"><img src="assets/logo.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PDF</span></span><span class="fp-sep">-</span><span class="fp-desc">Create, read, and edit PDFs.</span></li></ul>
+          <ul class="list-none flex flex-col gap-[6px] m-0 p-0"><li class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm"><span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span><span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--primary)">PDF</span></span><span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading">-</span><span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Create, read, and edit PDFs.</span></li></ul>
           <div class="hc-lbl">Default</div>
         </div>
         <div class="hover-card">
-          <ul class="f-products"><li class="fp-row is-hover"><span class="fp-logo"><img src="assets/logo.svg" alt=""></span><span class="fp-name">IRON<span class="suffix" style="color:var(--primary)">PDF</span></span><span class="fp-sep">-</span><span class="fp-desc">Create, read, and edit PDFs.</span></li></ul>
+          <ul class="list-none flex flex-col gap-[6px] m-0 p-0"><li class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm demo-row-hover"><span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src="assets/logo.svg" alt=""></span><span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">IRON<span class="font-normal" style="color:var(--primary)">PDF</span></span><span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading">-</span><span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">Create, read, and edit PDFs.</span></li></ul>
           <div class="hc-lbl">Hover — icon in, description brightens</div>
         </div>
       </div>
@@ -575,7 +495,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
           <span class="c-com">&lt;!-- Default: headline names the current product --&gt;</span>
           &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-headline"</span>&gt;IronPDF is a part of &lt;<span class="c-tag">span</span> <span class="c-attr">style</span>=<span class="c-str">"color:var(--on-color);font-weight:700"</span>&gt;IRON&lt;/<span class="c-tag">span</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">style</span>=<span class="c-str">"color:var(--primary);font-weight:400"</span>&gt;SUITE&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
           <span class="c-com">&lt;!-- Suite variant: swap .ft-headline for .f-suite-logo (brand logo) --&gt;</span>
-          <span class="c-com">&lt;!-- &lt;div class="f-suite-logo"&gt;&lt;img src="assets/hash-white color.svg"&gt;&lt;span&gt;IRON&lt;span style="color:var(--primary)"&gt;SUITE&lt;/span&gt;&lt;/span&gt;&lt;/div&gt; --&gt;</span>
+          <span class="c-com">&lt;!-- &lt;div class="font-bold text-3xl leading-[normal] flex items-center gap-micro m-0"&gt;&lt;img src="assets/hash-white color.svg"&gt;&lt;span&gt;IRON&lt;span style="color:var(--primary)"&gt;SUITE&lt;/span&gt;&lt;/span&gt;&lt;/div&gt; --&gt;</span>
           &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"ft-tagline"</span>&gt;10 .NET API products for your office documents&lt;/<span class="c-tag">p</span>&gt;
         &lt;/<span class="c-tag">div</span>&gt;
         &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-actions"</span>&gt;

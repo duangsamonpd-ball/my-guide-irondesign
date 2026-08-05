@@ -53,45 +53,45 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
 const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
 ---
 
-<section class:list={['footer-top', className]} aria-label={label}>
-  <div class="ft-inner">
-    <div class="ft-left">
-      <p class="ft-donate">Every Iron Suite Donates <img src={src(donateImgSrc)} alt="1% For The Planet" /></p>
-      <div class="ft-main">
-        <div class="ft-text">
+<section class:list={['bg-bg-dark-shade bg-[url(assets/Rainbow.svg)] bg-cover bg-center text-text-on-color-heading relative overflow-hidden', className]} aria-label={label}>
+  <div class="max-w-[var(--size-container-content)] mx-auto flex items-stretch py-4xl max-lg:flex-col max-lg:gap-[32px]">
+    <div class="flex-1 pl-xl pr-3xl flex flex-col">
+      <p class="flex items-center justify-end gap-xs text-xs leading-[normal] font-medium text-text-on-color-heading tracking-nav-label m-0">Every Iron Suite Donates <img class="h-[30px] w-auto block" src={src(donateImgSrc)} alt="1% For The Planet" /></p>
+      <div class="flex flex-col gap-2xl pt-3xl">
+        <div class="flex flex-col gap-md">
           {variant === 'suite' ? (
-            <Heading class="f-suite-logo">
-              <img src={src(suiteLogoImgSrc)} alt="" />
-              <span><span class="hl">IRON</span><span class="ac">SUITE</span></span>
+            <Heading class="font-bold text-3xl leading-[normal] flex items-center gap-micro m-0">
+              <img class="h-[30px] w-auto block" src={src(suiteLogoImgSrc)} alt="" />
+              <span><span class="text-text-on-color-heading font-bold">IRON</span><span class="text-primary font-normal">SUITE</span></span>
             </Heading>
           ) : (
-            <Heading class="ft-headline">{productName}{' is a part of '}<span class="hl">IRON</span><span class="ac">SUITE</span></Heading>
+            <Heading class="font-bold text-3xl text-text-on-color-heading leading-[1.2] m-0">{productName}{' is a part of '}<span class="text-text-on-color-heading font-bold">IRON</span><span class="text-primary font-normal">SUITE</span></Heading>
           )}
-          <p class="ft-tagline"><span class="dim">10 .NET API products</span><span class="support"> for your office documents</span></p>
+          <p class="text-xl font-bold leading-7 m-0"><span class="text-text-dark-heading">10 .NET API products</span><span class="text-text-dark-support"> for your office documents</span></p>
         </div>
-        <div class="ft-actions">
-          <Button variant="tertiary" size="lg" href="#" class="ft-cta">
+        <div class="flex items-center justify-between gap-y-md flex-wrap">
+          <Button variant="tertiary" size="lg" href="#" class="group">
             Get Full 10 products Suite
-            <svg class="arr" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
+            <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
           </Button>
-          <Button variant="ghost" size="lg" href="#" class="ft-cta">
-            <svg viewBox={icons.key.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.key.path}/></svg>
+          <Button variant="ghost" size="lg" href="#" class="group">
+            <svg class="h-[1em] w-auto shrink-0" viewBox={icons.key.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.key.path}/></svg>
             Start Free Trial
-            <svg class="arr" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
+            <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
           </Button>
         </div>
       </div>
     </div>
-    <div class="ft-divider" aria-hidden="true"></div>
-    <div class="ft-right">
-      <ul class="f-products">
+    <div class="bg-[var(--transparent-white-10)] w-[2px] shrink-0 self-stretch max-lg:hidden" aria-hidden="true"></div>
+    <div class="flex-1 pl-3xl pr-xl">
+      <ul class="list-none flex flex-col gap-[6px] m-0 p-0">
         {products.map((p) => (
           <li>
-            <a class="fp-row" href={p.href ?? '#'}>
-              <span class="fp-logo"><img src={src(productLogoSrc)} alt="" /></span>
-              <span class="fp-name">{p.prefix}<span class="suffix" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
-              <span class="fp-sep" aria-hidden="true">-</span>
-              <span class="fp-desc">{p.desc}</span>
+            <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
+              <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={src(productLogoSrc)} alt="" /></span>
+              <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-color-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
+              <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-color-heading group-focus-visible:text-text-on-color-heading" aria-hidden="true">-</span>
+              <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-color-body group-focus-visible:text-text-on-color-body">{p.desc}</span>
             </a>
           </li>
         ))}
@@ -100,98 +100,3 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
   </div>
 </section>
 
-<style>
-  .footer-top {
-    background-color: var(--color-bg-dark-shade);
-    background-image: url('assets/Rainbow.svg'); background-size: cover; background-position: center;
-    color: var(--color-text-on-color-heading); position: relative; overflow: hidden;
-  }
-  .ft-inner { max-width: var(--size-container-content); margin: 0 auto; display: flex; align-items: stretch; padding: var(--spacing-4xl) 0; }
-  /* 24 outside, 48 in towards the divider — not 48 both sides. Figma insets the
-     row by 24 (node 566:8083, 1232 wide inside the 1280) and then leaves 48 to
-     the divider, which makes each column 567: 24 + 567 + 48 + 2 + 48 + 567 + 24.
-     At 48/48 the columns come out 543, and the right edges still line up, so the
-     24 that goes missing on each outer edge is invisible until something has to
-     fit — the two CTAs total 556.5 and were wrapping to a second line. */
-  .ft-left { flex: 1; padding: 0 var(--spacing-3xl) 0 var(--spacing-xl); display: flex; flex-direction: column; }
-  .ft-divider { background: var(--transparent-white-10); width: 2px; flex-shrink: 0; align-self: stretch; }
-  .ft-right { flex: 1; padding: 0 var(--spacing-xl) 0 var(--spacing-3xl); }
-  /* The headline and the donate line are a heading and a paragraph now, so both
-     zero the UA's block margins. docs.css already resets `*`, so the docs pages
-     render byte-identically; this is for consumers with no reset. */
-  .ft-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: 500; color: var(--color-text-on-color-heading); letter-spacing: var(--letter-spacing-nav-label); margin: 0; }
-  .ft-donate img { height: 30px; width: auto; display: block; }
-  .ft-main { display: flex; flex-direction: column; gap: var(--spacing-2xl); padding-top: var(--spacing-3xl); }
-  .ft-text { display: flex; flex-direction: column; gap: var(--spacing-md); }
-  .f-suite-logo { font-weight: 700; font-size: var(--font-size-3xl); display: flex; align-items: center; gap: var(--spacing-micro); margin: 0; }
-  .f-suite-logo img { height: 30px; width: auto; display: block; }
-  .ft-headline { font-weight: 700; font-size: var(--font-size-3xl); color: var(--color-text-on-color-heading); line-height: 1.2; margin: 0; }
-  .ft-headline .hl, .f-suite-logo .hl { color: var(--color-text-on-color-heading); font-weight: 700; }
-  .ft-headline .ac, .f-suite-logo .ac { color: var(--color-primary); font-weight: 400; }
-  .ft-tagline { font-size: var(--font-size-xl); font-weight: 700; line-height: var(--leading-7); margin: 0; }
-  .ft-tagline .dim { color: var(--color-text-dark-heading); }     /* near-white */
-  .ft-tagline .support { color: var(--color-text-dark-support); } /* dusty violet */
-  /* Figma's CTA frame (507:4077) sets no gap — it is `justify-between` across the
-     567 column, and the 18px you can measure between the two buttons is just what
-     that produced at Figma's own widths. Ours come out 3-4px wider each (Solid
-     glyphs where Figma sets Regular, plus text rendering), so a fixed gap of any
-     size would push the pair past the column; space-between absorbs it. The row
-     gap is for the wrapped state only. */
-  .ft-actions { display: flex; align-items: center; justify-content: space-between; row-gap: var(--spacing-md); flex-wrap: wrap; }
-  /* Both CTAs are the DS Button (Figma composes two `button` instances here,
-     507:4078 tertiary and 507:4079 ghost, both large). This used to be a pair of
-     hand-rolled `.btn-dark` / `.btn-text-light` rules that had drifted: gap 8
-     against Figma's 12, and the second one was not a button at all — 19px tall,
-     no padding, no pill, white where Figma paints `on-action-tertiary` blue.
-     Button owns all of that now; what is left here is only what Button has no
-     opinion about. */
-  .ft-cta svg { height: 1em; width: auto; flex-shrink: 0; }
-  /* Not from Figma — this component has always slid the arrow on hover, and it
-     is worth keeping. Scoped to `.arr` so the leading key icon stays put. */
-  .ft-cta .arr { transition: transform var(--duration-base); }
-  .ft-cta:hover .arr { transform: translateX(3px); }
-  .f-products { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; }
-  /* Wraps, and that is the whole point — it used to be `white-space: nowrap`,
-     which floored the row at its widest sentence (500px) and made it wider than
-     its own column below 499. The band clips rather than scrolls, so what that
-     produced was descriptions cut mid-word with no scrollbar to hint at it: 125px
-     gone at 375, 180px at 320. `.fp-name` is its own flex row, so IRONPDF still
-     never breaks apart; only the sentence after the separator reflows. */
-  /* The 26 of padding and the matching negative margin are a hanging indent, and
-     they only matter once the row wraps. The logo is 22 wide, invisible until
-     hover, and it used to push the name in by 26 while a wrapped description
-     started at 0 — a ragged left edge that read as a bug. Now every line in the
-     row starts at 26 and the logo hangs back into the padding, so nothing moves
-     at full width and the wrapped state lines up. */
-  /* Each row is a real <a> now. `Product.href` had been in the interface since this
-     component shipped and was never rendered — the rows were spans with
-     `cursor: pointer`, so ten internal links were invisible to a crawler and
-     unreachable by keyboard. The pointer cursor is the anchor's own default now,
-     and the row inherits colour so every span inside keeps the colour it had. */
-  .fp-row { display: flex; align-items: center; flex-wrap: wrap; line-height: 1.5; gap: var(--spacing-micro); padding-left: 26px; text-decoration: none; color: inherit; }
-  .fp-row:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; border-radius: var(--rounded-sm); }
-  .fp-logo { width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; margin-left: -26px; }
-  .fp-logo img { width: 22px; height: 22px; display: block; opacity: 0; transition: opacity var(--duration-base); }
-  .fp-row:hover .fp-logo img, .fp-row:focus-visible .fp-logo img { opacity: 1; }
-  .fp-name { font-size: var(--font-size-lg); font-weight: 700; letter-spacing: var(--letter-spacing-h4); color: var(--color-text-on-color-heading); display: flex; align-items: baseline; }
-  .fp-name .suffix { font-weight: 400; }
-  .fp-sep { font-size: var(--font-size-sm); color: var(--color-text-dark-support); margin: 0 var(--spacing-micro); transition: color var(--duration-base); }
-  .fp-row:hover .fp-sep, .fp-row:focus-visible .fp-sep { color: var(--color-text-on-color-heading); }
-  /* min-width:0 so the sentence can shrink under its own min-content and wrap
-     internally. Without it a flex item refuses to go narrower than its longest
-     word, and the row overflows again one line further down. */
-  .fp-desc { font-size: var(--font-size-sm); color: var(--color-text-dark-support); transition: color var(--duration-base); min-width: 0; }
-  .fp-row:hover .fp-desc, .fp-row:focus-visible .fp-desc { color: var(--color-text-on-color-body); }
-
-  /* 1024, not the 640 this shipped with. The two halves need 953px together —
-     `.ft-left` floors at 381 and `.ft-right` at 572, both on nowrap text — so a
-     640 breakpoint left 641–952 rendering a row that does not fit, 768 among
-     them. `.footer-top` is `overflow: hidden`, so that clipped rather than
-     scrolled: descriptions cut mid-word, no scrollbar, and
-     `document.scrollWidth` clean throughout, which is how nine gates and every
-     render pass missed it for months. 1024 is `--breakpoint-lg`, and the .98
-     keeps 1024 itself on the row layout. Worth knowing: the halves fit
-     1022-into-1024, so there are 2px of slack and a longer product name reopens
-     this. */
-  @media (max-width: 1023.98px) { .ft-inner { flex-direction: column; gap: 32px; } .ft-divider { display: none; } }
-</style>
