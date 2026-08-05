@@ -30,6 +30,8 @@ const DOCS = join(ROOT, 'docs');
 
 const errors = [];
 const skipped = [];
+const empty = [];
+const perFile = [];
 let rulesChecked = 0;
 
 /* ── CSS extraction ──────────────────────────────────────────────────────── */
@@ -83,6 +85,28 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).s
   const astroRules = topLevelRules(styleBlocks(readFileSync(join(COMPONENTS, file), 'utf8')));
   const docsRules = new Set(topLevelRules(styleBlocks(readFileSync(docsPath, 'utf8'))).map(normalise));
 
+  /**
+   * A component that contributes no rules passes this check vacuously — the
+   * assertion is astro ⊆ docs, and the empty set is a subset of anything. So
+   * emptying a component's <style> does not turn this gate red, it turns it
+   * SILENT: the count drops, the tick stays, and the docs page keeps carrying
+   * rules that describe markup which no longer exists.
+   *
+   * Found 2026-08-05 on the Tailwind POC branch, where rewriting Badge as
+   * utility classes took parity from 456 rules to 438 and still reported ✔.
+   * It is not a Tailwind problem — any edit that empties a <style> does it.
+   *
+   * Every one of the 19 components has CSS today (7 to 116 rules), so requiring
+   * at least one needs no baseline file to keep in sync. If a component ever
+   * legitimately ships without CSS, add it to a documented exempt list here
+   * rather than deleting this check.
+   */
+  if (astroRules.length === 0) {
+    empty.push(file);
+    continue;
+  }
+  perFile.push({ file, count: astroRules.length });
+
   for (const rule of astroRules) {
     rulesChecked++;
     if (!docsRules.has(normalise(rule))) {
@@ -98,6 +122,15 @@ if (skipped.length) {
   console.log(`\n\x1b[90m·  skipped ${skipped.length}: ${skipped.map((s) => s.split(' — ')[0]).join(', ')}\x1b[0m`);
 }
 
+if (empty.length) {
+  console.log(`\n\x1b[31m✖  ${empty.length} component${empty.length > 1 ? 's have' : ' has'} no CSS for this gate to check\x1b[0m`);
+  for (const file of empty) console.log(`    \x1b[31m✖\x1b[0m ${file} — <style> is empty or absent`);
+  console.log(`\n  This gate compares a component's rules against its docs page. With no`);
+  console.log(`  rules it passes on a technicality while the docs page keeps the old CSS.`);
+  console.log(`  If that is intended, add the file to an exempt list in this script.\n`);
+  process.exit(1);
+}
+
 if (errors.length) {
   console.log(`\n\x1b[31m✖  ${errors.length} rule${errors.length > 1 ? 's' : ''} in a component <style> are missing or changed in its docs page\x1b[0m`);
   const byFile = new Map();
@@ -111,4 +144,11 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`\n\x1b[32m✔  Component CSS in sync — ${rulesChecked} rules match across .astro and docs pages\x1b[0m\n`);
+/* The per-component counts are printed so a large drop is visible in a CI log
+   even though only a drop to ZERO is an error. A component quietly losing most
+   of its CSS is the same failure in slower motion. */
+const smallest = [...perFile].sort((a, b) => a.count - b.count)[0];
+console.log(
+  `\n\x1b[32m✔  Component CSS in sync — ${rulesChecked} rules match across ${perFile.length} components and their docs pages\x1b[0m`,
+);
+console.log(`\x1b[90m   every component contributes CSS; fewest is ${smallest.file} at ${smallest.count} rules\x1b[0m\n`);
