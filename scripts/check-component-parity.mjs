@@ -76,11 +76,19 @@ const normalise = (rule) =>
 
 /* ── mode B: a component that has converted to utility classes ───────────── */
 
-/** Every class name that appears in a `class="…"` attribute in some markup. */
+/**
+ * Every class name that appears in a `class="…"` attribute in some markup.
+ *
+ * Entities are decoded first. An arbitrary variant like `[&>svg]:opacity-100`
+ * is written into HTML as `[&amp;>svg]:opacity-100` — the browser decodes it and
+ * matches the rule, but read as raw text it is a class that exists nowhere.
+ */
 function classesInMarkup(html) {
+  const decode = (s) =>
+    s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
   const out = new Set();
   for (const m of html.matchAll(/class="([^"]*)"/g)) {
-    for (const c of m[1].split(/\s+/)) if (c) out.add(c);
+    for (const c of decode(m[1]).split(/\s+/)) if (c) out.add(c);
   }
   return out;
 }
@@ -134,8 +142,17 @@ function checkConverted(file, name, docsPath) {
     ...[...shellCss.matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => unescape(m[1])),
     ...[...styleBlocks(page).matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => unescape(m[1])),
   ]);
+  /**
+   * `group` and `peer` are markers, not utilities: they emit no rule of their
+   * own and exist so that `group-has-[:checked]:…` and `peer-checked:…` have
+   * something to point at. Checkbox is the first component to need either, and
+   * they are the only two classes in Tailwind that legitimately resolve to
+   * nothing — anything else that resolves nowhere is a mistake.
+   */
+  const MARKERS = new Set(['group', 'peer']);
+
   const used = classesInMarkup(page);
-  const unstyled = [...used].filter((c) => !declared.has(c));
+  const unstyled = [...used].filter((c) => !declared.has(c) && !MARKERS.has(c));
   if (unstyled.length) {
     problems.push(
       `${unstyled.length} class${unstyled.length > 1 ? 'es' : ''} in its markup resolve nowhere — ` +
