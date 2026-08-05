@@ -49,6 +49,17 @@ jobs:
       - name: Check badge contrast meets WCAG AA
         run: node scripts/check-contrast.mjs
 
+      # The docs are static HTML with no build step, so the per-page description,
+      # canonical, OG and JSON-LD are generated between markers. Hand-editing one
+      # page is exactly the drift this catches.
+      - name: Check docs SEO blocks are regenerated
+        run: node scripts/build-seo.mjs --check
+
+      # components.json is parsed from the interface Props blocks — it cannot
+      # describe a prop that does not exist, but it can go stale.
+      - name: Check component manifest is regenerated
+        run: node scripts/build-manifest.mjs --check
+
   # Proves the theme actually compiles, and that every variable the components
   # read still resolves once Tailwind has processed it.
   compile:
