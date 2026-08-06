@@ -786,8 +786,8 @@
 .bg-bg-dark-shade {
   background-color: var(--color-bg-dark-shade);
 }
-.bg-bg-shade {
-  background-color: var(--color-bg-shade);
+.bg-bg-disabled {
+  background-color: var(--color-bg-disabled);
 }
 .bg-border-strong {
   background-color: var(--color-border-strong);
@@ -982,10 +982,6 @@
 .leading-5 {
   --tw-leading: var(--leading-5);
   line-height: var(--leading-5);
-}
-.leading-6 {
-  --tw-leading: var(--leading-6);
-  line-height: var(--leading-6);
 }
 .leading-7 {
   --tw-leading: var(--leading-7);

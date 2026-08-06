@@ -34,7 +34,7 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
 
 <div class:list={['flex flex-col gap-xs w-full max-w-[340px]', className]}>
   {label && (
-    <label class="text-label font-medium text-text-body leading-5" for={inputId}>
+    <label class="text-label font-medium text-text-heading leading-5" for={inputId}>
       {label}{required && <span class="text-danger"> *</span>}
     </label>
   )}
@@ -44,7 +44,12 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
       name={name}
       type={type}
       class:list={[
-        'w-full h-[var(--size-input)] rounded-md px-sm font-sans text-body text-text-body',
+        /* Figma `912:1819` binds Typography/Body — size/base with leading/7.
+           The size was already right; the line-height was never set, so this
+           took whatever the page's body value was. It barely moves a
+           single-line input, which centres its own text either way, but it is
+           a real binding and Select's rows carry the same one. */
+        'w-full h-[var(--size-input)] rounded-md px-sm font-sans text-body leading-7 text-text-body',
         'bg-bg-base border outline-none',
         'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
         'placeholder:text-text-placeholder',

@@ -72,7 +72,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          three were off it — 16 (Ball's earlier scale ruling), 10, and 1.5. */
       'sel-trigger w-full h-[var(--size-input)] rounded-md px-sm',
       'flex items-center justify-between gap-xs',
-      'font-sans text-body outline-none',
+      'font-sans text-body leading-7 outline-none',
       'border',
       'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
       /* Written as branches rather than layered utilities because the rules they
@@ -80,8 +80,15 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          .sel-trigger` (0,3,0) beat `.sel-trigger.is-placeholder` (0,2,0), so a
          disabled placeholder rendered disabled-grey; as two equal-weight
          utilities that would have come down to which one Tailwind emitted last. */
+      /* `bg-bg-disabled`, not the `bg-bg-shade` Figma binds here. Ball's call
+         2026-08-06, and it overrides the node deliberately: the system has a
+         token whose whole stated purpose is "disabled input / control fill",
+         Input and Textarea already use it, and Figma reaching for the generic
+         band fill instead is the drift. It is not a recolour either — the two
+         diverge under `.dark`, where disabled is iron-violet/900 and shade is
+         iron-violet/950. */
       disabled
-        ? 'bg-bg-shade text-text-disabled [&.is-placeholder]:text-text-disabled cursor-not-allowed'
+        ? 'bg-bg-disabled text-text-disabled [&.is-placeholder]:text-text-disabled cursor-not-allowed'
         : 'bg-bg-base text-text-body [&.is-placeholder]:text-text-placeholder cursor-pointer',
       /* Same reason. `.sel.error .sel-trigger` and `.sel.open .sel-trigger` had
          equal specificity with error later in the file, so an errored Select kept

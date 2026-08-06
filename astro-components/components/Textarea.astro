@@ -34,7 +34,7 @@ const textareaId = id ?? name ?? `textarea-${Math.random().toString(36).slice(2,
 
 <div class:list={['flex flex-col gap-xs w-full max-w-[340px]', className]}>
   {label && (
-    <label class="text-label font-medium text-text-body leading-5" for={textareaId}>
+    <label class="text-label font-medium text-text-heading leading-5" for={textareaId}>
       {label}{required && <span class="text-danger"> *</span>}
     </label>
   )}
@@ -43,7 +43,7 @@ const textareaId = id ?? name ?? `textarea-${Math.random().toString(36).slice(2,
     name={name}
     rows={rows}
     class:list={[
-      'w-full min-h-[86px] rounded-md p-sm font-sans text-body text-text-body leading-6',
+      'w-full min-h-[86px] rounded-md p-sm font-sans text-body text-text-body leading-7',
       'bg-bg-base border outline-none resize-y',
       'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
       'placeholder:text-text-placeholder',
