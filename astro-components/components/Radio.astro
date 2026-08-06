@@ -1,4 +1,9 @@
 ---
+import {
+  choiceRow, choiceInput, choiceControl, choiceSize, choiceText,
+  choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled,
+} from '../choice';
+
 interface Props {
   label?: string;
   description?: string;
@@ -28,47 +33,37 @@ const {
 } = Astro.props;
 
 const inputId = id ?? `${name}-${value}`;
+
+/* Unlike the checkbox tick, the inner dot is not a fixed ratio of the ring: it is
+   half the ring minus 2px. Figma gives 8 at MD (`451:439`), which that rule
+   reproduces, so 6 and 10 at the other two sizes. */
+const DOT = { sm: 'after:size-[6px]', md: 'after:size-[8px]', lg: 'after:size-[10px]' } as const;
 ---
 
-<label class:list={['rdo', `rdo--${size}`, { invalid, disabled, 'rdo-card': card }, className]} for={inputId}>
-  <input id={inputId} name={name} value={value} type="radio" checked={checked} disabled={disabled} />
-  <span class="dot"></span>
+<label
+  class:list={[choiceRow, disabled ? choiceDisabled : choiceEnabled, card && choiceCard, className]}
+  for={inputId}
+>
+  <input class={choiceInput} id={inputId} name={name} value={value} type="radio" checked={checked} disabled={disabled} />
+  {/* The dot is a pseudo-element, as it was in the CSS — there is nothing for it
+      to mark up, and an empty <span> inside the ring would be a lie about the
+      document. `after:` variants carry it across unchanged. */}
+  <span
+    class:list={[
+      choiceControl, choiceSize[size], 'rounded-full',
+      DOT[size],
+      'after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)]',
+      'group-has-[:checked]:after:scale-100',
+      /* Figma thickens the ring to 2px once selected — unselected is 1px. */
+      invalid
+        ? 'border-danger after:bg-danger'
+        : 'border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary',
+    ]}
+  ></span>
   {label && (
-    <span class="txt">
-      <span class="label">{label}</span>
-      {description && <span class="desc">{description}</span>}
+    <span class={choiceText}>
+      <span class={choiceLabel}>{label}</span>
+      {description && <span class={choiceDesc}>{description}</span>}
     </span>
   )}
 </label>
-
-<style>
-  .rdo { display: inline-flex; align-items: flex-start; gap: var(--spacing-xs); cursor: pointer; user-select: none; }
-  .rdo input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .rdo .dot {
-    width: var(--size-box-md); height: var(--size-box-md); flex-shrink: 0; margin-top: 1px;
-    border: var(--border-width-1) solid var(--color-border-strong); border-radius: var(--rounded-full);
-    background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
-    transition: border-color var(--duration-fast), border-width var(--duration-fast), box-shadow var(--duration-fast);
-  }
-  /* Sizes — Figma ships Small · Default · Large. Unlike the checkbox tick, the
-     inner dot is not a fixed ratio of the ring: it is half the ring minus 2px. */
-  .rdo--sm .dot { width: var(--size-box-sm); height: var(--size-box-sm); }
-  .rdo--lg .dot { width: var(--size-box-lg); height: var(--size-box-lg); }
-  .rdo .dot::after { content: ''; width: 8px; height: 8px; border-radius: var(--rounded-full); background: var(--color-secondary); transform: scale(0); transition: transform var(--duration-fast); }
-  .rdo--sm .dot::after { width: 6px; height: 6px; }
-  .rdo--lg .dot::after { width: 10px; height: 10px; }
-  /* Figma thickens the ring to 2px once selected — the unselected ring is 1px. */
-  .rdo input:checked + .dot { border-width: var(--border-width-2); border-color: var(--color-secondary); }
-  .rdo input:checked + .dot::after { transform: scale(1); }
-  .rdo input:focus-visible + .dot { box-shadow: var(--shadow-focus-blue); }
-  .rdo .txt { display: flex; flex-direction: column; gap: var(--spacing-micro); }
-  .rdo .txt .label { font-size: var(--font-size-label-lg); font-weight: var(--fw-label-lg); color: var(--color-text-body); line-height: var(--leading-5); }
-  .rdo .txt .desc { font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--leading-5); max-width: 360px; }
-  .rdo.invalid .dot { border-color: var(--color-danger); }
-  .rdo.invalid input:checked + .dot::after { background: var(--color-danger); }
-  .rdo.disabled { cursor: not-allowed; opacity: .5; }
-  /* No max-width — same reasoning as .cbx-card, and the two must stay twins. */
-  .rdo-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color var(--duration-fast), background var(--duration-fast); cursor: pointer; }
-  .rdo-card:hover { border-color: var(--color-border-strong); }
-  .rdo-card:has(input:checked) { border-color: var(--color-border-selected); background: var(--color-bg-card-alt); }
-</style>

@@ -28,8 +28,8 @@ this package right now, and they do not have the same requirements:
 
 | | Styled by | You need |
 |---|---|---|
-| **Converted** (9 of 19) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
-| **Not yet converted** (10 of 19) | their own scoped `<style>` | the tokens, nothing else |
+| **Converted** (11 of 19) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
+| **Not yet converted** (8 of 19) | their own scoped `<style>` | the tokens, nothing else |
 
 Every converted component's section below carries a **Needs Tailwind** note, and
 `npm run check:exports` fails if one is missing or stale — the list above is not
@@ -263,6 +263,9 @@ The selected-option checkmark is an inline **Font Awesome Free Solid** `check` S
 
 ### `Checkbox.astro`
 
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
 ```astro
 <Checkbox label="Accept terms" description="By clicking, you agree." checked />
 <Checkbox label="Required" invalid />
@@ -272,6 +275,9 @@ The selected-option checkmark is an inline **Font Awesome Free Solid** `check` S
 Props: `label`, `description`, `id`, `name`, `checked`, `invalid`, `disabled`, `card` (renders the whole-card selectable layout), `class`.
 
 ### `Radio.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
 
 ```astro
 <Radio name="bill" value="monthly" label="Monthly" description="$29/month" checked />

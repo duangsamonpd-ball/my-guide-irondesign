@@ -85,7 +85,7 @@ const astroFiles = existsSync(COMPONENTS)
  * rather than globbed: `index.ts` and `icons.ts` sit beside these and contain no
  * classes, and scanning prose for class names is what note 3 below is about.
  */
-const SHARED_TS = ['field.ts'].filter((f) => existsSync(join(ROOT, 'astro-components', f)));
+const SHARED_TS = ['field.ts', 'choice.ts'].filter((f) => existsSync(join(ROOT, 'astro-components', f)));
 
 /**
  * If the glob matches nothing, Tailwind does not complain — it emits a valid

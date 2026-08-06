@@ -1,4 +1,9 @@
 ---
+import {
+  choiceRow, choiceInput, choiceControl, choiceSize, choiceText,
+  choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled,
+} from '../choice';
+
 interface Props {
   label?: string;
   description?: string;
@@ -26,54 +31,48 @@ const {
 } = Astro.props;
 
 const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
+
+/* Figma ships the tick at 0.7 x the box — 14 at MD, confirmed against `329:108`,
+   so 11.2 and 16.8 at the other two. Kept as arbitrary values rather than rounded
+   onto the spacing scale, because the ratio is the design, not the pixel. */
+const TICK = { sm: 'size-[11.2px]', md: 'size-[14px]', lg: 'size-[16.8px]' } as const;
+
+/* Small is the one size that drops to the tighter radius; MD and LG hold
+   rounded-md. Both confirmed on the same node. */
+const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const;
 ---
 
-<label class:list={['cbx', `cbx--${size}`, { invalid, disabled, 'cbx-card': card }, className]} for={inputId}>
-  <input id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled} />
-  <span class="box">
-    <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+<label
+  class:list={[choiceRow, disabled ? choiceDisabled : choiceEnabled, card && choiceCard, className]}
+  for={inputId}
+>
+  <input class={choiceInput} id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled} />
+  <span
+    class:list={[
+      choiceControl, choiceSize[size], RADIUS[size],
+      /* Figma draws no border on a checked box; matching the border to the fill
+         is the same picture and keeps the outer size identical across states. */
+      invalid
+        ? 'border-danger group-has-[:checked]:bg-danger group-has-[:checked]:border-danger'
+        : 'border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary',
+    ]}
+  >
+    <svg
+      class:list={[
+        TICK[size],
+        'text-primary-on opacity-0 scale-50',
+        'transition-[opacity,transform] duration-[var(--duration-fast)]',
+        'group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100',
+      ]}
+      viewBox="0 0 12 12" fill="none" aria-hidden="true"
+    >
       <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   </span>
   {label && (
-    <span class="txt">
-      <span class="label">{label}</span>
-      {description && <span class="desc">{description}</span>}
+    <span class={choiceText}>
+      <span class={choiceLabel}>{label}</span>
+      {description && <span class={choiceDesc}>{description}</span>}
     </span>
   )}
 </label>
-
-<style>
-  .cbx { display: inline-flex; align-items: flex-start; gap: var(--spacing-xs); cursor: pointer; user-select: none; }
-  .cbx input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .cbx .box {
-    width: var(--size-box-md); height: var(--size-box-md); flex-shrink: 0; margin-top: 1px;
-    border: var(--border-width-1) solid var(--color-border-strong); border-radius: var(--rounded-md);
-    background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
-    transition: background var(--duration-fast), border-color var(--duration-fast), box-shadow var(--duration-fast);
-  }
-  /* Sizes — Figma ships Small · Default · Large. The tick is 0.7 × the box at
-     every size, and Small is the one that drops to the tighter --rounded-sm. */
-  .cbx--sm .box { width: var(--size-box-sm); height: var(--size-box-sm); border-radius: var(--rounded-sm); }
-  .cbx--lg .box { width: var(--size-box-lg); height: var(--size-box-lg); }
-  .cbx .box svg { width: 14px; height: 14px; color: var(--color-primary-on); opacity: 0; transform: scale(.5); transition: opacity var(--duration-fast), transform var(--duration-fast); }
-  .cbx--sm .box svg { width: 11.2px; height: 11.2px; }
-  .cbx--lg .box svg { width: 16.8px; height: 16.8px; }
-  /* Figma draws no border on a checked box; matching the border to the fill is
-     the same picture and keeps the outer size identical across states. */
-  .cbx input:checked + .box { background: var(--color-secondary); border-color: var(--color-secondary); }
-  .cbx input:checked + .box svg { opacity: 1; transform: scale(1); }
-  .cbx input:focus-visible + .box { box-shadow: var(--shadow-focus-blue); }
-  .cbx .txt { display: flex; flex-direction: column; gap: var(--spacing-micro); }
-  .cbx .txt .label { font-size: var(--font-size-label-lg); font-weight: var(--fw-label-lg); color: var(--color-text-body); line-height: var(--leading-5); }
-  .cbx .txt .desc  { font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--leading-5); max-width: 360px; }
-  .cbx.invalid .box { border-color: var(--color-danger); }
-  .cbx.invalid input:checked + .box { background: var(--color-danger); border-color: var(--color-danger); }
-  .cbx.disabled { cursor: not-allowed; opacity: .5; }
-  /* No max-width: the card takes the width of its slot, so it fills a grid cell
-     instead of leaving a gap. Standalone it still shrinks to fit, because .cbx
-     is inline-flex and .desc caps its own text. */
-  .cbx-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color var(--duration-fast), background var(--duration-fast); cursor: pointer; }
-  .cbx-card:hover { border-color: var(--color-border-strong); }
-  .cbx-card:has(input:checked) { border-color: var(--color-border-selected); background: var(--color-bg-card-alt); }
-</style>

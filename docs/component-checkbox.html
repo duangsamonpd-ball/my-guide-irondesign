@@ -64,6 +64,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="utilities.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -91,44 +92,17 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .canvas.col { flex-direction: column; align-items: flex-start; gap: 20px; }
 .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 18px 16px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
-.cbx { display: inline-flex; align-items: flex-start; gap: var(--spacing-xs); cursor: pointer; user-select: none; }
-.cbx input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.cbx .box {
-    width: var(--size-box-md); height: var(--size-box-md); flex-shrink: 0; margin-top: 1px;
-    border: var(--border-width-1) solid var(--color-border-strong); border-radius: var(--rounded-md);
-    background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
-    transition: background var(--duration-fast), border-color var(--duration-fast), box-shadow var(--duration-fast);
-  }
-.cbx--sm .box { width: var(--size-box-sm); height: var(--size-box-sm); border-radius: var(--rounded-sm); }
-.cbx--lg .box { width: var(--size-box-lg); height: var(--size-box-lg); }
-.cbx .box svg { width: 14px; height: 14px; color: var(--color-primary-on); opacity: 0; transform: scale(.5); transition: opacity var(--duration-fast), transform var(--duration-fast); }
-.cbx--sm .box svg { width: 11.2px; height: 11.2px; }
-.cbx--lg .box svg { width: 16.8px; height: 16.8px; }
-.cbx input:checked + .box { background: var(--color-secondary); border-color: var(--color-secondary); }
-.cbx input:checked + .box svg { opacity: 1; transform: scale(1); }
-.cbx input:focus-visible + .box, .cbx.is-focus .box { box-shadow: var(--shadow-focus-blue); }
-.cbx .txt { display: flex; flex-direction: column; gap: var(--spacing-micro); }
-.cbx .txt .label { font-size: var(--font-size-label-lg); font-weight: var(--fw-label-lg); color: var(--color-text-body); line-height: var(--leading-5); }
-.cbx .txt .desc  { font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--leading-5); max-width: 360px; }
-.cbx.invalid .box { border-color: var(--color-danger); }
-.cbx.invalid input:checked + .box { background: var(--color-danger); border-color: var(--color-danger); }
-.cbx.disabled { cursor: not-allowed; opacity: .5; }
-.cbx-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color var(--duration-fast), background var(--duration-fast); cursor: pointer; }
-.cbx-card:hover { border-color: var(--color-border-strong); }
-.cbx-card:has(input:checked) { border-color: var(--color-border-selected); background: var(--color-bg-card-alt); }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
 .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; }
 .tok td.prop { color:#62748E; width:160px; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
-.c-key{color:#E95F8B;}
 .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:22px; display:flex; align-items:center; justify-content:flex-start; min-height:96px; background:#FCFCFD; }
 .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-.cbx input:focus-visible + .box { box-shadow: var(--shadow-focus-blue); }
   </style>
 </head>
 <body>
@@ -209,27 +183,27 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <h2 class="sect-h">Preview</h2>
         <div class="canvas col">
         <!-- demo:preview -->
-        <label class="cbx cbx--md" for="terms">
-          <input id="terms" name="terms" type="checkbox" checked>
-          <span class="box">
-            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="terms">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="terms" name="terms" type="checkbox" checked>
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+            <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </span>
-          <span class="txt">
-            <span class="label">Accept terms and conditions</span>
-            <span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Accept terms and conditions</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">By clicking this checkbox, you agree to the terms and conditions.</span>
           </span>
         </label>
-        <label class="cbx cbx--md" for="updates">
-          <input id="updates" name="updates" type="checkbox">
-          <span class="box">
-            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="updates">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="updates" name="updates" type="checkbox">
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+            <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </span>
-          <span class="txt">
-            <span class="label">Send me product updates</span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Send me product updates</span>
           </span>
         </label>
         <!-- /demo:preview -->
@@ -243,54 +217,54 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="grid">
         <!-- demo:states -->
         <div class="cell">
-          <label class="cbx cbx--md" for="st-unchecked">
-            <input id="st-unchecked" name="st-unchecked" type="checkbox">
-            <span class="box">
-              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="st-unchecked">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="st-unchecked" name="st-unchecked" type="checkbox">
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+              <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </span>
-            <span class="txt">
-              <span class="label">Accept terms</span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-medium text-text-body leading-5">Accept terms</span>
             </span>
           </label>
           <div class="lbl">Unchecked<small>border-strong</small></div>
         </div><div class="cell">
-          <label class="cbx cbx--md" for="st-checked">
-            <input id="st-checked" name="st-checked" type="checkbox" checked>
-            <span class="box">
-              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="st-checked">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="st-checked" name="st-checked" type="checkbox" checked>
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+              <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </span>
-            <span class="txt">
-              <span class="label">Accept terms</span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-medium text-text-body leading-5">Accept terms</span>
             </span>
           </label>
           <div class="lbl">Checked<small>secondary fill</small></div>
         </div><div class="cell">
-          <label class="cbx cbx--md disabled" for="st-disabled">
-            <input id="st-disabled" name="st-disabled" type="checkbox" disabled>
-            <span class="box">
-              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <label class="group inline-flex items-start gap-xs select-none cursor-not-allowed opacity-50" for="st-disabled">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="st-disabled" name="st-disabled" type="checkbox" disabled>
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+              <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </span>
-            <span class="txt">
-              <span class="label">Accept terms</span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-medium text-text-body leading-5">Accept terms</span>
             </span>
           </label>
           <div class="lbl">Disabled<small>opacity .5</small></div>
         </div><div class="cell">
-          <label class="cbx cbx--md invalid" for="st-invalid">
-            <input id="st-invalid" name="st-invalid" type="checkbox">
-            <span class="box">
-              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="st-invalid">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="st-invalid" name="st-invalid" type="checkbox">
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-danger group-has-[:checked]:bg-danger group-has-[:checked]:border-danger">
+              <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </span>
-            <span class="txt">
-              <span class="label">Accept terms</span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-medium text-text-body leading-5">Accept terms</span>
             </span>
           </label>
           <div class="lbl">Invalid<small>danger border</small></div>
@@ -306,53 +280,53 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="canvas col">
         <!-- demo:layouts -->
         <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;">Basic</div>
-        <label class="cbx cbx--md" for="lay-plain">
-          <input id="lay-plain" name="lay-plain" type="checkbox" checked>
-          <span class="box">
-            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="lay-plain">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="lay-plain" name="lay-plain" type="checkbox" checked>
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+            <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </span>
-          <span class="txt">
-            <span class="label">Accept terms and conditions</span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Accept terms and conditions</span>
           </span>
         </label>
         <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">With description</div>
-        <label class="cbx cbx--md" for="lay-desc">
-          <input id="lay-desc" name="lay-desc" type="checkbox" checked>
-          <span class="box">
-            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="lay-desc">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="lay-desc" name="lay-desc" type="checkbox" checked>
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+            <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </span>
-          <span class="txt">
-            <span class="label">Accept terms and conditions</span>
-            <span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Accept terms and conditions</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">By clicking this checkbox, you agree to the terms and conditions.</span>
           </span>
         </label>
         <div style="font-size:0.66rem;font-weight:700;color:#A1A1A1;text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">Card</div>
-        <label class="cbx cbx--md cbx-card" for="lay-card">
-          <input id="lay-card" name="lay-card" type="checkbox">
-          <span class="box">
-            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer border border-border rounded-lg p-sm transition-[border-color,background-color] duration-[var(--duration-fast)] hover:border-border-strong has-[:checked]:border-border-selected has-[:checked]:bg-bg-card-alt" for="lay-card">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="lay-card" name="lay-card" type="checkbox">
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+            <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </span>
-          <span class="txt">
-            <span class="label">Accept terms and conditions</span>
-            <span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Accept terms and conditions</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">By clicking this checkbox, you agree to the terms and conditions.</span>
           </span>
         </label>
-        <label class="cbx cbx--md cbx-card" for="lay-card-on">
-          <input id="lay-card-on" name="lay-card-on" type="checkbox" checked>
-          <span class="box">
-            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer border border-border rounded-lg p-sm transition-[border-color,background-color] duration-[var(--duration-fast)] hover:border-border-strong has-[:checked]:border-border-selected has-[:checked]:bg-bg-card-alt" for="lay-card-on">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="lay-card-on" name="lay-card-on" type="checkbox" checked>
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+            <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </span>
-          <span class="txt">
-            <span class="label">Accept terms and conditions</span>
-            <span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Accept terms and conditions</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">By clicking this checkbox, you agree to the terms and conditions.</span>
           </span>
         </label>
         <!-- /demo:layouts -->
@@ -364,7 +338,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <h2 class="sect-h">Anatomy</h2>
         <div class="sect-sub">The parts of a checkbox and the token each one is bound to.</div>
         <div class="anatomy">
-          <label class="cbx"><input type="checkbox" checked><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Accept terms and conditions</span><span class="desc">By clicking this checkbox, you agree to the terms and conditions.</span></span></label>
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="checkbox" checked><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary"><svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">Accept terms and conditions</span><span class="text-caption text-text-muted leading-5 max-w-[360px]">By clicking this checkbox, you agree to the terms and conditions.</span></span></label>
           <div class="anatomy-tags">
             <span class="atag">box → <b>--size-box</b> (18px)</span>
             <span class="atag">radius → <b>--rounded-sm</b></span>
@@ -405,51 +379,16 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="sect-sub">Copy-and-own — a native input + a styled box. Accessible and framework-free.</div>
         <div class="code-wrap">
           <div class="code-tabs">
-            <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
-            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"cbx"</span>&gt;
-  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"checkbox"</span> <span class="c-attr">checked</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"box"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 12 12"</span> <span class="c-attr">fill</span>=<span class="c-str">"none"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">d</span>=<span class="c-str">"M2 6.2 4.6 8.8 10 3"</span> <span class="c-attr">stroke</span>=<span class="c-str">"#fff"</span> <span class="c-attr">stroke-width</span>=<span class="c-str">"2"</span> <span class="c-attr">stroke-linecap</span>=<span class="c-str">"round"</span> <span class="c-attr">stroke-linejoin</span>=<span class="c-str">"round"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Accept terms and conditions&lt;/<span class="c-tag">span</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;By clicking this checkbox you agree.&lt;/<span class="c-tag">span</span>&gt;
-  &lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">label</span>&gt;
-
-<span class="c-com">&lt;!-- invalid state --&gt;</span>
-&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"cbx invalid"</span>&gt;
-  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"checkbox"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"box"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 12 12"</span> <span class="c-attr">fill</span>=<span class="c-str">"none"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">d</span>=<span class="c-str">"M2 6.2 4.6 8.8 10 3"</span> <span class="c-attr">stroke</span>=<span class="c-str">"#fff"</span> <span class="c-attr">stroke-width</span>=<span class="c-str">"2"</span> <span class="c-attr">stroke-linecap</span>=<span class="c-str">"round"</span> <span class="c-attr">stroke-linejoin</span>=<span class="c-str">"round"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Required&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">label</span>&gt;
-
-<span class="c-com">&lt;!-- card layout — whole card is the target --&gt;</span>
-&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"cbx cbx-card"</span>&gt;
-  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"checkbox"</span> <span class="c-attr">checked</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"box"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 12 12"</span> <span class="c-attr">fill</span>=<span class="c-str">"none"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">d</span>=<span class="c-str">"M2 6.2 4.6 8.8 10 3"</span> <span class="c-attr">stroke</span>=<span class="c-str">"#fff"</span> <span class="c-attr">stroke-width</span>=<span class="c-str">"2"</span> <span class="c-attr">stroke-linecap</span>=<span class="c-str">"round"</span> <span class="c-attr">stroke-linejoin</span>=<span class="c-str">"round"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Accept terms and conditions&lt;/<span class="c-tag">span</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;By clicking this checkbox, you agree.&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">label</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.cbx .box</span> {
-  width: <span class="c-str">var(--size-box)</span>; height: <span class="c-str">var(--size-box)</span>;
-  border: 1px solid <span class="c-str">var(--color-border-strong)</span>;
-  border-radius: <span class="c-str">var(--rounded-sm)</span>;
-}
-<span class="c-key">.cbx .box svg</span> { opacity: 0; transform: scale(.5); transition: opacity .15s, transform .15s; }   <span class="c-com">/* checkmark */</span>
-<span class="c-key">.cbx input:checked + .box</span> {
-  background: <span class="c-str">var(--color-secondary)</span>;
-  border-color: <span class="c-str">var(--color-secondary)</span>;
-}
-<span class="c-key">.cbx input:checked + .box svg</span> { opacity: 1; transform: scale(1); }
-<span class="c-key">.cbx input:focus-visible + .box</span> { box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }
-<span class="c-key">.cbx-card</span> {        <span class="c-com">/* whole-card selectable layout */</span>
-  border: 1px solid <span class="c-str">var(--color-border)</span>; border-radius: <span class="c-str">var(--rounded-xl)</span>; padding: 14px 16px;
-}
-<span class="c-key">.cbx-card:hover</span> { border-color: <span class="c-str">var(--color-border-strong)</span>; }
-<span class="c-key">.cbx-card:has(input:checked)</span> { border-color: <span class="c-str">var(--color-secondary)</span>; background: <span class="c-str">var(--color-bg-card-alt)</span>; }
-<span class="c-key">.cbx.invalid .box</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
-<span class="c-key">.cbx.invalid input:checked + .box</span> { background: <span class="c-str">var(--color-danger)</span>; border-color: <span class="c-str">var(--color-danger)</span>; }</pre>
+<pre class="code-pane active" data-lang="astro">
+          <!-- code:astro -->
+&lt;<span class="c-tag">Checkbox</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Accept terms&quot;</span> <span class="c-attr">description</span>=<span class="c-str">&quot;By clicking, you agree.&quot;</span> checked /&gt;
+&lt;<span class="c-tag">Checkbox</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Required&quot;</span> invalid /&gt;
+&lt;<span class="c-tag">Checkbox</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Accept terms&quot;</span> <span class="c-attr">description</span>=<span class="c-str">&quot;Whole card is the target.&quot;</span> card /&gt;
+          <!-- /code:astro -->
+</pre>
         </div>
       </div>
 
@@ -459,7 +398,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="dd">
           <div class="card do">
             <div class="top">✓ Do</div>
-            <div class="body"><label class="cbx"><input type="checkbox" checked><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">Email me receipts</span></span></label></div>
+            <div class="body"><label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="checkbox" checked><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary"><svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">Email me receipts</span></span></label></div>
             <ul>
               <li>Always pair the box with a clickable <b>label</b>.</li>
               <li>Use for <b>multi-select</b> — many options can be on at once.</li>
@@ -468,7 +407,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           </div>
           <div class="card dont">
             <div class="top">✗ Don't</div>
-            <div class="body"><label class="cbx"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="label">On</span></span></label></div>
+            <div class="body"><label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="checkbox"><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary"><svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">On</span></span></label></div>
             <ul>
               <li>Don't use a checkbox for <b>one-of-many</b> — that's a radio.</li>
               <li>Don't use it as an on/off switch — that's a toggle.</li>

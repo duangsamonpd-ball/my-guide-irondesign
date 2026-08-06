@@ -192,6 +192,7 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
   <p class="passing" style="color:#595959;background:#fff">grey on white, known 7.0:1</p>
   <div class="group" style="opacity:0.5;background:#000"><span style="color:#fff">half-opacity group</span></div>
   <label class="disabled" style="opacity:.5"><input type="checkbox" disabled><span>disabled control</span></label>
+  <label style="opacity:.5"><input type="checkbox" disabled><span>disabled control, no marker class</span></label>
   <div style="background-image:linear-gradient(#000,#fff)"><span style="color:#888">over a gradient</span></div>
   <div style="opacity:0"><span style="color:#999">invisible, not low contrast</span></div>
   <div style="opacity:0.02"><span style="color:#999">faint but painted, still a finding</span></div>
@@ -347,7 +348,24 @@ function auditContrast(scopeSel) {
   // every disabled state in this system is drawn by dimming the whole control
   // to 50% — exactly the thing this probe is built to notice. Without this the
   // report is 100% correct and 0% useful.
-  const DISABLED = ':disabled, [disabled], [aria-disabled="true"], .disabled, .is-disabled';
+  //
+  // The :has() clauses earn their place separately. The list above walks
+  // ANCESTORS, and it worked while every disabled control put a .disabled class
+  // on its wrapper. Converting Checkbox and Radio to utilities took that class
+  // away — the dimming is an opacity-50 utility now — leaving the disabled input
+  // as a DESCENDANT of the label rather than an ancestor of its text. The label
+  // stopped matching, and one exempt run turned into a reported failure with the
+  // pixels completely unchanged.
+  //
+  // A label wrapping a disabled control is part of an inactive component, so this
+  // is the rule WCAG 1.4.3 already describes, not a widening to make a number go
+  // away. It also stops the next conversion re-breaking it.
+  //
+  // NB: no backticks in comments here. This whole function is stringified into
+  // the page, and a backtick closes the template literal it travels in.
+  const DISABLED =
+    ':disabled, [disabled], [aria-disabled="true"], .disabled, .is-disabled, ' +
+    'label:has(:disabled), label:has([aria-disabled="true"])';
 
   // The page canvas underneath everything. Chrome propagates <body>'s
   // background up to it, so read the computed value rather than assuming white.
@@ -591,7 +609,12 @@ if (opts['self-test']) {
     ['#595959 on white passes AA', (run('p.passing')?.ratio ?? 0) >= 4.5],
     ['an opacity group composites as a group, not as flat alphas', run('span')?.fg === '#FFFFFF' && run('span')?.bg === '#808080'],
     ['…giving 3.98:1, where the flat model says 1.9:1', near(contrast.results.find((r) => r.bg === '#808080')?.ratio ?? 0, 3.98, 0.05)],
-    ['a disabled control is exempt, not a failure', contrast.exempt.length === 1 && !contrast.results.some((r) => r.text.includes('disabled control'))],
+    /* Two fixtures, one per route into the exemption: a wrapper carrying a
+       .disabled class, and — since the Tailwind conversions stopped emitting
+       that class — a plain <label> whose only signal is the disabled input
+       inside it. Both must be exempt and neither may appear as a result. */
+    ['a disabled control is exempt, whether or not it carries a marker class',
+      contrast.exempt.length === 2 && !contrast.results.some((r) => r.text.includes('disabled control'))],
     ['text over a gradient is unmeasured, not guessed', contrast.unmeasured.length === 1],
     ['text at opacity 0 is skipped as absent', !contrast.results.some((r) => r.text.includes('invisible'))],
     ['…but opacity 0.02 is still measured and fails', (contrast.results.find((r) => r.text.includes('faint'))?.ratio ?? 99) < 4.5],

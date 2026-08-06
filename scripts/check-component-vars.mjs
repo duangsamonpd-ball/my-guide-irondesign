@@ -170,7 +170,7 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) 
  * them at all. Both changes are load-bearing: one makes the classes exist, this
  * one makes a typo in them fail.
  */
-for (const file of ['field.ts']) {
+for (const file of ['field.ts', 'choice.ts']) {
   const path = join(ROOT, 'astro-components', file);
   if (!existsSync(path)) continue;
   const code = readFileSync(path, 'utf8')

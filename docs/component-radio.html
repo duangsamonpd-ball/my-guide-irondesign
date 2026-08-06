@@ -64,6 +64,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="utilities.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -89,40 +90,13 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tok td.prop { color:#62748E; width:170px; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
-.c-key{color:#E95F8B;}
 .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:22px; background:#FCFCFD; }
 .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-.rdo { display: inline-flex; align-items: flex-start; gap: var(--spacing-xs); cursor: pointer; user-select: none; }
-.rdo input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.rdo .dot {
-    width: var(--size-box-md); height: var(--size-box-md); flex-shrink: 0; margin-top: 1px;
-    border: var(--border-width-1) solid var(--color-border-strong); border-radius: var(--rounded-full);
-    background: var(--color-bg-base); display: inline-flex; align-items: center; justify-content: center;
-    transition: border-color var(--duration-fast), border-width var(--duration-fast), box-shadow var(--duration-fast);
-  }
-.rdo--sm .dot { width: var(--size-box-sm); height: var(--size-box-sm); }
-.rdo--lg .dot { width: var(--size-box-lg); height: var(--size-box-lg); }
-.rdo .dot::after { content: ''; width: 8px; height: 8px; border-radius: var(--rounded-full); background: var(--color-secondary); transform: scale(0); transition: transform var(--duration-fast); }
-.rdo--sm .dot::after { width: 6px; height: 6px; }
-.rdo--lg .dot::after { width: 10px; height: 10px; }
-.rdo input:checked + .dot { border-width: var(--border-width-2); border-color: var(--color-secondary); }
-.rdo input:checked + .dot::after { transform: scale(1); }
-.rdo input:focus-visible + .dot, .rdo.is-focus .dot { box-shadow:var(--shadow-focus-blue); }
-.rdo .txt { display: flex; flex-direction: column; gap: var(--spacing-micro); }
-.rdo .txt .label { font-size: var(--font-size-label-lg); font-weight: var(--fw-label-lg); color: var(--color-text-body); line-height: var(--leading-5); }
-.rdo .txt .desc { font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--leading-5); max-width: 360px; }
-.rdo.invalid .dot { border-color: var(--color-danger); }
-.rdo.invalid input:checked + .dot::after { background: var(--color-danger); }
-.rdo.disabled { cursor: not-allowed; opacity: .5; }
-.rdo-card { border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg); padding: var(--spacing-sm); transition: border-color var(--duration-fast), background var(--duration-fast); cursor: pointer; }
-.rdo-card:hover { border-color: var(--color-border-strong); }
-.rdo-card:has(input:checked) { border-color: var(--color-border-selected); background: var(--color-bg-card-alt); }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-.rdo input:focus-visible + .dot { box-shadow: var(--shadow-focus-blue); }
   </style>
 </head>
 <body>
@@ -190,26 +164,26 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><h2 class="sect-h">Preview</h2>
       <div class="canvas col" style="max-width:420px;margin:0 auto;">
         <!-- demo:preview -->
-        <label class="rdo rdo--md" for="plan-starter">
-          <input id="plan-starter" name="plan" value="starter" type="radio" checked>
-          <span class="dot"></span>
-          <span class="txt">
-            <span class="label">Starter</span>
-            <span class="desc">For individuals getting started.</span>
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="plan-starter">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="plan-starter" name="plan" value="starter" type="radio" checked>
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Starter</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">For individuals getting started.</span>
           </span>
-        </label><label class="rdo rdo--md" for="plan-pro">
-          <input id="plan-pro" name="plan" value="pro" type="radio">
-          <span class="dot"></span>
-          <span class="txt">
-            <span class="label">Pro</span>
-            <span class="desc">For growing teams that ship daily.</span>
+        </label><label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="plan-pro">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="plan-pro" name="plan" value="pro" type="radio">
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Pro</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">For growing teams that ship daily.</span>
           </span>
-        </label><label class="rdo rdo--md" for="plan-enterprise">
-          <input id="plan-enterprise" name="plan" value="enterprise" type="radio">
-          <span class="dot"></span>
-          <span class="txt">
-            <span class="label">Enterprise</span>
-            <span class="desc">Advanced controls &amp; support.</span>
+        </label><label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="plan-enterprise">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="plan-enterprise" name="plan" value="enterprise" type="radio">
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Enterprise</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">Advanced controls &amp; support.</span>
           </span>
         </label>
         <!-- /demo:preview -->
@@ -221,38 +195,38 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="grid">
         <!-- demo:states -->
         <div class="cell">
-          <label class="rdo rdo--md" for="s1-a">
-            <input id="s1-a" name="s1" value="a" type="radio">
-            <span class="dot"></span>
-            <span class="txt">
-              <span class="label">Option</span>
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="s1-a">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="s1-a" name="s1" value="a" type="radio">
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-medium text-text-body leading-5">Option</span>
             </span>
           </label>
           <div class="lbl">Unselected<small>border-strong</small></div>
         </div><div class="cell">
-          <label class="rdo rdo--md" for="s2-b">
-            <input id="s2-b" name="s2" value="b" type="radio" checked>
-            <span class="dot"></span>
-            <span class="txt">
-              <span class="label">Option</span>
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="s2-b">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="s2-b" name="s2" value="b" type="radio" checked>
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-medium text-text-body leading-5">Option</span>
             </span>
           </label>
           <div class="lbl">Selected<small>secondary dot</small></div>
         </div><div class="cell">
-          <label class="rdo rdo--md disabled" for="s3-c">
-            <input id="s3-c" name="s3" value="c" type="radio" disabled>
-            <span class="dot"></span>
-            <span class="txt">
-              <span class="label">Option</span>
+          <label class="group inline-flex items-start gap-xs select-none cursor-not-allowed opacity-50" for="s3-c">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="s3-c" name="s3" value="c" type="radio" disabled>
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-medium text-text-body leading-5">Option</span>
             </span>
           </label>
           <div class="lbl">Disabled<small>opacity .5</small></div>
         </div><div class="cell">
-          <label class="rdo rdo--md invalid" for="s4-d">
-            <input id="s4-d" name="s4" value="d" type="radio">
-            <span class="dot"></span>
-            <span class="txt">
-              <span class="label">Option</span>
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="s4-d">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="s4-d" name="s4" value="d" type="radio">
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-danger after:bg-danger"></span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-medium text-text-body leading-5">Option</span>
             </span>
           </label>
           <div class="lbl">Invalid<small>danger ring</small></div>
@@ -265,20 +239,20 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect-sub">For prominent, selectable options — the whole card is the target and highlights when chosen.</div>
       <div class="canvas col" style="gap:12px;max-width:420px;margin:0 auto;">
         <!-- demo:card-group -->
-        <label class="rdo rdo--md rdo-card" for="bill-monthly">
-          <input id="bill-monthly" name="bill" value="monthly" type="radio" checked>
-          <span class="dot"></span>
-          <span class="txt">
-            <span class="label">Monthly</span>
-            <span class="desc">$29 / month, cancel anytime.</span>
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer border border-border rounded-lg p-sm transition-[border-color,background-color] duration-[var(--duration-fast)] hover:border-border-strong has-[:checked]:border-border-selected has-[:checked]:bg-bg-card-alt" for="bill-monthly">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="bill-monthly" name="bill" value="monthly" type="radio" checked>
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Monthly</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">$29 / month, cancel anytime.</span>
           </span>
         </label>
-        <label class="rdo rdo--md rdo-card" for="bill-yearly">
-          <input id="bill-yearly" name="bill" value="yearly" type="radio">
-          <span class="dot"></span>
-          <span class="txt">
-            <span class="label">Yearly</span>
-            <span class="desc">$290 / year — two months free.</span>
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer border border-border rounded-lg p-sm transition-[border-color,background-color] duration-[var(--duration-fast)] hover:border-border-strong has-[:checked]:border-border-selected has-[:checked]:bg-bg-card-alt" for="bill-yearly">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="bill-yearly" name="bill" value="yearly" type="radio">
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-medium text-text-body leading-5">Yearly</span>
+            <span class="text-caption text-text-muted leading-5 max-w-[360px]">$290 / year — two months free.</span>
           </span>
         </label>
         <!-- /demo:card-group -->
@@ -287,7 +261,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="anatomy">
-        <label class="rdo"><input type="radio" name="an" checked><span class="dot"></span><span class="txt"><span class="label">Selected option</span><span class="desc">With a supporting description.</span></span></label>
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="radio" name="an" checked><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">Selected option</span><span class="text-caption text-text-muted leading-5 max-w-[360px]">With a supporting description.</span></span></label>
         <div class="anatomy-tags">
           <span class="atag">ring → <b>--size-box</b> (18px)</span>
           <span class="atag">shape → <b>--rounded-full</b></span>
@@ -315,53 +289,24 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="code-wrap">
           <div class="code-tabs">
-            <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
-            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"rdo"</span>&gt;
-  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"radio"</span> <span class="c-attr">name</span>=<span class="c-str">"plan"</span> <span class="c-attr">checked</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dot"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Starter&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">label</span>&gt;
-
-&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"rdo"</span>&gt;
-  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"radio"</span> <span class="c-attr">name</span>=<span class="c-str">"plan"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dot"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Pro&lt;/<span class="c-tag">span</span>&gt;
-    &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;For growing teams.&lt;/<span class="c-tag">span</span>&gt;
-  &lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">label</span>&gt;
-
-<span class="c-com">&lt;!-- card group — whole card is the target --&gt;</span>
-&lt;<span class="c-tag">label</span> <span class="c-attr">class</span>=<span class="c-str">"rdo rdo-card"</span>&gt;
-  &lt;<span class="c-tag">input</span> <span class="c-attr">type</span>=<span class="c-str">"radio"</span> <span class="c-attr">name</span>=<span class="c-str">"bill"</span> <span class="c-attr">checked</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dot"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"txt"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"label"</span>&gt;Monthly&lt;/<span class="c-tag">span</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"desc"</span>&gt;$29 / month, cancel anytime.&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">label</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.rdo .dot</span> {
-  width: <span class="c-str">var(--size-box)</span>; border-radius: <span class="c-str">var(--rounded-full)</span>;
-  border: 1px solid <span class="c-str">var(--color-border-strong)</span>;
-}
-<span class="c-key">.rdo input:checked + .dot</span> { border-color: <span class="c-str">var(--color-secondary)</span>; }
-<span class="c-key">.rdo .dot::after</span> {        <span class="c-com">/* inner dot — always filled, hidden via scale(0) */</span>
-  background: <span class="c-str">var(--color-secondary)</span>; transform: scale(0);
-}
-<span class="c-key">.rdo-card</span> {        <span class="c-com">/* whole-card selectable variant */</span>
-  border: 1px solid <span class="c-str">var(--color-border)</span>; border-radius: <span class="c-str">var(--rounded-xl)</span>; padding: 14px 16px;
-}
-<span class="c-key">.rdo-card:hover</span> { border-color: <span class="c-str">var(--color-border-strong)</span>; }
-<span class="c-key">.rdo-card:has(input:checked)</span> { border-color: <span class="c-str">var(--color-secondary)</span>; background: <span class="c-str">var(--color-bg-card-alt)</span>; }
-<span class="c-key">.rdo input:checked + .dot::after</span> { transform: scale(1); }        <span class="c-com">/* :checked only reveals it */</span></pre>
+<pre class="code-pane active" data-lang="astro">
+          <!-- code:astro -->
+&lt;<span class="c-tag">Radio</span> <span class="c-attr">name</span>=<span class="c-str">&quot;bill&quot;</span> <span class="c-attr">value</span>=<span class="c-str">&quot;monthly&quot;</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Monthly&quot;</span> <span class="c-attr">description</span>=<span class="c-str">&quot;$29/month&quot;</span> checked /&gt;
+&lt;<span class="c-tag">Radio</span> <span class="c-attr">name</span>=<span class="c-str">&quot;bill&quot;</span> <span class="c-attr">value</span>=<span class="c-str">&quot;yearly&quot;</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Yearly&quot;</span> /&gt;
+&lt;<span class="c-tag">Radio</span> <span class="c-attr">name</span>=<span class="c-str">&quot;bill&quot;</span> <span class="c-attr">value</span>=<span class="c-str">&quot;monthly&quot;</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Monthly&quot;</span> card checked /&gt;
+          <!-- /code:astro -->
+</pre>
         </div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Guidelines</h2>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><label class="rdo"><input type="radio" name="g1" checked><span class="dot"></span><span class="txt"><span class="label">One per group</span></span></label></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="radio" name="g1" checked><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">One per group</span></span></label></div>
           <ul><li>Use for <b>one-of-many</b> — exactly one selected at a time.</li><li>Always give the group a shared <code>name</code>.</li><li>List 2–6 options; beyond that, use a Select.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><label class="rdo"><input type="radio" name="g2"><span class="dot"></span><span class="txt"><span class="label">Toggle me</span></span></label></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="radio" name="g2"><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">Toggle me</span></span></label></div>
           <ul><li>Don't use a radio for an on/off setting — that's a toggle.</li><li>Don't allow multiple selections — that's a checkbox.</li><li>Don't hard-code the selected colour; use the token.</li></ul></div>
       </div>
     </div>
