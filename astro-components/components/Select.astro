@@ -54,7 +54,10 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
     <label
       id={labelId}
       class:list={[
-        'block text-text-heading font-medium mb-xs',
+        /* Figma 461:32 binds Typography/Label text — Montserrat Medium, size/sm,
+           leading/5. The leading was the one part with no utility here, so the
+           label took whatever the page's body line-height happened to be. */
+        'block text-text-heading font-medium leading-5 mb-xs',
         /* labelSize="sm" — the 12px caption ramp, for dense rows where this label
            sits beside fields already labelled in captions. Both ramps resolve to
            weight 500, so only size and tracking differ. */
@@ -66,14 +69,13 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
     type="button"
     id={triggerId}
     class:list={[
-      'sel-trigger w-full h-[var(--size-input)] rounded-md px-md',
-      'flex items-center justify-between gap-[10px]',
+      /* Figma 461:32: spacing-sm inline, spacing-xs gap, border-width-1. All
+         three were off it — 16 (Ball's earlier scale ruling), 10, and 1.5. */
+      'sel-trigger w-full h-[var(--size-input)] rounded-md px-sm',
+      'flex items-center justify-between gap-xs',
       'font-sans text-body outline-none',
-      'border-[length:var(--border-width-1-5)]',
+      'border',
       'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
-      /* The open ring lands on both branches — `.sel.open .sel-trigger` set
-         border AND shadow, and only its border was ever overridden by error. */
-      'group-[.open]:shadow-focus-blue',
       /* Written as branches rather than layered utilities because the rules they
          replace were decided by specificity, not by order. `.sel.disabled
          .sel-trigger` (0,3,0) beat `.sel-trigger.is-placeholder` (0,2,0), so a
@@ -87,8 +89,8 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          the danger border when open and never took the hover border at all. The
          `:not(.open)` says that instead of relying on emission order. */
       error
-        ? 'border-danger'
-        : 'border-border group-[:not(.open)]:hover:border-border-strong group-[.open]:border-secondary',
+        ? 'border-danger group-[.open]:shadow-focus-blue'
+        : 'border-border group-[:not(.open)]:hover:border-border-strong group-[.open]:border-secondary group-[.open]:shadow-focus-blue',
     ]}
     disabled={disabled}
     aria-haspopup="listbox"
@@ -100,14 +102,38 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
     aria-describedby={descId}
   >
     <span class="sel-value">{selected ? selected.label : placeholder}</span>
-    <span
-      class="text-text-support text-caption-sm transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180"
+    {/* The chevron Figma draws (461:32, `chevron`), not the `▾` this used to set
+        in type. It is stroke-drawn, so it stays inline here rather than going
+        into icons.ts — that module models `fill="currentColor"` paths only, and
+        says so about Checkbox's tick for the same reason.
+
+        viewBox is the path's GEOMETRY box (0.75,0.75 → 10.75,5.75 = the 10×5
+        Figma gives it) rather than the exported file's 11.5×6.81, which is the
+        geometry plus the round caps' overflow. At width 10 that renders 1:1, so
+        stroke-width lands at exactly 1.5px, and `overflow-visible` lets the caps
+        paint outside the box the way they do on the canvas.
+
+        Worth knowing: this also takes Select out of the font-fallback problem
+        for good. `▾` (U+25BE) is not in Montserrat, so it was measured twice
+        changing width when the family list changed. A vector cannot. */}
+    <svg
+      class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180"
+      viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
       aria-hidden="true"
-    >▾</span>
+    ><path d="M0.75 0.75L5.75 5.75L10.75 0.75"/></svg>
   </button>
+  {/* Figma has no open state, so nothing below here was ever reconciled — these
+      were my numbers. Ball's call 2026-08-06: keep the behaviour, put the surface
+      on the same footing as the field now that the field has one.
+        offset  6px -> spacing-xs 8, expressed as top-full + mt-xs
+        padding 6px -> spacing-micro 4, the nearest scale step downward, which is
+                       the direction the field's own 14->12 and 9->8 both went
+        radius  8px -> rounded-md 6, the only radius token this component's Figma
+                       node binds
+      Border was already 1px and shadow-float was already a system token. */}
   <div
     id={listboxId}
-    class="sel-menu absolute top-[calc(100%+6px)] left-0 right-0 z-[5] p-[6px] bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:block"
+    class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro bg-bg-card border border-border rounded-md shadow-float hidden group-[.open]:block"
     role="listbox"
     tabindex="-1"
     aria-labelledby={label ? labelId : undefined}
@@ -130,7 +156,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
         aria-selected={opt.value === value ? 'true' : 'false'}
         data-value={opt.value}
       >
-        {opt.label} <span class="inline-flex text-secondary opacity-0 group-[.selected]/opt:opacity-100" aria-hidden="true"><svg class="size-[0.8rem]" viewBox={icons.check.viewBox} fill="currentColor"><path d={icons.check.path}/></svg></span>
+        {opt.label} <span class="inline-flex text-secondary opacity-0 group-[.selected]/opt:opacity-100" aria-hidden="true"><svg class="size-[12px]" viewBox={icons.check.viewBox} fill="currentColor"><path d={icons.check.path}/></svg></span>
       </div>
     ))}
   </div>
@@ -139,10 +165,13 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
     <option value="" disabled selected={!value}>{placeholder}</option>
     {options.map((opt) => <option value={opt.value} selected={opt.value === value}>{opt.label}</option>)}
   </select>
+  {/* Figma binds Typography/Caption SM to both — size/xs, weight/medium,
+      leading/4, tracking/wide — where this set text-caption (14px, no leading,
+      no tracking). Error differs from hint by colour alone, as on the canvas. */}
   {error && errorMessage ? (
-    <span id={descId} class="block text-caption text-danger font-medium mt-xs">{errorMessage}</span>
+    <span id={descId} class="block text-caption-sm font-medium leading-4 tracking-caption-sm text-danger mt-xs">{errorMessage}</span>
   ) : hint ? (
-    <span id={descId} class="block text-caption text-text-support mt-xs">{hint}</span>
+    <span id={descId} class="block text-caption-sm font-medium leading-4 tracking-caption-sm text-text-support mt-xs">{hint}</span>
   ) : null}
 </div>
 
