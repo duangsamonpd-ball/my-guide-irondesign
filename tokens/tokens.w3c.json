@@ -691,16 +691,10 @@
     }
   },
   "borderWidth": {
-    "_source": "Figma / border-width variables",
     "1": {
       "$value": 1,
       "$type": "dimension",
       "$description": "Hairline — default dividers, inputs"
-    },
-    "1-5": {
-      "$value": 1.5,
-      "$type": "dimension",
-      "$description": "Text link underline default; also the input, select and file-drop borders. Figma calls this `border-width-1,5` — a comma is not a valid CSS ident character, so the CSS name is `--border-width-1-5`."
     },
     "2": {
       "$value": 2,
@@ -716,6 +710,12 @@
       "$value": 8,
       "$type": "dimension",
       "$description": "Heavy — decorative accents, callouts"
+    },
+    "_source": "Figma / border-width variables",
+    "1-5": {
+      "$value": 1.5,
+      "$type": "dimension",
+      "$description": "Text link underline default; also the input, select and file-drop borders. Figma calls this `border-width-1,5` — a comma is not a valid CSS ident character, so the CSS name is `--border-width-1-5`."
     }
   },
   "borderRadius": {
@@ -918,7 +918,6 @@
     }
   },
   "opacity": {
-    "_source": "Figma / opacity variables — 0–100 in steps of 5",
     "0": {
       "$value": 0,
       "$type": "number",
@@ -1023,7 +1022,8 @@
       "$value": 1,
       "$type": "number",
       "$description": "Fully opaque"
-    }
+    },
+    "_source": "Figma / opacity variables — 0–100 in steps of 5"
   },
   "sizing": {
     "box-sm": {
@@ -1369,6 +1369,17 @@
           "letterSpacing": "0px"
         },
         "$description": "Form and UI labels. 14px / 500 (medium) / line-height 20px (token 5). Medium weight separates a label from the value or body text beside it."
+      },
+      "label-lg": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{typography.font-family.body}",
+          "fontSize": "16px",
+          "fontWeight": 500,
+          "lineHeight": "20px",
+          "letterSpacing": "0px"
+        },
+        "$description": "Large form and UI labels. 16px / 500 (medium) / line-height 20px (token 5). Added by Ball 2026-08-06 as Figma `Typography/Label text LG`; the ramp companion to Label text at the 16px step, used by the LG size of Checkbox and Radio."
       },
       "overline": {
         "$type": "typography",

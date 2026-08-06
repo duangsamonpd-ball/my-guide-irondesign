@@ -300,6 +300,7 @@
     --text-caption: var(--text-sm);
     --text-caption-sm: var(--text-xs);
     --text-label: var(--text-sm);
+    --text-label-lg: var(--text-base);
     --text-overline: var(--text-sm);
     --text-code: var(--text-sm);
     --text-btn-lg: var(--text-base);
@@ -330,6 +331,7 @@
     --tracking-h4: -0.4px;
     --tracking-overline: 0.8px;
     --tracking-label: 0px;
+    --tracking-label-lg: 0px;
     --tracking-btn-lg: 0px;
     --tracking-btn: 0px;
     --tracking-btn-sm: 0.4px;
@@ -1541,6 +1543,7 @@
   --font-size-caption: var(--text-caption);
   --font-size-caption-sm: var(--text-caption-sm);
   --font-size-label: var(--text-label);
+  --font-size-label-lg: var(--text-label-lg);
   --font-size-overline: var(--text-overline);
   --font-size-code: var(--text-code);
   --font-size-btn-lg: var(--text-btn-lg);
@@ -1558,6 +1561,7 @@
   --letter-spacing-h4: var(--tracking-h4);
   --letter-spacing-overline: var(--tracking-overline);
   --letter-spacing-label: var(--tracking-label);
+  --letter-spacing-label-lg: var(--tracking-label-lg);
   --letter-spacing-btn-lg: var(--tracking-btn-lg);
   --letter-spacing-btn: var(--tracking-btn);
   --letter-spacing-btn-sm: var(--tracking-btn-sm);
@@ -1607,6 +1611,7 @@
   --fw-overline: 700;
   --fw-caption-sm: 500;
   --fw-label: 500;
+  --fw-label-lg: 500;
   --fw-btn-lg: 700;
   --fw-btn: 600;
   --fw-btn-sm: 600;
@@ -1628,6 +1633,7 @@
   --line-height-caption: var(--leading-5);
   --line-height-caption-sm: var(--leading-4);
   --line-height-label: var(--leading-5);
+  --line-height-label-lg: var(--leading-5);
   --line-height-overline: var(--leading-4);
   --line-height-code: var(--leading-6);
   --line-height-btn-lg: 1;
