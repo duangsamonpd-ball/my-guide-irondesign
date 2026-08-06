@@ -856,9 +856,6 @@
 .px-2xl {
   padding-inline: var(--spacing-2xl);
 }
-.px-\[14px\] {
-  padding-inline: 14px;
-}
 .px-\[16px\] {
   padding-inline: 16px;
 }
@@ -880,9 +877,6 @@
 .py-4xl {
   padding-block: var(--spacing-4xl);
 }
-.py-\[9px\] {
-  padding-block: 9px;
-}
 .py-\[14px\] {
   padding-block: 14px;
 }
@@ -891,6 +885,9 @@
 }
 .py-micro {
   padding-block: var(--spacing-micro);
+}
+.py-xs {
+  padding-block: var(--spacing-xs);
 }
 .pt-3xl {
   padding-top: var(--spacing-3xl);

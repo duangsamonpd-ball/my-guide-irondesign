@@ -66,7 +66,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
     type="button"
     id={triggerId}
     class:list={[
-      'sel-trigger w-full h-[var(--size-input)] rounded-md px-[14px]',
+      'sel-trigger w-full h-[var(--size-input)] rounded-md px-md',
       'flex items-center justify-between gap-[10px]',
       'font-sans text-body outline-none',
       'border-[length:var(--border-width-1-5)]',
@@ -116,7 +116,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       <div
         id={`${uid}-opt-${i}`}
         class:list={[
-          'sel-opt group/opt flex items-center justify-between gap-xs px-sm py-[9px]',
+          'sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs',
           'rounded-md text-body text-text-body cursor-pointer',
           /* `.sel-opt.selected` sat after `:hover` and `.active` at equal
              specificity, so the selected row kept its tint under both. The
