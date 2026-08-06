@@ -66,7 +66,22 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) 
    * while using none — otherwise reports a usage it does not have, and that one
    * phantom is enough to keep the guard below from ever firing.
    */
-  const code = src.replace(/\{\/\*[\s\S]*?\*\/\}/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/<!--[\s\S]*?-->/g, '');
+  /**
+   * `//` lines are stripped for the same reason `/* *​/` blocks are, and it took
+   * a fourth quote bug to notice they were not. Select's frontmatter explains
+   * its ids with "don't collide when multiple <Select>s render" — one unpaired
+   * apostrophe, which shifts every `'…'` pair after it by one. The reader then
+   * treated the CLOSING quote of a real class list as an opening one and read
+   * the markup between two of them as a class string, reporting
+   * `aria-expanded/aria-haspopup/aria-controls` as three utilities Tailwind had
+   * failed to emit. Only line-leading `//` is removed: `https://` inside a real
+   * string is not a comment, and eating it would take the string with it.
+   */
+  const code = src
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/^[ \t]*\/\/.*$/gm, '');
   let vars = 0;
   for (const [, name] of code.matchAll(/var\((--[\w-]+)/g)) {
     if (localDefs.has(name)) continue;
@@ -91,6 +106,18 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) 
      * class strings came back as fragments of English and NOT ONE of its
      * utilities was checked, while the gate printed a tick.
      */
+    /**
+     * A class the component's own <script> selects on is a HOOK, not a utility,
+     * and Tailwind is right to emit nothing for it. Select is the first
+     * converted component with any: it drives its listbox from `.sel-trigger`,
+     * `.sel-menu`, `.sel-opt` and `.sel-value`, and those sit in the same
+     * class:list as the utilities. check:parity has allowed this since Badge —
+     * it reads docs/preview-frame.js the same way — so the rule is not new, only
+     * its second home. `(?![\w-])` so `.sel` does not vouch for `.sel-trigger`.
+     */
+    const ownScript = [...code.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]).join('\n');
+    const isHook = (c) => new RegExp(`\\.${c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\w-])`).test(ownScript);
+
     const strings = [...code.matchAll(/'([^']*)'/g)].map((m) => m[1]);
     for (const s of strings) {
       /**
@@ -113,7 +140,7 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) 
        */
       if (!known.length) continue;
       for (const c of tokens) {
-        if (utilities.has(c) || !/[-:]/.test(c)) continue;
+        if (utilities.has(c) || !/[-:]/.test(c) || isHook(c)) continue;
         /**
          * A token whose brackets do not balance is this reader's own damage, not
          * a class. `bg-[url(assets/Rainbow.svg)]` written with inner quotes ends

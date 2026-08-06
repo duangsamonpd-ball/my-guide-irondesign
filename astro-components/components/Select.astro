@@ -49,12 +49,47 @@ const listboxId = `${uid}-listbox`;
 const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : undefined;
 ---
 
-<div class:list={['sel', { error, disabled, 'sel--label-sm': labelSize === 'sm' }, className]}>
-  {label && <label id={labelId} class="sel-label">{label}</label>}
+<div class:list={['sel group relative w-full', className]}>
+  {label && (
+    <label
+      id={labelId}
+      class:list={[
+        'block text-text-heading font-medium mb-xs',
+        /* labelSize="sm" — the 12px caption ramp, for dense rows where this label
+           sits beside fields already labelled in captions. Both ramps resolve to
+           weight 500, so only size and tracking differ. */
+        labelSize === 'sm' ? 'text-caption-sm tracking-caption-sm' : 'text-label',
+      ]}
+    >{label}</label>
+  )}
   <button
     type="button"
     id={triggerId}
-    class:list={['sel-trigger', { 'is-placeholder': !selected }]}
+    class:list={[
+      'sel-trigger w-full h-[var(--size-input)] rounded-md px-[14px]',
+      'flex items-center justify-between gap-[10px]',
+      'font-sans text-body outline-none',
+      'border-[length:var(--border-width-1-5)]',
+      'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
+      /* The open ring lands on both branches — `.sel.open .sel-trigger` set
+         border AND shadow, and only its border was ever overridden by error. */
+      'group-[.open]:shadow-focus-blue',
+      /* Written as branches rather than layered utilities because the rules they
+         replace were decided by specificity, not by order. `.sel.disabled
+         .sel-trigger` (0,3,0) beat `.sel-trigger.is-placeholder` (0,2,0), so a
+         disabled placeholder rendered disabled-grey; as two equal-weight
+         utilities that would have come down to which one Tailwind emitted last. */
+      disabled
+        ? 'bg-bg-shade text-text-disabled [&.is-placeholder]:text-text-disabled cursor-not-allowed'
+        : 'bg-bg-base text-text-body [&.is-placeholder]:text-text-placeholder cursor-pointer',
+      /* Same reason. `.sel.error .sel-trigger` and `.sel.open .sel-trigger` had
+         equal specificity with error later in the file, so an errored Select kept
+         the danger border when open and never took the hover border at all. The
+         `:not(.open)` says that instead of relying on emission order. */
+      error
+        ? 'border-danger'
+        : 'border-border group-[:not(.open)]:hover:border-border-strong group-[.open]:border-secondary',
+    ]}
     disabled={disabled}
     aria-haspopup="listbox"
     aria-expanded="false"
@@ -65,76 +100,51 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
     aria-describedby={descId}
   >
     <span class="sel-value">{selected ? selected.label : placeholder}</span>
-    <span class="chev" aria-hidden="true">▾</span>
+    <span
+      class="text-text-support text-caption-sm transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180"
+      aria-hidden="true"
+    >▾</span>
   </button>
-  <div id={listboxId} class="sel-menu" role="listbox" tabindex="-1" aria-labelledby={label ? labelId : undefined}>
+  <div
+    id={listboxId}
+    class="sel-menu absolute top-[calc(100%+6px)] left-0 right-0 z-[5] p-[6px] bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:block"
+    role="listbox"
+    tabindex="-1"
+    aria-labelledby={label ? labelId : undefined}
+  >
     {options.map((opt, i) => (
       <div
         id={`${uid}-opt-${i}`}
-        class:list={['sel-opt', { selected: opt.value === value }]}
+        class:list={[
+          'sel-opt group/opt flex items-center justify-between gap-xs px-sm py-[9px]',
+          'rounded-md text-body text-text-body cursor-pointer',
+          /* `.sel-opt.selected` sat after `:hover` and `.active` at equal
+             specificity, so the selected row kept its tint under both. The
+             `:not(.selected)` carries that forward without depending on which
+             utility Tailwind emits last. */
+          '[&:not(.selected):hover]:bg-bg-shade [&:not(.selected).active]:bg-bg-shade',
+          '[&.selected]:bg-bg-card-alt [&.selected]:text-secondary [&.selected]:font-semibold',
+          { selected: opt.value === value },
+        ]}
         role="option"
         aria-selected={opt.value === value ? 'true' : 'false'}
         data-value={opt.value}
       >
-        {opt.label} <span class="ck" aria-hidden="true"><svg viewBox={icons.check.viewBox} fill="currentColor"><path d={icons.check.path}/></svg></span>
+        {opt.label} <span class="inline-flex text-secondary opacity-0 group-[.selected]/opt:opacity-100" aria-hidden="true"><svg class="size-[0.8rem]" viewBox={icons.check.viewBox} fill="currentColor"><path d={icons.check.path}/></svg></span>
       </div>
     ))}
   </div>
   <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
-  <select name={name} class="sel-native-fallback" disabled={disabled} required={required} tabindex="-1" aria-hidden="true">
+  <select name={name} class="absolute inset-0 opacity-0 pointer-events-none" disabled={disabled} required={required} tabindex="-1" aria-hidden="true">
     <option value="" disabled selected={!value}>{placeholder}</option>
     {options.map((opt) => <option value={opt.value} selected={opt.value === value}>{opt.label}</option>)}
   </select>
   {error && errorMessage ? (
-    <span id={descId} class="sel-err">{errorMessage}</span>
+    <span id={descId} class="block text-caption text-danger font-medium mt-xs">{errorMessage}</span>
   ) : hint ? (
-    <span id={descId} class="sel-hint">{hint}</span>
+    <span id={descId} class="block text-caption text-text-support mt-xs">{hint}</span>
   ) : null}
 </div>
-
-<style>
-  /* Fills whatever the consumer gives it. It used to cap itself at 280px, which
-     every layout wider than that had to undo with `max-width: none`. */
-  .sel { position: relative; width: 100%; }
-  .sel-label { display: block; font-size: var(--font-size-label); font-weight: var(--fw-label); color: var(--color-text-heading); margin-bottom: var(--spacing-xs); }
-  /* labelSize="sm" — the 12px caption ramp, for dense rows where this label sits
-     beside fields already labelled in captions. */
-  .sel--label-sm .sel-label { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); letter-spacing: var(--letter-spacing-caption-sm); }
-  .sel-trigger {
-    width: 100%; height: var(--size-input);
-    border: var(--border-width-1-5) solid var(--color-border); border-radius: var(--rounded-md);
-    background: var(--color-bg-base); padding: 0 14px;
-    display: flex; align-items: center; justify-content: space-between; gap: 10px;
-    font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); color: var(--color-text-body);
-    cursor: pointer; outline: none; transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
-  }
-  .sel-trigger:hover { border-color: var(--color-border-strong); }
-  .sel-trigger.is-placeholder { color: var(--color-text-placeholder); }
-  .sel-trigger .chev { color: var(--color-text-support); transition: transform var(--duration-base); font-size: var(--font-size-caption-sm); }
-  .sel.open .sel-trigger { border-color: var(--color-secondary); box-shadow: var(--shadow-focus-blue); }
-  .sel.open .sel-trigger .chev { transform: rotate(180deg); }
-  .sel.error .sel-trigger { border-color: var(--color-danger); }
-  .sel.disabled .sel-trigger { background: var(--color-bg-shade); color: var(--color-text-disabled); cursor: not-allowed; }
-  .sel-menu {
-    position: absolute; top: calc(100% + 6px); left: 0; right: 0;
-    background: var(--color-bg-card); border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-lg);
-    box-shadow: var(--shadow-float); padding: 6px; z-index: 5; display: none;
-  }
-  .sel.open .sel-menu { display: block; }
-  .sel-opt {
-    display: flex; align-items: center; justify-content: space-between; gap: 8px;
-    padding: 9px 12px; border-radius: var(--rounded-md);
-    font-size: var(--font-size-body); color: var(--color-text-body); cursor: pointer;
-  }
-  .sel-opt:hover, .sel-opt.active { background: var(--color-bg-shade); }
-  .sel-opt.selected { background: var(--color-bg-card-alt); color: var(--color-secondary); font-weight: 600; }
-  .sel-opt .ck { color: var(--color-secondary); opacity: 0; display: inline-flex; }
-  .sel-opt .ck svg { width: 0.8rem; height: 0.8rem; }
-  .sel-opt.selected .ck { opacity: 1; }
-  .sel-hint { display: block; font-size: var(--font-size-caption); color: var(--color-text-support); margin-top: var(--spacing-xs); }
-  .sel-err  { display: block; font-size: var(--font-size-caption); color: var(--color-danger); font-weight: 500; margin-top: var(--spacing-xs); }
-  .sel-native-fallback { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
-</style>
 
 <script>
   // Button-triggered listbox pattern (WAI-ARIA APG "Select Only" combobox):
@@ -177,7 +187,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       };
 
       const open = () => {
-        if (sel.classList.contains('disabled')) return;
+        if (trigger.disabled) return;
         sel.classList.add('open');
         trigger.setAttribute('aria-expanded', 'true');
         setActive(activeIndex);
@@ -212,7 +222,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       });
 
       trigger.addEventListener('keydown', (e) => {
-        if (sel.classList.contains('disabled')) return;
+        if (trigger.disabled) return;
         if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) {
           e.preventDefault();
           open();

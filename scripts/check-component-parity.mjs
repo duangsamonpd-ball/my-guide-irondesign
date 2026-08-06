@@ -137,8 +137,27 @@ function checkConverted(file, name, docsPath) {
    * It did exactly that the first time it ran.
    */
   const unescape = (s) => s.replace(/\\(.)/g, '$1');
+  /**
+   * EVERY class in a utilities.css selector, not just the one the rule is named
+   * after. A state class that only ever appears second in a compound —
+   * `.[&.selected]:text-secondary.selected`, which is how a utility keyed off a
+   * class the component's own script toggles compiles — was read as declared
+   * nowhere, and this gate reported three of Select's real, styled state hooks
+   * (`selected`, `is-placeholder`, `active`) as classes resolving to nothing.
+   *
+   * Only rule preludes are scanned: the text before `{`. Reading the whole file
+   * would pull class-shaped fragments out of declaration VALUES, where every
+   * decimal (`0.25rem`) looks like `.25rem`.
+   */
+  const classesInSelectors = (css) => {
+    const out = [];
+    for (const [, prelude] of css.matchAll(/^([^{}]*)\{/gm)) {
+      for (const m of prelude.matchAll(/\.((?:[a-zA-Z_-]|\\.)(?:[\w-]|\\.)*)/g)) out.push(unescape(m[1]));
+    }
+    return out;
+  };
   const declared = new Set([
-    ...[...readFileSync(UTILITIES, 'utf8').matchAll(/^\s*\.((?:[\w-]|\\.)+)/gm)].map((m) => unescape(m[1])),
+    ...classesInSelectors(readFileSync(UTILITIES, 'utf8')),
     ...[...shellCss.matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => unescape(m[1])),
     ...[...styleBlocks(page).matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => unescape(m[1])),
   ]);
@@ -148,8 +167,13 @@ function checkConverted(file, name, docsPath) {
    * something to point at. Checkbox is the first component to need either, and
    * they are the only two classes in Tailwind that legitimately resolve to
    * nothing — anything else that resolves nowhere is a mistake.
+   *
+   * Their NAMED forms are markers too. Select nests one group inside another —
+   * the wrapper is `group` for the open state, each option is `group/opt` so its
+   * tick can key off the row being selected — and `group/opt` is spelled as a
+   * class while emitting nothing, exactly like the bare form.
    */
-  const MARKERS = new Set(['group', 'peer']);
+  const MARKER = /^(group|peer)(\/[\w-]+)?$/;
 
   /**
    * A class a script looks for is a hook, not a style, and is allowed to resolve
@@ -167,7 +191,7 @@ function checkConverted(file, name, docsPath) {
 
   const used = classesInMarkup(page);
   const unstyled = [...used].filter(
-    (c) => !declared.has(c) && !MARKERS.has(c) && !scripts.includes(`'${c}'`) && !scripts.includes(`"${c}"`) && !scripts.includes(`.${c}`),
+    (c) => !declared.has(c) && !MARKER.test(c) && !scripts.includes(`'${c}'`) && !scripts.includes(`"${c}"`) && !scripts.includes(`.${c}`),
   );
   if (unstyled.length) {
     problems.push(

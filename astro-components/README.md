@@ -28,8 +28,8 @@ this package right now, and they do not have the same requirements:
 
 | | Styled by | You need |
 |---|---|---|
-| **Converted** (8 of 19) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
-| **Not yet converted** (11 of 19) | their own scoped `<style>` | the tokens, nothing else |
+| **Converted** (9 of 19) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
+| **Not yet converted** (10 of 19) | their own scoped `<style>` | the tokens, nothing else |
 
 Every converted component's section below carries a **Needs Tailwind** note, and
 `npm run check:exports` fails if one is missing or stale — the list above is not
@@ -227,6 +227,9 @@ The whole dropzone is a `<label>` wrapping a visually-hidden native `<input type
 The dropzone icon (upload / has-file / error) is an inline **Font Awesome Free Solid** SVG — `cloud-arrow-up`, `circle-check`, `triangle-exclamation` — path data hard-coded directly in the component, `fill="currentColor"` so it inherits the icon-box's tint color per state. No icon font or CDN dependency.
 
 ### `Select.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
 
 ```astro
 <Select
