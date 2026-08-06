@@ -1175,8 +1175,9 @@
         "$type": "dimension"
       },
       "7xl": {
-        "$value": "60px",
-        "$type": "dimension"
+        "$value": "64px",
+        "$type": "dimension",
+        "$description": "60px until 2026-08-06, when the Logo node showed Figma binding size/7xl at 64. Ball's call: follow Figma. Nothing in the library consumes this step."
       },
       "8xl": {
         "$value": "72px",

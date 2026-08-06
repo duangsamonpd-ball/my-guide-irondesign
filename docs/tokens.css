@@ -389,7 +389,7 @@
   --font-size-4xl:  36px;
   --font-size-5xl:  40px;
   --font-size-6xl:  48px;
-  --font-size-7xl:  60px;
+  --font-size-7xl:  64px;  /* Figma size/7xl — was 60 until 2026-08-06 */
   --font-size-8xl:  72px;
   --font-size-9xl:  96px;
 
