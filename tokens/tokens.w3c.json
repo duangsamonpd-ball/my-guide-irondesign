@@ -1328,6 +1328,17 @@
         },
         "$description": "Pull quotes, testimonials, blockquotes. Same size/weight as Body large but italic — visually distinct without a separate size."
       },
+      "body-title": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{typography.font-family.body}",
+          "fontSize": "16px",
+          "fontWeight": 700,
+          "lineHeight": "28px",
+          "letterSpacing": "0px"
+        },
+        "$description": "Bold running text at the body size. 16px / 700 (bold) / line-height 28px (token 7). The 16px companion to title-large, for a sentence that leads a paragraph without being a heading. Figma `Typography/Body title`, spec supplied by Ball 2026-08-06."
+      },
       "body": {
         "$type": "typography",
         "$value": {

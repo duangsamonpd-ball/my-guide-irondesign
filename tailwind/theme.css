@@ -405,6 +405,7 @@
   --text-title-lg: var(--text-lg);            /* 18px — section intro title */
   --text-body-lg: var(--text-lg);             /* 18px — lead / intro paragraph */
   --text-quote: var(--text-lg);               /* 18px — pull quote / blockquote (italic) */
+  --text-body-title: var(--text-base);        /* 16px — bold running text */
   --text-body: var(--text-base);              /* 16px — default running text */
   --text-caption: var(--text-sm);             /* 14px — supporting text, secondary colour */
   --text-caption-sm: var(--text-xs);          /* 12px — tooltip, footer fine print */
@@ -439,6 +440,7 @@
   --tracking-h3: -0.4px;                      /* tight */
   --tracking-h4: -0.4px;                      /* tight — card title */
   --tracking-overline: 0.8px;                 /* wider */
+  --tracking-body-title: 0px;                 /* normal */
   --tracking-label: 0px;                      /* normal */
   --tracking-label-lg: 0px;                   /* normal */
   --tracking-btn-lg: 0px;                     /* normal */
@@ -593,6 +595,7 @@
   --font-size-title-lg: var(--text-title-lg);
   --font-size-body-lg: var(--text-body-lg);
   --font-size-quote: var(--text-quote);
+  --font-size-body-title: var(--text-body-title);
   --font-size-body: var(--text-body);
   --font-size-caption: var(--text-caption);
   --font-size-caption-sm: var(--text-caption-sm);
@@ -614,6 +617,7 @@
   --letter-spacing-h3: var(--tracking-h3);
   --letter-spacing-h4: var(--tracking-h4);
   --letter-spacing-overline: var(--tracking-overline);
+  --letter-spacing-body-title: var(--tracking-body-title);
   --letter-spacing-label: var(--tracking-label);
   --letter-spacing-label-lg: var(--tracking-label-lg);
   --letter-spacing-btn-lg: var(--tracking-btn-lg);
@@ -667,6 +671,7 @@
   --fw-title-lg: 700;                         /* Title · Large — section intro title */
   --fw-body-lg: 500;                          /* Body large — Medium (Figma) */
   --fw-quote: 500;                            /* Quote — Medium italic */
+  --fw-body-title: 700;                       /* Body title — bold running text at the body size */
   --fw-body: 400;
   --fw-caption: 400;                          /* Caption — regular, content scale */
   --fw-code: 400;                             /* Code — regular, monospace */
@@ -691,6 +696,7 @@
   --line-height-title-lg: var(--leading-7);   /* 28px */
   --line-height-body-lg: var(--leading-7);    /* 28px */
   --line-height-quote: var(--leading-7);      /* 28px */
+  --line-height-body-title: var(--leading-7); /* 28px */
   --line-height-body: var(--leading-7);       /* 28px */
   --line-height-caption: var(--leading-5);    /* 20px */
   --line-height-caption-sm: var(--leading-4); /* 16px */

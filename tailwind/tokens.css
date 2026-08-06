@@ -347,6 +347,7 @@
   --fw-title-lg:  700;  /* Title · Large — section intro title */
   --fw-body-lg:   500;  /* Body large — Medium (Figma) */
   --fw-quote:     500;  /* Quote — Medium italic */
+  --fw-body-title:700;  /* Body title — bold running text at the body size */
   --fw-body:      400;
   --fw-caption:   400;  /* Caption — regular, content scale */
   --fw-code:      400;  /* Code — regular, monospace */
@@ -397,6 +398,7 @@
   --font-size-title-lg: var(--font-size-lg);    /* 18px — section intro title */
   --font-size-body-lg:  var(--font-size-lg);    /* 18px — lead / intro paragraph */
   --font-size-quote:    var(--font-size-lg);    /* 18px — pull quote / blockquote (italic) */
+  --font-size-body-title: var(--font-size-base);/* 16px — bold running text */
   --font-size-body:     var(--font-size-base);  /* 16px — default running text */
   --font-size-caption:  var(--font-size-sm);    /* 14px — supporting text, secondary colour */
   --font-size-caption-sm: var(--font-size-xs);  /* 12px — tooltip, footer fine print */
@@ -439,6 +441,7 @@
   --line-height-title-lg: var(--leading-7);   /* 28px */
   --line-height-body-lg:  var(--leading-7);   /* 28px */
   --line-height-quote:    var(--leading-7);   /* 28px */
+  --line-height-body-title: var(--leading-7);   /* 28px */
   --line-height-body:     var(--leading-7);   /* 28px */
   --line-height-caption:    var(--leading-5);   /* 20px */
   --line-height-caption-sm: var(--leading-4);   /* 16px */
@@ -463,6 +466,7 @@
   --letter-spacing-h3:       -0.4px;   /* tight   */
   --letter-spacing-h4:       -0.4px;   /* tight — card title */
   --letter-spacing-overline:  0.8px;   /* wider   */
+  --letter-spacing-body-title: 0px;    /* normal  */
   --letter-spacing-label:      0px;    /* normal  */
   --letter-spacing-label-lg:   0px;    /* normal  */
   --letter-spacing-btn-lg:     0px;    /* normal  */
