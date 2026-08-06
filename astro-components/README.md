@@ -765,6 +765,29 @@ minority without a deliberate decision, since these are public names:
 - **`maxWidth` is a boolean on `Tooltip`**, not a length. It reads like a
   dimension and is not one.
 
+## Shared field styles
+
+`Input` and `Textarea` render the same field — wrapper, label, control, and one
+message slot that is a hint or an error — differing only in the control's box.
+The class strings they must agree on live in **`astro-components/field.ts`**,
+not in either component. What legitimately differs stays inline, where it reads
+as the difference: `h-[var(--size-input)] px-sm` against
+`min-h-[86px] p-sm resize-y`.
+
+This exists because the duplication demonstrably drifted. On 2026-08-06 five
+values were edited in both files in lockstep — inline padding, the hint ramp,
+the hint colour, the label colour and `leading-7` — and **no gate would have
+caught one of them being missed.** `check:parity` matches each component against
+*its own* docs page, so two components drifting apart from each other is the one
+shape it cannot see.
+
+**Two scripts know about this file, and both had to.** `build-utilities.mjs`
+scans it for Tailwind (its `@source` glob was `*.astro`, so a class moved here
+would simply have stopped being compiled — absent from the stylesheet every docs
+page links, with the class still in their markup). `check-component-vars.mjs`
+validates its strings, so a typo here fails the same way it would in a
+component. Adding another shared module means adding it to both lists.
+
 ## Icon strategy
 
 Components inline real **Font Awesome Free Solid** vectors as

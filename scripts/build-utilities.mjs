@@ -63,7 +63,15 @@ const REPLACEMENT = [
   '@layer theme, base, components, utilities;',
   '@import "tailwindcss/theme.css" layer(theme);',
   '@import "tailwindcss/utilities.css" source(none);',
+  /**
+   * `.ts` as well as `.astro` since 2026-08-06. `astro-components/field.ts`
+   * holds the class strings Input and Textarea must agree on, and a glob of
+   * `*.astro` alone would have stopped compiling them — the utilities silently
+   * absent from the stylesheet all 32 docs pages link, with the classes still
+   * sitting in their markup. Nothing about that failure is loud.
+   */
   `@source "${SCAN}/*.astro";`,
+  `@source "${SCAN}/*.ts";`,
 ].join('\n');
 
 /* ── build the compiler input ────────────────────────────────────────────── */
@@ -71,6 +79,13 @@ const REPLACEMENT = [
 const astroFiles = existsSync(COMPONENTS)
   ? readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))
   : [];
+
+/**
+ * Shared modules outside components/ that hold class strings. Named explicitly
+ * rather than globbed: `index.ts` and `icons.ts` sit beside these and contain no
+ * classes, and scanning prose for class names is what note 3 below is about.
+ */
+const SHARED_TS = ['field.ts'].filter((f) => existsSync(join(ROOT, 'astro-components', f)));
 
 /**
  * If the glob matches nothing, Tailwind does not complain — it emits a valid
@@ -151,12 +166,14 @@ mkdirSync(TMP, { recursive: true });
  */
 mkdirSync(SCAN, { recursive: true });
 for (const f of readdirSync(SCAN)) rmSync(join(SCAN, f));
+const strip = (src) =>
+  src.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '').replace(/\/\*[\s\S]*?\*\//g, '');
+
 for (const file of astroFiles) {
-  const src = readFileSync(join(COMPONENTS, file), 'utf8');
-  writeFileSync(
-    join(SCAN, file),
-    src.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '').replace(/\/\*[\s\S]*?\*\//g, ''),
-  );
+  writeFileSync(join(SCAN, file), strip(readFileSync(join(COMPONENTS, file), 'utf8')));
+}
+for (const file of SHARED_TS) {
+  writeFileSync(join(SCAN, file), strip(readFileSync(join(ROOT, 'astro-components', file), 'utf8')));
 }
 
 const inputPath = join(TMP, 'utilities.in.css');

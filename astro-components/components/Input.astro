@@ -1,4 +1,6 @@
 ---
+import { fieldShell, fieldLabel, fieldRequiredMark, fieldControl, fieldBorder, fieldHint, fieldError, fieldId } from '../field';
+
 interface Props {
   label?: string;
   id?: string;
@@ -29,13 +31,13 @@ const {
   class: className,
 } = Astro.props;
 
-const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
+const inputId = fieldId(id, name, 'input');
 ---
 
-<div class:list={['flex flex-col gap-xs w-full max-w-[340px]', className]}>
+<div class:list={[fieldShell, className]}>
   {label && (
-    <label class="text-label font-medium text-text-heading leading-5" for={inputId}>
-      {label}{required && <span class="text-danger"> *</span>}
+    <label class={fieldLabel} for={inputId}>
+      {label}{required && <span class={fieldRequiredMark}> *</span>}
     </label>
   )}
   <div class="relative flex items-center">
@@ -43,25 +45,9 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
       id={inputId}
       name={name}
       type={type}
-      class:list={[
-        /* Figma `912:1819` binds Typography/Body — size/base with leading/7.
-           The size was already right; the line-height was never set, so this
-           took whatever the page's body value was. It barely moves a
-           single-line input, which centres its own text either way, but it is
-           a real binding and Select's rows carry the same one. */
-        'w-full h-[var(--size-input)] rounded-md px-sm font-sans text-body leading-7 text-text-body',
-        'bg-bg-base border outline-none',
-        'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
-        'placeholder:text-text-placeholder',
-        'disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed',
-        /* Same two branches as Textarea, and for the same reason: `.input.error`
-           and `.input:hover` had equal specificity with error later in the file,
-           so an errored field never took the hover border and its focus ring was
-           the danger-coloured one. Writing both out says that outright. */
-        error
-          ? 'border-danger focus:border-danger focus:shadow-focus-magenta'
-          : 'border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue',
-      ]}
+      {/* The 44px row and its inline padding are the whole of what makes this an
+          Input rather than a Textarea; everything else it wears is shared. */}
+      class:list={['h-[var(--size-input)] px-sm', fieldControl, fieldBorder(error)]}
       placeholder={placeholder}
       value={value}
       disabled={disabled}
@@ -69,8 +55,8 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
     />
   </div>
   {error && errorMessage ? (
-    <span class="text-caption-sm font-medium leading-4 tracking-caption-sm text-danger">{errorMessage}</span>
+    <span class={fieldError}>{errorMessage}</span>
   ) : hint ? (
-    <span class="text-caption-sm font-medium leading-4 tracking-caption-sm text-text-support">{hint}</span>
+    <span class={fieldHint}>{hint}</span>
   ) : null}
 </div>

@@ -1,4 +1,6 @@
 ---
+import { fieldShell, fieldLabel, fieldRequiredMark, fieldControl, fieldBorder, fieldHint, fieldError, fieldId } from '../field';
+
 interface Props {
   label?: string;
   id?: string;
@@ -29,40 +31,29 @@ const {
   class: className,
 } = Astro.props;
 
-const textareaId = id ?? name ?? `textarea-${Math.random().toString(36).slice(2, 9)}`;
+const textareaId = fieldId(id, name, 'textarea');
 ---
 
-<div class:list={['flex flex-col gap-xs w-full max-w-[340px]', className]}>
+<div class:list={[fieldShell, className]}>
   {label && (
-    <label class="text-label font-medium text-text-heading leading-5" for={textareaId}>
-      {label}{required && <span class="text-danger"> *</span>}
+    <label class={fieldLabel} for={textareaId}>
+      {label}{required && <span class={fieldRequiredMark}> *</span>}
     </label>
   )}
+  {/* The box and the resize affordance are the whole of what makes this a
+      Textarea rather than an Input; everything else it wears is shared. */}
   <textarea
     id={textareaId}
     name={name}
     rows={rows}
-    class:list={[
-      'w-full min-h-[86px] rounded-md p-sm font-sans text-body text-text-body leading-7',
-      'bg-bg-base border outline-none resize-y',
-      'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
-      'placeholder:text-text-placeholder',
-      'disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed disabled:resize-none',
-      /* The focus ring is picked by validity, not stacked on top of it: the
-         error rule only ever overrode the shadow, never the border, so writing
-         both branches out says what actually renders. */
-      error
-        ? 'border-danger focus:border-danger focus:shadow-focus-magenta'
-        : 'border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue',
-    ]}
+    class:list={['min-h-[86px] p-sm resize-y disabled:resize-none', fieldControl, fieldBorder(error)]}
     placeholder={placeholder}
     disabled={disabled}
     required={required}
   >{value}</textarea>
   {error && errorMessage ? (
-    <span class="text-caption-sm font-medium leading-4 tracking-caption-sm text-danger">{errorMessage}</span>
+    <span class={fieldError}>{errorMessage}</span>
   ) : hint ? (
-    <span class="text-caption-sm font-medium leading-4 tracking-caption-sm text-text-support">{hint}</span>
+    <span class={fieldHint}>{hint}</span>
   ) : null}
 </div>
-

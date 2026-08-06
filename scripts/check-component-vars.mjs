@@ -13,7 +13,7 @@
  *       node scripts/check-component-vars.mjs /tmp/out.css
  */
 
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
@@ -157,6 +157,39 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) 
     }
   }
   perFile.push({ file, vars, classes });
+}
+
+/**
+ * Shared modules outside components/ that hold class strings, since 2026-08-06.
+ * `astro-components/field.ts` carries everything Input and Textarea must agree
+ * on, and without this pass those strings would be the only ones in the library
+ * nothing validates — the components import them, so they never appear in a
+ * `.astro` file for the loop above to read.
+ *
+ * `build-utilities.mjs` had to learn about the same file for Tailwind to compile
+ * them at all. Both changes are load-bearing: one makes the classes exist, this
+ * one makes a typo in them fail.
+ */
+for (const file of ['field.ts']) {
+  const path = join(ROOT, 'astro-components', file);
+  if (!existsSync(path)) continue;
+  const code = readFileSync(path, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/^[ \t]*\/\/.*$/gm, '');
+  let classes = 0;
+  for (const [, s] of code.matchAll(/'([^']*)'/g)) {
+    const tokens = s.split(/\s+/).filter((c) => c && /^[a-z][\w.:/[\]()%,#-]*$/.test(c));
+    const known = tokens.filter((c) => utilities.has(c));
+    classes += known.length;
+    if (!known.length) continue;
+    for (const c of tokens) {
+      if (utilities.has(c) || !/[-:]/.test(c)) continue;
+      const balanced = (open, close) => c.split(open).length === c.split(close).length;
+      if (!balanced('[', ']') || !balanced('(', ')')) continue;
+      unknown.push({ file, cls: c });
+    }
+  }
+  perFile.push({ file, vars: 0, classes });
 }
 
 /**
