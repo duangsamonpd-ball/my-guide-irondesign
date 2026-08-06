@@ -1240,6 +1240,10 @@
   --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
+.group-\[\.open\]\:shadow-focus-magenta:is(:where(.group):is(.open) *) {
+  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(224, 26, 89, 0.25));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
 .group-\[\.selected\]\/opt\:opacity-100:is(:where(.group\/opt):is(.selected) *) {
   opacity: 100%;
 }
@@ -1333,6 +1337,17 @@
 .focus-visible\:outline-solid:focus-visible {
   --tw-outline-style: solid;
   outline-style: solid;
+}
+.group-\[\:not\(\.open\)\]\:focus-visible\:border-secondary:is(:where(.group):is(:not(.open)) *):focus-visible {
+  border-color: var(--color-secondary);
+}
+.group-\[\:not\(\.open\)\]\:focus-visible\:shadow-focus-blue:is(:where(.group):is(:not(.open)) *):focus-visible {
+  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.group-\[\:not\(\.open\)\]\:focus-visible\:shadow-focus-magenta:is(:where(.group):is(:not(.open)) *):focus-visible {
+  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(224, 26, 89, 0.25));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .disabled\:pointer-events-none:disabled {
   pointer-events: none;

@@ -87,10 +87,28 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       /* Same reason. `.sel.error .sel-trigger` and `.sel.open .sel-trigger` had
          equal specificity with error later in the file, so an errored Select kept
          the danger border when open and never took the hover border at all. The
-         `:not(.open)` says that instead of relying on emission order. */
+         `:not(.open)` says that instead of relying on emission order.
+
+         FOCUS-VISIBLE IS NEW, and it is a fix rather than a port. This set
+         `outline: none` and hung its only ring on `.open`, so a trigger reached
+         by Tab and not yet opened showed NOTHING — measured: border unchanged,
+         box-shadow none, outline-style none. That is a WCAG 2.4.7 failure, it
+         predates the Tailwind conversion, and Figma 461:32 draws Focus as a
+         CLOSED field with the blue border and ring. Colours follow Input and
+         Textarea: blue normally, magenta when the field is in error.
+
+         `focus-visible`, not `focus`, because this is a button — `:focus` would
+         paint the ring on every mouse click, on top of the open state that the
+         same click triggers. Both variants are scoped `:not(.open)`: once open,
+         DOM focus is on the listbox, not here.
+
+         Specificity, again deliberately: the group variants make hover and
+         focus-visible both (0,3,0), and Tailwind emits focus-visible after
+         hover — so a trigger that is hovered AND focused shows focus. A plain
+         `focus-visible:` would have been (0,2,0) and lost to hover. */
       error
-        ? 'border-danger group-[.open]:shadow-focus-blue'
-        : 'border-border group-[:not(.open)]:hover:border-border-strong group-[.open]:border-secondary group-[.open]:shadow-focus-blue',
+        ? 'border-danger group-[:not(.open)]:focus-visible:shadow-focus-magenta group-[.open]:shadow-focus-magenta'
+        : 'border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-secondary group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-secondary group-[.open]:shadow-focus-blue',
     ]}
     disabled={disabled}
     aria-haspopup="listbox"
