@@ -7,7 +7,9 @@ interface Props {
   linkHref?: string;
   linkText?: string;
   placement?: 'above' | 'below' | 'left' | 'right';
-  maxWidth?: boolean;
+  /** Widens the bubble to a fixed 350px for long copy. Was `maxWidth` until
+   *  2026-08-06 — a boolean named like a length, setting `width`, not `max-width`. */
+  wide?: boolean;
   class?: string;
 }
 
@@ -17,7 +19,7 @@ const {
   linkHref,
   linkText,
   placement = 'above',
-  maxWidth = false,
+  wide = false,
   class: className,
 } = Astro.props;
 
@@ -33,7 +35,7 @@ const hasLink = Boolean(linkHref && linkText);
 
 <span class:list={['tt', 'show-on-hover', className]} tabindex="0" aria-describedby={ttId}>
   <slot />
-  <span id={ttId} role="tooltip" class:list={['tt-bubble', placement, { max: maxWidth, 'has-link': hasLink }]}>
+  <span id={ttId} role="tooltip" class:list={['tt-bubble', placement, { wide, 'has-link': hasLink }]}>
     <span class:list={['tt-arrow', arrowFor[placement]]}></span>
     <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
     <span class="tt-content">
@@ -51,7 +53,7 @@ const hasLink = Boolean(linkHref && linkText);
   .tt-bubble { position: absolute; width: 200px; display: none; flex-direction: column; z-index: 20; text-align: center; }
   .tt-bubble.has-link { text-align: left; }
   .tt-bubble.js-open { display: flex; }
-  .tt-bubble.max { width: 350px; }
+  .tt-bubble.wide { width: 350px; }
   .tt-bubble.above { bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
   .tt-bubble.below { top: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
   .tt-bubble.right { left: calc(100% + 10px); top: 50%; transform: translateY(-50%); }

@@ -7,7 +7,8 @@
 interface Props {
   intent?: 'success' | 'warning' | 'danger' | 'info' | 'important' | 'neutral';
   solid?: boolean;
-  small?: boolean;
+  /** Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06. */
+  size?: 'sm' | 'md';
   pill?: boolean;
   dot?: boolean;
   class?: string;
@@ -16,7 +17,7 @@ interface Props {
 const {
   intent = 'neutral',
   solid = false,
-  small = false,
+  size = 'md',
   pill = false,
   dot = false,
   class: className,
@@ -61,7 +62,7 @@ const base = 'inline-flex items-center gap-micro font-sans font-bold whitespace-
    --tracking-*, but a weight or a line-height only survives as a SCALE step.
    So `font-bold` and `leading-4` are the raw scale, and the fact that they are
    the badge's values is no longer expressed anywhere. */
-const type = small
+const type = size === 'sm'
   ? 'text-badge-sm leading-3 tracking-badge-sm'
   : 'text-badge leading-4 tracking-badge';
 
@@ -73,7 +74,7 @@ const shape = pill ? 'rounded-full' : 'rounded-sm';
    sm…) and no `--spacing` base — but Tailwind's own default theme still supplies
    `--spacing: 0.25rem`, so the numeric scale survives and size-1.5 is exactly
    6px. Verified in the compiled output, not assumed. */
-const dotSize = small ? 'size-1' : 'size-1.5';
+const dotSize = size === 'sm' ? 'size-1' : 'size-1.5';
 ---
 
 <span class:list={[base, type, shape, solid ? SOLID[intent] : SUBTLE[intent], className]}>

@@ -101,7 +101,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tt-bubble { position: absolute; width: 200px; display: none; flex-direction: column; z-index: 20; text-align: center; }
 .tt-bubble.has-link { text-align: left; }
 .tt-bubble.force-show, .tt-bubble.js-open { display:flex; }
-.tt-bubble.max { width: 350px; }
+.tt-bubble.wide { width: 350px; }
 .tt-bubble.above { bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
 .tt-bubble.below { top: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
 .tt-bubble.right { left: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
@@ -333,7 +333,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <span class="tt-body">Short copy fits in 200px.</span>
           </span>
         </span></span>
-        <span class="tt"><span class="tt-bubble force-show max" style="position:relative;transform:none;">
+        <span class="tt"><span class="tt-bubble force-show wide" style="position:relative;transform:none;">
           <span class="tt-arrow arrow-bottom"></span>
           <span class="tt-content">
             <span class="tt-title">Max-width</span>
@@ -417,7 +417,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   &lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">span</span>&gt;</pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.tt-bubble</span> {   <span class="c-com">/* positions the arrow + content; no fill of its own */</span>
-  position: absolute; width: <span class="c-str">var(--tt-w)</span>;   <span class="c-com">/* .max => var(--tt-w-max) */</span>
+  position: absolute; width: <span class="c-str">var(--tt-w)</span>;   <span class="c-com">/* .wide => var(--tt-w-max) */</span>
 }
 <span class="c-key">.tt-content</span> {   <span class="c-com">/* the visible rounded box — separate so overflow:hidden */</span>
   background: <span class="c-str">var(--tt-bg)</span>;               <span class="c-com">/* doesn't clip the arrow poking out of .tt-bubble */</span>

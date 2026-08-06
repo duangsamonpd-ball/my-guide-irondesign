@@ -298,13 +298,13 @@ Props: `name` (required — groups radios), `value` (required), `label`, `descri
 <Badge intent="info" solid>Beta</Badge>
 <Badge intent="important">Important</Badge>
 <Badge intent="neutral" pill>Draft</Badge>
-<Badge intent="info" small>Small</Badge>
+<Badge intent="info" size="sm">Small</Badge>
 
 <!-- dark mode: no prop — a .dark ancestor re-themes every badge -->
 <div class="dark"><Badge intent="success">Active</Badge></div>
 ```
 
-Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `solid`, `small`, `pill`, `dot`, `class`.
+Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `solid`, `size` (`sm` | `md`, default `md`), `pill`, `dot`, `class`.
 
 
 Subtle fill/text use the semantic `--color-{intent}-subtle` / `--color-{intent}-strong` pair; solid uses the base `--color-{intent}` (verified against Figma node `776-899`). Every value is a semantic token, so dark mode needs no per-badge rule — inside a `.dark` ancestor those tokens swap to their Dark Purple counterparts (see the `.dark` block in `tokens.css`) and the badge re-themes automatically. `important` and `neutral` are full semantic intents with their own subtle/strong/base tokens (from the Figma color_ui export), the same as the original four.
@@ -344,7 +344,7 @@ Each intent's icon is an inline **Font Awesome Free Solid** SVG (`circle-info`, 
 </Tooltip>
 ```
 
-Props: `title` (omit for the compact, title-less variant), `body` (required), `linkHref`, `linkText`, `placement` (`above` | `below` | `left` | `right`, default `above`), `maxWidth` (widens the bubble for longer copy), `class`. The trigger is whatever you put in the default slot.
+Props: `title` (omit for the compact, title-less variant), `body` (required), `linkHref`, `linkText`, `placement` (`above` | `below` | `left` | `right`, default `above`), `wide` (widens the bubble for longer copy), `class`. The trigger is whatever you put in the default slot.
 
 Ships its own `<script>` for the hover-with-a-gap interaction (JS open/close with a 200ms close-delay, since pure CSS `:hover` breaks once there's a gap between trigger and bubble and the mouse can't reach a link inside) — scoped per-instance, safe with multiple `<Tooltip>`s per page, re-initializes on Astro View Transitions.
 
@@ -757,19 +757,36 @@ survives a third option; `filled={true}` does not.
   `<button>`/`<span>` otherwise. Add `aria-label` on the anchor when the visible
   content is an icon.
 
-### Known inconsistencies
+### Naming rules
 
-Real splits in the current API. Match the majority in new work; don't "fix" the
-minority without a deliberate decision, since these are public names:
+Settled 2026-08-06 after auditing every prop against its Figma node. Two were
+genuinely wrong and were renamed; two looked wrong and turned out to be a rule
+worth writing down.
 
-- **`small` vs `size`.** `Badge` takes `small?: boolean`; `Button` takes
-  `size?: 'lg' | 'md' | 'sm'`. Prefer `size` for anything with more than two
-  steps.
-- **`invalid` vs `error`.** `Checkbox`/`Radio` use `invalid`; `Input`,
-  `Textarea`, `Select` and `FileUpload` use `error` (+ `errorMessage`). The
-  `error` pair is the majority and the one to copy.
-- **`maxWidth` is a boolean on `Tooltip`**, not a length. It reads like a
-  dimension and is not one.
+**Renamed — breaking, done once, together:**
+
+- **`Badge.small` → `size?: 'sm' | 'md'`** (default `md`). Figma's Badge set has
+  shipped `size=sm|md` all along, and every other sized component takes `size`.
+  A two-step boolean was the odd one out, not a simpler spelling of the same idea.
+- **`Tooltip.maxWidth` → `wide?: boolean`.** The old name was wrong twice over: a
+  boolean that reads like a length, and what it actually sets is `width: 350px` —
+  a fixed width, not a maximum.
+
+**Not inconsistencies — these two splits are deliberate, and Figma models them
+the same way. Do not "unify" them:**
+
+- **`invalid` (choice) vs `error` (text entry).** `Checkbox` and `Radio` take
+  `invalid`; `Input`, `Textarea`, `Select` and `FileUpload` take `error` +
+  `errorMessage`. Figma draws the same line — `Variant=Invalid` on the choice
+  controls, `State=Error` on the fields — and so does HTML, where `:invalid` is a
+  control state while an error message is content. A checkbox is not "in error";
+  it is in an invalid selection. **Use `error` when there is a message to show,
+  `invalid` when the control itself is the signal.**
+- **`Logo.mono` (boolean) vs `variant="mono"`.** `kind="mark"` takes
+  `mono?: boolean` because a mark is only ever colour or mono; `kind="wordmark"`
+  takes `variant` because a wordmark also has an on-dark form, which a boolean
+  cannot express. Figma models it identically — `Product` × `Mono` on the marks,
+  `Variant=Default|Ondark|Mono` on the wordmark.
 
 ## Shared field styles
 

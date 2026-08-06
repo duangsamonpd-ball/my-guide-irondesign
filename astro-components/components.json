@@ -25,10 +25,11 @@
           "default": "false"
         },
         {
-          "name": "small",
-          "type": "boolean",
+          "name": "size",
+          "type": "'sm' | 'md'",
           "required": false,
-          "default": "false"
+          "default": "'md'",
+          "description": "Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06."
         },
         {
           "name": "pill",
@@ -1138,10 +1139,11 @@
           "default": "'above'"
         },
         {
-          "name": "maxWidth",
+          "name": "wide",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Widens the bubble to a fixed 350px for long copy. Was `maxWidth` until 2026-08-06 — a boolean named like a length, setting `width`, not `max-width`."
         },
         {
           "name": "class",
