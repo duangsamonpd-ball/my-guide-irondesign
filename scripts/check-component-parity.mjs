@@ -201,6 +201,42 @@ function checkConverted(file, name, docsPath) {
     );
   }
 
+  /**
+   * The CODE SAMPLES, which nothing looked at until 2026-08-06. The checks above
+   * read the page's demo markup — generated, and therefore true — while the
+   * prose panes beside it still described the component as it was before it
+   * converted. Across the nine converted components that was 65 CSS rules naming
+   * 58 classes they no longer emit, plus HTML samples telling readers to write
+   * `class="badge badge--success"`, unstyled since `ba85523`.
+   *
+   * Two rules, both derivable. A converted component ships no CSS, so a pane
+   * claiming to show its CSS is false by construction; and a sample may only
+   * name classes the component actually emits.
+   */
+  const panes = [...page.matchAll(/<pre[^>]*data-lang="([a-z]+)"[^>]*>([\s\S]*?)<\/pre>/g)];
+  const cssPane = panes.find(([, lang]) => lang === 'css');
+  if (cssPane) {
+    problems.push(
+      `its Code section still has a CSS pane — this component ships no CSS, and the ` +
+        `token bindings it used to show are the page's own Token Reference table`,
+    );
+  }
+  const emitted = classesInMarkup(readFileSync(join(COMPONENTS, file), 'utf8'));
+  const sampleClasses = new Set(
+    panes.flatMap(([, , body]) =>
+      [...body.replace(/<[^>]*>/g, '').matchAll(/class=(?:&quot;|")([^&"]*)(?:&quot;|")/g)]
+        .flatMap((m) => m[1].split(/\s+/))
+        .filter(Boolean),
+    ),
+  );
+  const lying = [...sampleClasses].filter((c) => !emitted.has(c) && !declared.has(c));
+  if (lying.length) {
+    problems.push(
+      `${lying.length} class${lying.length > 1 ? 'es' : ''} in its code sample${lying.length > 1 ? 's' : ''} ` +
+        `that the component does not emit: ${lying.slice(0, 6).join(', ')}${lying.length > 6 ? ', …' : ''}`,
+    );
+  }
+
   const dead = [];
   for (const rule of topLevelRules(styleBlocks(page))) {
     const sel = rule.slice(0, rule.indexOf('{')).replace(/\s+/g, ' ').trim();

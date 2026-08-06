@@ -26,11 +26,13 @@
     "build:manifest": "node scripts/build-manifest.mjs",
     "check:manifest": "node scripts/build-manifest.mjs --check",
     "check:seo": "node scripts/build-seo.mjs --check",
-    "check": "npm run check:theme && npm run check:utilities && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:contrast && npm run check:seo && npm run check:manifest && npm run check:render",
+    "check": "npm run check:theme && npm run check:utilities && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:contrast && npm run check:seo && npm run check:manifest && npm run check:code && npm run check:render",
     "preview": "node scripts/preview.mjs",
     "preview:self-test": "node scripts/preview.mjs --self-test",
     "state-diff": "node scripts/state-diff.mjs",
-    "state-diff:self-test": "node scripts/state-diff.mjs --self-test"
+    "state-diff:self-test": "node scripts/state-diff.mjs --self-test",
+    "build:code": "node scripts/build-code-samples.mjs",
+    "check:code": "node scripts/build-code-samples.mjs --check"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",

@@ -86,7 +86,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tok td.prop { color:#62748E; width:170px; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
-.c-key{color:#E95F8B;}
 .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:22px; background:#FCFCFD; }
 .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
@@ -252,39 +251,24 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="code-wrap">
           <div class="code-tabs">
-            <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
-            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- error and disabled are props; the trigger wears the resulting classes, and carries the real disabled attribute --&gt;</span>
-<span class="c-com">&lt;!-- WAI-ARIA "select only" listbox pattern — ids below just need to be unique per instance --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel"</span>&gt;
-  &lt;<span class="c-tag">label</span> <span class="c-attr">id</span>=<span class="c-str">"country-label"</span>&gt;Country&lt;/<span class="c-tag">label</span>&gt;
-  &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"sel-trigger"</span> <span class="c-attr">id</span>=<span class="c-str">"country-trigger"</span>
-    <span class="c-attr">aria-haspopup</span>=<span class="c-str">"listbox"</span> <span class="c-attr">aria-expanded</span>=<span class="c-str">"false"</span>
-    <span class="c-attr">aria-controls</span>=<span class="c-str">"country-listbox"</span> <span class="c-attr">aria-labelledby</span>=<span class="c-str">"country-label country-trigger"</span>&gt;
-    &lt;<span class="c-tag">span</span>&gt;United States&lt;/<span class="c-tag">span</span>&gt;
-    &lt;<span class="c-tag">svg</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0.75 0.75 10 5"</span> <span class="c-attr">stroke</span>=<span class="c-str">"currentColor"</span> <span class="c-attr">aria-hidden</span>=<span class="c-str">"true"</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;  <span class="c-com">&lt;!-- chevron, Figma 461:32 --&gt;</span>
-  &lt;/<span class="c-tag">button</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-menu"</span> <span class="c-attr">id</span>=<span class="c-str">"country-listbox"</span> <span class="c-attr">role</span>=<span class="c-str">"listbox"</span> <span class="c-attr">tabindex</span>=<span class="c-str">"-1"</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt selected"</span> <span class="c-attr">role</span>=<span class="c-str">"option"</span> <span class="c-attr">aria-selected</span>=<span class="c-str">"true"</span>&gt;United States &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ck"</span> <span class="c-attr">aria-hidden</span>=<span class="c-str">"true"</span>&gt;&lt;<span class="c-tag">svg</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;  <span class="c-com">&lt;!-- Font Awesome check --&gt;</span>
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span> <span class="c-attr">role</span>=<span class="c-str">"option"</span> <span class="c-attr">aria-selected</span>=<span class="c-str">"false"</span>&gt;Thailand&lt;/<span class="c-tag">div</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"sel-opt"</span> <span class="c-attr">role</span>=<span class="c-str">"option"</span> <span class="c-attr">aria-selected</span>=<span class="c-str">"false"</span>&gt;Japan&lt;/<span class="c-tag">div</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;
-<span class="c-com">&lt;!-- keyboard: ↑/↓ moves aria-activedescendant on the listbox, Enter/Space commits, Esc closes --&gt;</span></pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.sel-trigger</span> {
-  width: 100%; height: <span class="c-str">var(--size-input)</span>;
-  border: <span class="c-str">var(--border-width-1)</span> solid <span class="c-str">var(--color-border)</span>;
-  padding: 0 <span class="c-str">var(--spacing-sm)</span>; gap: <span class="c-str">var(--spacing-xs)</span>;
-  border-radius: <span class="c-str">var(--rounded-md)</span>;
-}
-<span class="c-key">.sel.open .sel-trigger</span> { border-color: <span class="c-str">var(--color-secondary)</span>; box-shadow: <span class="c-str">var(--shadow-focus-blue)</span>; }
-<span class="c-key">.sel.error .sel-trigger</span> { border-color: <span class="c-str">var(--color-danger)</span>; }
-<span class="c-key">.sel.disabled .sel-trigger</span> { background: <span class="c-str">var(--color-bg-shade)</span>; color: <span class="c-str">var(--color-text-disabled)</span>; cursor: not-allowed; }
-<span class="c-key">.sel-menu</span> { box-shadow: <span class="c-str">var(--shadow-float)</span>; border-radius: <span class="c-str">var(--rounded-lg)</span>; }
-<span class="c-key">.sel-opt.selected</span> { background: <span class="c-str">var(--color-bg-card-alt)</span>; color: <span class="c-str">var(--color-secondary)</span>; }
-<span class="c-key">.sel-opt .ck</span> { opacity: 0; }  <span class="c-key">.sel-opt.selected .ck</span> { opacity: 1; }   <span class="c-com">/* Font Awesome Free Solid "check" SVG, currentColor fill — shown only on selected */</span></pre>
+<pre class="code-pane active" data-lang="astro">
+          <!-- code:astro -->
+&lt;<span class="c-tag">Select</span>
+  <span class="c-attr">label</span>=<span class="c-str">&quot;Country&quot;</span>
+  <span class="c-attr">name</span>=<span class="c-str">&quot;country&quot;</span>
+  <span class="c-attr">placeholder</span>=<span class="c-str">&quot;Select a country&quot;</span>
+  <span class="c-attr">options</span>={[
+    <span class="c-str">{ value: 'us', label: 'United States' }</span>,
+    <span class="c-str">{ value: 'th', label: 'Thailand' }</span>,
+    <span class="c-str">{ value: 'jp', label: 'Japan' }</span>,
+  ]}
+  <span class="c-attr">value</span>=<span class="c-str">&quot;us&quot;</span>
+/&gt;
+          <!-- /code:astro -->
+</pre>
         </div>
     </div>
 

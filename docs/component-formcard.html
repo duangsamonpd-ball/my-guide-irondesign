@@ -84,7 +84,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tok td.prop { color:#62748E; width:170px; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
-.c-key{color:#E95F8B;}
 .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:22px; background:#FCFCFD; }
 .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
@@ -268,42 +267,28 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="code-wrap">
           <div class="code-tabs">
-            <button class="code-tab active" onclick="switchTab(this,'html')">Astro</button>
-            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">form</span>&gt;
-  &lt;<span class="c-tag">FormCard</span>
-    <span class="c-attr">icon</span>=<span class="c-str">"quote"</span>
-    <span class="c-attr">title</span>=<span class="c-str">"Request Your Discounted Quote"</span>
-    <span class="c-attr">subtitle</span>=<span class="c-str">"Tell us what you're migrating from."</span>
-    <span class="c-attr">submitLabel</span>=<span class="c-str">"Get Your Migration Quote"</span>
-    <span class="c-attr">noteLeft</span>=<span class="c-str">"No obligation to proceed"</span>
-    <span class="c-attr">noteRight</span>=<span class="c-str">"Response within 1 business day"</span>
-  &gt;
-    <span class="c-com">&lt;!-- any fields go in the default slot --&gt;</span>
-    &lt;<span class="c-tag">Input</span> <span class="c-attr">label</span>=<span class="c-str">"Full name *"</span> <span class="c-attr">name</span>=<span class="c-str">"name"</span> /&gt;
-    &lt;<span class="c-tag">Input</span> <span class="c-attr">label</span>=<span class="c-str">"Work email *"</span> <span class="c-attr">name</span>=<span class="c-str">"email"</span> <span class="c-attr">type</span>=<span class="c-str">"email"</span> /&gt;
-    &lt;<span class="c-tag">Select</span> <span class="c-attr">label</span>=<span class="c-str">"Replacing"</span> <span class="c-attr">name</span>=<span class="c-str">"library"</span> <span class="c-attr">:options</span>=<span class="c-str">"[...]"</span> /&gt;
-  &lt;/<span class="c-tag">FormCard</span>&gt;
-&lt;/<span class="c-tag">form</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.form-card</span> {
-  background: <span class="c-str">var(--color-bg-base)</span>;
-  border: 1px solid <span class="c-str">var(--color-border)</span>;
-  border-radius: <span class="c-str">var(--rounded-2xl)</span>;
-  padding: 32px; display: flex; flex-direction: column; gap: 24px;
-}
-<span class="c-key">.fc-icon</span> {                 <span class="c-com">/* 64px square, secondary-tinted halo */</span>
-  border-radius: <span class="c-str">var(--rounded-lg)</span>;
-  color: <span class="c-str">var(--color-secondary)</span>;
-}
-<span class="c-key">.fc-submit</span> {
-  height: <span class="c-str">var(--size-btn-lg)</span>;
-  border-radius: <span class="c-str">var(--rounded-cta)</span>;
-  background: <span class="c-str">var(--color-primary)</span>;
-  color: <span class="c-str">var(--color-primary-on)</span>;
-}
-<span class="c-key">.fc-submit:hover</span> { background: <span class="c-str">var(--color-primary-hover)</span>; }</pre>
+<pre class="code-pane active" data-lang="astro">
+          <!-- code:astro -->
+&lt;<span class="c-tag">FormCard</span>
+  <span class="c-attr">icon</span>=<span class="c-str">&quot;quote&quot;</span>
+  <span class="c-attr">title</span>=<span class="c-str">&quot;Request Your Discounted Quote&quot;</span>
+  <span class="c-attr">submitLabel</span>=<span class="c-str">&quot;Get Your Migration Quote&quot;</span>
+  <span class="c-attr">action</span>=<span class="c-str">&quot;/api/quote&quot;</span>
+  <span class="c-attr">method</span>=<span class="c-str">&quot;post&quot;</span>
+  <span class="c-attr">noteLeft</span>=<span class="c-str">&quot;No obligation to proceed&quot;</span>
+  <span class="c-attr">noteRight</span>=<span class="c-str">&quot;Response within 1 business day&quot;</span>
+&gt;
+  &lt;<span class="c-tag">Input</span> <span class="c-attr">label</span>=<span class="c-str">&quot;First name *&quot;</span> <span class="c-attr">name</span>=<span class="c-str">&quot;firstName&quot;</span> /&gt;
+  &lt;<span class="c-tag">Input</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Last name *&quot;</span> <span class="c-attr">name</span>=<span class="c-str">&quot;lastName&quot;</span> /&gt;
+  &lt;<span class="c-tag">Input</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Email address *&quot;</span> <span class="c-attr">name</span>=<span class="c-str">&quot;email&quot;</span> <span class="c-attr">type</span>=<span class="c-str">&quot;email&quot;</span> <span class="c-attr">placeholder</span>=<span class="c-str">&quot;you@example.com&quot;</span> /&gt;
+  &lt;<span class="c-tag">Select</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Document library I am replacing&quot;</span> <span class="c-attr">name</span>=<span class="c-str">&quot;library&quot;</span> <span class="c-attr">placeholder</span>=<span class="c-str">&quot;Choose option&quot;</span> <span class="c-attr">options</span>=<span class="c-str">{[...]}</span> /&gt;
+  &lt;<span class="c-tag">FileUpload</span> <span class="c-attr">name</span>=<span class="c-str">&quot;quoteFile&quot;</span> /&gt;
+&lt;/<span class="c-tag">FormCard</span>&gt;
+          <!-- /code:astro -->
+</pre>
         </div>
     </div>
 

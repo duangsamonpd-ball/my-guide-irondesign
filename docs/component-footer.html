@@ -109,7 +109,6 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .dd .body { padding:16px; font-size:0.78rem; color:#62748E; line-height:1.6; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
-.c-key{color:#E95F8B;}
 .hover-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .hover-card { background:var(--footer-bg); border:1px solid #3A2A3C; border-radius:14px; padding:24px; }
 .hover-card .hc-lbl { font-size:0.66rem; font-weight:700; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:0.08em; margin-top:16px; }
@@ -482,59 +481,21 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <div class="sect-sub">Copy-and-own — HTML markup, or the token-bound CSS. Product rows are the reusable <code>.fp-row</code>.</div>
       <div class="code-wrap">
         <div class="code-tabs">
-          <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
-          <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+          <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
           <button class="copy" onclick="copyCode(this)">Copy</button>
         </div>
-<pre class="code-pane active" data-lang="html">&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"footer-top"</span>&gt;
-  &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-inner"</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-left"</span>&gt;
-      &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-donate"</span>&gt;Every Iron Suite Donates &lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"assets/1% logo - Horizontal.png"</span> <span class="c-attr">alt</span>=<span class="c-str">"1% For The Planet"</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
-      &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-main"</span>&gt;
-        &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-text"</span>&gt;
-          <span class="c-com">&lt;!-- Default: headline names the current product --&gt;</span>
-          &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-headline"</span>&gt;IronPDF is a part of &lt;<span class="c-tag">span</span> <span class="c-attr">style</span>=<span class="c-str">"color:var(--on-color);font-weight:700"</span>&gt;IRON&lt;/<span class="c-tag">span</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">style</span>=<span class="c-str">"color:var(--primary);font-weight:400"</span>&gt;SUITE&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
-          <span class="c-com">&lt;!-- Suite variant: swap .ft-headline for .f-suite-logo (brand logo) --&gt;</span>
-          <span class="c-com">&lt;!-- &lt;div class="font-bold text-3xl leading-[normal] flex items-center gap-micro m-0"&gt;&lt;img src="assets/hash-white color.svg"&gt;&lt;span&gt;IRON&lt;span style="color:var(--primary)"&gt;SUITE&lt;/span&gt;&lt;/span&gt;&lt;/div&gt; --&gt;</span>
-          &lt;<span class="c-tag">p</span> <span class="c-attr">class</span>=<span class="c-str">"ft-tagline"</span>&gt;10 .NET API products for your office documents&lt;/<span class="c-tag">p</span>&gt;
-        &lt;/<span class="c-tag">div</span>&gt;
-        &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-actions"</span>&gt;
-          &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn-dark"</span>&gt;Get Full 10 products Suite &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"arr"</span>&gt;→&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">a</span>&gt;
-          &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"btn-text-light"</span>&gt;Start Free Trial &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"arr"</span>&gt;→&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">a</span>&gt;
-        &lt;/<span class="c-tag">div</span>&gt;
-      &lt;/<span class="c-tag">div</span>&gt;
-    &lt;/<span class="c-tag">div</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"ft-divider"</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
-    &lt;<span class="c-tag">ul</span> <span class="c-attr">class</span>=<span class="c-str">"f-products"</span>&gt;
-      <span class="c-com">&lt;!-- × 10 Product hover rows --&gt;</span>
-      &lt;<span class="c-tag">li</span> <span class="c-attr">class</span>=<span class="c-str">"fp-row"</span>&gt;
-        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"fp-logo"</span>&gt;&lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"logo.svg"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"fp-name"</span>&gt;IRON&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"suffix"</span>&gt;PDF&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
-        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"fp-sep"</span>&gt;-&lt;/<span class="c-tag">span</span>&gt;
-        &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"fp-desc"</span>&gt;Create, read, and edit PDFs.&lt;/<span class="c-tag">span</span>&gt;
-      &lt;/<span class="c-tag">li</span>&gt;
-    &lt;/<span class="c-tag">ul</span>&gt;
-  &lt;/<span class="c-tag">div</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.footer-top</span> {
-  background: <span class="c-str">var(--footer-bg)</span> url(assets/Rainbow.svg) center/cover;
-  color: <span class="c-str">var(--on-color)</span>;
-}
-<span class="c-key">.ft-inner</span> { max-width: <span class="c-str">var(--maxw)</span>; margin: 0 auto; display: flex; }
-<span class="c-key">.ft-divider</span> { width: 2px; background: var(--transparent-white-10); }
-<span class="c-key">.ft-donate</span> { display: flex; align-items: center; justify-content: flex-end; gap: <span class="c-str">var(--space-xs)</span>; font-size: <span class="c-str">var(--text-xs)</span>; font-weight: 500; color: <span class="c-str">var(--on-color)</span>; }
-<span class="c-key">.ft-main</span> { display: flex; flex-direction: column; gap: <span class="c-str">var(--space-2xl)</span>; padding-top: <span class="c-str">var(--space-3xl)</span>; }
-<span class="c-key">.ft-text</span> { display: flex; flex-direction: column; gap: <span class="c-str">var(--space-md)</span>; }
-<span class="c-key">.ft-headline</span> { font-weight: 700; font-size: <span class="c-str">var(--text-3xl)</span>; color: <span class="c-str">var(--on-color)</span>; line-height: 1.2; }   <span class="c-com">/* Default: names the product */</span>
-<span class="c-key">.f-suite-logo</span> { font-weight: 700; font-size: <span class="c-str">var(--text-3xl)</span>; display: flex; align-items: center; gap: <span class="c-str">var(--space-micro)</span>; }   <span class="c-com">/* Suite: brand logo instead */</span>
-<span class="c-key">.btn-dark</span> { background: <span class="c-str">var(--button-tertiary)</span>; color: <span class="c-str">var(--on-color)</span>; border-radius: <span class="c-str">var(--r-full)</span>; }
-<span class="c-key">.btn-dark</span>:hover { background: <span class="c-str">var(--button-tertiary-hover)</span>; }   <span class="c-com">/* button/tertiary → pink */</span>
-<span class="c-key">.btn .arr</span> { transition: transform .16s; }
-<span class="c-key">.btn</span>:hover <span class="c-key">.arr</span> { transform: translateX(3px); }     <span class="c-com">/* arrow nudges on hover */</span>
-<span class="c-key">.fp-name</span> { font-size: <span class="c-str">var(--text-lg)</span>; font-weight: 700; color: <span class="c-str">var(--on-color)</span>; }  <span class="c-com">/* IRON prefix — Bold 700 */</span>
-<span class="c-key">.fp-name .suffix</span> { font-weight: 400; }        <span class="c-com">/* brand-coloured product suffix */</span>
-<span class="c-key">.fp-row</span>:hover <span class="c-key">.fp-logo</span> img { opacity: 1; }      <span class="c-com">/* icon fades in */</span>
-<span class="c-key">.fp-row</span>:hover <span class="c-key">.fp-desc</span> { color: <span class="c-str">var(--on-color-body)</span>; }</pre>
+<pre class="code-pane active" data-lang="astro">
+        <!-- code:astro -->
+&lt;<span class="c-tag">Footer</span>
+  <span class="c-attr">variant</span>=<span class="c-str">&quot;default&quot;</span>
+  <span class="c-attr">productName</span>=<span class="c-str">&quot;IronPDF&quot;</span>
+  <span class="c-attr">products</span>={[
+    <span class="c-str">{ prefix: 'IRON', suffix: 'PDF', desc: 'Create, read, and edit PDFs.', accent: 'var(--iron-blue-500)' }</span>,
+    <span class="c-str">{ prefix: 'IRON', suffix: 'WORD', desc: 'Edit DOCX Word files.' }</span>,
+  ]}
+/&gt;
+        <!-- /code:astro -->
+</pre>
       </div>
     </div>
 

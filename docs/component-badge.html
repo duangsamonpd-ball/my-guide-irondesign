@@ -89,7 +89,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tok td.prop { color:#62748E; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
-.c-key{color:#E95F8B;}
 .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:22px; background:#FCFCFD; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
 .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
@@ -375,45 +374,22 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="code-wrap">
           <div class="code-tabs">
-            <button class="code-tab active" onclick="switchTab(this,'html')">HTML</button>
-            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
+            <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="html"><span class="c-com">&lt;!-- colours: success / warning / danger / info / important / neutral --&gt;</span>
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--success"</span>&gt;&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"bdot"</span>&gt;&lt;/<span class="c-tag">span</span>&gt;Active&lt;/<span class="c-tag">span</span>&gt;
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--warning"</span>&gt;Pending&lt;/<span class="c-tag">span</span>&gt;
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--important"</span>&gt;Important&lt;/<span class="c-tag">span</span>&gt;
+<pre class="code-pane active" data-lang="astro">
+          <!-- code:astro -->
+&lt;<span class="c-tag">Badge</span> <span class="c-attr">intent</span>=<span class="c-str">&quot;success&quot;</span> dot&gt;Active&lt;/<span class="c-tag">Badge</span>&gt;
+&lt;<span class="c-tag">Badge</span> <span class="c-attr">intent</span>=<span class="c-str">&quot;warning&quot;</span>&gt;Pending&lt;/<span class="c-tag">Badge</span>&gt;
+&lt;<span class="c-tag">Badge</span> <span class="c-attr">intent</span>=<span class="c-str">&quot;info&quot;</span> solid&gt;Beta&lt;/<span class="c-tag">Badge</span>&gt;
+&lt;<span class="c-tag">Badge</span> <span class="c-attr">intent</span>=<span class="c-str">&quot;important&quot;</span>&gt;Important&lt;/<span class="c-tag">Badge</span>&gt;
+&lt;<span class="c-tag">Badge</span> <span class="c-attr">intent</span>=<span class="c-str">&quot;neutral&quot;</span> pill&gt;Draft&lt;/<span class="c-tag">Badge</span>&gt;
+&lt;<span class="c-tag">Badge</span> <span class="c-attr">intent</span>=<span class="c-str">&quot;info&quot;</span> small&gt;Small&lt;/<span class="c-tag">Badge</span>&gt;
 
-<span class="c-com">&lt;!-- solid + pill --&gt;</span>
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge solid badge--info"</span>&gt;Beta&lt;/<span class="c-tag">span</span>&gt;
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--neutral pill"</span>&gt;Draft&lt;/<span class="c-tag">span</span>&gt;
-
-<span class="c-com">&lt;!-- dark mode — wrap in a .dark ancestor, badges are unchanged --&gt;</span>
-&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dark"</span>&gt;
-  &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--success"</span>&gt;Active&lt;/<span class="c-tag">span</span>&gt;
-&lt;/<span class="c-tag">div</span>&gt;
-
-<span class="c-com">&lt;!-- small size --&gt;</span>
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"badge badge--info sm"</span>&gt;Small&lt;/<span class="c-tag">span</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.badge</span> {        <span class="c-com">/* default shape matches Figma: rounded-sm, not a pill */</span>
-  font-size: <span class="c-str">var(--font-size-badge)</span>; font-weight: <span class="c-str">var(--fw-badge)</span>;
-  border-radius: <span class="c-str">var(--rounded-sm)</span>; padding: 5px 10px;
-}
-<span class="c-key">.badge.pill</span> { border-radius: <span class="c-str">var(--rounded-full)</span>; }
-<span class="c-key">.badge--success</span> {        <span class="c-com">/* subtle — semantic tokens, so dark mode is a free swap */</span>
-  background: <span class="c-str">var(--color-success-subtle)</span>;
-  color: <span class="c-str">var(--color-success-strong)</span>;
-}
-<span class="c-key">.badge.solid.badge--success</span> { background: <span class="c-str">var(--color-success)</span>; color: <span class="c-str">var(--color-text-on-color-badge-solid-inverse)</span>; }
-<span class="c-com">/* solid picks its label per intent, not per theme — white on the light
-   fills (success/warning/info) is 2.17/1.99/3.25 and fails WCAG AA */</span>
-
-<span class="c-com">/* dark mode lives in the theme, not the component: */</span>
-<span class="c-key">.dark</span> {
-  --color-success-subtle: <span class="c-str">var(--color-success-subtle-dark)</span>;  <span class="c-com">/* #345F50 */</span>
-  --color-success-strong: <span class="c-str">var(--color-success-strong-dark)</span>;  <span class="c-com">/* #B1E0D0 */</span>
-}
-<span class="c-key">.badge.sm</span> { font-size: <span class="c-str">var(--font-size-badge-sm)</span>; padding: 3px 8px; }</pre>
+<span class="c-com">&lt;!-- dark mode: no prop — a .dark ancestor re-themes every badge --&gt;</span>
+&lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">&quot;dark&quot;</span>&gt;&lt;<span class="c-tag">Badge</span> <span class="c-attr">intent</span>=<span class="c-str">&quot;success&quot;</span>&gt;Active&lt;/<span class="c-tag">Badge</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
+          <!-- /code:astro -->
+</pre>
         </div>
     </div>
 

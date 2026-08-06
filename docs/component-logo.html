@@ -88,7 +88,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tok td.prop { color:#62748E; }
 .c-tag{color:#89D3DF;}
 .c-attr{color:#FDA509;}
-.c-key{color:#E95F8B;}
 .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:22px; background:#FCFCFD; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
 .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
@@ -393,47 +392,27 @@ a.logo:focus-visible { outline: var(--border-width-2) solid var(--color-border-s
       <div class="code-wrap">
           <div class="code-tabs">
             <button class="code-tab active" onclick="switchTab(this,'astro')">Astro</button>
-            <button class="code-tab" onclick="switchTab(this,'html')">HTML</button>
-            <button class="code-tab" onclick="switchTab(this,'css')">CSS</button>
             <button class="copy" onclick="copyCode(this)">Copy</button>
           </div>
-<pre class="code-pane active" data-lang="astro"><span class="c-com">// marks — colour and mono</span>
-&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> /&gt;
-&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> <span class="c-attr">mono</span> /&gt;
-&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"suite"</span> <span class="c-attr">size</span>={<span class="c-str">96</span>} /&gt;
+<pre class="code-pane active" data-lang="astro">
+          <!-- code:astro -->
+<span class="c-com">&lt;!-- marks — 12 products × colour/mono --&gt;</span>
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">&quot;pdf&quot;</span> /&gt;
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">&quot;pdf&quot;</span> mono /&gt;
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">&quot;suite&quot;</span> <span class="c-attr">size</span>=<span class="c-str">{96}</span> /&gt;
 
-<span class="c-com">// wordmarks</span>
-&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">"wordmark"</span> <span class="c-attr">brand</span>=<span class="c-str">"iron"</span> /&gt;
-&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">"wordmark"</span> <span class="c-attr">brand</span>=<span class="c-str">"iron"</span> <span class="c-attr">variant</span>=<span class="c-str">"ondark"</span> <span class="c-attr">height</span>={<span class="c-str">40</span>} /&gt;
+<span class="c-com">&lt;!-- wordmarks — iron: default/ondark/mono · suite: default/ondark --&gt;</span>
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">&quot;wordmark&quot;</span> <span class="c-attr">brand</span>=<span class="c-str">&quot;iron&quot;</span> /&gt;
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">&quot;wordmark&quot;</span> <span class="c-attr">brand</span>=<span class="c-str">&quot;iron&quot;</span> <span class="c-attr">variant</span>=<span class="c-str">&quot;ondark&quot;</span> <span class="c-attr">height</span>=<span class="c-str">{40}</span> /&gt;
 
-<span class="c-com">// illustrative element</span>
-&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">"element"</span> <span class="c-attr">product</span>=<span class="c-str">"drawing"</span> /&gt;
+<span class="c-com">&lt;!-- illustrative product elements --&gt;</span>
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">kind</span>=<span class="c-str">&quot;element&quot;</span> <span class="c-attr">product</span>=<span class="c-str">&quot;drawing&quot;</span> /&gt;
 
-<span class="c-com">// as a link, and decorative next to a visible name</span>
-&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> <span class="c-attr">href</span>=<span class="c-str">"/ironpdf"</span> /&gt;
-&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">"pdf"</span> <span class="c-attr">label</span>=<span class="c-str">""</span> /&gt; &lt;<span class="c-tag">span</span>&gt;IronPDF&lt;/<span class="c-tag">span</span>&gt;</pre>
-<pre class="code-pane" data-lang="html">&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"logo logo--mark"</span> <span class="c-attr">style</span>=<span class="c-str">"width:48px;height:48px;"</span>&gt;
-  &lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"assets/mark-pdf.svg"</span> <span class="c-attr">alt</span>=<span class="c-str">"IronPDF"</span> <span class="c-attr">width</span>=<span class="c-str">"48"</span> <span class="c-attr">height</span>=<span class="c-str">"48"</span>&gt;
-&lt;/<span class="c-tag">span</span>&gt;
-
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"logo logo--wordmark"</span> <span class="c-attr">style</span>=<span class="c-str">"height:32px;"</span>&gt;
-  &lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"assets/wordmark-iron-default.svg"</span> <span class="c-attr">alt</span>=<span class="c-str">"Iron Software"</span> <span class="c-attr">height</span>=<span class="c-str">"32"</span>&gt;
-&lt;/<span class="c-tag">span</span>&gt;
-
-<span class="c-com">&lt;!-- as a link --&gt;</span>
-&lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"logo logo--mark"</span> <span class="c-attr">href</span>=<span class="c-str">"/ironpdf"</span> <span class="c-attr">aria-label</span>=<span class="c-str">"IronPDF"</span> <span class="c-attr">style</span>=<span class="c-str">"width:48px;height:48px;"</span>&gt;
-  &lt;<span class="c-tag">img</span> <span class="c-attr">src</span>=<span class="c-str">"assets/mark-pdf.svg"</span> <span class="c-attr">alt</span>=<span class="c-str">"IronPDF"</span> <span class="c-attr">width</span>=<span class="c-str">"48"</span> <span class="c-attr">height</span>=<span class="c-str">"48"</span>&gt;
-&lt;/<span class="c-tag">a</span>&gt;</pre>
-<pre class="code-pane" data-lang="css"><span class="c-key">.logo</span> { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
-<span class="c-key">.logo img</span> { display: block; max-width: 100%; }
-<span class="c-key">.logo--mark img, .logo--element img</span> { width: 100%; height: 100%; }
-<span class="c-key">.logo--wordmark img</span> { width: auto; height: 100%; }
-
-<span class="c-com">/* the box is set inline (size × size, or height for a wordmark) so the
-   four grid sizes stay in the type system rather than in four CSS classes */</span>
-<span class="c-key">a.logo</span> { border-radius: <span class="c-str">var(--rounded-sm)</span>; transition: opacity 0.15s ease; }
-<span class="c-key">a.logo:hover</span> { opacity: 0.85; }
-<span class="c-key">a.logo:focus-visible</span> { outline: 2px solid <span class="c-str">var(--color-border-selected)</span>; outline-offset: 3px; }</pre>
+<span class="c-com">&lt;!-- as a link, and decorative next to a visible name --&gt;</span>
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">&quot;pdf&quot;</span> <span class="c-attr">href</span>=<span class="c-str">&quot;/ironpdf&quot;</span> /&gt;
+&lt;<span class="c-tag">Logo</span> <span class="c-attr">product</span>=<span class="c-str">&quot;pdf&quot;</span> <span class="c-attr">label</span>=<span class="c-str">&quot;&quot;</span> /&gt; &lt;<span class="c-tag">span</span>&gt;IronPDF&lt;/<span class="c-tag">span</span>&gt;
+          <!-- /code:astro -->
+</pre>
         </div>
     </div>
 
