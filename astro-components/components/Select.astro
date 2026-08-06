@@ -1,5 +1,4 @@
 ---
-import { icons } from '../icons';
 import { randomUUID } from 'node:crypto';
 
 interface Option {
@@ -140,18 +139,26 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       aria-hidden="true"
     ><path d="M0.75 0.75L5.75 5.75L10.75 0.75"/></svg>
   </button>
-  {/* Figma has no open state, so nothing below here was ever reconciled — these
-      were my numbers. Ball's call 2026-08-06: keep the behaviour, put the surface
-      on the same footing as the field now that the field has one.
-        offset  6px -> spacing-xs 8, expressed as top-full + mt-xs
-        padding 6px -> spacing-micro 4, the nearest scale step downward, which is
-                       the direction the field's own 14->12 and 9->8 both went
-        radius  8px -> rounded-md 6, the only radius token this component's Figma
-                       node binds
-      Border was already 1px and shadow-float was already a system token. */}
+  {/* Reconciled against Figma `911:1706` (the open state, drawn 2026-08-06 at
+      Ball's request — until then this half of the component had no design and
+      these were my numbers). Two of the four I guessed came out right: the 8px
+      offset and the 4px inset are what the node draws.
+
+      The radius did not. I had changed it 8 -> 6 arguing `rounded-md` was "the
+      only radius token this component's Figma node binds" — but that was the
+      CLOSED-state node, which contains no menu. Reasoning from what an unrelated
+      node does not mention is not evidence; `rounded-lg` is what the menu was
+      always meant to be, and what it had been before I touched it.
+
+      `shadow-float` stays: the node now binds `shadow/float`, 0 2px 16px at 20%,
+      which is this token exactly.
+
+      Not taken: Figma sets `overflow: clip` here. The rows sit 4px inside a
+      radius they cannot reach, so it buys nothing today, and it would silence
+      the scrollTop path in the script below if this ever gets a max-height. */}
   <div
     id={listboxId}
-    class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro bg-bg-card border border-border rounded-md shadow-float hidden group-[.open]:block"
+    class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex"
     role="listbox"
     tabindex="-1"
     aria-labelledby={label ? labelId : undefined}
@@ -160,8 +167,13 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       <div
         id={`${uid}-opt-${i}`}
         class:list={[
+          /* Figma `911:1706`: 16px at leading/7. The size was already right —
+             `Typography/Body` binds size/base, which is the same 16 the field
+             uses and the same 16 recorded as a deliberate correction over the
+             node's older 14. Only the line-height was missing, and it is what
+             makes the row 44px (8 + 28 + 8) rather than the 35 it was. */
           'sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs',
-          'rounded-md text-body text-text-body cursor-pointer',
+          'rounded-md text-body leading-7 text-text-body cursor-pointer',
           /* `.sel-opt.selected` sat after `:hover` and `.active` at equal
              specificity, so the selected row kept its tint under both. The
              `:not(.selected)` carries that forward without depending on which
@@ -174,7 +186,13 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
         aria-selected={opt.value === value ? 'true' : 'false'}
         data-value={opt.value}
       >
-        {opt.label} <span class="inline-flex text-secondary opacity-0 group-[.selected]/opt:opacity-100" aria-hidden="true"><svg class="size-[12px]" viewBox={icons.check.viewBox} fill="currentColor"><path d={icons.check.path}/></svg></span>
+        {/* The tick Figma draws (`911:1688`) — 8x6, stroke-drawn in
+            `brand/secondary`, which is `--color-secondary` to the pixel. It
+            replaces the 12x12 Font Awesome `check`, and is inline for the same
+            reason the chevron is: icons.ts models filled paths, not stroked
+            ones. viewBox is again the geometry box so it renders 1:1 and the
+            round caps overflow rather than being scaled down. */}
+        {opt.label} <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"/></svg>
       </div>
     ))}
   </div>
