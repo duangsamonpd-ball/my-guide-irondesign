@@ -71,7 +71,12 @@ export const choiceDesc = 'text-caption text-text-muted leading-5 max-w-[360px]'
  * shrinks to fit because the row is inline-flex and the description caps itself.
  */
 export const choiceCard = [
-  'border border-border rounded-lg p-sm',
+  /* `bg-bg-card` is not decoration. Figma fills the default card with
+     `surface/card`; this left it transparent, which looks identical on the white
+     docs pages and wrong the moment a card sits on a shaded band or in dark
+     mode, where it would show the section through itself. Found by measuring the
+     card against the node rather than by looking at it — 2026-08-06. */
+  'border border-border rounded-lg p-sm bg-bg-card',
   'transition-[border-color,background-color] duration-[var(--duration-fast)]',
   'hover:border-border-strong',
   'has-[:checked]:border-border-selected has-[:checked]:bg-bg-card-alt',
