@@ -80,13 +80,15 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          .sel-trigger` (0,3,0) beat `.sel-trigger.is-placeholder` (0,2,0), so a
          disabled placeholder rendered disabled-grey; as two equal-weight
          utilities that would have come down to which one Tailwind emitted last. */
-      /* `bg-bg-disabled`, not the `bg-bg-shade` Figma binds here. Ball's call
-         2026-08-06, and it overrides the node deliberately: the system has a
-         token whose whole stated purpose is "disabled input / control fill",
-         Input and Textarea already use it, and Figma reaching for the generic
-         band fill instead is the drift. It is not a recolour either — the two
-         diverge under `.dark`, where disabled is iron-violet/900 and shade is
-         iron-violet/950. */
+      /* `bg-bg-disabled` — and Figma now agrees. This was a deliberate override
+         when it was written: the node bound `surface/background-shade`, the
+         generic band fill, while this system has a token whose stated purpose is
+         "disabled input / control fill" and Input and Textarea already used it.
+         Ball added `surface/disabled` (#F8FAFC, the same value) and re-bound the
+         Disabled state to it, so the two sides match and nothing here is an
+         override any more. Worth keeping in mind if it is ever revisited: the two
+         tokens are NOT interchangeable under `.dark`, where disabled resolves to
+         iron-violet/900 and shade to iron-violet/950. */
       disabled
         ? 'bg-bg-disabled text-text-disabled [&.is-placeholder]:text-text-disabled cursor-not-allowed'
         : 'bg-bg-base text-text-body [&.is-placeholder]:text-text-placeholder cursor-pointer',

@@ -462,9 +462,30 @@ for (const name of TOKENS.vars.keys()) {
  */
 const RAW_COLOUR = /#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{2})?)?\b|\b(?:rgba?|hsla?)\([^)]*\)/g;
 
+/**
+ * COMMENTS ARE BLANKED FIRST, not stripped — replacing them with spaces of the
+ * same shape keeps every line number correct, which is the whole value of the
+ * report.
+ *
+ * A hex inside a comment cannot render. This gate read them anyway, and the way
+ * it surfaced is the point: a comment written on 2026-08-06 explaining that
+ * `--color-bg-disabled` *is* #F8FAFC — documenting the token, not setting a
+ * colour — failed the build. The fix for that would otherwise have been to write
+ * a worse comment.
+ *
+ * `check-component-vars.mjs` already does this and says why: a component that
+ * documents its tokens in prose otherwise reports usages it does not have. Same
+ * rule, second home.
+ */
+const blankComments = (src) =>
+  src
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
+    .replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ' '))
+    .replace(/^([ \t]*)\/\/.*$/gm, (m, indent) => indent + ' '.repeat(m.length - indent.length));
+
 const COMPONENTS = join(ROOT, 'astro-components/components');
 for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) {
-  const src = readFileSync(join(COMPONENTS, file), 'utf8');
+  const src = blankComments(readFileSync(join(COMPONENTS, file), 'utf8'));
   src.split('\n').forEach((line, i) => {
     for (const [raw] of line.matchAll(RAW_COLOUR)) {
       checks++;
