@@ -662,9 +662,6 @@
 .gap-2xl {
   gap: var(--spacing-2xl);
 }
-.gap-\[6px\] {
-  gap: 6px;
-}
 .gap-\[8px\] {
   gap: 8px;
 }
@@ -859,6 +856,9 @@
 .p-micro {
   padding: var(--spacing-micro);
 }
+.p-sm {
+  padding: var(--spacing-sm);
+}
 .px-2xl {
   padding-inline: var(--spacing-2xl);
 }
@@ -882,9 +882,6 @@
 }
 .py-4xl {
   padding-block: var(--spacing-4xl);
-}
-.py-\[14px\] {
-  padding-block: 14px;
 }
 .py-\[40px\] {
   padding-block: 40px;
