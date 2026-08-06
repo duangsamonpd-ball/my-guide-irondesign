@@ -44,7 +44,7 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
       name={name}
       type={type}
       class:list={[
-        'w-full h-[var(--size-input)] rounded-md px-md font-sans text-body text-text-body',
+        'w-full h-[var(--size-input)] rounded-md px-sm font-sans text-body text-text-body',
         'bg-bg-base border outline-none',
         'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
         'placeholder:text-text-placeholder',
@@ -64,8 +64,8 @@ const inputId = id ?? name ?? `input-${Math.random().toString(36).slice(2, 9)}`;
     />
   </div>
   {error && errorMessage ? (
-    <span class="text-caption text-danger font-medium leading-5">{errorMessage}</span>
+    <span class="text-caption-sm font-medium leading-4 tracking-caption-sm text-danger">{errorMessage}</span>
   ) : hint ? (
-    <span class="text-caption text-text-muted leading-5">{hint}</span>
+    <span class="text-caption-sm font-medium leading-4 tracking-caption-sm text-text-support">{hint}</span>
   ) : null}
 </div>

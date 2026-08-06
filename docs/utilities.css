@@ -1113,9 +1113,6 @@
 .text-text-heading {
   color: var(--color-text-heading);
 }
-.text-text-muted {
-  color: var(--color-text-muted);
-}
 .text-text-on-color-badge-solid {
   color: var(--color-text-on-color-badge-solid);
 }
