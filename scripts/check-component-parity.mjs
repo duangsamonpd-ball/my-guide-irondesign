@@ -221,6 +221,16 @@ function checkConverted(file, name, docsPath) {
         `token bindings it used to show are the page's own Token Reference table`,
     );
   }
+  /**
+   * `classesInMarkup` reads `class="…"` attributes only, so it cannot see a class
+   * built as `` `notice--${variant}` `` or declared through `class:list`'s object
+   * shorthand, `{ invalid, 'rdo-card': card }`. That is safe HERE — a converted
+   * component's generated sample is Astro usage and carries no `class=` at all,
+   * so there is nothing to compare — but auditing the not-yet-converted pages
+   * the same way on 2026-08-06 reported 12 classes as missing and **all twelve
+   * were emitted**, every one through one of those two forms. If this check is
+   * ever pointed at a component that still ships CSS, teach it both first.
+   */
   const emitted = classesInMarkup(readFileSync(join(COMPONENTS, file), 'utf8'));
   const sampleClasses = new Set(
     panes.flatMap(([, , body]) =>
