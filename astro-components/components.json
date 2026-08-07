@@ -1163,7 +1163,7 @@
       "name": "TopNav",
       "file": "astro-components/components/TopNav.astro",
       "docs": "docs/component-topnav.html",
-      "interactive": false,
+      "interactive": true,
       "figmaNodes": [
         "507:5349"
       ],

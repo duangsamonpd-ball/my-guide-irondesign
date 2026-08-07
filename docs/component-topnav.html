@@ -87,7 +87,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd ul { margin:14px 16px 18px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-.tn { width: 100%; font-family: 'Montserrat', sans-serif; }
+.tn { width: 100%; font-family: 'Montserrat', sans-serif; position: relative; }
 .tn--default { background: var(--slate-800); }
 .tn--transparent { background: transparent; }
 .tn-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); height: 40px; box-sizing: border-box; max-width: 1440px; margin: 0 auto; padding: var(--spacing-sm) var(--spacing-xl); }
@@ -117,8 +117,24 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .tn-pin { width: 10px; height: 14px; flex-shrink: 0; }
 .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-color-heading); }
 .tn-globe { width: 16px; height: 16px; flex-shrink: 0; }
-@media (max-width: 1100px) { .tn-address { display: none; } }
-@media (max-width: 720px) { .tn-menu { display: none; } }
+.tn-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: none; color: var(--color-text-on-color-heading); cursor: pointer; flex-shrink: 0; }
+.tn-burger:hover { color: var(--color-text-link-menu-hover); }
+.tn-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
+.tn-burger-icon { width: 16px; height: 16px; display: block; }
+@media (max-width: 1259.98px) { .tn-address { display: none; } }
+@media (max-width: 944.98px) {
+    .tn-burger { display: inline-flex; }
+    .tn-menu { display: none; position: absolute; top: 40px; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--slate-800); }
+    .tn.tn-menu-open .tn-menu { display: flex; }
+    .tn-menu li { padding: var(--spacing-xs) 0; }
+    .tn-menu .tn-item { justify-content: space-between; width: 100%; }
+  }
+.tn-menu li.tn-menu-extra { display: none; }
+@media (max-width: 419.98px) {
+    .tn--has-menu .tn-menu li.tn-menu-extra { display: flex; }
+    .tn--has-menu .tn-right > .tn-item { display: none; }
+    .tn--has-menu .tn-lang { display: none; }
+  }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} }
   </style>
 </head>
@@ -188,7 +204,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect-sub">Filled with <code>--slate-800</code>. The standard treatment on light pages.</div>
       <div class="frame"><div class="frame-scroll">
         <!-- demo:default -->
-        <div class="tn tn--default">
+        <div class="tn tn--default tn--has-menu">
           <nav class="tn-inner" aria-label="Corporate">
             <div class="tn-left">
               <a class="tn-brand" href="/">
@@ -214,7 +230,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                 </svg>
                 <span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span>
               </a>
-              <ul class="tn-menu">
+              <ul class="tn-menu" id="tnmenu-demo-1">
                 <li>
                   <a class="tn-item" href="#">
                     Products
@@ -241,6 +257,18 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                     <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
                   </a>
                 </li>
+                <li class="tn-menu-extra">
+                  <a class="tn-item" href="#">
+                    Contact Us
+                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                  </a>
+                </li>
+                <li class="tn-menu-extra">
+                  <a class="tn-item" href="#">
+                    EN
+                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                  </a>
+                </li>
               </ul>
             </div>
             <div class="tn-right">
@@ -259,9 +287,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                   <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
                 </a>
               </span>
+              <button type="button" class="tn-burger" aria-expanded="false" aria-controls="tnmenu-demo-1" aria-label="Corporate menu">
+                <svg class="tn-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
+              </button>
             </div>
           </nav>
         </div>
+        <script type="module">function e(e=document){e.querySelectorAll(`.tn:not([data-tn-init])`).forEach(e=>{let t=e.querySelector(`.tn-burger`),n=e.querySelector(`.tn-menu`);if(!t||!n)return;e.dataset.tnInit=`1`;let r=n=>{e.classList.toggle(`tn-menu-open`,n),t.setAttribute(`aria-expanded`,String(n))},i=n=>{e.classList.contains(`tn-menu-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`tn-menu-open`))),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)}),document.addEventListener(`click`,t=>{e.contains(t.target)||i(!1)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
         <!-- /demo:default -->
       </div><div class="frame-cap">variant="default"</div></div>
     </div>
@@ -270,7 +302,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect-sub">Figma’s “Without bg”. No fill, so the strip sits directly over a hero image or dark section. Check contrast against whatever sits behind it — the labels are white and get no scrim of their own.</div>
       <div class="frame"><div class="frame-scroll on-hero">
         <!-- demo:transparent -->
-        <div class="tn tn--transparent">
+        <div class="tn tn--transparent tn--has-menu">
           <nav class="tn-inner" aria-label="Corporate">
             <div class="tn-left">
               <a class="tn-brand" href="/">
@@ -296,7 +328,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                 </svg>
                 <span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span>
               </a>
-              <ul class="tn-menu">
+              <ul class="tn-menu" id="tnmenu-demo-1">
                 <li>
                   <a class="tn-item" href="#">
                     Products
@@ -323,6 +355,18 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                     <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
                   </a>
                 </li>
+                <li class="tn-menu-extra">
+                  <a class="tn-item" href="#">
+                    Contact Us
+                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                  </a>
+                </li>
+                <li class="tn-menu-extra">
+                  <a class="tn-item" href="#">
+                    EN
+                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                  </a>
+                </li>
               </ul>
             </div>
             <div class="tn-right">
@@ -341,6 +385,9 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                   <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
                 </a>
               </span>
+              <button type="button" class="tn-burger" aria-expanded="false" aria-controls="tnmenu-demo-1" aria-label="Corporate menu">
+                <svg class="tn-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
+              </button>
             </div>
           </nav>
         </div>
@@ -352,7 +399,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect-sub">Both right-hand groups are optional. Drop the address on region-neutral pages and the language picker on single-locale sites.</div>
       <div class="frame"><div class="frame-scroll">
         <!-- demo:trimmed -->
-        <div class="tn tn--default">
+        <div class="tn tn--default tn--has-menu">
           <nav class="tn-inner" aria-label="Corporate">
             <div class="tn-left">
               <a class="tn-brand" href="/">
@@ -378,7 +425,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                 </svg>
                 <span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span>
               </a>
-              <ul class="tn-menu">
+              <ul class="tn-menu" id="tnmenu-demo-1">
                 <li>
                   <a class="tn-item" href="#">
                     Products
@@ -405,6 +452,12 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                     <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
                   </a>
                 </li>
+                <li class="tn-menu-extra">
+                  <a class="tn-item" href="#">
+                    Contact Us
+                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                  </a>
+                </li>
               </ul>
             </div>
             <div class="tn-right">
@@ -412,6 +465,9 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
                 Contact Us
                 <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
               </a>
+              <button type="button" class="tn-burger" aria-expanded="false" aria-controls="tnmenu-demo-1" aria-label="Corporate menu">
+                <svg class="tn-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
+              </button>
             </div>
           </nav>
         </div>

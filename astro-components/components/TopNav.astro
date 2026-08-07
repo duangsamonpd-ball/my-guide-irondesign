@@ -12,6 +12,8 @@
  * ProductMenu.astro for the full two-bar header.
  */
 
+import { icons } from '../icons';
+
 interface NavItem {
   label: string;
   href?: string;
@@ -52,9 +54,13 @@ const {
 const CARET_VB = '-4.8768 -6.1177 16 16';
 const CARET_D =
   'M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z';
+
+/* Same id scheme as FooterBar's tools panel: the trigger has to point at the
+   panel with aria-controls, and a page may carry more than one bar. */
+const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
 ---
 
-<div class:list={['tn', `tn--${variant}`, className]}>
+<div class:list={['tn', `tn--${variant}`, items.length > 0 && 'tn--has-menu', className]}>
   <nav class="tn-inner" aria-label="Corporate">
     <div class="tn-left">
       <a class="tn-brand" href={brandHref}>
@@ -86,7 +92,7 @@ const CARET_D =
       </a>
 
       {items.length > 0 && (
-        <ul class="tn-menu">
+        <ul class="tn-menu" id={menuId}>
           {items.map((it) => (
             <li>
               <a class="tn-item" href={it.href ?? '#'}>
@@ -95,6 +101,27 @@ const CARET_D =
               </a>
             </li>
           ))}
+          {/* Below 420 the strip cannot hold these two either, so they move into
+              the panel rather than disappearing. They are marked up here and
+              hidden above that width, so exactly one copy is ever rendered —
+              the alternative, duplicating them into a second list, gives a
+              screen reader two "Contact Us" links to choose between. */}
+          {contact && (
+            <li class="tn-menu-extra">
+              <a class="tn-item" href={contact.href ?? '#'}>
+                {contact.label}
+                {(contact.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+              </a>
+            </li>
+          )}
+          {showLanguage && language && (
+            <li class="tn-menu-extra">
+              <a class="tn-item" href={language.href ?? '#'}>
+                {language.label}
+                {(language.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+              </a>
+            </li>
+          )}
         </ul>
       )}
     </div>
@@ -123,6 +150,19 @@ const CARET_D =
           </a>
         </span>
       )}
+
+      {/* The corporate menu needs 911px of bar to lay out and the strip is only
+          as wide as the viewport, so from 945 down it cannot be shown inline —
+          measured, not guessed, and no amount of tightening closes it: gap
+          20 → 8 buys 48px of the 143 missing at 768. Before this button the
+          menu was simply hidden below 720, which left 721–944 rendering items
+          on top of each other (`.tn-menu` is `min-width: 0`, so flex squashed
+          them past their own text instead of overflowing). */}
+      {items.length > 0 && (
+        <button type="button" class="tn-burger" aria-expanded="false" aria-controls={menuId} aria-label="Corporate menu">
+          <svg class="tn-burger-icon" viewBox={icons.bars.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.bars.path}/></svg>
+        </button>
+      )}
     </div>
   </nav>
 </div>
@@ -140,7 +180,9 @@ const CARET_D =
     exported SVG's fill and the pixels of Figma's own render. It reads as a
     deliberately recessive mark next to the white wordmark.
   */
-  .tn { width: 100%; font-family: 'Montserrat', sans-serif; }
+  /* `position: relative` is here for the narrow-width menu, which drops out of
+     the 40px strip and is positioned against the bar rather than the page. */
+  .tn { width: 100%; font-family: 'Montserrat', sans-serif; position: relative; }
   .tn--default { background: var(--slate-800); }
   .tn--transparent { background: transparent; }
 
@@ -195,8 +237,90 @@ const CARET_D =
   .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-color-heading); }
   .tn-globe { width: 16px; height: 16px; flex-shrink: 0; }
 
-  /* Figma covers 1440px desktop only. Shed the address first — it is the longest
-     and least navigational item — then the corporate menu. */
-  @media (max-width: 1100px) { .tn-address { display: none; } }
-  @media (max-width: 720px) { .tn-menu { display: none; } }
+  /* The trigger only exists below the breakpoint; above it the menu is inline
+     and there is nothing to open. */
+  .tn-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: none; color: var(--color-text-on-color-heading); cursor: pointer; flex-shrink: 0; }
+  .tn-burger:hover { color: var(--color-text-link-menu-hover); }
+  .tn-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
+  .tn-burger-icon { width: 16px; height: 16px; display: block; }
+
+  /* Figma covers 1440px desktop only, so every number below is measured off the
+     rendered bar rather than read off the canvas. Shed the address first — it is
+     the longest and least navigational item — then the corporate menu.
+
+     Both breakpoints were too low and left a band where the content was already
+     too wide but still on screen. The address un-hid at 1101 and needs 1260; the
+     menu un-hid at 721 and needs 945. Between those the items overlapped rather
+     than overflowed, because `.tn-menu` and `.tn-right` are both `min-width: 0`
+     and flex will squash a child past its own text before it will let it stick
+     out. Overlapping text reads as a rendering fault, not a layout one, which is
+     why it survived every gate and every look at this component. */
+  @media (max-width: 1259.98px) { .tn-address { display: none; } }
+
+  @media (max-width: 944.98px) {
+    .tn-burger { display: inline-flex; }
+    /* Out of the strip and across the full bar. `.tn` is the positioning
+       context, so this hangs below a 40px-tall bar whatever the page around it
+       does. The fill is the default variant's slate even on `transparent`: the
+       bar can sit on a hero image, and a menu that let the image through would
+       be unreadable. */
+    .tn-menu { display: none; position: absolute; top: 40px; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--slate-800); }
+    .tn.tn-menu-open .tn-menu { display: flex; }
+    .tn-menu li { padding: var(--spacing-xs) 0; }
+    /* Each row is its own hit target across the panel, so the caret sits at the
+       end of the line rather than tight against the label as it does inline. */
+    .tn-menu .tn-item { justify-content: space-between; width: 100%; }
+  }
+
+  /* The strip itself — lockup, Contact Us, the language picker and the trigger —
+     needs 420px. Below that the last two move into the panel. `.tn--has-menu`
+     gates it: with no items there is no panel to move them into, and hiding them
+     would simply lose them. Measured, and it is why 320/375/414 were the widths
+     that broke when the trigger was first added: a 24px button and its gap went
+     in without anything coming out. */
+  .tn-menu li.tn-menu-extra { display: none; }
+  @media (max-width: 419.98px) {
+    .tn--has-menu .tn-menu li.tn-menu-extra { display: flex; }
+    .tn--has-menu .tn-right > .tn-item { display: none; }
+    .tn--has-menu .tn-lang { display: none; }
+  }
 </style>
+
+<script>
+  // Disclosure pattern (WAI-ARIA APG), the same one FooterBar's tools panel
+  // uses: the trigger owns aria-expanded and points at the panel it controls.
+  // The menu stays in the DOM at every width — above the breakpoint it is the
+  // inline list, below it the same <ul> is the panel — so there is one set of
+  // links rather than two, and nothing to keep in sync.
+  function initTopNav(scope: ParentNode = document) {
+    scope.querySelectorAll<HTMLElement>('.tn:not([data-tn-init])').forEach((tn) => {
+      const trigger = tn.querySelector<HTMLButtonElement>('.tn-burger');
+      const menu = tn.querySelector<HTMLElement>('.tn-menu');
+      if (!trigger || !menu) return;
+      tn.dataset.tnInit = '1';
+
+      const setOpen = (open: boolean) => {
+        tn.classList.toggle('tn-menu-open', open);
+        trigger.setAttribute('aria-expanded', String(open));
+      };
+      const close = (focusTrigger: boolean) => {
+        if (!tn.classList.contains('tn-menu-open')) return;
+        setOpen(false);
+        if (focusTrigger) trigger.focus();
+      };
+
+      trigger.addEventListener('click', () => setOpen(!tn.classList.contains('tn-menu-open')));
+      // Escape closes from anywhere in the bar and hands focus back, and a click
+      // outside closes without stealing it — an open panel that survives a click
+      // on the page behind it is the thing users report as stuck.
+      tn.addEventListener('keydown', (e) => {
+        if ((e as KeyboardEvent).key === 'Escape') close(true);
+      });
+      document.addEventListener('click', (e) => {
+        if (!tn.contains(e.target as Node)) close(false);
+      });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', () => initTopNav());
+  document.addEventListener('astro:page-load', () => initTopNav());
+</script>
