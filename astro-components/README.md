@@ -161,7 +161,17 @@ import Button from '.../astro-components/components/Button.astro';
 ```
 
 Props: `variant` (`primary` | `secondary` | `tertiary` | `outline` | `ondark` | `ghost`, default `primary`),
-`size` (`lg` | `md` | `sm`, default `md`), `disabled`, `type`, `href` (renders an `<a>` instead of `<button>`), `class`.
+`size` (`lg` | `md` | `sm`, default `md`), `wrap`, `disabled`, `type`, `href` (renders an `<a>` instead of `<button>`), `class`.
+
+`wrap` lets a long label break onto a second line instead of leaving the button.
+It is off by default — one line reads better, and most labels are short. Reach
+for it where the label is long and the container is narrow: a label that cannot
+bend does not shrink, so it overflows, and if any ancestor is `overflow: hidden`
+it is cut with no scrollbar to show for it. Turning it on also swaps the fixed
+height for the same value as a minimum, so the pill grows rather than clipping
+the second line. It has to be this prop and not a `whitespace-normal` you pass
+through `class`: both are one class deep, so the winner is decided by their
+order in the compiled stylesheet, and `nowrap` is emitted after `normal`.
 
 ### `TextLink.astro`
 

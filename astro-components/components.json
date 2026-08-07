@@ -70,6 +70,13 @@
           "default": "'md'"
         },
         {
+          "name": "wrap",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Let a long label wrap instead of leaving the box. Off by default: a button is normally short and one line reads better. Turn it on where the label is long and the container is narrow — the Footer band is the case that found this, where \"Get Full 10 products Suite\" needs 309.5px against 248px of room at a 320 viewport and was being cut, silently, by an ancestor's `overflow: hidden`. This has to be a prop rather than a class passed in. `whitespace-nowrap` below and a `whitespace-normal` on the call site are both one class deep, so the winner is decided by their order in the compiled stylesheet, not by the order they are written — and Tailwind emits `normal` at 1111 and `nowrap` at 1114, so the override loses. `[white-space:normal]` lands in the same place and loses identically."
+        },
+        {
           "name": "disabled",
           "type": "boolean",
           "required": false,

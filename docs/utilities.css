@@ -607,6 +607,15 @@
 .min-h-\[86px\] {
   min-height: 86px;
 }
+.min-h-\[var\(--size-btn-lg\)\] {
+  min-height: var(--size-btn-lg);
+}
+.min-h-\[var\(--size-btn-md\)\] {
+  min-height: var(--size-btn-md);
+}
+.min-h-\[var\(--size-btn-sm\)\] {
+  min-height: var(--size-btn-sm);
+}
 .w-\[2px\] {
   width: 2px;
 }
@@ -939,6 +948,9 @@
 .py-micro {
   padding-block: var(--spacing-micro);
 }
+.py-sm {
+  padding-block: var(--spacing-sm);
+}
 .py-xs {
   padding-block: var(--spacing-xs);
 }
@@ -1107,6 +1119,9 @@
 .tracking-nav-label {
   --tw-tracking: var(--tracking-nav-label);
   letter-spacing: var(--tracking-nav-label);
+}
+.whitespace-normal {
+  white-space: normal;
 }
 .whitespace-nowrap {
   white-space: nowrap;

@@ -2,6 +2,22 @@
 interface Props {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ondark' | 'ghost';
   size?: 'lg' | 'md' | 'sm';
+  /**
+   * Let a long label wrap instead of leaving the box. Off by default: a button
+   * is normally short and one line reads better. Turn it on where the label is
+   * long and the container is narrow — the Footer band is the case that found
+   * this, where "Get Full 10 products Suite" needs 309.5px against 248px of
+   * room at a 320 viewport and was being cut, silently, by an ancestor's
+   * `overflow: hidden`.
+   *
+   * This has to be a prop rather than a class passed in. `whitespace-nowrap`
+   * below and a `whitespace-normal` on the call site are both one class deep,
+   * so the winner is decided by their order in the compiled stylesheet, not by
+   * the order they are written — and Tailwind emits `normal` at 1111 and
+   * `nowrap` at 1114, so the override loses. `[white-space:normal]` lands in
+   * the same place and loses identically.
+   */
+  wrap?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   href?: string;
@@ -11,6 +27,7 @@ interface Props {
 const {
   variant = 'primary',
   size = 'md',
+  wrap = false,
   disabled = false,
   type = 'button',
   href,
@@ -25,9 +42,30 @@ const {
  * between family and weight.
  */
 const SIZE = {
-  lg: 'h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0]',
-  md: 'h-[var(--size-btn-md)] px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0]',
-  sm: 'h-[var(--size-btn-sm)] px-md gap-micro text-btn-sm [font-weight:var(--fw-btn)] tracking-[0.4px]',
+  lg: 'px-2xl gap-sm text-btn-lg [font-weight:var(--fw-btn-lg)] tracking-[0]',
+  md: 'px-xl gap-xs text-btn [font-weight:var(--fw-btn)] tracking-[0]',
+  sm: 'px-md gap-micro text-btn-sm [font-weight:var(--fw-btn)] tracking-[0.4px]',
+} as const;
+
+/**
+ * Height is separate from the rest of the size because `wrap` has to change it.
+ * A fixed height with a label allowed to wrap trades a horizontal clip for a
+ * vertical one, which is worse — it is the same `overflow: hidden` doing the
+ * cutting either way. Wrapping keeps the same number as a FLOOR and lets the
+ * pill grow past it, so a two-line label still measures 56px at `lg` (the two
+ * lines are 39px, well inside it) and nothing moves until a third line needs
+ * room that a fixed height would simply have eaten.
+ */
+const HEIGHT = {
+  lg: 'h-[var(--size-btn-lg)]',
+  md: 'h-[var(--size-btn-md)]',
+  sm: 'h-[var(--size-btn-sm)]',
+} as const;
+
+const WRAP_HEIGHT = {
+  lg: 'min-h-[var(--size-btn-lg)] py-sm',
+  md: 'min-h-[var(--size-btn-md)] py-xs',
+  sm: 'min-h-[var(--size-btn-sm)] py-micro',
 } as const;
 
 /**
@@ -64,7 +102,7 @@ const VARIANT = {
 } as const;
 
 const BASE =
-  'cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline ' +
+  'cursor-pointer inline-flex items-center justify-center font-sans no-underline ' +
   'border-[length:var(--border-width-2)] border-solid outline-none rounded-cta ' +
   'transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] ' +
   /* `[disabled]` and `[aria-disabled="true"]` were one rule; as variants they
@@ -76,7 +114,14 @@ const Tag = href ? 'a' : 'button';
 ---
 
 <Tag
-  class:list={[BASE, SIZE[size], VARIANT[variant], className]}
+  class:list={[
+    BASE,
+    wrap ? 'whitespace-normal text-center' : 'whitespace-nowrap',
+    wrap ? WRAP_HEIGHT[size] : HEIGHT[size],
+    SIZE[size],
+    VARIANT[variant],
+    className,
+  ]}
   href={href}
   type={href ? undefined : type}
   disabled={href ? undefined : disabled}

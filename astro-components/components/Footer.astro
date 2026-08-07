@@ -69,12 +69,23 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
           )}
           <p class="text-xl font-bold leading-7 m-0"><span class="text-text-dark-heading">10 .NET API products</span><span class="text-text-dark-support"> for your office documents</span></p>
         </div>
+        {/* `wrap` is the same fix the product rows above already carry: a label
+            that cannot bend does not shrink, it leaves the box — and this band
+            is `overflow: hidden`, so it is cut rather than scrolled, with no
+            scrollbar to hint at it. "Get Full 10 products Suite" is 213.5px of
+            text + a 16px arrow + a 12px gap + 64px of padding = 309.5px against
+            248px of room at a 320 viewport, and it was losing 61.5px there and
+            6.5px at 375. Padding is not the lever: taking all 64px away still
+            leaves it 2.5px over at 320.
+
+            It is a prop and not a class because a class cannot win — see the
+            note on `wrap` in Button. */}
         <div class="flex items-center justify-between gap-y-md flex-wrap">
-          <Button variant="tertiary" size="lg" href="#" class="group">
+          <Button variant="tertiary" size="lg" href="#" wrap class="group">
             Get Full 10 products Suite
             <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
           </Button>
-          <Button variant="ghost" size="lg" href="#" class="group">
+          <Button variant="ghost" size="lg" href="#" wrap class="group">
             <svg class="h-[1em] w-auto shrink-0" viewBox={icons.key.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.key.path}/></svg>
             Start Free Trial
             <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
