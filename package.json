@@ -30,6 +30,8 @@
     "preview": "node scripts/preview.mjs",
     "preview:self-test": "node scripts/preview.mjs --self-test",
     "state-diff": "node scripts/state-diff.mjs",
+    "overflow": "node scripts/check-overflow.mjs",
+    "overflow:self-test": "node scripts/check-overflow.mjs --self-test",
     "state-diff:self-test": "node scripts/state-diff.mjs --self-test",
     "build:code": "node scripts/build-code-samples.mjs",
     "check:code": "node scripts/build-code-samples.mjs --check"

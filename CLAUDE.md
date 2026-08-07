@@ -26,10 +26,19 @@ Chain it, so a failure cannot be walked past:
 npm run check && git commit …
 ```
 
-`npm run preview <page>` renders the docs in a real browser (needs Chrome) and
+`npm run preview <page>` renders the docs in a real browser (needs Chrome),
 `node scripts/state-diff.mjs <page> --ref HEAD` compares interactive states pixel
-for pixel. Both exit non-zero on failure. Neither is in `npm run check`, because
-CI has no browser.
+for pixel, and `npm run overflow` sweeps every component across nine widths for
+anything that leaves its box. All three exit non-zero on failure. None is in
+`npm run check`, because CI has no browser.
+
+Reach for `overflow` before believing a layout is fine at a width you have not
+looked at. The bug it exists for is invisible to every other gate: a breakpoint
+set below the width its content actually needs, where flex squashes children
+past their own text rather than overflowing, and an `overflow: hidden` ancestor
+cuts the rest with no scrollbar and a clean `document.scrollWidth`.
+
+Each has a `--self-test` that must pass before its output is worth anything.
 
 ## Edit the source, not the output
 
