@@ -659,6 +659,88 @@ if (freeTools) {
      bands already carry the same fill (surface/footer-alt), so nothing has to
      merge in the DOM — only the padding and the gaps change. */
 
+  /* ── the Free-tools panel only · below 1253 ───────────────────────────────
+     The panel's three groups side by side need 1253px, and the bar's own
+     breakpoint is at 1024 — so 1024 to 1252 rendered a row that did not fit,
+     including 1024, 1152 and 1200. `.fb-tools-clip` is `overflow: hidden` for
+     the open/close reveal, so the excess was CUT rather than scrolled: the
+     "Others" column lost 75px, the close button and the last group 52.8px, and
+     at 1152 the X painted on top of the OTHERS heading. No scrollbar, and
+     `document.scrollWidth` clean throughout — the same silent failure as the
+     product rows in 3a0198a.
+
+     This is the panel's own breakpoint and not the bar's on purpose. Moving the
+     1023.98 below would have brought the whole footer-md layout up with it —
+     stacked brand, wrapping menu, the lot — at widths Figma drew footer-lg for.
+     The panel is the one part of this component Figma never drew for md or sm
+     (all three of its variants live on footer-lg), so it is the one part free to
+     have a breakpoint of its own.
+
+     Measured against the alternative. Adopting the md layout here also fixes the
+     overflow, but it stacks the groups and takes the panel from 72px to 288px at
+     1200 — a laptop-width change out of all proportion to the problem. Shedding
+     the hero padding alone is not enough on its own: still 74.98px over at 1024
+     and 40.66 at 1100. Padding plus the two gaps clears every width in the band
+     with the row intact and the panel still 72px tall.
+
+     It sits BEFORE the footer-md block so that below 1024 the md rules, which
+     come later, win — the panel goes on stacking there exactly as it did. */
+  @media (max-width: 1252.98px) {
+    /* 80 a side is a framing margin for a 1440 canvas; at 1024 it is 160px of
+       the width the content needs. */
+    .fb-tools-panel { padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-2xl); }
+    .fb-tools-inner { gap: var(--spacing-2xl); padding: 0; }
+    .fb-tools-cols { gap: var(--spacing-md); }
+  }
+
+  /* ── the reviews row only · below 1180 ────────────────────────────────────
+     The same band, a different number, because it is different content. The
+     middle row — two review cards, the brand lockup, the address, the socials
+     and the Slack line — needs 1180px, and it was squashing rather than
+     overflowing: `.fb-reviews` is `flex: 1 0 0; min-width: 0`, so flex takes it
+     below its own content instead of letting it stick out, and the second card
+     left the group by 77.4px at 1024, 39.4 at 1100 and 1.9 at 1175. Same
+     mechanism as TopNav's overlapping labels.
+
+     This is the md layout's own grid, lifted to the width where the row
+     actually stops fitting rather than left at the bar's 1024. Not the whole md
+     block: the menu wrapping, the info row and the paddings all belong to the
+     768–1023 frame Figma drew, and only this row's arithmetic changed.
+
+     `min-width: auto` alone was measured first and is not enough — it takes 1024
+     from 77.4px over to 18.8, because the row genuinely needs two lines there.
+     The brand keeps its horizontal lockup here; going to the md column form as
+     well buys nothing at these widths and costs a taller row. */
+  @media (max-width: 1179.98px) {
+    .fb-mid-inner {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'reviews reviews' 'brand connect';
+      gap: var(--spacing-xl);
+      align-items: center;
+    }
+    .fb-reviews { grid-area: reviews; justify-content: center; }
+    .fb-brand { grid-area: brand; }
+    .fb-connect { grid-area: connect; }
+  }
+
+  /* ── the legal row only · below 1060 ──────────────────────────────────────
+     The third band in this component and the smallest: the copyright line and
+     its links left `.fb-legal` by 6.19px at 1024, tapering to 1.02 at 1055 and
+     gone by 1060. Same cause as the row above — `flex: 1 0 0; min-width: 0`
+     lets flex take the group below its own content — but here the fix is only
+     to stop that, because there IS room: with the floor restored nothing else
+     in the row overflows, at any width in the band. The squash was flex
+     distributing badly, not a shortage.
+
+     Deliberately not a layout change. Adopting the md grid also clears it, and
+     takes the row from 32px to 68px to buy back six pixels. Tightening the 20px
+     gap to 8 clears it too, but that gap is a drawn value and this is not the
+     width to argue with it. */
+  @media (max-width: 1059.98px) {
+    .fb-legal { min-width: auto; }
+  }
+
   /* ── footer-md (879:649) · 768 – 1023 ─────────────────────────────────── */
   @media (max-width: 1023.98px) {
     /* Figma has one container padded 24 on every side. Here that is still two

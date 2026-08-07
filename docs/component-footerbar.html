@@ -227,6 +227,26 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
 .fb-donate-img { height: 32px; width: auto; display: block; }
 
+@media (max-width: 1252.98px) {
+    .fb-tools-panel { padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-2xl); }
+    .fb-tools-inner { gap: var(--spacing-2xl); padding: 0; }
+    .fb-tools-cols { gap: var(--spacing-md); }
+  }
+@media (max-width: 1179.98px) {
+    .fb-mid-inner {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'reviews reviews' 'brand connect';
+      gap: var(--spacing-xl);
+      align-items: center;
+    }
+    .fb-reviews { grid-area: reviews; justify-content: center; }
+    .fb-brand { grid-area: brand; }
+    .fb-connect { grid-area: connect; }
+  }
+@media (max-width: 1059.98px) {
+    .fb-legal { min-width: auto; }
+  }
 @media (max-width: 1023.98px) {
   .fb-menu-bar { padding: var(--spacing-xl) var(--spacing-xl) 0; }
   .fb-mid { padding: var(--spacing-xl); }
