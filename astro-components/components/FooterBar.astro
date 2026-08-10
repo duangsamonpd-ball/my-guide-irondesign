@@ -49,11 +49,9 @@
  *    one divider. It is a wrap artifact on Figma's side, not a decision.
  *  · The divider between Free Tools and Webinars shows while the panel is
  *    CLOSED and hides while it is open — **Ball's third ruling on it**: "draw
- *    it" (2026-08-02), "never draw it" (2026-08-10), then this. **This is the
- *    one place the code deliberately LEADS Figma**: all three variants hide that
- *    node, including `880:774` where the panel is closed, so the closed state
- *    disagrees with the file on purpose and Figma is owed the change. An audit
- *    will read it as drift — it is not.
+ *    it" (2026-08-02), "never draw it" (2026-08-10), then this. It ran ahead of
+ *    Figma for a few hours; `880:774` is drawn now and `880:936` stays hidden,
+ *    so both sides say the same thing and no exception is outstanding.
  *
  * Assets are real files, like Logo.astro — a partner logo is artwork, no token
  * can stand in for it. `basePath` points at wherever docs/assets/ was copied to.
@@ -253,11 +251,10 @@ const items: Link[] = [...menu];
    each <li>. With no Webinars to sit before, Free Tools lands last and there is
    nothing after it to mark.
 
-   ⚠️ THIS IS THE ONE PLACE THE CODE LEADS FIGMA. All three variants hide that
-   node — `880:557` (Default), `880:774` (Freetools, panel CLOSED) and `880:936`
-   (Freetools-open) — so the closed state disagrees with the file on purpose,
-   Ball's call, and Figma is owed a change to `880:774`. Until then an audit will
-   read this as drift; it is not.
+   Figma agrees, as of 2026-08-10: `880:774` (Freetools, panel CLOSED) is drawn,
+   `880:936` (Freetools-open) is hidden, and `880:557` (Default) is moot because
+   Free Tools is hidden there too. This briefly ran ahead of the file and no
+   longer does — the earlier "code leads Figma" note is gone with it.
 
    The state is toggled at runtime by the trigger, so this cannot be decided
    here — the flag only MARKS the divider and `.fb-tools-open` does the hiding
