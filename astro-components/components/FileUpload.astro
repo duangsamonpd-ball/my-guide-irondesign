@@ -51,10 +51,16 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
       ) : (
         <div class="title">{error ? (errorMessage || 'Upload failed') : label}</div>
       )}
+      {/* The link's trailing arrow is an icon, not a "→". Measured against this
+          system's own --font-sans: Montserrat has no arrow glyph, so the
+          character drops to the next family in the stack and its box goes
+          16.00px to 14.78px. Third component to hit it, after FormCard and
+          Select. aria-hidden because the <label> wraps the file input, so
+          every word in here lands in that input's accessible name. */}
       {hasFile && fileSize ? (
         <span class="size-label">{fileSize}</span>
       ) : (
-        <span class="link">{linkText} →</span>
+        <span class="link">{linkText}<svg class="link-arrow" viewBox={sharedIcons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={sharedIcons.arrowRight.path} /></svg></span>
       )}
     </div>
   </div>
@@ -65,13 +71,13 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
 <style>
   .dropzone {
     border: var(--border-width-1-5) dashed var(--color-border-strong); border-radius: var(--rounded-lg);
-    background: var(--color-bg-base); padding: 24px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    background: var(--color-bg-base); padding: var(--spacing-xl);
+    display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md);
     cursor: pointer; position: relative;
     transition: border-color var(--duration-fast), background var(--duration-fast);
   }
   .dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-  .dropzone-left { display: flex; align-items: center; gap: 16px; min-width: 0; }
+  .dropzone-left { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
   .dropzone-icon {
     width: 40px; height: 40px; border-radius: var(--rounded-lg); flex-shrink: 0;
     background: color-mix(in srgb, var(--color-secondary) 6%, transparent); border: var(--border-width-1) solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
@@ -79,8 +85,11 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
   }
   .dropzone-icon svg { width: 18px; height: 18px; }
   .dropzone-text { min-width: 0; }
-  .dropzone-text .title { font-size: var(--font-size-body); color: var(--color-text-body); margin-bottom: 4px; }
-  .dropzone-text .link { font-size: var(--font-size-body); font-weight: 700; color: var(--color-secondary); }
+  .dropzone-text .title { font-size: var(--font-size-body); color: var(--color-text-body); margin-bottom: var(--spacing-micro); }
+  /* The arrow is a 16px box around the glyph, matching the em box the character
+     used to occupy at --font-size-base. */
+  .dropzone-text .link { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-body); font-weight: var(--fw-btn-lg); color: var(--color-secondary); }
+  .link-arrow { width: 16px; height: 16px; flex-shrink: 0; }
   .dropzone-text .size-label { font-size: var(--font-size-caption); color: var(--color-text-support); }
   .dropzone-size { font-size: var(--font-size-body); color: var(--color-text-support); white-space: nowrap; flex-shrink: 0; }
   .dropzone:hover, .dropzone.is-dragover { border-color: var(--color-secondary); background: var(--color-bg-card-alt); }
@@ -92,8 +101,8 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
   .dropzone.has-file { border-style: solid; border-color: var(--color-border); cursor: default; }
   .dropzone.has-file .dropzone-icon { background: color-mix(in srgb, var(--color-success-strong) 8%, transparent); border-color: color-mix(in srgb, var(--color-success-strong) 14%, transparent); color: var(--color-success-strong); }
   .dz-remove {
-    font-size: var(--font-size-btn-sm); font-weight: 700; color: var(--color-text-support);
-    background: none; border: none; cursor: pointer; padding: 4px 8px; position: relative; z-index: 1;
+    font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn-lg); color: var(--color-text-support);
+    background: none; border: none; cursor: pointer; padding: var(--spacing-micro) var(--spacing-xs); position: relative; z-index: 1;
   }
   .dz-remove:hover { color: var(--color-danger); }
 </style>

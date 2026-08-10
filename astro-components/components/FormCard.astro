@@ -83,7 +83,12 @@ const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
              transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover"
     >
       {submitLabel}
-      <span class="transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]">→</span>
+      {/* An icon, not a "→". This is the component the trap was FOUND on: the
+          character has no Montserrat glyph, so it falls through --font-sans and
+          its box goes 16.00px to 14.78px. Fixed everywhere else first; this was
+          the last one still carrying it. 16px is the em box the character had
+          at --font-size-btn-lg, so the button's width does not move. */}
+      <svg class="size-[16px] shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>
     </button>
     {(noteLeft || noteRight) && (
       <ul class="flex items-center justify-center gap-[12px] text-caption-sm text-text-support list-none m-0 p-0">

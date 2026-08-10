@@ -93,37 +93,27 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-.dropzone {
-    border: var(--border-width-1-5) dashed var(--color-border-strong); border-radius: var(--rounded-lg);
-    background: var(--color-bg-base); padding: 24px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    cursor: pointer; position: relative;
-    transition: border-color var(--duration-fast), background var(--duration-fast);
-  }
-.dropzone-left { display:flex; align-items:center; gap:16px; min-width:0; }
-.dropzone-icon {
-    width: 40px; height: 40px; border-radius: var(--rounded-lg); flex-shrink: 0;
-    background: color-mix(in srgb, var(--color-secondary) 6%, transparent); border: var(--border-width-1) solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
-    color: var(--color-secondary); display: flex; align-items: center; justify-content: center;
-  }
-.dropzone-icon svg { width:18px; height:18px; }
-.dropzone-text { min-width:0; }
-.dropzone-text .title { font-size:var(--font-size-body); color:var(--color-text-body); margin-bottom:4px; }
-.dropzone-text .link { font-size: var(--font-size-body); font-weight: 700; color: var(--color-secondary); }
-.dropzone-text .link:hover { color:var(--color-primary); }
-.dropzone-size { font-size:var(--font-size-body); color:var(--color-text-support); white-space:nowrap; flex-shrink:0; }
+.dropzone { border: var(--border-width-1-5) dashed var(--color-border-strong); border-radius: var(--rounded-lg); background: var(--color-bg-base); padding: var(--spacing-xl); display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); cursor: pointer; position: relative; transition: border-color var(--duration-fast), background var(--duration-fast); }
+.dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.dropzone-left { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
+.dropzone-icon { width: 40px; height: 40px; border-radius: var(--rounded-lg); flex-shrink: 0; background: color-mix(in srgb, var(--color-secondary) 6%, transparent); border: var(--border-width-1) solid color-mix(in srgb, var(--color-secondary) 10%, transparent); color: var(--color-secondary); display: flex; align-items: center; justify-content: center; }
+.dropzone-icon svg { width: 18px; height: 18px; }
+.dropzone-text { min-width: 0; }
+.dropzone-text .title { font-size: var(--font-size-body); color: var(--color-text-body); margin-bottom: var(--spacing-micro); }
+.dropzone-text .link { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-body); font-weight: var(--fw-btn-lg); color: var(--color-secondary); }
+.link-arrow { width: 16px; height: 16px; flex-shrink: 0; }
+.dropzone-text .size-label { font-size: var(--font-size-caption); color: var(--color-text-support); }
+.dropzone-size { font-size: var(--font-size-body); color: var(--color-text-support); white-space: nowrap; flex-shrink: 0; }
 .dropzone:hover, .dropzone.is-dragover { border-color: var(--color-secondary); background: var(--color-bg-card-alt); }
-.dropzone.is-dragover .dropzone-icon { background:color-mix(in srgb, var(--color-secondary) 12%, transparent); }
-.dropzone.error { border-color:var(--color-danger); }
-.dropzone.error .dropzone-icon { background:color-mix(in srgb, var(--color-danger) 6%, transparent); border-color:color-mix(in srgb, var(--color-danger) 10%, transparent); color:var(--color-danger); }
-.dropzone.is-disabled { opacity:.5; cursor:not-allowed; }
+.dropzone.is-dragover .dropzone-icon { background: color-mix(in srgb, var(--color-secondary) 12%, transparent); }
+.dropzone.error { border-color: var(--color-danger); }
+.dropzone.error .dropzone-icon { background: color-mix(in srgb, var(--color-danger) 6%, transparent); border-color: color-mix(in srgb, var(--color-danger) 10%, transparent); color: var(--color-danger); }
+.dropzone.is-disabled { opacity: .5; cursor: not-allowed; }
+.dropzone.is-disabled .dropzone-input { cursor: not-allowed; }
 .dropzone.has-file { border-style: solid; border-color: var(--color-border); cursor: default; }
 .dropzone.has-file .dropzone-icon { background: color-mix(in srgb, var(--color-success-strong) 8%, transparent); border-color: color-mix(in srgb, var(--color-success-strong) 14%, transparent); color: var(--color-success-strong); }
-.dz-remove {
-    font-size: var(--font-size-btn-sm); font-weight: 700; color: var(--color-text-support);
-    background: none; border: none; cursor: pointer; padding: 4px 8px; position: relative; z-index: 1;
-  }
-.dz-remove:hover { color:var(--color-danger); }
+.dz-remove { font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn-lg); color: var(--color-text-support); background: none; border: none; cursor: pointer; padding: var(--spacing-micro) var(--spacing-xs); position: relative; z-index: 1; }
+.dz-remove:hover { color: var(--color-danger); }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
 .dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .dropzone-text .size-label { font-size: var(--font-size-caption); color: var(--color-text-support); }
@@ -201,7 +191,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
             <span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor" aria-hidden="true"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"></path></svg></span>
             <div class="dropzone-text">
               <div class="title">Drag &amp; drop your file</div>
-              <span class="link">Select file from computer →</span>
+              <span class="link">Select file from computer<svg class="link-arrow" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></span>
             </div>
           </div>
           <span class="dropzone-size">Size up to 100 MB</span>
@@ -216,13 +206,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="grid">
         <div class="cell">
           <div class="dropzone" style="padding:16px;">
-            <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file →</button></div></div>
+            <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file<svg class="link-arrow" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></button></div></div>
           </div>
           <div class="lbl">Default</div>
         </div>
         <div class="cell">
           <div class="dropzone is-dragover" style="padding:16px;">
-            <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drop it here</div><button class="link">Select file →</button></div></div>
+            <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drop it here</div><button class="link">Select file<svg class="link-arrow" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></button></div></div>
           </div>
           <div class="lbl">Drag-over<small>secondary tint</small></div>
         </div>
@@ -235,13 +225,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         </div>
         <div class="cell">
           <div class="dropzone error" style="padding:16px;">
-            <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M256 0c14.7 0 28.2 8.1 35.2 21l216 400c6.7 12.4 6.4 27.4-.8 39.5S486.1 480 472 480L40 480c-14.1 0-27.2-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9 20.5-21 35.2-21zm0 352a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.5 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"/></svg></span><div class="dropzone-text"><div class="title">File too large</div><button class="link">Try another file →</button></div></div>
+            <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M256 0c14.7 0 28.2 8.1 35.2 21l216 400c6.7 12.4 6.4 27.4-.8 39.5S486.1 480 472 480L40 480c-14.1 0-27.2-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9 20.5-21 35.2-21zm0 352a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.5 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"/></svg></span><div class="dropzone-text"><div class="title">File too large</div><button class="link">Try another file<svg class="link-arrow" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></button></div></div>
           </div>
           <div class="lbl">Error<small>danger border</small></div>
         </div>
         <div class="cell">
           <div class="dropzone is-disabled" style="padding:16px;">
-            <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file →</button></div></div>
+            <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file<svg class="link-arrow" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></button></div></div>
           </div>
           <div class="lbl">Disabled</div>
         </div>
@@ -252,7 +242,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect-sub">The parts of the dropzone and the token each is bound to.</div>
       <div class="anatomy" style="align-items:stretch;max-width:560px;margin:0 auto;">
         <div class="dropzone">
-          <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file from computer →</button></div></div>
+          <div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file from computer<svg class="link-arrow" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></button></div></div>
           <span class="dropzone-size">Size up to 100 MB</span>
         </div>
         <div class="anatomy-tags">
@@ -295,7 +285,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-icon"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 576 512"</span> <span class="c-attr">fill</span>=<span class="c-str">"currentColor"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">d</span>=<span class="c-str">"M144 480…"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
     &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-text"</span>&gt;
       &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"title"</span>&gt;Drag &amp; drop your file&lt;/<span class="c-tag">div</span>&gt;
-      &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"link"</span>&gt;Select file from computer →&lt;/<span class="c-tag">button</span>&gt;
+      &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"link"</span>&gt;Select file from computer &lt;svg class="link-arrow"&gt;…&lt;/svg&gt;&lt;/<span class="c-tag">button</span>&gt;
     &lt;/<span class="c-tag">div</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
   &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"dropzone-size"</span>&gt;Size up to 100 MB&lt;/<span class="c-tag">span</span>&gt;
@@ -331,7 +321,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Guidelines</h2>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="dropzone" style="padding:16px;max-width:100%;"><div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file →</button></div></div></div></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="dropzone" style="padding:16px;max-width:100%;"><div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 576 512" fill="currentColor"><path d="M144 480c-79.5 0-144-64.5-144-144 0-63.4 41-117.2 97.9-136.5-1.3-7.7-1.9-15.5-1.9-23.5 0-79.5 64.5-144 144-144 55.4 0 103.5 31.3 127.6 77.1 14.2-8.3 30.8-13.1 48.4-13.1 53 0 96 43 96 96 0 15.7-3.8 30.6-10.5 43.7 44 20.3 74.5 64.7 74.5 116.3 0 70.7-57.3 128-128 128l-304 0zM305 191c-9.4-9.4-24.6-9.4-33.9 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l31-31 0 102.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-102.1 31 31c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72z"/></svg></span><div class="dropzone-text"><div class="title">Drag &amp; drop your file</div><button class="link">Select file<svg class="link-arrow" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></button></div></div></div></div>
           <ul><li>Always show the accepted <b>size / file type limit</b> up front.</li><li>Support both drag-and-drop <b>and</b> click-to-browse — never drag-only.</li><li>Confirm the selected file (name + size) before submit.</li></ul></div>
         <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="dropzone error" style="padding:16px;max-width:100%;"><div class="dropzone-left"><span class="dropzone-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M256 0c14.7 0 28.2 8.1 35.2 21l216 400c6.7 12.4 6.4 27.4-.8 39.5S486.1 480 472 480L40 480c-14.1 0-27.2-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9 20.5-21 35.2-21zm0 352a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.5 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"/></svg></span><div class="dropzone-text"><div class="title">Upload failed</div></div></div></div></div>
           <ul><li>Don't fail silently — always show why an upload was rejected.</li><li>Don't make the dropzone the only way to attach a file.</li><li>Don't hard-code the tint colours; use the token opacity values.</li></ul></div>
