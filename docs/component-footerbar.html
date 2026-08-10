@@ -118,6 +118,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-menu-link:hover { color: var(--color-text-link-menu-hover); }
 .fb-caret { width: 13px; height: 14px; flex-shrink: 0; }
 .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
+.fb-tools-open .fb-div-tools { visibility: hidden; }
 /* ── band 1b: the Free tools panel ───────────────────────────────────────
    Figma's `Free tool open` variant (880:915, section 880:1078). The trigger
    becomes a tab joined to the panel below it, so the two are styled together.
@@ -536,6 +537,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <svg class="fb-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
                 </button>
               </li><li>
+                <span class="fb-div fb-div-tools" aria-hidden="true"></span>
                 <a class="fb-menu-link" href="#">
                   Webinars
                 </a>
@@ -719,6 +721,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <svg class="fb-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
                 </button>
               </li><li>
+                <span class="fb-div fb-div-tools" aria-hidden="true"></span>
                 <a class="fb-menu-link" href="#">
                   Webinars
                 </a>
@@ -918,7 +921,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
         <li><b>The brand lockup is a scaled instance.</b> Its gap binds <code>spacing-xl</code> and renders 6px, which reads like a broken binding and is not one: <code>spacing-xl</code> is 24, and the <code>Main logo</code> component draws its mark at 96px while all four frames place the instance at 165&times;24. That is a 4&times; reduction, and 24 &divide; 4 = 6. <b>Nothing about the variable is wrong</b> &mdash; every bound value inside that instance is scaled, so no number read off the footer&rsquo;s lockup is a token. Fixing it means placing the instance at its drawn size or drawing a 24px variant, not editing the scale.</li>
         <li><b>Two ways to say 30%.</b> Both star rows are white at 30% &mdash; the empty state, which is why they read as grey. G2 sets it on each of the five stars, Capterra sets it on the group. Same result, stated two different ways.</li>
         <li><b>The variants disagreed about the Slack row.</b> One placed a 16px icon in a 20px row at leading 20, the other a 24px icon in a 24px row at leading 18. <b>Settled 2026-08-02 for 16</b>, which is what the code has always used. <b>Closed 2026-08-10</b>: all four frames &mdash; both <code>footer-lg</code> variants, <code>footer-md</code> and <code>footer-sm</code> &mdash; now read 127&times;20 around a 16px icon.</li>
-        <li><b>No divider between Free Tools and Webinars.</b> Every other pair of menu items has one; that node is hidden in every variant Figma draws Free Tools in. Read first as a leftover and settled 2026-08-02 as &ldquo;draw it&rdquo; &mdash; <b>reversed 2026-08-10</b>: the gap is deliberate. The code drops that one divider, Figma needed no change, and it is not tied to the panel being open.</li>
+        <li><b>The Free Tools divider follows the panel.</b> Every other pair of menu items carries a divider unconditionally; this one shows while the panel is closed and hides while it is open. Three rulings: &ldquo;draw it&rdquo; (2026-08-02), &ldquo;never draw it&rdquo; (2026-08-10), then the current one. <b>This is the single place the code leads the design file</b> &mdash; all three Figma variants hide that node, <code>880:774</code> included, and that one is the closed state, so Figma is owed a change. Hidden with <code>visibility</code> rather than <code>display</code>: at lg the divider is 1px against a &minus;1px margin and removing it is layout-neutral, but at md/sm the margin is 0 and the row is on a 12px gap, where removing it would move the wrap.</li>
         <li><b>The Free tools icons are typed, not drawn.</b> The three panel headings and the close button are <i>text</i> nodes set in <code>Font Awesome 7 Pro: Solid</code> &mdash; <code>U+F021</code>, <code>U+F044</code>, <code>U+F0AD</code> and <code>U+F00D</code> &mdash; so there is no vector to export. All four code points are in the <b>Free</b> tier, and Free Solid 7.3.1 is byte-identical to the nine icons this library already inlines, so they are inlined the same way with no new dependency. <b>Resolved 2026-08-03</b>; no export is owed from the design side after all.</li>
       </ul>
     </div>

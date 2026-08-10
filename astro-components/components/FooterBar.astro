@@ -47,12 +47,13 @@
  *    Here a divider is always grouped with the label it precedes, so it never
  *    strands at a row end — 375 matches Figma exactly and 768 differs by that
  *    one divider. It is a wrap artifact on Figma's side, not a decision.
- *  · Every pair of menu items is separated by a divider except Free Tools and
- *    Webinars. Figma hides that one in every variant it draws Free Tools in.
- *    **Ball ruled 2026-08-10 that the gap is deliberate** — reversing his own
- *    2026-08-02 call to draw it, so the hidden node is the decision rather than
- *    the leftover it was read as, and this side is the one that changed. It is
- *    not tied to the panel being open.
+ *  · The divider between Free Tools and Webinars shows while the panel is
+ *    CLOSED and hides while it is open — **Ball's third ruling on it**: "draw
+ *    it" (2026-08-02), "never draw it" (2026-08-10), then this. **This is the
+ *    one place the code deliberately LEADS Figma**: all three variants hide that
+ *    node, including `880:774` where the panel is closed, so the closed state
+ *    disagrees with the file on purpose and Figma is owed the change. An audit
+ *    will read it as drift — it is not.
  *
  * Assets are real files, like Logo.astro — a partner logo is artwork, no token
  * can stand in for it. `basePath` points at wherever docs/assets/ was copied to.
@@ -245,15 +246,23 @@ const hasPanel = freeTools && toolGroups.length > 0;
 const panelId = `fbtools-${Math.random().toString(16).slice(2, 10)}`;
 
 const items: Link[] = [...menu];
-/* Free Tools carries no divider after it — Ball's ruling 2026-08-10, which
-   REVERSES the 2026-08-02 one. Figma hides that divider in every variant it
-   draws Free Tools in, and the hidden node turns out to be the decision rather
-   than the leftover it was read as. It is the item AFTER Free Tools that loses
-   its divider, because a divider renders as the first child of each <li>.
-   Not tied to the panel being open: Ball's call is that it never shows while
-   Free Tools is in the menu. With no Webinars to sit before, Free Tools lands
-   last and there is nothing after it to suppress. */
-let noDividerBefore = -1;
+/* The divider after Free Tools shows while the panel is CLOSED and hides while
+   it is open — Ball's ruling 2026-08-10, his third on this one line: "draw it"
+   (08-02), then "never draw it" (08-10), then this. It is the item AFTER Free
+   Tools that owns the divider, because a divider renders as the first child of
+   each <li>. With no Webinars to sit before, Free Tools lands last and there is
+   nothing after it to mark.
+
+   ⚠️ THIS IS THE ONE PLACE THE CODE LEADS FIGMA. All three variants hide that
+   node — `880:557` (Default), `880:774` (Freetools, panel CLOSED) and `880:936`
+   (Freetools-open) — so the closed state disagrees with the file on purpose,
+   Ball's call, and Figma is owed a change to `880:774`. Until then an audit will
+   read this as drift; it is not.
+
+   The state is toggled at runtime by the trigger, so this cannot be decided
+   here — the flag only MARKS the divider and `.fb-tools-open` does the hiding
+   in CSS. Deciding it in the template would freeze it at the initial prop. */
+let toolsDivider = -1;
 if (freeTools) {
   const at = items.findIndex((i) => i.label === 'Webinars');
   const seat = at === -1 ? items.length : at;
@@ -262,7 +271,7 @@ if (freeTools) {
     href: freeToolsHref,
     caret: true,
   });
-  noDividerBefore = seat + 1;
+  toolsDivider = seat + 1;
 }
 ---
 
@@ -271,7 +280,7 @@ if (freeTools) {
     <ul class="fb-menu">
       {items.map((item, i) => (
         <li>
-          {i > 0 && i !== noDividerBefore && <span class="fb-div" aria-hidden="true"></span>}
+          {i > 0 && <span class:list={['fb-div', { 'fb-div-tools': i === toolsDivider }]} aria-hidden="true"></span>}
           {item.caret && hasPanel ? (
             <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded={toolsOpen ? 'true' : 'false'} aria-controls={panelId}>
               {item.label}
@@ -441,6 +450,11 @@ if (freeTools) {
   .fb-caret { width: 13px; height: 14px; flex-shrink: 0; }
 
   .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
+  /* `visibility`, not `display`. At lg the divider is 1px against a -1px margin,
+     so removing it is layout-neutral — but at md/sm that margin is 0 and the row
+     is on a 12px flex gap, where display:none would take 13px out of a wrapping
+     menu and move the wrap. Hiding the paint keeps every band identical. */
+  .fb-tools-open .fb-div-tools { visibility: hidden; }
 
   /* ── band 1b: the Free tools panel ───────────────────────────────────────
      Figma's `Free tool open` variant (880:915, section 880:1078). The trigger
