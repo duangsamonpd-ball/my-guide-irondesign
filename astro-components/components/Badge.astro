@@ -1,7 +1,16 @@
 ---
 /**
- * POC — Badge rewritten as Tailwind utilities instead of a scoped <style>.
- * Branch `poc/badge-tailwind` only. Not for merge; see the notes at the bottom.
+ * Badge — from Figma node `779:3486`, styled by Tailwind utilities rather than a
+ * scoped <style>. It was the first component converted, and this header said
+ * "POC, branch `poc/badge-tailwind` only, not for merge" until 2026-08-10 —
+ * three months after `ba85523` landed the conversion on main. It is the shipped
+ * Badge: `check:parity` counts it among the utility-styled components, and the
+ * package exports it. The notes at the bottom are what the conversion cost, kept
+ * because they are still true, not because this is still a trial.
+ *
+ * Figma's axis is `variant=subtle|solid`; here that is the `solid` boolean.
+ * `intent` matches outright — the Figma property was `status` until Ball
+ * renamed it.
  */
 
 interface Props {
@@ -45,12 +54,18 @@ const SUBTLE = {
  * -subtle/-strong pairs, so a solid badge is identical in both modes and one
  * label colour cannot serve all six. success/warning/info have light fills and
  * take the inverse label; white on them is 2.17 / 1.99 / 3.25 and fails AA.
+ *
+ * `info` fills with --color-info, not --color-secondary. Both are
+ * --iron-blue-500 and neither is remapped by `.dark`, so this moves no pixel in
+ * either mode — but Figma binds `status/info` here, and a badge's fill is a
+ * status, not the brand's secondary. Ball's ruling 2026-08-10, the same
+ * split-by-role call he made for Tooltip's link the same day.
  */
 const SOLID = {
   success: 'bg-success text-text-on-color-badge-solid-inverse',
   warning: 'bg-warning text-text-on-color-badge-solid-inverse',
   danger: 'bg-danger text-text-on-color-badge-solid',
-  info: 'bg-secondary text-text-on-color-badge-solid-inverse',
+  info: 'bg-info text-text-on-color-badge-solid-inverse',
   important: 'bg-important text-text-on-color-badge-solid',
   neutral: 'bg-neutral text-text-on-color-badge-solid',
 } as const;
@@ -83,7 +98,7 @@ const dotSize = size === 'sm' ? 'size-1' : 'size-1.5';
 </span>
 
 {/*
-  WHAT THIS POC SHOWS
+  WHAT THE CONVERSION COST
 
   It works, and dark mode still works — `bg-success-subtle` compiles to
   `background-color: var(--color-success-subtle)`, and `.dark` in tokens.css
@@ -96,5 +111,7 @@ const dotSize = size === 'sm' ? 'size-1' : 'size-1.5';
      a content glob that reaches into node_modules. Today they import one
      stylesheet and are done.
 
-  And the repo cost, measured on this branch — see the report.
+  Those three are the reason the other seven components still carry a scoped
+  <style>: the trade is real, and it was taken deliberately for the eleven that
+  are converted rather than assumed to be free.
 */}

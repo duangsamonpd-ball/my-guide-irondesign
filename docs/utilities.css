@@ -867,6 +867,9 @@
 .bg-important-subtle {
   background-color: var(--color-important-subtle);
 }
+.bg-info {
+  background-color: var(--color-info);
+}
 .bg-info-subtle {
   background-color: var(--color-info-subtle);
 }
