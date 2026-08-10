@@ -47,9 +47,11 @@
  *    strands at a row end — 375 matches Figma exactly and 768 differs by that
  *    one divider. It is a wrap artifact on Figma's side, not a decision.
  *  · Every pair of menu items is separated by a divider except Free Tools and
- *    Webinars, whose divider is hidden in both variants and carries stale
- *    coordinates. **Ball ruled to draw it (2026-08-02)** — the hidden node is a
- *    leftover, not a decision, and Figma is the side that needs the fix.
+ *    Webinars. Figma hides that one in every variant it draws Free Tools in.
+ *    **Ball ruled 2026-08-10 that the gap is deliberate** — reversing his own
+ *    2026-08-02 call to draw it, so the hidden node is the decision rather than
+ *    the leftover it was read as, and this side is the one that changed. It is
+ *    not tied to the panel being open.
  *
  * Assets are real files, like Logo.astro — a partner logo is artwork, no token
  * can stand in for it. `basePath` points at wherever docs/assets/ was copied to.
@@ -242,13 +244,24 @@ const hasPanel = freeTools && toolGroups.length > 0;
 const panelId = `fbtools-${Math.random().toString(16).slice(2, 10)}`;
 
 const items: Link[] = [...menu];
+/* Free Tools carries no divider after it — Ball's ruling 2026-08-10, which
+   REVERSES the 2026-08-02 one. Figma hides that divider in every variant it
+   draws Free Tools in, and the hidden node turns out to be the decision rather
+   than the leftover it was read as. It is the item AFTER Free Tools that loses
+   its divider, because a divider renders as the first child of each <li>.
+   Not tied to the panel being open: Ball's call is that it never shows while
+   Free Tools is in the menu. With no Webinars to sit before, Free Tools lands
+   last and there is nothing after it to suppress. */
+let noDividerBefore = -1;
 if (freeTools) {
   const at = items.findIndex((i) => i.label === 'Webinars');
-  items.splice(at === -1 ? items.length : at, 0, {
+  const seat = at === -1 ? items.length : at;
+  items.splice(seat, 0, {
     label: freeToolsLabel,
     href: freeToolsHref,
     caret: true,
   });
+  noDividerBefore = seat + 1;
 }
 ---
 
@@ -257,7 +270,7 @@ if (freeTools) {
     <ul class="fb-menu">
       {items.map((item, i) => (
         <li>
-          {i > 0 && <span class="fb-div" aria-hidden="true"></span>}
+          {i > 0 && i !== noDividerBefore && <span class="fb-div" aria-hidden="true"></span>}
           {item.caret && hasPanel ? (
             <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded={toolsOpen ? 'true' : 'false'} aria-controls={panelId}>
               {item.label}

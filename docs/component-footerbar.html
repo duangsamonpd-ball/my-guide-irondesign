@@ -536,7 +536,6 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <svg class="fb-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
                 </button>
               </li><li>
-                <span class="fb-div" aria-hidden="true"></span>
                 <a class="fb-menu-link" href="#">
                   Webinars
                 </a>
@@ -720,7 +719,6 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <svg class="fb-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
                 </button>
               </li><li>
-                <span class="fb-div" aria-hidden="true"></span>
                 <a class="fb-menu-link" href="#">
                   Webinars
                 </a>
@@ -915,12 +913,12 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <h2 class="sect-h">Deviations from Figma</h2>
       <div class="sect-sub">What the code does <b>not</b> copy from the design file, and why. Most of these want a fix on the Figma side rather than here; the two marked <i>settled</i> are decisions already taken.</div>
       <ul class="guide">
-        <li><b>Gotham in a Montserrat system.</b> The review scores, &ldquo;Join Iron Slack&rdquo; and &ldquo;Every Iron Suite Donates&rdquo; are set in Gotham with no variable bound. They are Montserrat here.</li>
-        <li><b>A raw Light Gray.</b> &ldquo;Join Iron Slack&rdquo; paints a Figma <i>style</i> rather than a variable; it uses <code>--color-text-on-color-body</code> here, like every other secondary line.</li>
-        <li><b>A gap bound to the wrong step.</b> The brand lockup&rsquo;s gap binds <code>spacing-xl</code> but resolves to 6px &mdash; off the scale entirely, which goes 4 then 8.</li>
+        <li><b>Gotham in a Montserrat system.</b> Three text nodes were set in Gotham with no variable bound; they are Montserrat here. &ldquo;Join Iron Slack&rdquo; and &ldquo;Every Iron Suite Donates&rdquo; were <b>fixed on the design side 2026-08-10</b> &mdash; the second now carries the <code>Typography/caption-sm</code> style outright. <b>Still open:</b> the two review scores, whose paragraph-level font is Gotham at 0px with Montserrat applied per span, so the type on screen is right while the node&rsquo;s base style is not.</li>
+        <li><b>A raw Light Gray.</b> &ldquo;Join Iron Slack&rdquo; painted a Figma <i>style</i> rather than a variable; it uses <code>--color-text-on-color-body</code> here, like every other secondary line. <b>Closed 2026-08-10</b> &mdash; the node now binds <code>text/on color/body</code>, and its size binds <code>size/sm</code> where it used to be a raw 14.</li>
+        <li><b>The brand lockup is a scaled instance.</b> Its gap binds <code>spacing-xl</code> and renders 6px, which reads like a broken binding and is not one: <code>spacing-xl</code> is 24, and the <code>Main logo</code> component draws its mark at 96px while all four frames place the instance at 165&times;24. That is a 4&times; reduction, and 24 &divide; 4 = 6. <b>Nothing about the variable is wrong</b> &mdash; every bound value inside that instance is scaled, so no number read off the footer&rsquo;s lockup is a token. Fixing it means placing the instance at its drawn size or drawing a 24px variant, not editing the scale.</li>
         <li><b>Two ways to say 30%.</b> Both star rows are white at 30% &mdash; the empty state, which is why they read as grey. G2 sets it on each of the five stars, Capterra sets it on the group. Same result, stated two different ways.</li>
-        <li><b>The two variants disagree about the Slack row.</b> Default places a 16px icon in a 20px row at leading 20; Free tools version places a 24px icon in a 24px row at leading 18. <b>Settled 2026-08-02: Default is correct</b>, so 16px is used in both regions and the Free tools variant is the one to correct in Figma.</li>
-        <li><b>A divider is missing between Free Tools and Webinars.</b> Every other pair of menu items has one; that node is hidden in both variants and keeps stale coordinates. <b>Settled 2026-08-02: draw it</b> &mdash; the hidden node is a leftover, and Figma is the side that needs the fix.</li>
+        <li><b>The variants disagreed about the Slack row.</b> One placed a 16px icon in a 20px row at leading 20, the other a 24px icon in a 24px row at leading 18. <b>Settled 2026-08-02 for 16</b>, which is what the code has always used. <b>Closed 2026-08-10</b>: all four frames &mdash; both <code>footer-lg</code> variants, <code>footer-md</code> and <code>footer-sm</code> &mdash; now read 127&times;20 around a 16px icon.</li>
+        <li><b>No divider between Free Tools and Webinars.</b> Every other pair of menu items has one; that node is hidden in every variant Figma draws Free Tools in. Read first as a leftover and settled 2026-08-02 as &ldquo;draw it&rdquo; &mdash; <b>reversed 2026-08-10</b>: the gap is deliberate. The code drops that one divider, Figma needed no change, and it is not tied to the panel being open.</li>
         <li><b>The Free tools icons are typed, not drawn.</b> The three panel headings and the close button are <i>text</i> nodes set in <code>Font Awesome 7 Pro: Solid</code> &mdash; <code>U+F021</code>, <code>U+F044</code>, <code>U+F0AD</code> and <code>U+F00D</code> &mdash; so there is no vector to export. All four code points are in the <b>Free</b> tier, and Free Solid 7.3.1 is byte-identical to the nine icons this library already inlines, so they are inlined the same way with no new dependency. <b>Resolved 2026-08-03</b>; no export is owed from the design side after all.</li>
       </ul>
     </div>
@@ -930,7 +928,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <div class="sect-sub">Everything Figma draws is built. What is left needs a change on the design side, or a decision.</div>
       <ul class="guide">
         <li><b>The Free tools panel has no md or sm frame.</b> All three of its variants live on <code>footer-lg</code>, so the layout below 1024 was not drawn by anyone &mdash; it adapts on its own instead. If a frame is ever drawn, reconcile against it.</li>
-        <li><b><code>footer-md</code> sets Join Slack at <code>leading 1.3</code></b> (18.2px) where both <code>footer-sm</code> and <code>footer-lg</code> Default use <code>leading/5</code> (20px). Two frames against one, so the code follows the two that agree.</li>
+        <li><b><code>footer-md</code> set Join Slack at <code>leading 1.3</code></b> (18.2px) where every other frame used <code>leading/5</code> (20px). Two frames against one, so the code followed the two that agreed. <b>Closed 2026-08-10</b> &mdash; <code>footer-md</code> reads 20 now and its row matches the others exactly.</li>
       </ul>
     </div>
 
