@@ -1120,9 +1120,22 @@
       "figmaNodes": [],
       "props": [
         {
+          "name": "variant",
+          "type": "'default' | 'action'",
+          "required": false,
+          "default": "'default'",
+          "description": "Figma's `Variant`. `action` left-aligns the bubble and opens the title's icon slot; `default` centres everything. A tooltip carrying a link is `action` whether or not you say so — Figma draws no centred tooltip with a link, and that inference is what the component did before the prop existed."
+        },
+        {
           "name": "title",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "icon",
+          "type": "IconName",
+          "required": false,
+          "description": "Leading glyph in the title, by name from `../icons`. Figma draws `buildings`; any icon in the set works. Needs a `title` to sit in, and is ignored on the `default` variant, which Figma draws without one."
         },
         {
           "name": "body",

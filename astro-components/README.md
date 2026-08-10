@@ -354,7 +354,23 @@ Each intent's icon is an inline **Font Awesome Free Solid** SVG (`circle-info`, 
 </Tooltip>
 ```
 
-Props: `title` (omit for the compact, title-less variant), `body` (required), `linkHref`, `linkText`, `placement` (`above` | `below` | `left` | `right`, default `above`), `wide` (widens the bubble for longer copy), `class`. The trigger is whatever you put in the default slot.
+Props: `variant` (`default` | `action`, default `default`), `title` (omit for the compact, title-less variant), `icon` (a name from `../icons`), `body` (required), `linkHref`, `linkText`, `placement` (`above` | `below` | `left` | `right`, default `above`), `wide` (widens the bubble for longer copy), `class`. The trigger is whatever you put in the default slot.
+
+`variant` is Figma's own axis. `action` left-aligns the bubble and opens the
+title's icon slot; `default` centres everything and draws no icon. **A tooltip
+with a link is `action` whether or not you pass the prop** — Figma draws no
+centred tooltip carrying a link, and that inference is what the component did
+before the prop existed, so nothing written earlier changes behaviour. `icon`
+needs a `title` to sit in and is ignored on `default`, which is the one
+combination the canvas does not draw.
+
+The link's trailing arrow is an **icon, not a `→` character**. Montserrat has no
+arrow glyph, so a bare one falls out of the font stack onto the system face and
+changes width — the trap FormCard and Select both hit. The arrow beside the
+bubble is a rotated, corner-rounded square rather than the usual CSS border
+triangle: Figma's 5.17157px depth is a 90° tip with a 2px radius
+(`6 − 2(√2−1)`), and a border triangle can neither round its tip nor stop at
+anything but the full 6px.
 
 Ships its own `<script>` for the hover-with-a-gap interaction (JS open/close with a 200ms close-delay, since pure CSS `:hover` breaks once there's a gap between trigger and bubble and the mouse can't reach a link inside) — scoped per-instance, safe with multiple `<Tooltip>`s per page, re-initializes on Astro View Transitions.
 

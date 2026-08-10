@@ -68,7 +68,7 @@
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
       --tt-bg:#262626; --tt-title-bg:#0A0A0A; --tt-title:#FFFFFF; --tt-body:#E5E5E5; --tt-link:#2693EC; --tt-link-hover:#E01A59; --tt-arrow:#0A0A0A;
-      --tt-radius:4px; --tt-shadow:0 4px 16px rgba(0,0,0,.25);
+      --tt-radius:6px; --tt-shadow:0 4px 8px rgba(0,0,0,.25);
       --tt-w:200px; --tt-w-max:350px;
       --space-xs:8px; --space-sm:12px; --space-md:16px;
     }
@@ -106,16 +106,22 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tt-bubble.below { top: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
 .tt-bubble.right { left: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
 .tt-bubble.left  { right: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
-.tt-content { background: var(--neutral-800); border: var(--border-width-1) solid var(--neutral-950); border-radius: var(--rounded-md); box-shadow: var(--shadow-tooltip); overflow: hidden; display: flex; flex-direction: column; }
+.tt-content { background: var(--neutral-800); border: var(--border-width-1) solid var(--neutral-950); border-radius: var(--rounded-md); box-shadow: var(--shadow-tooltip); overflow: hidden; display: flex; flex-direction: column; position: relative; z-index: 1; }
 .tt-title { padding: var(--spacing-xs) var(--spacing-md); font-size: var(--font-size-sm); font-weight: var(--fw-btn-sm); color: var(--color-text-on-color-heading); background: var(--neutral-950); line-height: var(--leading-5); }
 .tt-body { padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md); font-size: var(--font-size-xs); font-weight: 400; color: var(--color-text-on-color-body); line-height: var(--leading-5); }
-.tt-link { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-btn-sm); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-secondary); text-decoration: none; padding: 0 var(--spacing-md) var(--spacing-sm); transition: color var(--duration-fast); }
-.tt-link:hover, .tt-link:focus-visible { color: var(--color-primary); }
-.tt-arrow { position: absolute; width: 0; height: 0; z-index: 1; }
-.tt-arrow.arrow-bottom { left: 50%; transform: translateX(-50%); bottom: -6px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid var(--neutral-950); }
-.tt-arrow.arrow-top    { left: 50%; transform: translateX(-50%); top: -6px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid var(--neutral-950); }
-.tt-arrow.arrow-left   { top: 50%; transform: translateY(-50%); left: -6px; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-right: 6px solid var(--neutral-950); }
-.tt-arrow.arrow-right  { top: 50%; transform: translateY(-50%); right: -6px; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 6px solid var(--neutral-950); }
+.tt-title.has-icon { display: flex; align-items: center; gap: var(--spacing-xs); }
+.tt-title-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex-shrink: 0; color: var(--color-secondary); }
+.tt-title-icon svg { display: block; width: 16px; height: 16px; }
+.has-link .tt-body { padding-bottom: var(--spacing-sm); }
+.tt-link { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-btn-sm); line-height: 1; letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-link); text-decoration: none; padding: 0 var(--spacing-md) var(--spacing-md); transition: color var(--duration-fast); }
+.tt-link:hover, .tt-link:focus-visible { color: var(--color-text-link-hover); }
+.tt-link-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex-shrink: 0; }
+.tt-link-icon svg { display: block; width: 12px; height: 12px; }
+.tt-arrow { position: absolute; width: 8.4853px; height: 8.4853px; background: var(--neutral-950); z-index: 0; }
+.tt-arrow.arrow-bottom { left: 50%; bottom: -4.2426px; transform: translateX(-50%) rotate(45deg); border-bottom-right-radius: 2px; }
+.tt-arrow.arrow-top    { left: 50%; top: -4.2426px; transform: translateX(-50%) rotate(45deg); border-top-left-radius: 2px; }
+.tt-arrow.arrow-left   { top: 50%; left: -4.2426px; transform: translateY(-50%) rotate(45deg); border-bottom-left-radius: 2px; }
+.tt-arrow.arrow-right  { top: 50%; right: -4.2426px; transform: translateY(-50%) rotate(45deg); border-top-right-radius: 2px; }
 .tt-bubble.js-open { display: flex; }
   </style>
 </head>
@@ -192,7 +198,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <span class="tt-arrow arrow-bottom"></span>
             <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
             <span class="tt-content">
-              <span class="tt-title">Title</span>
+              <span class="tt-title">
+                Title
+              </span>
               <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
             </span>
           </span>
@@ -204,9 +212,14 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <span class="tt-arrow arrow-bottom"></span>
             <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
             <span class="tt-content">
-              <span class="tt-title">Per-seat licensing</span>
+              <span class="tt-title">
+                Per-seat licensing
+              </span>
               <span class="tt-body">Counts unique developers, not machines.</span>
-              <a class="tt-link" href="#">Learn more →</a>
+              <a class="tt-link" href="#">
+                Learn more
+                <span class="tt-link-icon"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></span>
+              </a>
             </span>
           </span>
         </span>
@@ -217,6 +230,24 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
             <span class="tt-content">
               <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+            </span>
+          </span>
+        </span>
+        <span class="tt show-on-hover" tabindex="0" aria-describedby="tt-demo-4">
+          <button class="tt-trigger">Action variant</button>
+          <span id="tt-demo-4" role="tooltip" class="tt-bubble above has-link">
+            <span class="tt-arrow arrow-bottom"></span>
+            <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
+            <span class="tt-content">
+              <span class="tt-title has-icon">
+                <span class="tt-title-icon"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0.75H13.25C14.207 0.75 15 1.54297 15 2.5V13C15 13.957 14.207 14.75 13.25 14.75H2.75C1.79297 14.75 1 13.957 1 13V6C1 5.04297 1.79297 4.25 2.75 4.25H6.25V2.5C6.25 1.54297 7.04297 0.75 8 0.75ZM3.625 9.9375V10.8125C3.625 11.0586 3.81641 11.25 4.0625 11.25H4.9375C5.18359 11.25 5.375 11.0586 5.375 10.8125V9.9375C5.375 9.69141 5.18359 9.5 4.9375 9.5H4.0625C3.81641 9.5 3.625 9.69141 3.625 9.9375ZM8.4375 10.375H9.3125C9.55859 10.375 9.75 10.1836 9.75 9.9375V9.0625C9.75 8.81641 9.55859 8.625 9.3125 8.625H8.4375C8.19141 8.625 8 8.81641 8 9.0625V9.9375C8 10.1836 8.19141 10.375 8.4375 10.375ZM11.5 9.9375C11.5 10.1836 11.6914 10.375 11.9375 10.375H12.8125C13.0586 10.375 13.25 10.1836 13.25 9.9375V9.0625C13.25 8.81641 13.0586 8.625 12.8125 8.625H11.9375C11.6914 8.625 11.5 8.81641 11.5 9.0625V9.9375ZM4.0625 6.875C3.81641 6.875 3.625 7.06641 3.625 7.3125V8.1875C3.625 8.43359 3.81641 8.625 4.0625 8.625H4.9375C5.18359 8.625 5.375 8.43359 5.375 8.1875V7.3125C5.375 7.06641 5.18359 6.875 4.9375 6.875H4.0625ZM8 3.8125V4.6875C8 4.93359 8.19141 5.125 8.4375 5.125H9.3125C9.55859 5.125 9.75 4.93359 9.75 4.6875V3.8125C9.75 3.56641 9.55859 3.375 9.3125 3.375H8.4375C8.19141 3.375 8 3.56641 8 3.8125ZM11.9375 3.375C11.6914 3.375 11.5 3.56641 11.5 3.8125V4.6875C11.5 4.93359 11.6914 5.125 11.9375 5.125H12.8125C13.0586 5.125 13.25 4.93359 13.25 4.6875V3.8125C13.25 3.56641 13.0586 3.375 12.8125 3.375H11.9375ZM8 7.3125C8 7.55859 8.19141 7.75 8.4375 7.75H9.3125C9.55859 7.75 9.75 7.55859 9.75 7.3125V6.4375C9.75 6.19141 9.55859 6 9.3125 6H8.4375C8.19141 6 8 6.19141 8 6.4375V7.3125ZM11.9375 7.75H12.8125C13.0586 7.75 13.25 7.55859 13.25 7.3125V6.4375C13.25 6.19141 13.0586 6 12.8125 6H11.9375C11.6914 6 11.5 6.19141 11.5 6.4375V7.3125C11.5 7.55859 11.6914 7.75 11.9375 7.75Z"></path></svg></span>
+                Organisation seats
+              </span>
+              <span class="tt-body">Counts unique developers, not machines.</span>
+              <a class="tt-link" href="#">
+                Learn more
+                <span class="tt-link-icon"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></span>
+              </a>
             </span>
           </span>
         </span>
@@ -239,12 +270,12 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="lbl">Default<small>Property 1=Default</small></div>
         </div>
         <div class="cell">
-          <span class="tt"><span class="tt-bubble force-show" style="position:relative;transform:none;">
+          <span class="tt"><span class="tt-bubble force-show has-link" style="position:relative;transform:none;">
             <span class="tt-arrow arrow-bottom"></span>
             <span class="tt-content">
               <span class="tt-title">Per-seat licensing</span>
               <span class="tt-body">Counts unique developers, not machines.</span>
-              <a href="#" class="tt-link">Learn more <span>→</span></a>
+              <a href="#" class="tt-link">Learn more <span class="tt-link-icon"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span></a>
             </span>
           </span></span>
           <div class="lbl">With link<small>Property 1=With link</small></div>
@@ -324,7 +355,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <!-- Sizes -->
     <div class="sect"><h2 class="sect-h">Sizes</h2>
-      <div class="sect-sub">Default width is 200px for short copy. Switch to max-width (350px) when the body text needs more room.</div>
+      <div class="sect-sub">Default width is 200px for short copy. Switch to the wide (350px) variant when the body text needs more room. It sets <code>width</code>, not <code>max-width</code> — which is why the prop is <code>wide</code> and not <code>maxWidth</code>.</div>
       <div class="canvas left" style="gap:40px;">
         <span class="tt"><span class="tt-bubble force-show" style="position:relative;transform:none;">
           <span class="tt-arrow arrow-bottom"></span>
@@ -336,8 +367,8 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <span class="tt"><span class="tt-bubble force-show wide" style="position:relative;transform:none;">
           <span class="tt-arrow arrow-bottom"></span>
           <span class="tt-content">
-            <span class="tt-title">Max-width</span>
-            <span class="tt-body">Use the 350px max-width variant when the message needs a full sentence or two to stay readable — like this one.</span>
+            <span class="tt-title">Wide</span>
+            <span class="tt-body">Use the 350px wide variant when the message needs a full sentence or two to stay readable — like this one.</span>
           </span>
         </span></span>
       </div>
@@ -345,7 +376,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <thead><tr><th>Size</th><th>Width</th><th>Use for</th></tr></thead>
         <tbody>
           <tr><td class="prop">Default</td><td class="val">200px</td><td class="prop">Short labels, single short sentence</td></tr>
-          <tr><td class="prop">Max-width</td><td class="val">350px</td><td class="prop">Longer explanations, two short sentences</td></tr>
+          <tr><td class="prop">Wide</td><td class="val">350px</td><td class="prop">Longer explanations, two short sentences</td></tr>
         </tbody>
       </table>
     </div>
@@ -353,12 +384,12 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     <!-- Anatomy -->
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="anatomy">
-        <span class="tt"><span class="tt-bubble force-show" style="position:relative;transform:none;">
+        <span class="tt"><span class="tt-bubble force-show has-link" style="position:relative;transform:none;">
           <span class="tt-arrow arrow-bottom"></span>
           <span class="tt-content">
             <span class="tt-title">Title</span>
             <span class="tt-body">Supplementary, non-critical detail goes here.</span>
-            <a href="#" class="tt-link">Learn more <span>→</span></a>
+            <a href="#" class="tt-link">Learn more <span class="tt-link-icon"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span></a>
           </span>
         </span></span>
         <div class="anatomy-tags">
@@ -381,11 +412,11 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="prop">Title background</td><td class="token">--tt-title-bg (neutral/950)</td><td class="val"><span class="sw" style="background:#0A0A0A"></span>#0A0A0A</td></tr>
         <tr><td class="prop">Title text</td><td class="token">--tt-title (text/on color/heading)</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td></tr>
         <tr><td class="prop">Body text</td><td class="token">--tt-body (text/on color/body)</td><td class="val"><span class="sw" style="background:#E5E5E5"></span>#E5E5E5</td></tr>
-        <tr><td class="prop">Link text</td><td class="token">--tt-link (button/secondary)</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
+        <tr><td class="prop">Link text</td><td class="token">--tt-link (text/default/link)</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
         <tr><td class="prop">Link text · hover</td><td class="token">--tt-link-hover (text/default/link-hover)</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
         <tr><td class="prop">Arrow</td><td class="token">--tt-arrow (neutral/950)</td><td class="val"><span class="sw" style="background:#0A0A0A"></span>#0A0A0A</td></tr>
-        <tr><td class="prop">Radius</td><td class="token">--tt-radius (--rounded-sm)</td><td class="val">4px</td></tr>
-        <tr><td class="prop">Shadow</td><td class="token">--tt-shadow</td><td class="val">0 4px 16px · black 25%</td></tr>
+        <tr><td class="prop">Radius</td><td class="token">--tt-radius (--rounded-md)</td><td class="val">6px</td></tr>
+        <tr><td class="prop">Shadow</td><td class="token">--tt-shadow</td><td class="val">0 4px 8px · black 25%</td></tr>
         <tr><td class="prop">Width</td><td class="token">--tt-w / --tt-w-max</td><td class="val">200px / 350px</td></tr>
         <tr><td class="prop">Title padding</td><td class="token" colspan="1">8px 16px</td><td class="val">--space-xs --space-md</td></tr>
         <tr><td class="prop">Body padding</td><td class="token" colspan="1">12px 16px 16px</td><td class="val">--space-sm --space-md --space-md</td></tr>
@@ -412,7 +443,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-title"</span>&gt;Title&lt;/<span class="c-tag">span</span>&gt;
       &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-body"</span>&gt;Supplementary detail here.&lt;/<span class="c-tag">span</span>&gt;
       <span class="c-com">&lt;!-- optional --&gt;</span>
-      &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tt-link"</span> <span class="c-attr">href</span>=<span class="c-str">"#"</span>&gt;Learn more →&lt;/<span class="c-tag">a</span>&gt;
+      &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tt-link"</span> <span class="c-attr">href</span>=<span class="c-str">"#"</span>&gt;Learn more &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tt-link-icon"</span>&gt;&lt;<span class="c-tag">svg</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;&lt;/<span class="c-tag">span</span>&gt;&lt;/<span class="c-tag">a</span>&gt;
     &lt;/<span class="c-tag">span</span>&gt;
   &lt;/<span class="c-tag">span</span>&gt;
 &lt;/<span class="c-tag">span</span>&gt;</pre>
@@ -433,8 +464,11 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 <span class="c-key">.tt-link</span>  { font-size: 12px; font-weight: 600; color: <span class="c-str">var(--tt-link)</span>; }
 <span class="c-key">.tt-link</span>:hover { color: <span class="c-str">var(--tt-link-hover)</span>; }   <span class="c-com">/* blue → pink, same as Button outline/ghost */</span>
 <span class="c-key">.tt-arrow.arrow-bottom</span> {   <span class="c-com">/* tooltip above trigger; direct child of .tt-bubble, not .tt-content */</span>
-  border-top: 6px solid <span class="c-str">var(--tt-arrow)</span>;
-  border-left: 6px solid transparent; border-right: 6px solid transparent;
+  width: 8.4853px; height: 8.4853px;       <span class="c-com">/* 12 / √2 — the visible half spans 12 */</span>
+  background: <span class="c-str">var(--tt-arrow)</span>;
+  bottom: -4.2426px; left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  border-bottom-right-radius: 2px;       <span class="c-com">/* the 2px is why Figma's depth is 5.17, not 6 */</span>
 }</pre>
       </div>
     </div>
