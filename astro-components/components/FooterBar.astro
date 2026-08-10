@@ -17,24 +17,25 @@
  * imported with the colour ramp and sat unread until now.
  *
  * Deviations from the Figma node, all deliberate:
- *  · Figma sets three text nodes in Gotham (the review ratings, "Join Iron
- *    Slack", "Every Iron Suite Donates") inside a Montserrat system, with no
- *    variable bound. They are Montserrat here.
- *  · "Join Iron Slack" paints a raw colour from a Figma *style* named Light
- *    Gray rather than a variable; it uses --color-text-on-color-body here, the
- *    same as every other secondary line in the bar.
- *  · The brand lockup's gap is bound to `spacing-xl` in Figma but resolves to
- *    6px, which is off our scale entirely (4 → 8). The lockup is one SVG here,
- *    so the question does not arise in code — but it is still wrong in Figma.
+ *  · ~~Gotham on eight text nodes, Light Gray as a style, and a 6px lockup gap~~
+ *    — **all closed on the design side 2026-08-10.** The eight review scores are
+ *    Montserrat now, "Join Iron Slack" and "Every Iron Suite Donates" bind their
+ *    variables, and the lockup gap is 4px (`spacing-micro`) in all four frames
+ *    after the instance was detached. The gap had looked like a broken binding
+ *    and was not: `spacing-xl` is 24 and correct, the instance was scaled 4x.
+ *  · Converting the review scores off Gotham changed four things, not one: the
+ *    runs close up (`4.9/5`, no spaces), the number goes SemiBold, both runs
+ *    take `tracking/wider` 0.8, and the colour drops from white to
+ *    `text/on color/body`. Figma binds those as variables but gives the role no
+ *    type style, so it is unnamed on both sides — hence --fw-btn and
+ *    --letter-spacing-overline below, borrowed for their values.
  *  · Both star rows are white at 30% — they are the *empty* state, which is why
  *    they read as grey. G2 sets the opacity on each of the five stars and
  *    Capterra sets it on the group; same result, two different ways of saying
  *    it. Neither needs help from CSS, and adding any would double it.
- *  · The two lg variants disagree about the Slack row: Default places a 16px
- *    icon in a 20px row with the label at leading 20, Free tools version a 24px
- *    icon in a 24px row at leading 18. **Ball ruled for Default (2026-08-02)**,
- *    so 16px is correct in both regions here and the Free tools variant is the
- *    one to correct in Figma.
+ *  · ~~The two lg variants disagree about the Slack row~~ — **closed
+ *    2026-08-10.** Ball ruled for 16 back in August and the code always used it;
+ *    all four frames now read 127x20 around a 16px icon.
  *  · The Free tools panel's four icons — three headings plus the close button —
  *    are *text* nodes in `Font Awesome 7 Pro: Solid` (U+F021, U+F044, U+F0AD,
  *    U+F00D), not vectors, so nothing can be exported. All four code points are
@@ -164,8 +165,8 @@ const {
     { label: 'Contact Us' },
   ],
   reviews = [
-    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', starsHover: 'stars-g2-hover.svg', score: '4.9', outOf: '/ 5' },
-    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/ 5' },
+    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', starsHover: 'stars-g2-hover.svg', score: '4.9', outOf: '/5' },
+    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/5' },
   ],
   /* The spaces inside the phone number are non-breaking on purpose. This is
      one line at 1440 and 768, but at 375 it wraps, and left to itself the
@@ -332,7 +333,9 @@ if (freeTools) {
             <div class="fb-review-rating">
               <img class="fb-stars" src={asset(r.stars)} alt="" width="68" height="12" />
               <img class="fb-stars-hover" src={asset(r.starsHover)} alt="" width="68" height="12" />
-              <p class="fb-score">{r.score}{r.outOf && <span class="fb-outof"> {r.outOf}</span>}</p>
+              {/* No space before the "/5" — Figma sets the two runs hard against
+                  each other, and the separator carries its own size and weight. */}
+              <p class="fb-score">{r.score}{r.outOf && <span class="fb-outof">{r.outOf}</span>}</p>
             </div>
           </div>
         ))}
@@ -532,7 +535,12 @@ if (freeTools) {
   /* Deliberately not flex: the "/ 5" has to keep the space in front of it, and
      flex drops a leading whitespace text node. The 12px span makes the line box
      1px taller than the 20px leading, which the card absorbs. */
-  .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-label); line-height: var(--leading-5); color: var(--color-text-on-color-heading); white-space: nowrap; }
+  /* Figma gives the review score bound VARIABLES but no type style, so this role
+     is unnamed on both sides and the code can only borrow: --fw-btn is the one
+     600 in the ramp and --letter-spacing-overline the one 0.8, which is Figma's
+     `tracking/wider`. Values are right, names are not — see the note to Ball.
+     letter-spacing inherits, so .fb-outof picks the 0.8 up from here. */
+  .fb-score { margin: 0; font-size: var(--font-size-sm); font-weight: var(--fw-btn); line-height: var(--leading-5); letter-spacing: var(--letter-spacing-overline); color: var(--color-text-on-color-body); white-space: nowrap; }
   /* line-height 1 is not a style choice, it stops this span from growing the
      line box. Two font sizes share one line: the 14px strut is 20 tall, but a
      12px inline box with the same 20px leading has a lower baseline, and the
@@ -541,7 +549,7 @@ if (freeTools) {
      box back inside the strut without moving the glyphs, which sit on the
      baseline either way. This is also the 1px that made the lg bar 225 tall
      against the 56/88/80 = 224 the design file measures. */
-  .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: 1; }
+  .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: var(--leading-5); }
 
   .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
   /* Everything in this bar that is dimmed at rest comes back to full strength on

@@ -404,7 +404,7 @@
           "name": "reviews",
           "type": "Review[]",
           "required": false,
-          "default": "[\n    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', starsHover: 'stars-g2-hover.svg', score: '4.9', outOf: '/ 5' },\n    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/ 5' },\n  ]"
+          "default": "[\n    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', starsHover: 'stars-g2-hover.svg', score: '4.9', outOf: '/5' },\n    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/5' },\n  ]"
         },
         {
           "name": "address",
