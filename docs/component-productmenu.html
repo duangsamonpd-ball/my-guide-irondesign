@@ -84,7 +84,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .dd ul { margin:14px 16px 18px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 .pm { width: 100%; background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border-strong); font-family: 'Montserrat', sans-serif; }
-.pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; padding: 0 var(--spacing-xl); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border); }
+.pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; padding: 0 var(--spacing-xl); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border); position: relative; }
 .pm--submenu .pm-bar { border-bottom-color: var(--color-border); }
 .pm-brand { display: flex; align-items: center; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; text-decoration: none; color: var(--color-text-heading); }
 .pm-mark { display: block; width: 40px; height: 40px; flex-shrink: 0; }
@@ -106,11 +106,15 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .pm-util:hover { border-color: var(--color-border-strong); }
 .pm-util:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 .pm-right { display: flex; align-items: center; justify-content: flex-end; flex: 1 0 0; min-width: 0; }
-.pm-cta { display: inline-flex; align-items: center; gap: var(--spacing-xs); height: 48px; padding: 0 var(--spacing-xl); background: var(--color-primary); border-radius: var(--rounded-full); font-size: var(--font-size-sm); font-weight: var(--fw-btn); line-height: var(--leading-4); color: var(--color-text-on-primary); text-decoration: none; white-space: nowrap; }
+.pm-cta { display: inline-flex; align-items: center; gap: var(--spacing-xs); height: 48px; padding: 0 var(--spacing-xl); background: var(--color-primary); border-radius: var(--rounded-full); font-size: var(--font-size-sm); font-weight: var(--fw-btn); line-height: var(--leading-4); color: var(--color-text-on-primary); text-decoration: none; white-space: nowrap; position: relative; }
 .pm-cta:hover { background: var(--color-primary-hover); }
 .pm-cta:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 .pm-cta-icon { width: 16px; height: 16px; flex-shrink: 0; }
 .pm-cta-caret { width: 9px; height: 6px; flex-shrink: 0; }
+.pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-heading); cursor: pointer; }
+.pm-burger:hover { color: var(--color-primary); }
+.pm-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
+.pm-burger-icon { width: 16px; height: 16px; display: block; }
 .pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); border-bottom: var(--border-width-1) solid var(--color-border-strong); }
 .pm-sub-inner { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
 .pm-chips { display: flex; align-items: center; gap: var(--spacing-xs); list-style: none; margin: 0; padding: 0; }
@@ -122,8 +126,10 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .pm-chip.is-active:hover { border-color: var(--color-border-strong); color: var(--color-primary); }
 .pm-div { width: 1px; height: 24px; flex-shrink: 0; background: var(--slate-300); }
 @media (max-width: 1180px) { .pm-runtime { display: none; } .pm-item { padding: 0 var(--spacing-sm); } }
-@media (max-width: 1024px) { .pm-utils { display: none; } .pm-menu { overflow-x: auto; scrollbar-width: none; } .pm-menu::-webkit-scrollbar { display: none; } }
-@media (max-width: 768px) { .pm-center { display: none; } .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
+@media (max-width: 1057.98px) { .pm-utils { display: none; } .pm-menu { overflow-x: auto; scrollbar-width: none; } .pm-menu::-webkit-scrollbar { display: none; } .pm-brand, .pm-right { flex: 1 0 auto; } }
+@media (max-width: 1042.98px) { .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
+@media (max-width: 768px) { .pm-burger { display: inline-flex; } .pm-center { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border); } .pm.pm-menu-open .pm-center { display: flex; } .pm-menu { flex-direction: column; align-items: stretch; overflow-x: visible; } .pm-menu li { display: flex; } .pm-item { justify-content: space-between; width: 100%; padding: var(--spacing-sm) 0; } .pm-item.is-active { background: none; border-left-color: transparent; border-right-color: transparent; } }
+@media (max-width: 433.98px) { .pm-brand > .pm-caret { display: none; } .pm-cta-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} }
   </style>
 </head>
@@ -201,7 +207,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
               <span class="pm-runtime">for .NET</span>
               <svg class="pm-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
             </a>
-            <div class="pm-center">
+            <div class="pm-center" id="pmmenu-demo-1">
               <ul class="pm-menu">
                 <li>
                   <a class="pm-item is-active" href="#" aria-current="page">
@@ -241,12 +247,16 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
             <div class="pm-right">
               <a class="pm-cta" href="#">
                 <svg class="pm-cta-icon" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
-                Start for Free
+                <span class="pm-cta-label">Start for Free</span>
                 <svg class="pm-cta-caret" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
               </a>
+              <button type="button" class="pm-burger" aria-expanded="false" aria-controls="pmmenu-demo-1" aria-label="Product menu">
+                <svg class="pm-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
+              </button>
             </div>
           </div>
         </nav>
+        <script type="module">function e(e=document){e.querySelectorAll(`.pm:not([data-pm-init])`).forEach(e=>{let t=e.querySelector(`.pm-burger`),n=e.querySelector(`.pm-center`);if(!t||!n)return;e.dataset.pmInit=`1`;let r=n=>{e.classList.toggle(`pm-menu-open`,n),t.setAttribute(`aria-expanded`,String(n))},i=n=>{e.classList.contains(`pm-menu-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`pm-menu-open`))),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)}),document.addEventListener(`click`,t=>{e.contains(t.target)||i(!1)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
         <!-- /demo:default -->
       </div><div class="frame-cap">variant="default"</div></div>
     </div>
@@ -263,7 +273,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
               <span class="pm-runtime">for .NET</span>
               <svg class="pm-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
             </a>
-            <div class="pm-center">
+            <div class="pm-center" id="pmmenu-demo-1">
               <ul class="pm-menu">
                 <li>
                   <a class="pm-item is-active" href="#" aria-current="page">
@@ -303,9 +313,12 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
             <div class="pm-right">
               <a class="pm-cta" href="#">
                 <svg class="pm-cta-icon" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
-                Start for Free
+                <span class="pm-cta-label">Start for Free</span>
                 <svg class="pm-cta-caret" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
               </a>
+              <button type="button" class="pm-burger" aria-expanded="false" aria-controls="pmmenu-demo-1" aria-label="Product menu">
+                <svg class="pm-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
+              </button>
             </div>
           </div>
           <div class="pm-sub">
@@ -382,7 +395,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect">
       <h2 class="sect-h">Responsive</h2>
-      <div class="sect-sub">Same as Top Nav: the Figma canvas is <b>1440 desktop only</b>, so everything below it is an implementation decision. This one sheds in three steps &mdash; the runtime badge below <b>1180</b>, the utilities below <b>1024</b>, and the centre group below <b>768</b>, after which the menu and the sub-menu scroll sideways instead of wrapping.</div>
+      <div class="sect-sub">Same as Top Nav: the Figma canvas is <b>1440 desktop only</b>, so everything below it is an implementation decision. This one sheds in five steps &mdash; the runtime badge below <b>1180</b>, the utilities and the menu&rsquo;s optical centring below <b>1058</b>, the sub tier&rsquo;s trailing group below <b>1043</b>, the centre group below <b>769</b> (where it becomes a panel behind a trigger, not a deletion), and the CTA&rsquo;s label and the brand chevron below <b>434</b>. Both tiers scroll sideways rather than wrapping.</div>
       <div class="sect-sub" style="margin-top:14px;">The preview is an <code>&lt;iframe&gt;</code> loading this same page at <code>?frame=</code>, because an iframe is the only box on a page with a viewport of its own &mdash; the demo frames above are pinned to 1440 by <code>.frame-scroll</code> and will never show this. Nothing is duplicated to make it work.</div>
       <div class="vp">
         <div class="vp-bar">
@@ -399,13 +412,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <output class="vp-w">1024<span>px</span></output>
         </div>
         <div class="vp-stage">
-          <div class="vp-shell" data-vp-layouts="1181:full, 1025:runtime hidden, 769:utils hidden, 0:center hidden">
+          <div class="vp-shell" data-vp-layouts="1181:full, 1058:runtime hidden, 1043:utils hidden, 769:sub tier scrolls, 434:menu is a panel, 0:CTA is icon-only">
             <iframe class="vp-frame" title="Product Menu preview"></iframe>
             <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="1024"></div>
           </div>
         </div>
       </div>
-      <div class="sect-sub" style="margin-top:14px;">Only <b>1024</b> and <b>768</b> of those three are on the project&rsquo;s breakpoint scale; <b>1180</b> is not. Drag across each to see what goes. The horizontal scroll below 1024 is deliberate &mdash; a nav that wraps to two rows moves everything under it, which is worse than one that scrolls. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
+      <div class="sect-sub" style="margin-top:14px;">Only <b>768</b> is on the project&rsquo;s breakpoint scale, and that is the one step here that no measurement forced. <b>1058</b>, <b>1043</b> and <b>434</b> are the widths this component&rsquo;s own content stops fitting at, found by sweeping a pixel at a time; the first two replaced a round <b>1024</b> that sat 33px and 275px under what was needed, and that gap was a live bug &mdash; the CTA hung 96.55px out of its column between 1025 and 1057, and the sub tier&rsquo;s trailing group 273.66px out of its row all the way from 769. <b>434</b> is the newest, and the trigger is what put it there: the bar needed 410 for the brand and the full CTA, and a 24px button with its 16px gap took that to 434. Drag across each to see what goes. The horizontal scroll is deliberate &mdash; a nav that wraps to two rows moves everything under it, which is worse than one that scrolls. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
@@ -500,7 +513,11 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Notes</h2>
       <div class="sect-sub">
-        Figma specifies this component at 1440px desktop only — its guidelines talk about “desktop screen breakpoints” and there is no mobile frame. The narrow-viewport behaviour here (drop the runtime label at 1180px, the utility bubbles at 1024px, then the whole centre group at 768px, with both tiers scrolling horizontally) is an implementation decision, not a handed-over design.
+        Figma specifies this component at 1440px desktop only — its guidelines talk about “desktop screen breakpoints” and there is no mobile frame. The narrow-viewport behaviour here (drop the runtime label at 1180px, the utility bubbles at 1058px, let the sub tier scroll at 1043px, turn the centre group into a panel at 769px, and take the CTA down to its two glyphs at 434px) is an implementation decision, not a handed-over design.
+        <br><br>
+        Below 769 the centre group used to be <code>display: none</code> — the whole product menu gone with nothing in its place. It is a disclosure panel now, the same WAI-ARIA pattern as Top Nav’s corporate menu and Footer Bar’s free-tools tab: the trigger owns <code>aria-expanded</code> and points at the panel with <code>aria-controls</code>, Escape closes it and hands focus back, and a click outside closes it without stealing focus. It is the <em>same</em> <code>&lt;ul&gt;</code> at every width — inline above the breakpoint, stacked below it — so there is one set of links and no screen reader hears “Licensing” twice. Below 434 the CTA keeps its pill and both glyphs but its label moves to a clipped 1px box rather than <code>display: none</code>, so the link still announces as “Start for Free”.
+        <br><br>
+        Below 1058 the two side columns also swap <code>flex: 1 0 0</code> for <code>flex: 1 0 auto</code>. With basis 0 the free space is split equally between the brand lockup and the CTA whatever each actually needs, and the centre column is never asked to give anything up — so the shrink lands on two columns that cannot shrink, and their contents leave the box while the menu sits untouched. With basis auto the columns state their width, the shrink falls on the menu, and the menu scrolls. It stays basis 0 above 1058 because that is what centres the menu optically instead of letting the brand’s width push it.
         <br><br>
         The 40px brand mark is Figma’s own size in this bar. It is deliberately off the 24/48/96/192 grid documented on the <a href="logo.html">Logo</a> page, so it is set explicitly here rather than going through the <a href="component-logo.html">Logo</a> component’s typed <code>size</code>.
       </div>

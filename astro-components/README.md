@@ -628,16 +628,39 @@ Three things worth knowing before you change it:
   137px = 72 + 65). `.pm-bar` therefore sets `box-sizing: border-box`, and menu
   items stretch to the bar instead of carrying their own height.
 - **Both side columns are `flex: 1 0 0`**, not `1 0 auto`. That is what keeps the
-  menu optically centred instead of being pushed around by the brand's width.
+  menu optically centred instead of being pushed around by the brand's width —
+  but only above 1058. Below that the rule flips to `1 0 auto`, because basis 0
+  on two columns that cannot shrink splits the free space equally whatever each
+  one needs, and never asks the centre column (which scrolls) to give anything
+  up. That is what put the CTA and the wordmark outside their boxes at 769–1057.
 - **The 40px brand mark is off the logo grid.** `Logo.astro`'s `size` is typed to
   24/48/96/192, but Figma uses 40px here, so the mark is a plain `<img>` rather
   than a `<Logo>`. Widening Logo's union would undermine the grid rule for every
   other caller.
 
 Figma covers 1440px desktop only — there is no mobile frame. The narrow-viewport
-behaviour (drop the runtime label at 1180px, the utility bubbles at 1024px, then
-the whole centre group at 768px, both tiers scrolling horizontally) is an
-implementation decision, not a handed-over design.
+behaviour is an implementation decision, not a handed-over design: drop the
+runtime label at 1180px, the utility bubbles and the menu's optical centring at
+1058px, let the sub tier scroll at 1043px, turn the centre group into a panel at
+769px, and take the CTA down to its two glyphs at 434px. Every number except
+1180 is the width its own content measured out at, found by sweeping 1px at a
+time — the one that used to be round, 1024, was 33px and 275px under what two
+different pieces needed, which is the band the CTA and the trailing chip group
+were spilling in.
+
+- **The centre group is a disclosure below 769**, not a deletion. Same WAI-ARIA
+  pattern as `TopNav`'s corporate menu and `FooterBar`'s tools tab, and the same
+  `<ul>` at every width — inline above the breakpoint, stacked below it — so one
+  set of links, nothing to keep in sync, and no screen reader hears "Licensing"
+  twice. Escape closes and returns focus; an outside click closes without taking
+  it.
+- **434 is the trigger's own cost.** The bar needs 410 for the brand and the full
+  CTA; a 24px button and its 16px gap took that to 434, which broke 320/375/414
+  — clean a moment earlier. This is the second time adding an affordance moved a
+  narrow-end number (`deb78df` was the first), so re-sweep the narrow end after
+  adding one, not just the band being fixed. Below 434 the brand drops its
+  chevron and the CTA's label moves to a clipped 1px box — **not**
+  `display: none`, which would leave a pink pill with no accessible name.
 
 ### `TopNav.astro`
 

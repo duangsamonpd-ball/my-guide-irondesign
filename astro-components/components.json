@@ -733,7 +733,7 @@
       "name": "ProductMenu",
       "file": "astro-components/components/ProductMenu.astro",
       "docs": "docs/component-productmenu.html",
-      "interactive": false,
+      "interactive": true,
       "figmaNodes": [
         "790:4778"
       ],
