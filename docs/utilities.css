@@ -1330,17 +1330,20 @@
   border-style: var(--tw-border-style);
   border-width: 2px;
 }
+.group-has-\[\:checked\]\:border-button-secondary:is(:where(.group):has(:is(:checked)) *) {
+  border-color: var(--color-button-secondary);
+}
 .group-has-\[\:checked\]\:border-danger:is(:where(.group):has(:is(:checked)) *) {
   border-color: var(--color-danger);
 }
 .group-has-\[\:checked\]\:border-secondary:is(:where(.group):has(:is(:checked)) *) {
   border-color: var(--color-secondary);
 }
+.group-has-\[\:checked\]\:bg-button-secondary:is(:where(.group):has(:is(:checked)) *) {
+  background-color: var(--color-button-secondary);
+}
 .group-has-\[\:checked\]\:bg-danger:is(:where(.group):has(:is(:checked)) *) {
   background-color: var(--color-danger);
-}
-.group-has-\[\:checked\]\:bg-secondary:is(:where(.group):has(:is(:checked)) *) {
-  background-color: var(--color-secondary);
 }
 .group-has-\[\:checked\]\:opacity-100:is(:where(.group):has(:is(:checked)) *) {
   opacity: 100%;
@@ -1355,8 +1358,8 @@
 .group-\[\.open\]\:rotate-180:is(:where(.group):is(.open) *) {
   rotate: 180deg;
 }
-.group-\[\.open\]\:border-secondary:is(:where(.group):is(.open) *) {
-  border-color: var(--color-secondary);
+.group-\[\.open\]\:border-border-focus:is(:where(.group):is(.open) *) {
+  border-color: var(--color-border-focus);
 }
 .group-\[\.open\]\:shadow-focus-blue:is(:where(.group):is(.open) *) {
   --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));
@@ -1459,11 +1462,11 @@
     border-color: var(--color-border-strong);
   }
 }
+.focus\:border-border-focus:focus {
+  border-color: var(--color-border-focus);
+}
 .focus\:border-danger:focus {
   border-color: var(--color-danger);
-}
-.focus\:border-secondary:focus {
-  border-color: var(--color-secondary);
 }
 .focus\:shadow-focus-blue:focus {
   --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));
@@ -1515,8 +1518,8 @@
   --tw-outline-style: solid;
   outline-style: solid;
 }
-.group-\[\:not\(\.open\)\]\:focus-visible\:border-secondary:is(:where(.group):is(:not(.open)) *):focus-visible {
-  border-color: var(--color-secondary);
+.group-\[\:not\(\.open\)\]\:focus-visible\:border-border-focus:is(:where(.group):is(:not(.open)) *):focus-visible {
+  border-color: var(--color-border-focus);
 }
 .group-\[\:not\(\.open\)\]\:focus-visible\:shadow-focus-blue:is(:where(.group):is(:not(.open)) *):focus-visible {
   --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));

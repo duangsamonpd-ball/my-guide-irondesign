@@ -51,10 +51,15 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
     class:list={[
       choiceControl, choiceSize[size], RADIUS[size],
       /* Figma draws no border on a checked box; matching the border to the fill
-         is the same picture and keeps the outer size identical across states. */
+         is the same picture and keeps the outer size identical across states.
+         The fill binds `button/secondary` on `329:96` — NOT `brand/secondary`,
+         which is what Radio's ring binds, and not the `border/selected` this was
+         guessed to be before the nodes were read. Checkbox and Radio really do
+         use different tokens for the same blue; that asymmetry is Figma's and is
+         on Ball's list. Radio is already right and is left alone. */
       invalid
         ? 'border-danger group-has-[:checked]:bg-danger group-has-[:checked]:border-danger'
-        : 'border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary',
+        : 'border-border-strong group-has-[:checked]:bg-button-secondary group-has-[:checked]:border-button-secondary',
     ]}
   >
     <svg

@@ -70,7 +70,12 @@ export const fieldControl = [
 export const fieldBorder = (error: boolean): string =>
   error
     ? 'border-danger focus:border-danger focus:shadow-focus-magenta'
-    : 'border-border hover:border-border-strong focus:border-secondary focus:shadow-focus-blue';
+    /* `border-focus`, not `secondary`. Figma binds `border/focused` on the field
+       nodes (Input `912:1819`, Select's open state `911:1706`), and the ring
+       beside it was already on the right token — only the border was borrowing
+       the brand blue. Same value, and the same in dark; what changes is that a
+       focus colour can now move without moving the brand. */
+    : 'border-border hover:border-border-strong focus:border-border-focus focus:shadow-focus-blue';
 
 /**
  * A stable id for the label's `for`. Prefers what the caller gave, falls back to

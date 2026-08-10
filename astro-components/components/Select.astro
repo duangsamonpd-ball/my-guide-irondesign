@@ -116,7 +116,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          `focus-visible:` would have been (0,2,0) and lost to hover. */
       error
         ? 'border-danger group-[:not(.open)]:focus-visible:shadow-focus-magenta group-[.open]:shadow-focus-magenta'
-        : 'border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-secondary group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-secondary group-[.open]:shadow-focus-blue',
+        : 'border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue',
     ]}
     disabled={disabled}
     aria-haspopup="listbox"

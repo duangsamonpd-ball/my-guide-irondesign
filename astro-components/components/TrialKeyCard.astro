@@ -67,7 +67,7 @@ const hintId = hint ? `${uid}-hint` : undefined;
   <div class="w-full flex flex-col gap-xs">
     <label class="sr-only" for={inputId}>{inputLabel ?? inputPlaceholder}</label>
     <input
-      class="w-full h-[var(--size-input)] border-[length:var(--border-width-1-5)] border-border rounded-md px-[16px] font-sans text-body text-text-body bg-bg-base outline-none text-center transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder hover:border-border-strong focus:border-secondary focus:shadow-focus-blue"
+      class="w-full h-[var(--size-input)] border-[length:var(--border-width-1-5)] border-border rounded-md px-[16px] font-sans text-body text-text-body bg-bg-base outline-none text-center transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder hover:border-border-strong focus:border-border-focus focus:shadow-focus-blue"
       id={inputId}
       type="email"
       name={inputName}
