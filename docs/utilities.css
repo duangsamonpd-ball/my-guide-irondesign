@@ -853,6 +853,12 @@
 .bg-border-strong {
   background-color: var(--color-border-strong);
 }
+.bg-button-primary {
+  background-color: var(--color-button-primary);
+}
+.bg-button-secondary {
+  background-color: var(--color-button-secondary);
+}
 .bg-button-tertiary {
   background-color: var(--color-button-tertiary);
 }
@@ -885,9 +891,6 @@
 }
 .bg-primary {
   background-color: var(--color-primary);
-}
-.bg-secondary {
-  background-color: var(--color-secondary);
 }
 .bg-success {
   background-color: var(--color-success);
@@ -1434,14 +1437,17 @@
   .hover\:bg-button-outline-hover:hover {
     background-color: var(--color-button-outline-hover);
   }
-  .hover\:bg-primary:hover {
-    background-color: var(--color-primary);
+  .hover\:bg-button-primary:hover {
+    background-color: var(--color-button-primary);
+  }
+  .hover\:bg-button-primary-hover:hover {
+    background-color: var(--color-button-primary-hover);
+  }
+  .hover\:bg-button-secondary-hover:hover {
+    background-color: var(--color-button-secondary-hover);
   }
   .hover\:bg-primary-hover:hover {
     background-color: var(--color-primary-hover);
-  }
-  .hover\:bg-secondary-hover:hover {
-    background-color: var(--color-secondary-hover);
   }
   .hover\:text-on-tertiary-hover:hover {
     color: var(--color-on-tertiary-hover);

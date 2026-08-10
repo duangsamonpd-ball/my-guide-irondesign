@@ -73,6 +73,25 @@ const WRAP_HEIGHT = {
  * variant. The <style> version could derive nothing here either — each row was
  * already its own rule — so this is the same table with the same six entries.
  *
+ * Fills come from the `button/*` token family, which is what Figma binds on this
+ * set — `button/primary`, `button/secondary`, `button/tertiary`, `button/outline`
+ * and their hovers. The repo had imported all six and the table only used three,
+ * reaching for --color-primary and --color-secondary for the rest, so the same
+ * table disagreed with itself. Every one is an alias of the brand colour today,
+ * so nothing moves; what it buys is that a button fill can change without
+ * dragging the brand — and --color-secondary alone is worn by Checkbox, Radio,
+ * Select, Tooltip, FormCard, TrialKeyCard and FileUpload. Ball's ruling
+ * 2026-08-10, the same split-by-role call as Badge's solid `info` that day.
+ *
+ * `outline` is the ONE row left on the old token, deliberately. Figma binds
+ * `button/outline` there too, but --color-bg-base and --color-button-outline
+ * agree only in light mode: `.dark` remaps them to #391C39 and #260F27, so
+ * moving that row would repaint the outline button in dark mode. Both are
+ * plausible — an outline button reading as the page surface, or the system's
+ * own decision that it sits slightly darker — and Figma's dark value cannot be
+ * read from here (get_variable_defs returns one mode). Left as it was until
+ * Ball rules, so this change is provably identical in both themes.
+ *
  * ondark sits on a dark surface: white label, translucent white border. It read
  * as blue-on-dark before, which only scraped AA on the slate-800 surface the
  * docs demo uses and had no headroom on anything lighter. White is what Figma
@@ -80,12 +99,12 @@ const WRAP_HEIGHT = {
  */
 const VARIANT = {
   primary:
-    'bg-primary text-primary-on border-transparent hover:bg-primary-hover focus-visible:shadow-focus-magenta',
+    'bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta',
   secondary:
-    'bg-secondary text-primary-on border-transparent hover:bg-secondary-hover focus-visible:shadow-[var(--focus-ring-blue)]',
+    'bg-button-secondary text-primary-on border-transparent hover:bg-button-secondary-hover focus-visible:shadow-[var(--focus-ring-blue)]',
   /* black → pink */
   tertiary:
-    'bg-button-tertiary text-primary-on border-transparent hover:bg-primary focus-visible:shadow-[var(--focus-ring-white)]',
+    'bg-button-tertiary text-primary-on border-transparent hover:bg-button-primary focus-visible:shadow-[var(--focus-ring-white)]',
   outline:
     'bg-bg-base text-on-tertiary border-border hover:bg-button-outline-hover hover:border-border-strong ' +
     'hover:text-on-tertiary-hover focus-visible:shadow-[var(--focus-ring-blue)]',
