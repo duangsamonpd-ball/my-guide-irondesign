@@ -488,12 +488,12 @@
     "border-dark": {
       "_group": "border — Figma: border (dark column)",
       "default": {
-        "$value": "#9D4F90",
+        "$value": "#522950",
         "$type": "color",
         "$description": "Iron Violet/500 — dividers, input borders, card edges (dark)"
       },
       "strong": {
-        "$value": "#84427C",
+        "$value": "#6B3567",
         "$type": "color",
         "$description": "Iron Violet/600 — hover borders, strong dividers (dark). Updated from iron-violet/400"
       },

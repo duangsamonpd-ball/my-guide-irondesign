@@ -282,8 +282,8 @@
     --color-border-focused: var(--color-border-focus);
     --color-border-selected: var(--iron-blue-500);
     --color-border-error: var(--iron-red-500);
-    --color-border-dark: var(--iron-violet-500);
-    --color-border-dark-strong: var(--iron-violet-600);
+    --color-border-dark: var(--iron-violet-800);
+    --color-border-dark-strong: var(--iron-violet-700);
     --color-border-dark-alt: var(--iron-blue-500);
     --font-body: 'Montserrat', sans-serif;
     --font-weight-regular: 400;

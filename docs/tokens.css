@@ -326,8 +326,8 @@
   --color-border-error:     var(--iron-red-500);      /* #E5242A — error state border (Figma: danger) */
 
   /* ── Borders — Dark Theme (Figma: border, dark column) ── */
-  --color-border-dark:        var(--iron-violet-500); /* #9D4F90 — iron-violet/500 — dividers, input borders */
-  --color-border-dark-strong: var(--iron-violet-600); /* #84427C — iron-violet/600 — hover borders, strong dividers */
+  --color-border-dark:        var(--iron-violet-800); /* #522950 — iron-violet/800 — dividers, input borders. Read off Figma's own variable table, which MCP cannot return (one mode per call) — it was iron-violet/500 here, three ramp steps too light, and read at 2.83:1 against the page where the light-mode border reads 1.23:1. /800 lands at 1.28:1, the same weight the light mode has. */
+  --color-border-dark-strong: var(--iron-violet-700); /* #6B3567 — iron-violet/700 — hover borders, strong dividers. Same correction: was /600 at 2.18:1 against the page, /700 is 1.67:1 against light mode's 1.49:1. */
   --color-border-dark-alt:    var(--iron-blue-500);   /* #2693EC — brand/secondary — same as light mode */
 
 
