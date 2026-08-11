@@ -171,7 +171,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   /*
     Figma node 507:5349 ("Top Nav"). Token map, all 1:1 with the system's names:
       slate/800             → --slate-800 (the strip fill)
-      text/on-color/heading → --color-text-on-color-heading
+      text/on-dark/heading → --color-text-on-dark-heading
     Labels use Figma's "Typography/UI/Nav label" style (--fw-nav-label /
     --font-size-xs / --leading-4 / --letter-spacing-nav-label), the address uses
     "Typography/Caption SM" (--fw-caption-sm / --letter-spacing-caption-sm).
@@ -195,7 +195,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   /* Figma puts the mark in a 16px square with the 16x13.33 artwork centred inside,
      the same box height as the 16px text line — so every item shares one baseline. */
   .tn-mark { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-neutral); }
-  .tn-brand-text { font-size: var(--font-size-xs); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; white-space: nowrap; }
+  .tn-brand-text { font-size: var(--font-size-xs); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-dark-heading); text-transform: uppercase; white-space: nowrap; }
   .tn-brand-text b { font-weight: var(--fw-nav-label); }
   .tn-brand-text span { font-weight: var(--fw-caption-sm); }
 
@@ -206,7 +206,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      lockup, which is a plain flex item and has no strut. This puts every label
      on one line. */
   .tn-menu li { display: flex; align-items: center; }
-  .tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+  .tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-dark-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
   /* Figma's `_Top nav iron` carries a Hover state: the SOFTWARE half turns brand
      pink while IRON stays white. Figma also swaps the mark for a two-tone version;
      that needs vectors we do not have, so the mark stays single-colour here. */
@@ -222,7 +222,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   .tn-mark-colour .mk-pink   { fill: var(--iron-pink-500); }
   /* On the transparent variant the bar has no fill of its own, so the mark drops
      its recessive slate and goes white with the rest of the lockup. */
-  .tn--transparent .tn-mark { color: var(--color-text-on-color-heading); }
+  .tn--transparent .tn-mark { color: var(--color-text-on-dark-heading); }
   .tn-brand:hover .tn-brand-text span { color: var(--color-primary); }
   .tn-item:hover { color: var(--color-text-link-menu-hover); }
   .tn-item:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 3px; }
@@ -231,15 +231,15 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   /* <address> is the element for the contact details of the nearest article or
      document, which is exactly what this office line is. It costs two resets:
      the UA italicises it, and it is a block element with its own margins. */
-  .tn-address { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-heading); white-space: nowrap; font-style: normal; margin: 0; }
+  .tn-address { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-dark-heading); white-space: nowrap; font-style: normal; margin: 0; }
   .tn-pin { width: 10px; height: 14px; flex-shrink: 0; }
 
-  .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-color-heading); }
+  .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-dark-heading); }
   .tn-globe { width: 16px; height: 16px; flex-shrink: 0; }
 
   /* The trigger only exists below the breakpoint; above it the menu is inline
      and there is nothing to open. */
-  .tn-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: none; color: var(--color-text-on-color-heading); cursor: pointer; flex-shrink: 0; }
+  .tn-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: none; color: var(--color-text-on-dark-heading); cursor: pointer; flex-shrink: 0; }
   .tn-burger:hover { color: var(--color-text-link-menu-hover); }
   .tn-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
   .tn-burger-icon { width: 16px; height: 16px; display: block; }

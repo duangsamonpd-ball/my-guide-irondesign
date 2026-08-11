@@ -101,8 +101,8 @@ const titleIcon = isAction && title && icon ? icons[icon] : null;
   /* Figma types the link as `Typography/UI/Button small` outright — semibold with
      wide tracking — and gives the title the same 600, so both borrow --fw-btn-sm
      rather than earning a weight token of their own. */
-  .tt-title { padding: var(--spacing-xs) var(--spacing-md); font-size: var(--font-size-sm); font-weight: var(--fw-btn-sm); color: var(--color-text-on-color-heading); background: var(--neutral-950); line-height: var(--leading-5); }
-  .tt-body { padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md); font-size: var(--font-size-xs); font-weight: 400; color: var(--color-text-on-color-body); line-height: var(--leading-5); }
+  .tt-title { padding: var(--spacing-xs) var(--spacing-md); font-size: var(--font-size-sm); font-weight: var(--fw-btn-sm); color: var(--color-text-on-dark-heading); background: var(--neutral-950); line-height: var(--leading-5); }
+  .tt-body { padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md); font-size: var(--font-size-xs); font-weight: 400; color: var(--color-text-on-dark-body); line-height: var(--leading-5); }
   /* Figma keeps body and link in ONE padded box: 12 above the body, 12 between
      the two, 16 below the link. Flattened here into two siblings, the 16 has to
      move to the bottom of the link and the body's own bottom becomes the 12 —

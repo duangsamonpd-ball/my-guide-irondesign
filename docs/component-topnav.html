@@ -95,12 +95,12 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .tn-right { display: flex; align-items: center; gap: var(--spacing-lg); min-width: 0; }
 .tn-brand { display: flex; align-items: center; gap: var(--spacing-micro); flex-shrink: 0; text-decoration: none; }
 .tn-mark { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-neutral); }
-.tn-brand-text { font-size: var(--font-size-xs); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; white-space: nowrap; }
+.tn-brand-text { font-size: var(--font-size-xs); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-dark-heading); text-transform: uppercase; white-space: nowrap; }
 .tn-brand-text b { font-weight: var(--fw-nav-label); }
 .tn-brand-text span { font-weight: var(--fw-caption-sm); }
 .tn-menu { display: flex; align-items: center; gap: var(--spacing-lg); list-style: none; margin: 0; padding: 0; min-width: 0; }
 .tn-menu li { display: flex; align-items: center; }
-.tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-color-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+.tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-dark-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
 .tn-mark-colour { display: none; }
 .tn-brand:hover .tn-mark { display: none; }
 .tn-brand:hover .tn-mark-colour { display: block; }
@@ -108,16 +108,16 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .tn-mark-colour .mk-orange { fill: var(--iron-orange-500); }
 .tn-mark-colour .mk-sky    { fill: var(--iron-sky-500); }
 .tn-mark-colour .mk-pink   { fill: var(--iron-pink-500); }
-.tn--transparent .tn-mark { color: var(--color-text-on-color-heading); }
+.tn--transparent .tn-mark { color: var(--color-text-on-dark-heading); }
 .tn-brand:hover .tn-brand-text span { color: var(--color-primary); }
 .tn-item:hover { color: var(--color-text-link-menu-hover); }
 .tn-item:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 3px; }
 .tn-caret { width: 16px; height: 16px; flex-shrink: 0; }
-.tn-address { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-heading); white-space: nowrap; font-style: normal; margin: 0; }
+.tn-address { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-dark-heading); white-space: nowrap; font-style: normal; margin: 0; }
 .tn-pin { width: 10px; height: 14px; flex-shrink: 0; }
-.tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-color-heading); }
+.tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-dark-heading); }
 .tn-globe { width: 16px; height: 16px; flex-shrink: 0; }
-.tn-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: none; color: var(--color-text-on-color-heading); cursor: pointer; flex-shrink: 0; }
+.tn-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: none; color: var(--color-text-on-dark-heading); cursor: pointer; flex-shrink: 0; }
 .tn-burger:hover { color: var(--color-text-link-menu-hover); }
 .tn-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 .tn-burger-icon { width: 16px; height: 16px; display: block; }
@@ -521,7 +521,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect-sub">Like Product Menu, this component introduced no new tokens.</div>
       <table class="tok"><thead><tr><th>Figma variable</th><th>System token</th><th>Value</th><th>Used for</th></tr></thead><tbody>
         <tr><td class="prop">slate/800</td><td class="token">--slate-800</td><td class="val"><span class="sw" style="background:#1D293D"></span>#1D293D</td><td>Strip fill</td></tr>
-        <tr><td class="prop">text/on-color/heading</td><td class="token">--color-text-on-color-heading</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td><td>All labels, address, globe</td></tr>
+        <tr><td class="prop">text/on-dark/heading</td><td class="token">--color-text-on-dark-heading</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td><td>All labels, address, globe</td></tr>
         <tr><td class="prop">(mark fill)</td><td class="token">--color-neutral</td><td class="val"><span class="sw" style="background:#62748E"></span>#62748E</td><td>Iron Software mark — recessive, not white</td></tr>
         <tr><td class="prop">Typography/UI/Nav label</td><td class="token">--fw-nav-label · --font-size-xs · --leading-4 · --letter-spacing-nav-label</td><td class="val">700 / 12px / 16px / 0.4px</td><td>Menu labels, Contact Us, EN</td></tr>
         <tr><td class="prop">Typography/Caption SM</td><td class="token">--fw-caption-sm · --letter-spacing-caption-sm</td><td class="val">500 / 0.4px</td><td>Address, “SOFTWARE” half of the lockup</td></tr>

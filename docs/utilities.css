@@ -259,10 +259,10 @@
     --color-text-dark-support: var(--iron-violet-300);
     --color-text-dark-link: var(--iron-blue-400);
     --color-text-dark-link-hover: var(--iron-pink-400);
-    --color-text-on-color-heading: #FFFFFF;
-    --color-text-on-color-body: var(--neutral-200);
-    --color-text-on-color-badge-solid: #FFFFFF;
-    --color-text-on-color-badge-solid-inverse: var(--neutral-900);
+    --color-text-on-dark-heading: #FFFFFF;
+    --color-text-on-dark-body: var(--neutral-200);
+    --color-text-on-light-heading: var(--neutral-900);
+    --color-text-on-light-body: var(--neutral-800);
     --color-bg-base: #FFFFFF;
     --color-bg-shade: var(--slate-100);
     --color-bg-card: #FFFFFF;
@@ -1195,14 +1195,11 @@
 .text-text-muted {
   color: var(--color-text-muted);
 }
-.text-text-on-color-badge-solid {
-  color: var(--color-text-on-color-badge-solid);
+.text-text-on-dark-heading {
+  color: var(--color-text-on-dark-heading);
 }
-.text-text-on-color-badge-solid-inverse {
-  color: var(--color-text-on-color-badge-solid-inverse);
-}
-.text-text-on-color-heading {
-  color: var(--color-text-on-color-heading);
+.text-text-on-light-heading {
+  color: var(--color-text-on-light-heading);
 }
 .text-text-support {
   color: var(--color-text-support);
@@ -1309,21 +1306,21 @@
     --tw-translate-x: 3px;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
-  .group-hover\:text-text-on-color-body:is(:where(.group):hover *) {
-    color: var(--color-text-on-color-body);
+  .group-hover\:text-text-on-dark-body:is(:where(.group):hover *) {
+    color: var(--color-text-on-dark-body);
   }
-  .group-hover\:text-text-on-color-heading:is(:where(.group):hover *) {
-    color: var(--color-text-on-color-heading);
+  .group-hover\:text-text-on-dark-heading:is(:where(.group):hover *) {
+    color: var(--color-text-on-dark-heading);
   }
   .group-hover\:opacity-100:is(:where(.group):hover *) {
     opacity: 100%;
   }
 }
-.group-focus-visible\:text-text-on-color-body:is(:where(.group):focus-visible *) {
-  color: var(--color-text-on-color-body);
+.group-focus-visible\:text-text-on-dark-body:is(:where(.group):focus-visible *) {
+  color: var(--color-text-on-dark-body);
 }
-.group-focus-visible\:text-text-on-color-heading:is(:where(.group):focus-visible *) {
-  color: var(--color-text-on-color-heading);
+.group-focus-visible\:text-text-on-dark-heading:is(:where(.group):focus-visible *) {
+  color: var(--color-text-on-dark-heading);
 }
 .group-focus-visible\:opacity-100:is(:where(.group):focus-visible *) {
   opacity: 100%;

@@ -366,10 +366,10 @@ const COLORS = {
   'text-dark.support': 'color-text-dark-support',
   'text-dark.link': 'color-text-dark-link',
   'text-dark.link-hover': 'color-text-dark-link-hover',
-  'text-on-color.heading': 'color-text-on-color-heading',
-  'text-on-color.body': 'color-text-on-color-body',
-  'text-on-color.badge-solid': 'color-text-on-color-badge-solid',
-  'text-on-color.badge-solid-inverse': 'color-text-on-color-badge-solid-inverse',
+  'text-on-dark.heading': 'color-text-on-dark-heading',
+  'text-on-dark.body': 'color-text-on-dark-body',
+  'text-on-light.heading': 'color-text-on-light-heading',
+  'text-on-light.body': 'color-text-on-light-body',
 
   'surface.background': 'color-bg-base',      // w3c "surface", CSS "bg"
   'surface.background-shade': 'color-bg-shade',

@@ -26,7 +26,7 @@
  *  · Converting the review scores off Gotham changed four things, not one: the
  *    runs close up (`4.9/5`, no spaces), the number goes SemiBold, both runs
  *    take `tracking/wider` 0.8, and the colour drops from white to
- *    `text/on color/body`. Figma binds those as variables but gives the role no
+ *    `text/on dark/body`. Figma binds those as variables but gives the role no
  *    type style, so it is unnamed on both sides — hence --fw-btn and
  *    --letter-spacing-overline below, borrowed for their values.
  *  · Both star rows are white at 30% — they are the *empty* state, which is why
@@ -427,8 +427,8 @@ if (freeTools) {
       surface/footer-alt      → --color-bg-footer-alt   (menu + brand bands)
       surface/footer          → --color-bg-footer       (legal band)
       text/default/link-menu  → --color-text-link-menu
-      text/on color/heading   → --color-text-on-color-heading
-      text/on color/body      → --color-text-on-color-body
+      text/on dark/heading    → --color-text-on-dark-heading
+      text/on dark/body       → --color-text-on-dark-body
       transparent/white/20    → --transparent-white-20  (dividers)
       transparent/white/10    → --transparent-white-10  (review card border)
       Typography/UI/Button default → --font-size-btn / --fw-btn / --leading-4
@@ -497,7 +497,7 @@ if (freeTools) {
      same place but leaves this group at its content width, so the measurement
      against the design silently disagrees. */
   .fb-tools-group:last-of-type { flex: 1 0 0; min-width: 0; align-self: stretch; }
-  .fb-tools-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); text-transform: uppercase; color: var(--color-text-on-color-heading); white-space: nowrap; }
+  .fb-tools-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); text-transform: uppercase; color: var(--color-text-on-dark-heading); white-space: nowrap; }
   /* Height, not width. Figma sets these as Font Awesome *text* at 12px, so the
      glyph is 12 tall and as wide as its own aspect ratio makes it — square for
      arrows-rotate and pen-to-square, 13.5 for the 576-wide wrench (Figma rounds
@@ -571,7 +571,7 @@ if (freeTools) {
      loose variables with no type style, and cannot hold one — the score is two
      sizes on one line — so the name lives on this side (Ball, 2026-08-11).
      letter-spacing inherits, so .fb-outof picks the 0.8 up from here. */
-  .fb-score { margin: 0; font-size: var(--font-size-review); font-weight: var(--fw-review); line-height: var(--line-height-review); letter-spacing: var(--letter-spacing-review); color: var(--color-text-on-color-body); white-space: nowrap; }
+  .fb-score { margin: 0; font-size: var(--font-size-review); font-weight: var(--fw-review); line-height: var(--line-height-review); letter-spacing: var(--letter-spacing-review); color: var(--color-text-on-dark-body); white-space: nowrap; }
   /* line-height 1 is not a style choice, it stops this span from growing the
      line box. Two font sizes share one line: the 14px strut is 20 tall, but a
      12px inline box with the same 20px leading has a lower baseline, and the
@@ -599,7 +599,7 @@ if (freeTools) {
   .fb-logo-colour { display: none; }
   .fb-logo:hover .fb-logo-mono { display: none; }
   .fb-logo:hover .fb-logo-colour { display: flex; }
-  .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
+  .fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-dark-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
 
   .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
   /* Each icon lights on its own — Ball's call, 2026-08-02, matching the partner
@@ -619,13 +619,13 @@ if (freeTools) {
      in this variant is 16, in a 20px-tall row. The Free tools variant places a
      24px one instead; the two variants disagree in Figma. */
   .fb-slack img { width: 16px; height: 16px; display: block; }
-  .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; transition: color var(--duration-base); }
+  .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-dark-body); white-space: nowrap; transition: color var(--duration-base); }
   /* This used to be `opacity: var(--opacity-hover-footer)` — 0.8 — so hovering
      the row made it FAINTER, the opposite of every other hover in this bar.
      Figma puts Join Slack outside the socials' opacity group, so there is no
-     dimming to undo here; the label goes from on-color/body to on-color/heading
+     dimming to undo here; the label goes from on-dark/body to on-dark/heading
      instead, which is the same "back to full strength" move in colour terms. */
-  .fb-slack:hover span { color: var(--color-text-on-color-heading); }
+  .fb-slack:hover span { color: var(--color-text-on-dark-heading); }
 
   /* ── band 3: partners, legal, donate ──────────────────────────────────── */
   .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
@@ -675,7 +675,7 @@ if (freeTools) {
   .fb-partner:hover { mix-blend-mode: normal; opacity: 1; }
 
   .fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
-  .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
+  .fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-dark-body); text-align: center; white-space: nowrap; }
   .fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
   .fb-legal-links .fb-div { height: var(--leading-3); }
   .fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color var(--duration-base); }
@@ -688,7 +688,7 @@ if (freeTools) {
   /* Figma sets line-height 1.2 on 12px = 14.4, which is off our leading ramp
      (12 → 16). 16 is the nearest step and the label stays centred against the
      32px logo beside it, so the 1.6px is invisible. */
-  .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
+  .fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-dark-body); white-space: nowrap; }
   .fb-donate-img { height: 32px; width: auto; display: block; }
 
   /* ── responsive ───────────────────────────────────────────────────────────

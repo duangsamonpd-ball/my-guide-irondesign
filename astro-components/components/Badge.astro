@@ -53,7 +53,13 @@ const SUBTLE = {
  * Solid label colour is per INTENT, not per theme — `.dark` remaps only the
  * -subtle/-strong pairs, so a solid badge is identical in both modes and one
  * label colour cannot serve all six. success/warning/info have light fills and
- * take the inverse label; white on them is 2.17 / 1.99 / 3.25 and fails AA.
+ * take `text/on-light`; white on them is 2.17 / 1.99 / 3.25 and fails AA.
+ * danger/important/neutral have dark fills and take `text/on-dark`.
+ *
+ * These used to be badge-specific tokens (`badge-solid` / `-inverse`). They are
+ * not badge-specific at all — the same choice applies to any fixed-lightness
+ * surface — so they are the system-wide on-dark/on-light pair now, and
+ * check:contrast still derives all twelve pairings from this map.
  *
  * `info` fills with --color-info, not --color-secondary. Both are
  * --iron-blue-500 and neither is remapped by `.dark`, so this moves no pixel in
@@ -62,12 +68,12 @@ const SUBTLE = {
  * split-by-role call he made for Tooltip's link the same day.
  */
 const SOLID = {
-  success: 'bg-success text-text-on-color-badge-solid-inverse',
-  warning: 'bg-warning text-text-on-color-badge-solid-inverse',
-  danger: 'bg-danger text-text-on-color-badge-solid',
-  info: 'bg-info text-text-on-color-badge-solid-inverse',
-  important: 'bg-important text-text-on-color-badge-solid',
-  neutral: 'bg-neutral text-text-on-color-badge-solid',
+  success: 'bg-success text-text-on-light-heading',
+  warning: 'bg-warning text-text-on-light-heading',
+  danger: 'bg-danger text-text-on-dark-heading',
+  info: 'bg-info text-text-on-light-heading',
+  important: 'bg-important text-text-on-dark-heading',
+  neutral: 'bg-neutral text-text-on-dark-heading',
 } as const;
 
 const base = 'inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro';

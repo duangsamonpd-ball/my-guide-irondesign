@@ -348,10 +348,10 @@
   --color-text-dark-support: var(--iron-violet-300); /* #CEA7C8 — iron-violet/300 */
   --color-text-dark-link: var(--iron-blue-400); /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
   --color-text-dark-link-hover: var(--iron-pink-400); /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
-  --color-text-on-color-heading: #FFFFFF;     /* white */
-  --color-text-on-color-body: var(--neutral-200); /* #E5E5E5 — neutral/200 */
-  --color-text-on-color-badge-solid: #FFFFFF; /* white — on DARK fills: danger 4.55:1, important 8.46:1, neutral 4.76:1 */
-  --color-text-on-color-badge-solid-inverse: var(--neutral-900); /* #171717 — on LIGHT fills: success 8.25:1, warning 9.02:1, info 5.52:1 (white there is 2.17/1.99/3.25 — fails AA) */
+  --color-text-on-dark-heading: #FFFFFF;      /* white — headings on any dark surface; also a solid badge on a DARK fill: danger 4.55:1, important 8.46:1, neutral 4.76:1 */
+  --color-text-on-dark-body: var(--neutral-200); /* #E5E5E5 — neutral/200 — body copy on any dark surface */
+  --color-text-on-light-heading: var(--neutral-900); /* #171717 — headings on a fixed light surface; also a solid badge on a LIGHT fill: success 8.25:1, warning 9.02:1, info 5.52:1 (white there is 2.17/1.99/3.25 — fails AA) */
+  --color-text-on-light-body: var(--neutral-800); /* #262626 — body copy on a fixed light surface. Same value as --color-text-body today, deliberately NOT an alias: that one flips under .dark and this one must not. */
   --color-bg-base: #FFFFFF;                   /* white — main page background */
   --color-bg-shade: var(--slate-100);         /* #F1F5F9 — slate/100 — band fills, alternating sections */
   --color-bg-card: #FFFFFF;                   /* white — card, modal, panel backgrounds */

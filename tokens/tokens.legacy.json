@@ -228,16 +228,28 @@
           "description": "Iron Pink/500 — same as light"
         }
       },
-      "text-on-color": {
+      "text-on-dark": {
         "heading": {
           "value": "#FFFFFF",
           "type": "color",
-          "description": "white — headings on coloured surfaces"
+          "description": "white — headings on any dark surface (does not follow the theme)"
         },
         "body": {
           "value": "#E5E5E5",
           "type": "color",
-          "description": "Neutral/200 — body on coloured surfaces"
+          "description": "Neutral/200 — body on any dark surface (does not follow the theme)"
+        }
+      },
+      "text-on-light": {
+        "heading": {
+          "value": "#171717",
+          "type": "color",
+          "description": "Neutral/900 — headings on a fixed light surface (does not follow the theme)"
+        },
+        "body": {
+          "value": "#262626",
+          "type": "color",
+          "description": "Neutral/800 — body on a fixed light surface (does not follow the theme)"
         }
       },
       "surface": {

@@ -182,7 +182,7 @@ slate/200                  --color-border                  dividers
 **Brand palettes** (each 50–950): `iron-pink` · `iron-blue` · `iron-orange` · `iron-green` · `iron-sky` · `iron-purple` · `iron-violet` · `iron-red`
 **Utility palettes:** `slate` (UI surfaces / borders) · `neutral` (text / gray)
 
-**Semantic groups:** `primary` · `secondary` · `accent 1–4` · `success / warning / error / info` · `text` (+ dark, + on-color) · `surface` (+ dark) · `border` · `button` (+ dark). Accent for overlines/emphasis is **NuGet blue `#185FA5`**.
+**Semantic groups:** `primary` · `secondary` · `accent 1–4` · `success / warning / error / info` · `text` (+ dark, + on-dark, + on-light) · `surface` (+ dark) · `border` · `button` (+ dark). Accent for overlines/emphasis is **NuGet blue `#185FA5`**.
 
 ---
 

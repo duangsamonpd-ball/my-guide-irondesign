@@ -727,7 +727,7 @@ Props: `variant` (`default` | `transparent` — Figma's "Without bg"), `items`
 toggle), `address`, `contact`, `language`, `showLanguage`, `brandHref`, `class`.
 
 Like `ProductMenu` it introduced **no new tokens**: `slate/800` →
-`--slate-800`, `text/on-color/heading` → `--color-text-on-color-heading`, and
+`--slate-800`, `text/on-dark/heading` → `--color-text-on-dark-heading`, and
 the two type styles land on the system's existing nav-label / caption-sm
 weights and letter-spacings.
 

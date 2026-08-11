@@ -378,27 +378,30 @@
         "$description": "Iron Pink/400 — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300)"
       }
     },
-    "text-on-color": {
-      "_group": "text/on color — Figma: text/on color (same both modes)",
+    "text-on-dark": {
+      "_group": "text/on dark — text on a DARK surface, whichever mode; .dark never remaps these",
       "heading": {
         "$value": "#FFFFFF",
         "$type": "color",
-        "$description": "White — headings inside coloured hero bands / surfaces"
+        "$description": "White — headings on any dark surface: footer, nav over a dark hero, tooltip, and a solid badge whose fill is dark (danger 4.55:1, important 8.46:1, neutral 4.76:1)."
       },
       "body": {
         "$value": "#E5E5E5",
         "$type": "color",
-        "$description": "Neutral/200 — body copy inside coloured surfaces"
-      },
-      "badge-solid": {
-        "$value": "#FFFFFF",
-        "$type": "color",
-        "$description": "White — text on a solid badge whose fill is DARK (danger 4.55:1, important 8.46:1, neutral 4.76:1). Same in both modes: the solid fills are the status base colours, which .dark does not remap."
-      },
-      "badge-solid-inverse": {
+        "$description": "Neutral/200 — body copy on any dark surface."
+      }
+    },
+    "text-on-light": {
+      "_group": "text/on light — text on a FIXED LIGHT surface; .dark never remaps these, which is the point",
+      "heading": {
         "$value": "#171717",
         "$type": "color",
-        "$description": "Neutral/900 — text on a solid badge whose fill is LIGHT (success 8.25:1, warning 9.02:1, info 5.52:1). White on those fills is 2.17/1.99/3.25 and fails AA. Same in both modes."
+        "$description": "Neutral/900 — headings on any light surface that does NOT follow the theme: a solid badge whose fill is light (success 8.25:1, warning 9.02:1, info 5.52:1 — white there is 2.17/1.99/3.25 and fails AA), or a section painted a fixed light colour. text/default flips to neutral/100 in dark and would vanish on such a surface."
+      },
+      "body": {
+        "$value": "#262626",
+        "$type": "color",
+        "$description": "Neutral/800 — body copy on any fixed light surface. Mirrors text/default/body, but deliberately does not follow .dark."
       }
     },
     "surface": {

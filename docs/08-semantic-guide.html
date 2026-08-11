@@ -569,9 +569,9 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
     </tbody>
   </table>
 
-  <!-- Text / on color -->
-  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Text / On Color</p>
-  <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Text placed directly on a coloured surface (e.g. inside a coloured hero band or card).</p>
+  <!-- Text / on dark · on light -->
+  <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Text / On Dark &middot; On Light</p>
+  <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Text on a surface that does <b>not</b> follow the theme &mdash; a footer that is dark in both modes, a solid badge whose fill is a status colour, a section painted a fixed light colour. Pick by how light the <i>background</i> is, not by the mode; both columns below are identical because <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">.dark</code> never remaps these. Using <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-text-*</code> on such a surface is the bug these prevent: that ramp flips, the surface does not, and the text lands at ~1:1.</p>
   <table class="mapping-table">
     <thead>
       <tr>
@@ -587,15 +587,29 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         <td><span class="role-badge" style="background:#2C2C40;color:#fff;">heading</span></td>
         <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid #E2E8F0;"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border-color:rgba(0,0,0,0.3);"></div><span style="color:#C8C8D8;">#FFFFFF <span style="color:#5A5A7A;">white</span></span></div></td>
-        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-color-heading)')">--color-text-on-color-heading</span></td>
-        <td style="color:#737373;font-size:0.75rem;">Headings inside coloured hero bands</td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-dark-heading)')">--color-text-on-dark-heading</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Headings on a dark surface &mdash; footer, nav over a dark hero, tooltip, solid badge on a dark fill</td>
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#2C2C40;color:#D4D4D4;">body</span></td>
         <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E5E5E5;border:1px solid #D5D5D5;"></div><span>#E5E5E5 <span style="color:#A1A1A1;">neutral/200</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#E5E5E5;border-color:rgba(0,0,0,0.15);"></div><span style="color:#C8C8D8;">#E5E5E5 <span style="color:#5A5A7A;">neutral/200</span></span></div></td>
-        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-color-body)')">--color-text-on-color-body</span></td>
-        <td style="color:#737373;font-size:0.75rem;">Body copy inside coloured surfaces</td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-dark-body)')">--color-text-on-dark-body</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Body copy on a dark surface</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#E2E8F0;color:#171717;">on-light heading</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#171717;"></div><span>#171717 <span style="color:#A1A1A1;">neutral/900</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#171717;border-color:rgba(255,255,255,0.2);"></div><span style="color:#C8C8D8;">#171717 <span style="color:#5A5A7A;">neutral/900</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-light-heading)')">--color-text-on-light-heading</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Headings on a fixed light surface &mdash; solid badge on a light fill (white there is 1.99&ndash;3.25:1 and fails AA)</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#E2E8F0;color:#262626;">on-light body</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#262626;"></div><span>#262626 <span style="color:#A1A1A1;">neutral/800</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#262626;border-color:rgba(255,255,255,0.2);"></div><span style="color:#C8C8D8;">#262626 <span style="color:#5A5A7A;">neutral/800</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-on-light-body)')">--color-text-on-light-body</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Body copy on a fixed light surface</td>
       </tr>
     </tbody>
   </table>

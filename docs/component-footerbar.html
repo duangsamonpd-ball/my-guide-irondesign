@@ -141,7 +141,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 
 .fb-tools-group { display: flex; flex-direction: column; gap: var(--spacing-md); }
 .fb-tools-group:last-of-type { flex: 1 0 0; min-width: 0; align-self: stretch; }
-.fb-tools-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); text-transform: uppercase; color: var(--color-text-on-color-heading); white-space: nowrap; }
+.fb-tools-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); text-transform: uppercase; color: var(--color-text-on-dark-heading); white-space: nowrap; }
 /* Height, not width. Figma sets these as Font Awesome *text* at 12px, so the
    glyph is 12 tall and as wide as its own aspect ratio makes it — square for
    arrows-rotate and pen-to-square, 13.5 for the 576-wide wrench (Figma rounds
@@ -193,7 +193,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-stars-hover { width: 68px; height: 12px; display: none; }
 .fb-review:hover .fb-stars { display: none; }
 .fb-review:hover .fb-stars-hover { display: block; }
-.fb-score { margin: 0; font-size: var(--font-size-review); font-weight: var(--fw-review); line-height: var(--line-height-review); letter-spacing: var(--letter-spacing-review); color: var(--color-text-on-color-body); white-space: nowrap; }
+.fb-score { margin: 0; font-size: var(--font-size-review); font-weight: var(--fw-review); line-height: var(--line-height-review); letter-spacing: var(--letter-spacing-review); color: var(--color-text-on-dark-body); white-space: nowrap; }
 .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: var(--leading-5); }
 .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
 .fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); transition: opacity var(--duration-base); }
@@ -202,7 +202,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-logo-colour { display: none; }
 .fb-logo:hover .fb-logo-mono { display: none; }
 .fb-logo:hover .fb-logo-colour { display: flex; }
-.fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-color-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
+.fb-address { margin: 0; font-size: var(--font-size-caption-sm); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-dark-body); opacity: var(--opacity-75); text-align: right; white-space: nowrap; }
 .fb-connect { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; }
 .fb-socials { display: flex; align-items: center; gap: var(--spacing-sm); }
 .fb-social { display: flex; opacity: var(--opacity-60); }
@@ -210,22 +210,22 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-social:hover { opacity: 1; }
 .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; }
 .fb-slack img { width: 16px; height: 16px; display: block; }
-.fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-color-body); white-space: nowrap; transition: color var(--duration-base); }
-.fb-slack:hover span { color: var(--color-text-on-color-heading); }
+.fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-dark-body); white-space: nowrap; transition: color var(--duration-base); }
+.fb-slack:hover span { color: var(--color-text-on-dark-heading); }
 .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
 .fb-info-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--size-container-max); }
 .fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
 .fb-partner { height: 28px; width: auto; display: block; mix-blend-mode: luminosity; opacity: var(--opacity-60); }
 .fb-partner:hover { mix-blend-mode: normal; opacity: 1; }
 .fb-legal { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex: 1 0 0; min-width: 0; }
-.fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-color-body); text-align: center; white-space: nowrap; }
+.fb-copyright { margin: 0; font-size: var(--font-size-2xs); font-weight: var(--fw-body); line-height: var(--leading-3); color: var(--color-text-on-dark-body); text-align: center; white-space: nowrap; }
 .fb-legal-links { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); }
 .fb-legal-links .fb-div { height: var(--leading-3); }
 .fb-legal-link { font-size: var(--font-size-2xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-3); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color var(--duration-base); }
 .fb-legal-link:hover { color: var(--color-text-link-menu-hover); }
 .fb-donate { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; opacity: var(--opacity-60); transition: opacity var(--duration-base); }
 .fb-donate:has(:hover) { opacity: 1; }
-.fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-color-body); white-space: nowrap; }
+.fb-donate-label { font-size: var(--font-size-caption-sm); line-height: var(--leading-4); color: var(--color-text-on-dark-body); white-space: nowrap; }
 .fb-donate-img { height: 32px; width: auto; display: block; }
 
 @media (max-width: 1252.98px) {
@@ -904,8 +904,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
           <tr><td>surface/footer-alt</td><td><code>--color-bg-footer-alt</code></td><td>Menu row + brand row fill</td></tr>
           <tr><td>surface/footer</td><td><code>--color-bg-footer</code></td><td>Legal row fill</td></tr>
           <tr><td>text/default/link-menu</td><td><code>--color-text-link-menu</code></td><td>Menu and legal links</td></tr>
-          <tr><td>text/on color/heading</td><td><code>--color-text-on-color-heading</code></td><td>Review score</td></tr>
-          <tr><td>text/on color/body</td><td><code>--color-text-on-color-body</code></td><td>Address, Slack, copyright, donate</td></tr>
+          <tr><td>text/on dark/heading</td><td><code>--color-text-on-dark-heading</code></td><td>Review score</td></tr>
+          <tr><td>text/on dark/body</td><td><code>--color-text-on-dark-body</code></td><td>Address, Slack, copyright, donate</td></tr>
           <tr><td>transparent/white/20</td><td><code>--transparent-white-20</code></td><td>Dividers</td></tr>
           <tr><td>transparent/white/10</td><td><code>--transparent-white-10</code></td><td>Review card border</td></tr>
         </tbody>
@@ -917,7 +917,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <div class="sect-sub">What the code does <b>not</b> copy from the design file, and why. Most of these want a fix on the Figma side rather than here; the two marked <i>settled</i> are decisions already taken.</div>
       <ul class="guide">
         <li><b>Gotham in a Montserrat system.</b> Three text nodes were set in Gotham with no variable bound; they are Montserrat here. &ldquo;Join Iron Slack&rdquo; and &ldquo;Every Iron Suite Donates&rdquo; were <b>fixed on the design side 2026-08-10</b> &mdash; the second now carries the <code>Typography/caption-sm</code> style outright. <b>Still open:</b> the two review scores, whose paragraph-level font is Gotham at 0px with Montserrat applied per span, so the type on screen is right while the node&rsquo;s base style is not.</li>
-        <li><b>A raw Light Gray.</b> &ldquo;Join Iron Slack&rdquo; painted a Figma <i>style</i> rather than a variable; it uses <code>--color-text-on-color-body</code> here, like every other secondary line. <b>Closed 2026-08-10</b> &mdash; the node now binds <code>text/on color/body</code>, and its size binds <code>size/sm</code> where it used to be a raw 14.</li>
+        <li><b>A raw Light Gray.</b> &ldquo;Join Iron Slack&rdquo; painted a Figma <i>style</i> rather than a variable; it uses <code>--color-text-on-dark-body</code> here, like every other secondary line. <b>Closed 2026-08-10</b> &mdash; the node now binds <code>text/on dark/body</code>, and its size binds <code>size/sm</code> where it used to be a raw 14.</li>
         <li><b>The brand lockup is a scaled instance.</b> Its gap binds <code>spacing-xl</code> and renders 6px, which reads like a broken binding and is not one: <code>spacing-xl</code> is 24, and the <code>Main logo</code> component draws its mark at 96px while all four frames place the instance at 165&times;24. That is a 4&times; reduction, and 24 &divide; 4 = 6. <b>Nothing about the variable is wrong</b> &mdash; every bound value inside that instance is scaled, so no number read off the footer&rsquo;s lockup is a token. Fixing it means placing the instance at its drawn size or drawing a 24px variant, not editing the scale.</li>
         <li><b>Two ways to say 30%.</b> Both star rows are white at 30% &mdash; the empty state, which is why they read as grey. G2 sets it on each of the five stars, Capterra sets it on the group. Same result, stated two different ways.</li>
         <li><b>The variants disagreed about the Slack row.</b> One placed a 16px icon in a 20px row at leading 20, the other a 24px icon in a 24px row at leading 18. <b>Settled 2026-08-02 for 16</b>, which is what the code has always used. <b>Closed 2026-08-10</b>: all four frames &mdash; both <code>footer-lg</code> variants, <code>footer-md</code> and <code>footer-sm</code> &mdash; now read 127&times;20 around a 16px icon.</li>
