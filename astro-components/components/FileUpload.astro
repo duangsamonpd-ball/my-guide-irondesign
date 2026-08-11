@@ -105,6 +105,24 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
     background: none; border: none; cursor: pointer; padding: var(--spacing-micro) var(--spacing-xs); position: relative; z-index: 1;
   }
   .dz-remove:hover { color: var(--color-danger); }
+
+  /* The row cannot hold its own contents on a narrow screen. `.dropzone-size`
+     is nowrap and does not shrink, the icon is fixed at 40, and what gives is
+     `.dropzone-text` — `min-width: 0`, so it keeps shrinking past the link
+     inside it. `.link` is an inline-flex row of text plus a 16px icon and will
+     not go below 85.8px, so below 330 it simply leaves its parent: 8.7px out at
+     320, 28.7px at 300, with nothing clipping it.
+
+     The breakpoint is 437.98, not 329.98, and the difference is the whole
+     lesson. Stopping the overflow only needs 330 — but a screenshot at 360
+     showed the fix was not a fix: no overflow, and the label broken across
+     three lines with the arrow stranded to the right of them. NOT OVERFLOWING
+     IS NOT THE SAME AS FITTING. Swept 4px at a time for the width where the
+     title and the link each sit on one line, which is 438. */
+  @media (max-width: 437.98px) {
+    .dropzone { flex-direction: column; align-items: flex-start; gap: var(--spacing-sm); }
+    .dropzone-size { align-self: flex-start; }
+  }
 </style>
 
 <script>

@@ -43,22 +43,36 @@ const bold = (s) => `\x1b[1m${s}\x1b[0m`;
 const tokensCss = readFileSync(join(ROOT, 'tailwind/tokens.css'), 'utf8');
 const darkAt = tokensCss.search(/^\s*\.dark\s*\{/m);
 if (darkAt < 0) throw new Error('tokens.css has no `.dark {` block — the dark scope cannot be read');
+/**
+ * theme.css is a fallback, not a peer. Some names the docs quote exist only
+ * after generation — `--radius-*` and `--tracking-*` are `--rounded-*` and
+ * `--letter-spacing-*` renamed by build-theme.mjs — and a resolver that read
+ * tokens.css alone reported them as "not a token", which is indistinguishable
+ * from a real finding.
+ */
+const themeCss = readFileSync(join(ROOT, 'tailwind/theme.css'), 'utf8');
 const SCOPE = { light: tokensCss.slice(0, darkAt), dark: tokensCss.slice(darkAt) };
 
 const declared = (scope, name) => {
-  const m = scope.match(new RegExp(`^\\s*${name.replace(/[-]/g, '\\-')}:\\s*([^;]+?)\\s*;`, 'm'));
+  const re = new RegExp(`^\\s*${name.replace(/[-]/g, '\\-')}:\\s*([^;]+?)\\s*;`, 'm');
+  const m = scope.match(re) ?? themeCss.match(re);
   return m ? m[1] : null;
 };
 
-/** Resolve a custom property to a hex, following var() chains. `dark` falls back to light. */
-function resolve(name, mode = 'light') {
+/** Follow var() chains to whatever the property finally holds, units and all. */
+function raw(name, mode = 'light') {
   let v = declared(SCOPE[mode], name) ?? declared(SCOPE.light, name);
   for (let i = 0; i < 10; i++) {
     const m = /^var\((--[a-z0-9-]+)\)$/.exec((v ?? '').trim());
     if (!m) break;
     v = declared(SCOPE[mode], m[1]) ?? declared(SCOPE.light, m[1]);
   }
-  v = (v ?? '').trim().toUpperCase();
+  return v == null ? null : v.trim();
+}
+
+/** Resolve a custom property to a hex. Null when it is not one — a length, or absent. */
+function resolve(name, mode = 'light') {
+  const v = (raw(name, mode) ?? '').toUpperCase();
   return /^#[0-9A-F]{6}$/.test(v) ? v : null;
 }
 
@@ -226,11 +240,53 @@ const PARSERS = [
        * which block a line sits in, which is the part that would have been
        * fragile.
        */
-      const re = /<span class="c-str">var\((--[a-z0-9-]+)\)<\/span>;[^\n]*?<span class="c-comment">\/\*\s*(#[0-9A-Fa-f]{6})/g;
+      const re = /<span class="c-str">var\((--[a-z0-9-]+)\)<\/span>;[^\n]*?<span class="c-comment">\/\*\s*([^*]*?)\s*\*\//g;
       let n = 0;
       for (const m of src.matchAll(re)) {
-        expect(page, this.name, m[1], 'light', m[2], `code sample \`var(${m[1]})\``);
+        const token = m[1];
+        const comment = m[2];
+        const at = `code sample \`var(${token})\``;
         n++;
+
+        /* A hex — the original case. */
+        const asHex = /^#[0-9A-Fa-f]{6}/.exec(comment);
+        if (asHex) {
+          expect(page, this.name, token, 'light', asHex[0], at);
+          continue;
+        }
+
+        /**
+         * A dimension. Checked because three of these were wrong: `--radius-cta`
+         * annotated 40px when it aliases the full pill, and `--radius-xs`
+         * annotated 4px when it is 2px. rem is normalised so 3.5rem and 56px do
+         * not read as drift.
+         */
+        const asDim = /^(-?[\d.]+)(px|rem)\b/.exec(comment);
+        if (asDim) {
+          const want = raw(token);
+          const px = (v) => {
+            const d = /^(-?[\d.]+)(px|rem)$/.exec((v ?? '').trim());
+            return d ? parseFloat(d[1]) * (d[2] === 'rem' ? 16 : 1) : null;
+          };
+          const got = px(want);
+          const said = parseFloat(asDim[1]) * (asDim[2] === 'rem' ? 16 : 1);
+          if (got === null)
+            record(page, this.name, `${at}: annotated ${comment}, but \`${token}\` is ${want ?? 'undeclared'} — not a length`);
+          else if (got !== said) record(page, this.name, `${at}: annotated ${comment}, but \`${token}\` is ${want}`);
+          continue;
+        }
+
+        /**
+         * A ramp name. `--color-border-dark` was annotated `violet-500` long
+         * after it moved to iron-violet/800 — a label nothing compared.
+         */
+        const key = rampVar(comment.split(/\s+/)[0]);
+        if (!key) continue;
+        const rampHex = resolve(key, 'light');
+        const tokenHex = resolve(token, 'light');
+        if (rampHex === null) record(page, this.name, `${at}: cites ramp \`${comment.split(/\s+/)[0]}\`, which is not a token`);
+        else if (tokenHex && rampHex !== tokenHex)
+          record(page, this.name, `${at}: labelled \`${comment.split(/\s+/)[0]}\` (${rampHex}), but the token is ${tokenHex}`);
       }
       return n;
     },

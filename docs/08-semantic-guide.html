@@ -872,7 +872,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
 .<span class="c-key">btn-primary</span> {
   <span class="c-attr">background-color</span>: <span class="c-str">var(--color-primary)</span>;        <span class="c-comment">/* #E01A59  iron-pink-500 */</span>
   <span class="c-attr">color</span>:            <span class="c-str">var(--color-text-on-primary)</span>; <span class="c-comment">/* #FFFFFF */</span>
-  <span class="c-attr">border-radius</span>:    <span class="c-str">var(--radius-cta)</span>;            <span class="c-comment">/* 40px */</span>
+  <span class="c-attr">border-radius</span>:    <span class="c-str">var(--radius-cta)</span>;            <span class="c-comment">/* 9999px — full pill */</span>
   <span class="c-attr">height</span>:           <span class="c-str">var(--size-btn-primary)</span>;      <span class="c-comment">/* 56px */</span>
 }
 .<span class="c-key">btn-primary</span>:hover  { <span class="c-attr">background-color</span>: <span class="c-str">var(--color-primary-hover)</span>; }  <span class="c-comment">/* #BA174B */</span>
@@ -891,7 +891,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
 .<span class="c-key">input</span> {
   <span class="c-attr">border</span>:     <span class="c-num">1px</span> solid <span class="c-str">var(--color-border)</span>;       <span class="c-comment">/* slate-200 */</span>
   <span class="c-attr">color</span>:         <span class="c-str">var(--color-text-body)</span>;         <span class="c-comment">/* neutral-800 */</span>
-  <span class="c-attr">border-radius</span>: <span class="c-str">var(--radius-xs)</span>;                <span class="c-comment">/* 4px */</span>
+  <span class="c-attr">border-radius</span>: <span class="c-str">var(--radius-xs)</span>;                <span class="c-comment">/* 2px */</span>
 }
 .<span class="c-key">input</span>::placeholder { <span class="c-attr">color</span>: <span class="c-str">var(--color-text-placeholder)</span>; }
 .<span class="c-key">input</span>:focus {
@@ -900,14 +900,14 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
 }
 .<span class="c-key">input</span>.error  { <span class="c-attr">border-color</span>: <span class="c-str">var(--color-border-error)</span>; } <span class="c-comment">/* #E5242A */</span>
 
-<span class="c-comment">/* ✅ DARK MODE — override at root */</span>
-[<span class="c-attr">data-theme</span>=<span class="c-str">"dark"</span>] {
+<span class="c-comment">/* ✅ DARK MODE — put .dark on any ancestor */</span>
+.<span class="c-key">dark</span> {
   --<span class="c-key">color-text-heading</span>: <span class="c-str">var(--color-text-dark-heading)</span>;   <span class="c-comment">/* #F5F5F5 */</span>
   --<span class="c-key">color-text-body</span>:    <span class="c-str">var(--color-text-dark-body)</span>;      <span class="c-comment">/* #D4D4D4 */</span>
   --<span class="c-key">color-bg-base</span>:      <span class="c-str">var(--color-bg-dark)</span>;             <span class="c-comment">/* #260F27 */</span>
   --<span class="c-key">color-bg-shade</span>:     <span class="c-str">var(--color-bg-dark-shade)</span>;       <span class="c-comment">/* #462244 */</span>
   --<span class="c-key">color-bg-card</span>:      <span class="c-str">var(--color-bg-dark-card)</span>;        <span class="c-comment">/* #522950 */</span>
-  --<span class="c-key">color-border</span>:       <span class="c-str">var(--color-border-dark)</span>;         <span class="c-comment">/* violet-500 */</span>
+  --<span class="c-key">color-border</span>:       <span class="c-str">var(--color-border-dark)</span>;         <span class="c-comment">/* iron-violet-800 */</span>
 }</pre>
       </div>
 

@@ -114,6 +114,10 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .dropzone.has-file .dropzone-icon { background: color-mix(in srgb, var(--color-success-strong) 8%, transparent); border-color: color-mix(in srgb, var(--color-success-strong) 14%, transparent); color: var(--color-success-strong); }
 .dz-remove { font-size: var(--font-size-btn-sm); font-weight: var(--fw-btn-lg); color: var(--color-text-support); background: none; border: none; cursor: pointer; padding: var(--spacing-micro) var(--spacing-xs); position: relative; z-index: 1; }
 .dz-remove:hover { color: var(--color-danger); }
+@media (max-width: 437.98px) {
+  .dropzone { flex-direction: column; align-items: flex-start; gap: var(--spacing-sm); }
+  .dropzone-size { align-self: flex-start; }
+}
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
 .dropzone-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .dropzone-text .size-label { font-size: var(--font-size-caption); color: var(--color-text-support); }
