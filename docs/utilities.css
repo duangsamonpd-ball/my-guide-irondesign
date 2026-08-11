@@ -590,6 +590,9 @@
 .h-\[30px\] {
   height: 30px;
 }
+.h-\[98px\] {
+  height: 98px;
+}
 .h-\[var\(--size-btn-lg\)\] {
   height: var(--size-btn-lg);
 }

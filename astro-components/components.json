@@ -1075,7 +1075,7 @@
           "name": "rows",
           "type": "number",
           "required": false,
-          "default": "3"
+          "description": "Height in text rows. **Omit it** and the box is Figma's own 98px — a designed number, not three lines of 28 plus padding, which is what `rows` would give. Passing `rows` hands the height back to the browser."
         },
         {
           "name": "hint",

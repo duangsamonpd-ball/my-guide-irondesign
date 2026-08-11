@@ -7,6 +7,9 @@ interface Props {
   name?: string;
   placeholder?: string;
   value?: string;
+  /** Height in text rows. **Omit it** and the box is Figma's own 98px — a
+   *  designed number, not three lines of 28 plus padding, which is what `rows`
+   *  would give. Passing `rows` hands the height back to the browser. */
   rows?: number;
   hint?: string;
   error?: boolean;
@@ -22,7 +25,7 @@ const {
   name,
   placeholder,
   value,
-  rows = 3,
+  rows,
   hint,
   error = false,
   errorMessage,
@@ -32,6 +35,13 @@ const {
 } = Astro.props;
 
 const textareaId = fieldId(id, name, 'textarea');
+
+/* Figma fixes the box at 98px (`914:2488` and every sibling state) over a
+   `min-height` of 86. `rows` cannot express 98: three rows of `leading/7` plus
+   the 8px padding and the border is 102. So the design's height is the default
+   and `rows` is the opt-out — set it and the browser sizes the box instead.
+   Ball's ruling 2026-08-11. */
+const sizing = rows === undefined ? 'h-[98px]' : '';
 ---
 
 <div class:list={[fieldShell, className]}>
@@ -41,12 +51,18 @@ const textareaId = fieldId(id, name, 'textarea');
     </label>
   )}
   {/* The box and the resize affordance are the whole of what makes this a
-      Textarea rather than an Input; everything else it wears is shared. */}
+      Textarea rather than an Input; everything else it wears is shared.
+
+      Padding is NOT uniform. Figma's own node — `914:2485`, this component's
+      first, after it had taken Select's numbers and then Input's by ruling —
+      binds `spacing-sm` across and `spacing-xs` down on every state (`914:2488`
+      and siblings). `p-sm` had it 12 all round, so top and bottom carried 4px
+      too much. */}
   <textarea
     id={textareaId}
     name={name}
     rows={rows}
-    class:list={['min-h-[86px] p-sm resize-y disabled:resize-none', fieldControl, fieldBorder(error)]}
+    class:list={['min-h-[86px] px-sm py-xs resize-y disabled:resize-none', sizing, fieldControl, fieldBorder(error)]}
     placeholder={placeholder}
     disabled={disabled}
     required={required}
