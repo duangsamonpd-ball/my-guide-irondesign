@@ -109,6 +109,11 @@
   --iron-violet-600: #84427C;
   --iron-violet-700: #6B3567;
   --iron-violet-800: #522950;
+  /* 850 exists so the dark band ladder has a rung above the page without
+     landing on 800 — that rung is card AND border, and a band painted there
+     makes a card on it vanish, fill and outline together, at 1.000. Ball
+     chose the value 2026-08-11; it is the midpoint of 800 and 900. */
+  --iron-violet-850: #462244;
   --iron-violet-900: #391C39;
   --iron-violet-950: #260F27;
 
@@ -284,7 +289,7 @@
   --color-text-dark-heading-alt: var(--iron-orange-500);   /* #FDA509 — brand/accent 1 */
   --color-text-dark-body:        var(--neutral-300);  /* #D4D4D4 — neutral/300 */
   --color-text-dark-muted:       var(--neutral-400);  /* #A1A1A1 — neutral/400 · 4.54:1 on --color-bg-dark-card */
-  --color-text-dark-placeholder: var(--neutral-400);  /* #A1A1A1 — neutral/400 · 5.81:1 on the iron-violet/900 page background */
+  --color-text-dark-placeholder: var(--neutral-400);  /* #A1A1A1 — neutral/400 · 6.89:1 on the iron-violet/950 page background */
   --color-text-dark-disabled:    var(--neutral-500);  /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
   --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
@@ -335,24 +340,33 @@
   --color-bg-footer-alt:    var(--neutral-950);       /* #0A0A0A — neutral/950 — deeper footer sub-band */
 
   /* ── Surfaces — Dark Theme (Figma: surface, dark column) ── */
-  --color-bg-dark:          var(--iron-violet-900);   /* #391C39 — iron-violet/900 — main page background */
-  --color-bg-dark-shade:    var(--iron-violet-950);   /* #260F27 — iron-violet/950 — band fills, alternating sections */
+  /* ── Dark surfaces — a ladder that mirrors the light one ──────────────────
+     In light the bands step DOWN from a white page. In dark they step UP from
+     it, because this system already reads elevation as lighter there: card is
+     iron-violet/800 against a darker page and always has been. Bands going
+     the other way contradicted the card sitting on them. Ball's call,
+     2026-08-11 — the page moved 900 -> 950 to make room underneath. */
+  --color-bg-dark:          var(--iron-violet-950);   /* #260F27 — iron-violet/950 — main page background (was 900) */
+  --color-bg-dark-shade:    var(--iron-violet-850);   /* #462244 — iron-violet/850 — band fills, alternating sections (was 950) */
   --color-bg-dark-card:     var(--iron-violet-800);   /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
   --color-bg-dark-card-alt: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
   --color-bg-dark-disabled: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
-  --color-bg-dark-section:     var(--iron-violet-950); /* #260F27 — iron-violet/950 — neutral section band (dark). Same value as -shade, different role. */
+  --color-bg-dark-section:     var(--iron-violet-900); /* #391C39 — iron-violet/900 — neutral section band (dark), one rung above the page */
   /* The one surface value in this file that is not a ramp rung, and it is
-     deliberate. The pair has to stay "neutral vs tinted" in dark the way it is
-     in light, but the violet ramp's three usable surface rungs — 800 card,
-     900 page, 950 shade — are all taken, so there is no fourth lightness to
-     step to. This keeps the distinction in HUE instead: brand/secondary at 8%
-     over iron-violet/950. 8% is where it lands equidistant from both
-     neighbours (1.089 against the neutral band and 1.089 against the page).
+     deliberate: the pair has to stay "neutral vs tinted" in dark the way it is
+     in light, and no violet rung is a tint. It is brand/secondary at 8% over
+     iron-violet/900 — the rung `section` sits on — so the two stay level with
+     each other, exactly as slate/50 and iron-blue/50 do in light.
+
+     It was 8% over iron-violet/950 until 2026-08-11, computed when `section`
+     was 950. Once `section` moved up a rung that made section-alt DARKER than
+     its own pair, inverting the relationship it exists to express. A derived
+     value has to be recomputed when the thing it derives from moves.
+
      Written as a hex, not color-mix(), because Figma and tokens.w3c.json must
      both hold a real colour and check:tokens compares all three layers as
-     strings — a formula here would make that comparison impossible. Body text
-     reads 11.02:1 on it, headings 14.99:1. */
-  --color-bg-dark-section-alt: #261A37;                /* brand/secondary 8% over iron-violet/950 — brand-tinted section band (dark) */
+     strings — a formula here would make that comparison impossible. */
+  --color-bg-dark-section-alt: #372647;                /* brand/secondary 8% over iron-violet/900 — brand-tinted section band (dark) */
 
   /* ── Borders — Light Theme (Figma: border, light column) ── */
   --color-border:           var(--slate-200);    /* #E2E8F0 — slate/200 — dividers, input borders, card edges */

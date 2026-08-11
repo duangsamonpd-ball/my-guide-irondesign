@@ -455,12 +455,12 @@
     "surface-dark": {
       "_group": "surface — Figma: surface (dark column)",
       "background": {
-        "$value": "#391C39",
+        "$value": "#260F27",
         "$type": "color",
         "$description": "Iron Violet/900 — main page background (dark)"
       },
       "background-shade": {
-        "$value": "#260F27",
+        "$value": "#462244",
         "$type": "color",
         "$description": "Iron Violet/950 — band fills, alternating sections (dark)"
       },
@@ -480,12 +480,12 @@
         "$description": "Iron Violet/900 — disabled input / control fill (dark)"
       },
       "section": {
-        "$value": "#260F27",
+        "$value": "#391C39",
         "$type": "color",
         "$description": "Iron Violet/950 — neutral section band (dark). Same value as surface-dark/background-shade; different role."
       },
       "section-alt": {
-        "$value": "#261A37",
+        "$value": "#372647",
         "$type": "color",
         "$description": "Brand-tinted section band (dark) — brand/secondary at 8% over Iron Violet/950. Off-ramp on purpose: the violet ramp's three usable surface rungs (800/900/950) are all taken, so the pair keeps its meaning by hue rather than by lightness, exactly as it does in light mode. 8% is where it sits equidistant from both neighbours (1.089 against each)."
       }

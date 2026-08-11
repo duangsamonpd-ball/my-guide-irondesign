@@ -276,12 +276,12 @@
       },
       "surface-dark": {
         "background": {
-          "value": "#391C39",
+          "value": "#260F27",
           "type": "color",
           "description": "Iron Violet/900 (dark)"
         },
         "background-shade": {
-          "value": "#260F27",
+          "value": "#462244",
           "type": "color",
           "description": "Iron Violet/950 (dark)"
         },

@@ -109,6 +109,7 @@
   --iron-violet-600: #84427C;
   --iron-violet-700: #6B3567;
   --iron-violet-800: #522950;
+  --iron-violet-850: #462244;
   --iron-violet-900: #391C39;
   --iron-violet-950: #260F27;
   --iron-red-50: #FFF1F1;
@@ -229,6 +230,7 @@
   --color-iron-violet-600: var(--iron-violet-600);
   --color-iron-violet-700: var(--iron-violet-700);
   --color-iron-violet-800: var(--iron-violet-800);
+  --color-iron-violet-850: var(--iron-violet-850);
   --color-iron-violet-900: var(--iron-violet-900);
   --color-iron-violet-950: var(--iron-violet-950);
   --color-iron-red-50: var(--iron-red-50);
@@ -343,7 +345,7 @@
   --color-text-dark-heading-alt: var(--iron-orange-500); /* #FDA509 — brand/accent 1 */
   --color-text-dark-body: var(--neutral-300); /* #D4D4D4 — neutral/300 */
   --color-text-dark-muted: var(--neutral-400); /* #A1A1A1 — neutral/400 · 4.54:1 on --color-bg-dark-card */
-  --color-text-dark-placeholder: var(--neutral-400); /* #A1A1A1 — neutral/400 · 5.81:1 on the iron-violet/900 page background */
+  --color-text-dark-placeholder: var(--neutral-400); /* #A1A1A1 — neutral/400 · 6.89:1 on the iron-violet/950 page background */
   --color-text-dark-disabled: var(--neutral-500); /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-dark-support: var(--iron-violet-300); /* #CEA7C8 — iron-violet/300 */
   --color-text-dark-link: var(--iron-blue-400); /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
@@ -361,13 +363,13 @@
   --color-bg-disabled: var(--slate-50);       /* #F8FAFC — slate/50 — disabled input / control fill */
   --color-bg-footer: var(--neutral-900);      /* #171717 — neutral/900 — footer / dark band background */
   --color-bg-footer-alt: var(--neutral-950);  /* #0A0A0A — neutral/950 — deeper footer sub-band */
-  --color-bg-dark: var(--iron-violet-900);    /* #391C39 — iron-violet/900 — main page background */
-  --color-bg-dark-shade: var(--iron-violet-950); /* #260F27 — iron-violet/950 — band fills, alternating sections */
+  --color-bg-dark: var(--iron-violet-950);    /* #260F27 — iron-violet/950 — main page background (was 900) */
+  --color-bg-dark-shade: var(--iron-violet-850); /* #462244 — iron-violet/850 — band fills, alternating sections (was 950) */
   --color-bg-dark-card: var(--iron-violet-800); /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
   --color-bg-dark-card-alt: var(--iron-violet-900); /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
   --color-bg-dark-disabled: var(--iron-violet-900); /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
-  --color-bg-dark-section: var(--iron-violet-950); /* #260F27 — iron-violet/950 — neutral section band (dark). Same value as -shade, different role. */
-  --color-bg-dark-section-alt: #261A37;       /* brand/secondary 8% over iron-violet/950 — brand-tinted section band (dark) */
+  --color-bg-dark-section: var(--iron-violet-900); /* #391C39 — iron-violet/900 — neutral section band (dark), one rung above the page */
+  --color-bg-dark-section-alt: #372647;       /* brand/secondary 8% over iron-violet/900 — brand-tinted section band (dark) */
   --color-border: var(--slate-200);           /* #E2E8F0 — slate/200 — dividers, input borders, card edges */
   --color-border-strong: var(--slate-300);    /* #CAD5E2 — slate/300 — hover borders, strong dividers */
   --color-border-alt: var(--iron-blue-500);   /* #2693EC — brand/secondary — focused inputs, active outlines */
@@ -804,18 +806,18 @@
   --color-text-heading-alt: var(--color-text-dark-heading-alt); /* #FDA509 — brand/accent 1 */
   --color-text-body: var(--color-text-dark-body); /* #D4D4D4 — neutral/300 */
   --color-text-muted: var(--color-text-dark-muted); /* #A1A1A1 — neutral/400 · 4.54:1 on --color-bg-dark-card */
-  --color-text-placeholder: var(--color-text-dark-placeholder); /* #A1A1A1 — neutral/400 · 5.81:1 on the iron-violet/900 page background */
+  --color-text-placeholder: var(--color-text-dark-placeholder); /* #A1A1A1 — neutral/400 · 6.89:1 on the iron-violet/950 page background */
   --color-text-disabled: var(--color-text-dark-disabled); /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-support: var(--color-text-dark-support); /* #CEA7C8 — iron-violet/300 */
   --color-text-link: var(--color-text-dark-link); /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
   --color-text-link-hover: var(--color-text-dark-link-hover); /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
-  --color-bg-base: var(--color-bg-dark);      /* #391C39 — iron-violet/900 — main page background */
-  --color-bg-shade: var(--color-bg-dark-shade); /* #260F27 — iron-violet/950 — band fills, alternating sections */
+  --color-bg-base: var(--color-bg-dark);      /* #260F27 — iron-violet/950 — main page background (was 900) */
+  --color-bg-shade: var(--color-bg-dark-shade); /* #462244 — iron-violet/850 — band fills, alternating sections (was 950) */
   --color-bg-card: var(--color-bg-dark-card); /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
   --color-bg-card-alt: var(--color-bg-dark-card-alt); /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
   --color-bg-disabled: var(--color-bg-dark-disabled); /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
-  --color-bg-section: var(--color-bg-dark-section); /* #260F27 — iron-violet/950 — neutral section band (dark). Same value as -shade, different role. */
-  --color-bg-section-alt: var(--color-bg-dark-section-alt); /* brand/secondary 8% over iron-violet/950 — brand-tinted section band (dark) */
+  --color-bg-section: var(--color-bg-dark-section); /* #391C39 — iron-violet/900 — neutral section band (dark), one rung above the page */
+  --color-bg-section-alt: var(--color-bg-dark-section-alt); /* brand/secondary 8% over iron-violet/900 — brand-tinted section band (dark) */
   --color-border: var(--color-border-dark);   /* #522950 — iron-violet/800 — dividers, input borders. Read off Figma's own variable table, which MCP cannot return (one mode per call) — it was iron-violet/500 here, three ramp steps too light, and read at 2.83:1 against the page where the light-mode border reads 1.23:1. /800 lands at 1.28:1, the same weight the light mode has. */
   --color-border-strong: var(--color-border-dark-strong); /* #6B3567 — iron-violet/700 — hover borders, strong dividers. Same correction: was /600 at 2.18:1 against the page, /700 is 1.67:1 against light mode's 1.49:1. */
   --color-border-alt: var(--color-border-dark-alt); /* #2693EC — brand/secondary — same as light mode */

@@ -162,6 +162,7 @@
     --color-iron-violet-600: var(--iron-violet-600);
     --color-iron-violet-700: var(--iron-violet-700);
     --color-iron-violet-800: var(--iron-violet-800);
+    --color-iron-violet-850: var(--iron-violet-850);
     --color-iron-violet-900: var(--iron-violet-900);
     --color-iron-violet-950: var(--iron-violet-950);
     --color-iron-red-50: var(--iron-red-50);
@@ -272,13 +273,13 @@
     --color-bg-disabled: var(--slate-50);
     --color-bg-footer: var(--neutral-900);
     --color-bg-footer-alt: var(--neutral-950);
-    --color-bg-dark: var(--iron-violet-900);
-    --color-bg-dark-shade: var(--iron-violet-950);
+    --color-bg-dark: var(--iron-violet-950);
+    --color-bg-dark-shade: var(--iron-violet-850);
     --color-bg-dark-card: var(--iron-violet-800);
     --color-bg-dark-card-alt: var(--iron-violet-900);
     --color-bg-dark-disabled: var(--iron-violet-900);
-    --color-bg-dark-section: var(--iron-violet-950);
-    --color-bg-dark-section-alt: #261A37;
+    --color-bg-dark-section: var(--iron-violet-900);
+    --color-bg-dark-section-alt: #372647;
     --color-border: var(--slate-200);
     --color-border-strong: var(--slate-300);
     --color-border-alt: var(--iron-blue-500);
@@ -1680,6 +1681,7 @@
   --iron-violet-600: #84427C;
   --iron-violet-700: #6B3567;
   --iron-violet-800: #522950;
+  --iron-violet-850: #462244;
   --iron-violet-900: #391C39;
   --iron-violet-950: #260F27;
   --iron-red-50: #FFF1F1;
