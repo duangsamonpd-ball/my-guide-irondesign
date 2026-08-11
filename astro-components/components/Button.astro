@@ -83,14 +83,17 @@ const WRAP_HEIGHT = {
  * Select, Tooltip, FormCard, TrialKeyCard and FileUpload. Ball's ruling
  * 2026-08-10, the same split-by-role call as Badge's solid `info` that day.
  *
- * `outline` is the ONE row left on the old token, deliberately. Figma binds
- * `button/outline` there too, but --color-bg-base and --color-button-outline
- * agree only in light mode: `.dark` remaps them to #391C39 and #260F27, so
- * moving that row would repaint the outline button in dark mode. Both are
- * plausible — an outline button reading as the page surface, or the system's
- * own decision that it sits slightly darker — and Figma's dark value cannot be
- * read from here (get_variable_defs returns one mode). Left as it was until
- * Ball rules, so this change is provably identical in both themes.
+ * `outline` moved onto `button/outline` too, on Ball's ruling 2026-08-11, and it
+ * is the one row here that changes anything: --color-bg-base and
+ * --color-button-outline are both #FFFFFF in light but `.dark` remaps them to
+ * #391C39 and #260F27, so the outline button is repainted in dark mode only.
+ * That is the intended reading rather than a side effect — the dark violet ramp
+ * is an elevation scale (/800 card, /900 page, /950 recessed), and
+ * `--color-button-dark-outline` was already defined as /950 WITH its own hover
+ * at /900 and used by nobody. On the page colour that hover could not have read
+ * at all, since the button would have started at the page colour. It also lifts
+ * the label from 4.62:1 to 5.48:1, which matters more once the dark border is
+ * corrected to Figma's own value and stops carrying the affordance alone.
  *
  * ondark sits on a dark surface: white label, translucent white border. It read
  * as blue-on-dark before, which only scraped AA on the slate-800 surface the
@@ -106,7 +109,7 @@ const VARIANT = {
   tertiary:
     'bg-button-tertiary text-primary-on border-transparent hover:bg-button-primary focus-visible:shadow-[var(--focus-ring-white)]',
   outline:
-    'bg-bg-base text-on-tertiary border-border hover:bg-button-outline-hover hover:border-border-strong ' +
+    'bg-button-outline text-on-tertiary border-border hover:bg-button-outline-hover hover:border-border-strong ' +
     'hover:text-on-tertiary-hover focus-visible:shadow-[var(--focus-ring-blue)]',
   /* The border override this used to carry was compensating for a wrong default;
      the default border is transparent already. Figma draws no ring on ondark

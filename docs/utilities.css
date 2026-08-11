@@ -856,6 +856,9 @@
 .bg-border-strong {
   background-color: var(--color-border-strong);
 }
+.bg-button-outline {
+  background-color: var(--color-button-outline);
+}
 .bg-button-primary {
   background-color: var(--color-button-primary);
 }
