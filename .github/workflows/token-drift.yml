@@ -49,6 +49,18 @@ jobs:
       - name: Check badge contrast meets WCAG AA
         run: node scripts/check-contrast.mjs
 
+      # Two docs pages write out ~150 colour values by hand, and they are the
+      # reference a consumer actually reads. Nothing looked at any of them until
+      # 2026-08-11, when sixteen were wrong — including two rows documenting a
+      # token that had not existed since the button group was restructured.
+      # The self-test runs first: a parser that silently matches nothing reports
+      # a clean page, which is the failure mode that let this drift.
+      - name: Check the catalogue parsers can fail
+        run: node scripts/check-catalogue.mjs --self-test
+
+      - name: Check docs catalogue matches tokens.css
+        run: node scripts/check-catalogue.mjs
+
       # The docs are static HTML with no build step, so the per-page description,
       # canonical, OG and JSON-LD are generated between markers. Hand-editing one
       # page is exactly the drift this catches.
@@ -59,6 +71,11 @@ jobs:
       # describe a prop that does not exist, but it can go stale.
       - name: Check component manifest is regenerated
         run: node scripts/build-manifest.mjs --check
+
+      # Shipped in `npm run check` but never listed here, so it has only ever run
+      # on someone's laptop. Zero-dep, so it belongs in this job.
+      - name: Check docs code samples are regenerated
+        run: node scripts/build-code-samples.mjs --check
 
   # Proves the theme actually compiles, and that every variable the components
   # read still resolves once Tailwind has processed it.

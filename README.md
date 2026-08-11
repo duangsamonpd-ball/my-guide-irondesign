@@ -333,17 +333,24 @@ Eight gates run in order, and any one of them fails the build:
 | Gate | Asserts |
 |---|---|
 | `check:theme` | `theme.css` has been regenerated from `tokens.css` |
-| `check:tokens` | 301 tokens agree across `tokens.w3c.json`, `tokens.css` and `theme.css` — and no component hardcodes a hex where a semantic token exists |
+| `check:utilities` | `docs/utilities.css` still carries every class the converted components wear |
+| `check:tokens` | every token agrees across `tokens.w3c.json`, `tokens.css` and `theme.css` — and no component hardcodes a hex where a semantic token exists |
 | `check:parity` | every CSS rule in a component's `<style>` also appears in its `docs/component-*.html` page |
 | `check:exports` | every component is in the barrel, and every `exports` map target resolves |
 | `check:vars` | every `var(--…)` a component reads still resolves once Tailwind has compiled the theme |
 | `check:docs-css` | no docs page redefines a rule it should be inheriting from the shared `docs.css` shell |
 | `check:contrast` | every colour pair Badge paints meets WCAG AA, derived from `Badge.astro` and resolved through `tokens.css` |
+| `check:catalogue` | every colour value the docs **write out by hand** still equals the token it names — the two reference pages restate ~150 of them, and a hex typed into a table cell was outside every other gate |
+| `check:seo` | the generated description, canonical, OG and JSON-LD blocks are current on every docs page |
+| `check:manifest` | `components.json` still matches the `interface Props` blocks it is parsed from |
+| `check:code` | the `astro` samples in the docs pages match the ones in `astro-components/README.md` |
 | `check:render` | the demo **markup** in the docs pages still matches what the components actually render |
 
-Six of the eight are plain Node with no dependencies. Two are not: `check:vars` compiles `theme.css` with the real Tailwind v4 CLI first, because a `var()` that resolves in the source can still be missing after compilation; and `check:render` builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
+Eleven of the thirteen are plain Node with no dependencies. Two are not: `check:vars` compiles `theme.css` with the real Tailwind v4 CLI first, because a `var()` that resolves in the source can still be missing after compilation; and `check:render` builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
 
-All eight read source text. For what a browser sees instead, see [Looking at the rendered result](#looking-at-the-rendered-result) below.
+`check:catalogue` runs its own `--self-test` first, and so can `check:catalogue --self-test` on its own. A checker that parses hand-written HTML fails by matching **nothing**, which reads as a clean page; each of its parsers therefore carries a floor and has to react to a planted error before its silence is worth anything.
+
+All thirteen read source text. For what a browser sees instead, see [Looking at the rendered result](#looking-at-the-rendered-result) below.
 
 Token coverage spans colors, spacing, radius, shadows, blur, opacity, sizing, the semantic type scale and breakpoints.
 

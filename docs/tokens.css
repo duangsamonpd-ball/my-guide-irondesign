@@ -315,6 +315,21 @@
   --color-bg-shade:         var(--slate-100);    /* #F1F5F9 — slate/100 — band fills, alternating sections */
   --color-bg-card:          #FFFFFF;                  /* white — card, modal, panel backgrounds */
   --color-bg-card-alt:      var(--iron-blue-50);      /* #F2F9FE — iron-blue/50 — alternative / feature highlight card */
+  /* ── Page-section bands (added 2026-08-11) ────────────────────────────────
+     A full-width band behind a page section. `section` is neutral, `section-alt`
+     is brand-tinted, and they are a HUE pair, not two rungs of a ladder — their
+     luminance differs by 1.6%, which no eye reads as a step. Same relationship
+     `card` / `card-alt` already has, which is why they are named the same way.
+
+     Not the same thing as --color-bg-shade. That token's comment has claimed
+     "alternating sections" for a long time, but the only thing that has ever
+     used it is Select's option hover, and it is the surface every contrast
+     figure in this file is quoted against. Leaving it where it is.
+
+     This library ships no section component — consumers paint their own
+     <section> with these. */
+  --color-bg-section:       var(--slate-50);          /* #F8FAFC — slate/50 — neutral section band. Same value as --color-bg-disabled today, deliberately not an alias: a band and a dead control have no reason to move together. */
+  --color-bg-section-alt:   var(--iron-blue-50);      /* #F2F9FE — iron-blue/50 — brand-tinted section band */
   --color-bg-disabled:      var(--slate-50);          /* #F8FAFC — slate/50 — disabled input / control fill */
   --color-bg-footer:        var(--neutral-900);       /* #171717 — neutral/900 — footer / dark band background */
   --color-bg-footer-alt:    var(--neutral-950);       /* #0A0A0A — neutral/950 — deeper footer sub-band */
@@ -325,6 +340,19 @@
   --color-bg-dark-card:     var(--iron-violet-800);   /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
   --color-bg-dark-card-alt: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
   --color-bg-dark-disabled: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
+  --color-bg-dark-section:     var(--iron-violet-950); /* #260F27 — iron-violet/950 — neutral section band (dark). Same value as -shade, different role. */
+  /* The one surface value in this file that is not a ramp rung, and it is
+     deliberate. The pair has to stay "neutral vs tinted" in dark the way it is
+     in light, but the violet ramp's three usable surface rungs — 800 card,
+     900 page, 950 shade — are all taken, so there is no fourth lightness to
+     step to. This keeps the distinction in HUE instead: brand/secondary at 8%
+     over iron-violet/950. 8% is where it lands equidistant from both
+     neighbours (1.089 against the neutral band and 1.089 against the page).
+     Written as a hex, not color-mix(), because Figma and tokens.w3c.json must
+     both hold a real colour and check:tokens compares all three layers as
+     strings — a formula here would make that comparison impossible. Body text
+     reads 11.02:1 on it, headings 14.99:1. */
+  --color-bg-dark-section-alt: #261A37;                /* brand/secondary 8% over iron-violet/950 — brand-tinted section band (dark) */
 
   /* ── Borders — Light Theme (Figma: border, light column) ── */
   --color-border:           var(--slate-200);    /* #E2E8F0 — slate/200 — dividers, input borders, card edges */
@@ -712,6 +740,8 @@
   --color-bg-card:     var(--color-bg-dark-card);
   --color-bg-card-alt: var(--color-bg-dark-card-alt);
   --color-bg-disabled: var(--color-bg-dark-disabled);
+  --color-bg-section:     var(--color-bg-dark-section);
+  --color-bg-section-alt: var(--color-bg-dark-section-alt);
 
   /* ── Borders ── */
   --color-border:        var(--color-border-dark);

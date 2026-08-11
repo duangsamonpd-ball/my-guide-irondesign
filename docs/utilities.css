@@ -267,6 +267,8 @@
     --color-bg-shade: var(--slate-100);
     --color-bg-card: #FFFFFF;
     --color-bg-card-alt: var(--iron-blue-50);
+    --color-bg-section: var(--slate-50);
+    --color-bg-section-alt: var(--iron-blue-50);
     --color-bg-disabled: var(--slate-50);
     --color-bg-footer: var(--neutral-900);
     --color-bg-footer-alt: var(--neutral-950);
@@ -275,6 +277,8 @@
     --color-bg-dark-card: var(--iron-violet-800);
     --color-bg-dark-card-alt: var(--iron-violet-900);
     --color-bg-dark-disabled: var(--iron-violet-900);
+    --color-bg-dark-section: var(--iron-violet-950);
+    --color-bg-dark-section-alt: #261A37;
     --color-border: var(--slate-200);
     --color-border-strong: var(--slate-300);
     --color-border-alt: var(--iron-blue-500);
@@ -1930,6 +1934,8 @@
   --color-bg-card: var(--color-bg-dark-card);
   --color-bg-card-alt: var(--color-bg-dark-card-alt);
   --color-bg-disabled: var(--color-bg-dark-disabled);
+  --color-bg-section: var(--color-bg-dark-section);
+  --color-bg-section-alt: var(--color-bg-dark-section-alt);
   --color-border: var(--color-border-dark);
   --color-border-strong: var(--color-border-dark-strong);
   --color-border-alt: var(--color-border-dark-alt);

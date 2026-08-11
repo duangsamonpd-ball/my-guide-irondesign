@@ -435,6 +435,21 @@
         "$value": "#0A0A0A",
         "$type": "color",
         "$description": "Neutral/950 — deeper footer sub-band (Figma: surface/footer-alt)"
+      },
+      "disabled": {
+        "$value": "#F8FAFC",
+        "$type": "color",
+        "$description": "Slate/50 — disabled input / control fill (light). Present in Figma and in tokens.css since before this file recorded it, which is why nothing gated the light value until 2026-08-11."
+      },
+      "section": {
+        "$value": "#F8FAFC",
+        "$type": "color",
+        "$description": "Slate/50 — neutral alternating page-section band. Same value as surface/disabled today but a different role, so the two are free to diverge."
+      },
+      "section-alt": {
+        "$value": "#F2F9FE",
+        "$type": "color",
+        "$description": "Iron Blue/50 — brand-tinted alternating page-section band. Pairs with surface/section the way card-alt pairs with card: same lightness (they differ by 1.6%), different hue."
       }
     },
     "surface-dark": {
@@ -463,6 +478,16 @@
         "$value": "#391C39",
         "$type": "color",
         "$description": "Iron Violet/900 — disabled input / control fill (dark)"
+      },
+      "section": {
+        "$value": "#260F27",
+        "$type": "color",
+        "$description": "Iron Violet/950 — neutral section band (dark). Same value as surface-dark/background-shade; different role."
+      },
+      "section-alt": {
+        "$value": "#261A37",
+        "$type": "color",
+        "$description": "Brand-tinted section band (dark) — brand/secondary at 8% over Iron Violet/950. Off-ramp on purpose: the violet ramp's three usable surface rungs (800/900/950) are all taken, so the pair keeps its meaning by hue rather than by lightness, exactly as it does in light mode. 8% is where it sits equidistant from both neighbours (1.089 against each)."
       }
     },
     "border": {

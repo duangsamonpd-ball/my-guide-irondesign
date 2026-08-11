@@ -356,6 +356,8 @@
   --color-bg-shade: var(--slate-100);         /* #F1F5F9 — slate/100 — band fills, alternating sections */
   --color-bg-card: #FFFFFF;                   /* white — card, modal, panel backgrounds */
   --color-bg-card-alt: var(--iron-blue-50);   /* #F2F9FE — iron-blue/50 — alternative / feature highlight card */
+  --color-bg-section: var(--slate-50);        /* #F8FAFC — slate/50 — neutral section band. Same value as --color-bg-disabled today, deliberately not an alias: a band and a dead control have no reason to move together. */
+  --color-bg-section-alt: var(--iron-blue-50); /* #F2F9FE — iron-blue/50 — brand-tinted section band */
   --color-bg-disabled: var(--slate-50);       /* #F8FAFC — slate/50 — disabled input / control fill */
   --color-bg-footer: var(--neutral-900);      /* #171717 — neutral/900 — footer / dark band background */
   --color-bg-footer-alt: var(--neutral-950);  /* #0A0A0A — neutral/950 — deeper footer sub-band */
@@ -364,6 +366,8 @@
   --color-bg-dark-card: var(--iron-violet-800); /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
   --color-bg-dark-card-alt: var(--iron-violet-900); /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
   --color-bg-dark-disabled: var(--iron-violet-900); /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
+  --color-bg-dark-section: var(--iron-violet-950); /* #260F27 — iron-violet/950 — neutral section band (dark). Same value as -shade, different role. */
+  --color-bg-dark-section-alt: #261A37;       /* brand/secondary 8% over iron-violet/950 — brand-tinted section band (dark) */
   --color-border: var(--slate-200);           /* #E2E8F0 — slate/200 — dividers, input borders, card edges */
   --color-border-strong: var(--slate-300);    /* #CAD5E2 — slate/300 — hover borders, strong dividers */
   --color-border-alt: var(--iron-blue-500);   /* #2693EC — brand/secondary — focused inputs, active outlines */
@@ -810,6 +814,8 @@
   --color-bg-card: var(--color-bg-dark-card); /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
   --color-bg-card-alt: var(--color-bg-dark-card-alt); /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
   --color-bg-disabled: var(--color-bg-dark-disabled); /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
+  --color-bg-section: var(--color-bg-dark-section); /* #260F27 — iron-violet/950 — neutral section band (dark). Same value as -shade, different role. */
+  --color-bg-section-alt: var(--color-bg-dark-section-alt); /* brand/secondary 8% over iron-violet/950 — brand-tinted section band (dark) */
   --color-border: var(--color-border-dark);   /* #522950 — iron-violet/800 — dividers, input borders. Read off Figma's own variable table, which MCP cannot return (one mode per call) — it was iron-violet/500 here, three ramp steps too light, and read at 2.83:1 against the page where the light-mode border reads 1.23:1. /800 lands at 1.28:1, the same weight the light mode has. */
   --color-border-strong: var(--color-border-dark-strong); /* #6B3567 — iron-violet/700 — hover borders, strong dividers. Same correction: was /600 at 2.18:1 against the page, /700 is 1.67:1 against light mode's 1.49:1. */
   --color-border-alt: var(--color-border-dark-alt); /* #2693EC — brand/secondary — same as light mode */

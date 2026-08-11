@@ -377,11 +377,19 @@ const COLORS = {
   'surface.card-alt': 'color-bg-card-alt',
   'surface.footer': 'color-bg-footer',
   'surface.footer-alt': 'color-bg-footer-alt',
+  /* surface.disabled had no entry here and no entry in tokens.w3c.json until
+     2026-08-11, so the LIGHT disabled surface was gated by nothing while its
+     dark counterpart was — Figma has carried the row all along. */
+  'surface.disabled': 'color-bg-disabled',
+  'surface.section': 'color-bg-section',
+  'surface.section-alt': 'color-bg-section-alt',
   'surface-dark.background': 'color-bg-dark',
   'surface-dark.background-shade': 'color-bg-dark-shade',
   'surface-dark.card': 'color-bg-dark-card',
   'surface-dark.card-alt': 'color-bg-dark-card-alt',
   'surface-dark.disabled': 'color-bg-dark-disabled',
+  'surface-dark.section': 'color-bg-dark-section',
+  'surface-dark.section-alt': 'color-bg-dark-section-alt',
 
   'border.default': 'color-border',
   'border.strong': 'color-border-strong',
