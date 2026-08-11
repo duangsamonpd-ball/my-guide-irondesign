@@ -1503,6 +1503,17 @@
           "letterSpacing": "0px"
         },
         "$description": "The `sm` badge — Figma's Typography/UI/badge-small and the size=sm half of the Badge variant set. Size and line-height both differ from badge (10/12 against 12/16), giving a 20px tall badge against 24px. The other three are repeated rather than inherited so the level stands alone as a Figma text style."
+      },
+      "review": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{typography.font-family.body}",
+          "fontSize": "14px",
+          "fontWeight": 600,
+          "lineHeight": "20px",
+          "letterSpacing": "0.8px"
+        },
+        "$description": "The review score in the footer bar — the number itself, e.g. \"4.9\". The \"/5\" beside it is smaller and lighter and stays on the generic steps. Added 2026-08-11 because Figma binds these values as loose variables and gives the role NO type style, so the code had been borrowing --fw-btn for the 600 and --letter-spacing-overline for the 0.8: right values, wrong names, and a change to either of those roles would have moved the score with it. Ball's call was to name the role here rather than draw a style in Figma, since the score is two sizes on one line and no single Figma style can cover it."
       }
     }
   },

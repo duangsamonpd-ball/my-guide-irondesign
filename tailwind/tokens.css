@@ -356,6 +356,9 @@
   --fw-label:     500;  /* Label text — medium, form / UI labels */
   --fw-label-lg:  500;  /* Label text LG — medium, the 16px label step */
   --fw-btn-lg:    700;  /* Button · large — bold CTA */
+  --fw-review:    600;  /* Review score — semibold. Its own name on purpose: this
+                           was --fw-btn, which is the right number under the wrong
+                           role, so retuning buttons would have moved the score. */
   --fw-btn:       600;  /* Button · default / small — semibold */
   --fw-btn-sm:    600;  /* Button · small — semibold */
   --fw-nav:       500;
@@ -410,6 +413,7 @@
   /* ── Font sizes — UI scale (semantic → primitive) ── */
   --font-size-btn-lg:    var(--font-size-base);  /* 16px — hero / primary CTA */
   --font-size-btn:       var(--font-size-sm);    /* 14px — standard button */
+  --font-size-review:  var(--font-size-sm);   /* 14px — the review score itself */
   --font-size-btn-sm:    var(--font-size-xs);    /* 12px — compact / table action */
   --font-size-nav:       var(--font-size-base);  /* 16px — main nav link */
   --font-size-nav-sub:   var(--font-size-sm);    /* 14px — dropdown / footer / sidebar */
@@ -450,6 +454,7 @@
   --line-height-overline: var(--leading-4);   /* 16px */
   --line-height-code:     var(--leading-6);   /* 24px */
   --line-height-btn-lg:    1;                 /* Button · large — single-line (= 100%) */
+  --line-height-review: var(--leading-5);    /* 20px */
   --line-height-btn:       var(--leading-4);  /* Button · default — 16px */
   --line-height-btn-sm:    1;                 /* Button · small — single-line (= 100%) */
   --line-height-nav:       1;                 /* single-line — outside px scale (= 100%) */
@@ -466,6 +471,8 @@
   --letter-spacing-h3:       -0.4px;   /* tight   */
   --letter-spacing-h4:       -0.4px;   /* tight — card title */
   --letter-spacing-overline:  0.8px;   /* wider   */
+  --letter-spacing-review:    0.8px;   /* wider — same reason as --fw-review: it had
+                                          been borrowing the overline's 0.8. */
   --letter-spacing-body-title: 0px;    /* normal  */
   --letter-spacing-label:      0px;    /* normal  */
   --letter-spacing-label-lg:   0px;    /* normal  */
