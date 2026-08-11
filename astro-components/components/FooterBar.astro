@@ -243,6 +243,23 @@ const asset = (file: string) => `${basePath}/${encodeURIComponent(file)}`;
 const hasPanel = freeTools && toolGroups.length > 0;
 const panelId = `fbtools-${Math.random().toString(16).slice(2, 10)}`;
 
+/* `icons.chevronDown` is drawn inside a 16x16 viewBox, but its ink is only
+   12.25 x 7 and sits at (1, 5.125) — measured with getBBox, not eyeballed. Two
+   consequences, and Figma's caret has neither: rendering the 16-box at 13x14
+   scaled the drawing to 0.8125, so it came out 9.95 x 5.69 against the 12.25 x 7
+   `caret-vector` the design file now holds; and rotating the BOX 180 degrees for
+   the open state spun the ink about (8, 8) when its own centre is (7.125,
+   8.625), so it shifted as it turned.
+
+   Cropping the viewBox to the ink fixes both at once: scale becomes 1, and the
+   element is the drawing, so the rotation is about the caret's own centre — the
+   same thing Figma does by wrapping `rotate-180` around a 12.25 x 7 frame.
+   TopNav offsets a viewBox for the same kind of reason.
+
+   The numbers come from the shared path; if `icons.chevronDown` is ever redrawn
+   this crop goes stale silently, so it is stated here rather than hidden. */
+const CARET_VB = '1 5.125 12.25 7';
+
 const items: Link[] = [...menu];
 /* The divider after Free Tools shows while the panel is CLOSED and hides while
    it is open — Ball's ruling 2026-08-10, his third on this one line: "draw it"
@@ -281,13 +298,13 @@ if (freeTools) {
           {item.caret && hasPanel ? (
             <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded={toolsOpen ? 'true' : 'false'} aria-controls={panelId}>
               {item.label}
-              <svg class="fb-caret" viewBox={icons.chevronDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
+              <svg class="fb-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
             </button>
           ) : (
             <a class="fb-menu-link" href={item.href ?? '#'}>
               {item.label}
               {item.caret && (
-                <svg class="fb-caret" viewBox={icons.chevronDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
+                <svg class="fb-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
               )}
             </a>
           )}
@@ -444,7 +461,7 @@ if (freeTools) {
      8 gap, 13x14 caret — 16+71+8+13+16 = the 124 Figma reports. The same node
      in the Default variant is hidden and keeps stale coordinates, so it cannot
      be measured there. */
-  .fb-caret { width: 13px; height: 14px; flex-shrink: 0; }
+  .fb-caret { width: 12.25px; height: 7px; flex-shrink: 0; }
 
   .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
   /* `visibility`, not `display`. At lg the divider is 1px against a -1px margin,
