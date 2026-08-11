@@ -305,7 +305,7 @@ Props: `name` (required — groups radios), `value` (required), `label`, `descri
 ```astro
 <Badge intent="success" dot>Active</Badge>
 <Badge intent="warning">Pending</Badge>
-<Badge intent="info" solid>Beta</Badge>
+<Badge intent="info" variant="solid">Beta</Badge>
 <Badge intent="important">Important</Badge>
 <Badge intent="neutral" pill>Draft</Badge>
 <Badge intent="info" size="sm">Small</Badge>
@@ -314,7 +314,7 @@ Props: `name` (required — groups radios), `value` (required), `label`, `descri
 <div class="dark"><Badge intent="success">Active</Badge></div>
 ```
 
-Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `solid`, `size` (`sm` | `md`, default `md`), `pill`, `dot`, `class`.
+Props: `intent` (`success` | `warning` | `danger` | `info` | `important` | `neutral`, default `neutral`), `variant` (`subtle` | `solid`, default `subtle`), `size` (`sm` | `md`, default `md`), `pill`, `dot`, `class`.
 
 
 Subtle fill/text use the semantic `--color-{intent}-subtle` / `--color-{intent}-strong` pair; solid uses the base `--color-{intent}` (verified against Figma node `776-899`). Every value is a semantic token, so dark mode needs no per-badge rule — inside a `.dark` ancestor those tokens swap to their Dark Purple counterparts (see the `.dark` block in `tokens.css`) and the badge re-themes automatically. `important` and `neutral` are full semantic intents with their own subtle/strong/base tokens (from the Figma color_ui export), the same as the original four.
@@ -783,7 +783,7 @@ const { /* …defaults… */, class: className } = Astro.props;
 | The prop expresses… | Shape | Examples in this library |
 |---|---|---|
 | One of several mutually exclusive looks | string union | `variant`, `intent`, `size`, `placement`, `kind` |
-| A state that is either on or off | `boolean` | `disabled`, `error`, `checked`, `solid`, `pill`, `dot` |
+| A state that is either on or off | `boolean` | `disabled`, `error`, `checked`, `pill`, `dot` |
 | Whether an optional part renders | `boolean`, named `show…` | `showSearch`, `showAskAi`, `showAddress`, `showLanguage`, `showMenuItems2` |
 | Free-form content | slot (not a prop) | `Badge`, `Button`, `FormCard`, `TextLink`, `Tooltip` |
 | Repeating content | array of small objects | `items`, `options`, `products`, `subItems`, `footerNotes` |

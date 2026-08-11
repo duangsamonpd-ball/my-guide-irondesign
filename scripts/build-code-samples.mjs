@@ -45,8 +45,19 @@ const green = (s) => `\x1b[32m${s}\x1b[0m`;
 const dim = (s) => `\x1b[90m${s}\x1b[0m`;
 const bold = (s) => `\x1b[1m${s}\x1b[0m`;
 
-/** A component is converted when it ships no <style> block — same test as check:parity. */
-const isConverted = (file) => !/^\s*<style/m.test(readFileSync(join(COMPONENTS, file), 'utf8'));
+/**
+ * A component is converted when it ships no <style> block — the same PAIRED test
+ * check:parity uses, deliberately.
+ *
+ * This used to be `/^\s*<style/m`, which asked only whether some line starts with
+ * the characters `<style`. Badge.astro's closing notes wrap onto a line reading
+ * "<style>: the trade is real…", so Badge scored as unconverted and was skipped
+ * entirely — its docs code sample went ungenerated and unchecked for as long as
+ * that sentence has been wrapped that way, while the gate reported everything
+ * current. Requiring a closing tag cannot be tripped by prose.
+ */
+const isConverted = (file) =>
+  !/<style[^>]*>[\s\S]*?<\/style>/i.test(readFileSync(join(COMPONENTS, file), 'utf8'));
 
 const escapeHtml = (s) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -110,10 +121,22 @@ const SENTINEL = /([ \t]*)<!-- code:astro -->\n[\s\S]*?([ \t]*)<!-- \/code:astro
 const results = [];
 const errors = [];
 
+const skipped = [];
+
 for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) {
   const name = basename(file, '.astro');
-  if (!isConverted(file)) continue;
   const page = join(DOCS, `component-${name.toLowerCase()}.html`);
+  if (!isConverted(file)) {
+    /**
+     * The failure this catches: a component skipped as unconverted whose docs
+     * page nevertheless carries a sentinel pair. That region is then generated
+     * by nobody and checked by nobody, and the run still prints a green count —
+     * which is exactly how Badge's sample sat stale. Silence about a skip is
+     * only safe when there is nothing there to go stale.
+     */
+    if (existsSync(page) && SENTINEL.test(readFileSync(page, 'utf8'))) skipped.push(name);
+    continue;
+  }
   if (!existsSync(page)) continue;
 
   const src = readFileSync(page, 'utf8');
@@ -133,6 +156,15 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) 
   const current = src === next;
   results.push({ name, page, lines: sample.split('\n').length, current });
   if (!CHECK && !current) writeFileSync(page, next);
+}
+
+if (skipped.length) {
+  console.error(
+    `\n${red(`✖  ${skipped.length} component(s) carry a <!-- code:astro --> region that nothing generates`)}\n`
+  );
+  for (const n of skipped) console.error(`    ${red('✖')} ${n} — its docs page has the sentinel, but it scored as unconverted`);
+  console.error(`\n  Either it ships a <style> block and the region should go, or isConverted is wrong.\n`);
+  process.exit(1);
 }
 
 if (errors.length) {

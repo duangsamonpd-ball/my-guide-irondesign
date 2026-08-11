@@ -8,14 +8,19 @@
  * package exports it. The notes at the bottom are what the conversion cost, kept
  * because they are still true, not because this is still a trial.
  *
- * Figma's axis is `variant=subtle|solid`; here that is the `solid` boolean.
- * `intent` matches outright — the Figma property was `status` until Ball
+ * `intent` matches Figma outright — the Figma property was `status` until Ball
  * renamed it.
  */
 
 interface Props {
   intent?: 'success' | 'warning' | 'danger' | 'info' | 'important' | 'neutral';
-  solid?: boolean;
+  /**
+   * Figma `779:3486` ships `variant=subtle|solid`; this took a `solid` boolean
+   * until 2026-08-11. Eight components in this library express their variant
+   * axis as an enum named `variant` and Badge was the only one spelling one as
+   * a boolean — the same reasoning that turned `small` into `size` below.
+   */
+  variant?: 'subtle' | 'solid';
   /** Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06. */
   size?: 'sm' | 'md';
   pill?: boolean;
@@ -25,7 +30,7 @@ interface Props {
 
 const {
   intent = 'neutral',
-  solid = false,
+  variant = 'subtle',
   size = 'md',
   pill = false,
   dot = false,
@@ -98,7 +103,7 @@ const shape = pill ? 'rounded-full' : 'rounded-sm';
 const dotSize = size === 'sm' ? 'size-1' : 'size-1.5';
 ---
 
-<span class:list={[base, type, shape, solid ? SOLID[intent] : SUBTLE[intent], className]}>
+<span class:list={[base, type, shape, variant === 'solid' ? SOLID[intent] : SUBTLE[intent], className]}>
   {dot && <span class:list={['rounded-full bg-current', dotSize]}></span>}
   <slot />
 </span>

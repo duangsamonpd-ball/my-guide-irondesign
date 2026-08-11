@@ -19,10 +19,11 @@
           "default": "'neutral'"
         },
         {
-          "name": "solid",
-          "type": "boolean",
+          "name": "variant",
+          "type": "'subtle' | 'solid'",
           "required": false,
-          "default": "false"
+          "default": "'subtle'",
+          "description": "Figma `779:3486` ships `variant=subtle|solid`; this took a `solid` boolean until 2026-08-11. Eight components in this library express their variant axis as an enum named `variant` and Badge was the only one spelling one as a boolean — the same reasoning that turned `small` into `size` below."
         },
         {
           "name": "size",
