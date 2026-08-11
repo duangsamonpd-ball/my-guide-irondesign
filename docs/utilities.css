@@ -363,7 +363,7 @@
     --shadow-float: 0 2px 16px 0 rgba(15, 23, 43, 0.20);
     --shadow-modal: 0 8px 24px 0 rgba(15, 23, 43, 0.32);
     --shadow-card-hover: 0 4px 12px 0 rgba(15, 23, 43, 0.08);
-    --shadow-focus-blue: 0 0 0 3px rgba(42, 149, 213, 0.25);
+    --shadow-focus-blue: 0 0 0 3px rgba(38, 147, 236, 0.25);
     --shadow-focus-teal: 0 0 0 3px rgba(99, 193, 160, 0.25);
     --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);
     --shadow-tooltip: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
@@ -1354,7 +1354,7 @@
   opacity: 100%;
 }
 .group-has-\[\:focus-visible\]\:shadow-focus-blue:is(:where(.group):has(:is(:focus-visible)) *) {
-  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));
+  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(38, 147, 236, 0.25));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .group-\[\.open\]\:flex:is(:where(.group):is(.open) *) {
@@ -1367,7 +1367,7 @@
   border-color: var(--color-border-focus);
 }
 .group-\[\.open\]\:shadow-focus-blue:is(:where(.group):is(.open) *) {
-  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));
+  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(38, 147, 236, 0.25));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .group-\[\.open\]\:shadow-focus-magenta:is(:where(.group):is(.open) *) {
@@ -1474,7 +1474,7 @@
   border-color: var(--color-danger);
 }
 .focus\:shadow-focus-blue:focus {
-  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));
+  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(38, 147, 236, 0.25));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .focus\:shadow-focus-magenta:focus {
@@ -1527,7 +1527,7 @@
   border-color: var(--color-border-focus);
 }
 .group-\[\:not\(\.open\)\]\:focus-visible\:shadow-focus-blue:is(:where(.group):is(:not(.open)) *):focus-visible {
-  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(42, 149, 213, 0.25));
+  --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(38, 147, 236, 0.25));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .group-\[\:not\(\.open\)\]\:focus-visible\:shadow-focus-magenta:is(:where(.group):is(:not(.open)) *):focus-visible {
@@ -1849,7 +1849,7 @@
   --line-height-nav-label: var(--leading-4);
   --line-height-badge: var(--leading-4);
   --line-height-badge-sm: var(--leading-3);
-  --focus-ring-blue: 0 0 0 3px rgba(38, 147, 236, 0.25);
+  --focus-ring-blue: var(--shadow-focus-blue);
   --focus-ring-white: 0 0 0 3px rgba(255, 255, 255, 0.25);
   --ghost-hover: var(--transparent-black-5);
   --ondark-tint: var(--transparent-white-5);

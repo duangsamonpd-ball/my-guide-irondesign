@@ -531,11 +531,11 @@
   --shadow-float:         0 2px 16px 0 rgba(15, 23, 43, 0.20); /* Floating — dropdowns, headers · slate-900 */
   --shadow-modal:         0 8px 24px 0 rgba(15, 23, 43, 0.32); /* Modal / dialogs               · slate-900 */
   --shadow-card-hover:    0 4px 12px 0 rgba(15, 23, 43, 0.08); /* Card hover state              · slate-900 */
-  --shadow-focus-blue:    0 0 0 3px rgba(42, 149, 213, 0.25);  /* Focus ring — primary */
+  --shadow-focus-blue:    0 0 0 3px rgba(38, 147, 236, 0.25);  /* Focus ring — the only one. iron-blue/500 at 25%, matching the focus BORDER (--color-border-focus) and what Figma's field nodes specify. Was rgba(42,149,213,.25) = #2A95D5, the same stray "Deep Blue" Ball removed from the Tooltip, so every field ringed in a blue no other token used. */
   --shadow-focus-teal:    0 0 0 3px rgba(99, 193, 160, 0.25);  /* Focus ring — secondary */
   --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);   /* Focus ring — destructive */
   --shadow-tooltip:       0 4px 8px 0 rgba(0, 0, 0, 0.25);     /* Tooltip drop shadow — Figma blur is 8, not 16 */
-  --focus-ring-blue:      0 0 0 3px rgba(38, 147, 236, 0.25);  /* Focus ring — Button secondary/outline/ondark (iron-blue-500 @25%) */
+  --focus-ring-blue:      var(--shadow-focus-blue);            /* Alias. Button reached for this name while every field reached for --shadow-focus-blue, and the two held different blues; one source of truth now, so they cannot drift apart again. */
   --focus-ring-white:     0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
 
 

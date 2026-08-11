@@ -838,9 +838,10 @@
         "offsetY": 0,
         "blur": 0,
         "spread": 3,
-        "color": "rgba(42, 149, 213, 0.25)"
+        "color": "rgba(38, 147, 236, 0.25)"
       },
-      "$type": "shadow"
+      "$type": "shadow",
+      "$description": "Colour corrected 2026-08-11: it was rgba(42,149,213,.25) — #2A95D5, the \"Deep Blue\" that Figma also carried loose on the Tooltip and that Ball removed there. Figma's field nodes specify rgba(38,147,236,.25), which is iron-blue/500 at 25% and the same blue the focus BORDER uses."
     },
     "focus-teal": {
       "$value": {
