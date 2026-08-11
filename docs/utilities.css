@@ -1330,20 +1330,17 @@
   border-style: var(--tw-border-style);
   border-width: 2px;
 }
-.group-has-\[\:checked\]\:border-button-secondary:is(:where(.group):has(:is(:checked)) *) {
-  border-color: var(--color-button-secondary);
-}
 .group-has-\[\:checked\]\:border-danger:is(:where(.group):has(:is(:checked)) *) {
   border-color: var(--color-danger);
 }
 .group-has-\[\:checked\]\:border-secondary:is(:where(.group):has(:is(:checked)) *) {
   border-color: var(--color-secondary);
 }
-.group-has-\[\:checked\]\:bg-button-secondary:is(:where(.group):has(:is(:checked)) *) {
-  background-color: var(--color-button-secondary);
-}
 .group-has-\[\:checked\]\:bg-danger:is(:where(.group):has(:is(:checked)) *) {
   background-color: var(--color-danger);
+}
+.group-has-\[\:checked\]\:bg-secondary:is(:where(.group):has(:is(:checked)) *) {
+  background-color: var(--color-secondary);
 }
 .group-has-\[\:checked\]\:opacity-100:is(:where(.group):has(:is(:checked)) *) {
   opacity: 100%;
