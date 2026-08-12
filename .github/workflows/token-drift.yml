@@ -176,3 +176,18 @@ jobs:
       # so a ruling sampled here is only a ruling here.
       - name: Images paint and text meets WCAG AA
         run: node scripts/preview.mjs --all
+
+      # state-diff itself is NOT gated, and should not be: it asserts "this tree
+      # renders identically to a git ref", which on a direct-to-main repo is
+      # either vacuous (--ref main on a push to main compares HEAD to itself) or
+      # red for good reasons (--ref HEAD~1 flags every intended visual change).
+      # It stays the pre-commit tool it is.
+      #
+      # Its SELF-TEST is a fixed claim though — the harness still sees a
+      # difference when there is one, and none when there is not — and it is the
+      # thing most likely to rot unnoticed, because a broken comparer reports
+      # "0 differences", which reads exactly like good news. Gating it means that
+      # when someone reaches for the tool mid-conversion, it can be believed.
+      # Needs no git ref and no playground build; 16s.
+      - name: Check the state-diff harness can still see a difference
+        run: node scripts/state-diff.mjs --self-test

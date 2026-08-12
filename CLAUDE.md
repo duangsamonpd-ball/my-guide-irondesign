@@ -45,6 +45,14 @@ as actually painted**. It runs at 1440, which is the width its KNOWN exemptions
 were measured at; text reflows over different parts of the footer artwork at
 other widths, so a ruling sampled there is only a ruling there.
 
+**`state-diff` is not gated and should not be.** It asserts "this tree renders
+identically to a git ref", and on a direct-to-main repo that is either vacuous
+(`--ref main` on a push to main compares HEAD with itself) or red for good
+reasons (`--ref HEAD~1` flags every intended visual change). Changing how things
+look is the work here; "nothing changed" is a thing to review, not to enforce.
+Its **self-test** is gated, because a comparer that has stopped comparing
+reports `0 differences`, which reads exactly like good news.
+
 Do not assume a harness behaves on the runner the way it does here. Switching
 `overflow` on found a bug macOS could not express: its arming check asked
 `document.fonts.check('700 16px Montserrat')`, which a local Montserrat install
