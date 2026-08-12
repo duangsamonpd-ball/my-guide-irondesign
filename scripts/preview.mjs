@@ -86,19 +86,44 @@ const KNOWN = new Map([
       'Already recorded on --color-text-link in tokens.css — pair links with an underline so colour is never the only cue.',
   ],
   [
+    '#2693EC on #EEF1F5',
+    'The same Iron Blue 500 ruling as the row above, on --color-bg-shade rather than white — the note ' +
+      'there has cited this case since 2026-08-02 ("2.96:1 on --color-bg-shade"). It needs its own key ' +
+      'only because the backdrop is measured from painted pixels as of 2026-08-12 instead of composed ' +
+      'from background-colors, so the pair it appears under is the real one. Measured 2.87:1, against ' +
+      'the 2.96 recorded on paper: same decision, and the 0.09 is the docs canvas grid that the flat ' +
+      'model could not see. Not a new finding and not a widening of the old one.',
+  ],
+  [
     '#FFFFFF on #2693EC',
     'The same brand blue as a solid fill (.btn--secondary). 3.25:1. No single label colour clears AA across ' +
       'the state chain — white is 3.25/4.47/6.42 and #171717 is 5.52/4.01/2.79 over default/hover/active — ' +
       'so the fill would have to darken to iron-blue-700 to fix it. Kept as the brand secondary.',
   ],
-  [
-    '#E01A59 on #260F27',
-    'Iron Pink 500 on the violet band. 3.78:1 at 18px (the other three product accents are 8.19–10.55). ' +
-      'Passes as large text at 30px, where the bar is 3:1. Kept as the brand primary. ' +
-      'The same ruling covers the footer ghost CTA on hover, which this probe does not reach because it ' +
-      'only measures the resting state: the label goes pink over --ghost-hover and lands at 3.83:1. ' +
-      "Ball's call, 2026-08-03 — it is the DS button behaving normally, and the colour is the brand's.",
-  ],
+  /* REMOVED 2026-08-12: '#E01A59 on #260F27'.
+   *
+   * That pair does not exist and never did. It was recorded from the flat model,
+   * which composed the violet band's background-COLOUR while Rainbow.svg was
+   * painted over it — proven by forcing the band colour to #00FF00 and finding
+   * the sampled pixels behind the text unchanged. The real backdrops are
+   * #58321E and #1E0818, and the real ratios are 2.36:1 and 4.04:1, not 3.78:1.
+   *
+   * The ruling it carried is NOT withdrawn and is NOT re-keyed here on purpose.
+   * Ball's 2026-08-03 call was made on 3.78:1 at 18px passing the 3:1 large-text
+   * bar; the measured numbers are different enough that re-pointing the
+   * exemption at the new pairs would be deciding on his behalf rather than
+   * recording a decision he made. Footer's three pairs stay live failures until
+   * he rules on the real figures. The original text, kept so the ruling is not
+   * lost with the key:
+   *
+   *   "Iron Pink 500 on the violet band. 3.78:1 at 18px (the other three product
+   *    accents are 8.19–10.55). Passes as large text at 30px, where the bar is
+   *    3:1. Kept as the brand primary. The same ruling covers the footer ghost
+   *    CTA on hover, which this probe does not reach because it only measures the
+   *    resting state: the label goes pink over --ghost-hover and lands at 3.83:1.
+   *    Ball's call, 2026-08-03 — it is the DS button behaving normally, and the
+   *    colour is the brand's."
+   */
 ]);
 
 /* ── 1. arguments ─────────────────────────────────────────────────────────── */

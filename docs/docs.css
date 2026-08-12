@@ -135,7 +135,12 @@ header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
   max-width: 760px;
 }
 .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; }
-.cell .lbl small { display:block; font-weight:500; color:#A1A1A1; font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
+/* #A1A1A1 until 2026-08-12: 2.58:1 on white and 2.28:1 on the canvas grid, at
+   9.92px, which is 49 failing text runs across five pages — the single largest
+   source of AA failures in the docs. --color-text-muted is the token that
+   already describes this ("Captions, hints, field descriptions — real text,
+   must meet AA") and lands at 7.81:1 and 6.90:1 on the two backdrops. */
+.cell .lbl small { display:block; font-weight:500; color:var(--color-text-muted); font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
 .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
 .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
 .tok tr:last-child td { border-bottom:none; }
