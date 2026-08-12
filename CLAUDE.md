@@ -125,6 +125,27 @@ nothing at all.
 Build the check so it proves it is aimed correctly before it reports — assert
 that an injected override actually moves the number you are about to trust.
 
+**A check that cannot fail on the machine that wrote it is not a check.** This
+is the one that got past everything else, four times in a day. The overflow
+sweep armed itself with `document.fonts.check('700 16px Montserrat')`, which a
+local Montserrat install answers yes to whatever the page renders — so the
+condition was unfalsifiable here and ten components were being measured in
+Times. The module written to fix that shipped with the same flaw: `useLocalFonts`
+only replaced an existing font link, so the self-test fixture got no font at all,
+and again the local install hid it. When a check concerns a resource this machine
+happens to have, **assert on the plumbing as well as the result** — one row that
+inspects the transform and can fail anywhere, beside the row that inspects the
+render and can only fail where the resource is missing.
+
+**Repeating a measurement is not reproducing it.** Before keying contrast
+exemptions to a sampled backdrop pixel, the sweep was run three times and gave
+identical pairs. That showed stability on one machine, not reproducibility: the
+runner samples the same text at `#250718` where this machine gives `#1E0818`,
+because glyph rectangles rasterise differently and a different rectangle takes a
+different slice of a gradient. If a value is **sampled** rather than declared,
+ask what it is a property of before keying anything to it — and match it with a
+tolerance that still has a refusal case, or a tolerance is just a wider hole.
+
 ## Git
 
 Both this repo and the skills repo work **direct to `main`**. Commit, push and
