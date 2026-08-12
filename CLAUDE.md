@@ -30,7 +30,23 @@ npm run check && git commit …
 `node scripts/state-diff.mjs <page> --ref HEAD` compares interactive states pixel
 for pixel, and `npm run overflow` sweeps every component across nine widths for
 anything that leaves its box. All three exit non-zero on failure. None is in
-`npm run check`, because CI has no browser.
+`npm run check`, which stays runnable anywhere Node runs.
+
+**CI does have a browser** — this file said otherwise until 2026-08-12 and it was
+never true. `ubuntu-latest` ships Google Chrome, and all three harnesses launch
+`channel: 'chrome'`, which is that install. `overflow` runs there now, in the
+`render` job, because that job already pays for `npm ci` and the playground
+build the sweep reads. `preview` and `state-diff` still do not, and the reason is
+not the browser: `preview`'s contrast sweep needs a triage pass before its
+findings are all real, and `state-diff` compares against a git ref.
+
+Do not assume a harness behaves on the runner the way it does here. Switching
+`overflow` on found a bug macOS could not express: its arming check asked
+`document.fonts.check('700 16px Montserrat')`, which a local Montserrat install
+answers yes to on this machine no matter what the page does. Ten of nineteen
+components turned out to be measured in Times, ~21% narrower than Montserrat, in
+the direction that hides overflow. **A foreign machine is an instrument too, and
+it can see what yours is built not to.**
 
 Reach for `overflow` before believing a layout is fine at a width you have not
 looked at. The bug it exists for is invisible to every other gate: a breakpoint

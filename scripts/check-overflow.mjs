@@ -25,12 +25,13 @@
  *   node scripts/check-overflow.mjs --json
  *   node scripts/check-overflow.mjs --self-test         prove the classifier
  *
- * Exit code is non-zero when anything leaves its box, so this can be wired into
- * CI the day CI has a Chrome. It is deliberately NOT in `npm run check`, for the
- * same reason `preview.mjs` and `state-diff.mjs` are not: that gate set runs
- * anywhere Node runs, and this needs a browser.
+ * Exit code is non-zero when anything leaves its box. It runs in CI as of
+ * 2026-08-12, in the `render` job — that job already installs and builds the
+ * playground this reads, and ubuntu-latest ships the Chrome `channel: 'chrome'`
+ * resolves to. It stays out of `npm run check`, which is kept runnable anywhere
+ * Node runs, as `preview.mjs` and `state-diff.mjs` are.
  *
- * FOUR THINGS IT HAS TO DO THAT THE OBVIOUS VERSION GETS WRONG. Every one of
+ * FIVE THINGS IT HAS TO DO THAT THE OBVIOUS VERSION GETS WRONG. Every one of
  * them produced a confident, wrong answer first.
  *
  *  1. THE PAGE HAS TO BE STYLED, AND IT HAS TO PROVE IT.
@@ -58,6 +59,20 @@
  *     legitimate ways to sit outside a parent, and are skipped. What is left is
  *     split by whether an ancestor actually clips: CUT is the silent kind that
  *     hid the Footer and FooterBar bugs, SPILLS is at least visible.
+ *
+ *  5. THE FONT HAS TO BE THE ONE THAT SHIPS, AND THE CHECK FOR IT HAS TO BE
+ *     ABLE TO FAIL WHERE IT WAS WRITTEN.
+ *     This armed itself with `document.fonts.check('700 16px Montserrat')` until
+ *     2026-08-12. On a machine with Montserrat installed that is true for every
+ *     page whatever it renders, so the condition could not fail here; the first
+ *     Linux run split the pages 9/10 purely on which ones draw bold text, since
+ *     Chrome fetches only the faces a page uses. Behind it, INJECT was missing
+ *     the `body { font-family }` every docs page carries, so ten components were
+ *     measured in the UA default — Montserrat is 20–26% WIDER, meaning the sweep
+ *     under-read text by a fifth in the direction that hides overflow. The stack
+ *     is now read out of the docs pages and `assertFont` checks what the page
+ *     actually renders in, against two fixtures: one it must refuse, one it must
+ *     accept.
  *
  * The one systematic false positive left is a deliberate negative margin, which
  * any per-element check reads as an overflow. Those live in KNOWN below, and an
