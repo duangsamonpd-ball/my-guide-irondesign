@@ -24,6 +24,7 @@
  *   --threshold <n>   per-channel delta that counts as a difference, default 2
  *   --max <n>         stop after n differing elements, default 12
  *   --calib-passes <n>  noise-floor passes to take the worst of, default 3
+ *   --confirm <n>     fresh-load re-measurements a difference must survive, default 2
  *   --json            machine-readable output
  *
  * FIVE THINGS IT HAS TO DO THAT THE OBVIOUS VERSION GETS WRONG. Every one of
@@ -78,6 +79,30 @@
  *     repeated runs yet, so click is not evidence. Use `--calib-passes 1` to
  *     make it bearable while that is being worked out.
  *
+ *  7. A DIFFERENCE HAS TO REPRODUCE, and NOTHING COMPARED IS NOT A PASS
+ *     (both 2026-08-12). The floor in 5 bounds the variance calibration
+ *     happened to sample; it cannot bound what it did not. Measured after
+ *     `0c23ed7`, with HEAD equal to the working tree so both sides were
+ *     byte-identical: three runs of `formcard --ref HEAD` gave clean, one
+ *     difference, clean — the odd one being a submit button whose computed
+ *     style is identical in both trees, checked in Chrome. So a candidate is
+ *     now re-measured on fresh loads (`--confirm`, default 2) and dropped
+ *     unless it survives; the count that did not survive is printed, because a
+ *     harness silently discarding findings is its own hazard. Four runs of the
+ *     same page after: clean every time, with the phantom named as a candidate
+ *     that did not reproduce.
+ *
+ *     Calibration also now opens TWO servers on the reference tree rather than
+ *     one origin twice, so the floor spans the same conditions as the run it
+ *     guards. It had been sampling a warm second load where the real second
+ *     side is cold.
+ *
+ *     And a page where nothing could be driven into any state now FAILS instead
+ *     of printing "0 element states identical" under a green tick, which is
+ *     what `state-diff badge` did until today. Badge has no interactive element
+ *     in its demo regions; that is a true fact about Badge and a refusal to
+ *     answer, not a clean bill of health. Use `npm run preview` for those.
+ *
  * Needs Google Chrome. Not in `npm run check` — same reason as preview.mjs.
  */
 
@@ -106,13 +131,20 @@ const fail = (m) => { console.error(red(`\n✖  ${m}\n`)); process.exit(1); };
 
 function parseArgs(argv) {
   const o = { pages: [], ref: 'main', states: 'rest,hover,focus,click', width: 1440, threshold: 2, max: 12 };
-  const takesValue = new Set(['--ref', '--states', '--width', '--threshold', '--max']);
+  /**
+   * `--calib-passes` and `--confirm` belong here too. Until 2026-08-12 only the
+   * first five did, so `--calib-passes 1` — which this file's own header
+   * recommends — set the flag to `true` and pushed `1` into the page list,
+   * failing with `no docs page matches "1"`. A documented option that cannot be
+   * used is worse than an undocumented one.
+   */
+  const takesValue = new Set(['--ref', '--states', '--width', '--threshold', '--max', '--calib-passes', '--confirm']);
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (takesValue.has(a)) {
       const v = argv[++i];
       if (v === undefined) fail(`${a} needs a value`);
-      o[a.slice(2)] = ['--width', '--threshold', '--max'].includes(a) ? Number(v) : v;
+      o[a.slice(2)] = ['--width', '--threshold', '--max', '--calib-passes', '--confirm'].includes(a) ? Number(v) : v;
     } else if (a.startsWith('--') && a.includes('=')) {
       const [k, ...rest] = a.split('=');
       argv.splice(i--, 1, k, rest.join('='));
@@ -424,8 +456,18 @@ async function makeComparator(browser) {
  * harness cannot tell apart, on this machine, today — and is not reported.
  */
 async function calibrate(browser, cmp, refDocs, page) {
-  const A = await serve(refDocs);
-  const [p1, p2] = [await openPage(browser, A.origin, page), await openPage(browser, A.origin, page)];
+  /**
+   * TWO servers, both on the reference tree — not one origin opened twice.
+   * The floor has to be measured across the same span as the comparison it
+   * guards, and `comparePage` reads one side from each of two servers. With a
+   * single origin the second load is warm where the real run's second side is
+   * cold, so the floor came in systematically low: FormCard measured Δ60 here
+   * and then flagged its submit button at Δ77 with computed styles identical in
+   * both trees. A floor sampled under easier conditions than the measurement is
+   * a floor that certifies a stability nothing tested.
+   */
+  const [A, A2] = [await serve(refDocs), await serve(refDocs)];
+  const [p1, p2] = [await openPage(browser, A.origin, page), await openPage(browser, A2.origin, page)];
   const targets = await p1.evaluate(() => window.__targets);
   const per = new Map(); let n = 0;
   for (const t of targets) {
@@ -438,7 +480,7 @@ async function calibrate(browser, cmp, refDocs, page) {
        */
       let a = p1, b = p2, fresh = null;
       if (state === 'click') {
-        fresh = [await openPage(browser, A.origin, page), await openPage(browser, A.origin, page)];
+        fresh = [await openPage(browser, A.origin, page), await openPage(browser, A2.origin, page)];
         [a, b] = fresh;
       } else {
         for (const p of [p1, p2]) { await p.evaluate(() => document.activeElement?.blur()); await p.mouse.move(0, 0); }
@@ -456,7 +498,7 @@ async function calibrate(browser, cmp, refDocs, page) {
       per.set(state, cur);
     }
   }
-  await p1.close(); await p2.close(); A.server.close();
+  await p1.close(); await p2.close(); A.server.close(); A2.server.close();
   for (const st of STATES) if (!per.has(st)) per.set(st, { maxDelta: 0, maxPct: 0, worst: null });
   return { per, probes: n };
 }
@@ -464,7 +506,7 @@ async function calibrate(browser, cmp, refDocs, page) {
 async function comparePage(browser, cmp, refDocs, page, floor) {
   const [A, B] = [await serve(refDocs), await serve(DOCS)];
   const findings = [];
-  let compared = 0, skipped = 0;
+  let compared = 0, skipped = 0, unconfirmed = 0;
   /** Above the floor on BOTH axes, so neither a faint wide wash nor a sharp
       single pixel gets through on antialiasing alone. */
   const isReal = (d, state) => {
@@ -476,6 +518,7 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
   const pa = await openPage(browser, A.origin, page);
   const targets = await pa.evaluate(() => window.__targets);
   await pa.close();
+  const targetCount = targets.length;
 
   /**
    * `click` mutates the page — a checkbox stays checked — so every click probe
@@ -488,14 +531,50 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
   const cheap = STATES.filter((s) => !MUTATING.has(s));
   const costly = STATES.filter((s) => MUTATING.has(s));
 
-  const probe = async (p1, p2, t, state) => {
+  const measure = async (p1, p2, t, state) => {
     const ok1 = await applyState(p1, t.path, state);
     const ok2 = await applyState(p2, t.path, state);
     if (!ok1 || !ok2) return 'skip';
     const [s1, s2] = [await shot(p1, t.path), await shot(p2, t.path)];
     if (!s1 || !s2) return 'skip';
-    const d = await cmp.diff(s1, s2);
-    return isReal(d, state) ? { ...t, state, ...d } : 'same';
+    return cmp.diff(s1, s2);
+  };
+
+  /**
+   * A candidate difference has to REPRODUCE on fresh loads before it is
+   * reported. The floor above bounds the variance this harness could measure
+   * during calibration; it cannot bound what it did not happen to sample.
+   *
+   * Proved necessary rather than assumed: after `0c23ed7`, with HEAD equal to
+   * the working tree so the two sides were byte-identical, three consecutive
+   * runs of `state-diff formcard --ref HEAD` gave clean, one difference, clean.
+   * The one difference was the submit button at Δ77 — an element whose computed
+   * style is identical in both trees, checked in Chrome. A finding that appears
+   * in one run out of three is a property of the harness, and the cheapest way
+   * to tell that apart from a real change is to look again.
+   *
+   * Confirmation always reopens both pages, because the variance being tested
+   * for is between page LOADS — re-measuring the same two open pages would
+   * mostly reproduce whatever they already rendered and confirm nothing.
+   * Only candidates pay this cost, so a clean run is unaffected.
+   */
+  const CONFIRM = Math.max(0, Number(opts.confirm ?? 2));
+  const reproduces = async (t, state) => {
+    for (let i = 0; i < CONFIRM; i++) {
+      const [q1, q2] = [await openPage(browser, A.origin, page), await openPage(browser, B.origin, page)];
+      const d = await measure(q1, q2, t, state);
+      await q1.close(); await q2.close();
+      if (d === 'skip' || !isReal(d, state)) return false;
+    }
+    return true;
+  };
+
+  const probe = async (p1, p2, t, state) => {
+    const d = await measure(p1, p2, t, state);
+    if (d === 'skip') return 'skip';
+    if (!isReal(d, state)) return 'same';
+    if (!(await reproduces(t, state))) { unconfirmed++; return 'same'; }
+    return { ...t, state, ...d, seen: CONFIRM + 1 };
   };
 
   if (cheap.length) {
@@ -516,7 +595,7 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
           if (findings.length >= opts.max) {
             await p1.close(); await p2.close();
             A.server.close(); B.server.close();
-            return { findings, compared, skipped, truncated: true };
+            return { findings, compared, skipped, unconfirmed, targetCount, truncated: true };
           }
         }
       }
@@ -535,13 +614,26 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
         findings.push(r);
         if (findings.length >= opts.max) {
           A.server.close(); B.server.close();
-          return { findings, compared, skipped, truncated: true };
+          return { findings, compared, skipped, unconfirmed, targetCount, truncated: true };
         }
       }
     }
   }
   A.server.close(); B.server.close();
-  return { findings, compared, skipped, truncated: false };
+  return { findings, compared, skipped, unconfirmed, targetCount, truncated: false };
+}
+
+/**
+ * The verdict for one page, kept as a pure function so the self-test can reach
+ * it without a git ref or a browser. `nothing-compared` exists because the two
+ * honest outcomes are not "clean" and "differences": a run that drove no element
+ * into any state has produced no evidence, and saying so in the same green
+ * sentence used for a clean page is how a comparer that stopped comparing goes
+ * unnoticed.
+ */
+function verdictFor(compared, findings) {
+  if (!compared) return 'nothing-compared';
+  return findings.length ? 'differences' : 'clean';
 }
 
 /* ── self-test — a harness that cannot fail is not evidence ──────────────── */
@@ -567,6 +659,25 @@ async function selfTest(browser, cmp) {
   ];
 
   let failed = 0;
+
+  /**
+   * The verdict rule, checked without a browser. The middle case is the one
+   * that matters: it is the shape `state-diff badge` printed under a green tick
+   * until 2026-08-12 — nothing compared, reported as though the page had been
+   * cleared. A refusal case is what makes the other two mean anything.
+   */
+  for (const [name, compared, findings, want] of [
+    ['0 compared is refused, not called a pass', 0, [], 'nothing-compared'],
+    ['0 compared is refused even with 0 findings', 0, [], 'nothing-compared'],
+    ['a page with probes and no findings is clean', 12, [], 'clean'],
+    ['a page with a finding reports differences', 12, [{}], 'differences'],
+  ]) {
+    const got = verdictFor(compared, findings);
+    const pass = got === want;
+    console.log(`  ${pass ? green('✔') : red('✖')}  ${name} ${dim(`(${got})`)}`);
+    if (!pass) failed++;
+  }
+
   for (const c of cases) {
     mk('a.html', '.btn:hover { background: #cfe; }');
     mk('b.html', c.css);
@@ -587,6 +698,34 @@ async function selfTest(browser, cmp) {
     console.log(`  ${pass ? green('✔') : red('✖')}  ${c.name} ${dim(`(${diffs} state(s) differed)`)}`);
     if (!pass) failed++;
   }
+  /**
+   * Findings now have to reproduce on fresh loads before they are reported,
+   * which is only safe if a REAL difference survives being looked at again.
+   * This drives the same genuine hover change three times, on new page loads
+   * each time, and demands three sightings out of three. A suppressor tuned
+   * until the noise went away would fail here, which is the point: the
+   * repetition rule has to be able to cost something.
+   */
+  {
+    mk('a.html', '.btn:hover { background: #cfe; }');
+    mk('b.html', '.btn:hover { background: #f00; }');
+    const { origin, server } = await serve(dir);
+    let seen = 0;
+    for (let i = 0; i < 3; i++) {
+      const [p1, p2] = [await openPage(browser, origin, 'a.html'), await openPage(browser, origin, 'b.html')];
+      const path = (await p1.evaluate(() => window.__targets))[0].path;
+      if ((await applyState(p1, path, 'hover')) && (await applyState(p2, path, 'hover'))) {
+        const [s1, s2] = [await shot(p1, path), await shot(p2, path)];
+        if (s1 && s2 && (await cmp.diff(s1, s2)).differing > 0) seen++;
+      }
+      await p1.close(); await p2.close();
+    }
+    server.close();
+    const pass = seen === 3;
+    console.log(`  ${pass ? green('✔') : red('✖')}  a real difference reproduces on every fresh load ${dim(`(${seen}/3)`)}`);
+    if (!pass) failed++;
+  }
+
   rmSync(dir, { recursive: true, force: true });
   return failed;
 }
@@ -646,10 +785,29 @@ for (const page of pages) {
     .join('  ');
   console.log(dim(`  noise floor from ${floor.probes} self-comparisons — ${floorLine}`));
   if (floor.worst) console.log(dim(`  worst self-comparison: ${floor.worst.state} on ${floor.worst.path.split(" > ").slice(-2).join(" > ")}`));
-  const { findings, compared, skipped, truncated } = await comparePage(browser, cmp, refDocs, page, floor);
-  report.push({ page, findings, compared, skipped });
+  const { findings, compared, skipped, unconfirmed, targetCount, truncated } = await comparePage(browser, cmp, refDocs, page, floor);
+  report.push({ page, findings, compared, skipped, unconfirmed });
+  /**
+   * "0 element states identical" is not a pass — it is the harness saying it
+   * compared nothing, in the words it uses for good news. This repo has the
+   * failure on record twice already, once from a probe that reported exactly
+   * that while measuring nothing at all, and `state-diff badge` printed it under
+   * a green tick until 2026-08-12. A comparer that found nothing to compare has
+   * not cleared the tree; it has failed to look at it.
+   */
+  if (verdictFor(compared, findings) === 'nothing-compared') {
+    bad++;
+    console.log(red('  ✖  nothing was compared') + dim(` (${skipped} state(s) not applicable)`));
+    console.log(dim(targetCount
+      ? `     ${targetCount} element(s) were found but none could be driven into any of: ${STATES.join(', ')}.`
+      : '     its demo regions contain no interactive element (a, button, input, select,'));
+    if (!targetCount) console.log(dim('     textarea, summary, label, [tabindex]). A component with no states is settled'));
+    if (!targetCount) console.log(dim('     by a screenshot — use `npm run preview` — not by this harness.'));
+    continue;
+  }
   if (!findings.length) {
-    console.log(green(`  ✔  ${compared} element states identical`) + dim(` (${skipped} not applicable)`));
+    console.log(green(`  ✔  ${compared} element states identical`) + dim(` (${skipped} not applicable)`)
+      + (unconfirmed ? dim(`, ${unconfirmed} candidate(s) did not reproduce`) : ''));
     continue;
   }
   bad++;
