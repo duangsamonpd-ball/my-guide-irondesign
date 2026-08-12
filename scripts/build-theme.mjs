@@ -54,11 +54,26 @@ const isPrimitive = (n) => /^(iron-(pink|blue|orange|green|sky|purple|violet|red
 
 /**
  * Where each token goes. Tailwind v4 only generates utilities for its own
- * namespaces, and two of ours don't match — `--rounded-*` and `--font-size-*`
- * are registered under Tailwind's `--radius-*` / `--text-*` and aliased back to
- * their original names so components and docs keep working untouched.
+ * namespaces, and several of ours are named for the role instead. Each is
+ * registered under Tailwind's namespace and aliased back to its original name,
+ * so components and docs reading `var(--line-height-caption)` keep working
+ * untouched while `leading-caption` becomes a real utility.
+ *
+ * `line-height` and `fw` joined this map on 2026-08-12. Without them a
+ * converted component could name its font SIZE by role (`text-caption`, via
+ * `font-size` below) but had no way to name that role's line-height or weight,
+ * so it fell back to the nearest raw number — `leading-4` means 1rem, it does
+ * not mean caption. The gate that refuses to let a role token go unreachable is
+ * the `type namespace` family in check-token-drift.mjs; adding a prefix here is
+ * what makes it green.
  */
-const RENAME = { rounded: 'radius', 'font-size': 'text', 'letter-spacing': 'tracking' };
+const RENAME = {
+  rounded: 'radius',
+  'font-size': 'text',
+  'letter-spacing': 'tracking',
+  'line-height': 'leading',
+  fw: 'font-weight',
+};
 
 /** Namespaces Tailwind understands, passed through unchanged. */
 /* `ease` is a Tailwind v4 theme namespace, so --ease-* belongs in @theme and a

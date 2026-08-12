@@ -438,6 +438,48 @@ for (const name of TOKENS.vars.keys()) {
   else if (px(a) !== px(b)) err('breakpoints', name, `tokens.css = ${a} · theme.css = ${b}`);
 }
 
+/* ── a role-named type token must reach a Tailwind namespace ─────────────── */
+
+/**
+ * tokens.css names line-heights and weights by ROLE — `--line-height-caption`,
+ * `--fw-btn-lg`. Tailwind only emits a utility for a name sitting in one of its
+ * own namespaces, which for these two are `--leading-*` and `--font-weight-*`.
+ * A role that never lands there produces NO UTILITY, so a converted component
+ * cannot write "the caption's line-height" and reaches for the nearest raw
+ * number instead: `leading-4` says 1rem, it does not say caption.
+ *
+ * This is the half-wired seam the 2026-08-12 audit measured. Sizes travel by
+ * role (`text-caption` resolves `--text-caption`, because `font-size-` is in
+ * build-theme's RENAME map) while line-height and weight did not, so the same
+ * class string names its size semantically and its leading numerically.
+ * Before this gate existed: 25 line-height roles and 26 weight roles defined,
+ * and **0 of the 11 converted components referenced any of them** — the whole
+ * library used one, inside FooterBar, which had not been converted yet.
+ *
+ * The fix is in the generator, not here: a prefix in build-theme's RENAME map,
+ * exactly how `rounded-` reaches `--radius-*` and `font-size-` reaches
+ * `--text-*`. Renamed tokens are also aliased back to their original names, so
+ * `var(--line-height-caption)` keeps resolving for anything still reading it.
+ */
+const TYPE_ROLE_NS = [
+  { prefix: 'line-height-', themePrefix: 'leading-', utility: (r) => `leading-${r}` },
+  { prefix: 'fw-', themePrefix: 'font-weight-', utility: (r) => `font-${r}` },
+];
+for (const { prefix, themePrefix, utility } of TYPE_ROLE_NS) {
+  for (const name of TOKENS.vars.keys()) {
+    if (!name.startsWith(prefix)) continue;
+    const role = name.slice(prefix.length);
+    checks++;
+    if (THEME.vars.has(themePrefix + role)) continue;
+    err(
+      'type namespace',
+      name,
+      `theme.css has no \`--${themePrefix}${role}\`, so \`${utility(role)}\` is not a utility — ` +
+        `the role is unreachable from a converted component and only a raw number can stand in`,
+    );
+  }
+}
+
 /* ── the generated layer must be current ─────────────────────────────────── */
 
 // theme.css is generated from tokens.css; a stale copy is drift by definition.
