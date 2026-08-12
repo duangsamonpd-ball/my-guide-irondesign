@@ -108,8 +108,14 @@ jobs:
   # The only job that needs a real install: it renders the components with Astro
   # and asserts the docs demo markup still matches. CSS parity above cannot see
   # a DOM change — this is the gate that can.
+  #
+  # It is also the only job that ends up with a BROWSER-READY tree, which is why
+  # the overflow sweep is bolted on here rather than given a job of its own:
+  # `npm ci` installs playwright-core (13MB, downloads no browser) and
+  # build-demos.mjs builds playground/dist, which is the exact input the sweep
+  # reads. A separate job would pay for both again.
   render:
-    name: docs demo markup matches the rendered components
+    name: docs demo markup matches, and nothing overflows
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -122,5 +128,24 @@ jobs:
       - name: Install workspaces
         run: npm ci
 
+      # Also leaves playground/dist in place for the sweep below.
       - name: Check demo markup is regenerated
         run: node scripts/build-demos.mjs --check
+
+      # Which Chrome the sweep actually gets. `channel: 'chrome'` resolves to the
+      # runner's own install, not a Playwright download, so this is the version
+      # every number below was measured on — record it before trusting them.
+      - name: Chrome version under test
+        run: google-chrome --version
+
+      # A classifier that silently matches nothing reports a clean sweep. Its 16
+      # known answers must pass before any reading from it is worth anything.
+      - name: Check the overflow classifier can fail
+        run: node scripts/check-overflow.mjs --self-test
+
+      # 19 components × 9 widths. Each page arms itself first — a token must
+      # resolve, Montserrat must load, and an injected unfittable element must be
+      # SEEN and then stop being seen when removed. An unarmed page exits 1
+      # rather than reporting a pass it did not earn.
+      - name: Nothing leaves its box at any width
+        run: node scripts/check-overflow.mjs
