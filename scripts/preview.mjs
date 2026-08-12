@@ -55,7 +55,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, extname, basename, normalize } from 'node:path';
 
-import { serveFonts, useLocalFonts, installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
+import { serveFonts, useLocalFonts, installOfflineGuard, fontsAvailable, LOCAL_FONT_HREF } from './lib/local-fonts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
@@ -898,6 +898,10 @@ if (opts['self-test']) {
     ['…which the flat model could not have seen', (gradientRow?.pixels?.colours ?? 0) > 2],
     ['…and it is reported as failing', (gradientRow?.ratio ?? 99) < (gradientRow?.bar ?? 4.5)],
     ['nothing is left unmeasured once the pixel pass has run', contrast.unmeasured.length === 0],
+    /* Falsifiable HERE, unlike the row below it. A machine with Montserrat
+       installed renders the fixture either way, so the end-to-end check
+       cannot fail locally — this one inspects the transform itself. */
+    ['the fixture is served with a local font link', useLocalFonts(SELF_TEST_HTML).includes(LOCAL_FONT_HREF)],
     ['Montserrat renders with every external request blocked', montserratOffline === true],
     ['…and nothing tried to leave the local origin', selfTestEscaped.length === 0],
     ['a white sibling in the same box is NOT counted as the backdrop', (besideWhite?.ratio ?? 0) > 4.5],

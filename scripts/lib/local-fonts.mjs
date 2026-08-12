@@ -70,12 +70,27 @@ export async function serveFonts(path) {
  */
 export function useLocalFonts(html) {
   const link = /<link[^>]+href="https:\/\/fonts\.googleapis\.com\/[^"]*"[^>]*>/g;
-  if (link.test(html)) return html.replace(link, LOCAL_FONT_LINK).replace(
-    // preconnects to the CDN are dead weight once the stylesheet is local, and
+  const preconnect = /<link[^>]+href="https:\/\/fonts\.gstatic\.com[^"]*"[^>]*>/g;
+
+  if (link.test(html)) {
+    // Preconnects to the CDN are dead weight once the stylesheet is local, and
     // the offline guard would abort them noisily.
-    /<link[^>]+href="https:\/\/fonts\.gstatic\.com[^"]*"[^>]*>/g, ''
-  );
-  return html;
+    return html.replace(link, LOCAL_FONT_LINK).replace(preconnect, '');
+  }
+
+  /* A page that names no Google stylesheet still has to render in Montserrat to
+     be worth measuring — the self-test fixture is exactly that page. Until
+     2026-08-12 this branch returned the html untouched while the comment above
+     it claimed otherwise, and the gap was invisible here: a machine with
+     Montserrat installed renders it either way, so the fixture's own
+     "Montserrat renders with every external request blocked" check passed
+     locally and failed on the first Linux run. Same shape as the bug that
+     started this whole thread, in the code written to fix it. */
+  const at = html.search(/<\/head>/i);
+  if (at !== -1) return html.slice(0, at) + LOCAL_FONT_LINK + html.slice(at);
+  const body = html.search(/<body[^>]*>/i);
+  if (body !== -1) return html.slice(0, body) + LOCAL_FONT_LINK + html.slice(body);
+  return LOCAL_FONT_LINK + html;
 }
 
 /**
