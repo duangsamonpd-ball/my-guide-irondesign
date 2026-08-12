@@ -558,9 +558,10 @@
         },
         {
           "name": "type",
-          "type": "string",
+          "type": "astroHTML.JSX.HTMLInputTypeAttribute",
           "required": false,
-          "default": "'text'"
+          "default": "'text'",
+          "description": "Any input type the HTML spec defines."
         },
         {
           "name": "placeholder",

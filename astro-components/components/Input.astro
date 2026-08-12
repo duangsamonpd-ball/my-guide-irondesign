@@ -5,7 +5,13 @@ interface Props {
   label?: string;
   id?: string;
   name?: string;
-  type?: string;
+  // Named from the spec rather than copied into a hand-written union: this was
+  // `string` until 2026-08-12, which `astro check` rejects at `type={type}`
+  // because the attribute is `HTMLInputTypeAttribute`. A literal union here
+  // would be a second list of the HTML input types for this repo to keep
+  // current, which is the kind of restated fact nothing checks.
+  /** Any input type the HTML spec defines. */
+  type?: astroHTML.JSX.HTMLInputTypeAttribute;
   placeholder?: string;
   value?: string;
   hint?: string;
@@ -40,13 +46,17 @@ const inputId = fieldId(id, name, 'input');
       {label}{required && <span class={fieldRequiredMark}> *</span>}
     </label>
   )}
+  {/* The 44px row and its inline padding on the <input> below are the whole of
+      what makes this an Input rather than a Textarea; everything else it wears
+      is shared. This sat between two attributes until 2026-08-12, where Astro's
+      compiler dropped it silently — nothing rendered wrong, but the TS parse
+      died on it, so every line after it in this file went unchecked. A JSX
+      comment is only a comment in CHILD position. */}
   <div class="relative flex items-center">
     <input
       id={inputId}
       name={name}
       type={type}
-      {/* The 44px row and its inline padding are the whole of what makes this an
-          Input rather than a Textarea; everything else it wears is shared. */}
       class:list={['h-[var(--size-input)] px-sm', fieldControl, fieldBorder(error)]}
       placeholder={placeholder}
       value={value}

@@ -38,12 +38,16 @@
     "overflow:self-test": "node scripts/check-overflow.mjs --self-test",
     "state-diff:self-test": "node scripts/state-diff.mjs --self-test",
     "build:code": "node scripts/build-code-samples.mjs",
-    "check:code": "node scripts/build-code-samples.mjs --check"
+    "check:code": "node scripts/build-code-samples.mjs --check",
+    "check:types": "astro check --root astro-components"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@tailwindcss/cli": "^4.3.3",
+    "@types/node": "^26.2.0",
     "playwright-core": "^1.62.1",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3"
   },
   "exports": {
     "./tokens.css": "./tailwind/tokens.css",

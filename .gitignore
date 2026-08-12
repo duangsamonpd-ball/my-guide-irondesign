@@ -12,3 +12,7 @@ design-refs/
 # and is committed; the render itself is disposable.
 playground/dist/
 playground/.astro/
+
+# `astro check` writes its generated ambient types here. Disposable: it is
+# regenerated on every run, and nothing reads it but the checker.
+astro-components/.astro/

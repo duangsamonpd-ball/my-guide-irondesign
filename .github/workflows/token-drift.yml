@@ -135,6 +135,22 @@ jobs:
       - name: Install workspaces
         run: npm ci
 
+      # The first typecheck this repo has ever had. It needs @astrojs/check and
+      # a TypeScript, so it cannot live in `npm run check` — that job is plain
+      # Node on purpose. Here it is free: `npm ci` above already paid for it.
+      #
+      # It runs BEFORE the demo build because it is the cheapest gate in this
+      # job and the only one that reads the components as TypeScript rather than
+      # as rendered output. What it found on the day it was switched on was not
+      # a type error at all: a JSX comment sitting between two attributes of
+      # Input's <input>. Astro's compiler drops such a comment silently, so the
+      # markup was correct and every other gate was green — but the TS parse
+      # died on it, which meant the whole file below that line had never been
+      # checked by anything. A gate that is blind in a region reports that
+      # region as clean.
+      - name: Components typecheck
+        run: npm run check:types
+
       # Also leaves playground/dist in place for the sweep below.
       - name: Check demo markup is regenerated
         run: node scripts/build-demos.mjs --check
