@@ -85,6 +85,8 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, extname, normalize, basename } from 'node:path';
 
+import { LOCAL_FONT_LINK, serveFonts, installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
 const DIST = join(ROOT, 'playground/dist');
@@ -156,6 +158,11 @@ const opts = parseArgs(process.argv.slice(2));
    reporting nothing wrong. */
 const fullRun = opts.pages.length === 0 && opts.widths === DEFAULT_WIDTHS;
 
+if (!fontsAvailable()) {
+  fail('vendor/fonts is missing — run `node scripts/vendor-fonts.mjs`.\n' +
+       '   This sweep measures text, so it needs the real font; it no longer fetches one at run time.');
+}
+
 if (!existsSync(join(DIST, 'demos'))) {
   fail('playground/dist/demos is missing — run `npm --prefix playground run build` first.\n' +
        '   This reads the built demos, not the .astro sources, because the question is what a browser does.');
@@ -213,8 +220,13 @@ const ALLOWED_FAMILIES = [WANT_FAMILY, 'Roboto Mono'];
  * page chrome, and the docs page's fixed-width preview frame is the specific
  * thing a width sweep must not measure inside.
  */
-const FONT_LINK =
-  '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">';
+/* Was a fonts.googleapis.com stylesheet until 2026-08-12. It made every run of
+   this gate depend on a third-party CDN being up, which on the day the gate
+   landed it was not — four failures in one morning, a different page each time,
+   each one a red build saying nothing about the code. The bytes are vendored
+   now and served by the server below; installOfflineGuard proves nothing else
+   is reaching out. See scripts/lib/local-fonts.mjs. */
+const FONT_LINK = LOCAL_FONT_LINK;
 
 const INJECT =
   FONT_LINK +
@@ -272,6 +284,12 @@ async function startServer() {
        2026-08-12 — that is the state assertFont has to REFUSE. The -font one
        adds the docs rule and nothing else, and is the state it has to accept.
        One fixture could only ever show one of the two answers. */
+    const font = await serveFonts(path);
+    if (font) {
+      res.writeHead(200, { 'content-type': font.type }).end(font.body);
+      return;
+    }
+
     if (path === '/__self-test.html' || path === '/__self-test-font.html') {
       /* The webfont link comes with it: on a machine with no local Montserrat
          the family has to arrive over the network or the "accept" case would
@@ -596,6 +614,11 @@ if (!opts.json) {
    back empty, a different two than the run before. The measurements are
    viewport-only and share no state, so one context is safe as well as faster. */
 const context = await browser.newContext({ viewport: { width: WIDTHS[WIDTHS.length - 1], height: 1200 } });
+/* Everything this sweep needs is served from `origin`. Anything else is aborted
+   and recorded, so the claim "this gate does not depend on the network" is
+   checked on every run instead of assumed — and a CDN link added later fails
+   here rather than flaking in CI one morning a fortnight from now. */
+const escapes = await installOfflineGuard(context, origin);
 
 for (const file of pages) {
   const name = basename(file, '.html');
@@ -706,12 +729,17 @@ if (opts.json) {
     for (const k of stale) console.log(yellow(`    ${k}`));
   }
   if (unarmed) console.log(red(`\n  ${unarmed} page(s) reported nothing because the probe could not be armed — that is not a pass.`));
+  if (escapes.length) {
+    const hosts = [...new Set(escapes.map((u) => { try { return new URL(u).host; } catch { return u; } }))];
+    console.log(yellow(`\n  ${escapes.length} request(s) tried to leave the local origin and were blocked: ${hosts.join(', ')}`));
+    console.log(yellow('    The fonts are vendored — a page reaching out again means something re-added a CDN link.'));
+  }
 
   console.log(
-    cut.length || spills.length || stale.length || unarmed
-      ? red(bold(`\n✖  ${cut.length} cut, ${spills.length} spilling across ${pages.length} component(s)\n`))
+    cut.length || spills.length || stale.length || unarmed || escapes.length
+      ? red(bold(`\n✖  ${cut.length} cut, ${spills.length} spilling across ${pages.length} component(s)${escapes.length ? `, ${escapes.length} request(s) blocked` : ''}\n`))
       : green(bold(`\n✔  nothing leaves its box — ${pages.length} component(s) × ${WIDTHS.length} widths\n`))
   );
 }
 
-process.exit(cut.length || spills.length || stale.length || unarmed ? 1 : 0);
+process.exit(cut.length || spills.length || stale.length || unarmed || escapes.length ? 1 : 0);

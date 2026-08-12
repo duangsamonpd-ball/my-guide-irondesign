@@ -83,6 +83,8 @@
 
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
+
+import { serveFonts, useLocalFonts } from './lib/local-fonts.mjs';
 import { existsSync, readdirSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -137,10 +139,22 @@ const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript
 async function serve(dir) {
   const server = createServer(async (req, res) => {
     try {
-      const rel = decodeURIComponent(req.url.split('?')[0]).replace(/^\//, '') || 'index.html';
+      const path = decodeURIComponent(req.url.split('?')[0]);
+      /* Vendored fonts, served locally as of 2026-08-12. This harness has the
+         sharpest stake in it of the three: a face arriving after first paint
+         re-renders every text run, and two contexts landing on opposite sides of
+         that moment measured a Δ27 noise floor across 12% of a box — see the
+         note by document.fonts.ready below. A font that never travels cannot
+         arrive late. */
+      const font = await serveFonts(path);
+      if (font) {
+        res.writeHead(200, { 'content-type': font.type }).end(font.body);
+        return;
+      }
+      const rel = path.replace(/^\//, '') || 'index.html';
       const body = await readFile(join(dir, rel));
       res.writeHead(200, { 'content-type': MIME[extname(rel)] ?? 'application/octet-stream' });
-      res.end(body);
+      res.end(extname(rel) === '.html' ? useLocalFonts(body.toString('utf8')) : body);
     } catch {
       res.writeHead(404);
       res.end('not found');

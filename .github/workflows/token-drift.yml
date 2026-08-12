@@ -77,6 +77,13 @@ jobs:
       - name: Check docs code samples are regenerated
         run: node scripts/build-code-samples.mjs --check
 
+      # The browser harnesses measure text, so they need the real font. They used
+      # to fetch it from fonts.googleapis.com mid-run, which failed four times on
+      # 2026-08-12 alone. This asserts the vendored copy is present and complete
+      # WITHOUT going to the network — putting a CDN back in would defeat it.
+      - name: Check vendored fonts are usable offline
+        run: node scripts/vendor-fonts.mjs --check
+
   # Proves the theme actually compiles, and that every variable the components
   # read still resolves once Tailwind has processed it.
   compile:

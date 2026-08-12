@@ -56,6 +56,15 @@ cuts the rest with no scrollbar and a clean `document.scrollWidth`.
 
 Each has a `--self-test` that must pass before its output is worth anything.
 
+**A harness must not touch the network.** All three measure text, so all three
+need the real font — and all three used to fetch it from fonts.googleapis.com
+while they ran. On the day `overflow` became a gate that CDN failed four times in
+one morning, on a different page each time, and every failure was a red build
+that said nothing about the code. The fonts are vendored now and served by each
+harness's own server; `installOfflineGuard` aborts anything addressed elsewhere
+and fails the run, so the property is checked rather than believed. If you add a
+CDN link to a docs page, these will tell you.
+
 ## Edit the source, not the output
 
 | Generated | Rebuild with | Authored source |
@@ -66,6 +75,7 @@ Each has a `--self-test` that must pass before its output is worth anything.
 | `<!-- code:astro -->` samples | `npm run build:code` | the ```astro block in `astro-components/README.md` |
 | `<!-- seo:* -->` blocks | `npm run build:seo` | the page's own `<h1>` and lead |
 | the props manifest | `npm run build:manifest` | each component's `Props` interface |
+| `vendor/fonts/` | `npm run vendor:fonts` | Google Fonts, fetched once (third-party, OFL) |
 
 A token starts in `tokens/tokens.w3c.json`, is written by hand into
 `tailwind/tokens.css`, and reaches everything else through `build:theme`.

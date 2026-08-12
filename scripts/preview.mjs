@@ -55,6 +55,8 @@ import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, extname, basename, normalize } from 'node:path';
 
+import { serveFonts, useLocalFonts, installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
 
@@ -258,8 +260,14 @@ async function startServer() {
       return;
     }
 
+    const font = await serveFonts(path);
+    if (font) {
+      res.writeHead(200, { 'content-type': font.type }).end(font.body);
+      return;
+    }
+
     if (path === '/__self-test.html') {
-      res.writeHead(200, { 'content-type': MIME['.html'] }).end(SELF_TEST_HTML);
+      res.writeHead(200, { 'content-type': MIME['.html'] }).end(useLocalFonts(SELF_TEST_HTML));
       return;
     }
 
@@ -272,7 +280,13 @@ async function startServer() {
       try {
         const body = await readFile(file);
         res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
-        res.end(body);
+        /* The docs pages link Google Fonts as they ship, and that link is what
+           made this harness flaky — a woff2 that never arrives is a page
+           measured in a fallback font, reported as a failed request and nothing
+           else. Swapped for the vendored copy on the way out. Same bytes, same
+           glyphs, no network. The file on disk is untouched: what a reader
+           downloads is a product decision, this is a testing one. */
+        res.end(extname(file) === '.html' ? useLocalFonts(body.toString('utf8')) : body);
         return;
       } catch { /* try the next candidate */ }
     }
@@ -771,9 +785,29 @@ try {
 
 if (opts['self-test']) {
   const context = await browser.newContext({ viewport: { width: 900, height: 700 } });
+  /* The guard runs during the self-test too, so the hermetic claim is one of the
+     things being tested rather than a side effect nobody checks. If the vendored
+     fonts stop being served, `montserratOffline` below goes false and says so. */
+  const selfTestEscaped = await installOfflineGuard(context, origin);
   const page = await context.newPage();
   await page.goto(`${origin}/__self-test.html`, { waitUntil: 'networkidle' }).catch(() => {});
   await page.addScriptTag({ content: PRELUDE });
+  const montserratOffline = await page.evaluate(async () => {
+    await document.fonts.ready;
+    // Ask for the exact face and characters, so a weight the fixture never
+    // renders cannot make a working font look absent.
+    try { await document.fonts.load('700 16px "Montserrat"', 'Montserrat'); } catch { /* absent */ }
+    const w = (ff) => {
+      const s = document.createElement('span');
+      s.style.cssText = 'position:absolute;left:-9999px;font-size:64px;white-space:pre;font-family:' + ff;
+      s.textContent = 'handgloves 0123456789';
+      document.body.appendChild(s);
+      const x = s.getBoundingClientRect().width;
+      s.remove();
+      return x;
+    };
+    return w('"Montserrat",monospace') !== w('monospace');
+  });
   const assets = await page.evaluate(() => auditAssets(null));
   const contrast = await page.evaluate(() => auditContrast(null));
   /* The gradient row is the whole point of the pixel pass: #888 over a
@@ -818,6 +852,8 @@ if (opts['self-test']) {
     ['…which the flat model could not have seen', (gradientRow?.pixels?.colours ?? 0) > 2],
     ['…and it is reported as failing', (gradientRow?.ratio ?? 99) < (gradientRow?.bar ?? 4.5)],
     ['nothing is left unmeasured once the pixel pass has run', contrast.unmeasured.length === 0],
+    ['Montserrat renders with every external request blocked', montserratOffline === true],
+    ['…and nothing tried to leave the local origin', selfTestEscaped.length === 0],
     ['a white sibling in the same box is NOT counted as the backdrop', (besideWhite?.ratio ?? 0) > 4.5],
     ['…so it passes, where border-box sampling reported 1:1', besideWhite?.ratio >= besideWhite?.bar],
     ['text at opacity 0 is skipped as absent', !contrast.results.some((r) => r.text.includes('invisible'))],
@@ -842,6 +878,10 @@ let problems = 0;
 
 for (const pageFile of pages) {
   const context = await browser.newContext({ viewport: { width: opts.width, height: 1000 } });
+  /* Nothing here needs the network: the fonts are vendored and served from
+     `origin`. Anything still reaching out is aborted and reported, so the
+     hermetic claim is checked each run rather than trusted. */
+  const escaped = await installOfflineGuard(context, origin);
   const page = await context.newPage();
 
   const badRequests = [];
@@ -862,7 +902,15 @@ for (const pageFile of pages) {
 
   await page.addScriptTag({ content: PRELUDE });
 
-  const entry = { page: pageFile, fonts, badRequests, assets: null, contrast: null, measured: null };
+  /* The offline guard aborts external requests, which fires `requestfailed`.
+     Those are deliberate, not broken links, so they are lifted out of
+     badRequests and reported as what they are — otherwise blocking the CDN
+     would look exactly like the CDN failing, which is the noise this whole
+     change exists to remove. */
+  const blocked = new Set(escaped);
+  const realBadRequests = badRequests.filter((r) => !blocked.has(r.url));
+  const entry = { page: pageFile, fonts, badRequests: realBadRequests, escaped: [...blocked],
+                  assets: null, contrast: null, measured: null };
 
   if (runAssets) entry.assets = await page.evaluate((s) => auditAssets(s), opts.scope);
   if (runContrast) {
@@ -894,7 +942,7 @@ function hasProblem(entry) {
   const failedText = (entry.contrast?.results ?? []).filter(
     (r) => r.ratio < r.bar && !KNOWN.has(`${r.fg} on ${r.bg}`)
   ).length;
-  return brokenImgs + failedText + entry.badRequests.length > 0;
+  return brokenImgs + failedText + entry.badRequests.length + (entry.escaped?.length ?? 0) > 0;
 }
 
 /** Every KNOWN pair that actually turned up below its bar during this run. */
@@ -912,6 +960,13 @@ for (const entry of report) {
   for (const r of entry.badRequests) {
     problems++;
     console.log(`  ${red('✖')} request ${r.why}: ${r.url.replace(origin, '')}`);
+  }
+
+  if (entry.escaped?.length) {
+    problems++;
+    const hosts = [...new Set(entry.escaped.map((u) => { try { return new URL(u).host; } catch { return u; } }))];
+    console.log(`  ${red('✖')} ${entry.escaped.length} request(s) left the local origin and were blocked: ${hosts.join(', ')}`);
+    console.log(dim('      The fonts are vendored; a page reaching out means a CDN link came back.'));
   }
 
   if (entry.assets) {
