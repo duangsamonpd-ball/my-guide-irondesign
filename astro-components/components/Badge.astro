@@ -89,8 +89,8 @@ const base = 'inline-flex items-center gap-micro font-sans font-bold whitespace-
    So `font-bold` and `leading-4` are the raw scale, and the fact that they are
    the badge's values is no longer expressed anywhere. */
 const type = size === 'sm'
-  ? 'text-badge-sm leading-3 tracking-badge-sm'
-  : 'text-badge leading-4 tracking-badge';
+  ? 'text-badge-sm leading-badge-sm tracking-badge-sm'
+  : 'text-badge leading-badge tracking-badge';
 
 /* Figma node 776-899 uses --rounded-sm on every badge, not a pill; `pill` opts
    back into the old default. */

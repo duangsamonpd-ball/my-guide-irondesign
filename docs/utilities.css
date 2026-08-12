@@ -1108,14 +1108,6 @@
 .text-title-lg {
   font-size: var(--text-title-lg);
 }
-.leading-3 {
-  --tw-leading: var(--leading-3);
-  line-height: var(--leading-3);
-}
-.leading-4 {
-  --tw-leading: var(--leading-4);
-  line-height: var(--leading-4);
-}
 .leading-5 {
   --tw-leading: var(--leading-5);
   line-height: var(--leading-5);
@@ -1148,9 +1140,57 @@
   --tw-leading: normal;
   line-height: normal;
 }
+.leading-badge {
+  --tw-leading: var(--leading-badge);
+  line-height: var(--leading-badge);
+}
+.leading-badge-sm {
+  --tw-leading: var(--leading-badge-sm);
+  line-height: var(--leading-badge-sm);
+}
+.leading-body {
+  --tw-leading: var(--leading-body);
+  line-height: var(--leading-body);
+}
+.leading-caption {
+  --tw-leading: var(--leading-caption);
+  line-height: var(--leading-caption);
+}
+.leading-caption-sm {
+  --tw-leading: var(--leading-caption-sm);
+  line-height: var(--leading-caption-sm);
+}
+.leading-label {
+  --tw-leading: var(--leading-label);
+  line-height: var(--leading-label);
+}
+.leading-label-lg {
+  --tw-leading: var(--leading-label-lg);
+  line-height: var(--leading-label-lg);
+}
 .font-bold {
   --tw-font-weight: var(--font-weight-bold);
   font-weight: var(--font-weight-bold);
+}
+.font-btn {
+  --tw-font-weight: var(--font-weight-btn);
+  font-weight: var(--font-weight-btn);
+}
+.font-btn-lg {
+  --tw-font-weight: var(--font-weight-btn-lg);
+  font-weight: var(--font-weight-btn-lg);
+}
+.font-caption-sm {
+  --tw-font-weight: var(--font-weight-caption-sm);
+  font-weight: var(--font-weight-caption-sm);
+}
+.font-label {
+  --tw-font-weight: var(--font-weight-label);
+  font-weight: var(--font-weight-label);
+}
+.font-label-lg {
+  --tw-font-weight: var(--font-weight-label-lg);
+  font-weight: var(--font-weight-label-lg);
 }
 .font-medium {
   --tw-font-weight: var(--font-weight-medium);
@@ -1159,12 +1199,6 @@
 .font-normal {
   --tw-font-weight: var(--font-weight-normal);
   font-weight: var(--font-weight-normal);
-}
-.\[font-weight\:var\(--fw-btn\)\] {
-  font-weight: var(--fw-btn);
-}
-.\[font-weight\:var\(--fw-btn-lg\)\] {
-  font-weight: var(--fw-btn-lg);
 }
 .tracking-\[0\.4px\] {
   --tw-tracking: 0.4px;

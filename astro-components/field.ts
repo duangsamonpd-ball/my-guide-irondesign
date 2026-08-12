@@ -33,13 +33,13 @@
 export const fieldShell = 'flex flex-col gap-xs w-full max-w-[340px]';
 
 /** Figma binds Typography/Label text — Montserrat Medium, size/sm, leading/5. */
-export const fieldLabel = 'text-label font-medium text-text-heading leading-5';
+export const fieldLabel = 'text-label font-label text-text-heading leading-label';
 
 /** The required marker. Drawn in no Figma node; a code-only affordance. */
 export const fieldRequiredMark = 'text-danger';
 
 /** Caption SM — size/xs, weight/medium, leading/4, tracking/wide. */
-const caption = 'text-caption-sm font-medium leading-4 tracking-caption-sm';
+const caption = 'text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm';
 export const fieldHint = `${caption} text-text-support`;
 export const fieldError = `${caption} text-danger`;
 
@@ -51,7 +51,7 @@ export const fieldError = `${caption} text-danger`;
  * matches Select's trigger and its menu rows.
  */
 export const fieldControl = [
-  'w-full rounded-md font-sans text-body leading-7 text-text-body',
+  'w-full rounded-md font-sans text-body leading-body text-text-body',
   'bg-bg-base border outline-none',
   'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
   'placeholder:text-text-placeholder',

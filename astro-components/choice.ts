@@ -62,8 +62,8 @@ export const choiceText = 'flex flex-col gap-micro';
  * Figma binds `Typography/Label text LG` here — 16/20/500 — not the 14px label
  * ramp. It is the reason that style exists; see reference-figma-form-field-nodes.
  */
-export const choiceLabel = 'text-label-lg font-medium text-text-body leading-5';
-export const choiceDesc = 'text-caption text-text-muted leading-5 max-w-[360px]';
+export const choiceLabel = 'text-label-lg font-label-lg text-text-body leading-label-lg';
+export const choiceDesc = 'text-caption text-text-muted leading-caption max-w-[360px]';
 
 /**
  * The card wrapper. No max-width on purpose: the card takes the width of its

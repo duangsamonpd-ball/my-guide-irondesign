@@ -72,7 +72,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          three were off it — 16 (Ball's earlier scale ruling), 10, and 1.5. */
       'sel-trigger w-full h-[var(--size-input)] rounded-md px-sm',
       'flex items-center justify-between gap-xs',
-      'font-sans text-body leading-7 outline-none',
+      'font-sans text-body leading-body outline-none',
       'border',
       'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
       /* Written as branches rather than layered utilities because the rules they
@@ -182,7 +182,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
              node's older 14. Only the line-height was missing, and it is what
              makes the row 44px (8 + 28 + 8) rather than the 35 it was. */
           'sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs',
-          'rounded-md text-body leading-7 text-text-body cursor-pointer',
+          'rounded-md text-body leading-body text-text-body cursor-pointer',
           /* `.sel-opt.selected` sat after `:hover` and `.active` at equal
              specificity, so the selected row kept its tint under both. The
              `:not(.selected)` carries that forward without depending on which
@@ -214,9 +214,9 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       leading/4, tracking/wide — where this set text-caption (14px, no leading,
       no tracking). Error differs from hint by colour alone, as on the canvas. */}
   {error && errorMessage ? (
-    <span id={descId} class="block text-caption-sm font-medium leading-4 tracking-caption-sm text-danger mt-xs">{errorMessage}</span>
+    <span id={descId} class="block text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-danger mt-xs">{errorMessage}</span>
   ) : hint ? (
-    <span id={descId} class="block text-caption-sm font-medium leading-4 tracking-caption-sm text-text-support mt-xs">{hint}</span>
+    <span id={descId} class="block text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support mt-xs">{hint}</span>
   ) : null}
 </div>
 
