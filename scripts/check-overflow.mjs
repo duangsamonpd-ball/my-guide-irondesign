@@ -66,7 +66,7 @@
 
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, extname, normalize, basename } from 'node:path';
 
@@ -149,6 +149,47 @@ if (!existsSync(join(DIST, 'demos'))) {
 /* ── 2. the page under test ───────────────────────────────────────────────── */
 
 /**
+ * The body font stack read OUT of the docs pages rather than restated here, so
+ * the harness cannot drift from the page it is standing in for. Every component
+ * page carries the same one-line rule; a majority vote across all of them means
+ * one hand-edited page cannot quietly move the sweep's measurements, and a stack
+ * that cannot be found at all stops the run instead of measuring the wrong font.
+ */
+function readDocsBodyFont() {
+  const tally = new Map();
+  for (const f of readdirSync(DOCS).filter((f) => f.startsWith('component-') && f.endsWith('.html'))) {
+    const m = readFileSync(join(DOCS, f), 'utf8').match(/\bbody\s*\{[^}]*?font-family:\s*([^;}]+)/);
+    /* Normalised before the vote: two pages spell the same stack
+       `'Montserrat',sans-serif` and the rest `'Montserrat', sans-serif`, which
+       is a formatting difference and not a disagreement. Comparing raw strings
+       reported 17/19 and would have cried wolf on every run. */
+    if (m) {
+      const stack = m[1].trim().replace(/\s*,\s*/g, ', ').replace(/\s+/g, ' ');
+      tally.set(stack, (tally.get(stack) ?? 0) + 1);
+    }
+  }
+  if (!tally.size) fail('no `body { font-family }` found on any docs/component-*.html page.\n' +
+                        '   That rule is what the sweep mirrors; without it there is nothing to match.');
+  const [stack, n] = [...tally].sort((a, b) => b[1] - a[1])[0];
+  const total = [...tally.values()].reduce((a, b) => a + b, 0);
+  if (n !== total) {
+    console.log(yellow(`  note: docs pages disagree on the body font — using the majority (${n}/${total}): ${stack}`));
+  }
+  return stack;
+}
+const DOCS_BODY_FONT = readDocsBodyFont();
+
+/* The first family in that stack, unquoted — the one every demo text run is
+   expected to actually render in. */
+const WANT_FAMILY = DOCS_BODY_FONT.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+
+/* Families a demo may render in besides the docs body stack. Deliberately a
+   short allow-list rather than a "not the UA default" test: what the default
+   resolves to is platform-specific (Times here, something else on the runner),
+   so naming what IS wanted travels and naming what is not does not. */
+const ALLOWED_FAMILIES = [WANT_FAMILY, 'Roboto Mono'];
+
+/**
  * The built demo, plus the stylesheets a docs page loads. The demo's own
  * <link> to Astro's scoped CSS is left alone — both are needed, because eight
  * components still ship scoped CSS and eleven are utilities only.
@@ -157,10 +198,20 @@ if (!existsSync(join(DIST, 'demos'))) {
  * page chrome, and the docs page's fixed-width preview frame is the specific
  * thing a width sweep must not measure inside.
  */
+const FONT_LINK =
+  '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">';
+
 const INJECT =
-  '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">' +
+  FONT_LINK +
   '<link rel="stylesheet" href="/tokens.css"><link rel="stylesheet" href="/utilities.css">' +
-  '<style>* { margin: 0; padding: 0; box-sizing: border-box; }</style>';
+  '<style>* { margin: 0; padding: 0; box-sizing: border-box; }</style>' +
+  /* The line every docs page carries and this harness did not. Without it any
+     demo text with no font class of its own inherits the UA default instead —
+     measured 2026-08-12 as Times on ten of nineteen components, and Montserrat
+     is 20–26% wider than that, so the sweep was under-measuring text by a fifth
+     in the direction that hides overflow. Kept byte-identical to the docs
+     pages' own rule; assertFont() below is what stops it silently going away. */
+  `<style>body { font-family: ${DOCS_BODY_FONT}; }</style>`;
 
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
@@ -201,8 +252,19 @@ async function startServer() {
     try { path = decodeURIComponent(new URL(req.url, 'http://x').pathname); }
     catch { res.writeHead(400).end('bad escape in URL'); return; }
 
-    if (path === '/__self-test.html') {
-      res.writeHead(200, { 'content-type': MIME['.html'] }).end(SELF_TEST_HTML);
+    /* Two spellings of the same fixture. The bare one has no font-family at all,
+       so its text falls to the UA default exactly as the demo pages did before
+       2026-08-12 — that is the state assertFont has to REFUSE. The -font one
+       adds the docs rule and nothing else, and is the state it has to accept.
+       One fixture could only ever show one of the two answers. */
+    if (path === '/__self-test.html' || path === '/__self-test-font.html') {
+      /* The webfont link comes with it: on a machine with no local Montserrat
+         the family has to arrive over the network or the "accept" case would
+         fail for a reason that has nothing to do with the check. */
+      const html = path === '/__self-test-font.html'
+        ? SELF_TEST_HTML.replace('</head>', `${FONT_LINK}<style>body { font-family: ${DOCS_BODY_FONT}; }</style></head>`)
+        : SELF_TEST_HTML;
+      res.writeHead(200, { 'content-type': MIME['.html'] }).end(html);
       return;
     }
     if (path.startsWith('/demos/')) {
@@ -307,6 +369,63 @@ function assertStyled() {
   return { token, roots: document.querySelectorAll('[data-demo]').length, hasDemo: !!demo };
 }
 
+/* Is a family REALLY there, or is the browser quietly substituting? Measured as
+   a differential, never as an absolute: the same string in "<family>, monospace"
+   against plain "monospace", and again against serif. If the family is missing
+   both pairs come out identical, and one generic agreeing by coincidence cannot
+   carry the vote. 64px so a one-pixel rounding cannot decide it. */
+function familyAvailable(family) {
+  const S = 'MWmw@1il0Oo handgloves 0123456789';
+  const mk = (ff) => {
+    const s = document.createElement('span');
+    s.style.cssText = 'position:absolute;left:-9999px;top:-9999px;white-space:pre;font-size:64px;font-weight:400;font-family:' + ff;
+    s.textContent = S;
+    document.body.appendChild(s);
+    const w = s.getBoundingClientRect().width;
+    s.remove();
+    return w;
+  };
+  const q = '"' + family + '"';
+  return mk(q + ',monospace') !== mk('monospace') && mk(q + ',serif') !== mk('serif');
+}
+
+/* The check that replaced document.fonts.check('700 16px Montserrat').
+   That one asked whether a 700-weight face existed ANYWHERE — a question the
+   local Montserrat install answers "yes" to on a designer's Mac without the page
+   using it, and which ten of nineteen demo pages answer "no" to on a clean
+   machine purely because they render no bold text. It could not fail here and
+   fired for the wrong reason there.
+
+   This asks the question that actually matters instead: does the text in the
+   demo resolve to a family we chose, and is that family genuinely rendering?
+   Both halves are falsifiable — see the two self-test fixtures. */
+function assertFont(want, allowed) {
+  const seen = new Set();
+  for (const root of document.querySelectorAll('[data-demo]')) {
+    for (const el of root.querySelectorAll('*')) {
+      const hasText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+      if (!hasText) continue;
+      /* Judge the same population overflows() measures. An <option> carries text
+         and computes to the UA's Arial, but it is painted by the platform inside
+         the native popup and has no box in the page — overflows() skips it for
+         having no size, so holding the font check to a stricter population than
+         the thing it is arming would refuse a page over text nobody can see. */
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 && r.height === 0) continue;
+      const first = getComputedStyle(el).fontFamily.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+      seen.add(first);
+    }
+  }
+  const families = [...seen].sort();
+  const unexpected = families.filter((f) => !allowed.includes(f));
+  const available = familyAvailable(want);
+  /* Proves the availability probe discriminates at all. A detector that says
+     "present" for a family that cannot exist is saying "present" about nothing. */
+  const discriminates = !familyAvailable('__no_such_family_' + Math.random().toString(36).slice(2));
+  return { ok: families.length > 0 && unexpected.length === 0 && available && discriminates,
+           families, unexpected, available, discriminates };
+}
+
 /* The injected widener has to be unfittable by construction — see note 2 in the
    header. 4000px cannot be wrapped, shrunk or absorbed by anything here.
    Judged on the WORST overflow, never on the count: widening an element that
@@ -363,6 +482,20 @@ if (opts['self-test']) {
   const found = await page.evaluate(() => overflows());
   const armed = await page.evaluate(() => armCheck());
   const styled = await page.evaluate(() => assertStyled());
+  /* This fixture has no font-family, so its text is in the UA default — the
+     exact state that went unnoticed for as long as the check asked whether a
+     face existed rather than what the page rendered. */
+  const fontOff = await page.evaluate(async ([w, a]) => {
+    await document.fonts.ready; return assertFont(w, a);
+  }, [WANT_FAMILY, ALLOWED_FAMILIES]);
+
+  const fontPage = await browser.newPage({ viewport: { width: 900, height: 700 } });
+  await fontPage.goto(`${origin}/__self-test-font.html`, { waitUntil: 'networkidle' }).catch(() => {});
+  await fontPage.addScriptTag({ content: IN_PAGE });
+  const fontOn = await fontPage.evaluate(async ([w, a]) => {
+    await document.fonts.ready; return assertFont(w, a);
+  }, [WANT_FAMILY, ALLOWED_FAMILIES]);
+
   await browser.close();
   server.close();
 
@@ -387,6 +520,13 @@ if (opts['self-test']) {
     ['…and the page returns to baseline when it is removed', armed.after === armed.before],
     ['assertStyled reads a resolved token', styled.token !== ''],
     ['assertStyled counts the demo roots', styled.roots === 1],
+    [`assertFont REFUSES a page whose text is not in ${WANT_FAMILY}`, fontOff.ok === false],
+    ['…naming the family it actually fell back to', fontOff.unexpected.length > 0],
+    [`assertFont accepts the same page once ${WANT_FAMILY} is applied`, fontOn.ok === true],
+    ['…having found text to judge, not an empty page', fontOn.families.length > 0],
+    [`${WANT_FAMILY} is really rendering, measured not assumed`, fontOn.available === true],
+    ['the family probe calls a nonexistent family absent', fontOn.discriminates === true],
+    ['the body font stack was read out of the docs pages', /\S/.test(DOCS_BODY_FONT)],
   ];
 
   let bad = 0;
@@ -427,13 +567,13 @@ for (const file of pages) {
   await page.goto(`${origin}/demos/${file}`, { waitUntil: 'networkidle' }).catch(() => {});
   await page.addScriptTag({ content: IN_PAGE });
 
-  const fonts = await page.evaluate(async () => {
+  const font = await page.evaluate(async ([want, allowed]) => {
     await document.fonts.ready;
-    return document.fonts.check('700 16px Montserrat');
-  });
+    return assertFont(want, allowed);
+  }, [WANT_FAMILY, ALLOWED_FAMILIES]);
   const styled = await page.evaluate(() => assertStyled());
   const armed = await page.evaluate(() => armCheck());
-  const ready = fonts && styled.token !== '' && styled.roots > 0 && armed.ok;
+  const ready = font.ok && styled.token !== '' && styled.roots > 0 && armed.ok;
 
   const cells = [];
   for (const w of WIDTHS) {
@@ -447,7 +587,10 @@ for (const file of pages) {
   await page.close();
 
   if (!ready) unarmed++;
-  const why = !fonts ? 'Montserrat did not load'
+  const why = !font.discriminates ? 'the font probe cannot tell a real family from a fake one'
+    : !font.available ? `${WANT_FAMILY} is not rendering`
+    : font.families.length === 0 ? 'no text inside [data-demo] to check'
+    : font.unexpected.length ? `text fell back to ${font.unexpected.join(', ')}`
     : styled.token === '' ? 'tokens did not apply'
     : styled.roots === 0 ? 'no [data-demo] root'
     : `detector blind (${armed.before}/${armed.during}/${armed.after})`;

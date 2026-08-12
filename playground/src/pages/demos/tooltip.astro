@@ -10,6 +10,13 @@
  *
  * `.tt-trigger` is docs-only styling for the demo button, so the button is
  * slotted here as part of the region rather than living in the component.
+ * The rule itself is repeated in the <head> below, mirroring
+ * docs/component-tooltip.html, because the built demo is what check-overflow.mjs
+ * measures: without it a <button> does not inherit the body font and Chrome's UA
+ * stylesheet renders the trigger in 13.33px Arial while the docs page shows
+ * 0.85rem/600 Montserrat. The sweep was measuring a button that exists nowhere.
+ * It sits in the head, outside the [data-demo] region, so build-demos.mjs does
+ * not carry it into the docs page that already has it.
  */
 import { Tooltip } from '@iron-software/astro-components';
 
@@ -18,6 +25,16 @@ const seats =
 ---
 
 <html lang="en">
+  <head>
+    <style is:global>
+      /* Kept identical to docs/component-tooltip.html's own `.tt-trigger` rule. */
+      .tt-trigger {
+        font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 600;
+        color: #45556C; background: #F1F5F9; border: 1px solid #E2E8F0;
+        border-radius: 8px; padding: 9px 16px; cursor: pointer;
+      }
+    </style>
+  </head>
   <body>
     <div data-demo="preview">
       <Tooltip title="Title" body={seats}>
