@@ -266,7 +266,7 @@
   --color-neutral-800: var(--neutral-800);
   --color-neutral-900: var(--neutral-900);
   --color-neutral-950: var(--neutral-950);
-  --color-primary: var(--iron-pink-500);      /* #E01A59 · 3.78:1 on --color-bg-dark-shade — below AA as body text, kept as the brand primary (Ball's call, 2026-08-02). It clears the 3:1 large-text bar, which is how the 30px "SUITE" headline on the violet band passes and an 18px product suffix does not. The other three product accents sit at 8.19–10.55 there. */
+  --color-primary: var(--iron-pink-500);      /* #E01A59 · kept as the brand primary — Ball's call 2026-08-02, re-affirmed 2026-08-12 on measured pixels. Below AA as body text on dark. The 3.78:1 figure once recorded here was against --color-bg-dark-shade, a colour the footer's Rainbow.svg paints over: measured against the artwork the 30px "SUITE" lockup is 2.36:1 and does NOT clear the 3:1 large-text bar, and the 18px product suffixes are 4.04:1. Neither is fixable by treating the image — this colour's luminance is 0.173, so it reaches only 4.46:1 against pure black and can never meet the 4.5 bar on any dark backdrop. Exemptions with the real numbers live in preview.mjs KNOWN. The other product accents (sky, green, orange) sit at 8.19–10.55 there. */
   --color-primary-hover: var(--iron-pink-600); /* #BA174B */
   --color-primary-active: var(--iron-pink-700); /* #94153D */
   --color-primary-subtle: var(--iron-pink-100); /* #FADDE6 */

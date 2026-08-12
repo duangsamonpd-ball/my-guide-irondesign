@@ -102,6 +102,52 @@ const KNOWN = new Map([
       'the state chain — white is 3.25/4.47/6.42 and #171717 is 5.52/4.01/2.79 over default/hover/active — ' +
       'so the fill would have to darken to iron-blue-700 to fix it. Kept as the brand secondary.',
   ],
+  /* The three Footer pairs, Ball's call 2026-08-12, made on PIXEL-MEASURED
+   * numbers rather than the composited ones his 2026-08-03 ruling was given. All
+   * three sit over Rainbow.svg on the footer band, so the backdrop is the
+   * artwork, not --color-bg-dark-shade.
+   *
+   * The fact that decided it: #E01A59 has a relative luminance of 0.173, so its
+   * contrast against PURE BLACK is 4.46:1 — under the 4.5 bar. Iron Pink 500 as
+   * normal-size text can therefore never meet AA on ANY dark backdrop, whatever
+   * is done to the image; a scrim was measured and cannot get there at any
+   * opacity. The choice was between changing the brand colour on the band and
+   * recording the exemption, and Ball kept the colour.
+   *
+   * The alternatives were measured before they were declined, so nobody has to
+   * re-derive them: iron-pink-400 #E95F8B takes the three to 3.42 / 5.87 / 6.16,
+   * iron-pink-300 #F291B0 to 5.00 / 8.57, iron-blue-400 #67B3F2 takes the link
+   * to 6.16. All pass. All were available. The colour was kept deliberately.
+   *
+   * These keys carry a sampled pixel, which is stable — three consecutive runs
+   * gave identical pairs — but is a property of the ARTWORK. If Rainbow.svg or
+   * the band layout changes, the keys stop matching and the anti-rot rule fails
+   * the run. That is the intended behaviour: a new backdrop is a new decision.
+   */
+  [
+    '#E01A59 on #58321E',
+    'The 30px "IRONSUITE" lockup, Iron Pink 500 over the ochre block of Rainbow.svg. Measured 2.36:1 ' +
+      'across 100% of the glyph area against a 3:1 large-text bar — it does NOT clear it, which the ' +
+      'flat model claimed it did at 3.78:1 against a background colour the artwork covers. ' +
+      "Ball's call, 2026-08-12: the wordmark keeps the brand pink.",
+  ],
+  [
+    '#E01A59 on #1E0818',
+    'The IRONPDF and IRONPTT product suffixes, 18px/400, Iron Pink 500 over the maroon block of ' +
+      'Rainbow.svg. Measured 4.04:1 across 100% of the glyph area against a 4.5 bar. Unfixable by any ' +
+      'treatment of the image: pink 500 tops out at 4.46:1 on pure black. The other eight suffixes use ' +
+      'sky, green and orange accents and sit at 8.19–10.55 here. ' +
+      "Ball's call, 2026-08-12: the product accents stay on brand.",
+  ],
+  [
+    '#2693EC on #2A2A3A',
+    'The "Start Free Trial" link, 16px/700, Iron Blue 500 over the slate block of Rainbow.svg. Unlike ' +
+      'the two pink rows this one is PARTIAL: the run measures 4.28–5.57:1 and only 26% of the glyph ' +
+      'area is below the 4.5 bar, where the text crosses a lighter patch of the artwork. Same ruling as ' +
+      'the two Iron Blue rows above, which is that the brand blue is paired with an underline or an icon ' +
+      'so colour is never the only cue — this link carries a key icon and an arrow. ' +
+      "Ball's call, 2026-08-12.",
+  ],
   /* REMOVED 2026-08-12: '#E01A59 on #260F27'.
    *
    * That pair does not exist and never did. It was recorded from the flat model,
