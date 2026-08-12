@@ -194,6 +194,12 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
   <label class="disabled" style="opacity:.5"><input type="checkbox" disabled><span>disabled control</span></label>
   <label style="opacity:.5"><input type="checkbox" disabled><span>disabled control, no marker class</span></label>
   <div style="background-image:linear-gradient(#000,#fff)"><span style="color:#888">over a gradient</span></div>
+  <!-- Footer's shape, reduced: one element owning BOTH a text node and a white
+       child, over an image. Sampling the border box puts the white child into
+       the backdrop and reports ~1:1 for text that is plainly readable — which is
+       exactly what it did to "Every Iron Suite Donates" beside the white
+       1%-for-the-Planet logo. Only the glyph rectangles may be sampled. -->
+  <div style="background-image:linear-gradient(#222,#222);color:#fff">glyphs on dark beside a white box<span style="background:#fff;display:inline-block;width:90px;height:16px"></span></div>
   <div style="opacity:0"><span style="color:#999">invisible, not low contrast</span></div>
   <div style="opacity:0.02"><span style="color:#999">faint but painted, still a finding</span></div>
 </div>
@@ -331,10 +337,16 @@ function describe(el) {
  * is the tempting shortcut and it is wrong whenever a background and the text
  * over it sit inside the same dimmed group.
  *
- * Not modelled: background-image, gradients and blend modes. Those elements are
- * reported as unmeasured rather than guessed at, except that a background-image
- * over an opaque background-color (the docs canvas grid) uses the colour and
- * says so.
+ * Background-images, gradients and blend modes are not modelled here and cannot
+ * be — so any run with a background-image anywhere on its chain is handed to
+ * measureOverImages(), which reads the pixels actually painted behind the glyphs
+ * instead of composing a colour that may be covered.
+ *
+ * Until 2026-08-12 this made an exception: an image over an OPAQUE
+ * background-color used the colour, on the reasoning that the colour stands in
+ * for the pair. That holds for the docs canvas grid and fails for anything that
+ * covers — Footer's band is an opaque #462244 under a full-bleed Rainbow.svg,
+ * and every ratio reported for it was against a colour no reader ever sees.
  */
 const IN_PAGE_CONTRAST = `
 function auditContrast(scopeSel) {
@@ -405,10 +417,17 @@ function auditContrast(scopeSel) {
       const chain = [];
       for (let n = el; n; n = n.parentElement) chain.unshift(n);
 
+      // ANY background-image on the chain makes the composited colour a guess.
+      // This used to fire only when the image sat over a TRANSLUCENT colour, on
+      // the reasoning that an opaque colour underneath could stand in for the
+      // pair — true for the docs canvas grid, false for anything that actually
+      // covers. Footer's band is an opaque #462244 under a full-bleed
+      // Rainbow.svg, and in CSS the image paints ABOVE the colour, so every
+      // Footer ratio reported before 2026-08-12 was measured against a colour
+      // the reader never sees. These rows are handed to the pixel pass instead.
       let hasImage = false;
       for (const n of chain) {
-        const s = getComputedStyle(n);
-        if (s.backgroundImage !== 'none' && parseColor(s.backgroundColor).a < 1) hasImage = true;
+        if (getComputedStyle(n).backgroundImage !== 'none') hasImage = true;
       }
 
       // content(i, withText) renders chain[i] and everything below it over
@@ -455,12 +474,157 @@ function auditContrast(scopeSel) {
         opacity: Math.round(chain.reduce((p, n) => p * Number(getComputedStyle(n).opacity), 1) * 1000) / 1000,
       };
       if (el.closest(DISABLED)) exempt.push(row);
-      else if (hasImage) unmeasured.push(row);
-      else results.push(row);
+      else if (hasImage) {
+        // Tagged so the pixel pass can find this exact element again from
+        // outside the page. The index is the handshake; nothing else about the
+        // element is stable enough to re-query.
+        el.setAttribute('data-contrast-probe', String(unmeasured.length));
+        row.probe = unmeasured.length;
+        unmeasured.push(row);
+      } else results.push(row);
     }
   }
   return { results, unmeasured, exempt, canvas: hex(canvasColor.rgb) };
 }`;
+
+/**
+ * The pixel pass: what is ACTUALLY painted behind text the flat model cannot
+ * compose, because a background-image sits somewhere on its ancestor chain.
+ *
+ * Method: hide the glyphs (the element AND every descendant, !important, plus
+ * -webkit-text-fill-color for clipped text), screenshot the exact box they
+ * occupied, and decode it back inside the page — the browser is already a PNG
+ * decoder, so this needs no dependency. Restore, then judge.
+ *
+ * The verdict uses the worst backdrop colour covering at least 1% of the box,
+ * not the single worst pixel: a full-bleed photo has antialiased edges that no
+ * glyph ever sits on, and one stray pixel should not fail a page. The absolute
+ * worst travels alongside it so the margin is visible rather than implied.
+ *
+ * Three ways a probe like this lies, all of which it did before it was fixed:
+ * a selector that matches something else, glyphs that are not really hidden (it
+ * then samples the TEXT and reports a confident ~1:1), and an element below the
+ * fold whose clip falls outside the screenshot. The first is handled by tagging
+ * the element in-page during the audit, the second by !important on every
+ * descendant, the third by scrolling it into view and skipping honestly if the
+ * box is still unusable.
+ */
+async function measureOverImages(page, contrast) {
+  if (!contrast || !contrast.unmeasured || !contrast.unmeasured.length) return;
+  const stillUnmeasured = [];
+
+  for (const row of contrast.unmeasured) {
+    if (row.probe === undefined) { stillUnmeasured.push(row); continue; }
+    const handle = await page.$(`[data-contrast-probe="${row.probe}"]`);
+    if (!handle) { row.why = 'element could not be found again'; stillUnmeasured.push(row); continue; }
+
+    await handle.scrollIntoViewIfNeeded().catch(() => {});
+
+    /* The LINE BOXES of this element's own text, not its border box. Footer has
+       a 567px `justify-end` paragraph holding both the words "Every Iron Suite
+       Donates" and a white 1%-for-the-Planet logo; sampling the border box put
+       that logo's white into the backdrop and reported 1.00:1 white-on-white for
+       text that is plainly readable on dark maroon beside it. A Range over the
+       element's own text nodes is the only region the glyphs can occupy.
+       Recomputed here rather than during the audit because scrolling moves them,
+       and safe to read before hiding since `color: transparent` changes no
+       layout. */
+    const rects = await handle.evaluate((el) => {
+      const out = [];
+      for (const n of el.childNodes) {
+        if (n.nodeType !== 3 || !n.textContent.trim()) continue;
+        const rg = document.createRange();
+        rg.selectNodeContents(n);
+        for (const r of rg.getClientRects()) {
+          if (r.width >= 1 && r.height >= 1) out.push({ x: r.x, y: r.y, width: r.width, height: r.height });
+        }
+      }
+      return out;
+    });
+    if (!rects.length) {
+      row.why = 'no glyph rectangles to sample';
+      stillUnmeasured.push(row);
+      continue;
+    }
+
+    await handle.evaluate((el) => {
+      el.__probeSaved = [];
+      for (const n of [el, ...el.querySelectorAll('*')]) {
+        el.__probeSaved.push([n, n.getAttribute('style')]);
+        n.style.setProperty('color', 'transparent', 'important');
+        n.style.setProperty('-webkit-text-fill-color', 'transparent', 'important');
+        n.style.setProperty('text-shadow', 'none', 'important');
+      }
+    });
+
+    const shots = [];
+    let err = null;
+    try {
+      for (const r of rects) shots.push((await page.screenshot({ clip: r })).toString('base64'));
+    } catch (e) {
+      err = e.message.split('\n')[0];
+    }
+
+    await handle.evaluate((el) => {
+      for (const [n, s] of el.__probeSaved || []) {
+        if (s === null) n.removeAttribute('style'); else n.setAttribute('style', s);
+      }
+      delete el.__probeSaved;
+    });
+
+    if (err) { row.why = err; stillUnmeasured.push(row); continue; }
+
+    const verdict = await page.evaluate(async ([b64s, fgHex]) => {
+      const tally = new Map();
+      for (const b64 of b64s) {
+        const img = new Image();
+        img.src = 'data:image/png;base64,' + b64;
+        await img.decode();
+        const c = document.createElement('canvas');
+        c.width = img.width; c.height = img.height;
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const d = ctx.getImageData(0, 0, c.width, c.height).data;
+        for (let i = 0; i < d.length; i += 4) {
+          const k = (d[i] << 16) | (d[i + 1] << 8) | d[i + 2];
+          tally.set(k, (tally.get(k) || 0) + 1);
+        }
+      }
+      const total = [...tally.values()].reduce((a, b) => a + b, 0);
+      const fg = [1, 3, 5].map((i) => parseInt(fgHex.slice(i, i + 2), 16));
+      const toHex = (rgb) => '#' + rgb.map((v) => v.toString(16).padStart(2, '0')).join('').toUpperCase();
+
+      let worst = Infinity, worstRgb = null, worstAny = Infinity, worstAnyRgb = null;
+      for (const [k, n] of tally) {
+        const rgb = [(k >> 16) & 255, (k >> 8) & 255, k & 255];
+        const r = ratio(fg, rgb);
+        if (r < worstAny) { worstAny = r; worstAnyRgb = rgb; }
+        if (n / total >= 0.01 && r < worst) { worst = r; worstRgb = rgb; }
+      }
+      // A box whose every colour is edge noise still has to answer something.
+      if (worstRgb === null) { worst = worstAny; worstRgb = worstAnyRgb; }
+      return {
+        ratio: Math.round(worst * 100) / 100,
+        bg: toHex(worstRgb),
+        worstAny: Math.round(worstAny * 100) / 100,
+        worstAnyBg: toHex(worstAnyRgb),
+        colours: tally.size,
+      };
+    }, [shots, row.fg]);
+
+    contrast.results.push({
+      ...row,
+      ratio: verdict.ratio,
+      bg: verdict.bg,
+      pixels: { colours: verdict.colours, worstAny: verdict.worstAny, worstAnyBg: verdict.worstAnyBg },
+    });
+  }
+
+  contrast.unmeasured = stillUnmeasured;
+  await page.evaluate(() => {
+    document.querySelectorAll('[data-contrast-probe]').forEach((e) => e.removeAttribute('data-contrast-probe'));
+  });
+}
 
 /**
  * Assets, by painted pixels.
@@ -587,6 +751,14 @@ if (opts['self-test']) {
   await page.addScriptTag({ content: PRELUDE });
   const assets = await page.evaluate(() => auditAssets(null));
   const contrast = await page.evaluate(() => auditContrast(null));
+  /* The gradient row is the whole point of the pixel pass: #888 over a
+     black-to-white ramp passes THROUGH #888, so somewhere on it the text is
+     invisible. The flat model cannot see that at all — it declines to guess and
+     the run disappears from the report. This is the before/after pair. */
+  const beforePixels = contrast.unmeasured.length;
+  await measureOverImages(page, contrast);
+  const gradientRow = contrast.results.find((r) => r.text.includes('over a gradient'));
+  const besideWhite = contrast.results.find((r) => r.text.includes('glyphs on dark beside a white box'));
   await browser.close();
   server.close();
 
@@ -615,7 +787,14 @@ if (opts['self-test']) {
        inside it. Both must be exempt and neither may appear as a result. */
     ['a disabled control is exempt, whether or not it carries a marker class',
       contrast.exempt.length === 2 && !contrast.results.some((r) => r.text.includes('disabled control'))],
-    ['text over a gradient is unmeasured, not guessed', contrast.unmeasured.length === 1],
+    ['both image-backed runs are handed to the pixel pass, not guessed at', beforePixels === 2],
+    ['…and the pixel pass measures it rather than dropping it', !!gradientRow],
+    ['…finding the point where the ramp meets the text colour, under 1.5:1', (gradientRow?.ratio ?? 99) < 1.5],
+    ['…which the flat model could not have seen', (gradientRow?.pixels?.colours ?? 0) > 2],
+    ['…and it is reported as failing', (gradientRow?.ratio ?? 99) < (gradientRow?.bar ?? 4.5)],
+    ['nothing is left unmeasured once the pixel pass has run', contrast.unmeasured.length === 0],
+    ['a white sibling in the same box is NOT counted as the backdrop', (besideWhite?.ratio ?? 0) > 4.5],
+    ['…so it passes, where border-box sampling reported 1:1', besideWhite?.ratio >= besideWhite?.bar],
     ['text at opacity 0 is skipped as absent', !contrast.results.some((r) => r.text.includes('invisible'))],
     ['…but opacity 0.02 is still measured and fails', (contrast.results.find((r) => r.text.includes('faint'))?.ratio ?? 99) < 4.5],
   ];
@@ -661,7 +840,10 @@ for (const pageFile of pages) {
   const entry = { page: pageFile, fonts, badRequests, assets: null, contrast: null, measured: null };
 
   if (runAssets) entry.assets = await page.evaluate((s) => auditAssets(s), opts.scope);
-  if (runContrast) entry.contrast = await page.evaluate((s) => auditContrast(s), opts.scope);
+  if (runContrast) {
+    entry.contrast = await page.evaluate((s) => auditContrast(s), opts.scope);
+    await measureOverImages(page, entry.contrast);
+  }
   if (opts.measure) entry.measured = await page.evaluate((s) => measure(s), opts.measure);
   if (opts.shot) {
     await page.screenshot({ path: opts.shot, fullPage: true });
