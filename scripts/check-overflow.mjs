@@ -374,8 +374,17 @@ function assertStyled() {
    against plain "monospace", and again against serif. If the family is missing
    both pairs come out identical, and one generic agreeing by coincidence cannot
    carry the vote. 64px so a one-pixel rounding cannot decide it. */
-function familyAvailable(family) {
+async function familyAvailable(family) {
   const S = 'MWmw@1il0Oo handgloves 0123456789';
+  /* Ask for exactly the face AND the characters about to be measured, and wait.
+     Without this the probe carries the same bug it exists to catch: it names a
+     weight of its own, and a page that renders no text at that weight never
+     causes the face to be fetched, so the span measures a fallback and the
+     family reads as missing. Passing S as the second argument also pins the
+     unicode subset, since Google Fonts splits each weight into several.
+     A family with no @font-face at all resolves here with an empty list, which
+     is the answer the differential below then reports correctly. */
+  try { await document.fonts.load('400 64px "' + family + '"', S); } catch (e) { /* absent */ }
   const mk = (ff) => {
     const s = document.createElement('span');
     s.style.cssText = 'position:absolute;left:-9999px;top:-9999px;white-space:pre;font-size:64px;font-weight:400;font-family:' + ff;
@@ -386,7 +395,10 @@ function familyAvailable(family) {
     return w;
   };
   const q = '"' + family + '"';
-  return mk(q + ',monospace') !== mk('monospace') && mk(q + ',serif') !== mk('serif');
+  /* The widths travel with the verdict: when this fails on a machine nobody can
+     open, "not rendering" is a claim and these four numbers are the evidence. */
+  const w = { mono: mk('monospace'), monoF: mk(q + ',monospace'), serif: mk('serif'), serifF: mk(q + ',serif') };
+  return { ok: w.monoF !== w.mono && w.serifF !== w.serif, w };
 }
 
 /* The check that replaced document.fonts.check('700 16px Montserrat').
@@ -399,7 +411,7 @@ function familyAvailable(family) {
    This asks the question that actually matters instead: does the text in the
    demo resolve to a family we chose, and is that family genuinely rendering?
    Both halves are falsifiable — see the two self-test fixtures. */
-function assertFont(want, allowed) {
+async function assertFont(want, allowed) {
   const seen = new Set();
   for (const root of document.querySelectorAll('[data-demo]')) {
     for (const el of root.querySelectorAll('*')) {
@@ -418,12 +430,13 @@ function assertFont(want, allowed) {
   }
   const families = [...seen].sort();
   const unexpected = families.filter((f) => !allowed.includes(f));
-  const available = familyAvailable(want);
+  const avail = await familyAvailable(want);
   /* Proves the availability probe discriminates at all. A detector that says
      "present" for a family that cannot exist is saying "present" about nothing. */
-  const discriminates = !familyAvailable('__no_such_family_' + Math.random().toString(36).slice(2));
+  const fake = await familyAvailable('__no_such_family_' + Math.random().toString(36).slice(2));
+  const available = avail.ok, discriminates = !fake.ok;
   return { ok: families.length > 0 && unexpected.length === 0 && available && discriminates,
-           families, unexpected, available, discriminates };
+           families, unexpected, available, discriminates, widths: avail.w };
 }
 
 /* The injected widener has to be unfittable by construction — see note 2 in the
@@ -486,14 +499,14 @@ if (opts['self-test']) {
      exact state that went unnoticed for as long as the check asked whether a
      face existed rather than what the page rendered. */
   const fontOff = await page.evaluate(async ([w, a]) => {
-    await document.fonts.ready; return assertFont(w, a);
+    await document.fonts.ready; return await assertFont(w, a);
   }, [WANT_FAMILY, ALLOWED_FAMILIES]);
 
   const fontPage = await browser.newPage({ viewport: { width: 900, height: 700 } });
   await fontPage.goto(`${origin}/__self-test-font.html`, { waitUntil: 'networkidle' }).catch(() => {});
   await fontPage.addScriptTag({ content: IN_PAGE });
   const fontOn = await fontPage.evaluate(async ([w, a]) => {
-    await document.fonts.ready; return assertFont(w, a);
+    await document.fonts.ready; return await assertFont(w, a);
   }, [WANT_FAMILY, ALLOWED_FAMILIES]);
 
   await browser.close();
@@ -569,7 +582,7 @@ for (const file of pages) {
 
   const font = await page.evaluate(async ([want, allowed]) => {
     await document.fonts.ready;
-    return assertFont(want, allowed);
+    return await assertFont(want, allowed);
   }, [WANT_FAMILY, ALLOWED_FAMILIES]);
   const styled = await page.evaluate(() => assertStyled());
   const armed = await page.evaluate(() => armCheck());
@@ -588,7 +601,7 @@ for (const file of pages) {
 
   if (!ready) unarmed++;
   const why = !font.discriminates ? 'the font probe cannot tell a real family from a fake one'
-    : !font.available ? `${WANT_FAMILY} is not rendering`
+    : !font.available ? `${WANT_FAMILY} is not rendering (mono ${font.widths.monoF}/${font.widths.mono}, serif ${font.widths.serifF}/${font.widths.serif})`
     : font.families.length === 0 ? 'no text inside [data-demo] to check'
     : font.unexpected.length ? `text fell back to ${font.unexpected.join(', ')}`
     : styled.token === '' ? 'tokens did not apply'
