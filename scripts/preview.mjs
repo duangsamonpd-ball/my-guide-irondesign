@@ -119,10 +119,16 @@ const KNOWN = new Map([
    * iron-pink-300 #F291B0 to 5.00 / 8.57, iron-blue-400 #67B3F2 takes the link
    * to 6.16. All pass. All were available. The colour was kept deliberately.
    *
-   * These keys carry a sampled pixel, which is stable — three consecutive runs
-   * gave identical pairs — but is a property of the ARTWORK. If Rainbow.svg or
-   * the band layout changes, the keys stop matching and the anti-rot rule fails
-   * the run. That is the intended behaviour: a new backdrop is a new decision.
+   * These keys carry a SAMPLED pixel, matched within 16 levels a channel by
+   * knownFor() rather than exactly. Three consecutive local runs gave identical
+   * pairs, and that proved stability on ONE machine only: ubuntu-latest samples
+   * the product suffixes at #250718 / 3.98:1 where macOS gives #1E0818 / 4.04:1,
+   * same commit and same font files, because glyph rectangles rasterise
+   * differently and a different rectangle takes a different slice of a gradient.
+   * The tolerance is far below the distance between these three backdrops and
+   * far above that drift. The pixel remains a property of the ARTWORK: change
+   * Rainbow.svg or the band layout and the keys stop matching, the anti-rot rule
+   * fails the run, and the decision gets made again — which is intended.
    */
   [
     '#E01A59 on #58321E',
@@ -173,6 +179,45 @@ const KNOWN = new Map([
    *    colour is the brand's."
    */
 ]);
+
+/**
+ * Look a pair up in KNOWN, tolerating a few levels of drift in the BACKDROP.
+ *
+ * Exact string matching was the obvious thing and it is not stable across
+ * machines. A backdrop sampled from an image comes from the rectangle the glyphs
+ * occupy, and glyph rectangles differ slightly between platforms because the
+ * text is rasterised differently — so a slightly different rectangle samples a
+ * slightly different slice of a gradient. The Footer's product suffixes measured
+ * #E01A59 on #1E0818 at 4.04:1 on macOS and #E01A59 on #250718 at 3.98:1 on
+ * ubuntu-latest, same commit, same font files. Three identical local runs had
+ * "proved" the key was stable; they proved it was stable on ONE machine.
+ *
+ * The foreground still has to match exactly — it is a token, not a sample. The
+ * backdrop matches within 16 levels per channel, which is far below the distance
+ * between any two backdrops actually being excused here (#58321E, #1E0818 and
+ * #2A2A3A are 20+ apart on at least one channel) and far above rasterisation
+ * drift. A pair that is genuinely on a different part of the artwork still fails.
+ */
+const CHANNEL_TOLERANCE = 16;
+
+function parsePair(pair) {
+  const m = pair.match(/^(#[0-9A-F]{6}) on (#[0-9A-F]{6})$/i);
+  if (!m) return null;
+  const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  return { fg: m[1].toUpperCase(), bg: rgb(m[2]) };
+}
+
+function knownFor(pair) {
+  if (KNOWN.has(pair)) return pair;
+  const want = parsePair(pair);
+  if (!want) return null;
+  for (const key of KNOWN.keys()) {
+    const have = parsePair(key);
+    if (!have || have.fg !== want.fg) continue;
+    if (have.bg.every((c, i) => Math.abs(c - want.bg[i]) <= CHANNEL_TOLERANCE)) return key;
+  }
+  return null;
+}
 
 /* ── 1. arguments ─────────────────────────────────────────────────────────── */
 
@@ -902,6 +947,17 @@ if (opts['self-test']) {
        installed renders the fixture either way, so the end-to-end check
        cannot fail locally — this one inspects the transform itself. */
     ['the fixture is served with a local font link', useLocalFonts(SELF_TEST_HTML).includes(LOCAL_FONT_HREF)],
+    /* The exemption keys carry a SAMPLED pixel, and the sample moves between
+       platforms: the Footer suffixes are #1E0818 here and #250718 on
+       ubuntu-latest, same commit, because glyph rectangles rasterise
+       differently and a different rectangle samples a different slice of a
+       gradient. Tolerated within 16 levels a channel — and it still has to
+       REFUSE a backdrop that is genuinely somewhere else. */
+    ['a KNOWN pair matches exactly', knownFor('#E01A59 on #1E0818') === '#E01A59 on #1E0818'],
+    ['…and matches the same pair as another machine sampled it', knownFor('#E01A59 on #250718') === '#E01A59 on #1E0818'],
+    ['…but NOT a backdrop that is a different part of the artwork', knownFor('#E01A59 on #58321E') !== '#E01A59 on #1E0818'],
+    ['…and not an unrelated backdrop at all', knownFor('#E01A59 on #FFFFFF') === null],
+    ['…and never across different foregrounds', knownFor('#2693EC on #1E0818') === null],
     ['Montserrat renders with every external request blocked', montserratOffline === true],
     ['…and nothing tried to leave the local origin', selfTestEscaped.length === 0],
     ['a white sibling in the same box is NOT counted as the backdrop', (besideWhite?.ratio ?? 0) > 4.5],
@@ -990,7 +1046,7 @@ if (opts.json) {
 function hasProblem(entry) {
   const brokenImgs = (entry.assets ?? []).filter(isBroken).length;
   const failedText = (entry.contrast?.results ?? []).filter(
-    (r) => r.ratio < r.bar && !KNOWN.has(`${r.fg} on ${r.bg}`)
+    (r) => r.ratio < r.bar && !knownFor(`${r.fg} on ${r.bg}`)
   ).length;
   return brokenImgs + failedText + entry.badRequests.length + (entry.escaped?.length ?? 0) > 0;
 }
@@ -1038,9 +1094,12 @@ for (const entry of report) {
   if (entry.contrast) {
     const { results, unmeasured, exempt } = entry.contrast;
     const below = results.filter((r) => r.ratio < r.bar);
-    const failed = below.filter((r) => !KNOWN.has(`${r.fg} on ${r.bg}`));
-    const excused = below.filter((r) => KNOWN.has(`${r.fg} on ${r.bg}`));
-    for (const r of excused) seenKnown.add(`${r.fg} on ${r.bg}`);
+    const failed = below.filter((r) => !knownFor(`${r.fg} on ${r.bg}`));
+    const excused = below.filter((r) => knownFor(`${r.fg} on ${r.bg}`));
+    /* Record the KEY that matched, not the sampled pair — otherwise a tolerated
+       match never marks its entry as seen and the anti-rot rule reports a live
+       exemption as stale. */
+    for (const r of excused) seenKnown.add(knownFor(`${r.fg} on ${r.bg}`));
 
     // One colour pair used in forty places is one decision, not forty findings.
     // Printed ungrouped, a single grey caption style buried every real result
