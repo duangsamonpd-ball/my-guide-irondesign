@@ -31,6 +31,7 @@
     "check:seo": "node scripts/build-seo.mjs --check",
     "check": "npm run check:theme && npm run check:utilities && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:contrast && npm run check:catalogue && npm run check:seo && npm run check:manifest && npm run check:fonts && npm run check:code && npm run check:render",
     "preview": "node scripts/preview.mjs",
+    "audit": "node scripts/preview.mjs --all",
     "preview:self-test": "node scripts/preview.mjs --self-test",
     "state-diff": "node scripts/state-diff.mjs",
     "overflow": "node scripts/check-overflow.mjs",

@@ -34,11 +34,16 @@ anything that leaves its box. All three exit non-zero on failure. None is in
 
 **CI does have a browser** — this file said otherwise until 2026-08-12 and it was
 never true. `ubuntu-latest` ships Google Chrome, and all three harnesses launch
-`channel: 'chrome'`, which is that install. `overflow` runs there now, in the
-`render` job, because that job already pays for `npm ci` and the playground
-build the sweep reads. `preview` and `state-diff` still do not, and the reason is
-not the browser: `preview`'s contrast sweep needs a triage pass before its
-findings are all real, and `state-diff` compares against a git ref.
+`channel: 'chrome'`, which is that install. `overflow` and `npm run audit`
+(`preview.mjs --all`) both run there now, in the `render` job, because that job
+already pays for `npm ci` and the playground build the sweep reads. `state-diff`
+does not, and the reason is not the browser: it compares against a git ref.
+
+`audit` gates two things nothing else can see — every `<img>` by its **painted
+pixels**, and every text run against WCAG AA as **composited and, over an image,
+as actually painted**. It runs at 1440, which is the width its KNOWN exemptions
+were measured at; text reflows over different parts of the footer artwork at
+other widths, so a ruling sampled there is only a ruling there.
 
 Do not assume a harness behaves on the runner the way it does here. Switching
 `overflow` on found a bug macOS could not express: its arming check asked

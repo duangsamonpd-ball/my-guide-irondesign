@@ -156,3 +156,23 @@ jobs:
       # rather than reporting a pass it did not earn.
       - name: Nothing leaves its box at any width
         run: node scripts/check-overflow.mjs
+
+      # Same rule as the sweep above: the probes prove they can fail before any
+      # reading from them counts. 24 checks, including that the contrast pass
+      # REFUSES a page whose text is not in the docs font, and that a gradient it
+      # cannot compose is measured from pixels rather than skipped.
+      - name: Check the render probes can fail
+        run: node scripts/preview.mjs --self-test
+
+      # The gate check:contrast could never be: it resolves tokens on paper, so
+      # text dimmed by an opacity rule reads at full strength and text over an
+      # image is measured against a colour the image covers. This opens all 19
+      # docs pages in Chrome and judges what is painted — every <img> by its
+      # painted pixels (naturalWidth called 13 broken FooterBar logos fine while
+      # 7 of them drew nothing), and every text run against WCAG AA.
+      #
+      # Runs at 1440, which is the width the KNOWN exemptions were measured at —
+      # text reflows over different parts of the footer artwork at other widths,
+      # so a ruling sampled here is only a ruling here.
+      - name: Images paint and text meets WCAG AA
+        run: node scripts/preview.mjs --all
