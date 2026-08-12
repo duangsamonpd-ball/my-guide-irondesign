@@ -589,16 +589,37 @@ if (!opts.json) {
   console.log(dim(`    ${'component'.padEnd(15)}${WIDTHS.map((w) => String(w).padStart(6)).join('')}   armed`));
 }
 
+/* ONE context for the whole sweep, so all 19 pages share an HTTP cache and the
+   webfont is fetched once instead of nineteen times. browser.newPage() makes a
+   fresh isolated context each call, which on the runner meant nineteen
+   independent trips to fonts.googleapis.com — and on 2026-08-12 two of them came
+   back empty, a different two than the run before. The measurements are
+   viewport-only and share no state, so one context is safe as well as faster. */
+const context = await browser.newContext({ viewport: { width: WIDTHS[WIDTHS.length - 1], height: 1200 } });
+
 for (const file of pages) {
   const name = basename(file, '.html');
-  const page = await browser.newPage({ viewport: { width: WIDTHS[WIDTHS.length - 1], height: 1200 } });
+  const page = await context.newPage();
+  await page.setViewportSize({ width: WIDTHS[WIDTHS.length - 1], height: 1200 });
   await page.goto(`${origin}/demos/${file}`, { waitUntil: 'networkidle' }).catch(() => {});
   await page.addScriptTag({ content: IN_PAGE });
 
-  const font = await page.evaluate(async ([want, allowed]) => {
+  const readFont = () => page.evaluate(async ([want, allowed]) => {
     await document.fonts.ready;
     return await assertFont(want, allowed);
   }, [WANT_FAMILY, ALLOWED_FAMILIES]);
+
+  let font = await readFont();
+  /* One retry, and only for the network-shaped failure. A webfont that did not
+     arrive is a transport problem and says nothing about the layout; a page
+     whose text resolves to the wrong FAMILY is a real finding and is not
+     retried, because reloading cannot change a stylesheet that never named the
+     font. Reloading also warms the shared cache above for the pages after it. */
+  if (!font.available && font.discriminates) {
+    await page.reload({ waitUntil: 'networkidle' }).catch(() => {});
+    await page.addScriptTag({ content: IN_PAGE });
+    font = await readFont();
+  }
   const styled = await page.evaluate(() => assertStyled());
   const armed = await page.evaluate(() => armCheck());
   const ready = font.ok && styled.token !== '' && styled.roots > 0 && armed.ok;
