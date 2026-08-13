@@ -2,18 +2,28 @@
 /**
  * Demo source for docs/component-select.html.
  *
- * Only the Preview region is generated, and deliberately so. The rest of that
- * page — the States grid, the "Menu & options" mock and the Do/Don't cards — is
- * built from PARTIAL markup that isolates one visual state: the "Open / Focus"
- * cell, for instance, is a `.sel.open` with a trigger and no `.sel-menu` at all.
- * Rendering the real component there would need props that exist only to serve
- * the docs, or would change how the page looks. Those stay hand-written; see
- * playground/README.md.
+ * Every region is generated as of 2026-08-13. The note that used to sit here
+ * said the rest of the page had to stay hand-written because it was "built from
+ * PARTIAL markup that isolates one visual state". That was true of the copies
+ * and not of the component: Select ALWAYS renders `.sel-menu`, hidden behind
+ * `group-[.open]:flex`, so the open state is a class on the shell rather than a
+ * prop that exists to serve the docs. `class` lands on that shell, which is the
+ * whole mechanism.
  *
- * Preview is where the drift actually was: the hand-written copy omitted the
+ * What is left is docs-only LAYOUT, and it is page CSS now instead of inline
+ * styles the component cannot emit:
+ *   .demo-sel-menu   position:static + max-width, so the floating menu lays out
+ *                    inside the canvas instead of over it
+ *   .demo-sel-anatomy / .demo-sel-card  the two widths the page already used,
+ *                    260px and 220px, lifted out of inline styles
+ *   .demo-trigger    hides the menu in the States grid, where the cell is about
+ *                    the trigger's open styling and a real menu would break the
+ *                    grid it sits in
+ *
+ * Preview is where the drift was found first: the hand-written copy omitted the
  * `<select class="sel-native-fallback">` the component always renders, invented
- * an `id="sel-demo-val"` on the value span, and wired inline `onclick`
- * handlers the component does not emit.
+ * an `id="sel-demo-val"` on the value span, and wired inline `onclick` handlers
+ * the component does not emit.
  */
 import { Select } from '@iron-software/astro-components';
 
@@ -24,12 +34,50 @@ const countries = [
   { value: 'de', label: 'Germany' },
   { value: 'jp', label: 'Japan' },
 ];
+const plans = [
+  { value: 'starter', label: 'Starter' },
+  { value: 'pro', label: 'Pro plan' },
+  { value: 'enterprise', label: 'Enterprise' },
+];
+const states = [
+  { props: { name: 'sel-default', value: 'pro' }, lbl: 'Default' },
+  { props: { name: 'sel-placeholder', placeholder: 'Select a plan…' }, lbl: 'Placeholder', note: 'text-muted' },
+  { props: { name: 'sel-open', value: 'pro', class: 'open demo-trigger' }, lbl: 'Open / Focus', note: 'secondary ring' },
+  { props: { name: 'sel-error', placeholder: 'Select a plan…', error: true }, lbl: 'Error', note: 'danger border' },
+  { props: { name: 'sel-disabled', value: 'locked', disabled: true }, lbl: 'Disabled' },
+];
+const locked = [{ value: 'locked', label: 'Locked' }];
 ---
 
 <html lang="en">
   <body>
     <div data-demo="preview">
       <Select label="Country" name="country" value="us" options={countries} />
+    </div>
+
+    <div data-demo="states">
+      {states.map((s) => (
+        <div class="cell">
+          <Select options={s.props.value === 'locked' ? locked : plans} {...s.props} />
+          <div class="lbl">{s.lbl}{s.note && <small>{s.note}</small>}</div>
+        </div>
+      ))}
+    </div>
+
+    <div data-demo="menu">
+      <Select name="sel-menu" value="pro" options={plans} class="open demo-sel-menu" />
+    </div>
+
+    <div data-demo="anatomy">
+      <Select name="sel-anatomy" value="selected" options={[{ value: 'selected', label: 'Selected value' }]} class="demo-sel-anatomy" />
+    </div>
+
+    <div data-demo="do">
+      <Select name="sel-do" value="th" options={countries} class="demo-sel-card" />
+    </div>
+
+    <div data-demo="dont">
+      <Select name="sel-dont" value="yn" options={[{ value: 'yn', label: 'Yes / No' }]} class="demo-sel-card" />
     </div>
   </body>
 </html>

@@ -95,6 +95,23 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 /* Demo layout only — the component no longer sizes itself, so the canvas gives
    it the width a form would. Not a component rule; do not copy into Select.astro. */
 .canvas .sel { max-width:280px; }
+/* Docs-only layout for the generated regions, lifted out of inline styles the
+   component cannot emit. `position:static` lets the floating menu lay out
+   inside the canvas instead of over it; `.demo-trigger` hides the menu in the
+   States grid, where the cell is about the trigger's open styling and a real
+   menu would break the grid it sits in. Not component rules. */
+/* `.canvas .sel` above is (0,2,0) and beat a single class — the mock only won
+   because an inline style beats everything. Match its weight instead. */
+.canvas .sel.demo-sel-menu { position: static; max-width: 260px; }
+/* The menu floats. Making it static too lets it lay out INSIDE the 260px
+   shell rather than resolving `left-0 right-0` against the viewport, which is
+   what stretched it to 1440. The hand-written mock also forced `display:block`
+   here, which silently dropped the component's own `gap-micro` between rows —
+   the menu in these docs was 142px where a real one is 150. Not reproduced. */
+.demo-sel-menu .sel-menu { position: static; }
+.demo-sel-anatomy { max-width: 260px; }
+.demo-sel-card { max-width: 220px; }
+.demo-trigger .sel-menu { display: none; }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
   </style>
 </head>
@@ -196,32 +213,167 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><h2 class="sect-h">States</h2>
       <div class="sect-sub">Default → placeholder → focus/open → error → disabled.</div>
       <div class="grid">
-        <div class="cell"><div class="sel group relative w-full"><button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue"><span>Pro plan</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button></div><div class="lbl">Default</div></div>
-        <div class="cell"><div class="sel group relative w-full"><button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue is-placeholder"><span>Select a plan…</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button></div><div class="lbl">Placeholder<small>text-muted</small></div></div>
-        <div class="cell"><div class="sel group relative w-full open" style="position:static;"><button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue"><span>Pro plan</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button></div><div class="lbl">Open / Focus<small>secondary ring</small></div></div>
-        <div class="cell"><div class="sel group relative w-full"><button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-danger group-[:not(.open)]:focus-visible:shadow-focus-magenta group-[.open]:shadow-focus-magenta is-placeholder"><span>Select a plan…</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button></div><div class="lbl">Error<small>danger border</small></div></div>
-        <div class="cell"><div class="sel group relative w-full disabled"><button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-disabled text-text-disabled [&amp;.is-placeholder]:text-text-disabled cursor-not-allowed border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" disabled><span>Locked</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button></div><div class="lbl">Disabled</div></div>
+        <!-- demo:states -->
+        <div class="cell">
+          <div class="sel group relative w-full">
+            <button type="button" id="sel-demo-1-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-1-listbox">
+              <span class="sel-value">Pro plan</span>
+              <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+            </button>
+            <div id="sel-demo-1-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+              <div id="sel-demo-1-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="starter">
+                Starter <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-1-opt-1" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold selected" role="option" aria-selected="true" data-value="pro">
+                Pro plan <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-1-opt-2" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="enterprise">
+                Enterprise <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div>
+            </div>
+            <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+            <select name="sel-default" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+              <option value="" disabled>Select…</option>
+              <option value="starter">Starter</option><option value="pro" selected>Pro plan</option><option value="enterprise">Enterprise</option>
+            </select>
+          </div>
+          <div class="lbl">Default</div>
+        </div><div class="cell">
+          <div class="sel group relative w-full">
+            <button type="button" id="sel-demo-2-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-2-listbox">
+              <span class="sel-value">Select a plan…</span>
+              <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+            </button>
+            <div id="sel-demo-2-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+              <div id="sel-demo-2-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="starter">
+                Starter <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-2-opt-1" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="pro">
+                Pro plan <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-2-opt-2" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="enterprise">
+                Enterprise <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div>
+            </div>
+            <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+            <select name="sel-placeholder" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+              <option value="" disabled selected>Select a plan…</option>
+              <option value="starter">Starter</option><option value="pro">Pro plan</option><option value="enterprise">Enterprise</option>
+            </select>
+          </div>
+          <div class="lbl">Placeholder<small>text-muted</small></div>
+        </div><div class="cell">
+          <div class="sel group relative w-full open demo-trigger">
+            <button type="button" id="sel-demo-3-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-3-listbox">
+              <span class="sel-value">Pro plan</span>
+              <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+            </button>
+            <div id="sel-demo-3-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+              <div id="sel-demo-3-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="starter">
+                Starter <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-3-opt-1" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold selected" role="option" aria-selected="true" data-value="pro">
+                Pro plan <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-3-opt-2" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="enterprise">
+                Enterprise <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div>
+            </div>
+            <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+            <select name="sel-open" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+              <option value="" disabled>Select…</option>
+              <option value="starter">Starter</option><option value="pro" selected>Pro plan</option><option value="enterprise">Enterprise</option>
+            </select>
+          </div>
+          <div class="lbl">Open / Focus<small>secondary ring</small></div>
+        </div><div class="cell">
+          <div class="sel group relative w-full">
+            <button type="button" id="sel-demo-4-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-danger group-[:not(.open)]:focus-visible:shadow-focus-magenta group-[.open]:shadow-focus-magenta" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-4-listbox" aria-invalid="true">
+              <span class="sel-value">Select a plan…</span>
+              <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+            </button>
+            <div id="sel-demo-4-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+              <div id="sel-demo-4-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="starter">
+                Starter <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-4-opt-1" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="pro">
+                Pro plan <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-4-opt-2" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="enterprise">
+                Enterprise <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div>
+            </div>
+            <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+            <select name="sel-error" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+              <option value="" disabled selected>Select a plan…</option>
+              <option value="starter">Starter</option><option value="pro">Pro plan</option><option value="enterprise">Enterprise</option>
+            </select>
+          </div>
+          <div class="lbl">Error<small>danger border</small></div>
+        </div><div class="cell">
+          <div class="sel group relative w-full">
+            <button type="button" id="sel-demo-5-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-disabled text-text-disabled [&amp;.is-placeholder]:text-text-disabled cursor-not-allowed border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" disabled aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-5-listbox">
+              <span class="sel-value">Locked</span>
+              <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+            </button>
+            <div id="sel-demo-5-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+              <div id="sel-demo-5-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold selected" role="option" aria-selected="true" data-value="locked">
+                Locked <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div>
+            </div>
+            <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+            <select name="sel-disabled" class="absolute inset-0 opacity-0 pointer-events-none" disabled tabindex="-1" aria-hidden="true">
+              <option value="" disabled>Select…</option>
+              <option value="locked" selected>Locked</option>
+            </select>
+          </div>
+          <div class="lbl">Disabled</div>
+        </div>
+        <!-- /demo:states -->
       </div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Menu &amp; options</h2>
       <div class="sect-sub">The open menu floats on <code>--shadow-float</code>; the selected row is tinted and ticked, hover uses the shade token.</div>
       <div class="canvas" style="align-items:flex-start;">
-        <div class="sel group relative w-full open" style="position:static;max-width:260px;">
-          <button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue"><span>Pro plan</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button>
-          <div class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" style="position:static;margin-top:8px;display:block;">
-            <div class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-7 text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false">Starter <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg></div>
-            <div class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-7 text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold selected" role="option" aria-selected="true">Pro plan <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg></div>
-            <div class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-7 text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false">Enterprise <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg></div>
+        <!-- demo:menu -->
+        <div class="sel group relative w-full open demo-sel-menu">
+          <button type="button" id="sel-demo-1-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-1-listbox">
+            <span class="sel-value">Pro plan</span>
+            <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+          </button>
+          <div id="sel-demo-1-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+            <div id="sel-demo-1-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="starter">
+              Starter <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+            </div><div id="sel-demo-1-opt-1" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold selected" role="option" aria-selected="true" data-value="pro">
+              Pro plan <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+            </div><div id="sel-demo-1-opt-2" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="enterprise">
+              Enterprise <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+            </div>
           </div>
+          <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+          <select name="sel-menu" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+            <option value="" disabled>Select…</option>
+            <option value="starter">Starter</option><option value="pro" selected>Pro plan</option><option value="enterprise">Enterprise</option>
+          </select>
         </div>
+        <!-- /demo:menu -->
       </div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="anatomy">
-        <div class="sel group relative w-full" style="max-width:260px;"><button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue"><span>Selected value</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button></div>
-        <div class="anatomy-tags">
+        <!-- demo:anatomy -->
+        <div class="sel group relative w-full demo-sel-anatomy">
+          <button type="button" id="sel-demo-1-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-1-listbox">
+            <span class="sel-value">Selected value</span>
+            <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+          </button>
+          <div id="sel-demo-1-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+            <div id="sel-demo-1-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold selected" role="option" aria-selected="true" data-value="selected">
+              Selected value <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+            </div>
+          </div>
+          <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+          <select name="sel-anatomy" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+            <option value="" disabled>Select…</option>
+            <option value="selected" selected>Selected value</option>
+          </select>
+        </div>
+        <!-- /demo:anatomy -->
+      <div class="anatomy-tags">
           <span class="atag">height → <b>--size-input</b> (44px)</span>
           <span class="atag">border → <b>--color-border</b></span>
           <span class="atag">radius → <b>--rounded-md</b></span>
@@ -274,9 +426,55 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Guidelines</h2>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="sel group relative w-full" style="max-width:220px;"><button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue"><span>Thailand</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button></div></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body">
+          <!-- demo:do -->
+          <div class="sel group relative w-full demo-sel-card">
+            <button type="button" id="sel-demo-1-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-1-listbox">
+              <span class="sel-value">Thailand</span>
+              <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+            </button>
+            <div id="sel-demo-1-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+              <div id="sel-demo-1-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="us">
+                United States <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-1-opt-1" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="uk">
+                United Kingdom <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-1-opt-2" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold selected" role="option" aria-selected="true" data-value="th">
+                Thailand <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-1-opt-3" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="de">
+                Germany <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div><div id="sel-demo-1-opt-4" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold" role="option" aria-selected="false" data-value="jp">
+                Japan <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div>
+            </div>
+            <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+            <select name="sel-do" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+              <option value="" disabled>Select…</option>
+              <option value="us">United States</option><option value="uk">United Kingdom</option><option value="th" selected>Thailand</option><option value="de">Germany</option><option value="jp">Japan</option>
+            </select>
+          </div>
+          <!-- /demo:do -->
+        </div>
           <ul><li>Use when there are <b>more than ~6 options</b>.</li><li>Always show the current value in the trigger.</li><li>Keep option labels short and scannable.</li><li>The selected checkmark is a <b>Font Awesome Free Solid</b> SVG, inlined with <code>fill="currentColor"</code>.</li><li>Ships as an accessible <b>listbox</b> — <code>role="listbox"</code>/<code>"option"</code>, <code>aria-expanded</code>, <code>aria-activedescendant</code>, and full arrow-key/Home/End/Enter/Esc support.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="sel group relative w-full" style="max-width:220px;"><button class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-7 outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue is-placeholder"><span>Yes / No</span><svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg></button></div></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body">
+          <!-- demo:dont -->
+          <div class="sel group relative w-full demo-sel-card">
+            <button type="button" id="sel-demo-1-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow] duration-[var(--duration-fast)] bg-bg-base text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-1-listbox">
+              <span class="sel-value">Yes / No</span>
+              <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
+            </button>
+            <div id="sel-demo-1-listbox" class="sel-menu absolute top-full mt-xs left-0 right-0 z-[5] p-micro flex-col gap-micro bg-bg-card border border-border rounded-lg shadow-float hidden group-[.open]:flex" role="listbox" tabindex="-1">
+              <div id="sel-demo-1-opt-0" class="sel-opt group/opt flex items-center justify-between gap-xs px-sm py-xs rounded-md text-body leading-body text-text-body cursor-pointer [&amp;:not(.selected):hover]:bg-bg-shade [&amp;:not(.selected).active]:bg-bg-shade [&amp;.selected]:bg-bg-card-alt [&amp;.selected]:text-secondary [&amp;.selected]:font-semibold selected" role="option" aria-selected="true" data-value="yn">
+                Yes / No <svg class="w-[8px] h-[6px] shrink-0 overflow-visible text-secondary opacity-0 group-[.selected]/opt:opacity-100" viewBox="0.75 0.75 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.750001 4.02274L3.60714 6.75001L8.75 0.750014"></path></svg>
+              </div>
+            </div>
+            <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
+            <select name="sel-dont" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+              <option value="" disabled>Select…</option>
+              <option value="yn" selected>Yes / No</option>
+            </select>
+          </div>
+          <!-- /demo:dont -->
+        </div>
           <ul><li>Don't use a Select for 2–3 options — use Radio.</li><li>Don't open the menu without a visible chevron cue.</li><li>Don't hard-code the menu shadow; use <code>--shadow-float</code>.</li></ul></div>
       </div>
     </div>
