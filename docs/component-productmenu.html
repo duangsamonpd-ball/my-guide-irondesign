@@ -509,17 +509,6 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       </div>
     </div>
 
-    <div class="sect"><h2 class="sect-h">Notes</h2>
-      <div class="sect-sub">
-        Figma specifies this component at 1440px desktop only — its guidelines talk about “desktop screen breakpoints” and there is no mobile frame. The narrow-viewport behaviour here (drop the runtime label at 1180px, the utility bubbles at 1058px, let the sub tier scroll at 1043px, turn the centre group into a panel at 769px, and take the CTA down to its two glyphs at 434px) is an implementation decision, not a handed-over design.
-        <br><br>
-        Below 769 the centre group used to be <code>display: none</code> — the whole product menu gone with nothing in its place. It is a disclosure panel now, the same WAI-ARIA pattern as Top Nav’s corporate menu and Footer Bar’s free-tools tab: the trigger owns <code>aria-expanded</code> and points at the panel with <code>aria-controls</code>, Escape closes it and hands focus back, and a click outside closes it without stealing focus. It is the <em>same</em> <code>&lt;ul&gt;</code> at every width — inline above the breakpoint, stacked below it — so there is one set of links and no screen reader hears “Licensing” twice. Below 434 the CTA keeps its pill and both glyphs but its label moves to a clipped 1px box rather than <code>display: none</code>, so the link still announces as “Start for Free”.
-        <br><br>
-        Below 1058 the two side columns also swap <code>flex: 1 0 0</code> for <code>flex: 1 0 auto</code>. With basis 0 the free space is split equally between the brand lockup and the CTA whatever each actually needs, and the centre column is never asked to give anything up — so the shrink lands on two columns that cannot shrink, and their contents leave the box while the menu sits untouched. With basis auto the columns state their width, the shrink falls on the menu, and the menu scrolls. It stays basis 0 above 1058 because that is what centres the menu optically instead of letting the brand’s width push it.
-        <br><br>
-        The 40px brand mark is Figma’s own size in this bar. It is deliberately off the 24/48/96/192 grid documented on the <a href="logo.html">Logo</a> page, so it is set explicitly here rather than going through the <a href="component-logo.html">Logo</a> component’s typed <code>size</code>.
-      </div>
-    </div>
 
     <footer>Iron Software Design System &nbsp;·&nbsp; Product Menu component &nbsp;·&nbsp; 2025</footer>
   </div></div>

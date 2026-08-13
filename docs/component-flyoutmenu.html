@@ -399,17 +399,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </ul>
     </div>
 
-    <div class="sect">
-      <h2 class="sect-h">Measured against ironsoftware.com</h2>
-      <div class="sect-sub">The live nav was probed on 2026-08-05 to ground this. Its <b>PRODUCTS</b> panel is <code>DIV.collapse.menuCollapse</code>, toggled <code>display:none</code> &rarr; <code>flex</code> on hover. Three things it does that this component deliberately does not:</div>
-      <ul class="guide">
-        <li><b>The trigger is an <code>&lt;a href="/suite/"&gt;</code>, not a button.</b> Clicking navigates away instead of opening, so the panel is hover-only &mdash; unreachable by keyboard and awkward on touch, where the first tap is both the hover and the click.</li>
-        <li><b><code>aria-expanded</code> is hard-coded <code>false</code></b> and never updates, measured while the panel was open. A screen reader is told the thing is closed the entire time it is on screen.</li>
-        <li><b><code>aria-haspopup="true"</code> promises a <code>role="menu"</code></b> that is not there, and there is no <code>aria-controls</code> at all.</li>
-      </ul>
-      <div class="sect-sub" style="margin-top:14px;">The design is the thing worth copying; the markup is not. Here <code>openOnHover</code> adds hover <i>on top of</i> click and focus rather than replacing them, and skips <code>pointerType: 'touch'</code> so a tap is never treated as a hover. It carries a 150ms close delay so a diagonal cursor path from trigger to panel does not drop it.</div>
-      <div class="sect-sub" style="margin-top:14px;"><b>On a hover flyout a click only ever opens</b> &mdash; settled 2026-08-05. The failure that fixes is common and feels broken: the pointer arrives, the panel opens, and the user clicks the trigger anyway <i>because that is what triggers are for</i>, which shuts the panel in their face and leaves it shut until they move away and come back. The rule is narrowed by a <code>:hover</code> test rather than applied blindly, so <b>the keyboard keeps its toggle</b>: a disclosure reporting <code>aria-expanded="true"</code> that refuses to collapse on <kbd>Enter</kbd> is a broken contract, and opened by <kbd>Tab</kbd> and <kbd>Enter</kbd> it still closes on <kbd>Enter</kbd>. Try the third trigger above both ways.</div>
-    </div>
 
     <div class="sect">
       <h2 class="sect-h">Props</h2>
@@ -427,13 +416,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect-sub" style="margin-top:14px;">The panel is a slot: whatever you put in it becomes the flyout. Its direct children are numbered by the script and rise in turn as it opens, so composing columns needs no hand-numbering &mdash; and a column inserted in the middle cannot leave the sequence stale.</div>
     </div>
 
-    <div class="sect">
-      <h2 class="sect-h">Still open</h2>
-      <ul class="guide">
-        <li><b>No Figma frame yet.</b> Everything visual here is a placeholder. What is needed to reconcile: a node-specific URL, the component set with its variants, and hover/active states drawn &mdash; on Footer Bar those were missing from the set and had to be drawn separately afterwards.</li>
-        <li><b>Where it lives is undecided.</b> This is a standalone component today; it may belong inside <a href="component-topnav.html">Top Nav</a> as a variant instead, which would change whether Top Nav composes it or absorbs it.</li>
-      </ul>
-    </div>
 
     <footer class="docfoot">Iron Software Design System &nbsp;·&nbsp; Flyout Menu component &nbsp;·&nbsp; 2026</footer>
   </div></div>
