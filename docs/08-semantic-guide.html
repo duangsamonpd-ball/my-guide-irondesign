@@ -801,7 +801,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         <button class="copy-code-btn" onclick="copyBlock('tab-tailwind')">Copy</button>
         <pre><span class="c-comment">&lt;!-- ✅ PRIMARY BUTTON --&gt;</span>
 &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"bg-primary-500 hover:bg-primary-600 text-white
-         font-bold rounded-cta px-xl h-btn-primary
+         font-bold rounded-full px-xl h-btn-primary
          focus:outline-none focus:shadow-focus-magenta"</span>&gt;
   Download Free Trial
 &lt;/<span class="c-tag">button</span>&gt;
@@ -809,13 +809,13 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
 <span class="c-comment">&lt;!-- ✅ SECONDARY BUTTON --&gt;</span>
 &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"border border-secondary-500 text-secondary-500
          hover:bg-secondary-500 hover:text-white
-         font-bold rounded-cta-alt px-xl h-btn-secondary
+         font-bold rounded-full px-xl h-btn-secondary
          focus:outline-none focus:shadow-focus-blue"</span>&gt;
   Learn More
 &lt;/<span class="c-tag">button</span>&gt;
 
 <span class="c-comment">&lt;!-- ✅ SUCCESS BADGE --&gt;</span>
-&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"bg-success-100 text-success-700 font-bold rounded-pill-sm px-sm py-1"</span>&gt;
+&lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"bg-success-100 text-success-700 font-bold rounded-full px-sm py-1"</span>&gt;
   ✓ Active
 &lt;/<span class="c-tag">span</span>&gt;
 
@@ -846,7 +846,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
 .<span class="c-key">btn-primary</span> {
   <span class="c-attr">background-color</span>: <span class="c-str">var(--color-primary)</span>;        <span class="c-comment">/* #E01A59  iron-pink-500 */</span>
   <span class="c-attr">color</span>:            <span class="c-str">var(--color-text-on-primary)</span>; <span class="c-comment">/* #FFFFFF */</span>
-  <span class="c-attr">border-radius</span>:    <span class="c-str">var(--radius-cta)</span>;            <span class="c-comment">/* 9999px — full pill */</span>
+  <span class="c-attr">border-radius</span>:    <span class="c-str">var(--radius-full)</span>;           <span class="c-comment">/* 9999px — full pill */</span>
   <span class="c-attr">height</span>:           <span class="c-str">var(--size-btn-primary)</span>;      <span class="c-comment">/* 56px */</span>
 }
 .<span class="c-key">btn-primary</span>:hover  { <span class="c-attr">background-color</span>: <span class="c-str">var(--color-primary-hover)</span>; }  <span class="c-comment">/* #BA174B */</span>
@@ -857,7 +857,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
   <span class="c-attr">background</span>:    <span class="c-str">transparent</span>;
   <span class="c-attr">color</span>:         <span class="c-str">var(--color-secondary)</span>;       <span class="c-comment">/* #2693EC  iron-blue-500 */</span>
   <span class="c-attr">border</span>:        <span class="c-num">1.5px</span> solid <span class="c-str">var(--color-secondary)</span>;
-  <span class="c-attr">border-radius</span>: <span class="c-str">var(--radius-cta-alt)</span>;         <span class="c-comment">/* 42px */</span>
+  <span class="c-attr">border-radius</span>: <span class="c-str">var(--radius-full)</span>;           <span class="c-comment">/* 9999px — full pill */</span>
 }
 .<span class="c-key">btn-secondary</span>:focus { <span class="c-attr">box-shadow</span>: <span class="c-str">var(--shadow-focus-blue)</span>; }
 
@@ -902,7 +902,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       <span class="c-attr">disabled</span>={disabled}
       <span class="c-attr">className</span>=<span class="c-str">{`
         ${variantMap[variant]}
-        font-bold rounded-cta px-xl h-btn-primary
+        font-bold rounded-full px-xl h-btn-primary
         transition-colors focus:outline-none
         ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
       `}</span>

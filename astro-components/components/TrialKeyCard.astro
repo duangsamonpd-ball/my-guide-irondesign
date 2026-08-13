@@ -86,7 +86,7 @@ const hintId = hint ? `${uid}-hint` : undefined;
     />
     {hint && <span class="text-caption leading-caption text-text-support" id={hintId}>{hint}</span>}
   </div>
-  <button type="submit" class="w-full h-[var(--size-btn-lg)] border-0 rounded-cta bg-primary text-primary-on font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px] transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">{submitLabel} {submitIcon && <svg class="size-[14px]" viewBox={icons[submitIcon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[submitIcon].path} /></svg>}</button>
+  <button type="submit" class="w-full h-[var(--size-btn-lg)] border-0 rounded-full bg-primary text-primary-on font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px] transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">{submitLabel} {submitIcon && <svg class="size-[14px]" viewBox={icons[submitIcon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[submitIcon].path} /></svg>}</button>
   {footerNotes.length > 0 && (
     <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm text-text-support flex-wrap m-0 list-none p-0">
       {footerNotes.map((note, i) => (

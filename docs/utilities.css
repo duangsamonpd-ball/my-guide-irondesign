@@ -412,9 +412,6 @@
     --spacing-section: 7.5rem;
     --radius-none: 0px;
     --radius-full: 9999px;
-    --radius-pill-sm: 1.25rem;
-    --radius-cta: var(--radius-full);
-    --radius-cta-alt: 2.625rem;
     --shadow-card: 0 0 12px 0 rgba(15, 23, 43, 0.12);
     --shadow-float: 0 2px 16px 0 rgba(15, 23, 43, 0.20);
     --shadow-modal: 0 8px 24px 0 rgba(15, 23, 43, 0.32);
@@ -824,9 +821,6 @@
 }
 .rounded-2xl {
   border-radius: var(--radius-2xl);
-}
-.rounded-cta {
-  border-radius: var(--radius-cta);
 }
 .rounded-full {
   border-radius: var(--radius-full);
@@ -1939,9 +1933,6 @@
   --rounded-3xl: var(--radius-3xl);
   --rounded-4xl: var(--radius-4xl);
   --rounded-full: var(--radius-full);
-  --rounded-pill-sm: var(--radius-pill-sm);
-  --rounded-cta: var(--radius-cta);
-  --rounded-cta-alt: var(--radius-cta-alt);
   --transparent-white-1: #FFFFFF03;
   --transparent-white-5: #FFFFFF0D;
   --transparent-white-10: #FFFFFF1A;

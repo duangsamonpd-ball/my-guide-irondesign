@@ -530,9 +530,6 @@
   --radius-3xl: 24px;                         /* Buttons, large containers */
   --radius-4xl: 32px;                         /* CTA buttons, pill shapes */
   --radius-full: 9999px;                      /* Perfect circle or infinite pill */
-  --radius-pill-sm: 1.25rem;                  /* 20px — badges, small pills */
-  --radius-cta: var(--radius-full);           /* alias — Button component pill shape */
-  --radius-cta-alt: 2.625rem;                 /* 42px — alternative secondary CTA */
   --shadow-card: 0 0 12px 0 rgba(15, 23, 43, 0.12); /* Raised — feature cards        · slate-900 */
   --shadow-float: 0 2px 16px 0 rgba(15, 23, 43, 0.20); /* Floating — dropdowns, headers · slate-900 */
   --shadow-modal: 0 8px 24px 0 rgba(15, 23, 43, 0.32); /* Modal / dialogs               · slate-900 */
@@ -749,9 +746,6 @@
   --rounded-3xl: var(--radius-3xl);
   --rounded-4xl: var(--radius-4xl);
   --rounded-full: var(--radius-full);
-  --rounded-pill-sm: var(--radius-pill-sm);
-  --rounded-cta: var(--radius-cta);
-  --rounded-cta-alt: var(--radius-cta-alt);
 }
 
 

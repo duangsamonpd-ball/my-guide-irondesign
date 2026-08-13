@@ -574,9 +574,6 @@
   --rounded-full: 9999px;   /* Perfect circle or infinite pill */
 
   /* ── Semantic aliases — prefer these in components over raw steps ── */
-  --rounded-pill-sm: 1.25rem;              /* 20px — badges, small pills */
-  --rounded-cta:     var(--rounded-full);  /* alias — Button component pill shape */
-  --rounded-cta-alt: 2.625rem;             /* 42px — alternative secondary CTA */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
