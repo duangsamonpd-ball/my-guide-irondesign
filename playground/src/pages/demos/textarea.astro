@@ -2,10 +2,33 @@
 /**
  * Demo source for docs/component-textarea.html.
  *
- * Preview only. States forces `is-focus` and `is-disabled` on the control,
- * classes the component never emits.
+ * Every region is generated as of 2026-08-13. What stays hand-written on the
+ * page is prose: the `.atag` callouts, the card labels and their advice lists.
+ *
+ * As on the Input page, four of the five state cells are REAL states — `error`
+ * and `disabled` are props, and `.demo-disabled` was decoration over a control
+ * that already carried the `disabled` attribute. Only focus cannot be rendered
+ * statically, and that fake travels as `class`, which lands on the field shell;
+ * the page styles `.demo-focus textarea`.
+ *
+ * Every field carries a `name`. Without one `fieldId` falls back to
+ * `Math.random()`, the id changes on every build, and check:render can never
+ * settle.
+ *
+ * The Do/Don't cards used to shrink their control with an inline
+ * `style="min-height:60px"` on the <textarea>. A component cannot emit that and
+ * `class` does not reach the control, so it is a page rule now — `.dd .body
+ * textarea` — which is where a docs-only height belonged anyway.
  */
 import { Textarea } from '@iron-software/astro-components';
+
+const states = [
+  { props: { name: 'ta-default', placeholder: 'Type your message here…' }, lbl: 'Default' },
+  { props: { name: 'ta-focus', value: 'This tutorial will guide you step-by-step…', class: 'demo-focus' }, lbl: 'Focus', note: 'secondary ring' },
+  { props: { name: 'ta-filled', value: 'Great product, easy to integrate and the docs were clear throughout.' }, lbl: 'Filled' },
+  { props: { name: 'ta-error', value: 'too short', error: true, errorMessage: 'Message must be at least 20 characters.' }, lbl: 'Error', note: 'danger border' },
+  { props: { name: 'ta-disabled', value: 'Not editable', disabled: true }, lbl: 'Disabled' },
+];
 ---
 
 <html lang="en">
@@ -17,6 +40,27 @@ import { Textarea } from '@iron-software/astro-components';
         placeholder="Type your message here…"
         hint="Tell us a bit about what you need."
       />
+    </div>
+
+    <div data-demo="states">
+      {states.map((s) => (
+        <div class="cell">
+          <Textarea {...s.props} />
+          <div class="lbl">{s.lbl}{s.note && <small>{s.note}</small>}</div>
+        </div>
+      ))}
+    </div>
+
+    <div data-demo="anatomy">
+      <Textarea label="Message" name="anatomy-message" placeholder="Type your message here…" hint="Helper text." />
+    </div>
+
+    <div data-demo="do">
+      <Textarea label="Message" name="do-message" placeholder="Type your message here…" />
+    </div>
+
+    <div data-demo="dont">
+      <Textarea name="dont-message" placeholder="Message" />
     </div>
   </body>
 </html>
