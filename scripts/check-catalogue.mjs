@@ -26,7 +26,7 @@
  * clean page, which is exactly the failure that let this drift in the first
  * place, so falling under the floor is an error and not a warning.
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -97,6 +97,13 @@ function expect(page, kind, token, mode, stated, where) {
     record(page, kind, `${where}: says ${stated.toUpperCase()} for \`${token}\` (${mode}) — tokens.css has ${want}`);
   }
 }
+
+/** Every component docs page, in a stable order. */
+const componentPages = () =>
+  readdirSync(join(ROOT, 'docs'))
+    .filter((f) => f.startsWith('component-') && f.endsWith('.html'))
+    .sort()
+    .map((f) => `docs/${f}`);
 
 /* ── parsers ──────────────────────────────────────────────────────────────── */
 
@@ -316,6 +323,42 @@ const PARSERS = [
       return n;
     },
   },
+  /**
+   * The Anatomy callouts on every component page. Each `.atag` names a token
+   * and, sometimes, restates the length it resolves to — `ring → --size-box
+   * (18px)`. Nothing checked those until 2026-08-13, and two of the four were
+   * wrong: `--size-box` is `--size-box-md`, which is 20px, and the checkbox and
+   * radio pages had both said 18 since they were written.
+   *
+   * This is the exact shape CLAUDE.md warns about — a number in prose restating
+   * a fact the build derives — and it is the reason that file forbids writing
+   * counts and token values into it. Unlike the parsers above, this one walks
+   * EVERY component page, because the claim is not tied to one document.
+   */
+  {
+    name: 'component/anatomy tags',
+    pages: componentPages(),
+    floor: 3,
+    run(page, src) {
+      let n = 0;
+      for (const m of src.matchAll(/<b>(--[a-z0-9-]+)<\/b>\s*\(([\d.]+)px\)/g)) {
+        const [, token, stated] = m;
+        const v = raw(token);
+        if (v === null) {
+          record(page, this.name, `names \`${token}\`, which tokens.css does not declare`);
+          n++;
+          continue;
+        }
+        const px = /^([\d.]+)rem$/.test(v) ? parseFloat(v) * 16 : /^([\d.]+)px$/.test(v) ? parseFloat(v) : null;
+        if (px === null) continue; // not a length — nothing to restate
+        n++;
+        if (Math.abs(px - parseFloat(stated)) > 0.01) {
+          record(page, this.name, `says ${stated}px for \`${token}\` — tokens.css resolves it to ${px}px`);
+        }
+      }
+      return n;
+    },
+  },
 ];
 
 /**
@@ -346,8 +389,12 @@ const readPage = (rel) => {
 function runAll(overrides = new Map()) {
   problems.length = 0;
   for (const p of PARSERS) {
-    const src = overrides.get(p.page) ?? readPage(p.page);
-    counts[p.name] = p.run(p.page, src);
+    /* `pages` (plural) is for a claim that is not tied to one document — the
+       Anatomy callouts appear on every component page. */
+    const list = p.pages ?? [p.page];
+    let n = 0;
+    for (const rel of list) n += p.run(rel, overrides.get(rel) ?? readPage(rel));
+    counts[p.name] = n;
   }
   const starved = PARSERS.filter((p) => counts[p.name] < p.floor);
   return { starved };
@@ -376,6 +423,10 @@ if (SELF_TEST) {
     ['guide/code-sample declarations', 'docs/08-semantic-guide.html', /(--<span class="c-key">color-primary<\/span>:\s*<span class="c-val">)#[0-9A-Fa-f]{6}/, '$1#BADBAD'],
     ['guide/code-sample var comments', 'docs/08-semantic-guide.html', /(<span class="c-comment">\/\*\s*)#[0-9A-Fa-f]{6}/, '$1#BADBAD'],
     ['colors/swatch cards', 'docs/semantic-colors.html', /(<div class="sem-card" onclick="copy\(')#[0-9A-Fa-f]{6}/, '$1#BADBAD'],
+    /* Planted on the page whose Anatomy callout had been wrong since it was
+       written — the parser exists because nothing noticed 18px against a token
+       that resolves to 20. */
+    ['component/anatomy tags', 'docs/component-radio.html', /(<b>--size-box<\/b> \()[\d.]+px\)/, '$199px)'],
   ];
 
   let armed = 0;
