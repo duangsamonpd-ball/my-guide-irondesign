@@ -145,7 +145,10 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .ico { font-size: 0.9em; }
 .demo-focus-magenta { box-shadow: var(--shadow-focus-magenta); }
 .demo-focus-ghost { border-color: var(--color-border-focused); }
-.demo-disabled-btn { opacity: .5; cursor: not-allowed; pointer-events: none; }
+/* `.demo-disabled-btn` used to sit here. It was decoration: Button ships
+   `disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none`
+   and the cell now uses the real prop. The hover fill was an inline style. */
+.demo-hover-primary { background: var(--color-primary-hover); }
 </style>
 </head>
 <body>
@@ -315,13 +318,27 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <h2 class="sect-h">States</h2>
         <div class="sect-sub">Four states from Figma — <b>default · hover · focus · disabled</b>. Focus shows a 3px coloured halo matching the button (pink · blue · white @25%); ghost focus uses a blue border. (Loading is a UI extra.)</div>
         <div class="grid">
-          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">Default</button><div class="lbl">Default</div></div>
-          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta" style="background:var(--color-primary-hover);">Hover</button><div class="lbl">Hover<small>primary-hover</small></div></div>
-          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta demo-focus-magenta">Focus</button><div class="lbl">Focus<small>pink halo</small></div></div>
-          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta demo-disabled-btn" disabled>Disabled</button><div class="lbl">Disabled<small>opacity .5</small></div></div>
-          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused demo-focus-ghost">Focus</button><div class="lbl">Ghost focus<small>border/focused</small></div></div>
-          <div class="cell"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta"><span class="spin"></span>Loading</button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
-        </div>
+        <!-- demo:states -->
+        <div class="cell"><button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
+            Default
+          </button><div class="lbl">Default</div></div>
+        <div class="cell"><button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta demo-hover-primary">
+            Hover
+          </button><div class="lbl">Hover<small>primary-hover</small></div></div>
+        <div class="cell"><button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta demo-focus-magenta">
+            Focus
+          </button><div class="lbl">Focus<small>pink halo</small></div></div>
+        <div class="cell"><button type="button" disabled class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
+            Disabled
+          </button><div class="lbl">Disabled<small>opacity .5</small></div></div>
+        <div class="cell"><button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused demo-focus-ghost">
+            Focus
+          </button><div class="lbl">Ghost focus<small>border/focused</small></div></div>
+        <div class="cell"><button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
+            <span class="spin"></span>Loading
+          </button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
+        <!-- /demo:states -->
+      </div>
       </div>
 
       <!-- ── NuGet Download CTA ── -->
@@ -350,8 +367,12 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <h2 class="sect-h">Anatomy</h2>
         <div class="sect-sub">The parts of a button and the token each one is bound to.</div>
         <div class="anatomy">
-          <button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg font-btn-lg tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta"><span class="ico">↓</span> Download Free Trial</button>
-          <div class="anatomy-tags">
+        <!-- demo:anatomy -->
+        <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg font-btn-lg leading-btn-lg tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
+          <span class="ico">↓</span> Download Free Trial
+        </button>
+        <!-- /demo:anatomy -->
+      <div class="anatomy-tags">
             <span class="atag">height → <b>--size-btn-lg</b></span>
             <span class="atag">fill → <b>--color-button-primary</b></span>
             <span class="atag">label → <b>--font-size-btn-lg</b> / <b>--fw-btn-lg</b></span>
@@ -407,7 +428,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="dd">
           <div class="card do">
             <div class="top">✓ Do</div>
-            <div class="body"><button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">Get started</button></div>
+            <div class="body">
+          <!-- demo:do -->
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
+            Get started
+          </button>
+          <!-- /demo:do -->
+        </div>
             <ul>
               <li>One <b>Primary</b> button per view — the single main action.</li>
               <li>Pair with Outline / Ghost for secondary actions.</li>
@@ -417,9 +444,15 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <div class="card dont">
             <div class="top">✗ Don't</div>
             <div class="body" style="gap:10px;">
-              <button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">Save</button>
-              <button class="cursor-pointer inline-flex items-center justify-center font-sans whitespace-nowrap no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">Cancel</button>
-            </div>
+          <!-- demo:dont -->
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
+            Save
+          </button>
+          <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-cta transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
+            Cancel
+          </button>
+          <!-- /demo:dont -->
+        </div>
             <ul>
               <li>Don't stack two Primary buttons — they compete.</li>
               <li>Don't hard-code colours; always use the button tokens.</li>

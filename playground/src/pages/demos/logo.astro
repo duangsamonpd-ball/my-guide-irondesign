@@ -2,10 +2,18 @@
 /**
  * Demo source for docs/component-logo.html.
  *
- * Anatomy and the Do/Don't cards stay hand-written: the first is an annotated
- * diagram, and the second draws marks at 17px and 40px — sizes the component
- * deliberately refuses, since it is built on an 8-unit grid where only
- * 24/48/96/192 land on whole pixels.
+ * Anatomy is generated as of 2026-08-13 — it is a plain mark at 96px, which is
+ * a size the component offers.
+ *
+ * THE DO/DON'T CARDS STAY HAND-WRITTEN, and unlike every other page that is not
+ * a gap to close. They draw marks at 40px and 17px, sizes the component
+ * deliberately refuses — it is built on an 8-unit grid where only 24/48/96/192
+ * land on whole pixels, and `height` applies to wordmarks and lockups, not
+ * marks. More to the point, the Don't card is a picture of MISUSE: a squashed
+ * mark, a hue-rotated one, one shrunk past legibility. The component exists to
+ * make those impossible, so rendering them through it would be a contradiction,
+ * and faking them with docs-only classes would put three overrides on the page
+ * to reproduce mistakes. They are illustrations, not instances.
  *
  * The mono strip and the elements grid used to be drawn at 44px for the same
  * reason — off the grid. They are 48 here, which is what the component actually
@@ -83,5 +91,10 @@ const band = 'width:100%;padding:26px 32px;';
       <div style={`${band}background:#fff;`}><Logo kind="lockup" variant="basic" height={72} /></div>
       <div style={`${band}background:#fff;`}><Logo kind="lockup" variant="stack" height={150} /></div>
     </div>
+
+    <div data-demo="anatomy">
+      <Logo product="pdf" size={96} />
+    </div>
+
   </body>
 </html>

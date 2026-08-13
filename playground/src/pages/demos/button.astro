@@ -2,8 +2,21 @@
 /**
  * Demo source for docs/component-button.html.
  *
- * Preview, Variants and Sizes are generated. States is not: it forces `is-focus`
- * and `is-disabled`, neither of which the component emits.
+ * Every region is generated as of 2026-08-13 — states, anatomy and both
+ * Do/Don't cards join preview, variants and sizes.
+ *
+ * States needed three docs-only illustrations and lost one. `disabled` is a real
+ * prop and the component already ships `disabled:opacity-50
+ * disabled:cursor-not-allowed disabled:pointer-events-none`, so
+ * `.demo-disabled-btn` was decoration and is gone. Hover, the two focus rings
+ * and the spinner cannot be rendered statically, so they travel as `class`,
+ * which Button puts on the button element:
+ *   .demo-hover-primary  the hover fill, lifted out of an inline style
+ *   .demo-focus-magenta  the primary focus halo   (already on the page)
+ *   .demo-focus-ghost    the ghost focus border   (already on the page)
+ * The Loading cell is a real button with an extra `.spin` span as its child —
+ * Button has no loading prop, and inventing one to serve the docs is the thing
+ * this file is trying not to do.
  *
  * The Variants grid's on-dark cell keeps its dark background inline — that is
  * docs chrome around the button, not an override on it, so it lives inside the
@@ -49,5 +62,28 @@ const variants = [
       <Button size="md">Default</Button>
       <Button size="sm">Small</Button>
     </div>
+
+    <div data-demo="states">
+      <div class="cell"><Button>Default</Button><div class="lbl">Default</div></div>
+      <div class="cell"><Button class="demo-hover-primary">Hover</Button><div class="lbl">Hover<small>primary-hover</small></div></div>
+      <div class="cell"><Button class="demo-focus-magenta">Focus</Button><div class="lbl">Focus<small>pink halo</small></div></div>
+      <div class="cell"><Button disabled>Disabled</Button><div class="lbl">Disabled<small>opacity .5</small></div></div>
+      <div class="cell"><Button variant="ghost" class="demo-focus-ghost">Focus</Button><div class="lbl">Ghost focus<small>border/focused</small></div></div>
+      <div class="cell"><Button><span class="spin"></span>Loading</Button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
+    </div>
+
+    <div data-demo="anatomy">
+      <Button size="lg"><span class="ico">↓</span> Download Free Trial</Button>
+    </div>
+
+    <div data-demo="do">
+      <Button>Get started</Button>
+    </div>
+
+    <div data-demo="dont">
+      <Button>Save</Button>
+      <Button>Cancel</Button>
+    </div>
+
   </body>
 </html>
