@@ -17,6 +17,7 @@
  * prop documentation asks for.
  */
 import { Footer } from '@iron-software/astro-components';
+import FooterProduct from '@iron-software/astro-components/internal/FooterProduct.astro';
 
 const products = [
   { prefix: 'IRON', suffix: 'PDF', accent: 'var(--iron-pink-500)', desc: 'Create, read, and edit PDFs. HTML to PDF for .NET.' },
@@ -41,5 +42,21 @@ const products = [
     <div data-demo="default">
       <Footer variant="default" productName="IronPDF" products={products} />
     </div>
+
+    {/* The two cards on the docs page are one row in its rest and hover states.
+        Hover cannot be rendered statically, so it travels as a class the page
+        styles — the same trick as `.demo-focus` on the form pages. */}
+    <div data-demo="hover-default">
+      <ul class="list-none flex flex-col gap-xs m-0 p-0">
+      <FooterProduct product={{ prefix: 'IRON', suffix: 'PDF', desc: 'Create, read, and edit PDFs.', accent: 'var(--primary)' }} logoSrc="assets/logo.svg" />
+      </ul>
+    </div>
+
+    <div data-demo="hover-active">
+      <ul class="list-none flex flex-col gap-xs m-0 p-0">
+      <FooterProduct product={{ prefix: 'IRON', suffix: 'PDF', desc: 'Create, read, and edit PDFs.', accent: 'var(--primary)' }} logoSrc="assets/logo.svg" class="demo-row-hover" />
+      </ul>
+    </div>
+
   </body>
 </html>

@@ -88,6 +88,19 @@ const astroFiles = existsSync(COMPONENTS)
 const SHARED_TS = ['field.ts', 'choice.ts'].filter((f) => existsSync(join(ROOT, 'astro-components', f)));
 
 /**
+ * Internal .astro partials outside components/ — same contract as SHARED_TS.
+ * `astro-components/internal/` holds markup a component renders but nobody
+ * should import on its own, so it deliberately sits outside the public folder
+ * `check:exports` polices. It still has to be COMPILED: a partial whose classes
+ * never reach docs/utilities.css renders unstyled in the docs while every gate
+ * stays green, which is the failure this whole file exists to prevent.
+ */
+const INTERNAL_DIR = join(ROOT, 'astro-components/internal');
+const SHARED_ASTRO = existsSync(INTERNAL_DIR)
+  ? readdirSync(INTERNAL_DIR).filter((f) => f.endsWith('.astro'))
+  : [];
+
+/**
  * If the glob matches nothing, Tailwind does not complain — it emits a valid
  * stylesheet with no utilities in it, the docs pages go unstyled, and this
  * script still exits 0. A renamed directory should be loud.
@@ -174,6 +187,10 @@ for (const file of astroFiles) {
 }
 for (const file of SHARED_TS) {
   writeFileSync(join(SCAN, file), strip(readFileSync(join(ROOT, 'astro-components', file), 'utf8')));
+}
+
+for (const file of SHARED_ASTRO) {
+  writeFileSync(join(SCAN, file), strip(readFileSync(join(INTERNAL_DIR, file), 'utf8')));
 }
 
 const inputPath = join(TMP, 'utilities.in.css');

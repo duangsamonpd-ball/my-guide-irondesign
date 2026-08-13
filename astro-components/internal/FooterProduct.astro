@@ -1,0 +1,50 @@
+---
+/**
+ * One product row of the Footer's cross-sell list.
+ *
+ * INTERNAL, and the folder is the whole point. `astro-components/components/`
+ * is public surface — `check:exports` requires every .astro in it to be in the
+ * barrel, to have a README section, and to move the "N components" count. This
+ * row is not a component anyone should reach for on its own; it exists so the
+ * docs can render ONE row in its rest and hover states instead of keeping a
+ * hand-written copy of it, which is what they did until 2026-08-13 and which
+ * had already drifted — the copy still carried `leading-[1.5]` and a
+ * page-local `--primary` alias while Footer had moved on twice.
+ *
+ * Two scripts must know this folder exists, the same contract `field.ts` and
+ * `choice.ts` already have: `build-utilities.mjs` compiles the classes below,
+ * and `check-component-vars.mjs` validates the variables they read. Miss either
+ * and the classes vanish from the stylesheet while the markup keeps wearing
+ * them, with nothing red anywhere.
+ */
+export interface Product {
+  prefix: string;   // e.g. "IRON"
+  suffix: string;   // e.g. "PDF"
+  desc: string;
+  accent?: string;  // CSS color for the suffix, e.g. "var(--iron-blue-500)"
+  href?: string;
+}
+
+interface Props {
+  product: Product;
+  /** Already-encoded path to the 22px mark that fades in on hover. */
+  logoSrc: string;
+  /**
+   * Lands on the <li>. The docs page uses it to force the hover illustration —
+   * `.demo-row-hover img` and `.demo-row-hover .text-text-dark-support` — since
+   * :hover cannot be rendered statically. Footer itself passes nothing.
+   */
+  class?: string;
+}
+
+const { product: p, logoSrc, class: className } = Astro.props;
+---
+
+<li class:list={[className]}>
+  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
+    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={logoSrc} alt="" /></span>
+    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-dark-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
+    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-dark-heading group-focus-visible:text-text-on-dark-heading" aria-hidden="true">-</span>
+    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-dark-body group-focus-visible:text-text-on-dark-body">{p.desc}</span>
+  </a>
+</li>

@@ -9,6 +9,7 @@
   "exports": {
     ".": "./index.ts",
     "./components/*": "./components/*",
+    "./internal/*": "./internal/*",
     "./icons": "./icons.ts",
     "./components.json": "./components.json",
     "./package.json": "./package.json"

@@ -1,6 +1,7 @@
 ---
 import Button from './Button.astro';
 import { icons } from '../icons';
+import FooterProduct from '../internal/FooterProduct.astro';
 
 interface Product {
   prefix: string;   // e.g. "IRON"
@@ -96,16 +97,7 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
     <div class="bg-[var(--transparent-white-10)] w-[2px] shrink-0 self-stretch max-lg:hidden" aria-hidden="true"></div>
     <div class="flex-1 pl-3xl pr-xl">
       <ul class="list-none flex flex-col gap-xs m-0 p-0">
-        {products.map((p) => (
-          <li>
-            <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
-              <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={src(productLogoSrc)} alt="" /></span>
-              <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-dark-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
-              <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-dark-heading group-focus-visible:text-text-on-dark-heading" aria-hidden="true">-</span>
-              <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-dark-body group-focus-visible:text-text-on-dark-body">{p.desc}</span>
-            </a>
-          </li>
-        ))}
+        {products.map((p) => <FooterProduct product={p} logoSrc={src(productLogoSrc)} />)}
       </ul>
     </div>
   </div>

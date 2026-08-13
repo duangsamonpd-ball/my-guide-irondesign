@@ -54,8 +54,21 @@ const utilities = new Set(
 const perFile = [];
 const unknown = [];
 
-for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) {
-  const src = readFileSync(join(COMPONENTS, file), 'utf8');
+/**
+ * Internal partials count as components here: `astro-components/internal/`
+ * holds markup a component renders, so a variable it reads has to resolve just
+ * the same. Named the way SHARED_TS is in build-utilities.mjs — the two scripts
+ * have to agree about this folder or the classes compile and the variables go
+ * unchecked, or the reverse.
+ */
+const INTERNAL = join(ROOT, 'astro-components/internal');
+const sources = [
+  ...readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).map((f) => [f, join(COMPONENTS, f)]),
+  ...(existsSync(INTERNAL) ? readdirSync(INTERNAL).filter((f) => f.endsWith('.astro')).map((f) => [f, join(INTERNAL, f)]) : []),
+];
+
+for (const [file, fullPath] of sources) {
+  const src = readFileSync(fullPath, 'utf8');
   // A component may declare its own custom properties in its <style> block;
   // those resolve locally and never need to come from the theme, so don't
   // count them as usages that the compiled CSS has to satisfy.
