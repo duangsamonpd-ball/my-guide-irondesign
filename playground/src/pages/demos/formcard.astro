@@ -28,5 +28,23 @@ import { FormCard, Input } from '@iron-software/astro-components';
         <Input label="Work email" name="work-email" type="email" placeholder="you@example.com" required />
       </FormCard>
     </div>
+    {/* The card at full width for the diagram; `.anatomy .demo-wide` on the page
+        replaces an inline max-width:none the component cannot emit. The slot
+        held a hand-written `.field` stub in pre-Tailwind classes — a real Input
+        is what a consumer would actually put there. */}
+    <div data-demo="anatomy">
+      <FormCard
+        icon="key"
+        title="Card title"
+        subtitle="Optional subtitle."
+        submitLabel="Submit label"
+        noteLeft="Note left"
+        noteRight="Note right"
+        class="demo-wide"
+      >
+        <Input label="Slotted field" name="anatomy-slot" placeholder="Your fields go here" />
+      </FormCard>
+    </div>
+
   </body>
 </html>

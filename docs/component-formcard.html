@@ -88,15 +88,11 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
-.field { display:flex; flex-direction:column; gap:var(--spacing-xs); width:100%; }
-.field-label { font-size:var(--font-size-label); font-weight:var(--fw-label); color:var(--color-text-heading); }
-.field-label .req { color:var(--color-danger); }
-.input-wrap { position:relative; display:flex; align-items:center; }
-.input { width:100%; height:var(--size-input); border:var(--border-width-1-5) solid var(--color-border); border-radius:var(--rounded-md); padding:0 14px; font-family:'Montserrat',sans-serif; font-size:var(--font-size-body); color:var(--color-text-body); background:var(--color-bg-base); outline:none; transition:border-color .15s, box-shadow .15s; }
-.input::placeholder { color:var(--color-text-placeholder); }
-.input:hover { border-color:var(--color-border-strong); }
 @media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} .canvas {padding:24px;} }
-  </style>
+  /* The anatomy diagram draws the card at full width; the component cannot emit
+   an inline max-width. */
+.anatomy .demo-wide { max-width: none; }
+</style>
 </head>
 <body>
 <header>
@@ -224,15 +220,47 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="sect-sub">The parts of the card and the token each is bound to.</div>
       <div class="anatomy" style="align-items:stretch;max-width:600px;margin:0 auto;">
-        <div class="bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px]" style="max-width:none;">
+        <!-- demo:anatomy -->
+        <form class="bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px] demo-wide" aria-labelledby="fc-demo-1">
           <div class="flex items-center gap-[16px]">
-            <span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span>
-            <div ><h3 class="font-sans text-h4 font-bold text-text-heading m-0">Card title</h3><p class="font-sans text-caption text-text-support mt-[4px] mb-0 mx-0">Optional subtitle.</p></div>
+            <span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary
+            bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)]
+            border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]">
+            <svg class="size-[26px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg>
+          </span>
+          <div>
+            <h3 class="font-sans text-h4 font-h4 leading-h4 text-text-heading m-0" id="fc-demo-1">Card title</h3>
+            <p class="font-sans text-caption leading-caption text-text-support mt-[4px] mb-0 mx-0">Optional subtitle.</p>
           </div>
-          <div class="flex flex-col gap-[20px] [&>*]:max-w-none"><div class="field"><label class="field-label">Slotted field</label><div class="input-wrap"><input class="input" placeholder="Your fields go here"></div></div></div>
-          <div class="flex flex-col gap-[12px]"><button type="submit" class="group w-full h-[var(--size-btn-lg)] border-0 rounded-full bg-primary text-primary-on font-sans text-btn-lg font-bold cursor-pointer inline-flex items-center justify-center gap-[8px] transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">Submit label <svg class="size-[16px] shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></button><div class="flex items-center justify-center gap-[12px] text-caption-sm text-text-support list-none m-0 p-0"><span>Note left</span><span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0"></span><span>Note right</span></div></div>
         </div>
-        <div class="anatomy-tags">
+        <div class="flex flex-col gap-[20px] [&amp;&gt;*]:max-w-none">
+          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+            <label class="text-label font-label text-text-heading leading-label" for="anatomy-slot">
+              Slotted field
+            </label>
+            <div class="relative flex items-center">
+              <input id="anatomy-slot" name="anatomy-slot" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-base border outline-none transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border hover:border-border-strong focus:border-border-focus focus:shadow-focus-blue" placeholder="Your fields go here">
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-[12px]">
+          <button type="submit" class="group w-full h-[var(--size-btn-lg)] border-0 rounded-full bg-primary text-primary-on
+          font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px]
+          transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">
+          Submit label
+          <svg class="size-[16px] shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
+        </button>
+        <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm text-text-support list-none m-0 p-0">
+          <li class="flex items-center gap-[12px]"><span>Note left</span></li>
+          <li class="flex items-center gap-[12px]">
+            <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>
+            <span>Note right</span>
+          </li>
+        </ul>
+        </div>
+        </form>
+        <!-- /demo:anatomy -->
+      <div class="anatomy-tags">
           <span class="atag">frame → <b>--rounded-2xl</b> + <b>--color-border</b></span>
           <span class="atag">icon halo → <b>--rounded-lg</b> + <b>--color-secondary</b></span>
           <span class="atag">title → <b>--color-text-heading</b></span>
