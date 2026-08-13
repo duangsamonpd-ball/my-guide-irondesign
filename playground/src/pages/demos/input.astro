@@ -2,18 +2,37 @@
 /**
  * Demo source for docs/component-input.html.
  *
- * Preview only, and the two sections below it explain why.
+ * Every region is generated as of 2026-08-13. What stays hand-written on the
+ * page is prose and page chrome: the `.atag` callouts, the card labels and
+ * advice lists, and the inline `max-width` on the Compositions canvas.
  *
- * States forces `is-focus` and `is-disabled`, classes the component never emits
- * — the same kind of isolated illustration as Select's states grid.
+ * FOUR OF THE FIVE STATE CELLS ARE REAL STATES, not illustrations. `disabled`
+ * and `error` are props, and the docs had been faking `disabled` with a
+ * `.demo-disabled` rule on a control that already carried the `disabled`
+ * attribute — the component's own `disabled:` utilities were doing the work and
+ * the rule was decoration. It is gone.
  *
- * Compositions sizes its canvas with an inline max-width, so it stays
- * hand-written too. It used to carry a third field with a leading icon
+ * Only FOCUS cannot be rendered statically, so it stays faked — but the fake
+ * now travels as a prop. `class` lands on the field shell, and the page styles
+ * `.demo-focus input`, so no wrapper element is added and the cell's DOM shape
+ * is unchanged. Putting the class on the control itself was impossible: `class`
+ * does not reach it.
+ *
+ * The Compositions canvas keeps its inline max-width because that is the
+ * CANVAS, not the field. It used to carry a third field with a leading icon
  * (`has-icon` plus an `.input-icon` span) that Input had no prop and no CSS
  * for — documented but impossible to produce. Dropped 2026-07-31 rather than
  * grown into a feature.
  */
 import { Input } from '@iron-software/astro-components';
+
+const states = [
+  { props: { name: 'st-default', placeholder: 'Placeholder' }, lbl: 'Default' },
+  { props: { name: 'st-focus', value: 'Focused', class: 'demo-focus' }, lbl: 'Focus', note: 'secondary ring' },
+  { props: { name: 'st-filled', value: 'Jane Cooper' }, lbl: 'Filled' },
+  { props: { name: 'st-error', value: 'not-an-email', error: true, errorMessage: 'Enter a valid email.' }, lbl: 'Error', note: 'danger border' },
+  { props: { name: 'st-disabled', value: 'Disabled', disabled: true }, lbl: 'Disabled' },
+];
 ---
 
 <html lang="en">
@@ -26,6 +45,27 @@ import { Input } from '@iron-software/astro-components';
         placeholder="you@example.com"
         hint="We'll never share your email."
       />
+    </div>
+
+    <div data-demo="states">
+      {states.map((s) => (
+        <div class="cell">
+          <Input {...s.props} />
+          <div class="lbl">{s.lbl}{s.note && <small>{s.note}</small>}</div>
+        </div>
+      ))}
+    </div>
+
+    <div data-demo="anatomy">
+      <Input label="Email address" name="anatomy-email" placeholder="you@example.com" hint="Helper text." />
+    </div>
+
+    <div data-demo="do">
+      <Input label="Email" name="do-email" placeholder="you@example.com" />
+    </div>
+
+    <div data-demo="dont">
+      <Input name="dont-email" placeholder="Email" />
     </div>
   </body>
 </html>
