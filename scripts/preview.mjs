@@ -262,8 +262,24 @@ function resolvePage(name) {
   fail(`no docs page matches "${name}" — tried ${candidates.join(', ')}`);
 }
 
+/**
+ * `--all` covers EVERY docs page, not only the component ones.
+ *
+ * It used to stop at `component-*.html`, which left twelve pages — homepage,
+ * logo, index, the six foundation pages, the guides — with no image check at
+ * all. logo.html alone carries 72 <img> and homepage 84, and `naturalWidth`
+ * once called thirteen broken FooterBar logos fine while seven of them drew
+ * nothing, so "the images are probably fine" is not a thing this repo says.
+ *
+ * CONTRAST IS NOT WIDENED WITH IT. The probes scope to `demo:` regions; a page
+ * without them has nothing in scope, and running contrast page-wide instead
+ * would report the docs' own chrome — the syntax-highlighting colours, the
+ * homepage decoration — which Ball already triaged once as scaffolding rather
+ * than system. Widening that is a ruling, not a gate change, so these pages get
+ * the assets probe over `body` and nothing else.
+ */
 const pages = opts.all
-  ? readdirSync(DOCS).filter((f) => f.startsWith('component-') && f.endsWith('.html')).sort()
+  ? readdirSync(DOCS).filter((f) => f.endsWith('.html')).sort()
   : opts.pages.map(resolvePage);
 
 if (!pages.length && !opts.serve && !opts['self-test']) {
@@ -1018,9 +1034,20 @@ for (const pageFile of pages) {
   const entry = { page: pageFile, fonts, badRequests: realBadRequests, escaped: [...blocked],
                   assets: null, contrast: null, measured: null };
 
-  if (runAssets) entry.assets = await page.evaluate((s) => auditAssets(s), opts.scope);
-  if (runContrast) {
-    entry.contrast = await page.evaluate((s) => auditContrast(s), opts.scope);
+  /* A page with no demo regions is audited over <body> for its images, and not
+     for contrast — see the note by `pages` above. An explicit --scope always
+     wins, so a one-off page-wide contrast run is still one flag away. */
+  const hasDemo = await page.evaluate(() => {
+    const w = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT);
+    while (w.nextNode()) if (w.currentNode.nodeValue.trim().startsWith('demo:')) return true;
+    return false;
+  });
+  const pageScope = opts.scope ?? (hasDemo ? null : 'body');
+  entry.scopedTo = opts.scope ?? (hasDemo ? 'demo regions' : 'body (assets only)');
+
+  if (runAssets) entry.assets = await page.evaluate((s) => auditAssets(s), pageScope);
+  if (runContrast && (hasDemo || opts.scope)) {
+    entry.contrast = await page.evaluate((s) => auditContrast(s), pageScope);
     await measureOverImages(page, entry.contrast);
   }
   if (opts.measure) entry.measured = await page.evaluate((s) => measure(s), opts.measure);
