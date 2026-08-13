@@ -2,12 +2,21 @@
 /**
  * Demo source for docs/component-radio.html.
  *
- * Preview, States and Card group are generated. Anatomy and the Do/Don't cards
- * stay hand-written.
+ * Every region on that page is generated as of 2026-08-13 — preview, states,
+ * card group, anatomy and both Do/Don't cards. Nothing about the component is
+ * hand-written in docs/ any more; what stays hand-written there is the prose:
+ * the `.atag` callouts beside the anatomy, the `.top` labels on the cards, and
+ * the `<ul>` of advice under each.
+ *
+ * The three added last are the reason this matters. Their hand-written copies
+ * still said `font-medium leading-5` months after choice.ts moved to
+ * `font-label-lg leading-label-lg` — identical values, so nothing rendered
+ * wrong and no gate could see it, which is exactly how the earlier drift got
+ * in. A copy that renders correctly is still a copy.
  *
  * Radio derives its id from `${name}-${value}`, and the hand-written markup
  * carried a `name` but no `value` and no id — so, as on the checkbox page, no
- * label was tied to its control.
+ * label was tied to its control. Generating them ties each one.
  */
 import { Radio } from '@iron-software/astro-components';
 
@@ -44,6 +53,26 @@ const states = [
     <div data-demo="card-group">
       <Radio name="bill" value="monthly" label="Monthly" description="$29 / month, cancel anytime." card checked />
       <Radio name="bill" value="yearly" label="Yearly" description="$290 / year — two months free." card />
+    </div>
+
+    {/* The `.anatomy-tags` callouts beside this stay hand-written on the page —
+        they name tokens, which is prose, and check:catalogue gates them. */}
+    <div data-demo="anatomy">
+      <Radio
+        name="an"
+        value="selected"
+        label="Selected option"
+        description="With a supporting description."
+        checked
+      />
+    </div>
+
+    <div data-demo="do">
+      <Radio name="g1" value="one" label="One per group" checked />
+    </div>
+
+    <div data-demo="dont">
+      <Radio name="g2" value="toggle" label="Toggle me" />
     </div>
   </body>
 </html>

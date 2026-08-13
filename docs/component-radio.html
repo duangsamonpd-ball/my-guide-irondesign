@@ -261,7 +261,16 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="anatomy">
-        <label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="radio" name="an" checked><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">Selected option</span><span class="text-caption text-text-muted leading-5 max-w-[360px]">With a supporting description.</span></span></label>
+        <!-- demo:anatomy -->
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="an-selected">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="an-selected" name="an" value="selected" type="radio" checked>
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Selected option</span>
+            <span class="text-caption text-text-muted leading-caption max-w-[360px]">With a supporting description.</span>
+          </span>
+        </label>
+        <!-- /demo:anatomy -->
         <div class="anatomy-tags">
           <span class="atag">ring → <b>--size-box</b> (20px)</span>
           <span class="atag">shape → <b>--rounded-full</b></span>
@@ -304,9 +313,29 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Guidelines</h2>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="radio" name="g1" checked><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">One per group</span></span></label></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body">
+          <!-- demo:do -->
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="g1-one">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="g1-one" name="g1" value="one" type="radio" checked>
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-label-lg text-text-body leading-label-lg">One per group</span>
+            </span>
+          </label>
+          <!-- /demo:do -->
+        </div>
           <ul><li>Use for <b>one-of-many</b> — exactly one selected at a time.</li><li>Always give the group a shared <code>name</code>.</li><li>List 2–6 options; beyond that, use a Select.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="radio" name="g2"><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">Toggle me</span></span></label></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body">
+          <!-- demo:dont -->
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="g2-toggle">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="g2-toggle" name="g2" value="toggle" type="radio">
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary"></span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Toggle me</span>
+            </span>
+          </label>
+          <!-- /demo:dont -->
+        </div>
           <ul><li>Don't use a radio for an on/off setting — that's a toggle.</li><li>Don't allow multiple selections — that's a checkbox.</li><li>Don't hard-code the selected colour; use the token.</li></ul></div>
       </div>
     </div>
