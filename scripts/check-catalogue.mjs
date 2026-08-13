@@ -324,6 +324,32 @@ const PARSERS = [
     },
   },
   /**
+   * The transparency ramps on the opacity page. Fourteen 8-digit hexes typed
+   * into a table — the exact shape that put a retired blue on the shadows page
+   * and kept it there. The swatch and the stated value are checked separately,
+   * because a table can be right in the text and wrong in the colour.
+   *
+   * Nothing documented these tokens anywhere in docs/ until 2026-08-13.
+   */
+  {
+    name: 'opacity/transparency ramps',
+    page: 'docs/05-opacity.html',
+    floor: 12,
+    run(page, src) {
+      const re = /<code>(--transparent-[a-z]+-\d+)<\/code><\/td><td>[^<]*<span[^>]*background:(#[0-9A-Fa-f]{8})[^>]*><\/span><\/td><td>(#[0-9A-Fa-f]{8})<\/td>/g;
+      let n = 0;
+      for (const m of src.matchAll(re)) {
+        const [, token, swatch, stated] = m;
+        const want = (raw(token) ?? '').toUpperCase();
+        n++;
+        if (!want) { record(page, this.name, `names \`${token}\`, which tokens.css does not declare`); continue; }
+        if (stated.toUpperCase() !== want) record(page, this.name, `${token}: says ${stated.toUpperCase()} — tokens.css has ${want}`);
+        if (swatch.toUpperCase() !== want) record(page, this.name, `${token}: swatch paints ${swatch.toUpperCase()} — tokens.css has ${want}`);
+      }
+      return n;
+    },
+  },
+  /**
    * The typography page. Every `.type-row` states a size, a line height, a
    * weight and a tracking, and now names the tokens they come from — until
    * 2026-08-13 it named exactly ONE token out of 107, so a reader could see what
@@ -475,6 +501,7 @@ if (SELF_TEST) {
     /* The typography page stated every value correctly on the day its token
        names were added; this proves the parser would notice if one moved. */
     ['typography/type rows', 'docs/02-typography.html', /(<tr><td>Size<\/td><td>)48px/, '$199px'],
+    ['opacity/transparency ramps', 'docs/05-opacity.html', /(<code>--transparent-white-50<\/code><\/td><td>[^<]*<span[^>]*background:)#FFFFFF80/, '$1#FFFFFFBB'],
   ];
 
   let armed = 0;

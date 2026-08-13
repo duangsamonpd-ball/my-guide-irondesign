@@ -505,6 +505,15 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
     </div>
 
     <div class="demo-card">
+      <h4>Footer Link Hover (80%)</h4>
+      <div style="display:flex; gap:12px; align-items:center; background:#260F27; padding:14px 18px; border-radius:8px;">
+        <span style="color:#FFFFFF; font-size:0.8rem; opacity:1;">Default</span>
+        <span style="color:#FFFFFF; font-size:0.8rem; opacity:0.8;">Hover</span>
+      </div>
+      <div class="demo-caption">--opacity-hover-footer → --opacity-80</div>
+    </div>
+
+    <div class="demo-card">
       <h4>Overlay / Scrim (40%)</h4>
       <div style="position:relative; border-radius:8px; overflow:hidden; height:70px;">
         <div style="position:absolute;inset:0;background:linear-gradient(135deg,#2693EC,#E01A59);"></div>
@@ -527,6 +536,35 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
   </div>
 
 </div>
+
+  <div class="section-label">Transparency ramps</div>
+  <p style="font-size:0.85rem; color:#62748E; margin:-4px 0 20px; max-width:680px;">
+    Pre-mixed white and black at seven steps, as 8-digit hex. Reach for these when a tint has to
+    sit over unknown artwork — the on-dark surfaces use them. For a tint of a SEMANTIC colour use
+    <code>color-mix()</code> over the token instead, so it follows into dark mode.
+    The white swatches are shown on the page background, so the lower steps are nearly invisible
+    by design.
+  </p>
+  <div class="type-meta" style="max-width:520px;margin-bottom:40px;">
+    <table>
+      <tr><td><b>Token</b></td><td><b>Swatch</b></td><td><b>Value</b></td><td><b>Alpha</b></td></tr>
+      <tr><td><code>--transparent-white-1</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF03;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF03</td><td>1%</td></tr>
+      <tr><td><code>--transparent-white-5</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF0D;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF0D</td><td>5%</td></tr>
+      <tr><td><code>--transparent-white-10</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF1A;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF1A</td><td>10%</td></tr>
+      <tr><td><code>--transparent-white-20</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF33;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF33</td><td>20%</td></tr>
+      <tr><td><code>--transparent-white-30</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF4D;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF4D</td><td>30%</td></tr>
+      <tr><td><code>--transparent-white-40</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF66;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF66</td><td>40%</td></tr>
+      <tr><td><code>--transparent-white-50</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF80;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF80</td><td>50%</td></tr>
+      <tr><td><code>--transparent-black-1</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#00000003;vertical-align:middle;"></span></td><td>#00000003</td><td>1%</td></tr>
+      <tr><td><code>--transparent-black-5</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#0000000D;vertical-align:middle;"></span></td><td>#0000000D</td><td>5%</td></tr>
+      <tr><td><code>--transparent-black-10</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#0000001A;vertical-align:middle;"></span></td><td>#0000001A</td><td>10%</td></tr>
+      <tr><td><code>--transparent-black-20</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#00000033;vertical-align:middle;"></span></td><td>#00000033</td><td>20%</td></tr>
+      <tr><td><code>--transparent-black-30</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#0000004D;vertical-align:middle;"></span></td><td>#0000004D</td><td>30%</td></tr>
+      <tr><td><code>--transparent-black-40</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#00000066;vertical-align:middle;"></span></td><td>#00000066</td><td>40%</td></tr>
+      <tr><td><code>--transparent-black-50</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#00000080;vertical-align:middle;"></span></td><td>#00000080</td><td>50%</td></tr>
+    </table>
+  </div>
+
 
 <footer>Iron Software Design System &nbsp;·&nbsp; Opacity &nbsp;·&nbsp; 2025</footer>
   </div><!-- /main-content -->
