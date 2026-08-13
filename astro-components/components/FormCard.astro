@@ -61,8 +61,8 @@ const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
       <svg class="size-[26px]" viewBox={icons[icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[icon].path} /></svg>
     </span>
     <div>
-      <Heading class="font-sans text-h4 font-bold text-text-heading m-0" id={titleId}>{title}</Heading>
-      {subtitle && <p class="font-sans text-caption text-text-support mt-[4px] mb-0 mx-0">{subtitle}</p>}
+      <Heading class="font-sans text-h4 font-h4 leading-h4 text-text-heading m-0" id={titleId}>{title}</Heading>
+      {subtitle && <p class="font-sans text-caption leading-caption text-text-support mt-[4px] mb-0 mx-0">{subtitle}</p>}
     </div>
   </div>
   {/*
@@ -79,7 +79,7 @@ const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
     <button
       type="submit"
       class="group w-full h-[var(--size-btn-lg)] border-0 rounded-cta bg-primary text-primary-on
-             font-sans text-btn-lg font-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px]
+             font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px]
              transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover"
     >
       {submitLabel}
@@ -91,7 +91,7 @@ const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
       <svg class="size-[16px] shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>
     </button>
     {(noteLeft || noteRight) && (
-      <ul class="flex items-center justify-center gap-[12px] text-caption-sm text-text-support list-none m-0 p-0">
+      <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm text-text-support list-none m-0 p-0">
         {noteLeft && <li class="flex items-center gap-[12px]"><span>{noteLeft}</span></li>}
         {noteRight && (
           <li class="flex items-center gap-[12px]">

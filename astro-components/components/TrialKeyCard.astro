@@ -63,11 +63,19 @@ const hintId = hint ? `${uid}-hint` : undefined;
       Astro drops a whitespace-only text node that sits between an expression and
       an element, so `{headingPrefix} <b>` rendered as "Get your free30-day Trial
       Key". An expression that evaluates to a space survives. */}
-  <Heading class="font-sans text-title-lg text-text-body leading-[1.4] font-normal m-0" id={`${uid}-title`}>{headingPrefix}{' '}<b class="text-text-heading font-bold">{headingBold}</b>{' '}{headingSuffix}</Heading>
+  {/* `font-normal` is DELIBERATE and does not take `font-title-lg` — do not
+      "fix" it to match the role. The heading is regular weight so the <b> can
+      carry the emphasis, and `--fw-title-lg` is 700, the same as the <b>. Both
+      were snapped to the role on 2026-08-13 and measured: heading 400 → 700
+      with the <b> already at 700, so the contrast the markup exists for
+      disappeared entirely. Reverted on Ball's call, weight only. The leading
+      DID move and stays moved — `leading-[1.4]` on an 18px size is 25.2px
+      against the role's 28. */}
+  <Heading class="font-sans text-title-lg text-text-body leading-title-lg font-normal m-0" id={`${uid}-title`}>{headingPrefix}{' '}<b class="text-text-heading font-bold">{headingBold}</b>{' '}{headingSuffix}</Heading>
   <div class="w-full flex flex-col gap-xs">
     <label class="sr-only" for={inputId}>{inputLabel ?? inputPlaceholder}</label>
     <input
-      class="w-full h-[var(--size-input)] border-[length:var(--border-width-1-5)] border-border rounded-md px-[16px] font-sans text-body text-text-body bg-bg-base outline-none text-center transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder hover:border-border-strong focus:border-border-focus focus:shadow-focus-blue"
+      class="w-full h-[var(--size-input)] border-[length:var(--border-width-1-5)] border-border rounded-md px-[16px] font-sans text-body leading-body text-text-body bg-bg-base outline-none text-center transition-[border-color,box-shadow] duration-[var(--duration-fast)] placeholder:text-text-placeholder hover:border-border-strong focus:border-border-focus focus:shadow-focus-blue"
       id={inputId}
       type="email"
       name={inputName}
@@ -76,11 +84,11 @@ const hintId = hint ? `${uid}-hint` : undefined;
       aria-describedby={hintId}
       required
     />
-    {hint && <span class="text-caption text-text-support" id={hintId}>{hint}</span>}
+    {hint && <span class="text-caption leading-caption text-text-support" id={hintId}>{hint}</span>}
   </div>
-  <button type="submit" class="w-full h-[var(--size-btn-lg)] border-0 rounded-cta bg-primary text-primary-on font-sans text-btn-lg font-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px] transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">{submitLabel} {submitIcon && <svg class="size-[14px]" viewBox={icons[submitIcon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[submitIcon].path} /></svg>}</button>
+  <button type="submit" class="w-full h-[var(--size-btn-lg)] border-0 rounded-cta bg-primary text-primary-on font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px] transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">{submitLabel} {submitIcon && <svg class="size-[14px]" viewBox={icons[submitIcon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[submitIcon].path} /></svg>}</button>
   {footerNotes.length > 0 && (
-    <ul class="flex items-center justify-center gap-[12px] text-caption-sm text-text-support flex-wrap m-0 list-none p-0">
+    <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm text-text-support flex-wrap m-0 list-none p-0">
       {footerNotes.map((note, i) => (
         <li class="flex items-center gap-[12px]">
           {i > 0 && <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>}

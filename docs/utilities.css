@@ -1124,10 +1124,6 @@
   --tw-leading: 1.2;
   line-height: 1.2;
 }
-.leading-\[1\.4\] {
-  --tw-leading: 1.4;
-  line-height: 1.4;
-}
 .leading-\[1\.5\] {
   --tw-leading: 1.5;
   line-height: 1.5;
@@ -1152,6 +1148,18 @@
   --tw-leading: var(--leading-body);
   line-height: var(--leading-body);
 }
+.leading-btn {
+  --tw-leading: var(--leading-btn);
+  line-height: var(--leading-btn);
+}
+.leading-btn-lg {
+  --tw-leading: var(--leading-btn-lg);
+  line-height: var(--leading-btn-lg);
+}
+.leading-btn-sm {
+  --tw-leading: var(--leading-btn-sm);
+  line-height: var(--leading-btn-sm);
+}
 .leading-caption {
   --tw-leading: var(--leading-caption);
   line-height: var(--leading-caption);
@@ -1160,6 +1168,10 @@
   --tw-leading: var(--leading-caption-sm);
   line-height: var(--leading-caption-sm);
 }
+.leading-h4 {
+  --tw-leading: var(--leading-h4);
+  line-height: var(--leading-h4);
+}
 .leading-label {
   --tw-leading: var(--leading-label);
   line-height: var(--leading-label);
@@ -1167,6 +1179,10 @@
 .leading-label-lg {
   --tw-leading: var(--leading-label-lg);
   line-height: var(--leading-label-lg);
+}
+.leading-title-lg {
+  --tw-leading: var(--leading-title-lg);
+  line-height: var(--leading-title-lg);
 }
 .font-bold {
   --tw-font-weight: var(--font-weight-bold);
@@ -1183,6 +1199,10 @@
 .font-caption-sm {
   --tw-font-weight: var(--font-weight-caption-sm);
   font-weight: var(--font-weight-caption-sm);
+}
+.font-h4 {
+  --tw-font-weight: var(--font-weight-h4);
+  font-weight: var(--font-weight-h4);
 }
 .font-label {
   --tw-font-weight: var(--font-weight-label);
