@@ -75,8 +75,20 @@ while they ran. On the day `overflow` became a gate that CDN failed four times i
 one morning, on a different page each time, and every failure was a red build
 that said nothing about the code. The fonts are vendored now and served by each
 harness's own server; `installOfflineGuard` aborts anything addressed elsewhere
-and fails the run, so the property is checked rather than believed. If you add a
-CDN link to a docs page, these will tell you.
+and fails the run, so the property is checked rather than believed.
+
+**The one exception, and it is the CDN you would actually reach for.** This file
+used to end that paragraph with "if you add a CDN link to a docs page, these will
+tell you", which is true of every host but Google Fonts — `useLocalFonts` rewrites
+a `fonts.googleapis.com` link to the vendored copy before the guard ever sees it.
+Measured 2026-08-13: a second Google Fonts `<link>` added to a page leaves
+`npm run preview` at exit 0 and says nothing, while `use.typekit.net` fails it
+naming the host. So a new webfont from anywhere else is caught; another Google
+family is not.
+
+The docs pages still link Google Fonts as SHIPPED, deliberately — see the header
+of `scripts/lib/local-fonts.mjs`. What a reader downloads is a product decision;
+the vendoring is a testing one, and the bytes are identical either way.
 
 ## Edit the source, not the output
 
