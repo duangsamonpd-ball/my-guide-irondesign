@@ -97,6 +97,17 @@ const KNOWN = new Map([
       'model could not see. Not a new finding and not a widening of the old one.',
   ],
   [
+    '#E5242A on #EEF1F5',
+    'Iron Red 500 — the required marker and the error message on a form field, 4.01:1 where 4.5 is ' +
+      'needed. The backdrop is not a surface token: `.canvas` carries a radial-gradient dot grid at ' +
+      '#EEF1F5 over white, and Compositions is the one section that puts field text straight onto the ' +
+      'canvas rather than into a white .cell or .anatomy box. Against white the same colour clears at ' +
+      '4.60:1. Ball ruled on 2026-08-13 to KEEP THE DOTS, which is a decision about the docs canvas ' +
+      'and not about --color-danger; the component is unaffected anywhere a form actually ships. ' +
+      'Recorded rather than hidden: this pair was invisible until the region was generated, because ' +
+      'the probes only see inside demo regions.',
+  ],
+  [
     '#FFFFFF on #2693EC',
     'The same brand blue as a solid fill (.btn--secondary). 3.25:1. No single label colour clears AA across ' +
       'the state chain — white is 3.25/4.47/6.42 and #171717 is 5.52/4.01/2.79 over default/hover/active — ' +

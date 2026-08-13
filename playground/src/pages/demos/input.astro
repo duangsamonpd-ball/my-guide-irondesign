@@ -56,6 +56,18 @@ const states = [
       ))}
     </div>
 
+    <div data-demo="compositions">
+      <Input label="Full name" name="full-name" required placeholder="Jane Cooper" />
+      <Input
+        label="Password"
+        name="password"
+        type="password"
+        value="123"
+        error
+        errorMessage="Must be at least 8 characters."
+      />
+    </div>
+
     <div data-demo="anatomy">
       <Input label="Email address" name="anatomy-email" placeholder="you@example.com" hint="Helper text." />
     </div>
