@@ -89,7 +89,7 @@ body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #171717; }
       border-radius: 0 0 12px 12px;
     }
 .swatch-info .step { font-size: 0.7rem; font-weight: 700; color: #171717; }
-.swatch-info .hex  { font-size: 0.65rem; color: #737373; font-family: monospace; }
+.swatch-info .hex { font-size: 0.65rem; color: #737373; font-family: monospace; }
 .swatch.base .swatch-info { background: #F0F9FF; }
 .swatch.base .step { color: #2693EC; }
 .section-label {
@@ -149,24 +149,8 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
     }
 @media (max-width: 640px) {
       header { padding: 12px 20px; }
-      .content { padding: 16px; }
-      .section-label { margin: 24px 0 14px; }
       .swatch { min-width: 60px; }
       .swatch-color { height: 60px; }
-      .semantic-grid.cols-5 { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
-      footer { padding: 24px 16px; }
-    }
-.sidebar {
-      width: 248px;
-      flex-shrink: 0;
-      background: #FFFFFF;
-      border-right: 1px solid #E2E8F0;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #E2E8F0 transparent;
     }
 .sidebar-link {
       display: flex;
@@ -182,16 +166,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       margin: 1px 8px 1px 0;
       border-radius: 0 8px 8px 0;
     }
-.sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 43, 0.45);
-      z-index: 40;
-      backdrop-filter: blur(2px);
-    }
 @media (max-width: 768px) {
-      .hamburger { margin-left: auto; display: flex; }
       .sidebar {
         position: fixed;
         top: 0; left: 0;
@@ -202,7 +177,6 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
         width: 264px;
       }
-      .sidebar.open { transform: translateX(0); }
     }
 .page-title {
       padding: 36px 40px 28px;

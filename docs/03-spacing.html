@@ -73,7 +73,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       min-width: 4px;
     }
 .spacing-meta { text-align: right; }
-.spacing-meta .px  { font-size: 1.1rem; font-weight: 700; color: #171717; }
+.spacing-meta .px { font-size: 1.1rem; font-weight: 700; color: #171717; }
 .spacing-meta .rem { font-size: 0.72rem; color: #A1A1A1; margin-top: 2px; font-family: monospace; }
 .spacing-meta .desc { font-size: 0.7rem; color: #737373; margin-top: 4px; }
 .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
@@ -94,24 +94,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
 @media (max-width: 640px) {
       header { padding: 12px 20px; }
-      .content { padding: 16px; }
-      .section-label { margin: 24px 0 14px; }
       .spacing-row { grid-template-columns: 1fr; gap: 10px; padding: 16px; }
       .spacing-meta { text-align: left; }
       .demo-grid { grid-template-columns: 1fr; }
-      footer { padding: 24px 16px; }
-    }
-.sidebar {
-      width: 248px;
-      flex-shrink: 0;
-      background: #FFFFFF;
-      border-right: 1px solid #E2E8F0;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #E2E8F0 transparent;
     }
 .sidebar-link {
       display: flex;
@@ -127,16 +112,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       margin: 1px 8px 1px 0;
       border-radius: 0 8px 8px 0;
     }
-.sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 43, 0.45);
-      z-index: 40;
-      backdrop-filter: blur(2px);
-    }
 @media (max-width: 768px) {
-      .hamburger { margin-left: auto; display: flex; }
       .sidebar {
         position: fixed;
         top: 0; left: 0;
@@ -147,7 +123,6 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
         width: 264px;
       }
-      .sidebar.open { transform: translateX(0); }
     }
 .page-title {
       padding: 36px 40px 28px;

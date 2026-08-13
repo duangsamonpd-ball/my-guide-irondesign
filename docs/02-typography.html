@@ -83,34 +83,19 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       display: flex; gap: 40px; align-items: center;
     }
 .font-display-big { font-family: 'Montserrat', sans-serif; font-size: 3rem; font-weight: 900; line-height: 1; color: #171717; }
-.font-body-big    { font-family: 'Montserrat', sans-serif; font-size: 3rem; font-weight: 700; line-height: 1; color: #171717; }
+.font-body-big { font-family: 'Montserrat', sans-serif; font-size: 3rem; font-weight: 700; line-height: 1; color: #171717; }
 .font-meta { flex: 1; }
 .font-meta h2 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-.font-meta p  { font-size: 0.8rem; color: #737373; line-height: 1.6; }
+.font-meta p { font-size: 0.8rem; color: #737373; line-height: 1.6; }
 .font-weights { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
 .wt { padding: 4px 12px; border-radius: 20px; background: #F8FAFC; border: 1px solid #E2E8F0; font-size: 0.72rem; }
 footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
 @media (max-width: 640px) {
       header { padding: 12px 20px; }
-      .content { padding: 16px; }
-      .section-label { margin: 24px 0 14px; }
       .type-row { grid-template-columns: 1fr; padding: 20px; gap: 16px; }
       .type-meta { border-left: none; padding-left: 0; border-top: 1px solid #E2E8F0; padding-top: 16px; }
       .font-family-row { flex-direction: column; gap: 16px; padding: 24px 20px; }
       .font-display-big, .font-body-big { font-size: 2rem; }
-      footer { padding: 24px 16px; }
-    }
-.sidebar {
-      width: 248px;
-      flex-shrink: 0;
-      background: #FFFFFF;
-      border-right: 1px solid #E2E8F0;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #E2E8F0 transparent;
     }
 .sidebar-link {
       display: flex;
@@ -126,16 +111,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       margin: 1px 8px 1px 0;
       border-radius: 0 8px 8px 0;
     }
-.sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 43, 0.45);
-      z-index: 40;
-      backdrop-filter: blur(2px);
-    }
 @media (max-width: 768px) {
-      .hamburger { margin-left: auto; display: flex; }
       .sidebar {
         position: fixed;
         top: 0; left: 0;
@@ -146,7 +122,6 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
         width: 264px;
       }
-      .sidebar.open { transform: translateX(0); }
     }
 .page-title {
       padding: 36px 40px 28px;

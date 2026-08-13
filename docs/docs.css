@@ -313,3 +313,39 @@ footer.docfoot { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:
 .vp-grip:focus-visible { outline:2px solid #2693EC; outline-offset:2px; border-radius:4px; }
 /* `?frame=` mode: the page rendered as nothing but one demo region. */
 html.vp-only, html.vp-only body { margin:0; padding:0; background:transparent; overflow-x:hidden; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Hoisted from the pages, 2026-08-13. docs.css already owned the STATE rules
+   (.sidebar-link:hover, .active, .sidebar-overlay.open) while the base boxes
+   sat in every page's own <style> — so a new page that linked only docs.css
+   rendered with no sidebar at all.
+
+   These are the rules NO page contradicted, and each is the UNION of what the
+   copies carried rather than the largest one picked: picking silently drops
+   whatever a smaller copy alone had. Rules still spread across pages disagree
+   on real values and stay where they are.
+
+   A component's own <style> is never hoisted, whatever it looks like:
+   check:parity requires each docs page to carry its component's CSS inline,
+   and .link-arrow (FileUpload) failed that gate when this first ran.
+   ══════════════════════════════════════════════════════════════════════════ */
+.dd .default .top { background:#ebf5fd; color:#185fa5; }
+.dd .suite .top { background:#f3e9f1; color:#84427c; }
+.sidebar { width:248px; flex-shrink:0; background:#ffffff; border-right:1px solid #e2e8f0; position:sticky; top:0; height:100vh; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#e2e8f0 transparent; display:flex; flex-direction:column; }
+.sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,43,0.45); z-index:40; backdrop-filter:blur(2px); }
+.var-label { font-size:0.68rem; font-weight:700; color:#62748e; margin:10px 0 16px; }
+.var-label small { font-weight:500; color:#a1a1a1; font-family:roboto mono,monospace; }
+@media(max-width:640px) {
+  .content { padding:16px; }
+  .dd { grid-template-columns:1fr; }
+  .scale-bar-section { padding:20px 16px; }
+  .sect { padding:0 20px; }
+  .section-label { margin:24px 0 14px; }
+  .semantic-grid.cols-5 { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); }
+  footer { padding:24px 16px; }
+}
+@media(max-width:768px) {
+  .hamburger { margin-left:auto; display:flex; }
+  .sidebar.open { transform:translatex(0); }
+  .variant-cols { grid-template-columns:1fr; }
+}

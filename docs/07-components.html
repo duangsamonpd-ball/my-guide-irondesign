@@ -75,9 +75,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .spec-table td:first-child { color: #A1A1A1; width: 80px; }
 .spec-table td:last-child { color: #171717; font-weight: 600; font-family: monospace; font-size: 0.65rem; }
 .btn { cursor: default; display: inline-flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 600; line-height: 1; letter-spacing: 0.01em; border: none; outline: none; }
-.btn-primary   { background: #E01A59; color: white; font-size: 1rem;     font-weight: 700; padding: 0 26px; height: 54px; border-radius: 40px; }
+.btn-primary { background: #E01A59; color: white; font-size: 1rem;     font-weight: 700; padding: 0 26px; height: 54px; border-radius: 40px; }
 .btn-secondary { background: transparent; color: #2693EC; font-size: 0.875rem; padding: 0 20px; height: 46px; border-radius: 42px; border: 1.5px solid #2693EC; }
-.btn-danger    { background: #E01A59; color: white; font-size: 0.875rem; padding: 0 20px; height: 46px; border-radius: 64px; }
+.btn-danger { background: #E01A59; color: white; font-size: 0.875rem; padding: 0 20px; height: 46px; border-radius: 64px; }
 .btn:hover { opacity: 0.88; }
 .field-wrap { display: flex; flex-direction: column; gap: 6px; max-width: 320px; }
 .field-label { font-size: 0.72rem; font-weight: 700; color: #171717; }
@@ -89,8 +89,8 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .badge { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; }
 .badge-success { background: rgba(99,193,160,0.12); color: #53A085; }
 .badge-warning { background: rgba(253,165,9,0.12);  color: #D2890A; }
-.badge-error   { background: rgba(229,36,42,0.12);  color: #C91D23; }
-.badge-info    { background: rgba(38,147,236,0.12); color: #2693EC; }
+.badge-error { background: rgba(229,36,42,0.12);  color: #C91D23; }
+.badge-info { background: rgba(38,147,236,0.12); color: #2693EC; }
 .badge-neutral { background: #F1F5F9; color: #62748E; }
 .product-card {
       background: white; border: 1px solid #E2E8F0; border-radius: 8px;
@@ -101,7 +101,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .product-card:hover { box-shadow: 0 4px 12px rgba(24,24,24,0.12); transform: translateY(-2px); }
 .card-icon { width: 36px; height: 36px; border-radius: 8px; margin-bottom: 12px; display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem;color:white; }
 .card-title { font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; }
-.card-desc  { font-size: 0.72rem; color: #737373; line-height: 1.5; }
+.card-desc { font-size: 0.72rem; color: #737373; line-height: 1.5; }
 .nav-bar { background: white; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0 24px; display: flex; align-items: center; gap: 4px; height: 72px; }
 .nav-item { padding: 0 16px; height: 100%; display: flex; align-items: center; gap: 8px; font-size: 1rem; font-weight: 700; line-height: 1; cursor: default; }
 .nav-item.active { color: #E01A59; }
@@ -123,25 +123,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; border-top:1px solid #E2E8F0; margin-top:40px; }
 @media (max-width: 640px) {
       header { padding: 12px 20px; }
-      .content { padding: 16px; }
-      .section-label { margin: 24px 0 14px; }
       .component-body { grid-template-columns: 1fr; padding: 24px 20px; gap: 20px; }
       .spec-table { border-left: none; padding-left: 0; border-top: 1px solid #E2E8F0; padding-top: 16px; }
       .nav-bar { overflow-x: auto; width: 100%; }
       .field-wrap { max-width: 100%; }
-      footer { padding: 24px 16px; }
-    }
-.sidebar {
-      width: 248px;
-      flex-shrink: 0;
-      background: #FFFFFF;
-      border-right: 1px solid #E2E8F0;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #E2E8F0 transparent;
     }
 .sidebar-link {
       display: flex;
@@ -157,16 +142,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       margin: 1px 8px 1px 0;
       border-radius: 0 8px 8px 0;
     }
-.sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 43, 0.45);
-      z-index: 40;
-      backdrop-filter: blur(2px);
-    }
 @media (max-width: 768px) {
-      .hamburger { margin-left: auto; display: flex; }
       .sidebar {
         position: fixed;
         top: 0; left: 0;
@@ -177,7 +153,6 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
         width: 264px;
       }
-      .sidebar.open { transform: translateX(0); }
     }
 .page-title {
       padding: 36px 40px 28px;
