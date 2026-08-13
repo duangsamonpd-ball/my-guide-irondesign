@@ -324,6 +324,51 @@ const PARSERS = [
     },
   },
   /**
+   * The typography page. Every `.type-row` states a size, a line height, a
+   * weight and a tracking, and now names the tokens they come from — until
+   * 2026-08-13 it named exactly ONE token out of 107, so a reader could see what
+   * the type looked like and not learn which token to reach for.
+   *
+   * The values were all correct when the names were added; this exists so they
+   * stay that way. The shadows page is the reason to bother: it stated
+   * `rgba(42,149,213,.25)` for a focus ring years after the token moved to
+   * iron-blue-500, and documented `--shadow-focus-red`, which tokens.css has
+   * never declared.
+   */
+  {
+    name: 'typography/type rows',
+    page: 'docs/02-typography.html',
+    floor: 18,
+    run(page, src) {
+      let n = 0;
+      /* The whole meta table, Size through Use for. An earlier version started
+         matching at the Tokens row — which sits AFTER Size, Line height, Weight
+         and Tracking — so it read the names and none of the values, and its
+         planted-error case went 0 → 0. A parser can match and still be blind. */
+      for (const m of src.matchAll(/<tr><td>Size<\/td>[\s\S]*?<tr><td>Use for/g)) {
+        const tokenCell = m[0].match(/<tr><td>Tokens<\/td><td>(.*?)<\/td><\/tr>/);
+        if (!tokenCell) continue;
+        const names = [...tokenCell[1].matchAll(/--([a-z0-9-]+)/g)].map((x) => x[1]);
+        const cells = Object.fromEntries([...m[0].matchAll(/<tr><td>([^<]*)<\/td><td>([^<]*)<\/td><\/tr>/g)].map((x) => [x[1], x[2]]));
+        const stated = { 'font-size': cells['Size'], 'line-height': cells['Line height'], fw: cells['Weight'], 'letter-spacing': cells['Tracking'] };
+        for (const name of names) {
+          const fam = ['font-size', 'line-height', 'letter-spacing', 'fw'].find((f) => name.startsWith(`${f}-`));
+          if (!fam) continue;
+          const v = raw(`--${name}`);
+          if (v === null) { record(page, this.name, `names \`--${name}\`, which tokens.css does not declare`); n++; continue; }
+          const px = /^([\d.]+)rem$/.test(v) ? parseFloat(v) * 16 : /^(-?[\d.]+)px$/.test(v) ? parseFloat(v) : parseFloat(v);
+          const said = parseFloat((stated[fam] ?? '').replace(/&[a-z]+;/g, ' ').match(/-?[\d.]+/)?.[0] ?? 'NaN');
+          n++;
+          if (Number.isNaN(said) || Number.isNaN(px)) continue;
+          if (Math.abs(px - said) > 0.01 && !(px <= 2 && said <= 2)) {
+            record(page, this.name, `row says ${said} for \`--${name}\` — tokens.css resolves it to ${px}`);
+          }
+        }
+      }
+      return n;
+    },
+  },
+  /**
    * The Anatomy callouts on every component page. Each `.atag` names a token
    * and, sometimes, restates the length it resolves to — `ring → --size-box
    * (18px)`. Nothing checked those until 2026-08-13, and two of the four were
@@ -427,6 +472,9 @@ if (SELF_TEST) {
        written — the parser exists because nothing noticed 18px against a token
        that resolves to 20. */
     ['component/anatomy tags', 'docs/component-radio.html', /(<b>--size-box<\/b> \()[\d.]+px\)/, '$199px)'],
+    /* The typography page stated every value correctly on the day its token
+       names were added; this proves the parser would notice if one moved. */
+    ['typography/type rows', 'docs/02-typography.html', /(<tr><td>Size<\/td><td>)48px/, '$199px'],
   ];
 
   let armed = 0;
