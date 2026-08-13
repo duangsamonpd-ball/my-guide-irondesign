@@ -338,8 +338,21 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <h2 class="sect-h">Anatomy</h2>
         <div class="sect-sub">The parts of a checkbox and the token each one is bound to.</div>
         <div class="anatomy">
-          <label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="checkbox" checked><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary"><svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">Accept terms and conditions</span><span class="text-caption text-text-muted leading-5 max-w-[360px]">By clicking this checkbox, you agree to the terms and conditions.</span></span></label>
-          <div class="anatomy-tags">
+        <!-- demo:anatomy -->
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="an">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="an" name="an" type="checkbox" checked>
+          <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+            <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Accept terms and conditions</span>
+            <span class="text-caption text-text-muted leading-caption max-w-[360px]">By clicking this checkbox, you agree to the terms and conditions.</span>
+          </span>
+        </label>
+        <!-- /demo:anatomy -->
+      <div class="anatomy-tags">
             <span class="atag">box → <b>--size-box</b> (20px)</span>
             <span class="atag">radius → <b>--rounded-sm</b></span>
             <span class="atag">checked fill → <b>--color-secondary</b></span>
@@ -398,7 +411,21 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="dd">
           <div class="card do">
             <div class="top">✓ Do</div>
-            <div class="body"><label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="checkbox" checked><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary"><svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">Email me receipts</span></span></label></div>
+            <div class="body">
+          <!-- demo:do -->
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="g1">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="g1" name="g1" type="checkbox" checked>
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+              <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Email me receipts</span>
+            </span>
+          </label>
+          <!-- /demo:do -->
+        </div>
             <ul>
               <li>Always pair the box with a clickable <b>label</b>.</li>
               <li>Use for <b>multi-select</b> — many options can be on at once.</li>
@@ -407,7 +434,21 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           </div>
           <div class="card dont">
             <div class="top">✗ Don't</div>
-            <div class="body"><label class="group inline-flex items-start gap-xs select-none cursor-pointer"><input class="absolute w-px h-px opacity-0 pointer-events-none" type="checkbox"><span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary"><svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none"><path d="M2 6.2 4.6 8.8 10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="flex flex-col gap-micro"><span class="text-label-lg font-medium text-text-body leading-5">On</span></span></label></div>
+            <div class="body">
+          <!-- demo:dont -->
+          <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="g2">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="g2" name="g2" type="checkbox">
+            <span class="shrink-0 mt-px inline-flex items-center justify-center bg-bg-base border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+              <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="flex flex-col gap-micro">
+              <span class="text-label-lg font-label-lg text-text-body leading-label-lg">On</span>
+            </span>
+          </label>
+          <!-- /demo:dont -->
+        </div>
             <ul>
               <li>Don't use a checkbox for <b>one-of-many</b> — that's a radio.</li>
               <li>Don't use it as an on/off switch — that's a toggle.</li>

@@ -104,7 +104,10 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       --color-neutral-subtle: var(--color-neutral-subtle-dark);     --color-neutral-strong: var(--color-neutral-strong-dark);
     }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-  </style>
+  /* The anatomy diagram is drawn larger so its callouts have room — a docs-only
+   zoom that used to be an inline style on the badge. */
+.anatomy .demo-zoom { font-size: 15px; padding: 7px 14px; }
+</style>
 </head>
 <body>
 <header>
@@ -346,8 +349,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="anatomy">
-        <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success-subtle text-success-strong" style="font-size:15px;padding:7px 14px;"><span class="rounded-full bg-current size-1.5"></span>Active</span>
-        <div class="anatomy-tags">
+        <!-- demo:anatomy -->
+        <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success-subtle text-success-strong demo-zoom">
+          <span class="rounded-full bg-current size-1.5"></span>
+          Active
+        </span>
+        <!-- /demo:anatomy -->
+      <div class="anatomy-tags">
           <span class="atag">fill → <b>--color-{intent}-subtle</b></span>
           <span class="atag">text → <b>--color-{intent}</b></span>
           <span class="atag">dot → <b>currentColor</b></span>

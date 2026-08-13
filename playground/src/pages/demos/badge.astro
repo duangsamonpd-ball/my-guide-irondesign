@@ -100,5 +100,13 @@ const rowLabelStyle = 'font-size:0.66rem;font-weight:700;color:var(--color-text-
     <div data-demo="dont">
       <Badge intent="danger" variant="solid">Click here to retry now</Badge>
     </div>
+
+    {/* The anatomy diagram is drawn larger so its callouts have room. That used
+        to be an inline style on the badge; it is `.anatomy .demo-zoom` on the
+        page now, since Badge puts `class` on the badge itself. */}
+    <div data-demo="anatomy">
+      <Badge intent="success" dot class="demo-zoom">Active</Badge>
+    </div>
+
   </body>
 </html>

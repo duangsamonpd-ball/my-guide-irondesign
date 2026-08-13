@@ -2,10 +2,11 @@
 /**
  * Demo source for docs/component-checkbox.html.
  *
- * Preview, States and Layouts are generated — every class the page uses on a
- * checkbox (`disabled`, `invalid`, `cbx-card`) is one the component really
- * emits, so nothing here needs a prop invented for the docs. Anatomy and the
- * Do/Don't cards stay hand-written.
+ * Every region is generated as of 2026-08-13 — anatomy and both Do/Don't cards
+ * join preview, states and layouts. Every class the page uses on a checkbox
+ * (`disabled`, `invalid`, `cbx-card`) is one the component really emits, so
+ * nothing here needs a prop invented for the docs. What stays hand-written is
+ * prose: the `.atag` callouts and the advice lists.
  *
  * Each instance is given a `name` so the id it derives is stable across builds;
  * the hand-written markup had no id at all, and so no `for` tying a label to its
@@ -52,5 +53,19 @@ const states = [
       <Checkbox name="lay-card" label="Accept terms and conditions" description={TERMS} card />
       <Checkbox name="lay-card-on" label="Accept terms and conditions" description={TERMS} card checked />
     </div>
+
+    {/* The `.anatomy-tags` beside this stay hand-written — they name tokens. */}
+    <div data-demo="anatomy">
+      <Checkbox name="an" value="terms" label="Accept terms and conditions" description={TERMS} checked />
+    </div>
+
+    <div data-demo="do">
+      <Checkbox name="g1" value="receipts" label="Email me receipts" checked />
+    </div>
+
+    <div data-demo="dont">
+      <Checkbox name="g2" value="on" label="On" />
+    </div>
+
   </body>
 </html>
