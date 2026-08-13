@@ -125,7 +125,15 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .mode-lbl { font-size:0.66rem; font-weight:700; color:#62748E; }
 @media (max-width:768px){ .variant-cols{grid-template-columns:1fr;} }
 @media (max-width:640px){ header{padding:12px 20px;} .page-title{padding:24px 20px 18px;} .sect{padding:0 20px;} .page-title h1{font-size:1.5rem;} .dd{grid-template-columns:1fr;} .canvas{padding:24px;} }
-  </style>
+  /* Hover cannot be rendered statically. These two were inline styles on the
+   Anatomy examples; TextLink puts `class` on the anchor, so they travel as
+   classes now and the markup can be generated. */
+/* `.tlink.plain` is (0,2,0); a single class lost to it and the hover example
+   rendered in the RESTING blue instead of the hover pink. The inline styles
+   these replace never had to win that fight. Match the weight. */
+.tlink.demo-link-hover { color: var(--color-text-link-hover); }
+.tlink.demo-link-hover-underline { text-decoration-color: var(--color-border-selected); text-decoration-thickness: 2px; }
+</style>
 </head>
 <body>
 <header>
@@ -238,16 +246,40 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="variant-col">
           <div class="variant-name">Plain <span class="vtag">general / marketing</span></div>
           <div class="mode-pair">
-            <div class="mode-cell"><a href="#" class="tlink plain">Create Blank PDF</a><div class="mode-lbl">Light</div></div>
-            <div class="mode-cell dark"><a href="#" class="tlink plain dark">Create Blank PDF</a><div class="mode-lbl" style="color:#90A1B9;">Dark</div></div>
+            <!-- demo:modes-plain -->
+            <div class="mode-cell">
+              <a href="#" class="tlink plain">
+                Create Blank PDF
+              </a>
+              <div class="mode-lbl">Light</div>
+            </div>
+            <div class="mode-cell dark">
+              <a href="#" class="tlink plain dark">
+                Create Blank PDF
+              </a>
+              <div class="mode-lbl" style="color:#90A1B9;">Dark</div>
+            </div>
+            <!-- /demo:modes-plain -->
           </div>
         </div>
 
         <div class="variant-col">
           <div class="variant-name">Underline <span class="vtag">content — blog, news</span></div>
           <div class="mode-pair">
-            <div class="mode-cell"><a href="#" class="tlink underline">Create Blank PDF</a><div class="mode-lbl">Light</div></div>
-            <div class="mode-cell dark"><a href="#" class="tlink underline dark">Create Blank PDF</a><div class="mode-lbl" style="color:#90A1B9;">Dark</div></div>
+            <!-- demo:modes-underline -->
+            <div class="mode-cell">
+              <a href="#" class="tlink underline">
+                Create Blank PDF
+              </a>
+              <div class="mode-lbl">Light</div>
+            </div>
+            <div class="mode-cell dark">
+              <a href="#" class="tlink underline dark">
+                Create Blank PDF
+              </a>
+              <div class="mode-lbl" style="color:#90A1B9;">Dark</div>
+            </div>
+            <!-- /demo:modes-underline -->
           </div>
         </div>
 
@@ -260,7 +292,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
         <div class="variant-col">
           <div class="variant-name">Plain <span class="vtag">general / marketing</span></div>
-          <div class="variant-example"><a href="#" class="tlink plain" style="color:var(--color-text-link-hover);">Create Blank PDF</a></div>
+          <div class="variant-example">
+            <!-- demo:anatomy-plain -->
+            <a href="#" class="tlink plain demo-link-hover">
+              Create Blank PDF
+            </a>
+            <!-- /demo:anatomy-plain -->
+          </div>
           <div class="anatomy-tags">
             <span class="atag">color → <b>--color-text-link</b></span>
             <span class="atag">hover → <b>--color-text-link-hover</b></span>
@@ -270,7 +308,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
         <div class="variant-col">
           <div class="variant-name">Underline <span class="vtag">content — blog, news</span></div>
-          <div class="variant-example"><a href="#" class="tlink underline" style="text-decoration-color:var(--color-border-selected);text-decoration-thickness:2px;">Create Blank PDF</a></div>
+          <div class="variant-example">
+            <!-- demo:anatomy-underline -->
+            <a href="#" class="tlink underline demo-link-hover-underline">
+              Create Blank PDF
+            </a>
+            <!-- /demo:anatomy-underline -->
+          </div>
           <div class="anatomy-tags">
             <span class="atag">text → <b>--color-text-heading</b></span>
             <span class="atag">underline → <b>--color-border-selected</b></span>
@@ -348,7 +392,16 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Guidelines</h2>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body" style="display:flex;gap:24px;"><a href="#" class="tlink plain">Iron Suite</a><a href="#" class="tlink underline">Iron Suite</a></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body" style="display:flex;gap:24px;">
+          <!-- demo:do -->
+          <a href="#" class="tlink plain">
+            Iron Suite
+          </a>
+          <a href="#" class="tlink underline">
+            Iron Suite
+          </a>
+          <!-- /demo:do -->
+        </div>
           <ul><li>Use <code>plain</code> on marketing/general pages, <code>underline</code> inside long-form content (blog, news).</li><li>Use <code>.dark</code> on dark backgrounds so contrast holds.</li><li>Add the external-link icon (<code>.ext-icon</code>) when the link leaves the current site.</li></ul></div>
         <div class="card dont"><div class="top">✗ Don't</div><div class="body"><a href="#" style="color:var(--color-text-heading);font-weight:600;text-decoration:underline;text-decoration-color:var(--color-text-link);">Iron Suite</a></div>
           <ul><li>Don't mix variants on the same page for the same kind of link — pick one per context.</li><li>Don't drop the underline on <code>underline</code> variant — colour alone isn't enough contrast.</li><li>Don't use this for buttons — that's a Button component.</li></ul></div>

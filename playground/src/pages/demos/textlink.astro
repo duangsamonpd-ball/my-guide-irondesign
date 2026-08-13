@@ -2,12 +2,32 @@
 /**
  * Demo source for docs/component-textlink.html.
  *
- * Preview only for now. Variants forces a hover colour inline on one link, and
- * Modes nests the pairs three wrappers deep; both stay hand-written.
+ * Preview, Modes, Anatomy and the Do card are generated as of 2026-08-13.
+ *
+ * TWO PARTS STAY HAND-WRITTEN, both on purpose:
+ *
+ * Variants weaves its example links into the middle of editorial paragraphs —
+ * "…keeps hero sections clean. <a>Native vs Remote Engine</a>" — so a region
+ * there would have to be one link wide and would carry no demo of its own. The
+ * prose is the demo.
+ *
+ * The Don't card is an anti-example: a bare <a> with no component at all,
+ * styled inline to look like a heading someone underlined by hand. That is the
+ * mistake being warned about, and it cannot come from the component any more
+ * than Logo's squashed mark can.
+ *
+ * Hover cannot be rendered statically. It travels as `class`, which TextLink
+ * puts on the anchor, and the page styles `.demo-link-hover` and
+ * `.demo-link-hover-underline` — the two inline styles the Anatomy examples
+ * used to carry.
  */
 import { TextLink } from '@iron-software/astro-components';
 
 const P = 'font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;';
+const modes = [
+  { variant: 'plain' as const },
+  { variant: 'underline' as const },
+];
 ---
 
 <html lang="en">
@@ -15,6 +35,32 @@ const P = 'font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;';
     <div data-demo="preview">
       <p style={P}>Save 80% on all 10 products with the new <TextLink href="#">Iron Suite</TextLink></p>
       <p style={P}>Save 80% on all 10 products with the new <TextLink href="#" variant="underline">Iron Suite</TextLink></p>
+    </div>
+
+    {modes.map((m) => (
+      <div data-demo={`modes-${m.variant}`}>
+        <div class="mode-cell">
+          <TextLink href="#" variant={m.variant}>Create Blank PDF</TextLink>
+          <div class="mode-lbl">Light</div>
+        </div>
+        <div class="mode-cell dark">
+          <TextLink href="#" variant={m.variant} dark>Create Blank PDF</TextLink>
+          <div class="mode-lbl" style="color:#90A1B9;">Dark</div>
+        </div>
+      </div>
+    ))}
+
+    <div data-demo="anatomy-plain">
+      <TextLink href="#" class="demo-link-hover">Create Blank PDF</TextLink>
+    </div>
+
+    <div data-demo="anatomy-underline">
+      <TextLink href="#" variant="underline" class="demo-link-hover-underline">Create Blank PDF</TextLink>
+    </div>
+
+    <div data-demo="do">
+      <TextLink href="#">Iron Suite</TextLink>
+      <TextLink href="#" variant="underline">Iron Suite</TextLink>
     </div>
   </body>
 </html>
