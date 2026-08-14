@@ -336,15 +336,98 @@ const PARSERS = [
     page: 'docs/05-opacity.html',
     floor: 12,
     run(page, src) {
-      const re = /<code>(--transparent-[a-z]+-\d+)<\/code><\/td><td>[^<]*<span[^>]*background:(#[0-9A-Fa-f]{8})[^>]*><\/span><\/td><td>(#[0-9A-Fa-f]{8})<\/td>/g;
+      /* The ramps were a narrow table until 2026-08-14 and are now rows in the
+         same card the opacity scale uses, so the swatch is a `.ramp-fill`
+         rather than a `<span>` in a `<td>`. If this regex is ever left behind
+         by another restyle it matches nothing, and `floor` below is what turns
+         that silence into a failure rather than a clean page. */
+      const re = /<div class="scale-bar-label">(transparent-[a-z]+-\d+)<\/div>\s*<div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:(#[0-9A-Fa-f]{8});"><\/div><\/div>\s*<div class="ramp-hex">(#[0-9A-Fa-f]{8})<\/div>/g;
       let n = 0;
+      const seen = new Set();
       for (const m of src.matchAll(re)) {
-        const [, token, swatch, stated] = m;
+        const [, label, swatch, stated] = m;
+        const token = `--${label}`;
         const want = (raw(token) ?? '').toUpperCase();
         n++;
+        seen.add(token);
         if (!want) { record(page, this.name, `names \`${token}\`, which tokens.css does not declare`); continue; }
         if (stated.toUpperCase() !== want) record(page, this.name, `${token}: says ${stated.toUpperCase()} — tokens.css has ${want}`);
         if (swatch.toUpperCase() !== want) record(page, this.name, `${token}: swatch paints ${swatch.toUpperCase()} — tokens.css has ${want}`);
+      }
+      /* Completeness, the same half the borders parser gained on the same day
+         and for the same reason: a ramp that is missing a step is a page that
+         is right about everything it shows. */
+      for (const m of SCOPE.light.matchAll(/^\s*(--transparent-[\w-]+):/gm)) {
+        if (!seen.has(m[1])) record(page, this.name, `${m[1]} is declared in tokens.css but has no row in the ramps`);
+      }
+      return n;
+    },
+  },
+  /**
+   * The borders page, and the first parser here that checks COMPLETENESS rather
+   * than only correctness.
+   *
+   * Every parser above asks "is what the page says true?". None of them can ask
+   * "is anything missing?", and on 2026-08-14 that was the whole fault: the
+   * Width Visual Scale listed 1, 2, 4 and 8 while tokens.css declares five
+   * widths. Nothing on the page was WRONG. `--border-width-1-5` was simply not
+   * there, and a reader would conclude the design system has four border
+   * widths. The same shape had just been found on the Tooltip page, where three
+   * of four variants had cards.
+   *
+   * So this reads both catalogues on the page — the cards and the scale bars —
+   * and holds each to the full set of `--border-width-*` in tokens.css. A token
+   * added to tokens.css and not documented here now fails, which is the
+   * direction that was previously unguarded.
+   */
+  {
+    name: 'borders/width catalogue',
+    page: 'docs/04-borders.html',
+    floor: 10,
+    run(page, src) {
+      /* The set to be complete against, read from tokens.css rather than
+         listed here. A hand-written list would need updating by the same person
+         who forgot to update the page. */
+      const want = new Map();
+      for (const m of SCOPE.light.matchAll(/^\s*(--border-width-[\w-]+):\s*([^;]+?)\s*;/gm)) {
+        want.set(m[1], m[2]);
+      }
+      if (!want.size) {
+        record(page, this.name, 'tokens.css declares no --border-width-* at all — the parser has nothing to check against');
+        return 0;
+      }
+
+      let n = 0;
+      const seenCards = new Set(), seenScale = new Set();
+
+      /* The cards: `--border-width-1-5` beside a stated value of `1.5px`. */
+      const cards = /<div class="width-value">([^<]+)<\/div>\s*<div class="width-token">(--border-width-[\w-]+)<\/div>/g;
+      for (const [, stated, token] of src.matchAll(cards)) {
+        n++;
+        seenCards.add(token);
+        const real = want.get(token);
+        if (!real) { record(page, this.name, `card names \`${token}\`, which tokens.css does not declare`); continue; }
+        if (stated.trim() !== real) record(page, this.name, `${token}: card says ${stated.trim()} — tokens.css has ${real}`);
+      }
+
+      /* The scale bars. The bar's own `height` is checked too, not just the
+         label beside it: the bar IS the documentation here, and a row that says
+         4px over a 2px rule is a picture that lies. */
+      const scale = /<div class="scale-bar-label">(border-width-[\w-]+)<\/div>[\s\S]{0,400}?height:\s*([\d.]+)px[\s\S]{0,400}?<div class="scale-bar-px">([^<]+)<\/div>/g;
+      for (const [, label, drawn, stated] of src.matchAll(scale)) {
+        n++;
+        const token = `--${label}`;
+        seenScale.add(token);
+        const real = want.get(token);
+        if (!real) { record(page, this.name, `scale row names \`${token}\`, which tokens.css does not declare`); continue; }
+        if (stated.trim() !== real) record(page, this.name, `${token}: scale says ${stated.trim()} — tokens.css has ${real}`);
+        if (`${drawn}px` !== real) record(page, this.name, `${token}: scale bar is drawn ${drawn}px — tokens.css has ${real}`);
+      }
+
+      /* The half that would have caught Ball's report. */
+      for (const token of want.keys()) {
+        if (!seenCards.has(token)) record(page, this.name, `${token} is declared in tokens.css but has no width card`);
+        if (!seenScale.has(token)) record(page, this.name, `${token} is declared in tokens.css but has no row in the visual scale`);
       }
       return n;
     },
@@ -501,7 +584,17 @@ if (SELF_TEST) {
     /* The typography page stated every value correctly on the day its token
        names were added; this proves the parser would notice if one moved. */
     ['typography/type rows', 'docs/02-typography.html', /(<tr><td>Size<\/td><td>)48px/, '$199px'],
-    ['opacity/transparency ramps', 'docs/05-opacity.html', /(<code>--transparent-white-50<\/code><\/td><td>[^<]*<span[^>]*background:)#FFFFFF80/, '$1#FFFFFFBB'],
+    ['opacity/transparency ramps', 'docs/05-opacity.html', /(<div class="ramp-fill" style="background:)#FFFFFF80/, '$1#FFFFFFBB'],
+    /* Two entries, because this parser has two halves that fail in opposite
+       directions and one plant can only arm one of them. The DELETION is the
+       important one: it recreates the exact regression Ball reported, a scale
+       that is entirely correct about the four rows it has and silent about the
+       fifth. A parser armed only by a corrupted value would have gone on
+       passing that page forever. */
+    ['borders/width catalogue (a row is deleted)', 'docs/04-borders.html',
+      /<div class="scale-bar-row">\s*<div class="scale-bar-label">border-width-1-5<\/div>[\s\S]*?<div class="scale-bar-px">[^<]*<\/div>\s*<\/div>/, ''],
+    ['borders/width catalogue (a value is wrong)', 'docs/04-borders.html',
+      /(<div class="width-token">--border-width-1-5<\/div>)/, '<div class="width-value">99px</div>$1'],
   ];
 
   let armed = 0;

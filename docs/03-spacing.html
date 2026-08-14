@@ -76,7 +76,15 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .spacing-meta .px { font-size: 1.1rem; font-weight: 700; color: #171717; }
 .spacing-meta .rem { font-size: 0.72rem; color: #A1A1A1; margin-top: 2px; font-family: monospace; }
 .spacing-meta .desc { font-size: 0.7rem; color: #737373; margin-top: 4px; }
-.demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+/* `auto-fit` + a MEASURED minimum, not `1fr 1fr` with a breakpoint. Under
+   `1fr 1fr` a track's minimum is `auto`, so the wider card wins the argument and
+   the narrower one is squeezed below its own content — at 375px the "Padding"
+   card rendered 50px wide and its contents lay across its neighbour. The
+   `max-width: 640px` rule below was meant to prevent exactly that and did not.
+   260px is what the narrower card actually needs; the grid now drops to one
+   column whenever two of those will not fit, at every width, with no number to
+   keep in sync. */
+.demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px; }
 .demo-card h2 { font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; color: #62748E; text-transform: uppercase; letter-spacing: 0.05em; }
 .demo-box {
       background: rgba(38, 147, 236, 0.08);
@@ -96,7 +104,6 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       header { padding: 12px 20px; }
       .spacing-row { grid-template-columns: 1fr; gap: 10px; padding: 16px; }
       .spacing-meta { text-align: left; }
-      .demo-grid { grid-template-columns: 1fr; }
     }
 .sidebar-link {
       display: flex;
@@ -407,9 +414,9 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       <h2>Gap (between list items)</h2>
       <div class="gap-demo" style="gap:12px;">
         <div class="gap-item">IronPDF — PDF generation</div>
-        <div style="height:12px; background:rgba(253,165,9,0.2); border-radius:3px; display:flex;align-items:center;justify-content:center;"><span style="font-size:0.6rem;font-weight:700;color:#D2890A;">sm gap — 12px</span></div>
+        <div style="height:12px; background:rgba(253,165,9,0.2); border-radius:3px; display:flex;align-items:center;justify-content:center;"><span style="font-size:0.6rem;font-weight:700;color:#D2890A;line-height:1;">sm gap — 12px</span></div>
         <div class="gap-item">IronOCR — Text recognition</div>
-        <div style="height:12px; background:rgba(253,165,9,0.2); border-radius:3px; display:flex;align-items:center;justify-content:center;"><span style="font-size:0.6rem;font-weight:700;color:#D2890A;">sm gap — 12px</span></div>
+        <div style="height:12px; background:rgba(253,165,9,0.2); border-radius:3px; display:flex;align-items:center;justify-content:center;"><span style="font-size:0.6rem;font-weight:700;color:#D2890A;line-height:1;">sm gap — 12px</span></div>
         <div class="gap-item">IronBarcode — Barcode reader</div>
       </div>
     </div>

@@ -82,7 +82,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:56px 40px; display:flex; gap:56px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 16px 18px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; position:relative; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:anywhere; }
 .tok td.prop { color:#62748E; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -99,15 +99,28 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tt-bubble { position: absolute; width: 200px; display: none; flex-direction: column; z-index: 20; text-align: center; }
 .tt-bubble.has-link { text-align: left; }
 .tt-bubble.force-show, .tt-bubble.js-open { display:flex; }
-/* The Variants grid is generated, so the forced-open state has to travel as a
-   class on the WRAPPER — `class` on Tooltip lands on `.tt`, and `js-open` is a
-   bubble class the prop cannot reach. */
-.demo-open .tt-bubble { display:flex; position:relative; transform:none; }
 .tt-bubble.wide { width: 350px; }
 .tt-bubble.above { bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
 .tt-bubble.below { top: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
 .tt-bubble.right { left: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
 .tt-bubble.left { right: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
+/* The Variants grid is generated, so the forced-open state has to travel as a
+   class on the WRAPPER — `class` on Tooltip lands on `.tt`, and `js-open` is a
+   bubble class the prop cannot reach.
+   It must come AFTER the four placement rules and reset `inset`, not just
+   `transform`. Written above them it lost every tie: `.demo-open .tt-bubble`
+   and `.tt-bubble.above` are both (0,2,0), so the later one won `transform`,
+   and `bottom: calc(100% + 10px)` was never being overridden at all — the
+   bubbles hung a full card-height above their cells, across the section
+   heading. The three hand-written cards below survived only because they carry
+   `style="position:relative;transform:none"` inline, which outranks both. */
+.demo-open .tt-bubble { display: flex; position: relative; inset: auto; transform: none; }
+/* Scoped with :has() so the Placement cells keep their 56px of headroom — they
+   still hold an absolutely-positioned bubble and genuinely need the room. Here
+   the bubble is in flow, so that padding was empty space above four bubbles of
+   three different heights, and every label landed on a different line. */
+.cell:has(.demo-open) { padding: 24px 16px 18px; }
+.cell:has(.demo-open) .tt { margin-block: auto; }
 .tt-content { background: var(--neutral-800); border: var(--border-width-1) solid var(--neutral-950); border-radius: var(--rounded-md); box-shadow: var(--shadow-tooltip); overflow: hidden; display: flex; flex-direction: column; position: relative; z-index: 1; }
 .tt-title { padding: var(--spacing-xs) var(--spacing-md); font-size: var(--font-size-sm); font-weight: var(--fw-btn-sm); color: var(--color-text-on-dark-heading); background: var(--neutral-950); line-height: var(--leading-5); }
 .tt-body { padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md); font-size: var(--font-size-xs); font-weight: 400; color: var(--color-text-on-dark-body); line-height: var(--leading-5); }

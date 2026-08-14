@@ -179,6 +179,28 @@ jobs:
       - name: Nothing leaves its box at any width
         run: node scripts/check-overflow.mjs
 
+      # The four detectors prove they can see a planted fault AND report nothing
+      # on the same fixture with the faults switched off. Nineteen checks; the
+      # pair per detector is the point, because a detector that fires everywhere
+      # is as useless as one that never fires and only the control tells them
+      # apart.
+      - name: Check the layout detectors can fail
+        run: node scripts/check-layout.mjs --self-test
+
+      # 31 docs pages × 4 widths. This is the gate that did not exist on
+      # 2026-08-14, when Ball opened four pages and found four faults with every
+      # other gate green. The reason none of them could see it is structural:
+      # the overflow sweep only looks inside [data-demo] on component pages, and
+      # state-diff compares against a git ref, so brand-new content has nothing
+      # to differ from. This one is absolute — overlap, escape, h-scroll and
+      # words that cannot fit — so new markup is checked the first time it runs.
+      #
+      # Each page arms itself first, and the arming plants all three element
+      # faults in the live page and requires them to be SEEN. An unarmed page
+      # exits 1 rather than reporting a pass it did not earn.
+      - name: Nothing overlaps, escapes or fails to fit
+        run: node scripts/check-layout.mjs
+
       # Same rule as the sweep above: the probes prove they can fail before any
       # reading from them counts. 24 checks, including that the contrast pass
       # REFUSES a page whose text is not in the docs font, and that a gradient it

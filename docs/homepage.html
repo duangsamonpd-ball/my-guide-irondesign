@@ -546,7 +546,12 @@ section { position: relative; }
       .hero-logo { margin-left: auto; margin-right: auto; }
       .hero .btn-primary { margin: 0 auto; }
       .hero-right { align-items: center; }
-      .hero-donate { align-self: center; }
+      /* `white-space: nowrap` on the base rule keeps "Every Iron Suite Donates"
+         on one line with its logo, which is right at desktop and impossible at
+         375px: the line ran past the hero and the 1%-For-The-Planet logo landed
+         on top of the product strip below it, overlapping by exactly its own
+         22px height. It wraps here instead. */
+      .hero-donate { align-self: center; white-space: normal; justify-content: center; text-align: center; flex-wrap: wrap; }
       .hero-card { width: 100%; max-width: 540px; margin: 0 auto; }
 
       

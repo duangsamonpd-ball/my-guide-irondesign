@@ -99,6 +99,35 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .scale-bar-pct {
       font-size: 0.65rem; color: #A1A1A1; font-family: monospace; flex-shrink: 0; width: 36px; text-align: right;
     }
+/* Transparency ramps. Same card, bar height and rhythm as the Visual Scale
+   above, because it is the same kind of information and was previously a
+   narrow table that stopped half way across the section.
+   The checkerboard is the one `.opacity-swatch-wrap` already uses, at 8px so
+   it still reads inside a 28px bar. Seven of these fourteen tokens are WHITE at
+   1–50% alpha: painted on the card they were invisible, and the page said so in
+   its own lead text — documenting a colour by not showing it. */
+.ramp-row .scale-bar-label { width: 172px; }
+.ramp-track {
+      background-color: #fff;
+      background-image:
+        linear-gradient(45deg, #CBD5E1 25%, transparent 25%),
+        linear-gradient(-45deg, #CBD5E1 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #CBD5E1 75%),
+        linear-gradient(-45deg, transparent 75%, #CBD5E1 75%);
+      background-size: 8px 8px;
+      background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+    }
+.ramp-fill { position: absolute; inset: 0; }
+.ramp-hex {
+      font-family: monospace; font-size: 0.68rem; color: #62748E;
+      flex-shrink: 0; width: 92px; text-align: right;
+    }
+.ramp-group {
+      font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #A1A1A1; margin: 4px 0 10px;
+    }
+.ramp-group + .scale-bar-row { margin-top: 0; }
+.ramp-group ~ .ramp-group { margin-top: 22px; }
 .demo-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -551,27 +580,95 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
     Pre-mixed white and black at seven steps, as 8-digit hex. Reach for these when a tint has to
     sit over unknown artwork — the on-dark surfaces use them. For a tint of a SEMANTIC colour use
     <code>color-mix()</code> over the token instead, so it follows into dark mode.
-    The white swatches are shown on the page background, so the lower steps are nearly invisible
-    by design.
+    Every swatch sits on a checkerboard, so a 1% white and a 1% black are both legible against it.
   </p>
-  <div style="max-width:560px;margin-bottom:40px;">
-    <table class="token-table">
-      <tr><td><b>Token</b></td><td><b>Swatch</b></td><td><b>Value</b></td><td><b>Alpha</b></td></tr>
-      <tr><td><code>--transparent-white-1</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF03;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF03</td><td>1%</td></tr>
-      <tr><td><code>--transparent-white-5</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF0D;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF0D</td><td>5%</td></tr>
-      <tr><td><code>--transparent-white-10</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF1A;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF1A</td><td>10%</td></tr>
-      <tr><td><code>--transparent-white-20</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF33;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF33</td><td>20%</td></tr>
-      <tr><td><code>--transparent-white-30</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF4D;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF4D</td><td>30%</td></tr>
-      <tr><td><code>--transparent-white-40</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF66;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF66</td><td>40%</td></tr>
-      <tr><td><code>--transparent-white-50</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#FFFFFF80;border:1px solid #E2E8F0;vertical-align:middle;"></span></td><td>#FFFFFF80</td><td>50%</td></tr>
-      <tr><td><code>--transparent-black-1</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#00000003;vertical-align:middle;"></span></td><td>#00000003</td><td>1%</td></tr>
-      <tr><td><code>--transparent-black-5</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#0000000D;vertical-align:middle;"></span></td><td>#0000000D</td><td>5%</td></tr>
-      <tr><td><code>--transparent-black-10</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#0000001A;vertical-align:middle;"></span></td><td>#0000001A</td><td>10%</td></tr>
-      <tr><td><code>--transparent-black-20</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#00000033;vertical-align:middle;"></span></td><td>#00000033</td><td>20%</td></tr>
-      <tr><td><code>--transparent-black-30</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#0000004D;vertical-align:middle;"></span></td><td>#0000004D</td><td>30%</td></tr>
-      <tr><td><code>--transparent-black-40</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#00000066;vertical-align:middle;"></span></td><td>#00000066</td><td>40%</td></tr>
-      <tr><td><code>--transparent-black-50</code></td><td><span style="display:inline-block;width:44px;height:20px;border-radius:4px;background:#00000080;vertical-align:middle;"></span></td><td>#00000080</td><td>50%</td></tr>
-    </table>
+  <div class="scale-bar-section">
+    <div class="ramp-group">White — pre-mixed over unknown artwork</div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-white-1</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#FFFFFF03;"></div></div>
+      <div class="ramp-hex">#FFFFFF03</div>
+      <div class="scale-bar-pct">1%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-white-5</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#FFFFFF0D;"></div></div>
+      <div class="ramp-hex">#FFFFFF0D</div>
+      <div class="scale-bar-pct">5%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-white-10</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#FFFFFF1A;"></div></div>
+      <div class="ramp-hex">#FFFFFF1A</div>
+      <div class="scale-bar-pct">10%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-white-20</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#FFFFFF33;"></div></div>
+      <div class="ramp-hex">#FFFFFF33</div>
+      <div class="scale-bar-pct">20%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-white-30</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#FFFFFF4D;"></div></div>
+      <div class="ramp-hex">#FFFFFF4D</div>
+      <div class="scale-bar-pct">30%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-white-40</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#FFFFFF66;"></div></div>
+      <div class="ramp-hex">#FFFFFF66</div>
+      <div class="scale-bar-pct">40%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-white-50</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#FFFFFF80;"></div></div>
+      <div class="ramp-hex">#FFFFFF80</div>
+      <div class="scale-bar-pct">50%</div>
+    </div>
+    <div class="ramp-group">Black — pre-mixed over unknown artwork</div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-black-1</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#00000003;"></div></div>
+      <div class="ramp-hex">#00000003</div>
+      <div class="scale-bar-pct">1%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-black-5</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#0000000D;"></div></div>
+      <div class="ramp-hex">#0000000D</div>
+      <div class="scale-bar-pct">5%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-black-10</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#0000001A;"></div></div>
+      <div class="ramp-hex">#0000001A</div>
+      <div class="scale-bar-pct">10%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-black-20</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#00000033;"></div></div>
+      <div class="ramp-hex">#00000033</div>
+      <div class="scale-bar-pct">20%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-black-30</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#0000004D;"></div></div>
+      <div class="ramp-hex">#0000004D</div>
+      <div class="scale-bar-pct">30%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-black-40</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#00000066;"></div></div>
+      <div class="ramp-hex">#00000066</div>
+      <div class="scale-bar-pct">40%</div>
+    </div>
+    <div class="scale-bar-row ramp-row">
+      <div class="scale-bar-label">transparent-black-50</div>
+      <div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:#00000080;"></div></div>
+      <div class="ramp-hex">#00000080</div>
+      <div class="scale-bar-pct">50%</div>
+    </div>
   </div>
 
 

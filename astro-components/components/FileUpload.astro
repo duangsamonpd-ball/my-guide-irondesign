@@ -86,6 +86,14 @@ const iconKey = hasFile ? 'check' : error ? 'warning' : 'upload';
   .dropzone-icon svg { width: 18px; height: 18px; }
   .dropzone-text { min-width: 0; }
   .dropzone-text .title { font-size: var(--font-size-body); color: var(--color-text-body); margin-bottom: var(--spacing-micro); }
+  /* A FILENAME truncates; a label wraps. `.dropzone-text` above is `min-width: 0`
+     so it shrinks past its own content, and `quote-request.pdf` — an unremarkable
+     name — needed 146px in a box that was 95px at 1280. It was breaking mid-word
+     across two lines, which no gate could see: it never overflowed, so the sweep
+     was green, and it is exactly the "not overflowing is not fitting" case.
+     Scoped to `.has-file` because the same element holds the call-to-action
+     label and the error message in the other states, and those SHOULD wrap. */
+  .dropzone.has-file .dropzone-text .title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   /* The arrow is a 16px box around the glyph, matching the em box the character
      used to occupy at --font-size-base. */
   .dropzone-text .link { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-body); font-weight: var(--fw-btn-lg); color: var(--color-secondary); }

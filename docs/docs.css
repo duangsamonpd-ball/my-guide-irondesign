@@ -145,6 +145,22 @@ header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
 .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
 .tok tr:last-child td { border-bottom:none; }
 .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; }
+/* Token names are single unbreakable words up to 28 characters long, and `.tok`
+   above clips (`overflow: hidden`). At 375px that combination did not overflow,
+   did not scroll and did not warn — it silently CUT the name, so a phone reader
+   saw `--color-text-on-dark-hea`. `check-layout.mjs` found this on ten pages the
+   day it was written, by asking each word for its own width rather than asking
+   the box whether it had overflowed.
+   `anywhere` rather than `break-word`: these are identifiers, not prose, and a
+   mid-token break with the rest on the next line is readable where a clipped
+   one is not. It changes nothing at any width where the name already fits. */
+.tok td.token, .tok td.val, .tok td.prop { overflow-wrap: anywhere; }
+.sem-token, .cell .lbl small, .width-token, code { overflow-wrap: anywhere; }
+/* `code` is in that list because these docs quote identifiers inline
+   constantly — `hover:bg-primary-600`, `var(--color-text-body);` — and an
+   inline <code> gets whatever width its paragraph has. It does NOT affect the
+   samples in `.code-wrap pre`: those are `white-space: pre` inside an
+   `overflow-x: auto` box, where nothing wraps and the reader can scroll. */
 .tok td.val {
   font-family: 'roboto mono',monospace;
   font-size: 0.72rem;
