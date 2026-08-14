@@ -214,7 +214,7 @@ const WANT_FAMILY = DOCS_BODY_FONT.split(',')[0].trim().replace(/^['"]|['"]$/g, 
  *   · `#plant-word` is a 90px cell holding one 20-character token name, which
  *     is the typography cell to the character.
  */
-const fixture = ({ overlap = false, escape = false, word = false, hscroll = false, font = true } = {}) => `<!doctype html>
+const fixture = ({ overlap = false, escape = false, word = false, hscroll = false, stray = false, font = true } = {}) => `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>layout self-test</title>
 <!-- The real token sheet, over the same server the docs pages are served by.
      A fixture that defines its own tokens would arm on a variable this repo
@@ -228,10 +228,21 @@ const fixture = ({ overlap = false, escape = false, word = false, hscroll = fals
   table { border-collapse: collapse; }
   td { border: 1px solid #ddd; padding: 4px; }
   .narrow td:first-child { width: 90px; }
+  .page-column { width: 400px; }
+  .section-label { font-size: 12px; text-transform: uppercase; }
   /* The nephew: absolutely sized and pulled left so it lands across the cards
      to its right, while remaining a normal-flow block for the detector. */
   #plant-overlap { width: 380px; height: 120px; background: #fee; margin-right: -200px; }
 </style></head><body>
+
+  <div class="page-column">
+    <div class="section-label">Alpha</div>
+    <div class="section-label">Beta</div>
+    <div class="section-label">Gamma</div>
+  </div>
+  ${stray ? `<!-- STRAY: a fourth header OUTSIDE the column, exactly what an extra
+       </div> produces. It is full-bleed where the other three are 400px. -->
+  <div class="section-label" id="plant-stray">Delta</div>` : ''}
 
   <!-- clean control: three cards side by side, nothing touching -->
   <div class="grid" id="clean-grid">
@@ -279,7 +290,7 @@ const fixture = ({ overlap = false, escape = false, word = false, hscroll = fals
  * control" that differs from the faulty one in any other way proves nothing
  * about the detector, only about the two documents.
  */
-const SELF_TEST_HTML = fixture({ overlap: true, escape: true, word: true, hscroll: true });
+const SELF_TEST_HTML = fixture({ overlap: true, escape: true, word: true, hscroll: true, stray: true });
 const SELF_TEST_CLEAN_HTML = fixture();
 /* No font-family at all, so the arming's REFUSAL case is reachable. Without it
    `uses` could only ever be observed true — the unfalsifiable shape that let
@@ -576,6 +587,77 @@ function unfittableWords(candidates) {
   return out;
 }
 
+/* ── the fifth detector, and the one that is not a fault shape ────────────── */
+
+/**
+ * ONE CONTENT COLUMN.
+ *
+ * The four detectors above were each derived from a fault someone had already
+ * found, which is exactly why they all missed the next one. On 2026-08-14 Ball
+ * opened three pages this sweep had just reported clean and found whole
+ * sections rendering full-bleed: an extra '</div>' closed '.content' early, so
+ * "Transparency ramps", "Raw size scale", "Component roles", "Radius Visual
+ * Scale" and "Radius in Context" were siblings of the page container instead of
+ * children of it. Nothing above can see that. It does not overlap, its parent
+ * is <body> so escapes() skips it, the document never scrolls sideways, and
+ * every word fits.
+ *
+ * So this asserts an INVARIANT instead of hunting a shape: every section header
+ * on a page shares one left edge and one width. A page has one content column;
+ * a header outside it is misparented, whatever the cause. That generalises to
+ * faults nobody has seen yet, which is the whole point of adding it.
+ *
+ * Verified against the broken trees rather than against the fix — served from
+ * 'git show HEAD:' it names all five orphans and nothing else:
+ *   02-typography  majority 3/5 @288:1112, odd: Raw size scale, Component roles @248:1192
+ *   04-borders     majority 4/6 @288:1112, odd: Radius Visual Scale, Radius in Context @0:1440
+ *   05-opacity     majority 3/4 @288:1112, odd: Transparency ramps @248:1192
+ */
+function strays() {
+  const heads = [...document.querySelectorAll('.section-label, .sect > h2.sect-h')]
+    /* Zero-size headers are hidden, not misplaced — every component page has a
+       display:none "Code" heading, and counting it would give 17 pages a
+       permanent finding at 0:0. */
+    .filter((h) => { const r = h.getBoundingClientRect(); return r.width > 2 && r.height > 2; });
+  /* Under three, a one-one split has no majority to be the odd one out of. */
+  if (heads.length < 3) return [];
+
+  const tally = new Map();
+  const boxes = heads.map((h) => {
+    const r = h.getBoundingClientRect();
+    const key = Math.round(r.left) + ':' + Math.round(r.width);
+    tally.set(key, (tally.get(key) ?? 0) + 1);
+    return { h, key };
+  });
+  const ranked = [...tally].sort((a, b) => b[1] - a[1]);
+  const [win, n] = ranked[0];
+  if (n === boxes.length) return [];
+  /* No clear winner means the page has no single content column to be outside
+     of, and naming an arbitrary half of them as strays would be noise. Say so
+     once instead. */
+  if (ranked[1] && ranked[1][1] === n) {
+    return [{
+      kind: 'stray', uid: 'sx', el: 'document',
+      label: heads.length + ' section headers',
+      other: 'no majority content column — ' + ranked.slice(0, 3).map(([k, c]) => c + '@' + k).join(', '),
+      by: '0px', amount: 0,
+    }];
+  }
+  const [wl, ww] = win.split(':').map(Number);
+  return boxes.filter((b) => b.key !== win).map((b, i) => {
+    const [l, w] = b.key.split(':').map(Number);
+    return {
+      kind: 'stray',
+      uid: 's' + i,
+      el: elName(b.h),
+      label: elLabel(b.h),
+      other: 'sits at ' + l + ':' + w + ' where ' + n + '/' + boxes.length + ' sections sit at ' + wl + ':' + ww,
+      by: Math.abs(w - ww) + 'px',
+      amount: Math.abs(w - ww),
+    };
+  });
+}
+
 function hScroll() {
   const doc = document.documentElement;
   const by = doc.scrollWidth - doc.clientWidth;
@@ -606,7 +688,7 @@ function findings() {
   const candidates = boxes();
   return {
     counted: candidates.length,
-    found: [].concat(hScroll(), overlaps(candidates), escapes(candidates), unfittableWords(candidates)),
+    found: [].concat(hScroll(), overlaps(candidates), escapes(candidates), unfittableWords(candidates), strays()),
   };
 }
 
@@ -723,10 +805,25 @@ function armDetectors() {
     'word',
   );
 
+  /* STRAY: a section header appended straight to <body>, which is precisely
+     the shape the extra '</div>' produced — a header that is a SIBLING of the
+     content column rather than a child of it. Planted only where the page has
+     a column to be outside of. */
+  let sawStray = null;
+  if (document.querySelectorAll('.section-label, .sect > h2.sect-h').length >= 3) {
+    const s = document.createElement('div');
+    s.className = 'section-label ' + PLANT;
+    s.style.cssText = 'width:100%;margin-left:0;';
+    s.textContent = 'planted stray';
+    document.body.appendChild(s);
+    sawStray = findings().found.some((f) => f.kind === 'stray' && f.el.includes(PLANT));
+    s.remove();
+  }
+
   const after = findings().found.length;
   return {
-    armed: sawOverlap && sawEscape && sawWord && after === before,
-    sawOverlap, sawEscape, sawWord,
+    armed: sawOverlap && sawEscape && sawWord && sawStray !== false && after === before,
+    sawOverlap, sawEscape, sawWord, sawStray,
     clearsDown: after === before,
     before, after,
   };
@@ -784,6 +881,12 @@ async function selfTest(context, origin) {
 
   rows.push(['hscroll: the 2400px block past the viewport is seen', fk.has('hscroll')]);
   rows.push(['hscroll: the clean fixture has none', !ck.has('hscroll')]);
+  rows.push(['stray: the header outside the content column is seen', fk.has('stray')]);
+  rows.push(['stray: the clean fixture has none', !ck.has('stray')]);
+  /* It must name the ONE that is outside, not the three that are inside — a
+     detector that reports the majority has inverted its own question. */
+  const st = faulty.found.find((f) => f.kind === 'stray');
+  rows.push(['stray: it names the odd header, not the majority', !!st && /plant-stray/.test(st.el)]);
 
   rows.push(['the fixture is served with a local font link', useLocalFonts(SELF_TEST_HTML).includes(LOCAL_FONT_HREF)]);
   rows.push(['arming: a token resolves on the fixture', faulty.styled.token !== '']);
@@ -795,7 +898,7 @@ async function selfTest(context, origin) {
      only ever be observed true — the exact unfalsifiable shape that let ten
      components be measured in Times. */
   rows.push(['arming: a fixture with NO font rule is refused', !nofont.font.uses]);
-  rows.push(['arming: all three detectors were fault-injected and seen', faulty.armed.armed === true]);
+  rows.push(['arming: all four detectors were fault-injected and seen', faulty.armed.armed === true]);
   rows.push(['arming: the injected faults clear back down', faulty.armed.clearsDown === true]);
   rows.push(['no page errors on the fixture', faulty.pageErrors.length === 0]);
 
@@ -886,7 +989,7 @@ try {
           byKey.set(f.group, g);
         }
         for (const f of byKey.values()) {
-          const tag = { hscroll: 'H-SCROLL', overlap: 'OVERLAP ', escapes: 'ESCAPES ', word: 'WORD    ' }[f.kind];
+          const tag = { hscroll: 'H-SCROLL', overlap: 'OVERLAP ', escapes: 'ESCAPES ', word: 'WORD    ', stray: 'STRAY   ' }[f.kind];
           console.log(`     ${yellow(tag)} ${f.label}`);
           console.log(`              ${dim(f.kind === 'overlap' ? 'across ' : f.kind === 'escapes' ? 'out of ' : '')}${f.other}`);
           console.log(`              ${dim(`by ${f.by} at ${f.widths.join(', ')}px`)}`);
