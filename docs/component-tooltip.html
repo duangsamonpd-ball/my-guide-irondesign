@@ -99,6 +99,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tt-bubble { position: absolute; width: 200px; display: none; flex-direction: column; z-index: 20; text-align: center; }
 .tt-bubble.has-link { text-align: left; }
 .tt-bubble.force-show, .tt-bubble.js-open { display:flex; }
+/* The Variants grid is generated, so the forced-open state has to travel as a
+   class on the WRAPPER — `class` on Tooltip lands on `.tt`, and `js-open` is a
+   bubble class the prop cannot reach. */
+.demo-open .tt-bubble { display:flex; position:relative; transform:none; }
 .tt-bubble.wide { width: 350px; }
 .tt-bubble.above { bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
 .tt-bubble.below { top: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
@@ -256,36 +260,74 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     <div class="sect"><h2 class="sect-h">Variants</h2>
       <div class="sect-sub">Two <code>Property 1</code> variants — <b>Default</b> is title + body; <b>With link</b> adds a "Learn more" action for tooltips that point to more detail. Toggle <code>Show Title</code> off on Default for a compact, title-less tooltip.</div>
       <div class="grid">
+        <!-- demo:variants -->
         <div class="cell">
-          <span class="tt"><span class="tt-bubble force-show" style="position:relative;transform:none;">
-            <span class="tt-arrow arrow-bottom"></span>
-            <span class="tt-content">
-              <span class="tt-title">Title</span>
-              <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+          <span class="tt show-on-hover demo-open" tabindex="0" aria-describedby="tt-demo-1">
+            <span id="tt-demo-1" role="tooltip" class="tt-bubble above">
+              <span class="tt-arrow arrow-bottom"></span>
+              <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
+              <span class="tt-content">
+                <span class="tt-title">
+                  Title
+                </span>
+                <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+              </span>
             </span>
-          </span></span>
+          </span>
           <div class="lbl">Default<small>Property 1=Default</small></div>
         </div>
         <div class="cell">
-          <span class="tt"><span class="tt-bubble force-show has-link" style="position:relative;transform:none;">
-            <span class="tt-arrow arrow-bottom"></span>
-            <span class="tt-content">
-              <span class="tt-title">Per-seat licensing</span>
-              <span class="tt-body">Counts unique developers, not machines.</span>
-              <a href="#" class="tt-link">Learn more <span class="tt-link-icon"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span></a>
+          <span class="tt show-on-hover demo-open" tabindex="0" aria-describedby="tt-demo-2">
+            <span id="tt-demo-2" role="tooltip" class="tt-bubble above has-link">
+              <span class="tt-arrow arrow-bottom"></span>
+              <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
+              <span class="tt-content">
+                <span class="tt-title">
+                  Per-seat licensing
+                </span>
+                <span class="tt-body">Counts unique developers, not machines.</span>
+                <a class="tt-link" href="#">
+                  Learn more
+                  <span class="tt-link-icon"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></span>
+                </a>
+              </span>
             </span>
-          </span></span>
+          </span>
           <div class="lbl">With link<small>Property 1=With link</small></div>
         </div>
         <div class="cell">
-          <span class="tt"><span class="tt-bubble force-show" style="position:relative;transform:none;">
-            <span class="tt-arrow arrow-bottom"></span>
-            <span class="tt-content">
-              <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+          <span class="tt show-on-hover demo-open" tabindex="0" aria-describedby="tt-demo-3">
+            <span id="tt-demo-3" role="tooltip" class="tt-bubble above">
+              <span class="tt-arrow arrow-bottom"></span>
+              <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
+              <span class="tt-content">
+                <span class="tt-body">The number of individuals or development machines working on all projects using an Iron Product.</span>
+              </span>
             </span>
-          </span></span>
+          </span>
           <div class="lbl">Default · no title<small>Show Title = false</small></div>
         </div>
+        <div class="cell">
+          <span class="tt show-on-hover demo-open" tabindex="0" aria-describedby="tt-demo-4">
+            <span id="tt-demo-4" role="tooltip" class="tt-bubble above has-link">
+              <span class="tt-arrow arrow-bottom"></span>
+              <!-- .tt-content holds the rounded, filled box; keeps the arrow un-clipped -->
+              <span class="tt-content">
+                <span class="tt-title has-icon">
+                  <span class="tt-title-icon"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0.75H13.25C14.207 0.75 15 1.54297 15 2.5V13C15 13.957 14.207 14.75 13.25 14.75H2.75C1.79297 14.75 1 13.957 1 13V6C1 5.04297 1.79297 4.25 2.75 4.25H6.25V2.5C6.25 1.54297 7.04297 0.75 8 0.75ZM3.625 9.9375V10.8125C3.625 11.0586 3.81641 11.25 4.0625 11.25H4.9375C5.18359 11.25 5.375 11.0586 5.375 10.8125V9.9375C5.375 9.69141 5.18359 9.5 4.9375 9.5H4.0625C3.81641 9.5 3.625 9.69141 3.625 9.9375ZM8.4375 10.375H9.3125C9.55859 10.375 9.75 10.1836 9.75 9.9375V9.0625C9.75 8.81641 9.55859 8.625 9.3125 8.625H8.4375C8.19141 8.625 8 8.81641 8 9.0625V9.9375C8 10.1836 8.19141 10.375 8.4375 10.375ZM11.5 9.9375C11.5 10.1836 11.6914 10.375 11.9375 10.375H12.8125C13.0586 10.375 13.25 10.1836 13.25 9.9375V9.0625C13.25 8.81641 13.0586 8.625 12.8125 8.625H11.9375C11.6914 8.625 11.5 8.81641 11.5 9.0625V9.9375ZM4.0625 6.875C3.81641 6.875 3.625 7.06641 3.625 7.3125V8.1875C3.625 8.43359 3.81641 8.625 4.0625 8.625H4.9375C5.18359 8.625 5.375 8.43359 5.375 8.1875V7.3125C5.375 7.06641 5.18359 6.875 4.9375 6.875H4.0625ZM8 3.8125V4.6875C8 4.93359 8.19141 5.125 8.4375 5.125H9.3125C9.55859 5.125 9.75 4.93359 9.75 4.6875V3.8125C9.75 3.56641 9.55859 3.375 9.3125 3.375H8.4375C8.19141 3.375 8 3.56641 8 3.8125ZM11.9375 3.375C11.6914 3.375 11.5 3.56641 11.5 3.8125V4.6875C11.5 4.93359 11.6914 5.125 11.9375 5.125H12.8125C13.0586 5.125 13.25 4.93359 13.25 4.6875V3.8125C13.25 3.56641 13.0586 3.375 12.8125 3.375H11.9375ZM8 7.3125C8 7.55859 8.19141 7.75 8.4375 7.75H9.3125C9.55859 7.75 9.75 7.55859 9.75 7.3125V6.4375C9.75 6.19141 9.55859 6 9.3125 6H8.4375C8.19141 6 8 6.19141 8 6.4375V7.3125ZM11.9375 7.75H12.8125C13.0586 7.75 13.25 7.55859 13.25 7.3125V6.4375C13.25 6.19141 13.0586 6 12.8125 6H11.9375C11.6914 6 11.5 6.19141 11.5 6.4375V7.3125C11.5 7.55859 11.6914 7.75 11.9375 7.75Z"></path></svg></span>
+                  Organisation seats
+                </span>
+                <span class="tt-body">Counts unique developers, not machines.</span>
+                <a class="tt-link" href="#">
+                  Learn more
+                  <span class="tt-link-icon"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></span>
+                </a>
+              </span>
+            </span>
+          </span>
+          <div class="lbl">Action<small>variant="action" · adds an icon</small></div>
+        </div>
+        <!-- /demo:variants -->
       </div>
     </div>
 

@@ -62,5 +62,44 @@ const seats =
         <button class="tt-trigger">Action variant</button>
       </Tooltip>
     </div>
+
+    {/* The Variants grid. `.demo-open` lands on the .tt wrapper and the page
+        opens the bubble through it — a tooltip cannot be hovered in a static
+        render, and `js-open` sits on the BUBBLE, which `class` cannot reach.
+        The `action` variant had no card at all until 2026-08-14, though the
+        preview above has shown it all along. */}
+    <div data-demo="variants">
+      <div class="cell">
+        <Tooltip title="Title" body={seats} class="demo-open" />
+        <div class="lbl">Default<small>Property 1=Default</small></div>
+      </div>
+      <div class="cell">
+        <Tooltip
+          title="Per-seat licensing"
+          body="Counts unique developers, not machines."
+          linkHref="#"
+          linkText="Learn more"
+          class="demo-open"
+        />
+        <div class="lbl">With link<small>Property 1=With link</small></div>
+      </div>
+      <div class="cell">
+        <Tooltip body={seats} class="demo-open" />
+        <div class="lbl">Default · no title<small>Show Title = false</small></div>
+      </div>
+      <div class="cell">
+        <Tooltip
+          variant="action"
+          icon="buildings"
+          title="Organisation seats"
+          body="Counts unique developers, not machines."
+          linkHref="#"
+          linkText="Learn more"
+          class="demo-open"
+        />
+        <div class="lbl">Action<small>variant="action" · adds an icon</small></div>
+      </div>
+    </div>
+
   </body>
 </html>
