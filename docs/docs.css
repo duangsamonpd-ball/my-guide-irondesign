@@ -358,7 +358,13 @@ html.vp-only, html.vp-only body { margin:0; padding:0; background:transparent; o
   .sect { padding:0 20px; }
   .section-label { margin:24px 0 14px; }
   .semantic-grid.cols-5 { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); }
-  footer { padding:24px 16px; }
+  /* .docfoot, not a bare `footer` — this is the docs page's own footer, and the
+     bare selector also hit every COMPONENT footer on the page. FooterBar's
+     <footer class="fb"> took 24px/16px of shell padding below 640, which showed
+     as the black band being inset from the frame edge in the 375 preview.
+     Reported from the rendered page 2026-08-15; the desktop rule at the top of
+     this file was already scoped this way. */
+  footer.docfoot { padding:24px 16px; }
 }
 @media(max-width:768px) {
   .hamburger { margin-left:auto; display:flex; }
