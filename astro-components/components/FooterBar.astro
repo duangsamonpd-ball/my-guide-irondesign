@@ -488,7 +488,14 @@ if (freeTools) {
      across every row the horizontal spread is 1/255 — so stretching it to any
      width is lossless despite the frame being named "Free Tools + dots". */
   .fb-tools-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-  .fb-tools-inner { position: relative; display: flex; align-items: flex-start; justify-content: center; gap: var(--spacing-3xl); padding: 0 var(--spacing-xl); }
+  /* Capped for the same reason as .fb-mid-inner, and to the same edge. The
+     panel and its gradient stay full-bleed — only the content stops. The cap is
+     the container minus the panel's own hero padding, so at 1440 it is exactly
+     the 1280 this row already was and nothing below 1488 moves. Without it the
+     last group's `flex: 1 0 0` keeps pushing the close button out to the window
+     while the columns stay pinned at 104: measured 2026-08-15 at 2560 with the
+     columns at 104 and the row below them starting at 560. */
+  .fb-tools-inner { position: relative; display: flex; align-items: flex-start; justify-content: center; gap: var(--spacing-3xl); padding: 0 var(--spacing-xl); max-width: calc(var(--size-container-max) - var(--spacing-hero) * 2); margin-inline: auto; }
 
   .fb-tools-group { display: flex; flex-direction: column; gap: var(--spacing-md); }
   /* Figma gives the last group `flex: 1 0 0` and stretches it, which is what
@@ -541,9 +548,20 @@ if (freeTools) {
 
   /* ── band 2: reviews, brand, socials ──────────────────────────────────── */
   .fb-mid { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl); }
-  /* No max-width here on purpose: Figma's middle row is full width inside the
-     24px padding (1392 at a 1440 canvas). Only the legal row below is capped. */
-  .fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; }
+  /* Capped with the legal row below it, which is the row it visibly aligns
+     with — the review badges sit directly above the partner logos.
+
+     This used to read "no max-width here on purpose: Figma's middle row is full
+     width inside the 24px padding (1392 at a 1440 canvas)". That is still true
+     AT the canvas and the cap does not change it: 1440 - 24 - 24 = 1392, so
+     every width up to 1488 renders identically. What the note missed is that
+     Figma cannot rule on widths it was never drawn at. Above 1488 the other two
+     bands stop (.fb-menu at its own 1176, .fb-info-inner at the container) and
+     this one kept spreading — measured 2026-08-15 at 1920 with the first review
+     badge at x=24 against the partner logo beneath it at x=240, and 24 against
+     560 at 2560. Reported from a consuming page, not by anything here: every
+     harness in this repo tops out at 1440. */
+  .fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
 
   .fb-reviews { display: flex; align-items: flex-start; gap: var(--spacing-md); flex: 1 0 0; min-width: 0; }
   /* An inset shadow, not a border. Figma's 124x48 leaves no room for one

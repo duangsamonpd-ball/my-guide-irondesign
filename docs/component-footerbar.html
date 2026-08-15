@@ -131,7 +131,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
    across every row the horizontal spread is 1/255 — so stretching it to any
    width is lossless despite the frame being named "Free Tools + dots". */
 .fb-tools-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-.fb-tools-inner { position: relative; display: flex; align-items: flex-start; justify-content: center; gap: var(--spacing-3xl); padding: 0 var(--spacing-xl); }
+.fb-tools-inner { position: relative; display: flex; align-items: flex-start; justify-content: center; gap: var(--spacing-3xl); padding: 0 var(--spacing-xl); max-width: calc(var(--size-container-max) - var(--spacing-hero) * 2); margin-inline: auto; }
 
 .fb-tools-group { display: flex; flex-direction: column; gap: var(--spacing-md); }
 .fb-tools-group:last-of-type { flex: 1 0 0; min-width: 0; align-self: stretch; }
@@ -172,7 +172,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 }
 
 .fb-mid { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl); }
-.fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; }
+.fb-mid-inner { display: flex; align-items: center; gap: var(--spacing-md); width: 100%; max-width: var(--size-container-max); }
 .fb-reviews { display: flex; align-items: flex-start; gap: var(--spacing-md); flex: 1 0 0; min-width: 0; }
 .fb-review { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs); box-shadow: inset 0 0 0 var(--border-width-1) var(--transparent-white-10); border-radius: var(--rounded-sm); }
 .fb-review-logo { width: 32px; height: 32px; display: block; flex-shrink: 0; }
