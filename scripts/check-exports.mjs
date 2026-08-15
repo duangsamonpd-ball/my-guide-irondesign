@@ -249,6 +249,107 @@ for (const name of components) {
   }
 }
 
+/* ── 9: a specifier the README tells people to import has to be importable ── */
+
+/**
+ * Check 4 walks the exports map and asserts each target exists. It cannot see
+ * the opposite drift, which is the one that actually happened: the compiled
+ * stylesheet existed, the README told people to link it, and it was reachable
+ * by no package name at all — `<link href="…/docs/utilities.css">`, with the
+ * ellipsis standing in for "find it yourself". A consuming room hit exactly
+ * that on 2026-08-15: every component rendered unstyled, no error anywhere,
+ * and the fix was four `@source` lines nobody had written down.
+ *
+ * So: every `@iron-software/<pkg>/<subpath>` that appears in either README must
+ * be a subpath the matching exports map answers.
+ */
+const PKG_OF = new Map([
+  ['@iron-software/design-system', 'package.json'],
+  ['@iron-software/astro-components', 'astro-components/package.json'],
+]);
+
+const mapsBySpecifier = new Map(
+  [...PKG_OF].map(([spec, rel]) => [spec, JSON.parse(readFileSync(join(ROOT, rel), 'utf8')).exports ?? {}]),
+);
+
+/** Does an exports map answer this subpath, wildcards included? */
+function resolves(map, subpath) {
+  if (map[subpath]) return true;
+  return Object.keys(map).some((key) => {
+    if (!key.includes('*')) return false;
+    const [head, tail] = key.split('*');
+    return subpath.startsWith(head) && subpath.endsWith(tail) && subpath.length >= head.length + tail.length;
+  });
+}
+
+for (const [label, path] of COUNTED) {
+  let text;
+  try { text = readFileSync(path, 'utf8'); } catch { continue; }
+  for (const m of text.matchAll(/@iron-software\/(design-system|astro-components)(\/[\w./*-]+)?/g)) {
+    const spec = `@iron-software/${m[1]}`;
+    const subpath = m[2] ? `.${m[2]}` : '.';
+    /* `@source` points at a PATH inside node_modules, not at a package
+       specifier — Tailwind reads the file, so the exports map never sees it.
+       Check 10 below is what keeps those honest. */
+    const line = text.slice(0, m.index).split('\n').length;
+    const lineText = text.split('\n')[line - 1] ?? '';
+    if (lineText.includes('@source')) continue;
+    if (!resolves(mapsBySpecifier.get(spec), subpath)) {
+      errors.push({
+        where: label,
+        what: `line ${line} tells people to import ${bold(spec + (m[2] ?? ''))}, which its exports map does not answer`,
+        fix: `add "${subpath}" to the exports map in ${PKG_OF.get(spec)}, or stop documenting it`,
+      });
+    }
+  }
+}
+
+/* ── 10: the @source block is the compiler's own source set ──────────────── */
+
+/**
+ * A consumer running Tailwind compiles this package's classes themselves, and
+ * Tailwind only emits what it has scanned. `build-utilities.mjs` already names
+ * the exact set that has to be scanned — components/, internal/, and the shared
+ * `.ts` files carrying class strings — so the README's `@source` block is
+ * derivable from it rather than a thing to remember. CLAUDE.md already warns
+ * that a new shared module has to be named in two scripts; this makes the third
+ * place fail loudly instead of silently shipping classes with no rules.
+ */
+const buildUtils = readFileSync(join(ROOT, 'scripts/build-utilities.mjs'), 'utf8');
+const sharedTs = [...(buildUtils.match(/SHARED_TS\s*=\s*\[([^\]]*)\]/)?.[1] ?? '').matchAll(/'([^']+)'/g)]
+  .map((m) => m[1])
+  .filter((f) => existsSync(join(PKG_DIR, f)));
+
+const wantSources = ['components/*.astro', 'internal/*.astro', ...sharedTs];
+const sourceLines = [...readme.matchAll(/@source\s+"[^"]*@iron-software\/astro-components\/([^"]+)"/g)].map((m) => m[1]);
+
+if (sourceLines.length === 0) {
+  errors.push({
+    where: 'astro-components/README.md',
+    what: 'the Setup section has no `@source` block',
+    fix: `a consumer running Tailwind needs one line each for: ${wantSources.join(', ')}`,
+  });
+} else {
+  for (const want of wantSources) {
+    if (!sourceLines.includes(want)) {
+      errors.push({
+        where: 'astro-components/README.md',
+        what: `the @source block does not name ${bold(want)}, which build-utilities.mjs compiles`,
+        fix: `add:  @source "../../node_modules/@iron-software/astro-components/${want}";`,
+      });
+    }
+  }
+  for (const got of sourceLines) {
+    if (!wantSources.includes(got)) {
+      errors.push({
+        where: 'astro-components/README.md',
+        what: `the @source block names ${bold(got)}, which build-utilities.mjs does not compile`,
+        fix: 'drop the line, or add the path to the build so the two agree',
+      });
+    }
+  }
+}
+
 /* ── docs pages (warning only) ───────────────────────────────────────────── */
 
 for (const name of components) {

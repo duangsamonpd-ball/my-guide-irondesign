@@ -35,18 +35,32 @@ Every converted component's section below carries a **Needs Tailwind** note, and
 `npm run check:exports` fails if one is missing or stale — the list above is not
 kept by hand.
 
-**If you run Tailwind**, import the theme and make sure your content glob reaches
-this package:
+**If you run Tailwind**, import the theme and point Tailwind at this package's
+sources — Tailwind only emits a class it has seen in a file it scanned, and it
+does not scan `node_modules` by default:
 
 ```css
 @import "@iron-software/design-system/theme.css";
+
+@source "../../node_modules/@iron-software/astro-components/components/*.astro";
+@source "../../node_modules/@iron-software/astro-components/internal/*.astro";
+@source "../../node_modules/@iron-software/astro-components/field.ts";
+@source "../../node_modules/@iron-software/astro-components/choice.ts";
 ```
 
-**If you do not**, link the pre-compiled stylesheet instead. It is generated from
-the components' own class usage and committed, so it never goes stale:
+Those four are not a suggestion: they are the exact source set the design system
+compiles its own stylesheet from, and `npm run check:exports` fails if this block
+and that set stop matching. `internal/` holds partials a component renders,
+`field.ts` and `choice.ts` hold class strings shared between components — miss
+either and the classes are in the markup with no rules behind them, which looks
+like nothing at all going wrong.
 
-```html
-<link rel="stylesheet" href="…/docs/utilities.css">
+**If you do not run Tailwind**, import the pre-compiled stylesheet instead. It is
+generated from the components' own class usage and committed, so it cannot go
+stale:
+
+```css
+@import "@iron-software/design-system/utilities.css";
 ```
 
 A converted component copied into a project with neither renders as **unstyled

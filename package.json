@@ -55,10 +55,12 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   },
+  "//exports": "utilities.css is the compiled stylesheet for consumers who do NOT run Tailwind. It lives under docs/ because the docs site links it too; the path is an implementation detail and the specifier is the contract.",
   "exports": {
     "./tokens.css": "./tailwind/tokens.css",
     "./theme.css": "./tailwind/theme.css",
     "./colors.css": "./tailwind/colors.css",
+    "./utilities.css": "./docs/utilities.css",
     "./tokens.json": "./tokens/tokens.w3c.json",
     "./package.json": "./package.json"
   }
