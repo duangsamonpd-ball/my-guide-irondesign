@@ -28,9 +28,19 @@ npm run check && git commit …
 
 `npm run preview <page>` renders the docs in a real browser (needs Chrome),
 `node scripts/state-diff.mjs <page> --ref HEAD` compares interactive states pixel
-for pixel, and `npm run overflow` sweeps every component across nine widths for
-anything that leaves its box. All three exit non-zero on failure. None is in
-`npm run check`, which stays runnable anywhere Node runs.
+for pixel, `npm run overflow` sweeps every component across nine widths for
+anything that leaves its box, and `npm run wide` sweeps the two widths ABOVE the
+canvas for anything that keeps growing. All four exit non-zero on failure. None
+is in `npm run check`, which stays runnable anywhere Node runs.
+
+**Every other instrument here stops at 1440** — `overflow`'s widest width,
+`layout`'s widest, `audit`'s only one, and every Figma frame. A fault above the
+canvas can therefore only be reported by someone on a wide monitor, and the
+first one was: FooterBar's middle band had no `max-width` while the bands either
+side of it did. `wide` exists for that class and asks a different question from
+`overflow` — **nothing overflowed**, the band was 1872 wide inside a 1920 parent;
+it just did not stop where its neighbours did. Widening the overflow sweep would
+not have found it, so do not reach for that instead.
 
 **CI does have a browser** — this file said otherwise until 2026-08-12 and it was
 never true. `ubuntu-latest` ships Google Chrome, and all three harnesses launch
@@ -69,9 +79,10 @@ cuts the rest with no scrollbar and a clean `document.scrollWidth`.
 
 Each has a `--self-test` that must pass before its output is worth anything.
 
-**A harness must not touch the network.** All three measure text, so all three
-need the real font — and all three used to fetch it from fonts.googleapis.com
-while they ran. On the day `overflow` became a gate that CDN failed four times in
+**A harness must not touch the network.** Every one of them lays out real text,
+so every one needs the real font — a box measured in a fallback face is a box
+measured wrong — and they used to fetch it from fonts.googleapis.com while they
+ran. On the day `overflow` became a gate that CDN failed four times in
 one morning, on a different page each time, and every failure was a red build
 that said nothing about the code. The fonts are vendored now and served by each
 harness's own server; `installOfflineGuard` aborts anything addressed elsewhere
