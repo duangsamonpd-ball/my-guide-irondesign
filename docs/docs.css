@@ -20,7 +20,14 @@
  */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-header {
+/* `.mast`, never a bare `header` — this is the docs masthead, and a bare tag
+   also styles any <header> a page renders as CONTENT. It did: homepage.html's
+   <header class="hero"> was taking display:flex, 24/48 padding, a 1px bottom
+   border and a white background-color, which left its content column 858.9px
+   wide where the design is 1280 and the hero 113px too tall. A class does not
+   stop a tag selector matching. README also tells consumers to wrap TopNav and
+   ProductMenu in a <header> of their own, so more of them are coming. */
+header.mast {
       background: #fff; border-bottom: 1px solid #E2E8F0;
       padding: 24px 48px; display: flex; align-items: center; gap: 16px;
     }
@@ -29,15 +36,15 @@ header {
    the masthead as its <h1>. Everywhere else the masthead is site branding
    repeated on every page, and a second <h1> alongside the page title left 29
    pages with two competing main headings. Those render a .site-name span. */
-header h1, header .site-name {
+header.mast h1, header.mast .site-name {
   color: #171717;
   font-size: 1.25rem;
   font-weight: 700;
 }
 /* Only the span needs this — an <h1> is already a block box, and setting it on
    both re-rendered index.html's gradients a dithering step for no reason. */
-header .site-name { display: block; }
-header p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
+header.mast .site-name { display: block; }
+header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
 .hamburger {
   background: none;
   border: none;

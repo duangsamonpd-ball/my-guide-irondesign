@@ -542,6 +542,15 @@ section { position: relative; }
       .hero .wrap { grid-template-columns: 1fr; gap: var(--space-2xl); text-align: center; }
       
       .pis-row { gap: var(--space-xl); }
+      /* The item is 64px wide while its label is nowrap and up to 121px
+         (IRONWEBSCRAPER), so each label hangs 28.6px past the box it is centred
+         in. That is invisible while the row gap is 48, and collides once the gap
+         drops: measured overlaps of 4.6px at 768 and 6.9px at 375. Letting the
+         item size to its own content puts the gap between LABELS instead of
+         between bubbles, which cannot collide at any width or name length —
+         a wider gap here would only be a number that holds until the next
+         product name. Above 860 nothing changes; the row is one line there. */
+      .pis-item { width: auto; }
       .hero p { max-width: 100%; }
       .hero-logo { margin-left: auto; margin-right: auto; }
       .hero .btn-primary { margin: 0 auto; }
