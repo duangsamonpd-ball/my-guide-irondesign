@@ -85,12 +85,24 @@ export const icons = {
    *  units of box for 512x384 of ink — the stock 512 would clip the tips. The
    *  transform is the component's, the path stays this module's. */
   arrowRight: { viewBox: '0 0 512 512', path: 'M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z' },
-  /** arrow-down (U+F063) — the download arrow in Button's docs demos. Added
-   *  2026-08-17: those demos set it as the CHARACTER `↓`, and U+2193 is listed
-   *  in the vendored subset's unicode-range but is not in the file — Chrome
-   *  painted it in `.SF NS`, so a docs page illustrating the system was showing
-   *  the one thing the system forbids. Not square: 384x512 renders 12 wide at
-   *  16 tall, centred in a square box by the default preserveAspectRatio. */
+  /** arrow-down (U+F063) — the download arrow in Button's docs demos, which set
+   *  it as the character `↓` until 2026-08-17.
+   *
+   *  THE REASON FIRST GIVEN FOR THIS WAS WRONG, and the correction is the part
+   *  worth keeping. A CDP reading on one element said `.SF NS`, and I concluded
+   *  U+2193 was outside the vendored file. Re-tested with the stack and the
+   *  weight as the only variables on one page: `↓` resolves to Montserrat under
+   *  the token stack, under `'Montserrat', sans-serif` and under `'Montserrat'`
+   *  alone, at 400 and at 700, matching its control every time. **U+2193 is in
+   *  the font.** One element's reading is not a font's coverage — hold the
+   *  variables and re-ask before concluding anything about a face.
+   *
+   *  Kept anyway, for the arrow it sits beside: `→` U+2192 genuinely is NOT in
+   *  the subset (measured 14.19px .SF NS against 16.00px Lucida Grande), so the
+   *  two demo arrows are icons together rather than one of each.
+   *
+   *  Not square: 384x512 renders 12 wide at 16 tall, centred in a square box by
+   *  the default preserveAspectRatio. */
   arrowDown: { viewBox: '0 0 384 512', path: 'M169.4 502.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 402.7 224 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 370.7-105.4-105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z' },
   /** xmark (U+F00D) — FooterBar's Free tools close. Bare ×, NOT `circleXmark`. */
   xmark: { viewBox: '0 0 384 512', path: 'M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z' },

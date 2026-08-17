@@ -383,8 +383,8 @@
   --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: 'Montserrat', sans-serif;      /* alias — use either */
   --font-mono: 'Roboto Mono', "SF Mono", "Cascadia Code", Consolas, monospace; /* Figma: Roboto Mono */
-  --font-weight-h1-hero: 900;                 /* Hero H1 — black */
-  --font-weight-h1: 900;
+  --font-weight-h1-hero: 800;                 /* Hero H1 — extrabold (was black 900 until 2026-08-17) */
+  --font-weight-h1: 800;
   --font-weight-h2: 800;
   --font-weight-h3: 700;
   --font-weight-h4: 800;
@@ -492,7 +492,7 @@
   --leading-nav-label: var(--leading-4);      /* 16px */
   --leading-badge: var(--leading-4);          /* 16px — Figma Typography/UI/badge uses leading/4 */
   --leading-badge-sm: var(--leading-3);       /* 12px — Figma Typography/UI/badge-small uses leading/3 */
-  --tracking-h1-hero: -0.8px;                 /* tighter */
+  --tracking-h1-hero: 0px;                    /* normal — the hero sets its own, unlike h1 */
   --tracking-h1: -0.8px;                      /* tighter */
   --tracking-h2: -0.4px;                      /* tight */
   --tracking-h3: -0.4px;                      /* tight */

@@ -291,8 +291,8 @@
     --color-border-dark-strong: var(--iron-violet-700);
     --color-border-dark-alt: var(--iron-blue-500);
     --font-body: 'Montserrat', sans-serif;
-    --font-weight-h1-hero: 900;
-    --font-weight-h1: 900;
+    --font-weight-h1-hero: 800;
+    --font-weight-h1: 800;
     --font-weight-h2: 800;
     --font-weight-h3: 700;
     --font-weight-h4: 800;
@@ -382,7 +382,7 @@
     --leading-nav-label: var(--leading-4);
     --leading-badge: var(--leading-4);
     --leading-badge-sm: var(--leading-3);
-    --tracking-h1-hero: -0.8px;
+    --tracking-h1-hero: 0px;
     --tracking-h1: -0.8px;
     --tracking-h2: -0.4px;
     --tracking-h3: -0.4px;

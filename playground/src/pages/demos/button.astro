@@ -29,12 +29,15 @@
  *
  * THE TWO ARROWS ARE ICONS, NOT CHARACTERS, since 2026-08-17. They were `→`
  * and `↓` in a `.ico` span, and Ball caught the Anatomy one by looking at it.
- * Measured with CDP on the built page: Chrome painted the `↓` in `.SF NS`, not
- * Montserrat — U+2193 is inside the vendored subset's declared unicode-range
- * but is not in the file, so the glyph fell out of the stack onto whatever face
- * the OS supplies and its width became a property of the reader's machine. That
- * is the trap FormCard, Select, FileUpload, Tooltip and TextLink were each
- * fixed for, on the page that teaches the system.
+ *
+ * `→` U+2192 is the real case: it is not in the vendored subset and falls out
+ * of the stack, measured at 14.19px in .SF NS against 16.00px in Lucida Grande
+ * — the trap FormCard, Select, FileUpload, Tooltip and TextLink were each fixed
+ * for. `↓` U+2193 is NOT that case, and the first version of this note said it
+ * was: one CDP reading on one element returned `.SF NS` and I generalised it to
+ * the font. Re-tested with the stack and weight as the only variables, `↓`
+ * resolves to Montserrat every way it can be asked. It is an icon here only so
+ * the pair matches.
  *
  * The two icons are sized with an INLINE STYLE, not `size-[1em]`. Tailwind
  * scans components/, internal/ and the shared .ts files — not this folder — so

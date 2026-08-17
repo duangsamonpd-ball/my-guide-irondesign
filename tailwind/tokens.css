@@ -391,8 +391,8 @@
   --c-accent: #185FA5;
 
   /* ── Scale weights (per level) ── */
-  --fw-h1-hero:   900;  /* Hero H1 — black */
-  --fw-h1:        900;
+  --fw-h1-hero:   800;  /* Hero H1 — extrabold (was black 900 until 2026-08-17) */
+  --fw-h1:        800;
   --fw-h2:        800;
   --fw-h3:        700;
   --fw-h4:        800;
@@ -517,7 +517,7 @@
 
   /* ── Letter spacing — px, Figma tracking scale ──
      tighter -0.8 · tight -0.4 · normal 0 · wide 0.4 · wider 0.8 · widest 1.6 */
-  --letter-spacing-h1-hero:  -0.8px;   /* tighter */
+  --letter-spacing-h1-hero:  0px;      /* normal — the hero sets its own, unlike h1 */
   --letter-spacing-h1:       -0.8px;   /* tighter */
   --letter-spacing-h2:       -0.4px;   /* tight   */
   --letter-spacing-h3:       -0.4px;   /* tight   */
