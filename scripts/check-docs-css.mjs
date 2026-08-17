@@ -45,6 +45,19 @@ const selector = (r) => r.slice(0, r.indexOf('{')).replace(/\s+/g, ' ').trim();
 const shell = new Set(rules(readFileSync(join(DOCS, 'docs.css'), 'utf8')).map(selector));
 
 const clashes = [];
+/**
+ * A SECOND SHADOW OF THE SAME KIND. Thirteen docs pages used to declare their
+ * own `--space-*` ladder — micro/xs/sm/md/lg/xl/2xl/3xl/4xl/hero, every rung a
+ * duplicate of the system's `--spacing-*`, plus a `--space-2xs` that had no
+ * system counterpart and no user. It survived the docs.css hoist because it is
+ * a custom property rather than a rule, so the selector check above could not
+ * see it, and it drifted the way copies do: component-checkbox.html labelled a
+ * gap `--space-xs` where the component binds `--spacing-xs`, and
+ * 07-components.html's `.btn-nuget` did the same. Removed 2026-08-17, 197
+ * references and 53 declarations, proved value-neutral against a computed-style
+ * snapshot of 15,523 elements. This keeps it gone.
+ */
+const aliases = [];
 let checked = 0;
 
 for (const file of readdirSync(DOCS).filter((f) => f.endsWith('.html'))) {
@@ -53,7 +66,23 @@ for (const file of readdirSync(DOCS).filter((f) => f.endsWith('.html'))) {
   for (const s of new Set(rules(css).map(selector))) {
     if (shell.has(s)) clashes.push({ file, selector: s });
   }
+  for (const m of new Set([...css.matchAll(/--space-[a-z0-9]+/g)].map((x) => x[0]))) {
+    aliases.push({ file, name: m });
+  }
   checked++;
+}
+
+if (aliases.length) {
+  console.error(`\n\x1b[31m✖  ${aliases.length} \`--space-*\` alias${aliases.length > 1 ? 'es' : ''} in a docs page — the system spells it \`--spacing-*\`\x1b[0m\n`);
+  const byFile = new Map();
+  for (const a of aliases) (byFile.get(a.file) ?? byFile.set(a.file, []).get(a.file)).push(a.name);
+  for (const [file, names] of byFile) {
+    console.error(`    \x1b[1mdocs/${file}\x1b[0m`);
+    for (const n of names) console.error(`      \x1b[31m✖\x1b[0m ${n}  →  ${n.replace('--space-', '--spacing-')}`);
+  }
+  console.error(`\n  tokens.css already declares every rung. A second name for one value is`);
+  console.error(`  how a docs page ends up labelling a component's gap with the wrong token.\n`);
+  process.exit(1);
 }
 
 if (clashes.length) {
@@ -69,4 +98,4 @@ if (clashes.length) {
   process.exit(1);
 }
 
-console.log(`\n\x1b[32m✔  ${checked} docs pages leave the ${shell.size} shared shell rules alone\x1b[0m\n`);
+console.log(`\n\x1b[32m✔  ${checked} docs pages leave the ${shell.size} shared shell rules alone, and none re-spell --spacing-*\x1b[0m\n`);
