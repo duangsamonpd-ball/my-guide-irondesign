@@ -80,7 +80,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       letter-spacing: 0.08em; color: #A1A1A1;
       border-bottom: 1px solid #E2E8F0;
     }
-.mapping-table th.th-light { background: #FDFBF0; color: #997A00; border-bottom: 1px solid #E2E8F0; }
+.mapping-table th.th-light { background: var(--iron-orange-50); color: #997A00; border-bottom: 1px solid #E2E8F0; }
 .mapping-table th.th-dark { background: #1E1E2A; color: #89D3DF; border-bottom: 1px solid #2E2E3A; }
 .mapping-table td { padding: 12px 16px; border-bottom: 1px solid #F1F5F9; vertical-align: middle; overflow-wrap: anywhere; }
 .mapping-table td.td-light { background: #FEFDF5; }
@@ -109,7 +109,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       padding: 3px 8px; border-radius: 6px;
       white-space: nowrap;
     }
-.token-pill.css { background: #F0F9FF; color: #1D629B; }
+.token-pill.css { background: var(--iron-blue-50); color: #1D629B; }
 .token-pill.tw { background: #FFF1F1; color: #94153D; }
 .role-badge {
       font-size: 0.62rem; font-weight: 700; padding: 3px 8px;
@@ -350,7 +350,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         <td style="color:#737373;font-size:0.75rem;">Button hover / press state</td>
       </tr>
       <tr>
-        <td><span class="role-badge" style="background:#F0F9FF;color:#2693EC;">Secondary</span></td>
+        <td><span class="role-badge" style="background:var(--iron-blue-50);color:#2693EC;">Secondary</span></td>
         <td><div class="color-dot"><div class="dot" style="background:#2693EC;"></div>#2693EC</div></td>
         <td><span class="token-pill">iron-blue-500</span></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-secondary)')">--color-secondary</span></td>
@@ -358,7 +358,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         <td style="color:#737373;font-size:0.75rem;">Secondary CTAs, links, nav active</td>
       </tr>
       <tr>
-        <td><span class="role-badge" style="background:#F0F9FF;color:#217BC4;">Secondary hover</span></td>
+        <td><span class="role-badge" style="background:var(--iron-blue-50);color:#217BC4;">Secondary hover</span></td>
         <td><div class="color-dot"><div class="dot" style="background:#217BC4;"></div>#217BC4</div></td>
         <td><span class="token-pill">iron-blue-600</span></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-secondary-hover)')">--color-secondary-hover</span></td>
@@ -382,7 +382,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         <td style="color:#737373;font-size:0.75rem;">Feature tags, positive highlights</td>
       </tr>
       <tr>
-        <td><span class="role-badge" style="background:#EFF9FF;color:#1A7AC4;">Accent 3</span></td>
+        <td><span class="role-badge" style="background:#EFF9FF;color:var(--iron-blue-600);">Accent 3</span></td>
         <td><div class="color-dot"><div class="dot" style="background:#89D3DF;"></div>#89D3DF</div></td>
         <td><span class="token-pill">iron-sky-500</span></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-accent-3)')">--color-accent-3</span></td>
@@ -439,7 +439,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
         <td style="color:#737373;font-size:0.75rem;">Errors, destructive actions</td>
       </tr>
       <tr>
-        <td><span class="role-badge" style="background:#F0F9FF;color:#2693EC;">Info</span></td>
+        <td><span class="role-badge" style="background:var(--iron-blue-50);color:#2693EC;">Info</span></td>
         <td><div class="color-dot"><div class="dot" style="background:#2693EC;"></div>#2693EC</div></td>
         <td><span class="token-pill">iron-blue-500</span></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-info)')">--color-info</span></td>
@@ -566,7 +566,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#2C2C40;color:#D4D4D4;">body</span></td>
-        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E5E5E5;border:1px solid #D5D5D5;"></div><span>#E5E5E5 <span style="color:#A1A1A1;">neutral/200</span></span></div></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E5E5E5;border:1px solid var(--neutral-300);"></div><span>#E5E5E5 <span style="color:#A1A1A1;">neutral/200</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#E5E5E5;border-color:rgba(0,0,0,0.15);"></div><span style="color:#C8C8D8;">#E5E5E5 <span style="color:#5A5A7A;">neutral/200</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-text-on-dark-body)')">--color-text-on-dark-body</span></td>
         <td style="color:#737373;font-size:0.75rem;">Body copy on a dark surface</td>
@@ -604,7 +604,7 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
     <tbody>
       <tr>
         <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">background</span></td>
-        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid #D5D5D5;"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid var(--neutral-300);"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#260F27;"></div><span style="color:#C8C8D8;">#260F27 <span style="color:#5A5A7A;">iron-violet/950</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-bg-base)')">--color-bg-base</span></td>
         <td style="color:#737373;font-size:0.75rem;">Main page background</td>
@@ -618,35 +618,35 @@ footer { text-align:center; padding:40px; color:#A1A1A1; font-size:0.8rem; borde
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">card</span></td>
-        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid #D5D5D5;"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid var(--neutral-300);"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#522950;"></div><span style="color:#C8C8D8;">#522950 <span style="color:#5A5A7A;">iron-violet/800</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-bg-card)')">--color-bg-card</span></td>
         <td style="color:#737373;font-size:0.75rem;">Card, modal, panel backgrounds</td>
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#F2F9FE;color:#1D629B;">card alt</span></td>
-        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F2F9FE;border:1px solid #D5D5D5;"></div><span>#F2F9FE <span style="color:#A1A1A1;">iron-blue/50</span></span></div></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F2F9FE;border:1px solid var(--neutral-300);"></div><span>#F2F9FE <span style="color:#A1A1A1;">iron-blue/50</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#391C39;"></div><span style="color:#C8C8D8;">#391C39 <span style="color:#5A5A7A;">iron-violet/900</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-bg-card-alt)')">--color-bg-card-alt</span></td>
         <td style="color:#737373;font-size:0.75rem;">Alternative / feature highlight card</td>
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#F8FAFC;color:#45556C;">section</span></td>
-        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F8FAFC;border:1px solid #D5D5D5;"></div><span>#F8FAFC <span style="color:#A1A1A1;">slate/50</span></span></div></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F8FAFC;border:1px solid var(--neutral-300);"></div><span>#F8FAFC <span style="color:#A1A1A1;">slate/50</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#391C39;"></div><span style="color:#C8C8D8;">#391C39 <span style="color:#5A5A7A;">iron-violet/900</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-bg-section)')">--color-bg-section</span></td>
         <td style="color:#737373;font-size:0.75rem;">Neutral alternating page-section band</td>
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#F2F9FE;color:#1D629B;">section alt</span></td>
-        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F2F9FE;border:1px solid #D5D5D5;"></div><span>#F2F9FE <span style="color:#A1A1A1;">iron-blue/50</span></span></div></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F2F9FE;border:1px solid var(--neutral-300);"></div><span>#F2F9FE <span style="color:#A1A1A1;">iron-blue/50</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#372647;"></div><span style="color:#C8C8D8;">#372647 <span style="color:#5A5A7A;">secondary 8% over iron-violet/900</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-bg-section-alt)')">--color-bg-section-alt</span></td>
         <td style="color:#737373;font-size:0.75rem;">Brand-tinted section band. Pairs with <code style="font-size:0.7rem;">section</code> by hue, not by lightness — the two differ by 1.6% luminance in light mode, and stay a hue pair in dark.</td>
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#F8FAFC;color:#45556C;">disabled</span></td>
-        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F8FAFC;border:1px solid #D5D5D5;"></div><span>#F8FAFC <span style="color:#A1A1A1;">slate/50</span></span></div></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F8FAFC;border:1px solid var(--neutral-300);"></div><span>#F8FAFC <span style="color:#A1A1A1;">slate/50</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#391C39;"></div><span style="color:#C8C8D8;">#391C39 <span style="color:#5A5A7A;">iron-violet/900</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-bg-disabled)')">--color-bg-disabled</span></td>
         <td style="color:#737373;font-size:0.75rem;">Disabled input / control fill</td>

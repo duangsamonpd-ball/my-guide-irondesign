@@ -157,7 +157,7 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
 .tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
 .tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
 .tok tr:last-child td { border-bottom:none; }
-.tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:#185FA5; }
+.tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:var(--c-accent); }
 /* Token names are single unbreakable words up to 28 characters long, and `.tok`
    above clips (`overflow: hidden`). At 375px that combination did not overflow,
    did not scroll and did not warn — it silently CUT the name, so a phone reader
