@@ -1,0 +1,275 @@
+---
+/**
+ * Demo source for docs/07-components.html — the Components overview.
+ *
+ * WHAT THIS REPLACED. The page was hand-written and had drifted off every
+ * value it stated: Primary at 54px against a real 56, Secondary 46 against 48,
+ * radii quoted as `cta` / `cta-alt` / `pill-sm` — three tokens deleted on
+ * 2026-08-13 — Input at `4px (xs)` where the component ships `rounded-md` 6px
+ * and a focus ring still using the retired Deep Blue #2A95D5, Badges drawn as
+ * 20px pills where Figma 776-899 binds `rounded-sm` on every one, and a whole
+ * "Destructive Button" section for a variant Button has never had. It showed
+ * six things, badly, out of nineteen components that each have their own page.
+ *
+ * THREE THINGS HERE ARE DERIVED, NOT TYPED, and each one is a copy that used
+ * to drift:
+ *
+ *  · label, icon, href and ORDER come from scripts/lib/nav.mjs — the same array
+ *    the sidebar is generated from, so the gallery and the nav cannot disagree.
+ *    build-shell.mjs records what a hand-retyped copy of it got wrong.
+ *  · each card's sentence is the first sentence of that component page's own
+ *    `<p class="lead">`, read at build time. Rewriting the lead moves the card.
+ *  · the previews are the real components, so a prop or a class changing is a
+ *    thing the reader sees rather than a number this page claims.
+ *
+ * AND ONE THING IS GUARDED: a component in the nav with no card here throws,
+ * rather than quietly rendering eighteen. That is the failure this page was in
+ * before — content that stops keeping up with the library and says nothing.
+ *
+ * Specs are deliberately NOT restated. Every component page carries its own
+ * Token Reference, and a spec table copied to a second place is the thing that
+ * was wrong on all six sections above.
+ *
+ * The Tooltip trigger is a real `Button`, not the `.tt-trigger` class its own
+ * page uses. That rule is already hand-kept identical in two files and a
+ * gallery of real components has no reason to make it three — and the overflow
+ * sweep proved the point rather than the argument winning it: an unstyled
+ * <button> inherits no font-family, its text resolved to Arial, and the probe
+ * refused to report on the whole page. `assertFont` earning its keep.
+ */
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+import { NAV } from '../../../../scripts/lib/nav.mjs';
+import {
+  Badge, Button, Checkbox, FileUpload, FlyoutMenu, Footer, FooterBar, FormCard,
+  Input, Logo, Notice, ProductMenu, Radio, Select, Textarea, TextLink, Tooltip,
+  TopNav, TrialKeyCard,
+} from '@iron-software/astro-components';
+
+const DOCS = join(dirname(fileURLToPath(import.meta.url)), '../../../../docs');
+
+/** First sentence of a component page's lead — the page's own words, not mine. */
+function lead(href: string): string {
+  const html = readFileSync(join(DOCS, href), 'utf8');
+  const m = html.match(/<p class="lead">([\s\S]*?)<\/p>/);
+  if (!m) throw new Error(`gallery: ${href} has no <p class="lead"> to describe it`);
+  // Entities have to be decoded, not just stripped of tags: the leads carry
+  // `&mdash;`, `&quot;` and `&nbsp;`, and Astro escapes the bare `&` on the way
+  // out, so `&mdash;` reached the first render as the literal text `&amp;mdash;`.
+  const ENTITIES: Record<string, string> = {
+    '&nbsp;': ' ', '&mdash;': '—', '&ndash;': '–', '&quot;': '"',
+    '&rsquo;': '’', '&lsquo;': '‘', '&hellip;': '…', '&amp;': '&',
+  };
+  const text = m[1]
+    .replace(/<[^>]+>/g, '')
+    .replace(/&[a-z]+;/g, (e) => ENTITIES[e] ?? e)
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/\s+/g, ' ')
+    .trim();
+  // Split on the first full stop that ends a sentence, keeping decimals and
+  // abbreviations like `.NET` intact — the Button lead contains one.
+  const stop = text.search(/\.(\s+[A-Z(]|$)/);
+  return stop === -1 ? text : text.slice(0, stop + 1);
+}
+
+/* Shared demo data, lifted from the per-component demo pages so the gallery
+   shows what those pages show rather than a second set of made-up content. */
+const navItems = [
+  { label: 'Products', href: '#', caret: true },
+  { label: 'Enterprise', href: '#', caret: true },
+  { label: 'Solutions', href: '#', caret: true },
+  { label: 'Resources', href: '#', caret: true },
+  { label: 'About US', href: '#', caret: true },
+];
+const menuItems = [
+  { label: 'Home', href: '#', active: true },
+  { label: 'Licensing', href: '#', caret: true },
+  { label: 'Features', href: '#', caret: true },
+  { label: 'Demos', href: '#', caret: true },
+  { label: 'Docs', href: '#', caret: true },
+];
+const products = [
+  { prefix: 'IRON', suffix: 'PDF', accent: 'var(--iron-pink-500)', desc: 'Create, read, and edit PDFs. HTML to PDF for .NET.' },
+  { prefix: 'IRON', suffix: 'WORD', accent: 'var(--iron-sky-500)', desc: 'Edit DOCX Word Files. No Office Interop required.' },
+  { prefix: 'IRON', suffix: 'XL', accent: 'var(--iron-green-500)', desc: 'Edit Excel & CSV files. No Office Interop required.' },
+  { prefix: 'IRON', suffix: 'OCR', accent: 'var(--iron-sky-500)', desc: 'OCR (extract text from images) in 127 languages.' },
+];
+const countries = [
+  { value: 'th', label: 'Thailand' },
+  { value: 'us', label: 'United States' },
+  { value: 'jp', label: 'Japan' },
+];
+
+/**
+ * The only layout knob, and `band` is not a styling choice — it is a
+ * correctness one.
+ *
+ *   (default)  sits in the responsive grid at its natural size.
+ *   wide       takes the full row and stays centred: too big for a 320px
+ *              column, but an ordinary element that reflows to its container.
+ *   band       takes the full row inside `.frame-scroll`, the pattern docs.css
+ *              already owns for the four components that ARE a page band.
+ *
+ * WHY `band` EXISTS, measured before it did. These four size themselves off the
+ * VIEWPORT — `TopNav` hides its address under `@media (max-width: 1259.98px)`.
+ * Rendered 1112px wide inside a 1440px viewport, the query does not fire, the
+ * address stays, and the geometry collides: "About US" ran 922.7→1007.6 while
+ * `.tn-address` began at 946.9, a 60.7px overlap, with the language picker
+ * 35.5px past the bar's own right edge. Nothing OVERFLOWED the page, so no
+ * sweep would have said a word. `.frame-scroll` pins the child to the 1440 it
+ * is drawn for and lets the card scroll, which is exactly what the component
+ * pages do, and docs.css says why: "a media query reads the viewport …
+ * narrowing an element would never fire the rules being previewed."
+ */
+const cards: Record<string, { kind?: 'wide' | 'band' }> = {
+  'component-button.html': {},
+  'component-textlink.html': {},
+  'component-checkbox.html': {},
+  'component-input.html': {},
+  'component-textarea.html': {},
+  'component-fileupload.html': { kind: 'wide' },
+  'component-flyoutmenu.html': {},
+  'component-radio.html': {},
+  'component-select.html': {},
+  'component-badge.html': {},
+  'component-notice.html': { kind: 'wide' },
+  'component-logo.html': {},
+  'component-topnav.html': { kind: 'band' },
+  'component-productmenu.html': { kind: 'band' },
+  'component-footer.html': { kind: 'band' },
+  'component-footerbar.html': { kind: 'band' },
+  'component-tooltip.html': {},
+  'component-formcard.html': { kind: 'wide' },
+  'component-trialkeycard.html': { kind: 'wide' },
+};
+
+const components = NAV.filter((n: any) => n.href?.startsWith('component-'));
+const missing = components.filter((n: any) => !cards[n.href]).map((n: any) => n.href);
+if (missing.length) {
+  throw new Error(
+    `gallery: ${missing.length} component(s) in the nav have no card — ${missing.join(', ')}. ` +
+    'Add a preview in gallery.astro, or the overview silently stops covering the library.',
+  );
+}
+
+const entries = components.map((n: any) => ({ ...n, ...cards[n.href], desc: lead(n.href) }));
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="gallery">
+      <div class="gal">
+        {entries.map((c: any) => (
+          <article class:list={['gcard', c.kind && `gcard-${c.kind}`]}>
+            <div class:list={['gcard-stage', c.kind === 'band' && 'frame-scroll']}>
+              {c.href === 'component-button.html' && (
+                <div class="gstack-row">
+                  <Button size="lg">Download Free Trial</Button>
+                  <Button variant="outline">Learn more</Button>
+                  <Button size="sm" variant="ghost">Docs</Button>
+                </div>
+              )}
+              {c.href === 'component-textlink.html' && (
+                <div class="gstack">
+                  <p class="gprose">Save 80% with the <TextLink href="#">Iron Suite</TextLink></p>
+                  <p class="gprose">Read the <TextLink href="#" variant="underline" external>engine comparison</TextLink></p>
+                </div>
+              )}
+              {c.href === 'component-checkbox.html' && (
+                <div class="gstack">
+                  <Checkbox name="gal-terms" value="terms" label="Accept terms and conditions" checked />
+                  <Checkbox name="gal-news" value="news" label="Send me product updates" />
+                </div>
+              )}
+              {c.href === 'component-input.html' && (
+                <Input label="Work email" name="gal-email" type="email" placeholder="you@example.com" required />
+              )}
+              {c.href === 'component-textarea.html' && (
+                <Textarea label="Message" name="gal-msg" placeholder="How can we help?" />
+              )}
+              {c.href === 'component-fileupload.html' && <FileUpload name="gal-file" />}
+              {c.href === 'component-flyoutmenu.html' && (
+                <FlyoutMenu label="Products" align="center" notch>
+                  <div class="gflyout">Panel content lives in the slot.</div>
+                </FlyoutMenu>
+              )}
+              {c.href === 'component-radio.html' && (
+                <div class="gstack">
+                  <Radio name="gal-bill" value="monthly" label="Monthly" checked />
+                  <Radio name="gal-bill" value="yearly" label="Yearly" />
+                </div>
+              )}
+              {c.href === 'component-select.html' && (
+                <Select label="Country" name="gal-country" value="th" options={countries} />
+              )}
+              {c.href === 'component-badge.html' && (
+                <div class="gstack-row">
+                  <Badge intent="success" dot>Active</Badge>
+                  <Badge intent="warning">Overdue</Badge>
+                  <Badge intent="danger" variant="solid">Expired</Badge>
+                  <Badge intent="info" pill>Trial</Badge>
+                </div>
+              )}
+              {c.href === 'component-notice.html' && (
+                <Notice variant="bordered" intent="info" title="Please note"
+                  text="Trial keys are issued once per email address and last thirty days." />
+              )}
+              {c.href === 'component-logo.html' && (
+                <div class="gstack-row">
+                  <Logo product="pdf" size={48} label="" />
+                  <Logo product="ocr" size={48} label="" />
+                  <Logo kind="element" product="drawing" size={48} />
+                </div>
+              )}
+              {c.href === 'component-topnav.html' && (
+                <TopNav items={navItems} contact={{ label: 'Contact Us', href: '#', caret: true }}
+                  language={{ label: 'EN', href: '#', caret: true }} />
+              )}
+              {c.href === 'component-productmenu.html' && <ProductMenu items={menuItems} />}
+              {c.href === 'component-footer.html' && (
+                <Footer variant="default" productName="IronPDF" products={products} />
+              )}
+              {c.href === 'component-footerbar.html' && <FooterBar />}
+              {c.href === 'component-tooltip.html' && (
+                <Tooltip title="Per-seat licensing" body="Counts unique developers, not machines.">
+                  <Button size="sm" variant="outline">Hover me</Button>
+                </Tooltip>
+              )}
+              {c.href === 'component-formcard.html' && (
+                <FormCard
+                  icon="quote"
+                  heading="Request a quote"
+                  submitLabel="Send request"
+                  noteLeft="No credit card"
+                  noteRight="Reply within one business day"
+                >
+                  <Input label="Work email" name="gal-fc-email" type="email" placeholder="you@example.com" required />
+                </FormCard>
+              )}
+              {c.href === 'component-trialkeycard.html' && (
+                <TrialKeyCard
+                  icon="key"
+                  headingBold="30-day Trial Key"
+                  inputPlaceholder="Your Business Email*"
+                  hint="Your trial license will be sent to this address"
+                  submitLabel="Get my free trial key"
+                  submitIcon="key"
+                  footerNotes={['Free for development', 'Trial key in 60 seconds', 'No credit card']}
+                />
+              )}
+            </div>
+            <div class="gcard-meta">
+              <a class="gcard-name" href={c.href}><i class="gcard-icon">{c.icon}</i>{c.label}</a>
+              <p class="gcard-desc">{c.desc}</p>
+              {c.kind === 'band' && (
+                <p class="gcard-hint">Pinned to its 1440px design width — scroll the frame. Narrowing it would show a layout no viewport produces.</p>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </body>
+</html>

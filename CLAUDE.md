@@ -107,6 +107,7 @@ the vendoring is a testing one, and the bytes are identical either way.
 |---|---|---|
 | `tailwind/theme.css`, `docs/tokens.css` | `npm run build:theme` | `tailwind/tokens.css` ← `tokens/tokens.w3c.json` |
 | `docs/utilities.css` | `npm run build:utilities` | the classes components actually use |
+| `docs/components.css` | `npm run build:components-css` | every component's `<style>` block |
 | `<!-- demo:* -->` regions | `npm run build:demos` | `playground/src/pages/demos/*.astro` |
 | `<!-- code:astro -->` samples | `npm run build:code` | the ```astro block in `astro-components/README.md` |
 | `<!-- seo:* -->` blocks | `npm run build:seo` | the page's own `<h1>` and lead |
@@ -127,6 +128,14 @@ green with the token half-added.
   `build-utilities.mjs` (`SHARED_TS`) compiles its classes, `check-component-vars.mjs`
   validates them. Miss the first and the utilities vanish from the stylesheet
   while the classes stay in the markup, with nothing red anywhere.
+- **A bare tag selector in a docs page styles the components on it.** `docs.css`
+  learned this once — a bare `footer { padding }` padded every component footer
+  below 640 — and the per-page copies of that rule outlived the fix. On
+  `07-components.html` the page's own `footer { padding: 48px 40px }` was adding
+  **97px** to `FooterBar`, which renders a `<footer>`: measured `.fb` at 322px
+  where the component is 225. `docs.css` already owns `footer.docfoot`; use it.
+  `build-component-css.mjs` refuses to write a bare-tag selector for the same
+  reason, so the trap cannot come back from the component side.
 - **Renaming a CSS class means finding everything that wears it**, including
   hand-written cells in `docs/`. Twice in one day a rule was renamed and a user
   left behind — a native radio appeared where a styled one had been, and a

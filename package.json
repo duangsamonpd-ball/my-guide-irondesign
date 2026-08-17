@@ -31,7 +31,7 @@
     "check:fonts": "node scripts/vendor-fonts.mjs --check",
     "vendor:fonts": "node scripts/vendor-fonts.mjs",
     "check:seo": "node scripts/build-seo.mjs --check",
-    "check": "npm run check:theme && npm run check:utilities && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:contrast && npm run check:catalogue && npm run check:seo && npm run check:shell && npm run check:manifest && npm run check:fonts && npm run check:code && npm run check:render",
+    "check": "npm run check:theme && npm run check:utilities && npm run check:tokens && npm run check:parity && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:components-css && npm run check:contrast && npm run check:catalogue && npm run check:seo && npm run check:shell && npm run check:manifest && npm run check:fonts && npm run check:code && npm run check:render",
     "preview": "node scripts/preview.mjs",
     "audit": "node scripts/preview.mjs --all",
     "preview:self-test": "node scripts/preview.mjs --self-test",
@@ -45,7 +45,9 @@
     "state-diff:self-test": "node scripts/state-diff.mjs --self-test",
     "build:code": "node scripts/build-code-samples.mjs",
     "check:code": "node scripts/build-code-samples.mjs --check",
-    "check:types": "astro check --root astro-components"
+    "check:types": "astro check --root astro-components",
+    "build:components-css": "node scripts/build-component-css.mjs",
+    "check:components-css": "node scripts/build-component-css.mjs --self-test && node scripts/build-component-css.mjs --check"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

@@ -39,6 +39,14 @@ const DOCS = join(ROOT, 'docs');
 const CHECK = process.argv.includes('--check');
 const SKIP_BUILD = process.argv.includes('--no-build');
 
+/**
+ * A demo page writes into `docs/component-<name>.html` unless it is named here.
+ * `gallery` is the one exception: it feeds the Components OVERVIEW, which is
+ * numbered with the foundation pages rather than named after a component.
+ */
+const DOCS_TARGET = { gallery: '07-components.html' };
+const docsFile = (name) => DOCS_TARGET[name] ?? `component-${name}.html`;
+
 const red = (s) => `\x1b[31m${s}\x1b[0m`;
 const green = (s) => `\x1b[32m${s}\x1b[0m`;
 const dim = (s) => `\x1b[90m${s}\x1b[0m`;
@@ -245,14 +253,14 @@ let pagesWritten = 0;
 
 for (const name of pages) {
   const distPath = join(DIST, `${name}.html`);
-  const docsPath = join(DOCS, `component-${name}.html`);
+  const docsPath = join(DOCS, docsFile(name));
 
   if (!existsSync(distPath)) {
     errors.push(`${name}: playground built no demos/${name}.html`);
     continue;
   }
   if (!existsSync(docsPath)) {
-    errors.push(`${name}: no docs/component-${name}.html to write into`);
+    errors.push(`${name}: no docs/${docsFile(name)} to write into`);
     continue;
   }
 
@@ -316,7 +324,7 @@ if (errors.length) {
 if (CHECK && stale.length) {
   console.error(red(`\n✖  demo markup in ${stale.length} docs page${stale.length > 1 ? 's' : ''} is stale`));
   for (const { name, expected, actual } of stale) {
-    console.error(`\n  ${bold(`docs/component-${name}.html`)}`);
+    console.error(`\n  ${bold(`docs/${docsFile(name)}`)}`);
     const a = actual.split('\n');
     const b = expected.split('\n');
     let shown = 0;
