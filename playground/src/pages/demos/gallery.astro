@@ -45,7 +45,7 @@ import { NAV } from '../../../../scripts/lib/nav.mjs';
 import {
   Badge, Button, Checkbox, FileUpload, FlyoutMenu, Footer, FooterBar, FormCard,
   Input, Logo, Notice, ProductMenu, Radio, Select, Textarea, TextLink, Tooltip,
-  TopNav, TrialKeyCard,
+  NugetButton, TopNav, TrialKeyCard,
 } from '@iron-software/astro-components';
 
 const DOCS = join(dirname(fileURLToPath(import.meta.url)), '../../../../docs');
@@ -145,21 +145,64 @@ const cards: Record<string, { kind?: 'wide' | 'band' }> = {
   'component-trialkeycard.html': { kind: 'wide' },
 };
 
-const components = NAV.filter((n: any) => n.href?.startsWith('component-'));
-const missing = components.filter((n: any) => !cards[n.href]).map((n: any) => n.href);
-if (missing.length) {
+/**
+ * A component documented inside SOMEONE ELSE'S page still belongs in the
+ * overview, so it gets a card here with the page it is documented on. This is
+ * the one card whose label, icon and sentence are typed rather than derived —
+ * there is no page of its own to read a `<h1>` and lead from. The guard below
+ * is what stops that being a hole.
+ */
+const OFF_PAGE = [
+  {
+    component: 'NugetButton',
+    href: 'component-button.html',
+    icon: '📦',
+    label: 'NuGet Button',
+    desc: 'The NuGet download CTA — the mark, the label and a caret on one line, with the install count beneath.',
+  },
+] as const;
+
+const navComponents = NAV.filter((n: any) => n.href?.startsWith('component-'));
+
+/**
+ * THE GUARD, and it is aimed at the components on DISK, not at the nav.
+ *
+ * Keying it to the nav only asked "does every page have a card", which
+ * NugetButton walked straight past: it is a real component with no page of its
+ * own, so a nav-shaped guard would have reported a complete gallery covering
+ * 19 of 20. Reading the directory is the question worth asking — every
+ * component either has a card of its own or is named in OFF_PAGE with the page
+ * that documents it, and nothing else passes.
+ */
+const onDisk = Object.keys(import.meta.glob('../../../../astro-components/components/*.astro'))
+  .map((p) => p.split('/').pop()!.replace('.astro', ''));
+const carded = new Set([
+  ...navComponents.map((n: any) => n.href.replace(/^component-|\.html$/g, '').toLowerCase()),
+  ...OFF_PAGE.map((o) => o.component.toLowerCase()),
+]);
+const uncovered = onDisk.filter((name) => !carded.has(name.toLowerCase()));
+const cardless = navComponents.filter((n: any) => !cards[n.href]).map((n: any) => n.href);
+
+if (uncovered.length || cardless.length) {
   throw new Error(
-    `gallery: ${missing.length} component(s) in the nav have no card — ${missing.join(', ')}. ` +
-    'Add a preview in gallery.astro, or the overview silently stops covering the library.',
+    'gallery: the overview does not cover the library.' +
+    (uncovered.length ? ` ${uncovered.length} component(s) on disk have no card — ${uncovered.join(', ')}. Give each a docs page, or name it in OFF_PAGE with the page that documents it.` : '') +
+    (cardless.length ? ` ${cardless.length} page(s) in the nav have no preview — ${cardless.join(', ')}. Add one in gallery.astro.` : ''),
   );
 }
 
-const entries = components.map((n: any) => ({ ...n, ...cards[n.href], desc: lead(n.href) }));
+const entries = [
+  ...navComponents.map((n: any) => ({ ...n, ...cards[n.href], desc: lead(n.href) })),
+  ...OFF_PAGE.map((o) => ({ href: o.href, icon: o.icon, label: o.label, desc: o.desc, kind: undefined })),
+];
 ---
 
 <html lang="en">
   <body>
     <div data-demo="gallery">
+      {/* Generated, not typed. The page carried "19 components" by hand and was
+          wrong the moment NugetButton landed. */}
+      <div class="gal-count">{entries.length} components</div>
       <div class="gal">
         {entries.map((c: any) => (
           <article class:list={['gcard', c.kind && `gcard-${c.kind}`]}>
@@ -232,6 +275,9 @@ const entries = components.map((n: any) => ({ ...n, ...cards[n.href], desc: lead
                 <Footer variant="default" productName="IronPDF" products={products} />
               )}
               {c.href === 'component-footerbar.html' && <FooterBar />}
+              {c.label === 'NuGet Button' && (
+                <NugetButton subtext="Total download 19,002,577" />
+              )}
               {c.href === 'component-tooltip.html' && (
                 <Tooltip title="Per-seat licensing" body="Counts unique developers, not machines.">
                   <Button size="sm" variant="outline">Hover me</Button>

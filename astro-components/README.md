@@ -28,8 +28,8 @@ this package right now, and they do not have the same requirements:
 
 | | Styled by | You need |
 |---|---|---|
-| **Converted** (11 of 19) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
-| **Not yet converted** (8 of 19) | their own scoped `<style>` | the tokens, nothing else |
+| **Converted** (12 of 20) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
+| **Not yet converted** (8 of 20) | their own scoped `<style>` | the tokens, nothing else |
 
 Every converted component's section below carries a **Needs Tailwind** note, and
 `npm run check:exports` fails if one is missing or stale — the list above is not
@@ -186,6 +186,41 @@ height for the same value as a minimum, so the pill grows rather than clipping
 the second line. It has to be this prop and not a `whitespace-normal` you pass
 through `class`: both are one class deep, so the winner is decided by their
 order in the compiled stylesheet, and `nowrap` is emitted after `normal`.
+
+### `NugetButton.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
+The NuGet download CTA — a stacked label and install count, the NuGet mark
+leading and a caret trailing:
+
+```astro
+---
+import NugetButton from '.../astro-components/components/NugetButton.astro';
+---
+<NugetButton subtext="Total download 19,002,577" />
+<NugetButton size="md" subtext="Total download 19,002,577" href="/downloads" />
+<NugetButton label="Download for .NET" trailingIcon={false} />
+```
+
+Props: `size` (`lg` | `md`, default `lg`), `label` (default `Free NuGet Download`),
+`subtext`, `trailingIcon` (default `true`), `disabled`, `type`, `href` (renders an
+`<a>` instead of `<button>`), `class`.
+
+**Its own component rather than a seventh `Button` variant**, because Figma
+models it as a separate frame (`277:372`, `button-Nuget`) beside the button set
+(`231:1406`) — and the shape agrees, since a stacked label plus install count,
+a brand mark and a caret do not fit an API whose entire content is one slot.
+Everything else is Button's: the same `button/primary` fill and hover, the same
+magenta focus ring, the same `rounded-full`, the same `--size-btn-*` heights of
+56 and 48.
+
+`subtext` has no boolean beside it, where Figma carries `hasDownloadCount`: the
+string's presence is the switch, because unlike `TextLink`'s `external` the
+layer being toggled has content of its own and there is nothing to draw without
+it. `trailingIcon` stays a boolean for the opposite reason — the caret is the
+same caret whether or not it is there.
 
 ### `TextLink.astro`
 
@@ -847,7 +882,7 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 8 of 19 components take a required
+  destructure rather than the interface. Only 8 of 20 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
   `Tooltip.body`, and the card components' labels.
@@ -948,11 +983,11 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 19 components ported
+## 20 components ported
 
-Button, TextLink, Input, Textarea, FileUpload, Select, Checkbox, Radio, Badge,
-Notice, Tooltip, Product Footer, FooterBar, FormCard, TrialKeyCard, Logo, TopNav
-and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
+Button, NugetButton, TextLink, Input, Textarea, FileUpload, Select, Checkbox,
+Radio, Badge, Notice, Tooltip, FlyoutMenu, Product Footer, FooterBar, FormCard,
+TrialKeyCard, Logo, TopNav and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
 two-bar site header, and `Footer` + `FooterBar` the full two-band site footer. If
 the design system docs (`docs/component-*.html`) gain a new
 variant or pattern, check it here too — the docs' own Code-tab samples have

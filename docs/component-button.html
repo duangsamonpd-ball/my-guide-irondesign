@@ -106,7 +106,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 16px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.btn-nuget {
       display: inline-flex; align-items: center; gap: var(--space-xs); cursor: pointer;
       height: var(--size-btn-lg); padding: 0 var(--space-2xl);
       border: none; outline: none; border-radius: var(--rounded-full);
@@ -114,13 +113,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       font-family: 'Montserrat', sans-serif; white-space: nowrap;
       transition: background .15s, box-shadow .15s;
     }
-.btn-nuget:hover { background: var(--color-primary-hover); }
-.btn-nuget:focus-visible, .btn-nuget.is-focus { box-shadow: var(--shadow-focus-magenta); }
-.btn-nuget[disabled], .btn-nuget.is-disabled { opacity: .5; cursor: not-allowed; }
-.btn-nuget .nuget-ico { width: 26px; height: 26px; flex-shrink: 0; }
-.btn-nuget .nuget-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
-.btn-nuget .nuget-title { font-size: var(--font-size-btn-lg); font-weight: var(--fw-btn-lg); }
-.btn-nuget .nuget-sub { font-size: var(--font-size-btn-sm); font-weight: 500; opacity: .9; }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#E01A59; }
 .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:anywhere; }
@@ -138,7 +130,6 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
   
 .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.ico { font-size: 0.9em; }
 .demo-focus-magenta { box-shadow: var(--shadow-focus-magenta); }
 .demo-focus-ghost { border-color: var(--color-border-focused); }
 /* `.demo-disabled-btn` used to sit here. It was decoration: Button ships
@@ -232,7 +223,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           Learn more
         </button>
         <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg font-btn-lg leading-btn-lg tracking-[0] bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover focus-visible:border-border-focused">
-          Docs<span class="ico">→</span>
+          Docs<svg style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
         </button>
         <!-- /demo:preview -->
       </div>
@@ -339,21 +330,98 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <!-- ── NuGet Download CTA ── -->
       <div class="sect">
         <h2 class="sect-h">NuGet Download <span class="chip new" style="margin-left:4px;">special</span></h2>
-        <div class="sect-sub">A large primary CTA with the NuGet icon and a two-line label (title + live install count). Same <b>button/primary</b> fill and pink focus ring as Primary — 56px pill.</div>
+        <div class="sect-sub">The NuGet download CTA — the mark, the label and a caret on one line, with the install count beneath. Its own component, <b>NugetButton</b>, not a Button variant: Figma keeps it as a separate frame beside the button set.</div>
         <div class="canvas">
-          <button class="btn-nuget">
-            <svg class="nuget-ico" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/>
-              <path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/>
-            </svg>
-            <span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">Total download 19,002,577</span></span>
-          </button>
+          <!-- demo:nuget -->
+          <button type="button" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl py-xs gap-micro">
+            <span class="inline-flex items-center gap-sm">
+              <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+              <span class="inline-flex items-center gap-xs">
+                <span class="text-btn-lg font-btn-lg leading-btn-lg tracking-[0]">Free NuGet Download</span>
+                <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                  <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                </span>
+              </span>
+            </span>
+            <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm">Total download 19,002,577</span></button>
+          <!-- /demo:nuget -->
         </div>
+
+        <div class="sect-sub" style="margin-top:22px;">Two sizes — <b>lg</b> 56px with a 16/700 label, <b>md</b> 48px with 14/600. The count is <code>Typography/caption-sm</code> in both, and ships at full opacity rather than Figma's <code>opacity-75</code>, which measures 3.14:1 where 12px text needs 4.5:1.</div>
+        <div class="canvas">
+          <!-- demo:nuget-sizes -->
+          <button type="button" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl py-xs gap-micro">
+            <span class="inline-flex items-center gap-sm">
+              <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+              <span class="inline-flex items-center gap-xs">
+                <span class="text-btn-lg font-btn-lg leading-btn-lg tracking-[0]">Free NuGet Download</span>
+                <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                  <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                </span>
+              </span>
+            </span>
+            <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm">Total download 19,002,577</span></button>
+          <button type="button" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl py-xs gap-0">
+            <span class="inline-flex items-center gap-xs">
+              <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+              <span class="inline-flex items-center gap-micro">
+                <span class="text-btn font-btn leading-btn tracking-[0]">Free NuGet Download</span>
+                <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                  <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                </span>
+              </span>
+            </span>
+            <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm">Total download 19,002,577</span></button>
+          <!-- /demo:nuget-sizes -->
+        </div>
+
         <div class="grid" style="margin-top:14px;grid-template-columns:1fr 1fr;">
-          <div class="cell"><button class="btn-nuget" style=""><svg class="nuget-ico" viewBox="0 0 28 28" fill="none"><path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/><path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/></svg><span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">19,002,577</span></span></button><div class="lbl">Default<small>button/primary</small></div></div>
-          <div class="cell"><button class="btn-nuget" style="background:var(--color-primary-hover);"><svg class="nuget-ico" viewBox="0 0 28 28" fill="none"><path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/><path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/></svg><span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">19,002,577</span></span></button><div class="lbl">Hover<small>primary-hover</small></div></div>
-          <div class="cell"><button class="btn-nuget is-focus" style=""><svg class="nuget-ico" viewBox="0 0 28 28" fill="none"><path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/><path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/></svg><span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">19,002,577</span></span></button><div class="lbl">Focus<small>magenta ring</small></div></div>
-          <div class="cell"><button class="btn-nuget is-disabled" disabled style=""><svg class="nuget-ico" viewBox="0 0 28 28" fill="none"><path d="M14 2.5l9.5 5.5v11L14 24.5 4.5 19V8L14 2.5z" fill="#fff" opacity="0.25"/><path d="M14 8.2l5 2.9v5.8l-5 2.9-5-2.9v-5.8l5-2.9z" fill="#fff"/></svg><span class="nuget-txt"><span class="nuget-title">Free NuGet Download</span><span class="nuget-sub">19,002,577</span></span></button><div class="lbl">Disabled<small>opacity .5</small></div></div>
+          <!-- demo:nuget-states -->
+          <div class="cell"><button type="button" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl py-xs gap-micro">
+              <span class="inline-flex items-center gap-sm">
+                <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+                <span class="inline-flex items-center gap-xs">
+                  <span class="text-btn-lg font-btn-lg leading-btn-lg tracking-[0]">Free NuGet Download</span>
+                  <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                    <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                  </span>
+                </span>
+              </span>
+              <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm">19,002,577</span></button><div class="lbl">Default<small>button/primary</small></div></div>
+          <div class="cell"><button type="button" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl py-xs gap-micro demo-hover-primary">
+              <span class="inline-flex items-center gap-sm">
+                <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+                <span class="inline-flex items-center gap-xs">
+                  <span class="text-btn-lg font-btn-lg leading-btn-lg tracking-[0]">Free NuGet Download</span>
+                  <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                    <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                  </span>
+                </span>
+              </span>
+              <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm">19,002,577</span></button><div class="lbl">Hover<small>primary-hover</small></div></div>
+          <div class="cell"><button type="button" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl py-xs gap-micro demo-focus-magenta">
+              <span class="inline-flex items-center gap-sm">
+                <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+                <span class="inline-flex items-center gap-xs">
+                  <span class="text-btn-lg font-btn-lg leading-btn-lg tracking-[0]">Free NuGet Download</span>
+                  <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                    <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                  </span>
+                </span>
+              </span>
+              <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm">19,002,577</span></button><div class="lbl">Focus<small>pink halo</small></div></div>
+          <div class="cell"><button type="button" disabled class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl py-xs gap-micro">
+              <span class="inline-flex items-center gap-sm">
+                <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+                <span class="inline-flex items-center gap-xs">
+                  <span class="text-btn-lg font-btn-lg leading-btn-lg tracking-[0]">Free NuGet Download</span>
+                  <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                    <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                  </span>
+                </span>
+              </span>
+              <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm">19,002,577</span></button><div class="lbl">Disabled<small>opacity .5</small></div></div>
+          <!-- /demo:nuget-states -->
         </div>
       </div>
 
@@ -364,7 +432,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <div class="anatomy">
         <!-- demo:anatomy -->
         <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-lg)] px-2xl gap-sm text-btn-lg font-btn-lg leading-btn-lg tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
-          <span class="ico">↓</span> Download Free Trial
+          <svg style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M169.4 502.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 402.7 224 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 370.7-105.4-105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path></svg> Download Free Trial
         </button>
         <!-- /demo:anatomy -->
       <div class="anatomy-tags">
@@ -372,7 +440,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
             <span class="atag">fill → <b>--color-button-primary</b></span>
             <span class="atag">label → <b>--font-size-btn-lg</b> / <b>--fw-btn-lg</b></span>
             <span class="atag">radius → <b>--rounded-full</b></span>
-            <span class="atag">icon gap → <b>--space-xs</b></span>
+            <span class="atag">icon gap → <b>--spacing-sm</b></span>
             <span class="atag">focus → <b>--shadow-focus-magenta</b></span>
           </div>
         </div>

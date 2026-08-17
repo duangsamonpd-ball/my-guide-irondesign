@@ -18,11 +18,36 @@
  * Button has no loading prop, and inventing one to serve the docs is the thing
  * this file is trying not to do.
  *
+ * NUGET, added 2026-08-17 — Figma `277:372`, the `button-Nuget` frame. The page
+ * had drawn it by hand since before the component existed and had drifted off
+ * the node on seven counts (structure, a 26px hand-drawn mark that was not the
+ * NuGet logo, no caret, line-height, letter-spacing, opacity, and no `md` at
+ * all). It is `NugetButton`, its own component, because Figma keeps the frame
+ * outside the button set. Its state cells reuse the same two docs-only classes
+ * the Button states already use — `.demo-hover-primary` and
+ * `.demo-focus-magenta` — since the fill and the ring are the same tokens.
+ *
+ * THE TWO ARROWS ARE ICONS, NOT CHARACTERS, since 2026-08-17. They were `→`
+ * and `↓` in a `.ico` span, and Ball caught the Anatomy one by looking at it.
+ * Measured with CDP on the built page: Chrome painted the `↓` in `.SF NS`, not
+ * Montserrat — U+2193 is inside the vendored subset's declared unicode-range
+ * but is not in the file, so the glyph fell out of the stack onto whatever face
+ * the OS supplies and its width became a property of the reader's machine. That
+ * is the trap FormCard, Select, FileUpload, Tooltip and TextLink were each
+ * fixed for, on the page that teaches the system.
+ *
+ * The two icons are sized with an INLINE STYLE, not `size-[1em]`. Tailwind
+ * scans components/, internal/ and the shared .ts files — not this folder — so
+ * a utility class written here reaches the markup with no rule behind it. The
+ * first attempt did exactly that and the arrow rendered at its intrinsic
+ * 179.77 x 239.69px inside a 56px button. CLAUDE.md names this one; it still
+ * took a measurement to see it.
+ *
  * The Variants grid's on-dark cell keeps its dark background inline — that is
  * docs chrome around the button, not an override on it, so it lives inside the
  * region like any other cell wrapper.
  */
-import { Button } from '@iron-software/astro-components';
+import { Button, NugetButton, icons } from '@iron-software/astro-components';
 
 const variants = [
   ['primary', 'Primary', 'button/primary'],
@@ -37,7 +62,7 @@ const variants = [
     <div data-demo="preview">
       <Button size="lg">Download Free Trial</Button>
       <Button size="lg" variant="outline">Learn more</Button>
-      <Button size="lg" variant="ghost">Docs<span class="ico">→</span></Button>
+      <Button size="lg" variant="ghost">Docs<svg style="width:1em;height:1em;flex-shrink:0" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg></Button>
     </div>
 
     <div data-demo="variants">
@@ -72,8 +97,24 @@ const variants = [
       <div class="cell"><Button><span class="spin"></span>Loading</Button><div class="lbl">Loading<small>spinner (extra)</small></div></div>
     </div>
 
+    <div data-demo="nuget">
+      <NugetButton subtext="Total download 19,002,577" />
+    </div>
+
+    <div data-demo="nuget-sizes">
+      <NugetButton size="lg" subtext="Total download 19,002,577" />
+      <NugetButton size="md" subtext="Total download 19,002,577" />
+    </div>
+
+    <div data-demo="nuget-states">
+      <div class="cell"><NugetButton subtext="19,002,577" /><div class="lbl">Default<small>button/primary</small></div></div>
+      <div class="cell"><NugetButton subtext="19,002,577" class="demo-hover-primary" /><div class="lbl">Hover<small>primary-hover</small></div></div>
+      <div class="cell"><NugetButton subtext="19,002,577" class="demo-focus-magenta" /><div class="lbl">Focus<small>pink halo</small></div></div>
+      <div class="cell"><NugetButton subtext="19,002,577" disabled /><div class="lbl">Disabled<small>opacity .5</small></div></div>
+    </div>
+
     <div data-demo="anatomy">
-      <Button size="lg"><span class="ico">↓</span> Download Free Trial</Button>
+      <Button size="lg"><svg style="width:1em;height:1em;flex-shrink:0" viewBox={icons.arrowDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowDown.path} /></svg> Download Free Trial</Button>
     </div>
 
     <div data-demo="do">

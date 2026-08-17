@@ -1,0 +1,142 @@
+---
+/**
+ * The NuGet download CTA — Figma `277:372`, the `button-Nuget` frame.
+ *
+ * ITS OWN COMPONENT, NOT A `Button` VARIANT, because Figma models it that way:
+ * `button-Nuget` is a separate frame, not a seventh type inside the `231:1406`
+ * button set. The shape agrees — a stacked label + install count, a leading
+ * brand mark and a trailing caret do not fit an API whose whole content is one
+ * slot. Ball's call, 2026-08-17.
+ *
+ * Everything else is Button's: the same `button/primary` fill and hover, the
+ * same magenta focus ring, the same `rounded-full`, the same disabled treatment,
+ * the same `--size-btn-*` heights.
+ *
+ * WHAT THIS REPLACED. `docs/component-button.html` had drawn a `.btn-nuget` by
+ * hand since before the component existed, and it had drifted off the node on
+ * seven counts — measured 2026-08-17, against a 4-for-4 match on height 56,
+ * padding-x 32, `rounded-full`, and a focus ring whose
+ * `0 0 0 3px rgba(224,26,89,.25)` is `--shadow-focus-magenta` exactly:
+ *
+ *   structure   icon left of a LEFT-ALIGNED two-line block, where Figma centres
+ *               [mark · label · caret] on one line with the count beneath it
+ *   mark        26px, hand-drawn, and not the NuGet logo (Figma: the real 16px
+ *               vector, exported here rather than redrawn)
+ *   caret       missing entirely
+ *   label       line-height 18.4px, where Typography/UI/btn-lg is 1
+ *   count       no letter-spacing, where Typography/caption-sm is 0.4px
+ *   count       opacity .9, where the node binds `opacity-75`
+ *   size        no `md` at all — the node draws 48px as well as 56px
+ */
+interface Props {
+  /** `lg` 56px (16/700 label) · `md` 48px (14/600). Figma draws only these two. */
+  size?: 'lg' | 'md';
+  label?: string;
+  /**
+   * The install count under the label. Figma carries a `hasDownloadCount`
+   * boolean beside the string; here the string's presence IS the switch, since
+   * unlike TextLink's `external` the layer being toggled has content of its own
+   * and there is nothing to show without it.
+   */
+  subtext?: string;
+  /** The trailing caret. Figma's `hasTrailingIcon`, and a real axis: it is off
+   *  wherever the button does not open anything. */
+  trailingIcon?: boolean;
+  href?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+}
+
+const {
+  size = 'lg',
+  label = 'Free NuGet Download',
+  subtext,
+  trailingIcon = true,
+  href,
+  disabled = false,
+  type = 'button',
+  class: className,
+} = Astro.props;
+
+/**
+ * Padding, gap and type are per size, the same way they are on Button.
+ *
+ * `py-xs` on both: the node binds `spacing-xs` on `md` and leaves `lg`'s 8 as a
+ * raw number, which is the same 8px. With the height fixed and the content
+ * centred neither is load-bearing, and one token beats one token and one
+ * literal that happen to agree.
+ */
+const SIZE = {
+  lg: 'h-[var(--size-btn-lg)] px-2xl py-xs gap-micro',
+  md: 'h-[var(--size-btn-md)] px-xl py-xs gap-0',
+} as const;
+
+/** Gap between the NuGet mark and the text group — `spacing-sm` / `spacing-xs`. */
+const MARK_ROW = { lg: 'gap-sm', md: 'gap-xs' } as const;
+/** Gap between the label and the caret — `spacing-xs` / `spacing-micro`. */
+const TEXT_ROW = { lg: 'gap-xs', md: 'gap-micro' } as const;
+/** Typography/UI/btn-lg (16/700/lh 1) and Typography/UI/btn (14/600/lh 16). */
+const LABEL = {
+  lg: 'text-btn-lg font-btn-lg leading-btn-lg tracking-[0]',
+  md: 'text-btn font-btn leading-btn tracking-[0]',
+} as const;
+
+const BASE =
+  'cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden ' +
+  'border-0 outline-none rounded-full bg-button-primary text-primary-on ' +
+  'hover:bg-button-primary-hover focus-visible:shadow-focus-magenta ' +
+  'transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap ' +
+  /* Two rules rather than one, for the reason Button records: a class list has
+     no way to say "or". */
+  'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none ' +
+  'aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none';
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={[BASE, SIZE[size], className]}
+  href={href}
+  type={href ? undefined : type}
+  disabled={href ? undefined : disabled}
+  aria-disabled={href && disabled ? 'true' : undefined}
+>
+  <span class:list={['inline-flex items-center', MARK_ROW[size]]}>
+    {/* The NuGet mark, exported from the node rather than redrawn — the copy it
+        replaces was a generic hexagon. It stays inline instead of joining
+        `icons.ts` because that module models `fill="currentColor"` single paths
+        and says so: this one needs `fill-rule="evenodd"`, the same reason
+        ProductMenu's CTA glyph is inline. `currentColor`, not the node's literal
+        white, so it follows `text/default/on-action` through the text colour. */}
+    <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"
+      ><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z" /></svg
+    >
+    <span class:list={['inline-flex items-center', TEXT_ROW[size]]}>
+      <span class:list={LABEL[size]}>{label}</span>
+      {trailingIcon && (
+        /* Figma draws the caret as an 8.745 x 5.271 vector centred in a 16px
+           box, so that is what this is — the box carries the size, the svg
+           keeps the path's own geometry viewBox. Scaling the vector up to fill
+           16px would thicken it; rewriting the path to sit in a 16 box would be
+           drawing it by hand. Same reading as Select's chevron. */
+        <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+          <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"
+            ><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z" /></svg
+          >
+        </span>
+      )}
+    </span>
+  </span>
+  {/* THE ONE DELIBERATE DEVIATION FROM THE NODE, and it is an accessibility one.
+      Figma binds `opacity-75` on this line. White at 75% over `button/primary`
+      #E01A59 composites to #F7C6D6 and measures 3.14:1, where 12px text needs
+      4.5:1 — `npm run audit` failed on it, which is what the gate is for.
+      Nudging the value does not reach the bar: 0.80 → 3.41, 0.85 → 3.71,
+      0.90 → 4.02, 0.95 → 4.36, and only 1.00 → 4.71 passes. So the opacity is
+      dropped rather than tuned. Ball's ruling, 2026-08-17; the node still needs
+      the same fix, and until it gets one this line will read as a drift. */}
+  {subtext && (
+    <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm">{subtext}</span>
+  )}
+</Tag>

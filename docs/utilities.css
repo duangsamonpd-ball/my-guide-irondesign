@@ -633,6 +633,9 @@
 .h-\[3px\] {
   height: 3px;
 }
+.h-\[5\.271px\] {
+  height: 5.271px;
+}
 .h-\[5px\] {
   height: 5px;
 }
@@ -683,6 +686,9 @@
 }
 .w-\[3px\] {
   width: 3px;
+}
+.w-\[8\.745px\] {
+  width: 8.745px;
 }
 .w-\[8px\] {
   width: 8px;
@@ -776,6 +782,9 @@
 }
 .justify-end {
   justify-content: flex-end;
+}
+.gap-0 {
+  gap: 0px;
 }
 .gap-2xl {
   gap: var(--spacing-2xl);
@@ -1342,6 +1351,11 @@
 }
 .transition-\[background-color\,border-color\,border-width\,box-shadow\] {
   transition-property: background-color,border-color,border-width,box-shadow;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+.transition-\[background-color\,box-shadow\] {
+  transition-property: background-color,box-shadow;
   transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
   transition-duration: var(--tw-duration, var(--default-transition-duration));
 }
