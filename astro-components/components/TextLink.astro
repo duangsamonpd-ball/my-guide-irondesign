@@ -1,4 +1,6 @@
 ---
+import { icons } from '../icons';
+
 interface Props {
   href: string;
   variant?: 'plain' | 'underline';
@@ -10,12 +12,43 @@ interface Props {
 const { href, variant = 'plain', dark = false, external = false, class: className } = Astro.props;
 
 const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
+
+/*
+ * THE EXTERNAL MARKER IS AN ICON, NOT A "↗" CHARACTER — this was the last
+ * component in the library still setting one in type. Montserrat carries U+2191
+ * and U+2193 but not U+2197, so the arrow fell out of --font-sans onto whatever
+ * face the OS picked: measured at 0.7em of 16px text, .SF NS painted 6.63px of
+ * ink in an 8.88px box while Hiragino Sans painted 9.90px in 11.20px. Not a
+ * value this system could set, on either machine.
+ *
+ * It is `arrowRight` ROTATED, because Font Awesome Free Solid has no bare
+ * north-east arrow — `arrow-up-right` is Pro, and `arrow-up-right-from-square`
+ * is free but a different mark, where Figma's set draws a bare ↗. Rotating is
+ * also why this is the one caller not using the module's viewBox: 512x384 of
+ * ink turned 45deg needs (512+384)/√2 = 633 units of box, so the stock 512
+ * would clip both tips. The path data is still the shared one.
+ *
+ * THE ANCHOR IS WRITTEN ON ONE LINE ON PURPOSE. Laid out over several, Astro
+ * emits the indentation between <slot /> and the icon as text nodes, and the
+ * `underline` variant paints its underline through them: before this, a 4.42px
+ * space sat between the text and the icon's own 3px margin, and a SECOND 4.42px
+ * space trailed the icon inside the <a>, drawing a stub of underline after the
+ * arrow with a gap beneath it. That predates the icon — the character had it
+ * too. The gap is `margin-left` alone now, in em so it tracks the inherited
+ * size.
+ *
+ * WHAT REMOVING THE SPACE DID NOT FIX, measured rather than assumed: at 375px
+ * the arrow still wraps onto a line of its own, because an atomic inline offers
+ * a break opportunity at its own boundary with no whitespace needed. A U+2060
+ * WORD JOINER was tried in that gap and Chrome broke there anyway — verified
+ * present in the built markup first, so that is Chrome's answer and not a
+ * pipeline miss. The only reliable fix is `white-space: nowrap` around the last
+ * word AND the icon, which a <slot> cannot reach into. Pre-existing: the
+ * character wrapped the same way, and off a space, more easily.
+ */
 ---
 
-<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}>
-  <slot />
-  {external && <span class="ext-icon">↗</span>}
-</a>
+<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}><slot />{external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}</a>
 
 <style>
   .tlink {
@@ -44,5 +77,10 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
   .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
   .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
 
-  .tlink .ext-icon { font-size: 0.7em; margin-left: 3px; }
+  /* Sized in em, because TextLink sets no font-size and inherits the run it sits
+     in. 0.55em puts 8.7px of ink against Montserrat 600's measured 8.66px
+     x-height at 16px, so the arrow reads level with the lowercase at any size.
+     0.46em of margin is the 3px + a 4.42px whitespace space the markup used to
+     render between them, held at the size it shipped at rather than re-spaced. */
+  .tlink .ext-icon { width: 0.55em; height: 0.55em; margin-left: 0.46em; }
 </style>

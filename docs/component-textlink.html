@@ -110,7 +110,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .tlink.underline.dark { color: var(--color-text-dark-heading); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
 .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
 .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
-.tlink .ext-icon { font-size: 0.7em; margin-left: 3px; }
+.tlink .ext-icon { width: 0.55em; height: 0.55em; margin-left: 0.46em; }
 .tlink-row { display:flex; align-items:center; gap:8px; font-size:0.95rem; color:var(--color-text-heading); }
 .tlink-row .dot { width:4px; height:4px; border-radius:50%; background:var(--color-text-heading); flex-shrink:0; }
 .variant-states-h { font-size:0.64rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; margin-top:4px; }
@@ -196,12 +196,8 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
     <div class="sect"><h2 class="sect-h">Preview</h2>
       <div class="canvas col" style="max-width:480px;margin:0 auto;">
         <!-- demo:preview -->
-        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Save 80% on all 10 products with the new <a href="#" class="tlink plain">
-            Iron Suite
-          </a></p>
-        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Save 80% on all 10 products with the new <a href="#" class="tlink underline">
-            Iron Suite
-          </a></p>
+        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Save 80% on all 10 products with the new <a href="#" class="tlink plain">Iron Suite</a></p>
+        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Save 80% on all 10 products with the new <a href="#" class="tlink underline">Iron Suite</a></p>
         <!-- /demo:preview -->
       </div>
     </div>
@@ -244,15 +240,11 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <div class="mode-pair">
             <!-- demo:modes-plain -->
             <div class="mode-cell">
-              <a href="#" class="tlink plain">
-                Create Blank PDF
-              </a>
+              <a href="#" class="tlink plain">Create Blank PDF</a>
               <div class="mode-lbl">Light</div>
             </div>
             <div class="mode-cell dark">
-              <a href="#" class="tlink plain dark">
-                Create Blank PDF
-              </a>
+              <a href="#" class="tlink plain dark">Create Blank PDF</a>
               <div class="mode-lbl" style="color:#90A1B9;">Dark</div>
             </div>
             <!-- /demo:modes-plain -->
@@ -264,21 +256,28 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <div class="mode-pair">
             <!-- demo:modes-underline -->
             <div class="mode-cell">
-              <a href="#" class="tlink underline">
-                Create Blank PDF
-              </a>
+              <a href="#" class="tlink underline">Create Blank PDF</a>
               <div class="mode-lbl">Light</div>
             </div>
             <div class="mode-cell dark">
-              <a href="#" class="tlink underline dark">
-                Create Blank PDF
-              </a>
+              <a href="#" class="tlink underline dark">Create Blank PDF</a>
               <div class="mode-lbl" style="color:#90A1B9;">Dark</div>
             </div>
             <!-- /demo:modes-underline -->
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <div class="sect"><h2 class="sect-h">External links</h2>
+      <div class="sect-sub"><code>external</code> adds <code>target="_blank" rel="noopener"</code> and a trailing north-east arrow. The arrow is an <b>icon, not a <code>↗</code> character</b> — Montserrat has no glyph at U+2197, so a character would change size with the reader's machine. It is sized in <code>em</code>, so it tracks whatever run the link sits in, and carries <code>aria-hidden</code> so it adds nothing to the link's accessible name.</div>
+      <div class="canvas col" style="max-width:520px;margin:0 auto;">
+        <!-- demo:external -->
+        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Read the <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a> comparison.</p>
+        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Read the <a href="https://example.com" class="tlink underline" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a> comparison.</p>
+        <p style="font-size:0.78rem;color:var(--color-text-support);line-height:1.7;">Also in a caption-sized run: <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Learn more<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a></p>
+        <!-- /demo:external -->
       </div>
     </div>
 
@@ -290,9 +289,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <div class="variant-name">Plain <span class="vtag">general / marketing</span></div>
           <div class="variant-example">
             <!-- demo:anatomy-plain -->
-            <a href="#" class="tlink plain demo-link-hover">
-              Create Blank PDF
-            </a>
+            <a href="#" class="tlink plain demo-link-hover">Create Blank PDF</a>
             <!-- /demo:anatomy-plain -->
           </div>
           <div class="anatomy-tags">
@@ -306,9 +303,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <div class="variant-name">Underline <span class="vtag">content — blog, news</span></div>
           <div class="variant-example">
             <!-- demo:anatomy-underline -->
-            <a href="#" class="tlink underline demo-link-hover-underline">
-              Create Blank PDF
-            </a>
+            <a href="#" class="tlink underline demo-link-hover-underline">Create Blank PDF</a>
             <!-- /demo:anatomy-underline -->
           </div>
           <div class="anatomy-tags">
@@ -362,7 +357,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
 <span class="c-com">&lt;!-- external link --&gt;</span>
 &lt;<span class="c-tag">a</span> <span class="c-attr">href</span>=<span class="c-str">"https://example.com"</span> <span class="c-attr">class</span>=<span class="c-str">"tlink plain"</span> <span class="c-attr">target</span>=<span class="c-str">"_blank"</span> <span class="c-attr">rel</span>=<span class="c-str">"noopener"</span>&gt;
-  Learn more &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"ext-icon"</span>&gt;↗&lt;/<span class="c-tag">span</span>&gt;
+  Learn more &lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"ext-icon"</span> <span class="c-attr">viewBox</span>=<span class="c-str">"-64 -64 640 640"</span> <span class="c-attr">fill</span>=<span class="c-str">"currentColor"</span> <span class="c-attr">aria-hidden</span>=<span class="c-str">"true"</span>&gt;&lt;<span class="c-tag">path</span> <span class="c-attr">transform</span>=<span class="c-str">"rotate(-45 256 256)"</span> <span class="c-attr">d</span>=<span class="c-str">"M502.6 278.6…"</span>/&gt;&lt;/<span class="c-tag">svg</span>&gt;
 &lt;/<span class="c-tag">a</span>&gt;</pre>
 <pre class="code-pane" data-lang="css"><span class="c-key">.tlink</span> { font-weight: 600; transition: color .15s, text-decoration-color .15s, text-decoration-thickness .15s; }
 
@@ -390,12 +385,8 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="dd">
         <div class="card do"><div class="top">✓ Do</div><div class="body" style="display:flex;gap:24px;">
           <!-- demo:do -->
-          <a href="#" class="tlink plain">
-            Iron Suite
-          </a>
-          <a href="#" class="tlink underline">
-            Iron Suite
-          </a>
+          <a href="#" class="tlink plain">Iron Suite</a>
+          <a href="#" class="tlink underline">Iron Suite</a>
           <!-- /demo:do -->
         </div>
           <ul><li>Use <code>plain</code> on marketing/general pages, <code>underline</code> inside long-form content (blog, news).</li><li>Use <code>.dark</code> on dark backgrounds so contrast holds.</li><li>Add the external-link icon (<code>.ext-icon</code>) when the link leaves the current site.</li></ul></div>

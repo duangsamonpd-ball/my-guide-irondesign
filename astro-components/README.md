@@ -202,12 +202,34 @@ Two variants for two contexts:
 <TextLink href="https://example.com" external>Learn more</TextLink>
 ```
 
-Props: `href` (required), `variant` (`plain` | `underline`, default `plain`), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"` + a trailing ↗ icon), `class`. The slot is the link text.
+Props: `href` (required), `variant` (`plain` | `underline`, default `plain`), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"` + a trailing north-east arrow icon), `class`. The slot is the link text.
 
 - **`plain`** — `--color-text-link` / hover `--color-text-link-hover`, no underline. For general and marketing pages where a whole paragraph of underlines would read as dense.
 - **`underline`** — text stays `--color-text-heading` throughout; a separate `--color-border-selected`-coloured underline goes from 50% opacity/1px thick (default) to 100% opacity/2px thick (hover) — implemented with `text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent)` rather than a separate absolutely-positioned line (which is how the Figma source models it); real `text-decoration` reflows correctly with text wrapping, a manual line does not.
 
 `dark` swaps each variant's light-mode tokens for the matching dark-mode ones — currently identical values, kept separate for when dark mode diverges from light.
+
+The external marker is an **icon, not a `↗` character** — this was the last
+component still setting one in type. Montserrat carries `U+2191` and `U+2193`
+but not `U+2197`, so the arrow fell through `--font-sans` onto whatever face the
+OS picked: at 0.7em of 16px text, `.SF NS` painted 6.63px of ink in an 8.88px
+box while `Hiragino Sans` painted 9.90px in 11.20px. Same trap as FormCard,
+Select, FileUpload and Tooltip. It is `icons.arrowRight` **rotated -45°**,
+because Font Awesome Free Solid has no bare north-east arrow (`arrow-up-right`
+is Pro, and `arrow-up-right-from-square` is a different mark) — which is also
+why it is the one caller that does not use the module's own `viewBox`: 512×384
+of ink turned 45° needs 633 units of box, so the stock 512 would clip the tips.
+Sized `0.55em`, since `TextLink` sets no `font-size` and inherits the run it
+sits in; that puts 8.7px of ink against Montserrat 600's measured 8.66px
+x-height at 16px, so it reads level with the lowercase at any size.
+
+**Known, and unchanged from the character it replaced:** in a narrow column the
+arrow can wrap onto a line of its own — an atomic inline offers a line-break
+opportunity at its own boundary, with no whitespace needed, and a `U+2060` word
+joiner in that gap does not stop Chrome (measured at 375px, with the joiner
+confirmed present in the built markup). The only reliable fix is
+`white-space: nowrap` around the last word *and* the icon, which a `<slot>`
+cannot reach into.
 
 ### `Input.astro`
 
