@@ -401,13 +401,13 @@
   .tlink.plain.dark:hover { color: var(--color-text-dark-link-hover); }
   .tlink.plain.dark:focus-visible { outline-color: var(--color-text-dark-link); }
   .tlink.underline {
-    color: var(--color-text-heading);
+    color: var(--color-text-body);
     text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
-    text-decoration-thickness: 1px; text-underline-offset: 3px;
+    text-decoration-thickness: var(--border-width-1); text-underline-offset: 21.5%;
   }
-  .tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: 2px; }
+  .tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: var(--border-width-1-5); }
   .tlink.underline:focus-visible { outline: var(--border-width-2) solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
-  .tlink.underline.dark { color: var(--color-text-dark-heading); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
+  .tlink.underline.dark { color: var(--color-text-dark-body); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
   .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
   .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
   .tlink .ext-icon { width: 0.55em; height: 0.55em; margin-left: 0.46em; }

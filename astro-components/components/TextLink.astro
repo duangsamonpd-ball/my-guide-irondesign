@@ -65,15 +65,25 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
   .tlink.plain.dark:focus-visible { outline-color: var(--color-text-dark-link); }
 
   /* underline — long-form content (blog, news): neutral text, a separate
-     underline that goes 50% → 100% opacity AND thickens on hover (Tailwind-style) */
+     underline that goes 50% → 100% opacity AND thickens on hover (Tailwind-style).
+
+     THE OFFSET IS A PERCENTAGE and the thickness is not, which looks inconsistent
+     until you ask what each one has to agree with. Thickness lands on tokens that
+     already exist on both sides — --border-width-1 / -1-5, `border-width-1` /
+     `border-width-1,5` in Figma. Offset has a token on neither, so nothing is
+     gained by pinning it to a length, and 21.5% is what the Figma nodes hold
+     (993:210, 993:240, and the usage line 931:5653 since 2026-08-18). CSS
+     resolves the percentage against 1em, exactly as Figma resolves it against the
+     font size, so the two agree at every size this component is dropped into —
+     and it is dropped into several, since it sets no font-size of its own. */
   .tlink.underline {
-    color: var(--color-text-heading);
+    color: var(--color-text-body);
     text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
-    text-decoration-thickness: 1px; text-underline-offset: 3px;
+    text-decoration-thickness: var(--border-width-1); text-underline-offset: 21.5%;
   }
-  .tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: 2px; }
+  .tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: var(--border-width-1-5); }
   .tlink.underline:focus-visible { outline: var(--border-width-2) solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
-  .tlink.underline.dark { color: var(--color-text-dark-heading); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
+  .tlink.underline.dark { color: var(--color-text-dark-body); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
   .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
   .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
 

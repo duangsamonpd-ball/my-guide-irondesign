@@ -651,7 +651,7 @@
 
   /* ── Primitive scale ── */
   --border-width-1: 1px;   /* Hairline — default dividers, inputs */
-  --border-width-1-5: 1.5px; /* Text link underline default; also input/select/file-drop borders. Figma: `border-width-1,5` — a comma cannot appear in a CSS ident. */
+  --border-width-1-5: 1.5px; /* Text link underline HOVER (default is --border-width-1, Ball 2026-08-18); also input/select/file-drop borders. Figma: `border-width-1,5` — a comma cannot appear in a CSS ident. */
   --border-width-2: 2px;   /* Regular — focus rings, active nav */
   --border-width-4: 4px;   /* Medium — emphasis, selected states */
   --border-width-8: 8px;   /* Heavy — decorative accents, callouts */

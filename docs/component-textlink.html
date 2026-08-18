@@ -101,13 +101,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .tlink.plain.dark:hover { color: var(--color-text-dark-link-hover); }
 .tlink.plain.dark:focus-visible { outline-color: var(--color-text-dark-link); }
 .tlink.underline {
-      color: var(--color-text-heading);
+      color: var(--color-text-body);
       text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
-      text-decoration-thickness: 1px; text-underline-offset: 3px;
+      text-decoration-thickness: var(--border-width-1); text-underline-offset: 21.5%;
     }
-.tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: 2px; }
+.tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: var(--border-width-1-5); }
 .tlink.underline:focus-visible { outline: var(--border-width-2) solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
-.tlink.underline.dark { color: var(--color-text-dark-heading); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
+.tlink.underline.dark { color: var(--color-text-dark-body); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
 .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
 .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
 .tlink .ext-icon { width: 0.55em; height: 0.55em; margin-left: 0.46em; }
@@ -129,7 +129,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
    rendered in the RESTING blue instead of the hover pink. The inline styles
    these replace never had to win that fight. Match the weight. */
 .tlink.demo-link-hover { color: var(--color-text-link-hover); }
-.tlink.demo-link-hover-underline { text-decoration-color: var(--color-border-selected); text-decoration-thickness: 2px; }
+.tlink.demo-link-hover-underline { text-decoration-color: var(--color-border-selected); text-decoration-thickness: var(--border-width-1-5); }
 </style>
 </head>
 <body>
@@ -224,7 +224,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <div class="variant-states-h">States</div>
           <div class="variant-states">
             <div class="vstate"><a href="#" class="tlink underline">Native vs Remote Engine</a><span class="vstate-lbl">Default · 50% · 1px</span></div>
-            <div class="vstate"><a href="#" class="tlink underline" style="text-decoration-color:var(--color-border-selected);text-decoration-thickness:2px;">Native vs Remote Engine</a><span class="vstate-lbl">Hover · 100% · 2px</span></div>
+            <div class="vstate"><a href="#" class="tlink underline" style="text-decoration-color:var(--color-border-selected);text-decoration-thickness:var(--border-width-1-5);">Native vs Remote Engine</a><span class="vstate-lbl">Hover · 100% · 1.5px</span></div>
           </div>
         </div>
 
@@ -307,11 +307,11 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
             <!-- /demo:anatomy-underline -->
           </div>
           <div class="anatomy-tags">
-            <span class="atag">text → <b>--color-text-heading</b></span>
+            <span class="atag">text → <b>--color-text-body</b></span>
             <span class="atag">underline → <b>--color-border-selected</b></span>
             <span class="atag">default → <b>50% · 1px</b></span>
-            <span class="atag">hover → <b>100% · 2px</b></span>
-            <span class="atag">underline-offset → <b>3px</b></span>
+            <span class="atag">hover → <b>100% · 1.5px</b></span>
+            <span class="atag">underline-offset → <b>21.5%</b></span>
           </div>
         </div>
 
@@ -324,13 +324,13 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <tr><td class="prop">Plain · hover</td><td class="token">--color-text-link-hover</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
         <tr><td class="prop">Plain · dark text</td><td class="token">--color-text-dark-link</td><td class="val"><span class="sw" style="background:#67B3F2"></span>#67B3F2</td></tr>
         <tr><td class="prop">Plain · dark hover</td><td class="token">--color-text-dark-link-hover</td><td class="val"><span class="sw" style="background:#F08DAC"></span>#F08DAC</td></tr>
-        <tr><td class="prop">Underline · text</td><td class="token">--color-text-heading</td><td class="val"><span class="sw" style="background:#171717"></span>#171717</td></tr>
-        <tr><td class="prop">Underline · dark text</td><td class="token">--color-text-dark-heading</td><td class="val"><span class="sw" style="background:#F5F5F5"></span>#F5F5F5</td></tr>
+        <tr><td class="prop">Underline · text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
+        <tr><td class="prop">Underline · dark text</td><td class="token">--color-text-dark-body</td><td class="val"><span class="sw" style="background:#D4D4D4"></span>#D4D4D4</td></tr>
         <tr><td class="prop">Underline · colour</td><td class="token">--color-border-selected</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
         <tr><td class="prop">Underline · dark colour</td><td class="token">--color-border-dark-alt</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
-        <tr><td class="prop">Underline · default</td><td class="token">— (fixed)</td><td class="val">50% opacity · 1px</td></tr>
-        <tr><td class="prop">Underline · hover</td><td class="token">— (fixed)</td><td class="val">100% opacity · 2px</td></tr>
-        <tr><td class="prop">Underline offset</td><td class="token">— (fixed)</td><td class="val">3px</td></tr>
+        <tr><td class="prop">Underline · default</td><td class="token">--border-width-1</td><td class="val">50% opacity · 1px</td></tr>
+        <tr><td class="prop">Underline · hover</td><td class="token">--border-width-1-5</td><td class="val">100% opacity · 1.5px</td></tr>
+        <tr><td class="prop">Underline offset</td><td class="token">— (fixed)</td><td class="val">21.5% · 3.44px at 16px</td></tr>
         <tr><td class="prop">Weight</td><td class="token">— (fixed)</td><td class="val">600</td></tr>
       </tbody></table>
     </div>
@@ -369,14 +369,14 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
 <span class="c-com">/* underline — neutral text, thickening underline on hover */</span>
 <span class="c-key">.tlink.underline</span> {
-  color: <span class="c-str">var(--color-text-heading)</span>;
+  color: <span class="c-str">var(--color-text-body)</span>;
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, <span class="c-str">var(--color-border-selected)</span> 50%, transparent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-decoration-thickness: <span class="c-str">var(--border-width-1)</span>;
+  text-underline-offset: 21.5%;
 }
-<span class="c-key">.tlink.underline:hover</span> { text-decoration-color: <span class="c-str">var(--color-border-selected)</span>; text-decoration-thickness: 2px; }
-<span class="c-key">.tlink.underline.dark</span> { color: <span class="c-str">var(--color-text-dark-heading)</span>; text-decoration-color: color-mix(in srgb, <span class="c-str">var(--color-border-dark-alt)</span> 50%, transparent); }
+<span class="c-key">.tlink.underline:hover</span> { text-decoration-color: <span class="c-str">var(--color-border-selected)</span>; text-decoration-thickness: <span class="c-str">var(--border-width-1-5)</span>; }
+<span class="c-key">.tlink.underline.dark</span> { color: <span class="c-str">var(--color-text-dark-body)</span>; text-decoration-color: color-mix(in srgb, <span class="c-str">var(--color-border-dark-alt)</span> 50%, transparent); }
 <span class="c-key">.tlink.underline.dark:hover</span> { text-decoration-color: <span class="c-str">var(--color-border-dark-alt)</span>; }</pre>
         </div>
     </div>
