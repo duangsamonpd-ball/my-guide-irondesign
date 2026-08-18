@@ -40,9 +40,21 @@ export const choiceRow = 'group inline-flex items-start gap-xs select-none';
 /** Visually hidden, still focusable, still in the tab order. */
 export const choiceInput = 'absolute w-px h-px opacity-0 pointer-events-none';
 
-/** Shared by the checkbox box and the radio ring. Shape and size are added per component. */
+/**
+ * Shared by the checkbox box and the radio ring. Shape and size are added per
+ * component.
+ *
+ * `items-start` on the row and NOTHING here: the box and the label share a top
+ * edge. This carried a bare `mt-px` — the one class in the file with no reason
+ * written beside it — which pushed the box 1px below the label and made a
+ * single-line row 21px instead of 20. The canvas top-aligns them: on the
+ * labelled sets, box `922:5422` and label `335:31` are both y=0 h=20 inside
+ * `335:30` (Checkbox), and `922:5387` / `451:491` likewise inside `451:488`
+ * (Radio). Consumers were cancelling it by hand — the ROI calculator carried
+ * `[&>span]:mt-0` for exactly this.
+ */
 export const choiceControl = [
-  'shrink-0 mt-px inline-flex items-center justify-center',
+  'shrink-0 inline-flex items-center justify-center',
   'bg-bg-base border',
   'transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)]',
   'group-has-[:focus-visible]:shadow-focus-blue',

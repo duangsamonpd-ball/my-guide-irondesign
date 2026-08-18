@@ -545,9 +545,6 @@
 .mt-\[4px\] {
   margin-top: 4px;
 }
-.mt-px {
-  margin-top: 1px;
-}
 .mt-xs {
   margin-top: var(--spacing-xs);
 }
@@ -973,9 +970,6 @@
 }
 .bg-warning-subtle {
   background-color: var(--color-warning-subtle);
-}
-.bg-\[url\(assets\/Rainbow\.svg\)\] {
-  background-image: url(assets/Rainbow.svg);
 }
 .bg-cover {
   background-size: cover;

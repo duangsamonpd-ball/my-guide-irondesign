@@ -25,9 +25,27 @@ interface Props {
   headingLevel?: 2 | 3 | 4;
   /** Accessible name for the band's landmark, read by the "list of regions" view. */
   label?: string;
+  /**
+   * Asset paths. These default to SITE-ROOT paths, not paths relative to the
+   * page: `assets/logo.svg` resolves against the current URL, so it is correct
+   * only on a page that happens to sit at `/` and 404s on `/pricing` — silently,
+   * because a missing image logs nothing a build can fail on. A consuming app
+   * that keeps these in `public/assets/` needs to pass nothing; anything else
+   * passes its own path. The docs are the one caller that must override, because
+   * they are published under a repository subpath.
+   */
   donateImgSrc?: string;
   suiteLogoImgSrc?: string;
   productLogoSrc?: string;
+  /**
+   * The band's rainbow backdrop. It is a PROP and painted inline for a reason:
+   * as the utility `bg-[url(assets/Rainbow.svg)]` the path was baked into the
+   * compiled stylesheet, where a consumer's bundler rewrote it to
+   * `/_astro/assets/Rainbow.svg` and it 404'd with the band rendering flat — and
+   * no prop existed to correct it, so the roi-calculator carried an
+   * `!important` global override instead of a value.
+   */
+  rainbowSrc?: string;
   class?: string;
 }
 
@@ -37,9 +55,10 @@ const {
   products,
   headingLevel = 2,
   label = 'Iron Suite',
-  donateImgSrc = 'assets/1% logo - Horizontal.png',
-  suiteLogoImgSrc = 'assets/hash-white color.svg',
-  productLogoSrc = 'assets/logo.svg',
+  donateImgSrc = '/assets/1% logo - Horizontal.png',
+  suiteLogoImgSrc = '/assets/hash-white color.svg',
+  productLogoSrc = '/assets/logo.svg',
+  rainbowSrc = '/assets/Rainbow.svg',
   class: className,
 } = Astro.props;
 
@@ -47,14 +66,15 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
 
 /* These props are whole paths, so encode segment by segment — encoding the lot
    would eat the slashes, and encodeURI would leave the `%` alone, which is the
-   one character that actually breaks. `1% logo - Horizontal.png` reaches the
+   one character that actually breaks. A leading `/` survives: split gives an
+   empty first segment, which encodes to nothing and rejoins as the same slash. `1% logo - Horizontal.png` reaches the
    browser as the invalid escape `% l` and the image never loads; it had been
    broken in both variants since this component shipped, because every gate here
    only ever asked whether the file exists on disk. */
 const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
 ---
 
-<section class:list={['bg-bg-dark-shade bg-[url(assets/Rainbow.svg)] bg-cover bg-center text-text-on-dark-heading relative overflow-hidden', className]} aria-label={label}>
+<section class:list={['bg-bg-dark-shade bg-cover bg-center text-text-on-dark-heading relative overflow-hidden', className]} style={{ backgroundImage: `url("${src(rainbowSrc)}")` }} aria-label={label}>
   <div class="max-w-[var(--size-container-content)] mx-auto flex items-stretch py-4xl max-lg:flex-col max-lg:gap-[32px]">
     <div class="flex-1 pl-xl pr-3xl flex flex-col">
       <p class="flex items-center justify-end gap-xs text-xs leading-[normal] font-medium text-text-on-dark-heading tracking-nav-label m-0">Every Iron Suite Donates <img class="h-[30px] w-auto block" src={src(donateImgSrc)} alt="1% For The Planet" /></p>

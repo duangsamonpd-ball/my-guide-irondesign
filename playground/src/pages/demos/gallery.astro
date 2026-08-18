@@ -272,7 +272,14 @@ const entries = [
               )}
               {c.href === 'component-productmenu.html' && <ProductMenu items={menuItems} />}
               {c.href === 'component-footer.html' && (
-                <Footer variant="default" productName="IronPDF" products={products} />
+                /* Relative paths, for the reason written in demos/footer.astro:
+                   the component defaults to site-root paths and these docs are
+                   published under a repository subpath. */
+                <Footer variant="default" productName="IronPDF" products={products}
+                  donateImgSrc="assets/1% logo - Horizontal.png"
+                  suiteLogoImgSrc="assets/hash-white color.svg"
+                  productLogoSrc="assets/logo.svg"
+                  rainbowSrc="assets/Rainbow.svg" />
               )}
               {c.href === 'component-footerbar.html' && <FooterBar />}
               {c.label === 'NuGet Button' && (

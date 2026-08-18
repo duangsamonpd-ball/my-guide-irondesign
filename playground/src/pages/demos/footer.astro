@@ -35,12 +35,33 @@ const products = [
 
 <html lang="en">
   <body>
+    {/* Every asset path is passed, and RELATIVE on purpose. The component
+        defaults them to site-root paths, which is right for an app served from
+        its own origin and wrong here: these docs publish under
+        `/my-guide-irondesign/`, where `/assets/…` leaves the repository subpath
+        and 404s. The docs are the caller that knows that, so the docs say it —
+        the same reason `FooterProduct` below is handed its `logoSrc`. */}
     <div data-demo="suite">
-      <Footer variant="suite" products={products} />
+      <Footer
+        variant="suite"
+        products={products}
+        donateImgSrc="assets/1% logo - Horizontal.png"
+        suiteLogoImgSrc="assets/hash-white color.svg"
+        productLogoSrc="assets/logo.svg"
+        rainbowSrc="assets/Rainbow.svg"
+      />
     </div>
 
     <div data-demo="default">
-      <Footer variant="default" productName="IronPDF" products={products} />
+      <Footer
+        variant="default"
+        productName="IronPDF"
+        products={products}
+        donateImgSrc="assets/1% logo - Horizontal.png"
+        suiteLogoImgSrc="assets/hash-white color.svg"
+        productLogoSrc="assets/logo.svg"
+        rainbowSrc="assets/Rainbow.svg"
+      />
     </div>
 
     {/* The two cards on the docs page are one row in its rest and hover states.

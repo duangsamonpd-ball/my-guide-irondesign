@@ -325,19 +325,27 @@
           "name": "donateImgSrc",
           "type": "string",
           "required": false,
-          "default": "'assets/1% logo - Horizontal.png'"
+          "default": "'/assets/1% logo - Horizontal.png'",
+          "description": "Asset paths. These default to SITE-ROOT paths, not paths relative to the page: `assets/logo.svg` resolves against the current URL, so it is correct only on a page that happens to sit at `/` and 404s on `/pricing` — silently, because a missing image logs nothing a build can fail on. A consuming app that keeps these in `public/assets/` needs to pass nothing; anything else passes its own path. The docs are the one caller that must override, because they are published under a repository subpath."
         },
         {
           "name": "suiteLogoImgSrc",
           "type": "string",
           "required": false,
-          "default": "'assets/hash-white color.svg'"
+          "default": "'/assets/hash-white color.svg'"
         },
         {
           "name": "productLogoSrc",
           "type": "string",
           "required": false,
-          "default": "'assets/logo.svg'"
+          "default": "'/assets/logo.svg'"
+        },
+        {
+          "name": "rainbowSrc",
+          "type": "string",
+          "required": false,
+          "default": "'/assets/Rainbow.svg'",
+          "description": "The band's rainbow backdrop. It is a PROP and painted inline for a reason: as the utility `bg-[url(assets/Rainbow.svg)]` the path was baked into the compiled stylesheet, where a consumer's bundler rewrote it to `/_astro/assets/Rainbow.svg` and it 404'd with the band rendering flat — and no prop existed to correct it, so the roi-calculator carried an `!important` global override instead of a value."
         },
         {
           "name": "class",
