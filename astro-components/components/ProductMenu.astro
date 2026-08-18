@@ -20,6 +20,7 @@
 // The search / Ask AI / CTA vectors stay inline: one use each, and the CTA glyph
 // needs fill-rule="evenodd", which the shared Icon shape does not model.
 import { icons } from '../icons';
+import NugetButton from './NugetButton.astro';
 
 interface MenuItem {
   label: string;
@@ -136,14 +137,25 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
     </div>
 
     <div class="pm-right">
-      <a class="pm-cta" href={ctaHref}>
-        <svg class="pm-cta-icon" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"/></svg>
-        {/* Wrapped so the narrow bar can take the label out of the flow without
-            taking it out of the accessible name — see `.pm-cta-label` below. A
-            bare text node has nothing to hang that rule on. */}
-        <span class="pm-cta-label">{ctaLabel}</span>
-        <svg class="pm-cta-caret" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"/></svg>
-      </a>
+      {/* THE CTA IS `NugetButton`, and Figma says so: node 790:1177 — the
+          Default variant of this very component — contains `790:2393`, an
+          INSTANCE of `button-Nuget` at md with its Download Count layer hidden.
+          The bar hand-drew the same pill until 2026-08-19 and had drifted off
+          the node on two counts, both measured before this changed:
+            width  183.64 against the node's 187.00. The 3px is exactly the
+                   caret: `.pm-cta-caret` was a raw 9x6 glyph beside the flat
+                   `gap-xs`, where the node centres an 8.745x5.271 vector in a
+                   16px box with `spacing-micro` beside it. 16 - 9 - (8 - 4) = 3.
+                   Composed it renders 186.64, and the 0.36 left over is text
+                   measurement — the node's label run is 95, ours is 94.64.
+            ring   a 2px `--color-border-focus` outline, which resolves to
+                   #2693EC: a BLUE ring on a pink button. NugetButton carries
+                   `--shadow-focus-magenta`, which its source records as the
+                   node's ring exactly.
+          Composing also deleted the second copy of two SVG paths and left
+          `--color-text-on-primary` with no users at all — `.pm-cta` was the only
+          one in the library, which settles a question that was open. */}
+      <NugetButton size="md" href={ctaHref} label={ctaLabel} />
 
       {/* The centre group needs 769px of bar to lay out, and below that it was
           simply `display: none` — the whole product menu gone with nothing in
@@ -250,14 +262,13 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
   .pm-util:hover { border-color: var(--color-border-strong); }
   .pm-util:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 
+  /* `position: relative` so the narrow-width label below clips against the pill
+     rather than against whatever positioned ancestor happens to be above it. The
+     pill itself is NugetButton now and brings its own fill, height, padding,
+     radius, type and focus ring — this is the one thing the bar still says about
+     it, and it is a containing block, not a look. */
   .pm-right { display: flex; align-items: center; justify-content: flex-end; flex: 1 0 0; min-width: 0; }
-  /* `position: relative` so the narrow-width label clips against the pill and
-     not against whatever positioned ancestor happens to be above it. */
-  .pm-cta { display: inline-flex; align-items: center; gap: var(--spacing-xs); height: 48px; padding: 0 var(--spacing-xl); background: var(--color-primary); border-radius: var(--rounded-full); font-size: var(--font-size-sm); font-weight: var(--fw-btn); line-height: var(--leading-4); color: var(--color-text-on-primary); text-decoration: none; white-space: nowrap; position: relative; }
-  .pm-cta:hover { background: var(--color-primary-hover); }
-  .pm-cta:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
-  .pm-cta-icon { width: 16px; height: 16px; flex-shrink: 0; }
-  .pm-cta-caret { width: 9px; height: 6px; flex-shrink: 0; }
+  .pm-right > a { position: relative; }
 
   .pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-heading); cursor: pointer; }
   .pm-burger:hover { color: var(--color-primary); }
@@ -337,7 +348,31 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      accessible name and the pill is still "Start for Free" to a screen reader. */
   @media (max-width: 433.98px) {
     .pm-brand > .pm-caret { display: none; }
-    .pm-cta-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  }
+</style>
+
+<!--
+  THE OTHER HALF OF THAT BREAKPOINT, and it has to be global. The label is
+  NugetButton's, and Astro's scoping stamps a different `data-astro-cid` on that
+  component's elements than on this one's — so a scoped `.pm-right
+  [data-part='label']` compiles to a selector requiring THIS component's id on
+  the label and matches nothing. Measured, not guessed: with the rule scoped, the
+  label read `position: static` at 320/375/433 and the bar's content was cut at
+  391px inside 320.
+
+  `is:global` rather than `:global()`, the same choice FlyoutMenu records: the
+  docs page carries every rule verbatim for check:parity, and `:global()` is not
+  a real pseudo-class, so the browser would drop the whole rule there — costing
+  the docs page exactly the behaviour this rule exists to show.
+
+  Kept to one selector, under `.pm-right`, inside the media query. The rule stays
+  HERE rather than in NugetButton because 434 is this bar's number — brand + CTA
+  + burger — and a button has no business owning a breakpoint measured from a
+  layout it is only a part of. Ball's call, 2026-08-19.
+-->
+<style is:global>
+  @media (max-width: 433.98px) {
+    .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   }
 </style>
 

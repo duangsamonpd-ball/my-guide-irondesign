@@ -208,6 +208,19 @@ Props: `size` (`lg` | `md`, default `lg`), `label` (default `Free NuGet Download
 `subtext`, `trailingIcon` (default `true`), `disabled`, `type`, `href` (renders an
 `<a>` instead of `<button>`), `class`.
 
+**One published part: `[data-part="label"]`.** Every class in this component is a
+Tailwind utility, and utilities are not a contract — they change when the markup
+does, which is how four page-side overrides in a consuming app went dead silently
+once. So the label carries a stable attribute instead, and a composing layout may
+write CSS against it. `ProductMenu` is the first caller: below 434px its bar
+cannot fit the brand and the full pill, so it takes the label out of flow (a
+clipped 1px box, not `display: none`, so the link keeps its accessible name) and
+the pill goes 186.64px → 88px. That breakpoint stays in `ProductMenu`, because it
+was measured from that bar — brand + CTA + burger — not from this button.
+
+Reaching for anything else in here is reaching for a utility class, and it will
+break. If you need another part named, ask for one.
+
 **Its own component rather than a seventh `Button` variant**, because Figma
 models it as a separate frame (`277:372`, `button-Nuget`) beside the button set
 (`231:1406`) — and the shape agrees, since a stacked label plus install count,
@@ -708,8 +721,22 @@ Every Figma variable on this component already had a system counterpart, so it
 introduced **no new tokens** — `surface/card-alt` → `--color-bg-card-alt`,
 `border/strong` → `--color-border-strong`, `neutral/50` → `--neutral-50`, and so
 on. Menu items use Figma's "Typography/UI/Button large" style (`--fw-btn-lg` /
-`--font-size-base`); the CTA uses "Typography/UI/Button default" (`--fw-btn` /
-`--font-size-sm` / `--leading-4`).
+`--font-size-base`); the CTA is a [`NugetButton`](#nugetbuttonastro) at `size="md"`,
+which brings that style with it.
+
+**The CTA is a composed `NugetButton`, and Figma says it should be**: node
+`790:1177` — the Default variant of this component — contains `790:2393`, an
+instance of `button-Nuget` at `md` with its Download Count layer hidden. It was
+hand-drawn here until 2026-08-19 and had drifted twice: 183.64px against the
+node's 187.00 (the 3px is the caret — a raw 9×6 glyph beside a flat 8px gap, where
+the node centres an 8.745×5.271 vector in a 16px box with 4px beside it), and a
+2px `--color-border-focus` outline, which resolves to `#2693EC` — a blue ring on a
+pink button. Composed it renders 186.64, and the 0.36 is text measurement.
+
+`ctaLabel` and `ctaHref` still belong to this component; the label's narrow-width
+collapse is written here against `NugetButton`'s published `[data-part="label"]`,
+in an `is:global` block, because Astro's scoping cannot reach into a child
+component's markup.
 
 Three things worth knowing before you change it:
 

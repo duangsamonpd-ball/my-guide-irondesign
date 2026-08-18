@@ -802,7 +802,8 @@
       "docs": "docs/component-productmenu.html",
       "interactive": true,
       "figmaNodes": [
-        "790:4778"
+        "790:4778",
+        "790:1177"
       ],
       "props": [
         {

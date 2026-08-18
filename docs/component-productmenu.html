@@ -64,6 +64,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="utilities.css">
   <script src="preview-frame.js"></script>
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
@@ -104,11 +105,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .pm-util:hover { border-color: var(--color-border-strong); }
 .pm-util:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 .pm-right { display: flex; align-items: center; justify-content: flex-end; flex: 1 0 0; min-width: 0; }
-.pm-cta { display: inline-flex; align-items: center; gap: var(--spacing-xs); height: 48px; padding: 0 var(--spacing-xl); background: var(--color-primary); border-radius: var(--rounded-full); font-size: var(--font-size-sm); font-weight: var(--fw-btn); line-height: var(--leading-4); color: var(--color-text-on-primary); text-decoration: none; white-space: nowrap; position: relative; }
-.pm-cta:hover { background: var(--color-primary-hover); }
-.pm-cta:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
-.pm-cta-icon { width: 16px; height: 16px; flex-shrink: 0; }
-.pm-cta-caret { width: 9px; height: 6px; flex-shrink: 0; }
+.pm-right > a { position: relative; }
 .pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-heading); cursor: pointer; }
 .pm-burger:hover { color: var(--color-primary); }
 .pm-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
@@ -127,7 +124,8 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 @media (max-width: 1057.98px) { .pm-utils { display: none; } .pm-menu { overflow-x: auto; scrollbar-width: none; } .pm-menu::-webkit-scrollbar { display: none; } .pm-brand, .pm-right { flex: 1 0 auto; } }
 @media (max-width: 1042.98px) { .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
 @media (max-width: 768px) { .pm-burger { display: inline-flex; } .pm-center { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border); } .pm.pm-menu-open .pm-center { display: flex; } .pm-menu { flex-direction: column; align-items: stretch; overflow-x: visible; } .pm-menu li { display: flex; } .pm-item { justify-content: space-between; width: 100%; padding: var(--spacing-sm) 0; } .pm-item.is-active { background: none; border-left-color: transparent; border-right-color: transparent; } }
-@media (max-width: 433.98px) { .pm-brand > .pm-caret { display: none; } .pm-cta-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
+@media (max-width: 433.98px) { .pm-brand > .pm-caret { display: none; } }
+@media (max-width: 433.98px) { .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
 @media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} }
   </style>
 </head>
@@ -242,10 +240,16 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
               </div>
             </div>
             <div class="pm-right">
-              <a class="pm-cta" href="#">
-                <svg class="pm-cta-icon" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
-                <span class="pm-cta-label">Start for Free</span>
-                <svg class="pm-cta-caret" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+              <a href="#" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl py-xs gap-0">
+                <span class="inline-flex items-center gap-xs">
+                  <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+                  <span class="inline-flex items-center gap-micro">
+                    <span data-part="label" class="text-btn font-btn leading-btn tracking-[0]">Start for Free</span>
+                    <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                      <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                    </span>
+                  </span>
+                </span>
               </a>
               <button type="button" class="pm-burger" aria-expanded="false" aria-controls="pmmenu-demo-1" aria-label="Product menu">
                 <svg class="pm-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
@@ -253,6 +257,23 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
             </div>
           </div>
         </nav>
+        <!--
+        THE OTHER HALF OF THAT BREAKPOINT, and it has to be global. The label is
+        NugetButton's, and Astro's scoping stamps a different `data-astro-cid` on that
+        component's elements than on this one's — so a scoped `.pm-right
+        [data-part='label']` compiles to a selector requiring THIS component's id on
+        the label and matches nothing. Measured, not guessed: with the rule scoped, the
+        label read `position: static` at 320/375/433 and the bar's content was cut at
+        391px inside 320.
+        `is:global` rather than `:global()`, the same choice FlyoutMenu records: the
+        docs page carries every rule verbatim for check:parity, and `:global()` is not
+        a real pseudo-class, so the browser would drop the whole rule there — costing
+        the docs page exactly the behaviour this rule exists to show.
+        Kept to one selector, under `.pm-right`, inside the media query. The rule stays
+        HERE rather than in NugetButton because 434 is this bar's number — brand + CTA
+        + burger — and a button has no business owning a breakpoint measured from a
+        layout it is only a part of. Ball's call, 2026-08-19.
+        -->
         <script type="module">function e(e=document){e.querySelectorAll(`.pm:not([data-pm-init])`).forEach(e=>{let t=e.querySelector(`.pm-burger`),n=e.querySelector(`.pm-center`);if(!t||!n)return;e.dataset.pmInit=`1`;let r=n=>{e.classList.toggle(`pm-menu-open`,n),t.setAttribute(`aria-expanded`,String(n))},i=n=>{e.classList.contains(`pm-menu-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`pm-menu-open`))),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)}),document.addEventListener(`click`,t=>{e.contains(t.target)||i(!1)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
         <!-- /demo:default -->
       </div><div class="frame-cap">variant="default"</div></div>
@@ -308,10 +329,16 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
               </div>
             </div>
             <div class="pm-right">
-              <a class="pm-cta" href="#">
-                <svg class="pm-cta-icon" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
-                <span class="pm-cta-label">Start for Free</span>
-                <svg class="pm-cta-caret" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+              <a href="#" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-md)] px-xl py-xs gap-0">
+                <span class="inline-flex items-center gap-xs">
+                  <svg class="size-[16px] shrink-0" viewBox="0 0 16.0002 16.0004" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1003 16.0004H6.90013C4.74623 16.0004 3.00009 14.2544 3.00009 12.1005V6.90029C3.00009 4.74632 4.74623 3.00031 6.90013 3.00031H12.1003C14.2542 3.00031 16.0002 4.74632 16.0002 6.90029V12.1005C16.0002 14.2544 14.2542 16.0004 12.1003 16.0004ZM6.70218 5.00034C5.76214 5.00034 5.00012 5.76242 5.00012 6.70243C5.00012 7.64249 5.76214 8.40445 6.70218 8.40445C7.64221 8.40445 8.40423 7.64249 8.40423 6.70243C8.40423 5.76242 7.64221 5.00034 6.70218 5.00034ZM11.8743 9.14859C10.3688 9.14859 9.14837 10.369 9.14837 11.8745C9.14837 13.38 10.3688 14.6005 11.8743 14.6005C13.3798 14.6005 14.6002 13.38 14.6002 11.8745C14.6002 10.369 13.3798 9.14859 11.8743 9.14859ZM1.39994 2.80005C0.626816 2.80005 0 2.17326 0 1.40004C0 0.626797 0.626816 0 1.39994 0C2.17314 0 2.79994 0.626797 2.79994 1.40004C2.79994 2.17326 2.17314 2.80005 1.39994 2.80005Z"></path></svg>
+                  <span class="inline-flex items-center gap-micro">
+                    <span data-part="label" class="text-btn font-btn leading-btn tracking-[0]">Start for Free</span>
+                    <span class="inline-flex size-[16px] shrink-0 items-center justify-center">
+                      <svg class="w-[8.745px] h-[5.271px]" viewBox="0 0 8.745 5.27051" fill="currentColor" aria-hidden="true"><path d="M3.75727 5.00391L0.257268 1.50391C0.0111746 1.25781 -0.0708567 0.875 0.065862 0.546875C0.202581 0.21875 0.530706 0 0.886175 0H7.88617C8.24164 0 8.54242 0.21875 8.67914 0.546875C8.81586 0.875 8.73383 1.25781 8.48774 1.50391L4.98774 5.00391C4.65961 5.35938 4.08539 5.35938 3.75727 5.00391Z"></path></svg>
+                    </span>
+                  </span>
+                </span>
               </a>
               <button type="button" class="pm-burger" aria-expanded="false" aria-controls="pmmenu-demo-1" aria-label="Product menu">
                 <svg class="pm-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
@@ -367,6 +394,23 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
             </div>
           </div>
         </nav>
+        <!--
+        THE OTHER HALF OF THAT BREAKPOINT, and it has to be global. The label is
+        NugetButton's, and Astro's scoping stamps a different `data-astro-cid` on that
+        component's elements than on this one's — so a scoped `.pm-right
+        [data-part='label']` compiles to a selector requiring THIS component's id on
+        the label and matches nothing. Measured, not guessed: with the rule scoped, the
+        label read `position: static` at 320/375/433 and the bar's content was cut at
+        391px inside 320.
+        `is:global` rather than `:global()`, the same choice FlyoutMenu records: the
+        docs page carries every rule verbatim for check:parity, and `:global()` is not
+        a real pseudo-class, so the browser would drop the whole rule there — costing
+        the docs page exactly the behaviour this rule exists to show.
+        Kept to one selector, under `.pm-right`, inside the media query. The rule stays
+        HERE rather than in NugetButton because 434 is this bar's number — brand + CTA
+        + burger — and a button has no business owning a breakpoint measured from a
+        layout it is only a part of. Ball's call, 2026-08-19.
+        -->
         <!-- /demo:submenu -->
       </div><div class="frame-cap">variant="submenu" · subLead · showMenuItems2</div></div>
     </div>
@@ -427,7 +471,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <tr><td class="prop">border/strong</td><td class="token">--color-border-strong</td><td class="val">#CAD5E2</td><td>Outer bottom rule</td></tr>
         <tr><td class="prop">brand/primary · button/primary</td><td class="token">--color-primary</td><td class="val">#E01A59</td><td>Active item, CTA fill, wordmark suffix</td></tr>
         <tr><td class="prop">text/default/heading</td><td class="token">--color-text-heading</td><td class="val">#171717</td><td>Menu labels, chip labels</td></tr>
-        <tr><td class="prop">text/default/on-action</td><td class="token">--color-text-on-primary</td><td class="val">#FFFFFF</td><td>CTA label</td></tr>
+        <tr><td class="prop">text/default/on-action</td><td class="token">--color-primary-on</td><td class="val">#FFFFFF</td><td>CTA label (via NugetButton)</td></tr>
         <tr><td class="prop">neutral/50</td><td class="token">--neutral-50</td><td class="val">#FAFAFA</td><td>Sub tier fill</td></tr>
         <tr><td class="prop">slate/300</td><td class="token">--slate-300</td><td class="val">#CAD5E2</td><td>Sub tier dividers</td></tr>
         <tr><td class="prop">Typography/UI/Button large</td><td class="token">--fw-btn-lg · --font-size-base</td><td class="val">700 / 16px</td><td>Top menu items</td></tr>
@@ -484,7 +528,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         &lt;<span class="c-tag">button</span> <span class="c-attr">class</span>=<span class="c-str">"pm-util"</span> <span class="c-attr">aria-label</span>=<span class="c-str">"Search"</span>&gt;…&lt;/<span class="c-tag">button</span>&gt;
       &lt;/<span class="c-tag">div</span>&gt;
     &lt;/<span class="c-tag">div</span>&gt;
-    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"pm-right"</span>&gt;&lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"pm-cta"</span>&gt;Start for Free&lt;/<span class="c-tag">a</span>&gt;&lt;/<span class="c-tag">div</span>&gt;
+    &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"pm-right"</span>&gt;<span class="c-comment">&lt;!-- NugetButton size="md" --&gt;</span>&lt;/<span class="c-tag">div</span>&gt;
   &lt;/<span class="c-tag">div</span>&gt;
 &lt;/<span class="c-tag">nav</span>&gt;</pre>
         </div>
