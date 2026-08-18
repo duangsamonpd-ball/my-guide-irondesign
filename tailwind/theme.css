@@ -429,6 +429,20 @@
   --text-7xl: 64px;                           /* Figma size/7xl — was 60 until 2026-08-06 */
   --text-8xl: 72px;
   --text-9xl: 96px;
+  --text-2xs--line-height: var(--leading-3);  /* 12px — no role uses 2xs; tightest rung that clears 10px */
+  --text-xs--line-height: var(--leading-4);   /* 16px — caption-sm 12/16 */
+  --text-sm--line-height: var(--leading-5);   /* 20px — caption · label 14/20 */
+  --text-base--line-height: var(--leading-7); /* 28px — body · body-title 16/28 */
+  --text-lg--line-height: var(--leading-7);   /* 28px — body-lg · title-lg 18/28 */
+  --text-xl--line-height: var(--leading-7);   /* 28px — h4 20/28 */
+  --text-2xl--line-height: var(--leading-8);  /* 32px — h3 24/32 */
+  --text-3xl--line-height: var(--leading-9);  /* 36px — h2 30/36 */
+  --text-4xl--line-height: var(--leading-10); /* 40px — no role uses 4xl */
+  --text-5xl--line-height: var(--leading-12); /* 48px — h1 40/48 */
+  --text-6xl--line-height: var(--leading-12); /* 48px — h1-hero 48/48 */
+  --text-7xl--line-height: 1;                 /* 64px — display, no role */
+  --text-8xl--line-height: 1;                 /* 72px — display, no role */
+  --text-9xl--line-height: 1;                 /* 96px — display, no role */
   --text-h1-hero: var(--text-6xl);            /* 48px — hero modifier on H1, homepage only */
   --text-h1: var(--text-5xl);                 /* 40px — page title, 1 per page */
   --text-h2: var(--text-3xl);                 /* 30px — section heading */
@@ -669,6 +683,20 @@
   --font-size-7xl: var(--text-7xl);
   --font-size-8xl: var(--text-8xl);
   --font-size-9xl: var(--text-9xl);
+  --font-size-2xs--line-height: var(--text-2xs--line-height);
+  --font-size-xs--line-height: var(--text-xs--line-height);
+  --font-size-sm--line-height: var(--text-sm--line-height);
+  --font-size-base--line-height: var(--text-base--line-height);
+  --font-size-lg--line-height: var(--text-lg--line-height);
+  --font-size-xl--line-height: var(--text-xl--line-height);
+  --font-size-2xl--line-height: var(--text-2xl--line-height);
+  --font-size-3xl--line-height: var(--text-3xl--line-height);
+  --font-size-4xl--line-height: var(--text-4xl--line-height);
+  --font-size-5xl--line-height: var(--text-5xl--line-height);
+  --font-size-6xl--line-height: var(--text-6xl--line-height);
+  --font-size-7xl--line-height: var(--text-7xl--line-height);
+  --font-size-8xl--line-height: var(--text-8xl--line-height);
+  --font-size-9xl--line-height: var(--text-9xl--line-height);
   --font-size-h1-hero: var(--text-h1-hero);
   --font-size-h1: var(--text-h1);
   --font-size-h2: var(--text-h2);

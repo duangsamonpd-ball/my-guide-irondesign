@@ -448,6 +448,52 @@
   --font-size-8xl:  72px;
   --font-size-9xl:  96px;
 
+  /* ── Font-size scale — the paired line-height Tailwind reads ──────────────
+     Tailwind v4 emits `text-<step>` as font-size PLUS
+     `line-height: var(--tw-leading, var(--text-<step>--line-height))`, and it
+     takes that second half from ITS OWN theme unless we declare one. Overriding
+     the sizes above without declaring these left every numeric size utility
+     pairing our px size with Tailwind's ratio, which no gate here could see:
+     this repo's Tailwind emits no utilities for itself, and every component that
+     uses one of these classes also writes an explicit `leading-*` beside it, so
+     the wrong half was never on screen. It reaches consumers, and it reached the
+     ROI calculator.
+
+     MEASURED IN CHROME against a stylesheet compiled from this theme, not read
+     off Tailwind's published defaults. Nine of the eleven role-bearing steps
+     already agreed by coincidence — `text-sm` came out at exactly 20px, the
+     caption/label leading, so the "every size is 1–2px short" reading of this
+     was wrong. Two did not, and one set nothing at all:
+
+       --text-base   24px  where body / body-title are 16/28   (4px short)
+       --text-5xl    40px  where h1 is 40/48                   (8px short — the
+                           step was re-pointed 48px → 40px on 2026-08-06 and
+                           Tailwind's ratio for `5xl` is a flat 1)
+       --text-2xs    NOTHING. `2xs` is not a Tailwind step, so no pair existed to
+                           inherit and the utility emitted font-size alone: 10px
+                           text taking its line-height from whatever encloses it.
+
+     The other eleven are pinned at the value they already computed to, so the
+     scale stops depending on a table in someone else's package. Every step a
+     content role uses takes that role's leading; the five with no role
+     (2xs, 4xl, 7xl–9xl) take the ladder rung they already sat on, and `1` for
+     the three display steps is the same single-line value --line-height-btn-lg
+     and --line-height-nav already use. */
+  --font-size-2xs--line-height:  var(--leading-3);   /* 12px — no role uses 2xs; tightest rung that clears 10px */
+  --font-size-xs--line-height:   var(--leading-4);   /* 16px — caption-sm 12/16 */
+  --font-size-sm--line-height:   var(--leading-5);   /* 20px — caption · label 14/20 */
+  --font-size-base--line-height: var(--leading-7);   /* 28px — body · body-title 16/28 */
+  --font-size-lg--line-height:   var(--leading-7);   /* 28px — body-lg · title-lg 18/28 */
+  --font-size-xl--line-height:   var(--leading-7);   /* 28px — h4 20/28 */
+  --font-size-2xl--line-height:  var(--leading-8);   /* 32px — h3 24/32 */
+  --font-size-3xl--line-height:  var(--leading-9);   /* 36px — h2 30/36 */
+  --font-size-4xl--line-height:  var(--leading-10);  /* 40px — no role uses 4xl */
+  --font-size-5xl--line-height:  var(--leading-12);  /* 48px — h1 40/48 */
+  --font-size-6xl--line-height:  var(--leading-12);  /* 48px — h1-hero 48/48 */
+  --font-size-7xl--line-height:  1;                  /* 64px — display, no role */
+  --font-size-8xl--line-height:  1;                  /* 72px — display, no role */
+  --font-size-9xl--line-height:  1;                  /* 96px — display, no role */
+
   /* ── Font sizes — content scale (semantic → primitive) ── */
   --font-size-h1-hero:  var(--font-size-6xl);   /* 48px — hero modifier on H1, homepage only */
   --font-size-h1:       var(--font-size-5xl);   /* 40px — page title, 1 per page */
