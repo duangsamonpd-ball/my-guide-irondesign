@@ -19,7 +19,7 @@
  *     to it by construction.
  *   · `preview.mjs --all` judges colour and images, not geometry.
  *
- * So this sweeps every docs page and asserts four things about the boxes. Each
+ * So this sweeps every docs page and asserts five things about the boxes. Each
  * is ABSOLUTE — it needs no previous rendering to compare against, which is the
  * whole point, because the faults it exists for arrive with new content.
  *
@@ -27,8 +27,15 @@
  *   OVERLAP    two unrelated in-flow boxes paint on top of each other
  *   ESCAPES    a box sticks out of its container's padding box
  *   WORD       a text run cannot fit its box even broken at every space
+ *   STRAY      a section header sits outside the page's one content column
  *
- * The four are not interchangeable, and the real faults are why each is here:
+ * The first four were each derived from a fault someone had already found, which
+ * is exactly why they all missed the next one. STRAY asserts an INVARIANT rather
+ * than hunting a shape, and was added for that reason — its full account is at
+ * `strays()` below, and it is the one to read before changing any of this.
+ *
+ * The five are not interchangeable, and the real faults are why the first four
+ * are here:
  *
  *   OVERLAP — the 1.5px border card on `04-borders.html` had been nested INSIDE
  *   the 1px card by a bad insertion. It rendered 199×241 across two neighbours
@@ -53,11 +60,15 @@
  * ARMING. Per CLAUDE.md, a check that cannot fail on the machine that wrote it
  * is not a check. Every page here is armed before it is believed: a token must
  * resolve, the docs font must genuinely render (measured as a differential, so
- * a local Montserrat install cannot answer for the page), and then all four
- * detectors are FAULT-INJECTED into the live page — an overlapping box, an
- * escaping box and an unfittable word are added, each must be SEEN, and each
- * must stop being seen when removed. A page that will not arm exits non-zero
- * instead of reporting the pass it did not earn.
+ * a local Montserrat install cannot answer for the page), and then FOUR of the
+ * five detectors are FAULT-INJECTED into the live page — an overlapping box, an
+ * escaping box, an unfittable word and a stray section header are added, each
+ * must be SEEN, and each must stop being seen when removed. A page that will not
+ * arm exits non-zero instead of reporting the pass it did not earn.
+ *
+ * H-SCROLL is the one NOT planted on the live page; it is armed on the self-test
+ * fixture only (the `hscroll:` rows in `selfTest`). Nothing measured here says
+ * it could not also be planted live — the asymmetry is recorded, not justified.
  *
  * Run:        node scripts/check-layout.mjs
  *             node scripts/check-layout.mjs 04-borders --widths 1440
@@ -200,10 +211,10 @@ const WANT_FAMILY = DOCS_BODY_FONT.split(',')[0].trim().replace(/^['"]|['"]$/g, 
 /* ── 3. the self-test fixture ─────────────────────────────────────────────── */
 
 /**
- * One fixture, four planted faults and a clean control for each. It is served
- * with the local font link so the arming has a real family to find — a fixture
- * that fails to arm would make every detector below look like it passed for a
- * reason that has nothing to do with the detector.
+ * One fixture, five planted faults — one per detector — and a clean control for
+ * each. It is served with the local font link so the arming has a real family to
+ * find; a fixture that fails to arm would make every detector below look like it
+ * passed for a reason that has nothing to do with the detector.
  *
  * The planted faults are the real ones, reduced:
  *   · `#plant-overlap` is a nephew painting across its uncle, exactly the
@@ -213,6 +224,11 @@ const WANT_FAMILY = DOCS_BODY_FONT.split(',')[0].trim().replace(/^['"]|['"]$/g, 
  *   · `#plant-escape` is a 900px table in a 300px box.
  *   · `#plant-word` is a 90px cell holding one 20-character token name, which
  *     is the typography cell to the character.
+ *   · `#plant-hscroll` pushes the document past the viewport. This is the only
+ *     detector armed HERE and not on the live pages as well, so this fixture is
+ *     the whole of its arming.
+ *   · `#plant-stray` is a fourth section header outside the 400px column the
+ *     other three share — the shape an extra `</div>` produces.
  */
 const fixture = ({ overlap = false, escape = false, word = false, hscroll = false, stray = false, font = true } = {}) => `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>layout self-test</title>
@@ -743,9 +759,10 @@ async function assertFont(want) {
 }
 
 /**
- * The part that makes the numbers above worth reading. Three faults are added
- * to the LIVE page — not to a fixture — each must be seen, and the page must go
- * back to its original finding count when they are removed.
+ * The part that makes the numbers above worth reading. Four faults are added to
+ * the LIVE page — not to a fixture — each must be seen, and the page must go
+ * back to its original finding count when they are removed. The fifth detector,
+ * H-SCROLL, is armed on the fixture only; see the file header.
  *
  * The overlap plant is a nephew, deliberately: it is appended inside an
  * existing box and sized to cross that box's siblings. If the detector only
@@ -898,7 +915,7 @@ async function selfTest(context, origin) {
      only ever be observed true — the exact unfalsifiable shape that let ten
      components be measured in Times. */
   rows.push(['arming: a fixture with NO font rule is refused', !nofont.font.uses]);
-  rows.push(['arming: all four detectors were fault-injected and seen', faulty.armed.armed === true]);
+  rows.push(['arming: the four live-page plants were each seen (hscroll is fixture-armed)', faulty.armed.armed === true]);
   rows.push(['arming: the injected faults clear back down', faulty.armed.clearsDown === true]);
   rows.push(['no page errors on the fixture', faulty.pageErrors.length === 0]);
 
@@ -1022,7 +1039,7 @@ try {
       console.log(red(`\n✖  ${n} layout fault(s) on ${hits.length} page(s).\n`));
       ok = false;
     } else if (ok) {
-      console.log(green(`\n✔  ${PAGES.length} pages × ${WIDTHS.length} widths — nothing overlaps, escapes, or fails to fit.\n`));
+      console.log(green(`\n✔  ${PAGES.length} pages × ${WIDTHS.length} widths — nothing scrolls sideways, overlaps, escapes, fails to fit, or sits outside its content column.\n`));
     }
   }
 } finally {
