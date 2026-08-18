@@ -468,14 +468,26 @@
        --text-2xs    NOTHING. `2xs` is not a Tailwind step, so no pair existed to
                            inherit and the utility emitted font-size alone: 10px
                            text taking its line-height from whatever encloses it.
+                           Its 12px below is NOT a made-up value, though this
+                           comment said so for a day: `badge-sm` resolves to
+                           `2xs` and carries --line-height-badge-sm 12px, from
+                           Figma's Typography/UI/badge-small. check-type-scale's
+                           derived role map is what caught the claim.
 
      The other eleven are pinned at the value they already computed to, so the
      scale stops depending on a table in someone else's package. Every step a
      content role uses takes that role's leading; the five with no role
-     (2xs, 4xl, 7xl–9xl) take the ladder rung they already sat on, and `1` for
+     (4xl, 7xl–9xl) take the ladder rung they already sat on, and `1` for
      the three display steps is the same single-line value --line-height-btn-lg
-     and --line-height-nav already use. */
-  --font-size-2xs--line-height:  var(--leading-3);   /* 12px — no role uses 2xs; tightest rung that clears 10px */
+     and --line-height-nav already use.
+
+     `check:type-scale` holds all of this: every step paired, every pair a rung of
+     --leading-* or `1`, and every step a role uses agreeing with that role. It
+     derives the step set and the role map from this file rather than restating
+     them, and it also reads docs/utilities.css — because that stylesheet inlines
+     the theme variables its utilities reference, so a change here with no new
+     class still leaves it stale. */
+  --font-size-2xs--line-height:  var(--leading-3);   /* 12px — badge-sm 10/12 */
   --font-size-xs--line-height:   var(--leading-4);   /* 16px — caption-sm 12/16 */
   --font-size-sm--line-height:   var(--leading-5);   /* 20px — caption · label 14/20 */
   --font-size-base--line-height: var(--leading-7);   /* 28px — body · body-title 16/28 */

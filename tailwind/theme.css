@@ -429,7 +429,7 @@
   --text-7xl: 64px;                           /* Figma size/7xl — was 60 until 2026-08-06 */
   --text-8xl: 72px;
   --text-9xl: 96px;
-  --text-2xs--line-height: var(--leading-3);  /* 12px — no role uses 2xs; tightest rung that clears 10px */
+  --text-2xs--line-height: var(--leading-3);  /* 12px — badge-sm 10/12 */
   --text-xs--line-height: var(--leading-4);   /* 16px — caption-sm 12/16 */
   --text-sm--line-height: var(--leading-5);   /* 20px — caption · label 14/20 */
   --text-base--line-height: var(--leading-7); /* 28px — body · body-title 16/28 */

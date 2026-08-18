@@ -119,11 +119,31 @@ A token starts in `tokens/tokens.w3c.json`, is written by hand into
 Adding it to the JSON alone is a **warning**, not an error — the build stays
 green with the token half-added.
 
+**A token change makes `docs/utilities.css` stale too, with no new class
+anywhere.** The row above reads "the classes components actually use", which is
+what decides the *rules* in that file — but Tailwind also inlines every theme
+variable those rules reference, so editing a value in `tailwind/tokens.css`
+changes the compiled stylesheet even when no markup moved. `build:theme` does not
+write it and `check:theme` does not look at it: `check:utilities` is the only gate
+that says so, and it says it by recompiling. **Editing a token means running both
+rebuilds** — `npm run build:theme && npm run build:utilities`. Skipping the second
+put a red commit on `main` on 2026-08-18, on a tree whose `check:theme` was green.
+
 ## Things that fail silently
 
 - **Never hardcode a colour** in a component — hex, `rgb()`, `hsl()`. Use a
   semantic token, or `color-mix()` over one so it follows into dark mode.
   `check:tokens` enforces this.
+- **Overriding a `--text-*` size without its `--text-*--line-height` leaves
+  Tailwind supplying the other half.** `text-<step>` emits font-size AND
+  line-height, and the second reads `var(--text-<step>--line-height)` — from
+  Tailwind's theme if not from ours. Nothing here renders the consequence: this
+  repo's Tailwind emits no utilities for itself, and every component that uses one
+  of these classes writes an explicit `leading-*` beside it, which wins. It
+  reaches consumers. `check:type-scale` enforces the pairing, that each pair is a
+  rung of `--leading-*` or the single-line `1`, and that a step a role uses agrees
+  with that role — deriving both the step set and the role map from `tokens.css`
+  rather than restating them.
 - **A shared module in `astro-components/*.ts` must be named in two scripts** —
   `build-utilities.mjs` (`SHARED_TS`) compiles its classes, `check-component-vars.mjs`
   validates them. Miss the first and the utilities vanish from the stylesheet

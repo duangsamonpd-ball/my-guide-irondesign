@@ -27,6 +27,19 @@ jobs:
       - name: Check for token drift
         run: node scripts/check-token-drift.mjs
 
+      # A `--text-*` size overridden without its paired `--text-*--line-height`
+      # leaves Tailwind supplying the other half, and NOTHING here renders the
+      # consequence — this repo's Tailwind emits no utilities for itself, and
+      # every component using one of these classes writes an explicit `leading-*`
+      # that wins. It only shows up in a consuming app, which is where the report
+      # came from. Self-test first, for the usual reason: a checker that matches
+      # nothing reports a clean scale.
+      - name: Check the type-scale checker can fail
+        run: node scripts/check-type-scale.mjs --self-test
+
+      - name: Check every type step is paired with its line-height
+        run: node scripts/check-type-scale.mjs
+
       # Each .astro <style> block is the source of truth; its docs demo page
       # must carry the same CSS. Also plain Node, no install.
       - name: Check component ↔ docs CSS parity
