@@ -127,7 +127,10 @@ changes the compiled stylesheet even when no markup moved. `build:theme` does no
 write it and `check:theme` does not look at it: `check:utilities` is the only gate
 that says so, and it says it by recompiling. **Editing a token means running both
 rebuilds** — `npm run build:theme && npm run build:utilities`. Skipping the second
-put a red commit on `main` on 2026-08-18, on a tree whose `check:theme` was green.
+committed a red tree to local `main` on 2026-08-18, on a tree whose `check:theme`
+was green; it was amended before the push, so nothing red reached `origin` — and
+the only reason is that the gate got run again before pushing rather than once at
+the start.
 
 ## Things that fail silently
 
