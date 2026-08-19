@@ -238,7 +238,15 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      .tn-item then sits on that strut's baseline — about 1.4px below the brand
      lockup, which is a plain flex item and has no strut. This puts every label
      on one line. */
-  .tn-menu li { display: flex; align-items: center; }
+  /* `>` and not a descendant, and the difference is a bug that shipped. Since a
+     nav item can now hold a FlyoutMenu, the panel — and everything a consumer
+     slots into it — lives inside one of these <li>s. `.tn-menu li` therefore
+     reached every <li> in the mega-menu too: each product row became a flex ITEM
+     and shrank to its content, so the hover fill stopped 42px short of its
+     column (240 against 282, measured). A component may not style descendants it
+     does not own; the same rule that makes it publish [data-part] hooks instead
+     of classes. Every `.tn-menu li` below is a child selector for that reason. */
+  .tn-menu > li { display: flex; align-items: center; }
   .tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-dark-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
   /* Figma's `_Top nav iron` carries a Hover state: the SOFTWARE half turns brand
      pink while IRON stays white. Figma also swaps the mark for a two-tone version;
@@ -299,7 +307,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
        be unreadable. */
     .tn-menu { display: none; position: absolute; top: 40px; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--slate-800); }
     .tn.tn-menu-open .tn-menu { display: flex; }
-    .tn-menu li { padding: var(--spacing-xs) 0; }
+    .tn-menu > li { padding: var(--spacing-xs) 0; }
     /* Each row is its own hit target across the panel, so the caret sits at the
        end of the line rather than tight against the label as it does inline. */
     .tn-menu .tn-item { justify-content: space-between; width: 100%; }
@@ -311,9 +319,9 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      would simply lose them. Measured, and it is why 320/375/414 were the widths
      that broke when the trigger was first added: a 24px button and its gap went
      in without anything coming out. */
-  .tn-menu li.tn-menu-extra { display: none; }
+  .tn-menu > li.tn-menu-extra { display: none; }
   @media (max-width: 419.98px) {
-    .tn--has-menu .tn-menu li.tn-menu-extra { display: flex; }
+    .tn--has-menu .tn-menu > li.tn-menu-extra { display: flex; }
     .tn--has-menu .tn-right > .tn-item { display: none; }
     .tn--has-menu .tn-lang { display: none; }
   }

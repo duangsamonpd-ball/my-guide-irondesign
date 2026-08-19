@@ -172,8 +172,21 @@ const RAIL_EDGE = 'M0 0H22L1.56627 182.664C1.16954 186.21 1.16954 189.79 1.56627
 const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115.684 0.263739 119.025L11.7348 228V0Z';
 ---
 
+{/* An ::after ring, not a border and not an outline. Figma's stroke is `Inside`,
+    which costs the frame nothing there — the card is 1200x376 with the line
+    painted within it.
+
+    A real border cannot do that here: the panel's height comes from its content,
+    so `box-sizing` has nothing to subtract from and 1px a side made it 378.
+    An outline at `-1px` kept the box at 376 but only drew on three edges —
+    outlines paint in the parent's own layer, and the rail is a CHILD with a
+    background, so it covered the left edge. Both were measured before landing
+    here. An absolutely-positioned ring paints above every child, adds no layout,
+    and inherits the radius. */}
 <div
-  class:list={['pf flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden', className]}
+  class:list={['pf relative flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden',
+    'after:content-[""] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border after:border-border',
+    className]}
   data-part="panel"
 >
   {suite && (

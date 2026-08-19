@@ -1690,6 +1690,18 @@
 .placeholder\:text-text-placeholder::placeholder {
   color: var(--color-text-placeholder);
 }
+.after\:pointer-events-none::after {
+  content: var(--tw-content);
+  pointer-events: none;
+}
+.after\:absolute::after {
+  content: var(--tw-content);
+  position: absolute;
+}
+.after\:inset-0::after {
+  content: var(--tw-content);
+  inset: 0px;
+}
 .after\:size-\[6px\]::after {
   content: var(--tw-content);
   width: 6px;
@@ -1712,9 +1724,22 @@
   --tw-scale-z: 0%;
   scale: var(--tw-scale-x) var(--tw-scale-y);
 }
+.after\:rounded-\[inherit\]::after {
+  content: var(--tw-content);
+  border-radius: inherit;
+}
 .after\:rounded-full::after {
   content: var(--tw-content);
   border-radius: var(--radius-full);
+}
+.after\:border::after {
+  content: var(--tw-content);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+}
+.after\:border-border::after {
+  content: var(--tw-content);
+  border-color: var(--color-border);
 }
 .after\:bg-danger::after {
   content: var(--tw-content);
@@ -1734,6 +1759,10 @@
   content: var(--tw-content);
   --tw-duration: var(--duration-fast);
   transition-duration: var(--duration-fast);
+}
+.after\:content-\[\"\"\]::after {
+  --tw-content: "";
+  content: var(--tw-content);
 }
 .group-has-\[\:checked\]\:after\:scale-100:is(:where(.group):has(:is(:checked)) *)::after {
   content: var(--tw-content);

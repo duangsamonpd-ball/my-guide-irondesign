@@ -219,7 +219,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                       </button>
                       <div class="fm-panel fm-center fm-notch is-bare" data-part="panel" id="fm-demo-1">
                         <div class="fm-panel-inner">
-                          <div class="pf flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden" data-part="panel">
+                          <div class="pf relative flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden after:content-[&quot;&quot;] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border after:border-border" data-part="panel">
                             <div class="group/rail relative flex flex-col items-start justify-center shrink-0 box-border w-[264px] pl-md bg-no-repeat [background-size:100%_100%] max-[594.98px]:hidden" style="background-image: url(assets/flyout-rail-rainbow.svg)" data-part="rail">
                               <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
                                 <div class="absolute inset-0 mix-blend-multiply opacity-[0.4] transition-opacity duration-[var(--duration-base)] group-hover/rail:opacity-[0.7] group-focus-within/rail:opacity-[0.7] group-[.is-hover]/rail:opacity-[0.7]" style="background-image: linear-gradient(to bottom, var(--scrim-rail-from), var(--scrim-rail-to));"></div>
@@ -482,7 +482,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect-sub">The panel this exists to open, from Figma <code>FlyoutMenu-product</code>. 1200&times;376 at the canvas width, rendered by <code>astro-components/internal/ProductFlyout.astro</code> &mdash; internal, because it is the <i>content</i> of a panel rather than a control anyone should reach for, the same arrangement <a href="component-footer.html">Footer</a>&rsquo;s product row has. Below 594.98px the suite rail drops rather than squashing the products it exists to sell, and the columns fall from three to two to one on their own measured width rather than at a round breakpoint. The three category icons are absent on purpose: Figma sets them in Font Awesome 7 <b>Pro</b>, which cannot ship, so there is nothing correct to draw yet.</div>
       <div class="frame">
         <!-- demo:product -->
-        <div class="pf flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden" data-part="panel">
+        <div class="pf relative flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden after:content-[&quot;&quot;] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border after:border-border" data-part="panel">
           <div class="group/rail relative flex flex-col items-start justify-center shrink-0 box-border w-[264px] pl-md bg-no-repeat [background-size:100%_100%] max-[594.98px]:hidden" style="background-image: url(assets/flyout-rail-rainbow.svg)" data-part="rail">
             <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
               <div class="absolute inset-0 mix-blend-multiply opacity-[0.4] transition-opacity duration-[var(--duration-base)] group-hover/rail:opacity-[0.7] group-focus-within/rail:opacity-[0.7] group-[.is-hover]/rail:opacity-[0.7]" style="background-image: linear-gradient(to bottom, var(--scrim-rail-from), var(--scrim-rail-to));"></div>
@@ -670,7 +670,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect-sub">Two independent hovers, shown together because a static page cannot capture either. The rail&rsquo;s scrim goes 40% &rarr; 70% &mdash; a <code>to bottom</code> gradient under <code>mix-blend-multiply</code>, not a flat black, which is what keeps the stripes reading as stripes instead of flattening toward one grey. A product row takes <code>--color-bg-card-alt</code> across the full column width at <code>--rounded-sm</code>. The CTA&rsquo;s own hover belongs to <a href="component-button.html">Button</a> and is illustrated on its page.</div>
       <div class="frame">
         <!-- demo:product-hover -->
-        <div class="pf flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden" data-part="panel">
+        <div class="pf relative flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden after:content-[&quot;&quot;] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border after:border-border" data-part="panel">
           <div class="group/rail relative flex flex-col items-start justify-center shrink-0 box-border w-[264px] pl-md bg-no-repeat [background-size:100%_100%] max-[594.98px]:hidden is-hover" style="background-image: url(assets/flyout-rail-rainbow.svg)" data-part="rail">
             <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
               <div class="absolute inset-0 mix-blend-multiply opacity-[0.4] transition-opacity duration-[var(--duration-base)] group-hover/rail:opacity-[0.7] group-focus-within/rail:opacity-[0.7] group-[.is-hover]/rail:opacity-[0.7]" style="background-image: linear-gradient(to bottom, var(--scrim-rail-from), var(--scrim-rail-to));"></div>
