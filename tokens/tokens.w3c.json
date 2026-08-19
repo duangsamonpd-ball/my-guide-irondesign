@@ -1414,10 +1414,10 @@
           "fontSize": "14px",
           "fontWeight": 700,
           "lineHeight": "16px",
-          "letterSpacing": "0.8px",
+          "letterSpacing": "0.4px",
           "textTransform": "uppercase"
         },
-        "$description": "Uppercase category label above a major heading. Accent colour with wider tracking so all-caps stays readable. Almost always paired with H2/H3."
+        "$description": "Uppercase category label above a major heading. Accent colour with wide tracking so all-caps stays readable. Almost always paired with H2/H3."
       },
       "code": {
         "$type": "typography",

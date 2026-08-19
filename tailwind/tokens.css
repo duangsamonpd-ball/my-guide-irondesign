@@ -580,7 +580,10 @@
   --letter-spacing-h2:       -0.4px;   /* tight   */
   --letter-spacing-h3:       -0.4px;   /* tight   */
   --letter-spacing-h4:       -0.4px;   /* tight — card title */
-  --letter-spacing-overline:  0.8px;   /* wider   */
+  --letter-spacing-overline:  0.4px;   /* wide — Ball, 2026-08-19. Was 0.8 (wider).
+                                          --letter-spacing-review stays at 0.8: it was split
+                                          off this token in the first place so the two could
+                                          move apart, and this is that happening. */
   --letter-spacing-review:    0.8px;   /* wider — same reason as --fw-review: it had
                                           been borrowing the overline's 0.8. */
   --letter-spacing-body-title: 0px;    /* normal  */
