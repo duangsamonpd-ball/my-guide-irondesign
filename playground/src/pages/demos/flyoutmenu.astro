@@ -53,6 +53,7 @@ const groups = [
 const categories: FlyoutCategory[] = [
   {
     label: 'Document Editing',
+    icon: 'fileCircleCheck',
     products: [
       { product: 'pdf',  suffix: 'PDF',  accent: 'primary',  desc: 'Create, Edit, & Convert PDFs' },
       { product: 'word', suffix: 'WORD', accent: 'accent-3', desc: 'Create & Edit DOCX Word Files' },
@@ -62,14 +63,16 @@ const categories: FlyoutCategory[] = [
   },
   {
     label: 'Imaging & Recognition',
+    icon: 'image',
     products: [
-      { product: 'ocr',     suffix: 'OCR',     accent: 'accent-3', desc: 'OCR Image Text in 127 Languages' },
+      { product: 'ocr',     suffix: 'OCR',     accent: 'accent-3', desc: 'OCR Image Text in 125 Languages' },
       { product: 'barcode', suffix: 'BARCODE', accent: 'accent-2', desc: 'Read & Write Barcodes' },
       { product: 'qr',      suffix: 'QR',      accent: 'accent-2', desc: 'Read & Write QR Codes' },
     ],
   },
   {
     label: 'Utilities',
+    icon: 'screwdriverWrench',
     products: [
       { product: 'zip',        suffix: 'ZIP',        accent: 'accent-1', desc: 'Zip & Unzip Archives' },
       { product: 'print',      suffix: 'PRINT',      accent: 'accent-1', desc: 'Print Documents' },
@@ -81,50 +84,21 @@ const categories: FlyoutCategory[] = [
 
 <html lang="en">
   <body>
+    {/* `Preview ideal`, Figma 1023:3721 — the bar at its 1440 design width with
+        the PRODUCTS panel open under it. Rendered open because a docs page is
+        static; `flyoutOpen` forwards to FlyoutMenu's `open`, which exists for
+        exactly this and says so. The address stays in because the frame is
+        pinned to 1440 by `.frame-scroll`, which is the width it was drawn at. */}
     <div data-demo="preview">
-      <FlyoutMenu label="Products" align="center" notch>
-        {groups.map((g) => (
-          <div class="fmd-col">
-            <p class="fmd-title">{g.title}</p>
-            {g.items.map(([name, desc]) => (
-              <a class="fmd-item" href="#">
-                <span class="fmd-name">{name}</span>
-                <span class="fmd-desc">{desc}</span>
-              </a>
-            ))}
-          </div>
-        ))}
-      </FlyoutMenu>
-
-      <FlyoutMenu label="Resources">
-        <div class="fmd-col">
-          <a class="fmd-item" href="#"><span class="fmd-name">Documentation</span></a>
-          <a class="fmd-item" href="#"><span class="fmd-name">Code examples</span></a>
-          <a class="fmd-item" href="#"><span class="fmd-name">Tutorials</span></a>
-        </div>
-      </FlyoutMenu>
-
-      <FlyoutMenu label="Opens on hover too" openOnHover align="end">
-        <div class="fmd-col">
-          <a class="fmd-item" href="#"><span class="fmd-name">Still opens on click</span></a>
-          <a class="fmd-item" href="#"><span class="fmd-name">Still opens on focus</span></a>
-          <a class="fmd-item" href="#"><span class="fmd-name">Escape still closes</span></a>
-        </div>
-      </FlyoutMenu>
-    </div>
-
-    <div data-demo="product">
-      <ProductFlyout categories={categories} suite={{}} />
-    </div>
-
-    <div data-demo="product-hover">
-      <ProductFlyout categories={categories} suite={{}} forceHover />
-    </div>
-
-    <div data-demo="in-topnav">
+      {/* The open panel is `position: absolute`, so it adds no height — and
+          `.frame-scroll` is `overflow-x: auto`, which per spec forces
+          `overflow-y: auto` too. The frame therefore sized itself to the 40px
+          bar and cut the panel to a sliver. `.fmd-stage` reserves Figma's own
+          frame height (1023:3721 is 1440x482 = 40 + 376 + 66). */}
+      <div class="fmd-stage">
       <TopNav
         items={[
-          { label: 'Products', flyout: 'products' },
+          { label: 'Products', flyout: 'products', flyoutBare: true, flyoutOpen: true },
           { label: 'Enterprise', href: '#' },
           { label: 'Solutions', href: '#' },
           { label: 'Resources', href: '#' },
@@ -135,6 +109,16 @@ const categories: FlyoutCategory[] = [
       >
         <ProductFlyout slot="products" categories={categories} suite={{}} />
       </TopNav>
+      </div>
     </div>
+
+    <div data-demo="product">
+      <ProductFlyout categories={categories} suite={{}} />
+    </div>
+
+    <div data-demo="product-hover">
+      <ProductFlyout categories={categories} suite={{}} forceHover />
+    </div>
+
   </body>
 </html>

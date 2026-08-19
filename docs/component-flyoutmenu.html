@@ -65,6 +65,13 @@
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
   <link rel="stylesheet" href="utilities.css">
+  <!-- This page renders TopNav as well as FlyoutMenu, and check:parity only ever
+       compares a component against ITS OWN page — so TopNav's rules were on
+       component-topnav.html and nowhere near here, and its 16px brand mark drew
+       at intrinsic size. components.css is the aggregate the Components overview
+       already uses for exactly this. -->
+  <link rel="stylesheet" href="components.css">
+  <script src="preview-frame.js"></script>
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 .sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
@@ -86,6 +93,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .dd ul { margin:0 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:70px 34px 44px; display:flex; flex-direction:column; align-items:center; gap:26px; }
 .atag b { color:#2E9468; }
+.fmd-stage { min-height: 482px; }
 @media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} .canvas {padding:44px 20px;gap:32px;} }
 
 
@@ -267,125 +275,300 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <div class="sect">
       <h2 class="sect-h">Preview</h2>
-      <div class="sect-sub"><b>The chrome here is still provisional; the PRODUCTS panel below is not.</b> This was built ahead of the Figma frame on purpose &mdash; the interaction and accessibility contract is the same whatever the panel looks like, and it is the half that is expensive to get wrong. The generic panel&rsquo;s padding, radius and shadow are still neutral placeholders. The notch is not: it is Figma&rsquo;s <code>arrow-flyoutmenu</code>, 19.25&times;8.7966 with a 2px-radius tip, which is why it is a clipped path and not the rotated square it used to be.</div>
-      <div class="frame">
-        <div class="fmd-bar">
+      <div class="sect-sub">The bar at its 1440 design width with the <b>PRODUCTS</b> panel open under it, from Figma <code>Preview ideal</code>. It is rendered open because a docs page is static &mdash; the trigger takes <code>brand/primary</code> while the panel is up, which is the one trigger state the canvas draws. The frame is pinned to 1440 and scrolls, the same way <a href="component-footer.html">Product Footer</a>&rsquo;s bands are; narrowing it here would show a layout no viewport produces. Drag the <b>Responsive</b> preview further down for the real widths.</div>
+      <div class="frame"><div class="frame-scroll">
         <!-- demo:preview -->
-        <div class="fm" data-part="flyout" data-fm>
-          <button type="button" class="fm-trigger" data-part="trigger" aria-expanded="false" aria-controls="fm-demo-1">
-            <span>Products</span>
-            <svg class="fm-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-          </button>
-          <div class="fm-panel fm-center fm-notch" data-part="panel" id="fm-demo-1" inert>
-            <div class="fm-panel-inner"><div class="fmd-col">
-                <p class="fmd-title">Document editing</p>
-                <a class="fmd-item" href="#">
-                  <span class="fmd-name">IronPDF</span>
-                  <span class="fmd-desc">Create, Edit, &amp; Convert PDFs</span>
-                </a><a class="fmd-item" href="#">
-                  <span class="fmd-name">IronWord</span>
-                  <span class="fmd-desc">Create &amp; Edit DOCX Word Files</span>
-                </a><a class="fmd-item" href="#">
-                  <span class="fmd-name">IronXL</span>
-                  <span class="fmd-desc">Read &amp; Write Excel Spreadsheets</span>
-                </a><a class="fmd-item" href="#">
-                  <span class="fmd-name">IronPPT</span>
-                  <span class="fmd-desc">Create &amp; Edit PPT Presentations</span>
+        <div class="fmd-stage">
+          <div class="tn tn--default tn--has-menu">
+            <nav class="tn-inner" aria-label="Corporate">
+              <div class="tn-left">
+                <a class="tn-brand" href="/">
+                  <svg class="tn-mark" viewBox="0 0 16.0002 13.3333" fill="currentColor" aria-hidden="true">
+                    <path d="M6.60254 7.74121L5.10417 13.3333H2.41781L3.22152 10.3335L0 10.3338L0.695313 7.7391L6.60254 7.74121Z"></path>
+                    <path d="M14.0353 10.3328H10.8177L10.0169 13.3333H7.33089L8.82927 7.74121L14.7303 7.73812L14.0353 10.3328Z"></path>
+                    <path d="M7.17643 5.59733L1.27165 5.59456L1.96696 3.00033L5.1862 2.99967L5.9904 0H8.67676L7.17643 5.59733Z"></path>
+                    <path d="M12.7783 2.99951H16.0002L15.3052 5.59424L9.39616 5.59701L10.8963 0H13.5824L12.7783 2.99951Z"></path>
+                  </svg>
+                  <svg class="tn-mark tn-mark-colour" viewBox="0 0 16.0002 13.3333" fill="none" aria-hidden="true">
+                    <g transform="translate(0 3)">
+                      <path class="mk-green" d="M6.46004 4.73922L5.7647 7.33389L0 7.33426L0.695341 4.73959L6.46004 4.73922Z"></path>
+                      <path class="mk-orange" d="M14.0353 7.33324L9.20556 7.33398L9.20593 7.33324H8.29819L8.99353 4.73894L14.7303 4.73857L14.0353 7.33324Z"></path>
+                      <path class="mk-green" d="M15.3051 2.59467L10.3446 2.59542L10.3449 2.59467H9.56836L10.2637 0.000372637L16.0001 0L15.3051 2.59467Z"></path>
+                      <path class="mk-orange" d="M7.73204 0L7.0367 2.59467L1.27163 2.59505L1.96697 0.000745274L7.73204 0Z"></path>
+                    </g>
+                    <g transform="translate(2.4176 0)">
+                      <path class="mk-sky" d="M2.68634 13.3333H0L1.49837 7.74117H4.18472L2.68634 13.3333Z"></path>
+                      <path class="mk-pink" d="M7.59908 13.3333H4.91311L6.41148 7.74117H9.09745L7.59908 13.3333Z"></path>
+                      <path class="mk-sky" d="M11.1645 0L9.66431 5.59701H6.97834L8.47858 0H11.1645Z"></path>
+                      <path class="mk-pink" d="M6.2589 0L4.75866 5.59738H2.07232L3.57255 0H6.2589Z"></path>
+                    </g>
+                  </svg>
+                  <span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span>
                 </a>
-              </div><div class="fmd-col">
-                <p class="fmd-title">Imaging &amp; recognition</p>
-                <a class="fmd-item" href="#">
-                  <span class="fmd-name">IronOCR</span>
-                  <span class="fmd-desc">OCR Image Text in 127 Languages</span>
-                </a><a class="fmd-item" href="#">
-                  <span class="fmd-name">IronBarcode</span>
-                  <span class="fmd-desc">Read &amp; Write Barcode Formats</span>
-                </a><a class="fmd-item" href="#">
-                  <span class="fmd-name">IronQR</span>
-                  <span class="fmd-desc">Read &amp; Write QR Codes</span>
-                </a>
-              </div><div class="fmd-col">
-                <p class="fmd-title">Utilities</p>
-                <a class="fmd-item" href="#">
-                  <span class="fmd-name">IronPrint</span>
-                  <span class="fmd-desc">Print Documents</span>
-                </a><a class="fmd-item" href="#">
-                  <span class="fmd-name">IronZip</span>
-                  <span class="fmd-desc">Zip &amp; Unzip Archives</span>
-                </a><a class="fmd-item" href="#">
-                  <span class="fmd-name">IronWebscraper</span>
-                  <span class="fmd-desc">Scrape Web Pages for Data</span>
-                </a>
-              </div></div>
-          </div>
-        </div>
-        <!--
-        The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
-        works by stamping a data attribute on the elements this component renders,
-        and slotted content belongs to the caller, so it never gets one.
-        The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
-        to carry each rule verbatim for check:parity, and `:global()` is not a real
-        pseudo-class, so the browser drops the whole rule there. On FormCard that
-        costs a `max-width`. Here it would cost exactly the thing this block exists to
-        show. `is:global` emits plain CSS instead, which is valid in both places.
-        Kept to one distinctive class so the global scope stays narrow.
-        -->
-        <script type="module">var e=`is-open`;function t(t,n=!1){if(!t.classList.contains(e))return;t.classList.remove(e);let r=t.querySelector(`.fm-trigger`),i=t.querySelector(`.fm-panel`);r?.setAttribute(`aria-expanded`,`false`),i?.setAttribute(`inert`,``),n&&r?.focus()}function n(n){document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e!==n&&t(e)}),n.classList.add(e),n.querySelector(`.fm-trigger`)?.setAttribute(`aria-expanded`,`true`),n.querySelector(`.fm-panel`)?.removeAttribute(`inert`)}function r(r=document){r.querySelectorAll(`[data-fm]:not([data-fm-init])`).forEach(r=>{let i=r.querySelector(`.fm-trigger`);if(i&&(r.dataset.fmInit=`1`,r.querySelectorAll(`.fm-panel-inner > *`).forEach((e,t)=>{e.style.setProperty(`--i`,String(t))}),i.addEventListener(`click`,()=>{if(!r.classList.contains(e)){n(r);return}r.dataset.fmHover!==void 0&&r.matches(`:hover`)||t(r)}),r.addEventListener(`focusout`,e=>{let n=e.relatedTarget;n&&!r.contains(n)&&t(r)}),r.dataset.fmHover!==void 0)){let e,i=()=>{clearTimeout(e),e=void 0};r.addEventListener(`pointerenter`,e=>{e.pointerType!==`touch`&&(i(),n(r))}),r.addEventListener(`pointerleave`,n=>{n.pointerType!==`touch`&&(i(),e=window.setTimeout(()=>t(r),150))}),r.addEventListener(`pointerdown`,i)}})}document.addEventListener(`keydown`,e=>{if(e.key!==`Escape`)return;let n=document.querySelector(`[data-fm].is-open`);n&&t(n,!0)}),document.addEventListener(`pointerdown`,e=>{let n=e.target;document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e.contains(n)||t(e)})}),document.addEventListener(`DOMContentLoaded`,()=>r()),document.addEventListener(`astro:page-load`,()=>r());</script>
-        <div class="fm" data-part="flyout" data-fm>
-          <button type="button" class="fm-trigger" data-part="trigger" aria-expanded="false" aria-controls="fm-demo-2">
-            <span>Resources</span>
-            <svg class="fm-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-          </button>
-          <div class="fm-panel fm-start" data-part="panel" id="fm-demo-2" inert>
-            <div class="fm-panel-inner">
-              <div class="fmd-col">
-                <a class="fmd-item" href="#"><span class="fmd-name">Documentation</span></a>
-                <a class="fmd-item" href="#"><span class="fmd-name">Code examples</span></a>
-                <a class="fmd-item" href="#"><span class="fmd-name">Tutorials</span></a>
+                <ul class="tn-menu" id="tnmenu-demo-1">
+                  <li>
+                    <div class="fm is-open" data-part="flyout" data-fm>
+                      <button type="button" class="fm-trigger" data-part="trigger" aria-expanded="true" aria-controls="fm-demo-1">
+                        <span>Products</span>
+                        <svg class="fm-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                      </button>
+                      <div class="fm-panel fm-start fm-notch is-bare" data-part="panel" id="fm-demo-1">
+                        <div class="fm-panel-inner">
+                          <div class="pf flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden" data-part="panel">
+                            <div class="group/rail relative flex flex-col items-start justify-center shrink-0 box-border w-[264px] pl-md bg-no-repeat [background-size:100%_100%] max-[594.98px]:hidden" style="background-image: url(assets/flyout-rail-rainbow.svg)" data-part="rail">
+                              <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+                                <div class="absolute inset-0 mix-blend-multiply opacity-[0.4] transition-opacity duration-[var(--duration-base)] group-hover/rail:opacity-[0.7] group-focus-within/rail:opacity-[0.7] group-[.is-hover]/rail:opacity-[0.7]" style="background-image: linear-gradient(to bottom, var(--scrim-rail-from), var(--scrim-rail-to));"></div>
+                              </div>
+                              <div class="absolute right-0 top-0 bottom-0 w-[22px] text-bg-card scale-x-[-1]" aria-hidden="true">
+                                <svg class="block w-full h-full" viewBox="0 0 22 376" fill="currentColor" preserveAspectRatio="none">
+                                  <path d="M0 0H22L1.56627 182.664C1.16954 186.21 1.16954 189.79 1.56627 193.336L22 376H0V0Z"></path>
+                                </svg>
+                              </div>
+                              <div class="pf-card relative z-[1] flex flex-col items-center justify-center gap-md bg-bg-card rounded-lg px-sm py-md">
+                                <div class="flex flex-col items-center gap-sm w-full">
+                                  <span style="width:96px;height:96px" class="inline-flex items-center justify-center shrink-0 leading-[0]"><img class="block max-w-full size-full" src="assets/mark-suite.svg" alt width="96" height="96">
+                                  </span>
+                                  <div class="flex flex-col items-center justify-center gap-xs pt-[6px] w-full">
+                                    <p class="flex items-start text-xl leading-none tracking-h4 whitespace-nowrap m-0">
+                                      <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">SUITE</span>
+                                    </p>
+                                    <p class="text-sm leading-5 font-normal text-text-body text-center w-full m-0">All 10 .NET Libraries</p>
+                                  </div>
+                                </div>
+                                <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-sm)] px-md gap-micro text-btn-sm font-btn leading-btn-sm tracking-[0.4px] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
+                                  Save 80% with Iron Suite
+                                </a>
+                                <div class="absolute right-[-12px] top-1/2 -translate-y-1/2 w-[12px] h-[228px] text-bg-card scale-x-[-1]" aria-hidden="true">
+                                  <svg class="block w-full h-full" viewBox="0 0 11.7348 228" fill="currentColor" preserveAspectRatio="none">
+                                    <path d="M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115.684 0.263739 119.025L11.7348 228V0Z"></path>
+                                  </svg>
+                                </div>
+                              </div>
+                              <p class="absolute bottom-md left-md z-[1] flex items-center gap-[6px] text-2xs leading-3 font-semibold tracking-[0.3px] text-text-on-dark-body whitespace-nowrap m-0">
+                                Every Iron Suite Donates
+                                <img class="block w-[56.287px] h-[24px]" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% for the Planet">
+                              </p>
+                            </div>
+                            <div class="pf-cols [display:grid] gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
+                              <div class="pf-col flex flex-col gap-md min-w-0">
+                                <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                                  <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                                    <path d="M2.75 1H6.85156C7.31641 1 7.75391 1.19141 8.08203 1.51953L10.9805 4.41797C11.3086 4.74609 11.5 5.21094 11.5 5.67578V6.71484C8.79297 6.93359 6.6875 9.17578 6.6875 11.9375C6.6875 13.0859 7.04297 14.1523 7.67188 15H2.75C1.79297 15 1 14.207 1 13.25V2.75C1 1.79297 1.79297 1 2.75 1ZM9.91406 5.8125L6.6875 2.61328V5.15625C6.6875 5.51172 6.98828 5.8125 7.34375 5.8125H9.91406ZM15.875 11.9375C15.875 14.125 14.125 15.875 11.9375 15.875C9.75 15.875 8 14.125 8 11.9375C8 9.75 9.75 8 11.9375 8C14.125 8 15.875 9.75 15.875 11.9375ZM13.4961 10.2695C13.3047 10.1328 13.0312 10.1875 12.8945 10.3789L11.4453 12.375L10.707 11.6367C10.543 11.4727 10.2695 11.4727 10.1055 11.6367C9.91406 11.8008 9.91406 12.0742 10.1055 12.2383L11.1992 13.332C11.2812 13.4414 11.418 13.4688 11.5273 13.4688C11.6641 13.4688 11.7734 13.3867 11.8555 13.2773L13.6055 10.8711C13.7422 10.6797 13.7148 10.4062 13.4961 10.2695Z"></path>
+                                  </svg>
+                                  <span class="text-overline leading-overline font-overline tracking-overline uppercase">Document Editing</span>
+                                </p>
+                                <ul class="flex flex-col list-none m-0 p-0">
+                                  <li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-01-pdf.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">PDF</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create, Edit, &amp; Convert PDFs</span>
+                                      </span>
+                                    </a>
+                                  </li><li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-02-word.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-3">WORD</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create &amp; Edit DOCX Word Files</span>
+                                      </span>
+                                    </a>
+                                  </li><li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-03-xl.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">XL</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write Excel Spreadsheets</span>
+                                      </span>
+                                    </a>
+                                  </li><li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-04-ppt.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">PPT</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create &amp; Edit PPT Presentations</span>
+                                      </span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div><div class="pf-col flex flex-col gap-md min-w-0">
+                                <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                                  <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                                    <path d="M3.75 2H12.5C13.457 2 14.25 2.79297 14.25 3.75V12.5C14.25 13.457 13.457 14.25 12.5 14.25H3.75C2.79297 14.25 2 13.457 2 12.5V3.75C2 2.79297 2.79297 2 3.75 2ZM5.5 4.1875C4.76172 4.1875 4.1875 4.76172 4.1875 5.5C4.1875 6.23828 4.76172 6.8125 5.5 6.8125C6.23828 6.8125 6.8125 6.23828 6.8125 5.5C6.8125 4.76172 6.23828 4.1875 5.5 4.1875ZM9.4375 7.25C9.21875 7.25 9 7.38672 8.89062 7.57812L7.19531 10.3125L6.48438 9.27344C6.34766 9.10938 6.15625 9 5.9375 9C5.71875 9 5.52734 9.10938 5.39062 9.27344L3.85938 11.4609C3.72266 11.6797 3.72266 11.9258 3.83203 12.1445C3.94141 12.3633 4.16016 12.5 4.40625 12.5H11.8438C12.0898 12.5 12.3086 12.3633 12.418 12.1719C12.5273 11.9531 12.5273 11.707 12.418 11.5156L10.0117 7.57812C9.875 7.35938 9.65625 7.25 9.4375 7.25Z"></path>
+                                  </svg>
+                                  <span class="text-overline leading-overline font-overline tracking-overline uppercase">Imaging &amp; Recognition</span>
+                                </p>
+                                <ul class="flex flex-col list-none m-0 p-0">
+                                  <li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-05-ocr.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-3">OCR</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">OCR Image Text in 125 Languages</span>
+                                      </span>
+                                    </a>
+                                  </li><li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-06-bc.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">BARCODE</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write Barcodes</span>
+                                      </span>
+                                    </a>
+                                  </li><li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-07-qr.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">QR</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write QR Codes</span>
+                                      </span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div><div class="pf-col flex flex-col gap-md min-w-0">
+                                <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                                  <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                                    <path d="M1.37999 1.12218C1.51671 0.985458 1.7628 0.958114 1.92686 1.06749L5.18077 3.25499C5.42686 3.39171 5.56358 3.66515 5.56358 3.96593V5.33311L8.05186 7.8214C8.95421 7.41124 10.0753 7.5753 10.8136 8.31358L14.2589 11.7589C14.7784 12.2784 14.7784 13.0987 14.2589 13.6183L12.6183 15.2589C12.0987 15.7784 11.2784 15.7784 10.7589 15.2589L7.31358 11.8136C6.5753 11.0753 6.41124 9.95421 6.8214 9.05186L4.33311 6.56358H2.96593C2.69249 6.56358 2.41905 6.42686 2.25499 6.18077L0.0674893 2.92686C-0.0418857 2.7628 -0.014542 2.51671 0.122177 2.37999L1.37999 1.12218ZM5.34483 9.43468C5.18077 10.4464 5.39952 11.5128 6.05577 12.3605L3.45811 14.9581C2.69249 15.7237 1.43468 15.7237 0.669052 14.9581C-0.0965732 14.1925 -0.0965732 12.9347 0.669052 12.1691L4.3878 8.47765L5.34483 9.43468ZM9.93858 1.31358C10.4855 1.31358 11.0323 1.42296 11.4972 1.61436C11.7706 1.6964 11.8253 2.05186 11.6339 2.27061L10.0753 3.80186C9.99327 3.8839 9.93858 3.99327 9.93858 4.12999V5.25108C9.93858 5.49718 10.13 5.68858 10.3761 5.68858H11.5245C11.6339 5.68858 11.7433 5.6339 11.8253 5.55186L13.3839 4.02061C13.5753 3.80186 13.9308 3.85655 14.0401 4.12999C14.2042 4.62218 14.3136 5.14171 14.3136 5.68858C14.3136 6.86436 13.8487 7.93077 13.0831 8.72374L11.7433 7.3839C10.8409 6.48155 9.61046 6.12608 8.43468 6.34483L6.87608 4.78624V3.82921C6.84874 3.50108 6.76671 3.17296 6.5753 2.87218C7.39561 1.91515 8.59874 1.31358 9.93858 1.31358Z"></path>
+                                  </svg>
+                                  <span class="text-overline leading-overline font-overline tracking-overline uppercase">Utilities</span>
+                                </p>
+                                <ul class="flex flex-col list-none m-0 p-0">
+                                  <li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-08-zip.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">ZIP</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Zip &amp; Unzip Archives</span>
+                                      </span>
+                                    </a>
+                                  </li><li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-09-prt.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">PRINT</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Print Documents</span>
+                                      </span>
+                                    </a>
+                                  </li><li>
+                                    <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
+                                      <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-010-ws.svg" alt width="56" height="56">
+                                      </span>
+                                      <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                                        <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                                          <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">WEBSCRAPER</span>
+                                        </span>
+                                        <span class="text-xs leading-4 font-normal text-text-body min-w-0">Scrape Web Pages for Data</span>
+                                      </span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--
+                    The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
+                    works by stamping a data attribute on the elements this component renders,
+                    and slotted content belongs to the caller, so it never gets one.
+                    The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
+                    to carry each rule verbatim for check:parity, and `:global()` is not a real
+                    pseudo-class, so the browser drops the whole rule there. On FormCard that
+                    costs a `max-width`. Here it would cost exactly the thing this block exists to
+                    show. `is:global` emits plain CSS instead, which is valid in both places.
+                    Kept to one distinctive class so the global scope stays narrow.
+                    -->
+                    <script type="module">var e=`is-open`;function t(t,n=!1){if(!t.classList.contains(e))return;t.classList.remove(e);let r=t.querySelector(`.fm-trigger`),i=t.querySelector(`.fm-panel`);r?.setAttribute(`aria-expanded`,`false`),i?.setAttribute(`inert`,``),n&&r?.focus()}function n(n){document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e!==n&&t(e)}),n.classList.add(e),n.querySelector(`.fm-trigger`)?.setAttribute(`aria-expanded`,`true`),n.querySelector(`.fm-panel`)?.removeAttribute(`inert`)}function r(r=document){r.querySelectorAll(`[data-fm]:not([data-fm-init])`).forEach(r=>{let i=r.querySelector(`.fm-trigger`);if(i&&(r.dataset.fmInit=`1`,r.querySelectorAll(`.fm-panel-inner > *`).forEach((e,t)=>{e.style.setProperty(`--i`,String(t))}),i.addEventListener(`click`,()=>{if(!r.classList.contains(e)){n(r);return}r.dataset.fmHover!==void 0&&r.matches(`:hover`)||t(r)}),r.addEventListener(`focusout`,e=>{let n=e.relatedTarget;n&&!r.contains(n)&&t(r)}),r.dataset.fmHover!==void 0)){let e,i=()=>{clearTimeout(e),e=void 0};r.addEventListener(`pointerenter`,e=>{e.pointerType!==`touch`&&(i(),n(r))}),r.addEventListener(`pointerleave`,n=>{n.pointerType!==`touch`&&(i(),e=window.setTimeout(()=>t(r),150))}),r.addEventListener(`pointerdown`,i)}})}document.addEventListener(`keydown`,e=>{if(e.key!==`Escape`)return;let n=document.querySelector(`[data-fm].is-open`);n&&t(n,!0)}),document.addEventListener(`pointerdown`,e=>{let n=e.target;document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e.contains(n)||t(e)})}),document.addEventListener(`DOMContentLoaded`,()=>r()),document.addEventListener(`astro:page-load`,()=>r());</script>
+                  </li><li>
+                    <a class="tn-item" href="#">
+                      Enterprise
+                      <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                    </a>
+                  </li><li>
+                    <a class="tn-item" href="#">
+                      Solutions
+                      <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                    </a>
+                  </li><li>
+                    <a class="tn-item" href="#">
+                      Resources
+                      <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                    </a>
+                  </li><li>
+                    <a class="tn-item" href="#">
+                      About US
+                      <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                    </a>
+                  </li>
+                  <li class="tn-menu-extra">
+                    <a class="tn-item" href="#">
+                      Contact Us
+                      <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                    </a>
+                  </li>
+                  <li class="tn-menu-extra">
+                    <a class="tn-item" href="#">
+                      EN
+                      <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                    </a>
+                  </li>
+                </ul>
               </div>
-            </div>
-          </div>
-        </div>
-        <!--
-        The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
-        works by stamping a data attribute on the elements this component renders,
-        and slotted content belongs to the caller, so it never gets one.
-        The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
-        to carry each rule verbatim for check:parity, and `:global()` is not a real
-        pseudo-class, so the browser drops the whole rule there. On FormCard that
-        costs a `max-width`. Here it would cost exactly the thing this block exists to
-        show. `is:global` emits plain CSS instead, which is valid in both places.
-        Kept to one distinctive class so the global scope stays narrow.
-        -->
-        <div class="fm" data-part="flyout" data-fm data-fm-hover>
-          <button type="button" class="fm-trigger" data-part="trigger" aria-expanded="false" aria-controls="fm-demo-3">
-            <span>Opens on hover too</span>
-            <svg class="fm-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-          </button>
-          <div class="fm-panel fm-end" data-part="panel" id="fm-demo-3" inert>
-            <div class="fm-panel-inner">
-              <div class="fmd-col">
-                <a class="fmd-item" href="#"><span class="fmd-name">Still opens on click</span></a>
-                <a class="fmd-item" href="#"><span class="fmd-name">Still opens on focus</span></a>
-                <a class="fmd-item" href="#"><span class="fmd-name">Escape still closes</span></a>
+              <div class="tn-right">
+                <address class="tn-address">
+                  <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"></path></svg>
+                  205 N. Michigan Ave. Chicago, IL 60611, USA
+                </address>
+                <a class="tn-item" href="#">
+                  Contact Us
+                  <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                </a>
+                <span class="tn-lang">
+                  <svg class="tn-globe" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.9375 13.125C10.5312 11.9375 10.9375 10.2812 11 8.5H5C5.0625 10.2812 5.5 11.9375 6.09375 13.125C6.78125 14.5312 7.53125 15 8 15C8.5 15 9.21875 14.5312 9.9375 13.125ZM11 7.5C10.9375 5.71875 10.5312 4.09375 9.9375 2.875C9.21875 1.46875 8.5 1 8 1C7.53125 1 6.78125 1.46875 6.09375 2.875C5.5 4.09375 5.0625 5.71875 5 7.5H11ZM12 8.5C11.9062 10.9688 11.1875 13.2812 10.1562 14.6562C12.8125 13.8125 14.7812 11.4062 14.9688 8.5H12ZM14.9688 7.5C14.7812 4.625 12.8125 2.21875 10.1562 1.34375C11.1875 2.71875 11.9062 5.03125 12 7.5H14.9688ZM4 7.5C4.09375 5.03125 4.8125 2.71875 5.84375 1.34375C3.1875 2.21875 1.21875 4.625 1.03125 7.5H4ZM1.03125 8.5C1.21875 11.4062 3.1875 13.8125 5.84375 14.6562C4.8125 13.2812 4.09375 10.9688 4 8.5H1.03125ZM8 16C3.59375 16 0 12.4062 0 8C0 3.59375 3.59375 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4062 12.4062 16 8 16Z"></path></svg>
+                  <a class="tn-item" href="#">
+                    EN
+                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
+                  </a>
+                </span>
+                <button type="button" class="tn-burger" aria-expanded="false" aria-controls="tnmenu-demo-1" aria-label="Corporate menu">
+                  <svg class="tn-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
+                </button>
               </div>
-            </div>
+            </nav>
           </div>
+          <script type="module">function e(e=document){e.querySelectorAll(`.tn:not([data-tn-init])`).forEach(e=>{let t=e.querySelector(`.tn-burger`),n=e.querySelector(`.tn-menu`);if(!t||!n)return;e.dataset.tnInit=`1`;let r=n=>{e.classList.toggle(`tn-menu-open`,n),t.setAttribute(`aria-expanded`,String(n))},i=n=>{e.classList.contains(`tn-menu-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`tn-menu-open`))),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)}),document.addEventListener(`click`,t=>{e.contains(t.target)||i(!1)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
         </div>
-        <!--
-        The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
-        works by stamping a data attribute on the elements this component renders,
-        and slotted content belongs to the caller, so it never gets one.
-        The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
-        to carry each rule verbatim for check:parity, and `:global()` is not a real
-        pseudo-class, so the browser drops the whole rule there. On FormCard that
-        costs a `max-width`. Here it would cost exactly the thing this block exists to
-        show. `is:global` emits plain CSS instead, which is valid in both places.
-        Kept to one distinctive class so the global scope stays narrow.
-        -->
         <!-- /demo:preview -->
-        </div>
-      </div>
+      </div></div>
       <div class="sect-sub" style="margin-top:14px;">Click a trigger, or tab to it and press <kbd>Enter</kbd>. <kbd>Esc</kbd> closes and hands focus back. Tabbing past the last link closes it. Pressing anywhere outside closes it. Opening one closes the others &mdash; two open panels in a nav is always a bug.</div>
     </div>
 
@@ -410,7 +593,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                 </span>
                 <div class="flex flex-col items-center justify-center gap-xs pt-[6px] w-full">
                   <p class="flex items-start text-xl leading-none tracking-h4 whitespace-nowrap m-0">
-                    <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">SUITE</span>
+                    <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">SUITE</span>
                   </p>
                   <p class="text-sm leading-5 font-normal text-text-body text-center w-full m-0">All 10 .NET Libraries</p>
                 </div>
@@ -429,9 +612,12 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
               <img class="block w-[56.287px] h-[24px]" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% for the Planet">
             </p>
           </div>
-          <div class="pf-cols grid gap-lg [grid-template-columns:repeat(auto-fit,minmax(min(282.67px,100%),1fr))] grow min-w-0 pt-[32px] px-xl pb-xl" data-part="columns">
+          <div class="pf-cols [display:grid] gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
             <div class="pf-col flex flex-col gap-md min-w-0">
-              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
+              <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M2.75 1H6.85156C7.31641 1 7.75391 1.19141 8.08203 1.51953L10.9805 4.41797C11.3086 4.74609 11.5 5.21094 11.5 5.67578V6.71484C8.79297 6.93359 6.6875 9.17578 6.6875 11.9375C6.6875 13.0859 7.04297 14.1523 7.67188 15H2.75C1.79297 15 1 14.207 1 13.25V2.75C1 1.79297 1.79297 1 2.75 1ZM9.91406 5.8125L6.6875 2.61328V5.15625C6.6875 5.51172 6.98828 5.8125 7.34375 5.8125H9.91406ZM15.875 11.9375C15.875 14.125 14.125 15.875 11.9375 15.875C9.75 15.875 8 14.125 8 11.9375C8 9.75 9.75 8 11.9375 8C14.125 8 15.875 9.75 15.875 11.9375ZM13.4961 10.2695C13.3047 10.1328 13.0312 10.1875 12.8945 10.3789L11.4453 12.375L10.707 11.6367C10.543 11.4727 10.2695 11.4727 10.1055 11.6367C9.91406 11.8008 9.91406 12.0742 10.1055 12.2383L11.1992 13.332C11.2812 13.4414 11.418 13.4688 11.5273 13.4688C11.6641 13.4688 11.7734 13.3867 11.8555 13.2773L13.6055 10.8711C13.7422 10.6797 13.7148 10.4062 13.4961 10.2695Z"></path>
+                </svg>
                 <span class="text-overline leading-overline font-overline tracking-overline uppercase">Document Editing</span>
               </p>
               <ul class="flex flex-col list-none m-0 p-0">
@@ -441,7 +627,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">PDF</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">PDF</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create, Edit, &amp; Convert PDFs</span>
                     </span>
@@ -452,7 +638,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-3">WORD</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-3">WORD</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create &amp; Edit DOCX Word Files</span>
                     </span>
@@ -463,7 +649,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">XL</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">XL</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write Excel Spreadsheets</span>
                     </span>
@@ -474,7 +660,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">PPT</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">PPT</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create &amp; Edit PPT Presentations</span>
                     </span>
@@ -482,7 +668,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                 </li>
               </ul>
             </div><div class="pf-col flex flex-col gap-md min-w-0">
-              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
+              <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M3.75 2H12.5C13.457 2 14.25 2.79297 14.25 3.75V12.5C14.25 13.457 13.457 14.25 12.5 14.25H3.75C2.79297 14.25 2 13.457 2 12.5V3.75C2 2.79297 2.79297 2 3.75 2ZM5.5 4.1875C4.76172 4.1875 4.1875 4.76172 4.1875 5.5C4.1875 6.23828 4.76172 6.8125 5.5 6.8125C6.23828 6.8125 6.8125 6.23828 6.8125 5.5C6.8125 4.76172 6.23828 4.1875 5.5 4.1875ZM9.4375 7.25C9.21875 7.25 9 7.38672 8.89062 7.57812L7.19531 10.3125L6.48438 9.27344C6.34766 9.10938 6.15625 9 5.9375 9C5.71875 9 5.52734 9.10938 5.39062 9.27344L3.85938 11.4609C3.72266 11.6797 3.72266 11.9258 3.83203 12.1445C3.94141 12.3633 4.16016 12.5 4.40625 12.5H11.8438C12.0898 12.5 12.3086 12.3633 12.418 12.1719C12.5273 11.9531 12.5273 11.707 12.418 11.5156L10.0117 7.57812C9.875 7.35938 9.65625 7.25 9.4375 7.25Z"></path>
+                </svg>
                 <span class="text-overline leading-overline font-overline tracking-overline uppercase">Imaging &amp; Recognition</span>
               </p>
               <ul class="flex flex-col list-none m-0 p-0">
@@ -492,9 +681,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-3">OCR</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-3">OCR</span>
                       </span>
-                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">OCR Image Text in 127 Languages</span>
+                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">OCR Image Text in 125 Languages</span>
                     </span>
                   </a>
                 </li><li>
@@ -503,7 +692,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">BARCODE</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">BARCODE</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write Barcodes</span>
                     </span>
@@ -514,7 +703,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">QR</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">QR</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write QR Codes</span>
                     </span>
@@ -522,7 +711,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                 </li>
               </ul>
             </div><div class="pf-col flex flex-col gap-md min-w-0">
-              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
+              <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M1.37999 1.12218C1.51671 0.985458 1.7628 0.958114 1.92686 1.06749L5.18077 3.25499C5.42686 3.39171 5.56358 3.66515 5.56358 3.96593V5.33311L8.05186 7.8214C8.95421 7.41124 10.0753 7.5753 10.8136 8.31358L14.2589 11.7589C14.7784 12.2784 14.7784 13.0987 14.2589 13.6183L12.6183 15.2589C12.0987 15.7784 11.2784 15.7784 10.7589 15.2589L7.31358 11.8136C6.5753 11.0753 6.41124 9.95421 6.8214 9.05186L4.33311 6.56358H2.96593C2.69249 6.56358 2.41905 6.42686 2.25499 6.18077L0.0674893 2.92686C-0.0418857 2.7628 -0.014542 2.51671 0.122177 2.37999L1.37999 1.12218ZM5.34483 9.43468C5.18077 10.4464 5.39952 11.5128 6.05577 12.3605L3.45811 14.9581C2.69249 15.7237 1.43468 15.7237 0.669052 14.9581C-0.0965732 14.1925 -0.0965732 12.9347 0.669052 12.1691L4.3878 8.47765L5.34483 9.43468ZM9.93858 1.31358C10.4855 1.31358 11.0323 1.42296 11.4972 1.61436C11.7706 1.6964 11.8253 2.05186 11.6339 2.27061L10.0753 3.80186C9.99327 3.8839 9.93858 3.99327 9.93858 4.12999V5.25108C9.93858 5.49718 10.13 5.68858 10.3761 5.68858H11.5245C11.6339 5.68858 11.7433 5.6339 11.8253 5.55186L13.3839 4.02061C13.5753 3.80186 13.9308 3.85655 14.0401 4.12999C14.2042 4.62218 14.3136 5.14171 14.3136 5.68858C14.3136 6.86436 13.8487 7.93077 13.0831 8.72374L11.7433 7.3839C10.8409 6.48155 9.61046 6.12608 8.43468 6.34483L6.87608 4.78624V3.82921C6.84874 3.50108 6.76671 3.17296 6.5753 2.87218C7.39561 1.91515 8.59874 1.31358 9.93858 1.31358Z"></path>
+                </svg>
                 <span class="text-overline leading-overline font-overline tracking-overline uppercase">Utilities</span>
               </p>
               <ul class="flex flex-col list-none m-0 p-0">
@@ -532,7 +724,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">ZIP</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">ZIP</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Zip &amp; Unzip Archives</span>
                     </span>
@@ -543,7 +735,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">PRINT</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">PRINT</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Print Documents</span>
                     </span>
@@ -554,7 +746,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">WEBSCRAPER</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">WEBSCRAPER</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Scrape Web Pages for Data</span>
                     </span>
@@ -589,7 +781,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                 </span>
                 <div class="flex flex-col items-center justify-center gap-xs pt-[6px] w-full">
                   <p class="flex items-start text-xl leading-none tracking-h4 whitespace-nowrap m-0">
-                    <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">SUITE</span>
+                    <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">SUITE</span>
                   </p>
                   <p class="text-sm leading-5 font-normal text-text-body text-center w-full m-0">All 10 .NET Libraries</p>
                 </div>
@@ -608,9 +800,12 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
               <img class="block w-[56.287px] h-[24px]" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% for the Planet">
             </p>
           </div>
-          <div class="pf-cols grid gap-lg [grid-template-columns:repeat(auto-fit,minmax(min(282.67px,100%),1fr))] grow min-w-0 pt-[32px] px-xl pb-xl" data-part="columns">
+          <div class="pf-cols [display:grid] gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
             <div class="pf-col flex flex-col gap-md min-w-0">
-              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
+              <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M2.75 1H6.85156C7.31641 1 7.75391 1.19141 8.08203 1.51953L10.9805 4.41797C11.3086 4.74609 11.5 5.21094 11.5 5.67578V6.71484C8.79297 6.93359 6.6875 9.17578 6.6875 11.9375C6.6875 13.0859 7.04297 14.1523 7.67188 15H2.75C1.79297 15 1 14.207 1 13.25V2.75C1 1.79297 1.79297 1 2.75 1ZM9.91406 5.8125L6.6875 2.61328V5.15625C6.6875 5.51172 6.98828 5.8125 7.34375 5.8125H9.91406ZM15.875 11.9375C15.875 14.125 14.125 15.875 11.9375 15.875C9.75 15.875 8 14.125 8 11.9375C8 9.75 9.75 8 11.9375 8C14.125 8 15.875 9.75 15.875 11.9375ZM13.4961 10.2695C13.3047 10.1328 13.0312 10.1875 12.8945 10.3789L11.4453 12.375L10.707 11.6367C10.543 11.4727 10.2695 11.4727 10.1055 11.6367C9.91406 11.8008 9.91406 12.0742 10.1055 12.2383L11.1992 13.332C11.2812 13.4414 11.418 13.4688 11.5273 13.4688C11.6641 13.4688 11.7734 13.3867 11.8555 13.2773L13.6055 10.8711C13.7422 10.6797 13.7148 10.4062 13.4961 10.2695Z"></path>
+                </svg>
                 <span class="text-overline leading-overline font-overline tracking-overline uppercase">Document Editing</span>
               </p>
               <ul class="flex flex-col list-none m-0 p-0">
@@ -620,7 +815,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">PDF</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">PDF</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create, Edit, &amp; Convert PDFs</span>
                     </span>
@@ -631,7 +826,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-3">WORD</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-3">WORD</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create &amp; Edit DOCX Word Files</span>
                     </span>
@@ -642,7 +837,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">XL</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">XL</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write Excel Spreadsheets</span>
                     </span>
@@ -653,7 +848,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">PPT</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-primary">PPT</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create &amp; Edit PPT Presentations</span>
                     </span>
@@ -661,7 +856,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                 </li>
               </ul>
             </div><div class="pf-col flex flex-col gap-md min-w-0">
-              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
+              <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M3.75 2H12.5C13.457 2 14.25 2.79297 14.25 3.75V12.5C14.25 13.457 13.457 14.25 12.5 14.25H3.75C2.79297 14.25 2 13.457 2 12.5V3.75C2 2.79297 2.79297 2 3.75 2ZM5.5 4.1875C4.76172 4.1875 4.1875 4.76172 4.1875 5.5C4.1875 6.23828 4.76172 6.8125 5.5 6.8125C6.23828 6.8125 6.8125 6.23828 6.8125 5.5C6.8125 4.76172 6.23828 4.1875 5.5 4.1875ZM9.4375 7.25C9.21875 7.25 9 7.38672 8.89062 7.57812L7.19531 10.3125L6.48438 9.27344C6.34766 9.10938 6.15625 9 5.9375 9C5.71875 9 5.52734 9.10938 5.39062 9.27344L3.85938 11.4609C3.72266 11.6797 3.72266 11.9258 3.83203 12.1445C3.94141 12.3633 4.16016 12.5 4.40625 12.5H11.8438C12.0898 12.5 12.3086 12.3633 12.418 12.1719C12.5273 11.9531 12.5273 11.707 12.418 11.5156L10.0117 7.57812C9.875 7.35938 9.65625 7.25 9.4375 7.25Z"></path>
+                </svg>
                 <span class="text-overline leading-overline font-overline tracking-overline uppercase">Imaging &amp; Recognition</span>
               </p>
               <ul class="flex flex-col list-none m-0 p-0">
@@ -671,9 +869,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-3">OCR</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-3">OCR</span>
                       </span>
-                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">OCR Image Text in 127 Languages</span>
+                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">OCR Image Text in 125 Languages</span>
                     </span>
                   </a>
                 </li><li>
@@ -682,7 +880,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">BARCODE</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">BARCODE</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write Barcodes</span>
                     </span>
@@ -693,7 +891,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">QR</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-2">QR</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write QR Codes</span>
                     </span>
@@ -701,7 +899,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                 </li>
               </ul>
             </div><div class="pf-col flex flex-col gap-md min-w-0">
-              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
+              <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
+                <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M1.37999 1.12218C1.51671 0.985458 1.7628 0.958114 1.92686 1.06749L5.18077 3.25499C5.42686 3.39171 5.56358 3.66515 5.56358 3.96593V5.33311L8.05186 7.8214C8.95421 7.41124 10.0753 7.5753 10.8136 8.31358L14.2589 11.7589C14.7784 12.2784 14.7784 13.0987 14.2589 13.6183L12.6183 15.2589C12.0987 15.7784 11.2784 15.7784 10.7589 15.2589L7.31358 11.8136C6.5753 11.0753 6.41124 9.95421 6.8214 9.05186L4.33311 6.56358H2.96593C2.69249 6.56358 2.41905 6.42686 2.25499 6.18077L0.0674893 2.92686C-0.0418857 2.7628 -0.014542 2.51671 0.122177 2.37999L1.37999 1.12218ZM5.34483 9.43468C5.18077 10.4464 5.39952 11.5128 6.05577 12.3605L3.45811 14.9581C2.69249 15.7237 1.43468 15.7237 0.669052 14.9581C-0.0965732 14.1925 -0.0965732 12.9347 0.669052 12.1691L4.3878 8.47765L5.34483 9.43468ZM9.93858 1.31358C10.4855 1.31358 11.0323 1.42296 11.4972 1.61436C11.7706 1.6964 11.8253 2.05186 11.6339 2.27061L10.0753 3.80186C9.99327 3.8839 9.93858 3.99327 9.93858 4.12999V5.25108C9.93858 5.49718 10.13 5.68858 10.3761 5.68858H11.5245C11.6339 5.68858 11.7433 5.6339 11.8253 5.55186L13.3839 4.02061C13.5753 3.80186 13.9308 3.85655 14.0401 4.12999C14.2042 4.62218 14.3136 5.14171 14.3136 5.68858C14.3136 6.86436 13.8487 7.93077 13.0831 8.72374L11.7433 7.3839C10.8409 6.48155 9.61046 6.12608 8.43468 6.34483L6.87608 4.78624V3.82921C6.84874 3.50108 6.76671 3.17296 6.5753 2.87218C7.39561 1.91515 8.59874 1.31358 9.93858 1.31358Z"></path>
+                </svg>
                 <span class="text-overline leading-overline font-overline tracking-overline uppercase">Utilities</span>
               </p>
               <ul class="flex flex-col list-none m-0 p-0">
@@ -711,7 +912,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">ZIP</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">ZIP</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Zip &amp; Unzip Archives</span>
                     </span>
@@ -722,7 +923,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">PRINT</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">PRINT</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Print Documents</span>
                     </span>
@@ -733,7 +934,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     </span>
                     <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                       <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">WEBSCRAPER</span>
+                        <span class="font-bold text-text-heading">IRON</span><span class="font-medium text-accent-1">WEBSCRAPER</span>
                       </span>
                       <span class="text-xs leading-4 font-normal text-text-body min-w-0">Scrape Web Pages for Data</span>
                     </span>
@@ -748,290 +949,30 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect">
-      <h2 class="sect-h">In the bar</h2>
-      <div class="sect-sub">Where it actually lives. A <a href="component-topnav.html">Top Nav</a> item with a <code>flyout</code> becomes the trigger, and the panel comes from the slot that names — the panel is the consumer&rsquo;s content, so a corporate nav bar never has to know ten product names. The trigger is styled to be a <code>.tn-item</code>: same 12px uppercase nav label, same hover, same caret. Measured against a real one, all nine properties match. Open it below.</div>
-      <div class="frame">
-        <!-- demo:in-topnav -->
-        <div class="tn tn--default tn--has-menu">
-          <nav class="tn-inner" aria-label="Corporate">
-            <div class="tn-left">
-              <a class="tn-brand" href="/">
-                <svg class="tn-mark" viewBox="0 0 16.0002 13.3333" fill="currentColor" aria-hidden="true">
-                  <path d="M6.60254 7.74121L5.10417 13.3333H2.41781L3.22152 10.3335L0 10.3338L0.695313 7.7391L6.60254 7.74121Z"></path>
-                  <path d="M14.0353 10.3328H10.8177L10.0169 13.3333H7.33089L8.82927 7.74121L14.7303 7.73812L14.0353 10.3328Z"></path>
-                  <path d="M7.17643 5.59733L1.27165 5.59456L1.96696 3.00033L5.1862 2.99967L5.9904 0H8.67676L7.17643 5.59733Z"></path>
-                  <path d="M12.7783 2.99951H16.0002L15.3052 5.59424L9.39616 5.59701L10.8963 0H13.5824L12.7783 2.99951Z"></path>
-                </svg>
-                <svg class="tn-mark tn-mark-colour" viewBox="0 0 16.0002 13.3333" fill="none" aria-hidden="true">
-                  <g transform="translate(0 3)">
-                    <path class="mk-green" d="M6.46004 4.73922L5.7647 7.33389L0 7.33426L0.695341 4.73959L6.46004 4.73922Z"></path>
-                    <path class="mk-orange" d="M14.0353 7.33324L9.20556 7.33398L9.20593 7.33324H8.29819L8.99353 4.73894L14.7303 4.73857L14.0353 7.33324Z"></path>
-                    <path class="mk-green" d="M15.3051 2.59467L10.3446 2.59542L10.3449 2.59467H9.56836L10.2637 0.000372637L16.0001 0L15.3051 2.59467Z"></path>
-                    <path class="mk-orange" d="M7.73204 0L7.0367 2.59467L1.27163 2.59505L1.96697 0.000745274L7.73204 0Z"></path>
-                  </g>
-                  <g transform="translate(2.4176 0)">
-                    <path class="mk-sky" d="M2.68634 13.3333H0L1.49837 7.74117H4.18472L2.68634 13.3333Z"></path>
-                    <path class="mk-pink" d="M7.59908 13.3333H4.91311L6.41148 7.74117H9.09745L7.59908 13.3333Z"></path>
-                    <path class="mk-sky" d="M11.1645 0L9.66431 5.59701H6.97834L8.47858 0H11.1645Z"></path>
-                    <path class="mk-pink" d="M6.2589 0L4.75866 5.59738H2.07232L3.57255 0H6.2589Z"></path>
-                  </g>
-                </svg>
-                <span class="tn-brand-text"><b>IRON</b><span>SOFTWARE</span></span>
-              </a>
-              <ul class="tn-menu" id="tnmenu-demo-1">
-                <li>
-                  <div class="fm" data-part="flyout" data-fm>
-                    <button type="button" class="fm-trigger" data-part="trigger" aria-expanded="false" aria-controls="fm-demo-1">
-                      <span>Products</span>
-                      <svg class="fm-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-                    </button>
-                    <div class="fm-panel fm-start fm-notch is-bare" data-part="panel" id="fm-demo-1" inert>
-                      <div class="fm-panel-inner">
-                        <div class="pf flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden" data-part="panel">
-                          <div class="group/rail relative flex flex-col items-start justify-center shrink-0 box-border w-[264px] pl-md bg-no-repeat [background-size:100%_100%] max-[594.98px]:hidden" style="background-image: url(assets/flyout-rail-rainbow.svg)" data-part="rail">
-                            <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
-                              <div class="absolute inset-0 mix-blend-multiply opacity-[0.4] transition-opacity duration-[var(--duration-base)] group-hover/rail:opacity-[0.7] group-focus-within/rail:opacity-[0.7] group-[.is-hover]/rail:opacity-[0.7]" style="background-image: linear-gradient(to bottom, var(--scrim-rail-from), var(--scrim-rail-to));"></div>
-                            </div>
-                            <div class="absolute right-0 top-0 bottom-0 w-[22px] text-bg-card scale-x-[-1]" aria-hidden="true">
-                              <svg class="block w-full h-full" viewBox="0 0 22 376" fill="currentColor" preserveAspectRatio="none">
-                                <path d="M0 0H22L1.56627 182.664C1.16954 186.21 1.16954 189.79 1.56627 193.336L22 376H0V0Z"></path>
-                              </svg>
-                            </div>
-                            <div class="pf-card relative z-[1] flex flex-col items-center justify-center gap-md bg-bg-card rounded-lg px-sm py-md">
-                              <div class="flex flex-col items-center gap-sm w-full">
-                                <span style="width:96px;height:96px" class="inline-flex items-center justify-center shrink-0 leading-[0]"><img class="block max-w-full size-full" src="assets/mark-suite.svg" alt width="96" height="96">
-                                </span>
-                                <div class="flex flex-col items-center justify-center gap-xs pt-[6px] w-full">
-                                  <p class="flex items-start text-xl leading-none tracking-h4 whitespace-nowrap m-0">
-                                    <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">SUITE</span>
-                                  </p>
-                                  <p class="text-sm leading-5 font-normal text-text-body text-center w-full m-0">All 10 .NET Libraries</p>
-                                </div>
-                              </div>
-                              <a href="#" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-sm)] px-md gap-micro text-btn-sm font-btn leading-btn-sm tracking-[0.4px] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
-                                Save 80% with Iron Suite
-                              </a>
-                              <div class="absolute right-[-12px] top-1/2 -translate-y-1/2 w-[12px] h-[228px] text-bg-card scale-x-[-1]" aria-hidden="true">
-                                <svg class="block w-full h-full" viewBox="0 0 11.7348 228" fill="currentColor" preserveAspectRatio="none">
-                                  <path d="M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115.684 0.263739 119.025L11.7348 228V0Z"></path>
-                                </svg>
-                              </div>
-                            </div>
-                            <p class="absolute bottom-md left-md z-[1] flex items-center gap-[6px] text-2xs leading-3 font-semibold tracking-[0.3px] text-text-on-dark-body whitespace-nowrap m-0">
-                              Every Iron Suite Donates
-                              <img class="block w-[56.287px] h-[24px]" src="assets/1%25%20logo%20-%20Horizontal.png" alt="1% for the Planet">
-                            </p>
-                          </div>
-                          <div class="pf-cols grid gap-lg [grid-template-columns:repeat(auto-fit,minmax(min(282.67px,100%),1fr))] grow min-w-0 pt-[32px] px-xl pb-xl" data-part="columns">
-                            <div class="pf-col flex flex-col gap-md min-w-0">
-                              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
-                                <span class="text-overline leading-overline font-overline tracking-overline uppercase">Document Editing</span>
-                              </p>
-                              <ul class="flex flex-col list-none m-0 p-0">
-                                <li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-01-pdf.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">PDF</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create, Edit, &amp; Convert PDFs</span>
-                                    </span>
-                                  </a>
-                                </li><li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-02-word.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-3">WORD</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create &amp; Edit DOCX Word Files</span>
-                                    </span>
-                                  </a>
-                                </li><li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-03-xl.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">XL</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write Excel Spreadsheets</span>
-                                    </span>
-                                  </a>
-                                </li><li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-04-ppt.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-primary">PPT</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Create &amp; Edit PPT Presentations</span>
-                                    </span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </div><div class="pf-col flex flex-col gap-md min-w-0">
-                              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
-                                <span class="text-overline leading-overline font-overline tracking-overline uppercase">Imaging &amp; Recognition</span>
-                              </p>
-                              <ul class="flex flex-col list-none m-0 p-0">
-                                <li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-05-ocr.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-3">OCR</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">OCR Image Text in 127 Languages</span>
-                                    </span>
-                                  </a>
-                                </li><li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-06-bc.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">BARCODE</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write Barcodes</span>
-                                    </span>
-                                  </a>
-                                </li><li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-07-qr.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-2">QR</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Read &amp; Write QR Codes</span>
-                                    </span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </div><div class="pf-col flex flex-col gap-md min-w-0">
-                              <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
-                                <span class="text-overline leading-overline font-overline tracking-overline uppercase">Utilities</span>
-                              </p>
-                              <ul class="flex flex-col list-none m-0 p-0">
-                                <li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-08-zip.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">ZIP</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Zip &amp; Unzip Archives</span>
-                                    </span>
-                                  </a>
-                                </li><li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-09-prt.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">PRINT</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Print Documents</span>
-                                    </span>
-                                  </a>
-                                </li><li>
-                                  <a class="group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit transition-colors duration-[var(--duration-base)] hover:bg-bg-card-alt focus-visible:bg-bg-card-alt focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]" href="#" data-part="row">
-                                    <span style="width:56px;height:56px" class="inline-flex items-center justify-center shrink-0 leading-[0] shrink-0"><img class="block max-w-full size-full" src="assets/logo-010-ws.svg" alt width="56" height="56">
-                                    </span>
-                                    <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                                      <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
-                                        <span class="font-h4 text-text-heading">IRON</span><span class="font-normal text-accent-1">WEBSCRAPER</span>
-                                      </span>
-                                      <span class="text-xs leading-4 font-normal text-text-body min-w-0">Scrape Web Pages for Data</span>
-                                    </span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!--
-                  The stagger has to reach SLOTTED children, and Astro's scoping cannot: it
-                  works by stamping a data attribute on the elements this component renders,
-                  and slotted content belongs to the caller, so it never gets one.
-                  The usual answer is `:global(*)`, and FormCard uses it — but a docs page has
-                  to carry each rule verbatim for check:parity, and `:global()` is not a real
-                  pseudo-class, so the browser drops the whole rule there. On FormCard that
-                  costs a `max-width`. Here it would cost exactly the thing this block exists to
-                  show. `is:global` emits plain CSS instead, which is valid in both places.
-                  Kept to one distinctive class so the global scope stays narrow.
-                  -->
-                </li><li>
-                  <a class="tn-item" href="#">
-                    Enterprise
-                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-                  </a>
-                </li><li>
-                  <a class="tn-item" href="#">
-                    Solutions
-                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-                  </a>
-                </li><li>
-                  <a class="tn-item" href="#">
-                    Resources
-                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-                  </a>
-                </li><li>
-                  <a class="tn-item" href="#">
-                    About US
-                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-                  </a>
-                </li>
-                <li class="tn-menu-extra">
-                  <a class="tn-item" href="#">
-                    Contact Us
-                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-                  </a>
-                </li>
-                <li class="tn-menu-extra">
-                  <a class="tn-item" href="#">
-                    EN
-                    <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="tn-right">
-              <address class="tn-address">
-                <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"></path></svg>
-                205 N. Michigan Ave. Chicago, IL 60611, USA
-              </address>
-              <a class="tn-item" href="#">
-                Contact Us
-                <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-              </a>
-              <span class="tn-lang">
-                <svg class="tn-globe" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.9375 13.125C10.5312 11.9375 10.9375 10.2812 11 8.5H5C5.0625 10.2812 5.5 11.9375 6.09375 13.125C6.78125 14.5312 7.53125 15 8 15C8.5 15 9.21875 14.5312 9.9375 13.125ZM11 7.5C10.9375 5.71875 10.5312 4.09375 9.9375 2.875C9.21875 1.46875 8.5 1 8 1C7.53125 1 6.78125 1.46875 6.09375 2.875C5.5 4.09375 5.0625 5.71875 5 7.5H11ZM12 8.5C11.9062 10.9688 11.1875 13.2812 10.1562 14.6562C12.8125 13.8125 14.7812 11.4062 14.9688 8.5H12ZM14.9688 7.5C14.7812 4.625 12.8125 2.21875 10.1562 1.34375C11.1875 2.71875 11.9062 5.03125 12 7.5H14.9688ZM4 7.5C4.09375 5.03125 4.8125 2.71875 5.84375 1.34375C3.1875 2.21875 1.21875 4.625 1.03125 7.5H4ZM1.03125 8.5C1.21875 11.4062 3.1875 13.8125 5.84375 14.6562C4.8125 13.2812 4.09375 10.9688 4 8.5H1.03125ZM8 16C3.59375 16 0 12.4062 0 8C0 3.59375 3.59375 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4062 12.4062 16 8 16Z"></path></svg>
-                <a class="tn-item" href="#">
-                  EN
-                  <svg class="tn-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
-                </a>
-              </span>
-              <button type="button" class="tn-burger" aria-expanded="false" aria-controls="tnmenu-demo-1" aria-label="Corporate menu">
-                <svg class="tn-burger-icon" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"></path></svg>
-              </button>
-            </div>
-          </nav>
+      <h2 class="sect-h">Responsive</h2>
+      <div class="sect-sub">Figma covers <b>1440 only</b>, so everything below is an implementation decision and is labelled as one. The columns carry <b>no breakpoint at all</b>: they are <code>repeat(auto-fit, minmax(min(282.67px, 100%), 1fr))</code>, so they fall from three to two to one on the width the content itself measured, and the inner <code>min()</code> is what lets the last column shrink under 282.67 rather than push out of the panel. The suite rail is the one real breakpoint &mdash; <b>594.98</b>, which is 264 of rail + 24 of gutter + one 282.67 column + 24 of padding. Below it the rail goes rather than squashing the products it exists to sell.</div>
+      <div class="sect-sub" style="margin-top:14px;">Two of the thresholds are <b>TopNav&rsquo;s, not the panel&rsquo;s</b>, and they are viewport rules: the address leaves at 1259.98 and the menu collapses to a burger at 944.98. That is worth knowing before reading the widths below &mdash; the bar and the panel reflow on separate schedules.</div>
+      <div class="vp">
+        <div class="vp-bar">
+          <div class="vp-seg" role="group" aria-label="Preview width">
+            <button type="button" class="vp-btn" data-region="product" aria-pressed="true" hidden>Panel</button>
+          </div>
+          <div class="vp-seg" role="group" aria-label="Preview width">
+            <button type="button" class="vp-btn" data-w="375" aria-pressed="false">375</button>
+            <button type="button" class="vp-btn" data-w="768" aria-pressed="false">768</button>
+            <button type="button" class="vp-btn" data-w="1024" aria-pressed="true">1024</button>
+            <button type="button" class="vp-btn" data-w="1440" aria-pressed="false">1440</button>
+          </div>
+          <output class="vp-w">1024<span>px</span></output>
         </div>
-        <script type="module">function e(e=document){e.querySelectorAll(`.tn:not([data-tn-init])`).forEach(e=>{let t=e.querySelector(`.tn-burger`),n=e.querySelector(`.tn-menu`);if(!t||!n)return;e.dataset.tnInit=`1`;let r=n=>{e.classList.toggle(`tn-menu-open`,n),t.setAttribute(`aria-expanded`,String(n))},i=n=>{e.classList.contains(`tn-menu-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`tn-menu-open`))),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)}),document.addEventListener(`click`,t=>{e.contains(t.target)||i(!1)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
-        <!-- /demo:in-topnav -->
+        <div class="vp-stage">
+          <div class="vp-shell" data-vp-layouts="1248:three columns, 946:two columns, 595:one column, 0:one column, no rail">
+            <iframe class="vp-frame" title="Flyout Menu preview"></iframe>
+            <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="1024"></div>
+          </div>
+        </div>
       </div>
-      <div class="sect-sub" style="margin-top:14px;">The panel is 1200px wide and the bar is 1440 with 24 of padding, so at the canvas width it sits inside with room to spare; <code>calc(100vw - 48px)</code> keeps it on screen below that. It is the <i>viewport</i> it has to stay inside, not the trigger&rsquo;s box &mdash; the panel is positioned against the trigger but painted over the page.</div>
+      <div class="sect-sub" style="margin-top:14px;">Drag across <b>1248</b> to drop from three columns to two, <b>946</b> for the second drop, and <b>595</b> to watch the suite rail leave &mdash; the remaining column gets its 264px back and jumps from 283 to 546 wide. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold. Swept at 24 widths from 320 to 1440: nothing leaves the panel at any of them, and no product description breaks to a second line above 320.</div>
     </div>
 
     <div class="sect">

@@ -141,6 +141,8 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 }
 .tn [data-part='trigger']:hover { color: var(--color-text-link-menu-hover); }
 .tn [data-part='trigger']:focus-visible { outline-offset: 3px; }
+.tn [data-part='trigger'][aria-expanded='true'] { color: var(--color-primary); }
+.tn [data-part='flyout'] { display: flex; }
 .tn [data-part='panel'] {
   width: 1200px;
   max-width: calc(100vw - var(--spacing-xl) * 2);

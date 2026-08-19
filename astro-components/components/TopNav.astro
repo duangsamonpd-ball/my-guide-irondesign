@@ -31,6 +31,20 @@ interface NavItem {
    * else there and TopNav would not need to change.
    */
   flyout?: string;
+  /**
+   * The panel brings its own surface, so FlyoutMenu drops the background,
+   * border, radius, shadow and padding it would otherwise draw around it.
+   * `ProductFlyout` needs this — it is a card in its own right, and stacking the
+   * two put a 12px radius and a modal shadow around a 12px radius and a modal
+   * shadow. A panel of plain links does NOT: it has nothing of its own to sit on
+   * and would render as loose text over the page.
+   */
+  flyoutBare?: boolean;
+  /**
+   * Render the panel open on first paint. For a docs page or a test, never a
+   * live nav — see FlyoutMenu's `open`, which this forwards to.
+   */
+  flyoutOpen?: boolean;
 }
 
 interface Props {
@@ -109,7 +123,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
                    rotate when the panel opens, and the one below is a static
                    affordance on a link that goes somewhere. Rendering both would
                    put two carets on one trigger. */
-                <FlyoutMenu label={it.label} align="start" notch bare>
+                <FlyoutMenu label={it.label} align="start" notch bare={it.flyoutBare ?? false} open={it.flyoutOpen ?? false}>
                   <slot name={it.flyout} />
                 </FlyoutMenu>
               ) : (
@@ -372,10 +386,27 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   .tn [data-part='trigger']:hover { color: var(--color-text-link-menu-hover); }
   .tn [data-part='trigger']:focus-visible { outline-offset: 3px; }
 
+  /* The OPEN state, from `Preview ideal` (1023:3721) — the trigger and its caret
+     go `brand/primary` while the rest of the bar stays white. Keyed to
+     `aria-expanded`, which the disclosure already has to set correctly, rather
+     than to FlyoutMenu's `.is-open` class: the state is in the accessibility
+     tree either way, so styling from there cannot drift from what a screen
+     reader is told. Same value as the hover, which is Figma's choice, not an
+     alias — an open trigger reads as active whether the pointer is on it or not. */
+  .tn [data-part='trigger'][aria-expanded='true'] { color: var(--color-primary); }
+
   /* The panel is 1200 by design and the bar is 1440 with 24 of padding, so it
      fits with room to spare at the canvas width. `calc(100vw - …)` is what keeps
      it on screen below that, and it is the VIEWPORT it has to stay inside — the
      panel is positioned against the trigger but painted over the page. */
+  /* `display: flex` on the flyout is load-bearing, not tidiness. FlyoutMenu
+     makes it `inline-block`, whose box carries the line-box descender slack, so
+     the panel measured 41.5px from the top of a 40px bar — 1.5px of daylight
+     under it where `Preview ideal` has the panel flush at y=40. Flex boxes have
+     no such slack, and `calc(100% + var(--spacing-sm))` then lands exactly on
+     the bar's edge: 12px of nav padding above the 16px trigger, 12 below. */
+  .tn [data-part='flyout'] { display: flex; }
+
   .tn [data-part='panel'] {
     width: 1200px;
     max-width: calc(100vw - var(--spacing-xl) * 2);
