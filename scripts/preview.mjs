@@ -189,6 +189,124 @@ const KNOWN = new Map([
    *    Ball's call, 2026-08-03 — it is the DS button behaving normally, and the
    *    colour is the brand's."
    */
+
+  /* ── Four Iron Blue rows the TOLERANCE was swallowing ────────────────────────
+   *
+   * NOT a new decision and NOT new damage. These four sat below AA the whole
+   * time and were being matched against `#2693EC on #FFFFFF` by the 16-level
+   * channel tolerance, because every one of their backdrops is within 16 levels
+   * of white. Restricting that tolerance to SAMPLED backdrops on 2026-08-19
+   * surfaced them — which is the point of restricting it. They are the same
+   * brand blue and the same standing ruling as the two #2693EC rows above
+   * (Ball, 2026-08-03: the link colour stays, paired with an underline or an
+   * icon so colour is never the only cue). Written out one surface at a time so
+   * the anti-rot rule can see each of them.
+   */
+  [
+    '#2693EC on #F1F5F9',
+    'The "N components" count on the Components overview, 11.2px/700, over --color-bg-shade. 2.96:1 — ' +
+      'the exact figure tokens.css already records against --color-text-link. Not a link and not ' +
+      'underlined, but it restates the heading immediately above it, so it is never the only way to ' +
+      "read the number. Ball's standing ruling, 2026-08-03.",
+  ],
+  [
+    '#2693EC on #F2F9FE',
+    'Select\'s selected option, 16px/600, over --color-bg-card-alt in the open menu. 3.05:1. The ' +
+      'option is also marked with aria-selected and a check glyph, so the state does not rest on the ' +
+      "colour. Ball's standing ruling, 2026-08-03.",
+  ],
+  [
+    '#2693EC on #FAFBFC',
+    'TextLink in a mode cell on its own docs page, 16px/600. 3.13:1. It is a LINK and it is ' +
+      "underlined, which is the mitigation the ruling names. Ball's standing ruling, 2026-08-03.",
+  ],
+  [
+    '#2693EC on #FCFCFD',
+    'TextLink on a near-white docs cell, 16px/600. 3.17:1. Same element and same mitigation as the ' +
+      "row above; a different cell background, so a different key. Ball's standing ruling, 2026-08-03.",
+  ],
+
+  /* ── The PRODUCTS mega-menu, Ball's call 2026-08-19 ──────────────────────────
+   *
+   * This is a NEW ruling and not an extension of the 2026-08-12 Footer one, even
+   * though it lands on the same ten product names. That ruling was given for a
+   * DARK backdrop, where pink was the only accent in trouble and the other eight
+   * suffixes sat at 8.19–10.55. `ProductFlyout` puts the same names on WHITE,
+   * which inverts it exactly: pink is the one that clears (4.71:1) and sky,
+   * green and orange are the ones that do not. Nothing about the earlier
+   * decision predicted these rows, so they are recorded on their own.
+   *
+   * The alternatives were measured before they were declined, so nobody has to
+   * re-derive them. To clear 4.5:1 on white each accent would have to leave its
+   * own ramp position: sky 500 → iron-sky-800 #46688D-ish (6.07), green 500 →
+   * iron-green-700 #44806B (4.62), orange 500 → iron-orange-800 #7B520B (6.88).
+   * Three steps down for sky, two for green and three for orange is no longer
+   * "the sky accent" or "the orange accent" — it is a different colour wearing
+   * the name. These ARE each product's identity colour, the same one its 56px
+   * mark is drawn in two centimetres to the left, and Ball's answer on
+   * 2026-08-19 was that they stay.
+   *
+   * Mitigation, and it is why this is defensible rather than merely decided:
+   * colour is never the only cue here. Every row is `IRON` in
+   * --color-text-heading (16.1:1) immediately followed by the coloured half, so
+   * the product is named in passing text before the accent is reached; the row
+   * carries its product mark; and the description under it is
+   * --color-text-body. A reader who cannot resolve the accent still reads the
+   * row. That is the same argument the Iron Blue link rows above are keyed to.
+   */
+  [
+    '#89D3DF on #FFFFFF',
+    'IRONWORD and IRONOCR, 18px/400 — brand/accent-3 (Iron Sky 500) on the panel surface. 1.69:1 ' +
+      'against a 4.5 bar; 18px bold would still not reach the large-text relief, which starts at ' +
+      '18.66px. iron-sky-800 clears at 6.07 and is three steps off the accent. ' +
+      "Ball's call, 2026-08-19: the product accents stay on brand.",
+  ],
+  [
+    '#89D3DF on #F2F9FE',
+    'The same accent on a HOVERED row — --color-bg-card-alt rather than the panel surface. 1.59:1. ' +
+      'Listed separately because the hover fill is a different backdrop and the anti-rot rule should ' +
+      'notice if either stops happening. Same ruling.',
+  ],
+  [
+    '#63C1A0 on #FFFFFF',
+    'IRONXL, IRONBARCODE and IRONQR, 18px/400 — brand/accent-2 (Iron Green 500). 2.17:1. The nearest ' +
+      'passing step is iron-green-700 #44806B at 4.62, two down the ramp. ' +
+      "Ball's call, 2026-08-19: the product accents stay on brand. " +
+      'Note there is no `#63C1A0 on #F2F9FE` row: the docs illustration hovers one row per column and ' +
+      'none of the three green products is that row. Change which row is hovered and a new pair appears.',
+  ],
+  [
+    '#FDA509 on #FFFFFF',
+    'IRONZIP, IRONPRINT and IRONWEBSCRAPER, 18px/400 — brand/accent-1 (Iron Orange 500). 1.99:1, and ' +
+      'the worst of the three families on white because orange is the lightest. iron-orange-800 ' +
+      '#7B520B clears at 6.88 and reads brown, not orange. ' +
+      "Ball's call, 2026-08-19: the product accents stay on brand.",
+  ],
+  [
+    '#FDA509 on #F2F9FE',
+    'The same accent on a hovered row. 1.87:1. Same ruling; separate key for the same reason as the ' +
+      'sky pair above.',
+  ],
+  [
+    '#E01A59 on #F2F9FE',
+    'IRONPDF on a HOVERED row — Iron Pink 500 over --color-bg-card-alt. 4.43:1, and it is the near ' +
+      'miss of the set: the same colour on the panel surface is 4.71:1 and passes, so this row exists ' +
+      'ONLY because the hover fill is 0.07 too light. iron-pink-600 would clear at 5.97. Fixing it ' +
+      'would mean either a darker pink on one state only, or a hover fill chosen for one product out ' +
+      "of ten. Ball's call, 2026-08-19: neither, the accents stay on brand.",
+  ],
+  [
+    '#E5E5E5 on #3987BF',
+    'The 1%-for-the-Planet strip, 10px/600 — --color-text-on-dark-body over the blue block of the ' +
+      "mega-menu's rail artwork. 3.09:1 where 4.5 is needed. This backdrop is SAMPLED, and the drift " +
+      'the tolerance exists for showed up on the very first CI run: ubuntu-latest samples #3A87BF ' +
+      'where this machine gives #3987BF, one level on the red channel, same commit. ' +
+      'Unfixable by darkening the text — it is already near-white, and the rail is a full-bleed ' +
+      'gradient whose lightest band is this one. Making the strip legible would mean a scrim over the ' +
+      'artwork the whole rail exists to show. It repeats the FooterBar strip, which carries the same ' +
+      'text over the same family of artwork. ' +
+      "Ball's call, 2026-08-19.",
+  ],
 ]);
 
 /**
@@ -211,6 +329,28 @@ const KNOWN = new Map([
  */
 const CHANNEL_TOLERANCE = 16;
 
+/**
+ * The keys whose BACKDROP is a sampled pixel rather than a declared token. Only
+ * these get the tolerance above; every other key has to match exactly.
+ *
+ * This split was forced on 2026-08-19 by the self-test refusing a fresh entry,
+ * which is what it is for. `--color-bg-card-alt` is #F2F9FE and the panel
+ * surface is #FFFFFF — 13, 6 and 1 levels apart, all UNDER a tolerance that was
+ * sized for glyph-rectangle drift on artwork. So `#E01A59 on #F2F9FE`, added to
+ * excuse IRONPDF on a hovered mega-menu row, silently began excusing Iron Pink
+ * on plain white too, and `…and not an unrelated backdrop at all` went red.
+ *
+ * A tolerance applied where it is not needed is just a wider hole. Two declared
+ * tokens are either the same token or they are not; nothing rasterises them.
+ * Sampling is the only thing that moves, so sampling is the only thing tolerated.
+ */
+const SAMPLED = new Set([
+  '#E01A59 on #58321E',
+  '#E01A59 on #1E0818',
+  '#2693EC on #2A2A3A',
+  '#E5E5E5 on #3987BF',
+]);
+
 function parsePair(pair) {
   const m = pair.match(/^(#[0-9A-F]{6}) on (#[0-9A-F]{6})$/i);
   if (!m) return null;
@@ -223,6 +363,7 @@ function knownFor(pair) {
   const want = parsePair(pair);
   if (!want) return null;
   for (const key of KNOWN.keys()) {
+    if (!SAMPLED.has(key)) continue;   // a declared backdrop matches exactly or not at all
     const have = parsePair(key);
     if (!have || have.fg !== want.fg) continue;
     if (have.bg.every((c, i) => Math.abs(c - want.bg[i]) <= CHANNEL_TOLERANCE)) return key;
@@ -984,6 +1125,13 @@ if (opts['self-test']) {
     ['…and matches the same pair as another machine sampled it', knownFor('#E01A59 on #250718') === '#E01A59 on #1E0818'],
     ['…but NOT a backdrop that is a different part of the artwork', knownFor('#E01A59 on #58321E') !== '#E01A59 on #1E0818'],
     ['…and not an unrelated backdrop at all', knownFor('#E01A59 on #FFFFFF') === null],
+    /* The tolerance applies to SAMPLED backdrops only. #F2F9FE and #FFFFFF are
+       13/6/1 levels apart — inside it — so without the split the hovered-row
+       exemption would excuse the panel surface too. The first row proves the
+       declared pair still matches itself; the second proves it does not reach. */
+    ['a DECLARED backdrop still matches itself', knownFor('#E01A59 on #F2F9FE') === '#E01A59 on #F2F9FE'],
+    ['…but does not stretch to a near-identical declared one', knownFor('#E01A59 on #FEFEFE') === null],
+    ['every SAMPLED key is a real KNOWN key', [...SAMPLED].every((k) => KNOWN.has(k))],
     ['…and never across different foregrounds', knownFor('#2693EC on #1E0818') === null],
     ['Montserrat renders with every external request blocked', montserratOffline === true],
     ['…and nothing tried to leave the local origin', selfTestEscaped.length === 0],
