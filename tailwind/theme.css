@@ -803,6 +803,8 @@
   --ondark-tint: var(--transparent-white-5);  /* Button ondark base fill */
   --ondark-border: var(--transparent-white-30); /* Button ondark border */
   --ondark-border-hover: var(--transparent-white-40); /* Button ondark border, hover */
+  --scrim-rail-from: #000000;
+  --scrim-rail-to: #84427CCC;                 /* rgba(132, 66, 124, 0.8) — 8-digit, like the transparent ramp */
   --size-btn-primary: 3.5rem;                 /* 56px — Large */
   --size-btn-secondary: 3rem;                 /* 48px — Default */
   --size-btn-small: 2.25rem;                  /* 36px — Small (Figma updated 2026-07-07, was 40px) */

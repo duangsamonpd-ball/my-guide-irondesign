@@ -37,13 +37,14 @@
  * <button> inherits no font-family, its text resolved to Arial, and the probe
  * refused to report on the whole page. `assertFont` earning its keep.
  */
+import FlyoutMenu from '@iron-software/astro-components/internal/FlyoutMenu.astro';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { NAV } from '../../../../scripts/lib/nav.mjs';
 import {
-  Badge, Button, Checkbox, FileUpload, FlyoutMenu, Footer, FooterBar, FormCard,
+  Badge, Button, Checkbox, FileUpload, Footer, FooterBar, FormCard,
   Input, Logo, Notice, ProductMenu, Radio, Select, Textarea, TextLink, Tooltip,
   NugetButton, TopNav, TrialKeyCard,
 } from '@iron-software/astro-components';

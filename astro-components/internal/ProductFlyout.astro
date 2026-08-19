@@ -1,0 +1,264 @@
+---
+/**
+ * ProductFlyout — the PRODUCTS mega-menu panel, from Figma `FlyoutMenu-product`
+ * (`1017:3337` default, `1017:3029` hover) on file Yjom8rPbyL5U1wtwOLkgtU.
+ *
+ * INTERNAL, for the same reason FooterProduct is: this is the CONTENT of a
+ * panel, not a control anyone should reach for. `FlyoutMenu` owns the trigger,
+ * the reveal and the ARIA; this owns what is inside. Keeping them apart is what
+ * lets the panel be laid out and measured without a script running.
+ *
+ * Two scripts must know this folder exists, the same contract `field.ts` and
+ * `FooterProduct.astro` already have: `build-utilities.mjs` compiles the classes
+ * below and `check-component-vars.mjs` validates the variables they read. Miss
+ * the first and the classes vanish from the stylesheet while the markup keeps
+ * wearing them, with nothing red anywhere.
+ *
+ * ## Three places this deliberately does not copy Figma, all measured
+ *
+ * 1. **The category label colour.** Figma draws it `#678CB1` as a RAW HEX — the
+ *    only unbound colour in the whole node. At 14px bold on white that is
+ *    3.52:1, and WCAG AA wants 4.5:1 (large-text relief starts at 18.66px bold,
+ *    so this is normal text). `--color-info-strong` (iron-blue/700) is the same
+ *    role and the same hue family at 6.42:1, and it remaps for dark mode, which
+ *    a raw hex cannot. Awaiting Ball's ruling — if the exact hex is wanted it is
+ *    one token edit plus an `npm run audit` exemption.
+ *
+ * 2. **The three category icons are missing, on purpose.** Figma sets them in
+ *    `family/icon` = Font Awesome 7 **Pro**, as text nodes: U+E5A0, U+F03E and
+ *    U+F7D9. Pro is not redistributable and this repo ships no icon font, so
+ *    there is nothing correct to render yet. `icons.ts` is the destination and
+ *    `category.icon` is the slot; the header lays out the same with or without
+ *    one. The fix is the same one `buildings` had: outline the three glyphs in
+ *    Figma and export them. Guessing a lookalike from `icons.ts` would be a
+ *    different mark drawn confidently, which is worse than an absent one.
+ *
+ * 3. **The rail chrome is inlined rather than exported.** The rainbow IS artwork
+ *    and stays an exported file — as the RAIL's OWN `background-image`, which is
+ *    load-bearing and not a style preference. `npm run audit` decides whether to
+ *    resolve a text run's backdrop from painted pixels by walking the run's
+ *    ANCESTOR chain for a `background-image`; artwork on a sibling is invisible
+ *    to it, so it composed the backdrop from background COLOURS and reported the
+ *    1% label as `#E5E5E5 on #FFFFFF`. The pixels actually under those glyphs are
+ *    `#B21A21`, `#7B57A7` and `#3986BD`. Moving it from a child `<img>` to a
+ *    sibling `background-image` changed NOTHING — the reading only moved once the
+ *    image landed on the rail itself. A backdrop that is never painted is worse
+ *    than no reading at all: an exemption keyed to it would be keyed to a
+ *    fiction. The pointed rail edge, the card's side notch and the
+ *    panel arrow are white/border-coloured MASKS — an exported white shape can
+ *    only ever be white, and this system has a full dark ladder. The three paths
+ *    below are the exported vector data verbatim, re-fitted to `currentColor` so
+ *    they follow the surface they sit on. Nothing here is hand-drawn.
+ *
+ * ## The rail scrim is a gradient, not a flat black
+ *
+ * Sampling the render says the rail darkens to ~53% of its lit value, which does
+ * not fall out of a flat 40% black. The node is a `to bottom` gradient from
+ * `black` to `rgba(132,66,124,0.8)`, `mix-blend-multiply`, at `opacity-40` —
+ * `opacity-70` on hover. That is the whole hover change on this half, together
+ * with the CTA moving to its own hover token, which `Button` already does.
+ */
+import Logo from '../components/Logo.astro';
+import Button from '../components/Button.astro';
+import { icons } from '../icons';
+
+/** Which brand accent the coloured half of a product name wears. Figma binds
+ *  exactly these four across the ten products — read off each `Product Info`
+ *  node rather than sampled, since antialiased text lies about its own colour. */
+export type FlyoutAccent = 'primary' | 'accent-1' | 'accent-2' | 'accent-3';
+
+export interface FlyoutProduct {
+  /** `Logo` kind="element" key — the 56px mark. */
+  product: 'pdf' | 'word' | 'xl' | 'ppt' | 'ocr' | 'barcode' | 'qr' | 'zip' | 'print' | 'webscraper';
+  /** Bold half. "IRON" throughout the design; a prop so it is not baked in. */
+  prefix?: string;
+  /** Coloured half, e.g. "PDF". */
+  suffix: string;
+  accent: FlyoutAccent;
+  desc: string;
+  href?: string;
+}
+
+export interface FlyoutCategory {
+  /** Rendered uppercase by the type role, so pass it in sentence case. */
+  label: string;
+  /** Key into `icons`. Absent until the three Pro glyphs are outlined — see the
+   *  note at the top of this file. */
+  icon?: keyof typeof icons;
+  products: FlyoutProduct[];
+}
+
+interface Props {
+  categories: FlyoutCategory[];
+  /** The left rail. Omit to render the columns alone. */
+  suite?: {
+    /** Bold half of the lockup wordmark. */
+    prefix?: string;
+    /** Coloured half. */
+    suffix?: string;
+    desc?: string;
+    ctaLabel?: string;
+    ctaHref?: string;
+    /** Text beside the 1%-for-the-Planet mark. */
+    donateLabel?: string;
+  };
+  /** Where `docs/assets/` was copied to — same escape hatch as `Logo`. */
+  basePath?: string;
+  /** Renders the rail and the first product in their hover state, for the docs
+   *  page. `:hover` cannot be captured statically, and the two halves hover
+   *  independently, so this forces both at once for one illustration. */
+  forceHover?: boolean;
+  class?: string;
+}
+
+const {
+  categories,
+  suite,
+  basePath = 'assets',
+  forceHover = false,
+  class: className,
+} = Astro.props;
+
+const s = {
+  prefix: 'IRON',
+  suffix: 'SUITE',
+  desc: 'All 10 .NET Libraries',
+  ctaLabel: 'Save 80% with Iron Suite',
+  ctaHref: '#',
+  donateLabel: 'Every Iron Suite Donates',
+  ...suite,
+};
+
+/* Figma binds the coloured half to one of four brand accents. Mapped here rather
+   than passed as a CSS colour (which is what FooterProduct does) because this
+   set is closed and naming it keeps `check:tokens` able to see it. */
+const ACCENT: Record<FlyoutAccent, string> = {
+  'primary':  'text-primary',
+  'accent-1': 'text-accent-1',
+  'accent-2': 'text-accent-2',
+  'accent-3': 'text-accent-3',
+};
+
+/* Asset names are encoded, not interpolated raw — the same rule FooterBar and
+   the README already carry. `1% logo - Horizontal.png` contains a percent sign
+   and `% l` is an invalid escape sequence, so the browser fails the whole URL
+   and renders a broken image. Interpolating it raw is exactly what this file did
+   on its first run, and the render harness refused the request before a browser
+   ever saw it. */
+const asset = (file: string) => `${basePath}/${encodeURIComponent(file)}`;
+
+/* Exported vector data, verbatim — see note 3 at the top. Each is mirrored in
+   Figma by a transform on its wrapper rather than in the path, so the mirror
+   stays in CSS here too and the `d` can be diffed against a fresh export. */
+const RAIL_EDGE = 'M0 0H22L1.56627 182.664C1.16954 186.21 1.16954 189.79 1.56627 193.336L22 376H0V0Z';
+const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115.684 0.263739 119.025L11.7348 228V0Z';
+---
+
+<div
+  class:list={['pf flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden', className]}
+  data-part="panel"
+>
+  {suite && (
+    <div
+      class:list={[
+        'group/rail relative flex flex-col items-start justify-center shrink-0 box-border w-[264px] pl-md',
+        'bg-no-repeat [background-size:100%_100%]',
+        /* 264 rail + 24 gutter + 282.67 for one column + 24 = 594.67 is the
+           narrowest width that can hold the rail AND a column. Below it the
+           rail goes rather than squashing the products it exists to sell. The
+           number is the measurement, not a round breakpoint. */
+        'max-[594.98px]:hidden',
+        forceHover && 'is-hover',
+      ]}
+      style={`background-image: url(${asset('flyout-rail-rainbow.svg')})`}
+      data-part="rail"
+    >
+      {/* The scrim over the rail's own artwork. `multiply` is what keeps the
+          stripes reading as stripes instead of flattening them toward one grey. */}
+      <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div
+          class="absolute inset-0 mix-blend-multiply opacity-[0.4] transition-opacity duration-[var(--duration-base)] group-hover/rail:opacity-[0.7] group-focus-within/rail:opacity-[0.7] group-[.is-hover]/rail:opacity-[0.7]"
+          style="background-image: linear-gradient(to bottom, var(--scrim-rail-from), var(--scrim-rail-to));"
+        />
+      </div>
+
+      {/* The pointed right edge. White in Figma; `text-bg-card` here so it is the
+          panel's own surface and follows dark mode. */}
+      <div class="absolute right-0 top-0 bottom-0 w-[22px] text-bg-card scale-x-[-1]" aria-hidden="true">
+        <svg class="block w-full h-full" viewBox="0 0 22 376" fill="currentColor" preserveAspectRatio="none">
+          <path d={RAIL_EDGE} />
+        </svg>
+      </div>
+
+      <div class="pf-card relative z-[1] flex flex-col items-center justify-center gap-md bg-bg-card rounded-lg px-sm py-md">
+        <div class="flex flex-col items-center gap-sm w-full">
+          <Logo kind="mark" product="suite" size={96} basePath={basePath} label="" />
+          <div class="flex flex-col items-center justify-center gap-xs pt-[6px] w-full">
+            <p class="flex items-start text-xl leading-none tracking-h4 whitespace-nowrap m-0">
+              <span class="font-h4 text-text-heading">{s.prefix}</span><span class="font-normal text-primary">{s.suffix}</span>
+            </p>
+            <p class="text-sm leading-5 font-normal text-text-body text-center w-full m-0">{s.desc}</p>
+          </div>
+        </div>
+
+        <Button size="sm" variant="primary" href={s.ctaHref}>{s.ctaLabel}</Button>
+
+        {/* The card's own notch, pointing into the columns. */}
+        <div class="absolute right-[-12px] top-1/2 -translate-y-1/2 w-[12px] h-[228px] text-bg-card scale-x-[-1]" aria-hidden="true">
+          <svg class="block w-full h-full" viewBox="0 0 11.7348 228" fill="currentColor" preserveAspectRatio="none">
+            <path d={CARD_NOTCH} />
+          </svg>
+        </div>
+      </div>
+
+      <p class="absolute bottom-md left-md z-[1] flex items-center gap-[6px] text-2xs leading-3 font-semibold tracking-[0.3px] text-text-on-dark-body whitespace-nowrap m-0">
+        {s.donateLabel}
+        <img class="block w-[56.287px] h-[24px]" src={asset("1% logo - Horizontal.png")} alt="1% for the Planet" />
+      </p>
+    </div>
+  )}
+
+  <div class="pf-cols grid gap-lg [grid-template-columns:repeat(auto-fit,minmax(min(282.67px,100%),1fr))] grow min-w-0 pt-[32px] px-xl pb-xl" data-part="columns">
+    {categories.map((cat) => (
+      <div class="pf-col flex flex-col gap-md min-w-0">
+        <p class="flex items-center gap-xs pl-xs m-0 text-info-strong">
+          {cat.icon && (
+            <svg class="w-[14px] h-[14px] shrink-0" viewBox={icons[cat.icon].viewBox} fill="currentColor" aria-hidden="true">
+              <path d={icons[cat.icon].path} />
+            </svg>
+          )}
+          <span class="text-overline leading-overline font-overline tracking-overline uppercase">{cat.label}</span>
+        </p>
+
+        <ul class="flex flex-col list-none m-0 p-0">
+          {cat.products.map((p, i) => (
+            <li>
+              <a
+                class:list={[
+                  'group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit',
+                  'transition-colors duration-[var(--duration-base)]',
+                  'hover:bg-bg-card-alt focus-visible:bg-bg-card-alt',
+                  'focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]',
+                  forceHover && i === 0 && 'bg-bg-card-alt',
+                ]}
+                href={p.href ?? '#'}
+                data-part="row"
+              >
+                {/* 56 is Figma's, and `Logo` writes width/height as an INLINE
+                    style — a class here could never have beaten it. See the
+                    `size` prop's note for why 56 is allowed at all. */}
+                <Logo kind="element" product={p.product} size={56} basePath={basePath} label="" class="shrink-0" />
+                <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
+                  <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                    <span class="font-h4 text-text-heading">{p.prefix ?? 'IRON'}</span><span class:list={['font-normal', ACCENT[p.accent]]}>{p.suffix}</span>
+                  </span>
+                  <span class="text-xs leading-4 font-normal text-text-body min-w-0">{p.desc}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</div>

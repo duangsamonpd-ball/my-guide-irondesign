@@ -677,6 +677,17 @@
   --ondark-border:       var(--transparent-white-30); /* Button ondark border */
   --ondark-border-hover: var(--transparent-white-40); /* Button ondark border, hover */
 
+  /* ProductFlyout's rail scrim — Figma `FlyoutMenu-product` / `sub-background`,
+     a `to bottom` gradient under `mix-blend-multiply` at 40% rest / 70% hover.
+     It lives here rather than in the component because `check:tokens` forbids a
+     raw colour there, and because the last time a scrim was a loose literal
+     (--ondark-tint) it drifted 1% from Figma with nothing noticing.
+     HALF-GATED, deliberately flagged: Figma binds the first stop to its `black`
+     variable and leaves the second one RAW, so no design-side variable exists to
+     compare the purple against. It wants one. */
+  --scrim-rail-from: #000000;
+  --scrim-rail-to:   #84427CCC;   /* rgba(132, 66, 124, 0.8) — 8-digit, like the transparent ramp */
+
 
   /* ═══════════════════════════════════════════════════════════════════════════
      7. SIZING / COMPONENT DIMENSIONS

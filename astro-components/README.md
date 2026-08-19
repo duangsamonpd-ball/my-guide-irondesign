@@ -458,35 +458,24 @@ anything but the full 6px.
 
 Ships its own `<script>` for the hover-with-a-gap interaction (JS open/close with a 200ms close-delay, since pure CSS `:hover` breaks once there's a gap between trigger and bubble and the mouse can't reach a link inside) — scoped per-instance, safe with multiple `<Tooltip>`s per page, re-initializes on Astro View Transitions.
 
-### `FlyoutMenu.astro`
+### `FlyoutMenu.astro` — moved
 
-A trigger that reveals a floating panel of navigation links — the mega-menu behind **PRODUCTS** on ironsoftware.com, built for `TopNav` to compose.
+**Not a public component as of 2026-08-19.** The Figma frame that landed
+(`FlyoutMenu-product`) settled that it is the PRODUCTS mega-menu on the corporate
+strip and nothing else, so it moved to `astro-components/internal/` alongside
+`ProductFlyout.astro`, which fills its panel.
+
+Reach for it through `TopNav` instead: give a nav item a `flyout` and put the
+panel in the slot it names.
 
 ```astro
-<FlyoutMenu label="Products" align="center" notch>
-  <div class="my-column">…</div>
-  <div class="my-column">…</div>
-</FlyoutMenu>
+<TopNav items={[{ label: 'Products', flyout: 'products' }, { label: 'Enterprise', href: '/enterprise' }]}>
+  <ProductFlyout slot="products" categories={categories} suite={{}} />
+</TopNav>
 ```
 
-| Prop | |
-|---|---|
-| `label` | trigger text, required |
-| `openOnHover` | adds hover to click and focus; off by default |
-| `align` | `start` / `center` / `end` — which edge the panel pins to |
-| `notch` | draws the pointer up at the trigger |
-| `open` | render open on first paint, for docs and tests |
-| `class` | |
-
-The panel is a slot — whatever you put in it becomes the flyout. Its direct children are numbered by the script and rise in turn as it opens, so composing columns needs no hand-numbering and a column inserted in the middle cannot leave the sequence stale.
-
-**It is a disclosure, not a `role="menu"`, and that is the one decision here worth defending.** `menuitem` tells assistive tech the contents are *commands*, which strips link semantics — a screen reader stops announcing "link" and stops listing them — and it commits to arrow-key navigation with a roving `tabindex` where Tab leaves the whole menu instead of walking it. This follows the WAI-ARIA APG's Disclosure Navigation pattern instead, the same as `FooterBar`'s Free tools panel: `aria-expanded` + `aria-controls` on a real `<button>`, ordinary links inside, `inert` while closed, Escape closing and returning focus, focus leaving the component closing it, a pointer press outside closing it, and only one open at a time across the page.
-
-`openOnHover` adds hover *on top of* click and focus rather than replacing them, ignores `pointerType: 'touch'` so a tap is never read as a hover, and carries a 150ms close delay so a diagonal cursor path from trigger to panel does not drop it.
-
-**On a hover flyout a click only ever opens** (Ball's call, 2026-08-05). The failure that fixes is common and feels broken: the pointer arrives, the panel opens, and the user clicks the trigger anyway — because that is what triggers are for — which shuts the panel in their face and leaves it shut until they move away and come back. The rule is narrowed by a `:hover` test rather than applied blindly, so the keyboard keeps its toggle: a disclosure reporting `aria-expanded="true"` that refuses to collapse on Enter is a broken contract, and opened by Tab and Enter it still closes on Enter. Escape, an outside press and focus leaving all still close it either way.
-
-**The visual layer is provisional** — built ahead of the Figma frame on purpose, since the interaction contract does not depend on it. Padding, radius, shadow, panel width and the caret are neutral token placeholders. The live site's own nav fails three things this does not: its trigger is an `<a href>` so the panel is hover-only, its `aria-expanded` is hard-coded `false` and never updates, and its `aria-haspopup="true"` promises a `role="menu"` that is not there.
+The panel is the consumer's content, which is why it is a slot and not a prop — a
+corporate nav bar has no business knowing ten product names.
 
 ### `Footer.astro`
 
@@ -911,7 +900,7 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 8 of 20 components take a required
+  destructure rather than the interface. Only 8 of 19 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
   `Tooltip.body`, and the card components' labels.
@@ -1012,7 +1001,7 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 20 components ported
+## 19 components ported
 
 Button, NugetButton, TextLink, Input, Textarea, FileUpload, Select, Checkbox,
 Radio, Badge, Notice, Tooltip, FlyoutMenu, Product Footer, FooterBar, FormCard,

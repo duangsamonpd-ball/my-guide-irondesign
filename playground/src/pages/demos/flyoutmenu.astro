@@ -10,7 +10,10 @@
  * `.fmd-*` is demo-only styling and lives on the docs page, not in the
  * component — the same arrangement as Tooltip's `.tt-trigger`.
  */
-import { FlyoutMenu } from '@iron-software/astro-components';
+import FlyoutMenu from '@iron-software/astro-components/internal/FlyoutMenu.astro';
+import { TopNav } from '@iron-software/astro-components';
+import ProductFlyout from '@iron-software/astro-components/internal/ProductFlyout.astro';
+import type { FlyoutCategory } from '@iron-software/astro-components/internal/ProductFlyout.astro';
 
 const groups = [
   {
@@ -36,6 +39,41 @@ const groups = [
       ['IronPrint', 'Print Documents'],
       ['IronZip', 'Zip & Unzip Archives'],
       ['IronWebscraper', 'Scrape Web Pages for Data'],
+    ],
+  },
+];
+
+/* The PRODUCTS panel, from Figma `FlyoutMenu-product`. It lives in this file
+   rather than its own because one docs page can only be fed by ONE demo file:
+   build-demos checks every region in the page against every region the demo
+   renders, so a second source makes both sides report the other's regions
+   missing. The accents below were read off each `Product Info` node with
+   get_variable_defs, not sampled off the render — antialiased 18px text
+   reports a lightened colour and three of the ten would have been wrong. */
+const categories: FlyoutCategory[] = [
+  {
+    label: 'Document Editing',
+    products: [
+      { product: 'pdf',  suffix: 'PDF',  accent: 'primary',  desc: 'Create, Edit, & Convert PDFs' },
+      { product: 'word', suffix: 'WORD', accent: 'accent-3', desc: 'Create & Edit DOCX Word Files' },
+      { product: 'xl',   suffix: 'XL',   accent: 'accent-2', desc: 'Read & Write Excel Spreadsheets' },
+      { product: 'ppt',  suffix: 'PPT',  accent: 'primary',  desc: 'Create & Edit PPT Presentations' },
+    ],
+  },
+  {
+    label: 'Imaging & Recognition',
+    products: [
+      { product: 'ocr',     suffix: 'OCR',     accent: 'accent-3', desc: 'OCR Image Text in 127 Languages' },
+      { product: 'barcode', suffix: 'BARCODE', accent: 'accent-2', desc: 'Read & Write Barcodes' },
+      { product: 'qr',      suffix: 'QR',      accent: 'accent-2', desc: 'Read & Write QR Codes' },
+    ],
+  },
+  {
+    label: 'Utilities',
+    products: [
+      { product: 'zip',        suffix: 'ZIP',        accent: 'accent-1', desc: 'Zip & Unzip Archives' },
+      { product: 'print',      suffix: 'PRINT',      accent: 'accent-1', desc: 'Print Documents' },
+      { product: 'webscraper', suffix: 'WEBSCRAPER', accent: 'accent-1', desc: 'Scrape Web Pages for Data' },
     ],
   },
 ];
@@ -73,6 +111,30 @@ const groups = [
           <a class="fmd-item" href="#"><span class="fmd-name">Escape still closes</span></a>
         </div>
       </FlyoutMenu>
+    </div>
+
+    <div data-demo="product">
+      <ProductFlyout categories={categories} suite={{}} />
+    </div>
+
+    <div data-demo="product-hover">
+      <ProductFlyout categories={categories} suite={{}} forceHover />
+    </div>
+
+    <div data-demo="in-topnav">
+      <TopNav
+        items={[
+          { label: 'Products', flyout: 'products' },
+          { label: 'Enterprise', href: '#' },
+          { label: 'Solutions', href: '#' },
+          { label: 'Resources', href: '#' },
+          { label: 'About US', href: '#' },
+        ]}
+        contact={{ label: 'Contact Us', href: '#' }}
+        language={{ label: 'EN', href: '#' }}
+      >
+        <ProductFlyout slot="products" categories={categories} suite={{}} />
+      </TopNav>
     </div>
   </body>
 </html>

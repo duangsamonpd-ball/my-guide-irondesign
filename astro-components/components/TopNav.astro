@@ -13,12 +13,24 @@
  */
 
 import { icons } from '../icons';
+import FlyoutMenu from '../internal/FlyoutMenu.astro';
 
 interface NavItem {
   label: string;
   href?: string;
   /** Figma shows a caret on every item; turn it off for a plain link. */
   caret?: boolean;
+  /**
+   * Turns this item into the trigger for a flyout panel, and names the slot the
+   * panel comes from — `flyout: 'products'` renders `<slot name="products" />`.
+   *
+   * A slot rather than a prop because the panel is the CONSUMER's content: the
+   * PRODUCTS mega-menu is ten products, their descriptions and their accents,
+   * none of which a corporate nav bar has any business knowing. `ProductFlyout`
+   * is what fills it on ironsoftware.com; a different site would put something
+   * else there and TopNav would not need to change.
+   */
+  flyout?: string;
 }
 
 interface Props {
@@ -48,12 +60,9 @@ const {
   class: className,
 } = Astro.props;
 
-/* Figma sets gap:0 between a label and its caret and lets the caret's own 16×16
-   box provide the spacing, so the viewBox is offset to centre the 6.246×3.765
-   triangle inside 16×16 rather than adding a wrapper element or a gap. */
-const CARET_VB = '-4.8768 -6.1177 16 16';
-const CARET_D =
-  'M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z';
+/* The caret moved to `icons.ts` as `caretDown` on 2026-08-19, so the links here
+   and FlyoutMenu's trigger draw the same one. Its viewBox is offset to centre the
+   6.246x3.765 triangle inside 16x16 — Figma uses that box as the gap. */
 
 /* Same id scheme as FooterBar's tools panel: the trigger has to point at the
    panel with aria-controls, and a page may carry more than one bar. */
@@ -95,10 +104,20 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
         <ul class="tn-menu" id={menuId}>
           {items.map((it) => (
             <li>
-              <a class="tn-item" href={it.href ?? '#'}>
-                {it.label}
-                {(it.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
-              </a>
+              {it.flyout ? (
+                /* The caret is FlyoutMenu's own here, not `.tn-caret` — it has to
+                   rotate when the panel opens, and the one below is a static
+                   affordance on a link that goes somewhere. Rendering both would
+                   put two carets on one trigger. */
+                <FlyoutMenu label={it.label} align="start" notch bare>
+                  <slot name={it.flyout} />
+                </FlyoutMenu>
+              ) : (
+                <a class="tn-item" href={it.href ?? '#'}>
+                  {it.label}
+                  {(it.caret ?? true) && <svg class="tn-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path}/></svg>}
+                </a>
+              )}
             </li>
           ))}
           {/* Below 420 the strip cannot hold these two either, so they move into
@@ -110,7 +129,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
             <li class="tn-menu-extra">
               <a class="tn-item" href={contact.href ?? '#'}>
                 {contact.label}
-                {(contact.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+                {(contact.caret ?? true) && <svg class="tn-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path}/></svg>}
               </a>
             </li>
           )}
@@ -118,7 +137,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
             <li class="tn-menu-extra">
               <a class="tn-item" href={language.href ?? '#'}>
                 {language.label}
-                {(language.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+                {(language.caret ?? true) && <svg class="tn-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path}/></svg>}
               </a>
             </li>
           )}
@@ -137,7 +156,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
       {contact && (
         <a class="tn-item" href={contact.href ?? '#'}>
           {contact.label}
-          {(contact.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+          {(contact.caret ?? true) && <svg class="tn-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path}/></svg>}
         </a>
       )}
 
@@ -146,7 +165,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
           <svg class="tn-globe" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.9375 13.125C10.5312 11.9375 10.9375 10.2812 11 8.5H5C5.0625 10.2812 5.5 11.9375 6.09375 13.125C6.78125 14.5312 7.53125 15 8 15C8.5 15 9.21875 14.5312 9.9375 13.125ZM11 7.5C10.9375 5.71875 10.5312 4.09375 9.9375 2.875C9.21875 1.46875 8.5 1 8 1C7.53125 1 6.78125 1.46875 6.09375 2.875C5.5 4.09375 5.0625 5.71875 5 7.5H11ZM12 8.5C11.9062 10.9688 11.1875 13.2812 10.1562 14.6562C12.8125 13.8125 14.7812 11.4062 14.9688 8.5H12ZM14.9688 7.5C14.7812 4.625 12.8125 2.21875 10.1562 1.34375C11.1875 2.71875 11.9062 5.03125 12 7.5H14.9688ZM4 7.5C4.09375 5.03125 4.8125 2.71875 5.84375 1.34375C3.1875 2.21875 1.21875 4.625 1.03125 7.5H4ZM1.03125 8.5C1.21875 11.4062 3.1875 13.8125 5.84375 14.6562C4.8125 13.2812 4.09375 10.9688 4 8.5H1.03125ZM8 16C3.59375 16 0 12.4062 0 8C0 3.59375 3.59375 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4062 12.4062 16 8 16Z"/></svg>
           <a class="tn-item" href={language.href ?? '#'}>
             {language.label}
-            {(language.caret ?? true) && <svg class="tn-caret" viewBox={CARET_VB} fill="currentColor" aria-hidden="true"><path d={CARET_D}/></svg>}
+            {(language.caret ?? true) && <svg class="tn-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path}/></svg>}
           </a>
         </span>
       )}
@@ -284,6 +303,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
     .tn--has-menu .tn-right > .tn-item { display: none; }
     .tn--has-menu .tn-lang { display: none; }
   }
+
 </style>
 
 <script>
@@ -324,3 +344,40 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   document.addEventListener('DOMContentLoaded', () => initTopNav());
   document.addEventListener('astro:page-load', () => initTopNav());
 </script>
+
+<style is:global>
+  /* ── The flyout item ──────────────────────────────────────────────────────
+     A SECOND, GLOBAL sheet, because Astro's scoping cannot cross into a child
+     component's markup. Per-selector `:global()` works in the browser and is
+     what this was written with first — but it is not valid standalone CSS, so
+     it cannot appear verbatim in the docs page the way `check:parity` requires.
+     The same tradeoff Blockquote, List and Text already record. Every selector
+     below stays qualified by `.tn`, so nothing leaks onto an unrelated flyout.
+
+     Keyed to FlyoutMenu's published `[data-part]` hooks rather than its `.fm-*`
+     classes, which are its own business.
+
+     The trigger has to BE a `.tn-item` — same 12px uppercase nav label, same
+     hover. FlyoutMenu's own trigger is sized for a standalone button (btn font,
+     padding, border, radius), and every one of those has to come back off.
+     `.tn-item` is not reused directly because the trigger is a <button>, and a
+     button carries UA font, padding, border and background that a class list
+     does not clear. */
+  .tn [data-part='trigger'] {
+    padding: 0; border: 0; border-radius: 0; gap: var(--spacing-micro);
+    font-size: var(--font-size-xs); font-weight: var(--fw-nav-label);
+    line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label);
+    color: var(--color-text-on-dark-heading); text-transform: uppercase;
+  }
+  .tn [data-part='trigger']:hover { color: var(--color-text-link-menu-hover); }
+  .tn [data-part='trigger']:focus-visible { outline-offset: 3px; }
+
+  /* The panel is 1200 by design and the bar is 1440 with 24 of padding, so it
+     fits with room to spare at the canvas width. `calc(100vw - …)` is what keeps
+     it on screen below that, and it is the VIEWPORT it has to stay inside — the
+     panel is positioned against the trigger but painted over the page. */
+  .tn [data-part='panel'] {
+    width: 1200px;
+    max-width: calc(100vw - var(--spacing-xl) * 2);
+  }
+</style>

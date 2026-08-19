@@ -31,8 +31,15 @@ interface Props {
   /** kind="mark" only — swaps to the black knockout artwork. */
   mono?: boolean;
   /** kind="mark" / "element". The mark is drawn on an 8-unit grid at 192px, so only
-   *  these four sizes keep every edge on a whole pixel. */
-  size?: 24 | 48 | 96 | 192;
+   *  24/48/96/192 keep every edge on a whole pixel.
+   *
+   *  56 is the exception and it is a design decision, not an oversight: the
+   *  product mega-menu row (`FlyoutMenu-product`, Figma `1014:1921`) specifies a
+   *  56px element mark, and the element artwork is a `0 0 96 96` viewBox, so 56
+   *  scales at 0.5833 and its edges land off-pixel. That is visible on a hairline
+   *  and these marks have none — they are solid colour blocks. Do not reach for it
+   *  anywhere the four grid sizes will do. */
+  size?: 24 | 48 | 56 | 96 | 192;
   /** kind="wordmark" / "lockup" — rendered height in px; width follows the aspect ratio. */
   height?: number;
   /** Wraps the logo in an <a>. */

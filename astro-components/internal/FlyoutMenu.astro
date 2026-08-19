@@ -2,6 +2,20 @@
 /**
  * FlyoutMenu — a trigger that reveals a floating panel of navigation links.
  *
+ * **INTERNAL as of 2026-08-19, Ball's ruling: this is TopNav's, and nothing
+ * else's.** It was exported while it was a general-purpose disclosure looking
+ * for a home; the Figma frame that landed (`FlyoutMenu-product`) settled that it
+ * is the PRODUCTS mega-menu on the corporate strip, so the public surface it had
+ * was promising a component nobody was meant to reach for. `internal/` is the
+ * same shelf `FooterProduct` and `ProductFlyout` sit on, and the two scripts
+ * that must know about that folder — `build-utilities.mjs`,
+ * `check-component-vars.mjs` — already walk it.
+ *
+ * It stays a component rather than being folded into TopNav because the reveal,
+ * the ARIA and the script below are the expensive half and they are not about
+ * navigation at all. TopNav composes it through `[data-part]` hooks; it never
+ * reaches for the classes.
+ *
  * **The visual layer here is provisional.** This was built ahead of the Figma
  * frame, on purpose: the interaction and accessibility contract is the same
  * whatever the panel ends up looking like, and it is the half that is expensive
@@ -73,6 +87,16 @@ interface Props {
   align?: 'start' | 'center' | 'end';
   /** Draws the notch pointing up at the trigger. */
   notch?: boolean;
+  /**
+   * Drop the panel's own surface — background, border, radius, shadow and the
+   * inner padding — because the content brings its own. `ProductFlyout` does:
+   * it is a card in its own right, and stacking the two put a 12px radius and a
+   * modal shadow around a 12px radius and a modal shadow.
+   *
+   * The notch is NOT dropped. It belongs to the flyout, not to the content —
+   * it points at the trigger, which the content knows nothing about.
+   */
+  bare?: boolean;
   class?: string;
 }
 
@@ -82,6 +106,7 @@ const {
   open = false,
   align = 'start',
   notch = false,
+  bare = false,
   class: className,
 } = Astro.props;
 
@@ -90,13 +115,13 @@ const {
 const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
 ---
 
-<div class:list={['fm', { 'is-open': open }, className]} data-fm data-fm-hover={openOnHover ? '' : undefined}>
-  <button type="button" class="fm-trigger" aria-expanded={open ? 'true' : 'false'} aria-controls={panelId}>
+<div class:list={['fm', { 'is-open': open }, className]} data-part="flyout" data-fm data-fm-hover={openOnHover ? '' : undefined}>
+  <button type="button" class="fm-trigger" data-part="trigger" aria-expanded={open ? 'true' : 'false'} aria-controls={panelId}>
     <span>{label}</span>
-    <svg class="fm-caret" viewBox={icons.chevronDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.chevronDown.path} /></svg>
+    <svg class="fm-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path} /></svg>
   </button>
 
-  <div class:list={['fm-panel', `fm-${align}`, { 'fm-notch': notch }]} id={panelId} inert={!open}>
+  <div class:list={['fm-panel', `fm-${align}`, { 'fm-notch': notch, 'is-bare': bare }]} data-part="panel" id={panelId} inert={!open}>
     <div class="fm-panel-inner"><slot /></div>
   </div>
 </div>
@@ -117,7 +142,10 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
   }
   .fm-trigger:hover { color: var(--color-text-link); }
   .fm-trigger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
-  .fm-caret { width: 12px; height: 12px; flex-shrink: 0; transition: transform var(--duration-base) var(--ease-emphasized); }
+  /* 16, not 12: `caretDown` centres a 6.246x3.765 triangle inside a 16x16 box
+     and Figma uses that box AS the gap. Drawing it at 12 shrinks the triangle and
+     reintroduces the spacing the box was providing. */
+  .fm-caret { width: 16px; height: 16px; flex-shrink: 0; transition: transform var(--duration-base) var(--ease-emphasized); }
   .fm.is-open .fm-caret { transform: rotate(180deg); }
 
   /* `visibility` is doing real work, not decoration: at opacity 0 the panel is
@@ -159,19 +187,35 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
      out rather than stretched to the tallest. */
   .fm-panel-inner { display: flex; align-items: flex-start; padding: var(--spacing-xs); }
 
-  /* The notch is a rotated square with the panel's own border on two sides, so
-     it inherits any border/background change for free. It sits one pixel under
-     the panel edge to hide the seam. */
+  /* The notch, from Figma `1015:2676` (`arrow-flyoutmenu`). It was a rotated
+     10x10 square while the panel was provisional; the exported vector is
+     19.25 x 8.7966 with a 2px-radius tip, which a rotated square cannot be —
+     a 90-degree tip would have to be exactly twice as wide as it is tall
+     (17.59), and this is 19.25. So it is the real path, drawn in `currentColor`
+     rather than shipped as the exported file, because the export bakes in
+     #E2E8F0 and this system has a dark ladder to follow.
+
+     Figma fills it with `border/default`, not the panel surface — it reads as
+     the panel's edge lifting toward the trigger rather than as a tab of the
+     panel's face.
+
+     Its offset is NOT Figma's 43px. That number is wherever the arrow happened
+     to land under the trigger Ball drew, and it matches the centre of no TopNav
+     item — PRODUCTS+caret measures 89.72px, so 44.86 from its left edge, where
+     the export puts the arrow's centre at 52.63. The offset belongs to the
+     trigger, so it is measured from the trigger here. */
   .fm-notch::before {
-    content: ''; position: absolute; top: -6px; width: 10px; height: 10px;
-    background: var(--color-bg-card);
-    border-left: var(--border-width-1) solid var(--color-border);
-    border-top: var(--border-width-1) solid var(--color-border);
-    transform: rotate(45deg);
+    content: ''; position: absolute; top: -8px; width: 19.25px; height: 8.7966px;
+    background: var(--color-border);
+    clip-path: path('M0 8.7966L8.21081 0.585786C8.99186 -0.195263 10.2582 -0.195262 11.0392 0.585787L19.25 8.7966H0Z');
   }
   .fm-start.fm-notch::before  { left: var(--spacing-lg); }
   .fm-end.fm-notch::before    { right: var(--spacing-lg); }
-  .fm-center.fm-notch::before { left: calc(50% - 5px); }
+  .fm-center.fm-notch::before { left: calc(50% - 9.625px); }
+
+  /* Content that is a card in its own right — see the `bare` prop. */
+  .fm-panel.is-bare { background: none; border: 0; border-radius: 0; box-shadow: none; min-width: 0; }
+  .fm-panel.is-bare .fm-panel-inner { padding: 0; display: block; }
 
   @media (prefers-reduced-motion: reduce) {
     .fm-panel,
