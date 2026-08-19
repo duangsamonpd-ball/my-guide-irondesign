@@ -15,6 +15,7 @@
     "check:theme": "node scripts/build-theme.mjs --check",
     "check:utilities": "node scripts/build-utilities.mjs --check",
     "check:tokens": "node scripts/check-token-drift.mjs",
+    "check:flat-scope": "node scripts/check-flat-scope.mjs --self-test && node scripts/check-flat-scope.mjs",
     "check:type-scale": "node scripts/check-type-scale.mjs --self-test && node scripts/check-type-scale.mjs",
     "check:parity": "node scripts/check-component-parity.mjs",
     "check:exports": "node scripts/check-exports.mjs",

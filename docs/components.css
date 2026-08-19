@@ -276,7 +276,6 @@
   .pm-util:hover { border-color: var(--color-border-strong); }
   .pm-util:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
   .pm-right { display: flex; align-items: center; justify-content: flex-end; flex: 1 0 0; min-width: 0; }
-  .pm-right > a { position: relative; }
   .pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-heading); cursor: pointer; }
   .pm-burger:hover { color: var(--color-primary); }
   .pm-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
@@ -314,6 +313,7 @@
   @media (max-width: 433.98px) {
     .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   }
+  .pm-right > a { position: relative; }
 
 /* ── TextLink ────────────────────────────────────────────────────
    astro-components/components/TextLink.astro */

@@ -218,6 +218,29 @@ jobs:
       # reading from them counts. 24 checks, including that the contrast pass
       # REFUSES a page whose text is not in the docs font, and that a gradient it
       # cannot compose is measured from pixels rather than skipped.
+      # A component's <style> is scoped by Astro, but docs/components.css and every
+      # per-page copy are FLATTENED — the docs pages are static HTML with no build
+      # step, so build-component-css.mjs concatenates the blocks unscoped and
+      # build-demos.mjs strips `data-astro-cid-…` from the markup. A selector Astro
+      # had bounded is unbounded there.
+      #
+      # build-component-css.mjs already refuses a selector claimed by two
+      # components and one STARTING with a bare tag. This is the third property,
+      # and the one that got through: `.tn-menu li` was TopNav's own rule and
+      # correct under scoping, until a nav item gained a FlyoutMenu and the panel
+      # came to live inside one of those <li>s. On the docs pages it reached every
+      # product row in the mega-menu. Ball found it in a screenshot; no gate could.
+      #
+      # It asks the rendered tree rather than reading selectors, because the
+      # question is not the shape of the selector — `.tn-brand-text b` has the same
+      # shape and is safe — but whether the subtree it reaches can hold another
+      # component's markup.
+      - name: Check the flat-scope probe can fail
+        run: node scripts/check-flat-scope.mjs --self-test
+
+      - name: No component rule escapes once the scoping is stripped
+        run: node scripts/check-flat-scope.mjs
+
       - name: Check the render probes can fail
         run: node scripts/preview.mjs --self-test
 

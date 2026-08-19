@@ -268,7 +268,6 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      radius, type and focus ring — this is the one thing the bar still says about
      it, and it is a containing block, not a look. */
   .pm-right { display: flex; align-items: center; justify-content: flex-end; flex: 1 0 0; min-width: 0; }
-  .pm-right > a { position: relative; }
 
   .pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-heading); cursor: pointer; }
   .pm-burger:hover { color: var(--color-primary); }
@@ -375,6 +374,24 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
     .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   }
 </style>
+<style is:global>
+  /* The NuGet CTA is a COMPOSED child, so this cannot be scoped. Astro rewrites a
+     scoped selector with the component's own `data-astro-cid-…` on both sides —
+     `.pm-right[cid] > a[cid]` — and NugetButton's <a> carries a different scope
+     or none, so the rule never matched it in a real app. It only ever applied on
+     the docs pages, where build-component-css.mjs flattens every block unscoped.
+     Found by `check:flat-scope` on 2026-08-19, which asks the rendered tree what
+     each rule reaches once the scoping is stripped.
+
+     `.pm-right` is this component's own prefixed class, so global costs nothing
+     here: it reaches a direct <a> child of a ProductMenu right-hand group and
+     nothing else. Same arrangement TopNav uses to style the flyout it composes.
+
+     It is a containing block, not a look — the pill brings its own fill, height,
+     padding, radius, type and focus ring. */
+  .pm-right > a { position: relative; }
+</style>
+
 
 <script>
   // Disclosure pattern (WAI-ARIA APG), the same one TopNav's corporate menu and
