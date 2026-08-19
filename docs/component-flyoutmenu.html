@@ -97,108 +97,14 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 @media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} .canvas {padding:44px 20px;gap:32px;} }
 
 
-  /* PROVISIONAL — see the note at the top of this file. Every value below is a
-     neutral token choice made to be legible, not a design decision. */
-  .fm { position: relative; display: inline-block; }
-
-  .fm-trigger {
-    display: inline-flex; align-items: center; gap: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-family: inherit; font-size: var(--font-size-btn); font-weight: var(--fw-btn);
-    line-height: var(--leading-5); letter-spacing: var(--letter-spacing-btn);
-    color: var(--color-text-body); background: none;
-    border: var(--border-width-1) solid transparent; border-radius: var(--rounded-md);
-    cursor: pointer; transition: color var(--duration-base);
-  }
-  .fm-trigger:hover { color: var(--color-text-link); }
-  .fm-trigger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
-  .fm-caret { width: 12px; height: 12px; flex-shrink: 0; transition: transform var(--duration-base) var(--ease-emphasized); }
-  .fm.is-open .fm-caret { transform: rotate(180deg); }
-
-  /* `visibility` is doing real work, not decoration: at opacity 0 the panel is
-     invisible but still hit-testable, so it would swallow clicks meant for the
-     page underneath. It is transitioned with a delay rather than a duration so
-     it flips at the END of the fade out and at the START of the fade in. */
-  .fm-panel {
-    position: absolute; top: calc(100% + var(--spacing-sm)); z-index: 20;
-    min-width: 220px;
-    background: var(--color-bg-card);
-    border: var(--border-width-1) solid var(--color-border);
-    border-radius: var(--rounded-lg);
-    box-shadow: var(--shadow-float);
-    opacity: 0; visibility: hidden;
-    /* The lift and the scale are one movement, and the scale is the part that
-       makes it read as "coming from" the trigger rather than sliding in from
-       nowhere. `transform-origin` is what aims it, so it has to follow `align`. */
-    transform: translateY(-6px) scale(0.98);
-    transition:
-      opacity var(--duration-base) var(--ease-default),
-      transform var(--duration-base) var(--ease-emphasized),
-      visibility 0s linear var(--duration-base);
-  }
-  .fm-start { left: 0;  transform-origin: top left; }
-  .fm-end { right: 0; transform-origin: top right; }
-  .fm-center { left: 50%; margin-left: 0; transform-origin: top center; }
-  /* The centring translate has to live in the same `transform` as the animation,
-     or the later declaration wins and the panel jumps back to the left edge. */
-  .fm-center { transform: translate(-50%, -6px) scale(0.98); }
-  .fm.is-open .fm-center { transform: translate(-50%, 0) scale(1); }
-
-  .fm.is-open .fm-panel {
-    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
-    transition-delay: 0s;
-  }
-  /* A row, because the shape this exists to serve is a mega-menu: several
-     columns side by side. One child still lays out as one column, so the simple
-     case costs nothing. `flex-start` keeps columns of different lengths topped
-     out rather than stretched to the tallest. */
-  .fm-panel-inner { display: flex; align-items: flex-start; padding: var(--spacing-xs); }
-
-  /* The notch is a rotated square with the panel's own border on two sides, so
-     it inherits any border/background change for free. It sits one pixel under
-     the panel edge to hide the seam. */
-  .fm-notch::before {
-    content: ''; position: absolute; top: -6px; width: 10px; height: 10px;
-    background: var(--color-bg-card);
-    border-left: var(--border-width-1) solid var(--color-border);
-    border-top: var(--border-width-1) solid var(--color-border);
-    transform: rotate(45deg);
-  }
-  .fm-start.fm-notch::before { left: var(--spacing-lg); }
-  .fm-end.fm-notch::before { right: var(--spacing-lg); }
-  .fm-center.fm-notch::before { left: calc(50% - 5px); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .fm-panel, .fm-caret { transition-duration: 1ms; }
-    .fm-panel { transition-delay: 0s; }
-  }
-
-
-  /* Children rise in turn behind the panel. `--i` is set per child by the
-     script, so a caller composing arbitrary columns gets the stagger without
-     numbering anything by hand. The delay applies only on the way IN — kept on
-     the way out, the panel has already faded past the content before the last
-     column starts leaving, which reads as broken. Same rule as FooterBar's Free
-     tools panel. */
-  .fm-panel-inner > * {
-    /* Declared here, not just read with a fallback: the stylesheet is where the
-       variable's contract belongs, and the script only overrides it per child.
-       It also keeps check:vars honest — a `var()` whose name is never declared
-       anywhere in the source reads to that gate as a missing theme token. */
-    --i: 0;
-    opacity: 0; transform: translateY(6px);
-    transition:
-      opacity var(--duration-base) var(--ease-default),
-      transform var(--duration-base) var(--ease-emphasized);
-  }
-  .fm.is-open .fm-panel-inner > * {
-    opacity: 1; transform: none;
-    transition-delay: calc(var(--i, 0) * 40ms + 60ms);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .fm-panel-inner > * { transition-duration: 1ms; }
-    .fm.is-open .fm-panel-inner > * { transition-delay: 0s; }
-  }
+  /* FlyoutMenu's own CSS used to be copied here, because check:parity requires a
+     component's <style> verbatim on its docs page. It moved to
+     astro-components/internal/ on 2026-08-19 and parity stopped asking — but the
+     copy stayed, and an inline <style> outranks every linked sheet, so the page
+     went on serving the version from before the move. That is why `align="center"`
+     still rendered left-aligned after the fix landed, and why three measurements
+     of it agreed with each other and with nothing real. components.css carries the
+     live rules now; this block does not come back. */
 
 /* Demo-only — these live here, not in the component, the same way Tooltip's
    .tt-trigger does. The component owns the panel and the reveal; what a caller
@@ -307,12 +213,12 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                 </a>
                 <ul class="tn-menu" id="tnmenu-demo-1">
                   <li>
-                    <div class="fm is-open" data-part="flyout" data-fm>
+                    <div class="fm is-open" data-part="flyout" data-fm data-fm-hover>
                       <button type="button" class="fm-trigger" data-part="trigger" aria-expanded="true" aria-controls="fm-demo-1">
                         <span>Products</span>
                         <svg class="fm-caret" viewBox="-4.8768 -6.1177 16 16" fill="currentColor" aria-hidden="true"><path d="M2.68376 3.57422L0.183763 1.07422C0.00798182 0.898438 -0.0506119 0.625 0.0470443 0.390625C0.144701 0.15625 0.379076 0 0.632982 0H5.63298C5.88689 0 6.10173 0.15625 6.19939 0.390625C6.29704 0.625 6.23845 0.898438 6.06267 1.07422L3.56267 3.57422C3.32829 3.82812 2.91814 3.82812 2.68376 3.57422Z"></path></svg>
                       </button>
-                      <div class="fm-panel fm-start fm-notch is-bare" data-part="panel" id="fm-demo-1">
+                      <div class="fm-panel fm-center fm-notch is-bare" data-part="panel" id="fm-demo-1">
                         <div class="fm-panel-inner">
                           <div class="pf flex items-stretch w-full max-w-[1200px] bg-bg-card rounded-xl shadow-modal overflow-hidden" data-part="panel">
                             <div class="group/rail relative flex flex-col items-start justify-center shrink-0 box-border w-[264px] pl-md bg-no-repeat [background-size:100%_100%] max-[594.98px]:hidden" style="background-image: url(assets/flyout-rail-rainbow.svg)" data-part="rail">
@@ -350,7 +256,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                               </p>
                             </div>
                             <div class="pf-cols [display:grid] gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
-                              <div class="pf-col flex flex-col gap-md min-w-0">
+                              <div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
                                 <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                                   <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                                     <path d="M2.75 1H6.85156C7.31641 1 7.75391 1.19141 8.08203 1.51953L10.9805 4.41797C11.3086 4.74609 11.5 5.21094 11.5 5.67578V6.71484C8.79297 6.93359 6.6875 9.17578 6.6875 11.9375C6.6875 13.0859 7.04297 14.1523 7.67188 15H2.75C1.79297 15 1 14.207 1 13.25V2.75C1 1.79297 1.79297 1 2.75 1ZM9.91406 5.8125L6.6875 2.61328V5.15625C6.6875 5.51172 6.98828 5.8125 7.34375 5.8125H9.91406ZM15.875 11.9375C15.875 14.125 14.125 15.875 11.9375 15.875C9.75 15.875 8 14.125 8 11.9375C8 9.75 9.75 8 11.9375 8C14.125 8 15.875 9.75 15.875 11.9375ZM13.4961 10.2695C13.3047 10.1328 13.0312 10.1875 12.8945 10.3789L11.4453 12.375L10.707 11.6367C10.543 11.4727 10.2695 11.4727 10.1055 11.6367C9.91406 11.8008 9.91406 12.0742 10.1055 12.2383L11.1992 13.332C11.2812 13.4414 11.418 13.4688 11.5273 13.4688C11.6641 13.4688 11.7734 13.3867 11.8555 13.2773L13.6055 10.8711C13.7422 10.6797 13.7148 10.4062 13.4961 10.2695Z"></path>
@@ -404,7 +310,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                                     </a>
                                   </li>
                                 </ul>
-                              </div><div class="pf-col flex flex-col gap-md min-w-0">
+                              </div><div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
                                 <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                                   <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                                     <path d="M3.75 2H12.5C13.457 2 14.25 2.79297 14.25 3.75V12.5C14.25 13.457 13.457 14.25 12.5 14.25H3.75C2.79297 14.25 2 13.457 2 12.5V3.75C2 2.79297 2.79297 2 3.75 2ZM5.5 4.1875C4.76172 4.1875 4.1875 4.76172 4.1875 5.5C4.1875 6.23828 4.76172 6.8125 5.5 6.8125C6.23828 6.8125 6.8125 6.23828 6.8125 5.5C6.8125 4.76172 6.23828 4.1875 5.5 4.1875ZM9.4375 7.25C9.21875 7.25 9 7.38672 8.89062 7.57812L7.19531 10.3125L6.48438 9.27344C6.34766 9.10938 6.15625 9 5.9375 9C5.71875 9 5.52734 9.10938 5.39062 9.27344L3.85938 11.4609C3.72266 11.6797 3.72266 11.9258 3.83203 12.1445C3.94141 12.3633 4.16016 12.5 4.40625 12.5H11.8438C12.0898 12.5 12.3086 12.3633 12.418 12.1719C12.5273 11.9531 12.5273 11.707 12.418 11.5156L10.0117 7.57812C9.875 7.35938 9.65625 7.25 9.4375 7.25Z"></path>
@@ -447,7 +353,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                                     </a>
                                   </li>
                                 </ul>
-                              </div><div class="pf-col flex flex-col gap-md min-w-0">
+                              </div><div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
                                 <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                                   <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                                     <path d="M1.37999 1.12218C1.51671 0.985458 1.7628 0.958114 1.92686 1.06749L5.18077 3.25499C5.42686 3.39171 5.56358 3.66515 5.56358 3.96593V5.33311L8.05186 7.8214C8.95421 7.41124 10.0753 7.5753 10.8136 8.31358L14.2589 11.7589C14.7784 12.2784 14.7784 13.0987 14.2589 13.6183L12.6183 15.2589C12.0987 15.7784 11.2784 15.7784 10.7589 15.2589L7.31358 11.8136C6.5753 11.0753 6.41124 9.95421 6.8214 9.05186L4.33311 6.56358H2.96593C2.69249 6.56358 2.41905 6.42686 2.25499 6.18077L0.0674893 2.92686C-0.0418857 2.7628 -0.014542 2.51671 0.122177 2.37999L1.37999 1.12218ZM5.34483 9.43468C5.18077 10.4464 5.39952 11.5128 6.05577 12.3605L3.45811 14.9581C2.69249 15.7237 1.43468 15.7237 0.669052 14.9581C-0.0965732 14.1925 -0.0965732 12.9347 0.669052 12.1691L4.3878 8.47765L5.34483 9.43468ZM9.93858 1.31358C10.4855 1.31358 11.0323 1.42296 11.4972 1.61436C11.7706 1.6964 11.8253 2.05186 11.6339 2.27061L10.0753 3.80186C9.99327 3.8839 9.93858 3.99327 9.93858 4.12999V5.25108C9.93858 5.49718 10.13 5.68858 10.3761 5.68858H11.5245C11.6339 5.68858 11.7433 5.6339 11.8253 5.55186L13.3839 4.02061C13.5753 3.80186 13.9308 3.85655 14.0401 4.12999C14.2042 4.62218 14.3136 5.14171 14.3136 5.68858C14.3136 6.86436 13.8487 7.93077 13.0831 8.72374L11.7433 7.3839C10.8409 6.48155 9.61046 6.12608 8.43468 6.34483L6.87608 4.78624V3.82921C6.84874 3.50108 6.76671 3.17296 6.5753 2.87218C7.39561 1.91515 8.59874 1.31358 9.93858 1.31358Z"></path>
@@ -507,7 +413,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                     show. `is:global` emits plain CSS instead, which is valid in both places.
                     Kept to one distinctive class so the global scope stays narrow.
                     -->
-                    <script type="module">var e=`is-open`;function t(t,n=!1){if(!t.classList.contains(e))return;t.classList.remove(e);let r=t.querySelector(`.fm-trigger`),i=t.querySelector(`.fm-panel`);r?.setAttribute(`aria-expanded`,`false`),i?.setAttribute(`inert`,``),n&&r?.focus()}function n(n){document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e!==n&&t(e)}),n.classList.add(e),n.querySelector(`.fm-trigger`)?.setAttribute(`aria-expanded`,`true`),n.querySelector(`.fm-panel`)?.removeAttribute(`inert`)}function r(r=document){r.querySelectorAll(`[data-fm]:not([data-fm-init])`).forEach(r=>{let i=r.querySelector(`.fm-trigger`);if(i&&(r.dataset.fmInit=`1`,r.querySelectorAll(`.fm-panel-inner > *`).forEach((e,t)=>{e.style.setProperty(`--i`,String(t))}),i.addEventListener(`click`,()=>{if(!r.classList.contains(e)){n(r);return}r.dataset.fmHover!==void 0&&r.matches(`:hover`)||t(r)}),r.addEventListener(`focusout`,e=>{let n=e.relatedTarget;n&&!r.contains(n)&&t(r)}),r.dataset.fmHover!==void 0)){let e,i=()=>{clearTimeout(e),e=void 0};r.addEventListener(`pointerenter`,e=>{e.pointerType!==`touch`&&(i(),n(r))}),r.addEventListener(`pointerleave`,n=>{n.pointerType!==`touch`&&(i(),e=window.setTimeout(()=>t(r),150))}),r.addEventListener(`pointerdown`,i)}})}document.addEventListener(`keydown`,e=>{if(e.key!==`Escape`)return;let n=document.querySelector(`[data-fm].is-open`);n&&t(n,!0)}),document.addEventListener(`pointerdown`,e=>{let n=e.target;document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e.contains(n)||t(e)})}),document.addEventListener(`DOMContentLoaded`,()=>r()),document.addEventListener(`astro:page-load`,()=>r());</script>
+                    <script type="module">var e=`is-open`;function t(t,n=!1){if(!t.classList.contains(e))return;t.classList.remove(e);let r=t.querySelector(`.fm-trigger`),i=t.querySelector(`.fm-panel`);r?.setAttribute(`aria-expanded`,`false`),i?.setAttribute(`inert`,``),n&&r?.focus()}function n(n){document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e!==n&&t(e)}),n.classList.add(e),n.querySelector(`.fm-trigger`)?.setAttribute(`aria-expanded`,`true`),n.querySelector(`.fm-panel`)?.removeAttribute(`inert`),r(n)}function r(e){let t=e.querySelector(`.fm-panel`),n=e.querySelector(`.fm-trigger`);if(!t||!n||!t.classList.contains(`fm-center`))return;let r=t.offsetParent;if(!r)return;let i=r.getBoundingClientRect(),a=n.getBoundingClientRect(),o=i.width/2-t.offsetWidth/2,s=a.left-i.left+a.width/2;t.style.setProperty(`--fm-notch-x`,`${s-o-9.625}px`)}window.addEventListener(`resize`,()=>{document.querySelectorAll(`[data-fm].is-open`).forEach(r)});function i(i=document){i.querySelectorAll(`[data-fm]:not([data-fm-init])`).forEach(i=>{let a=i.querySelector(`.fm-trigger`);if(a&&(i.dataset.fmInit=`1`,i.classList.contains(e)&&r(i),i.querySelectorAll(`.fm-panel-inner > *`).forEach((e,t)=>{e.style.setProperty(`--i`,String(t))}),i.querySelectorAll(`.fm-panel.is-bare [data-part="column"]`).forEach((e,t)=>{e.style.setProperty(`--i`,String(t))}),a.addEventListener(`click`,()=>{if(!i.classList.contains(e)){n(i);return}i.dataset.fmHover!==void 0&&i.matches(`:hover`)||t(i)}),i.addEventListener(`focusout`,e=>{let n=e.relatedTarget;n&&!i.contains(n)&&t(i)}),i.dataset.fmHover!==void 0)){let e,r=()=>{clearTimeout(e),e=void 0};i.addEventListener(`pointerenter`,e=>{e.pointerType!==`touch`&&(r(),n(i))}),i.addEventListener(`pointerleave`,n=>{n.pointerType!==`touch`&&(r(),e=window.setTimeout(()=>t(i),150))}),i.addEventListener(`pointerdown`,r)}})}document.addEventListener(`keydown`,e=>{if(e.key!==`Escape`)return;let n=document.querySelector(`[data-fm].is-open`);n&&t(n,!0)}),document.addEventListener(`pointerdown`,e=>{let n=e.target;document.querySelectorAll(`[data-fm].is-open`).forEach(e=>{e.contains(n)||t(e)})}),document.addEventListener(`DOMContentLoaded`,()=>i()),document.addEventListener(`astro:page-load`,()=>i());</script>
                   </li><li>
                     <a class="tn-item" href="#">
                       Enterprise
@@ -613,7 +519,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             </p>
           </div>
           <div class="pf-cols [display:grid] gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
-            <div class="pf-col flex flex-col gap-md min-w-0">
+            <div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
               <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                 <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M2.75 1H6.85156C7.31641 1 7.75391 1.19141 8.08203 1.51953L10.9805 4.41797C11.3086 4.74609 11.5 5.21094 11.5 5.67578V6.71484C8.79297 6.93359 6.6875 9.17578 6.6875 11.9375C6.6875 13.0859 7.04297 14.1523 7.67188 15H2.75C1.79297 15 1 14.207 1 13.25V2.75C1 1.79297 1.79297 1 2.75 1ZM9.91406 5.8125L6.6875 2.61328V5.15625C6.6875 5.51172 6.98828 5.8125 7.34375 5.8125H9.91406ZM15.875 11.9375C15.875 14.125 14.125 15.875 11.9375 15.875C9.75 15.875 8 14.125 8 11.9375C8 9.75 9.75 8 11.9375 8C14.125 8 15.875 9.75 15.875 11.9375ZM13.4961 10.2695C13.3047 10.1328 13.0312 10.1875 12.8945 10.3789L11.4453 12.375L10.707 11.6367C10.543 11.4727 10.2695 11.4727 10.1055 11.6367C9.91406 11.8008 9.91406 12.0742 10.1055 12.2383L11.1992 13.332C11.2812 13.4414 11.418 13.4688 11.5273 13.4688C11.6641 13.4688 11.7734 13.3867 11.8555 13.2773L13.6055 10.8711C13.7422 10.6797 13.7148 10.4062 13.4961 10.2695Z"></path>
@@ -667,7 +573,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                   </a>
                 </li>
               </ul>
-            </div><div class="pf-col flex flex-col gap-md min-w-0">
+            </div><div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
               <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                 <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M3.75 2H12.5C13.457 2 14.25 2.79297 14.25 3.75V12.5C14.25 13.457 13.457 14.25 12.5 14.25H3.75C2.79297 14.25 2 13.457 2 12.5V3.75C2 2.79297 2.79297 2 3.75 2ZM5.5 4.1875C4.76172 4.1875 4.1875 4.76172 4.1875 5.5C4.1875 6.23828 4.76172 6.8125 5.5 6.8125C6.23828 6.8125 6.8125 6.23828 6.8125 5.5C6.8125 4.76172 6.23828 4.1875 5.5 4.1875ZM9.4375 7.25C9.21875 7.25 9 7.38672 8.89062 7.57812L7.19531 10.3125L6.48438 9.27344C6.34766 9.10938 6.15625 9 5.9375 9C5.71875 9 5.52734 9.10938 5.39062 9.27344L3.85938 11.4609C3.72266 11.6797 3.72266 11.9258 3.83203 12.1445C3.94141 12.3633 4.16016 12.5 4.40625 12.5H11.8438C12.0898 12.5 12.3086 12.3633 12.418 12.1719C12.5273 11.9531 12.5273 11.707 12.418 11.5156L10.0117 7.57812C9.875 7.35938 9.65625 7.25 9.4375 7.25Z"></path>
@@ -710,7 +616,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                   </a>
                 </li>
               </ul>
-            </div><div class="pf-col flex flex-col gap-md min-w-0">
+            </div><div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
               <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                 <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M1.37999 1.12218C1.51671 0.985458 1.7628 0.958114 1.92686 1.06749L5.18077 3.25499C5.42686 3.39171 5.56358 3.66515 5.56358 3.96593V5.33311L8.05186 7.8214C8.95421 7.41124 10.0753 7.5753 10.8136 8.31358L14.2589 11.7589C14.7784 12.2784 14.7784 13.0987 14.2589 13.6183L12.6183 15.2589C12.0987 15.7784 11.2784 15.7784 10.7589 15.2589L7.31358 11.8136C6.5753 11.0753 6.41124 9.95421 6.8214 9.05186L4.33311 6.56358H2.96593C2.69249 6.56358 2.41905 6.42686 2.25499 6.18077L0.0674893 2.92686C-0.0418857 2.7628 -0.014542 2.51671 0.122177 2.37999L1.37999 1.12218ZM5.34483 9.43468C5.18077 10.4464 5.39952 11.5128 6.05577 12.3605L3.45811 14.9581C2.69249 15.7237 1.43468 15.7237 0.669052 14.9581C-0.0965732 14.1925 -0.0965732 12.9347 0.669052 12.1691L4.3878 8.47765L5.34483 9.43468ZM9.93858 1.31358C10.4855 1.31358 11.0323 1.42296 11.4972 1.61436C11.7706 1.6964 11.8253 2.05186 11.6339 2.27061L10.0753 3.80186C9.99327 3.8839 9.93858 3.99327 9.93858 4.12999V5.25108C9.93858 5.49718 10.13 5.68858 10.3761 5.68858H11.5245C11.6339 5.68858 11.7433 5.6339 11.8253 5.55186L13.3839 4.02061C13.5753 3.80186 13.9308 3.85655 14.0401 4.12999C14.2042 4.62218 14.3136 5.14171 14.3136 5.68858C14.3136 6.86436 13.8487 7.93077 13.0831 8.72374L11.7433 7.3839C10.8409 6.48155 9.61046 6.12608 8.43468 6.34483L6.87608 4.78624V3.82921C6.84874 3.50108 6.76671 3.17296 6.5753 2.87218C7.39561 1.91515 8.59874 1.31358 9.93858 1.31358Z"></path>
@@ -801,7 +707,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             </p>
           </div>
           <div class="pf-cols [display:grid] gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
-            <div class="pf-col flex flex-col gap-md min-w-0">
+            <div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
               <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                 <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M2.75 1H6.85156C7.31641 1 7.75391 1.19141 8.08203 1.51953L10.9805 4.41797C11.3086 4.74609 11.5 5.21094 11.5 5.67578V6.71484C8.79297 6.93359 6.6875 9.17578 6.6875 11.9375C6.6875 13.0859 7.04297 14.1523 7.67188 15H2.75C1.79297 15 1 14.207 1 13.25V2.75C1 1.79297 1.79297 1 2.75 1ZM9.91406 5.8125L6.6875 2.61328V5.15625C6.6875 5.51172 6.98828 5.8125 7.34375 5.8125H9.91406ZM15.875 11.9375C15.875 14.125 14.125 15.875 11.9375 15.875C9.75 15.875 8 14.125 8 11.9375C8 9.75 9.75 8 11.9375 8C14.125 8 15.875 9.75 15.875 11.9375ZM13.4961 10.2695C13.3047 10.1328 13.0312 10.1875 12.8945 10.3789L11.4453 12.375L10.707 11.6367C10.543 11.4727 10.2695 11.4727 10.1055 11.6367C9.91406 11.8008 9.91406 12.0742 10.1055 12.2383L11.1992 13.332C11.2812 13.4414 11.418 13.4688 11.5273 13.4688C11.6641 13.4688 11.7734 13.3867 11.8555 13.2773L13.6055 10.8711C13.7422 10.6797 13.7148 10.4062 13.4961 10.2695Z"></path>
@@ -855,7 +761,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                   </a>
                 </li>
               </ul>
-            </div><div class="pf-col flex flex-col gap-md min-w-0">
+            </div><div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
               <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                 <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M3.75 2H12.5C13.457 2 14.25 2.79297 14.25 3.75V12.5C14.25 13.457 13.457 14.25 12.5 14.25H3.75C2.79297 14.25 2 13.457 2 12.5V3.75C2 2.79297 2.79297 2 3.75 2ZM5.5 4.1875C4.76172 4.1875 4.1875 4.76172 4.1875 5.5C4.1875 6.23828 4.76172 6.8125 5.5 6.8125C6.23828 6.8125 6.8125 6.23828 6.8125 5.5C6.8125 4.76172 6.23828 4.1875 5.5 4.1875ZM9.4375 7.25C9.21875 7.25 9 7.38672 8.89062 7.57812L7.19531 10.3125L6.48438 9.27344C6.34766 9.10938 6.15625 9 5.9375 9C5.71875 9 5.52734 9.10938 5.39062 9.27344L3.85938 11.4609C3.72266 11.6797 3.72266 11.9258 3.83203 12.1445C3.94141 12.3633 4.16016 12.5 4.40625 12.5H11.8438C12.0898 12.5 12.3086 12.3633 12.418 12.1719C12.5273 11.9531 12.5273 11.707 12.418 11.5156L10.0117 7.57812C9.875 7.35938 9.65625 7.25 9.4375 7.25Z"></path>
@@ -898,7 +804,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
                   </a>
                 </li>
               </ul>
-            </div><div class="pf-col flex flex-col gap-md min-w-0">
+            </div><div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
               <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
                 <svg class="w-[16px] h-[16px] shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M1.37999 1.12218C1.51671 0.985458 1.7628 0.958114 1.92686 1.06749L5.18077 3.25499C5.42686 3.39171 5.56358 3.66515 5.56358 3.96593V5.33311L8.05186 7.8214C8.95421 7.41124 10.0753 7.5753 10.8136 8.31358L14.2589 11.7589C14.7784 12.2784 14.7784 13.0987 14.2589 13.6183L12.6183 15.2589C12.0987 15.7784 11.2784 15.7784 10.7589 15.2589L7.31358 11.8136C6.5753 11.0753 6.41124 9.95421 6.8214 9.05186L4.33311 6.56358H2.96593C2.69249 6.56358 2.41905 6.42686 2.25499 6.18077L0.0674893 2.92686C-0.0418857 2.7628 -0.014542 2.51671 0.122177 2.37999L1.37999 1.12218ZM5.34483 9.43468C5.18077 10.4464 5.39952 11.5128 6.05577 12.3605L3.45811 14.9581C2.69249 15.7237 1.43468 15.7237 0.669052 14.9581C-0.0965732 14.1925 -0.0965732 12.9347 0.669052 12.1691L4.3878 8.47765L5.34483 9.43468ZM9.93858 1.31358C10.4855 1.31358 11.0323 1.42296 11.4972 1.61436C11.7706 1.6964 11.8253 2.05186 11.6339 2.27061L10.0753 3.80186C9.99327 3.8839 9.93858 3.99327 9.93858 4.12999V5.25108C9.93858 5.49718 10.13 5.68858 10.3761 5.68858H11.5245C11.6339 5.68858 11.7433 5.6339 11.8253 5.55186L13.3839 4.02061C13.5753 3.80186 13.9308 3.85655 14.0401 4.12999C14.2042 4.62218 14.3136 5.14171 14.3136 5.68858C14.3136 6.86436 13.8487 7.93077 13.0831 8.72374L11.7433 7.3839C10.8409 6.48155 9.61046 6.12608 8.43468 6.34483L6.87608 4.78624V3.82921C6.84874 3.50108 6.76671 3.17296 6.5753 2.87218C7.39561 1.91515 8.59874 1.31358 9.93858 1.31358Z"></path>

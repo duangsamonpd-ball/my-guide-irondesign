@@ -123,7 +123,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
                    rotate when the panel opens, and the one below is a static
                    affordance on a link that goes somewhere. Rendering both would
                    put two carets on one trigger. */
-                <FlyoutMenu label={it.label} align="start" notch bare={it.flyoutBare ?? false} open={it.flyoutOpen ?? false}>
+                <FlyoutMenu label={it.label} align="center" openOnHover notch bare={it.flyoutBare ?? false} open={it.flyoutOpen ?? false}>
                   <slot name={it.flyout} />
                 </FlyoutMenu>
               ) : (
@@ -405,7 +405,21 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      under it where `Preview ideal` has the panel flush at y=40. Flex boxes have
      no such slack, and `calc(100% + var(--spacing-sm))` then lands exactly on
      the bar's edge: 12px of nav padding above the 16px trigger, 12 below. */
-  .tn [data-part='flyout'] { display: flex; }
+  /* `display: flex` on the flyout is two fixes in one.
+     `inline-block` carries the line-box descender slack, so the panel measured
+     41.5px from the top of a 40px bar — 1.5px of daylight under it where the
+     canvas has it flush. And `position: static` hands the panel's containing
+     block up to `.tn`, which spans the viewport: `left: 50%` then centres the
+     panel ON THE PAGE rather than on the four-letter word that opened it, which
+     is what the mega-menu wants and what ironsoftware.com does. The notch stops
+     being centred when that happens, so FlyoutMenu aims it at the trigger — see
+     `--fm-notch-x` there. */
+  .tn [data-part='flyout'] { display: flex; position: static; }
+
+  /* Above the bar, and above anything the page puts under it. `.tn` already
+     carries z-index 20 for its own narrow-width menu, and the panel has to clear
+     that as well as the bar itself. */
+  .tn [data-part='panel'] { z-index: 30; }
 
   .tn [data-part='panel'] {
     width: 1200px;

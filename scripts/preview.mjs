@@ -226,6 +226,35 @@ const KNOWN = new Map([
       "row above; a different cell background, so a different key. Ball's standing ruling, 2026-08-03.",
   ],
 
+  /* ── The nav bar's active/hover pink, Ball 2026-08-19 ────────────────────────
+   *
+   * This one is NOT new damage and it is not new code: `.tn-item:hover` has been
+   * `--color-text-link-menu-hover` on a `slate/800` bar since TopNav was ported.
+   * It only became VISIBLE when the mega-menu's docs preview started rendering a
+   * trigger in its open state, because a static page never captures a hover.
+   * `Preview ideal` (1023:3721) draws that open trigger in `brand/primary`, so
+   * the value is the canvas's, not an implementation choice.
+   *
+   * iron-pink-400 #E95F8B clears at 4.51:1 and was measured before being
+   * declined; 300 clears at 6.34. Ball was shown both and chose to keep the
+   * brand pink, which is the same answer he gave the product accents earlier the
+   * same day — the difference being that this backdrop is dark, so it is a
+   * separate key rather than an extension.
+   *
+   * The mitigation is real and is the reason this is defensible: the open
+   * trigger is never the only signal. It carries `aria-expanded="true"`, its
+   * caret rotates 180 degrees, and a 1200px panel is on screen beneath it. A
+   * reader who cannot resolve the pink still knows the menu is open.
+   */
+  [
+    '#E01A59 on #1D293D',
+    'The nav trigger while its flyout is open, and `.tn-item` on hover — Iron Pink 500 on the slate/800 ' +
+      'bar, 12px/700. 3.11:1 against a 4.5 bar. iron-pink-400 #E95F8B clears at 4.51 and iron-pink-300 ' +
+      'at 6.34; both were measured and both were declined. Colour is not the only cue: aria-expanded, a ' +
+      'rotated caret and the open panel all say the same thing. ' +
+      "Ball's call, 2026-08-19: the bar keeps the brand pink.",
+  ],
+
   /* ── The PRODUCTS mega-menu, Ball's call 2026-08-19 ──────────────────────────
    *
    * This is a NEW ruling and not an extension of the 2026-08-12 Footer one, even

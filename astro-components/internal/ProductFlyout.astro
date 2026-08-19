@@ -256,7 +256,7 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
       and the two numbers above are the content's own, not round ones. */}
   <div class="pf-cols [display:grid] gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
     {categories.map((cat) => (
-      <div class="pf-col flex flex-col gap-md min-w-0">
+      <div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
         {/* `opacity-75`, not Figma's 70. The group carries the icon and the label
             together, and at 70 the label composites to #5D809D — 4.17:1 on the
             panel and 3.99:1 on a hovered row, both under the 4.5 bar for 14px

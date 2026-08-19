@@ -163,7 +163,16 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
     /* The lift and the scale are one movement, and the scale is the part that
        makes it read as "coming from" the trigger rather than sliding in from
        nowhere. `transform-origin` is what aims it, so it has to follow `align`. */
-    transform: translateY(-6px) scale(0.98);
+    /* The horizontal part is a VARIABLE, not a second declaration. `center` used
+       to set its own `transform: translate(-50%, …)` in a rule with the same
+       specificity as `.fm.is-open .fm-panel` below and less source order, so the
+       open state overwrote it and the panel snapped back to the trigger's left
+       edge — `align="center"` had never once centred anything. The comment two
+       lines down warned about exactly this and the code still walked into it,
+       which is what a variable prevents: there is only one `transform` here now
+       and nothing can half-win it. */
+    --fm-x: 0px;
+    transform: translate(var(--fm-x), -6px) scale(0.98);
     transition:
       opacity var(--duration-base) var(--ease-default),
       transform var(--duration-base) var(--ease-emphasized),
@@ -171,14 +180,10 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
   }
   .fm-start  { left: 0;  transform-origin: top left; }
   .fm-end    { right: 0; transform-origin: top right; }
-  .fm-center { left: 50%; margin-left: 0; transform-origin: top center; }
-  /* The centring translate has to live in the same `transform` as the animation,
-     or the later declaration wins and the panel jumps back to the left edge. */
-  .fm-center { transform: translate(-50%, -6px) scale(0.98); }
-  .fm.is-open .fm-center { transform: translate(-50%, 0) scale(1); }
+  .fm-center { left: 50%; margin-left: 0; transform-origin: top center; --fm-x: -50%; }
 
   .fm.is-open .fm-panel {
-    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+    opacity: 1; visibility: visible; transform: translate(var(--fm-x), 0) scale(1);
     transition-delay: 0s;
   }
   /* A row, because the shape this exists to serve is a mega-menu: several
@@ -211,7 +216,22 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
   }
   .fm-start.fm-notch::before  { left: var(--spacing-lg); }
   .fm-end.fm-notch::before    { right: var(--spacing-lg); }
-  .fm-center.fm-notch::before { left: calc(50% - 9.625px); }
+  /* A CENTRED panel is not centred on its trigger — that is the whole point of
+     `center`, and it is what ironsoftware.com does: the panel is much wider than
+     the word that opens it. So the notch cannot sit at the panel's middle. The
+     script writes `--fm-notch-x` when the panel opens; the fallback keeps it
+     centred for the pre-script paint and for anyone who renders `open` with no
+     JS at all. */
+  .fm-center.fm-notch::before {
+    /* Declared, not merely read with a fallback — same contract as `--i` below.
+       The stylesheet is where the variable lives and the script only overrides
+       it per instance, which is also what keeps check:vars honest: a var() whose
+       name is declared nowhere in the source reads to that gate as a missing
+       theme token. The default keeps the notch centred for the pre-script paint
+       and for anyone rendering `open` with no JS at all. */
+    --fm-notch-x: calc(50% - 9.625px);
+    left: var(--fm-notch-x);
+  }
 
   /* Content that is a card in its own right — see the `bare` prop. */
   .fm-panel.is-bare { background: none; border: 0; border-radius: 0; box-shadow: none; min-width: 0; }
@@ -259,9 +279,38 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
     opacity: 1; transform: none;
     transition-delay: calc(var(--i, 0) * 40ms + 60ms);
   }
+  /* A BARE panel's content is one element — the card it brought with it — so the
+     stagger above has exactly one thing to stage and the reveal reads as a
+     single block appearing. Reach the content's own published parts instead:
+     the rail first, then each column behind it. `[data-part]` and not a class,
+     because the content is a different component and its classes are its own.
+     Anything that publishes a `rail` or a `column` gets this for free; anything
+     that publishes neither is untouched. */
+  .fm-panel.is-bare [data-part='rail'],
+  .fm-panel.is-bare [data-part='column'] {
+    --i: 0;
+    opacity: 0; transform: translateY(8px);
+    transition:
+      opacity var(--duration-base) var(--ease-default),
+      transform var(--duration-base) var(--ease-emphasized);
+  }
+  .fm.is-open .fm-panel.is-bare [data-part='rail'],
+  .fm.is-open .fm-panel.is-bare [data-part='column'] {
+    opacity: 1; transform: none;
+  }
+  /* The rail leads because it is the thing the panel is selling, and because it
+     is the widest single move — the columns reading in after it is what makes
+     the reveal feel like one gesture rather than four. */
+  .fm.is-open .fm-panel.is-bare [data-part='rail']   { transition-delay: 40ms; }
+  .fm.is-open .fm-panel.is-bare [data-part='column'] { transition-delay: calc(var(--i, 0) * 55ms + 110ms); }
+
   @media (prefers-reduced-motion: reduce) {
     .fm-panel-inner > * { transition-duration: 1ms; }
     .fm.is-open .fm-panel-inner > * { transition-delay: 0s; }
+    .fm-panel.is-bare [data-part='rail'],
+    .fm-panel.is-bare [data-part='column'] { transition-duration: 1ms; }
+    .fm.is-open .fm-panel.is-bare [data-part='rail'],
+    .fm.is-open .fm-panel.is-bare [data-part='column'] { transition-delay: 0s; }
   }
 </style>
 
@@ -289,7 +338,38 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
     fm.classList.add(OPEN);
     fm.querySelector('.fm-trigger')?.setAttribute('aria-expanded', 'true');
     fm.querySelector('.fm-panel')?.removeAttribute('inert');
+    aimNotch(fm);
   }
+
+  /**
+   * Point a centred panel's notch at the trigger that opened it.
+   *
+   * Every measurement here is deliberately transform-free. The panel animates
+   * open with `translate(-50%, -6px) scale(0.98)` -> `scale(1)`, so a
+   * `getBoundingClientRect()` on it during the transition returns an
+   * interpolated box — 1200px reads as 1176 at the moment `is-open` lands. So
+   * the panel contributes only `offsetWidth`, which is layout and ignores
+   * transforms, and the horizontal frame comes from its offsetParent and the
+   * trigger, neither of which is transformed. `left: 50%` + `translateX(-50%)`
+   * puts the untransformed left edge at half the parent minus half the panel,
+   * which is all this needs to know.
+   */
+  function aimNotch(fm: HTMLElement) {
+    const panel = fm.querySelector<HTMLElement>('.fm-panel');
+    const trigger = fm.querySelector<HTMLElement>('.fm-trigger');
+    if (!panel || !trigger || !panel.classList.contains('fm-center')) return;
+    const parent = panel.offsetParent as HTMLElement | null;
+    if (!parent) return;
+    const parentRect = parent.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
+    const panelLeft = parentRect.width / 2 - panel.offsetWidth / 2;
+    const centre = triggerRect.left - parentRect.left + triggerRect.width / 2;
+    panel.style.setProperty('--fm-notch-x', `${centre - panelLeft - 9.625}px`);
+  }
+
+  window.addEventListener('resize', () => {
+    document.querySelectorAll<HTMLElement>('[data-fm].' + OPEN).forEach(aimNotch);
+  });
 
   function initFlyouts(root: ParentNode = document) {
     root.querySelectorAll<HTMLElement>('[data-fm]:not([data-fm-init])').forEach((fm) => {
@@ -297,12 +377,20 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
       if (!trigger) return;
       fm.dataset.fmInit = '1';
 
+      /* A panel rendered `open` never went through openFlyout, so nothing has
+         aimed its notch. The docs pages do exactly that. */
+      if (fm.classList.contains(OPEN)) aimNotch(fm);
+
       // Number the panel's own children so each one can be delayed a step
       // further into the reveal. Done here rather than asked of the caller —
       // whoever composes the columns should not have to hand-number them, and
       // they would go stale the moment one was inserted in the middle.
       fm.querySelectorAll<HTMLElement>('.fm-panel-inner > *').forEach((child, i) => {
         child.style.setProperty('--i', String(i));
+      });
+      // Same numbering for a bare panel's own columns, which are a level deeper.
+      fm.querySelectorAll<HTMLElement>('.fm-panel.is-bare [data-part="column"]').forEach((col, i) => {
+        col.style.setProperty('--i', String(i));
       });
 
       trigger.addEventListener('click', () => {
