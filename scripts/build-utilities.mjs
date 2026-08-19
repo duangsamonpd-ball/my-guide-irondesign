@@ -241,6 +241,103 @@ const out = HEADER + readFileSync(compiledPath, 'utf8');
 const utilities = [...out.matchAll(/^\s*\.([a-zA-Z][^\s,{:]*)/gm)].map((m) => m[1]);
 const distinct = new Set(utilities).size;
 
+/* ── docs pages must not shadow a utility name ────────────────────────────── */
+
+/**
+ * A docs page may not declare a bare single-class selector whose name TAILWIND
+ * WOULD EMIT A UTILITY FOR.
+ *
+ * Fifteen pages carried `.grid { display:grid; grid-template-columns:
+ * repeat(auto-fill, minmax(220px,1fr)); gap:14px }` for their spec cards. That
+ * is a fine page style until a converted component wants the `grid` utility —
+ * and then the page wins, because an inline <style> outranks every linked sheet.
+ * ProductFlyout was the first to want it, and three consecutive sweeps measured
+ * the PAGE's 220px grid while reporting it as the panel's. Same family as the
+ * bare-tag trap CLAUDE.md records, one level down: a generic CLASS, so the
+ * tag-selector rule could not see it.
+ *
+ * It lives HERE and not in check-docs-css.mjs for the reason the workflow gives
+ * next to this job — it needs the CLI, and that script runs where nothing is
+ * installed. Putting it there cost a red main.
+ *
+ * ASKED OF TAILWIND, not of the output. The first version compared page classes
+ * against the names already in docs/utilities.css and found nothing, because the
+ * component had by then been moved off `grid` — so `grid` was no longer emitted
+ * and the collision that had just cost a day was invisible. A gate built from
+ * what is broken today only re-finds what is broken today.
+ *
+ * A DIFFERENTIAL, because theme.css contributes `.dark` on its own and `.dark`
+ * is the system's dark-mode hook that pages are meant to declare. Compile with
+ * no source, compile with a file wearing every candidate, take the difference.
+ *
+ * Only the FIRST compound counts, and only when it is a lone class — that is the
+ * part deciding which elements the rule can reach. `.grid > .cell` is as
+ * dangerous as `.grid`; `.canvas .grid` is not, because the page owns `.canvas`.
+ */
+const DOCS_DIR = join(ROOT, 'docs');
+const pageRules = (css) => {
+  const out = [];
+  let cur = '', depth = 0;
+  for (const ch of css.replace(/\/\*[\s\S]*?\*\//g, '')) {
+    cur += ch;
+    if (ch === '{') depth++;
+    else if (ch === '}' && --depth === 0) { out.push(cur.trim()); cur = ''; }
+  }
+  return out.filter((r) => r.includes('{'));
+};
+
+const candidates = new Map();
+for (const file of readdirSync(DOCS_DIR).filter((f) => f.endsWith('.html'))) {
+  const src = readFileSync(join(DOCS_DIR, file), 'utf8');
+  const css = [...src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]).join('\n');
+  for (const rule of pageRules(css)) {
+    const sel = rule.slice(0, rule.indexOf('{')).replace(/\s+/g, ' ').trim();
+    for (const one of sel.split(',').map((x) => x.trim())) {
+      const first = /^\.([\w-]+)(?![\w-])/.exec(one);
+      if (!first) continue;
+      const list = candidates.get(first[1]) ?? candidates.set(first[1], []).get(first[1]);
+      list.push({ file, selector: one });
+    }
+  }
+}
+
+const emittedNames = (markup) => {
+  const dir = join(TMP, 'shadow');
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, 'scan.astro'), markup);
+  const inFile = join(dir, 'in.css');
+  const outFile = join(dir, 'out.css');
+  writeFileSync(inFile, theme.replace(ANCHOR, [
+    '@layer theme, base, components, utilities;',
+    '@import "tailwindcss/theme.css" layer(theme);',
+    '@import "tailwindcss/utilities.css" source(none);',
+    `@source "${join(dir, '*.astro')}";`,
+  ].join('\n')));
+  execFileSync(CLI, ['-i', inFile, '-o', outFile], { stdio: 'pipe' });
+  return new Set([...readFileSync(outFile, 'utf8').matchAll(/^\.([\w-]+)(?=[\s,{:>+~])/gm)].map((m) => m[1]));
+};
+
+const baseline = emittedNames('<div></div>');
+const withAll = emittedNames(`<div class="${[...candidates.keys()].join(' ')}"></div>`);
+const shadowed = [];
+for (const [cls, uses] of candidates) {
+  if (withAll.has(cls) && !baseline.has(cls)) for (const u of uses) shadowed.push({ ...u, cls });
+}
+if (shadowed.length) {
+  console.error(`\n\x1b[31m✖  ${shadowed.length} docs-page rule${shadowed.length > 1 ? 's' : ''} shadow a Tailwind utility of the same name\x1b[0m\n`);
+  const byFile = new Map();
+  for (const x of shadowed) (byFile.get(x.file) ?? byFile.set(x.file, []).get(x.file)).push(x.selector);
+  for (const [file, sels] of byFile) {
+    console.error(`    \x1b[1mdocs/${file}\x1b[0m`);
+    for (const sel of sels) console.error(`      \x1b[31m✖\x1b[0m ${sel}`);
+  }
+  const names = [...new Set(shadowed.map((x) => x.cls))].map((n) => `.${n}`).join(', ');
+  console.error(`\n  ${names} — an inline <style> outranks utilities.css, so any component`);
+  console.error(`  on the page wearing that utility gets the page's rule instead.`);
+  console.error(`  Rename the page's class to something Tailwind does not emit.\n`);
+  process.exit(1);
+}
+
 if (CHECK) {
   let current = null;
   try { current = readFileSync(OUT, 'utf8'); } catch { /* missing */ }
@@ -251,7 +348,7 @@ if (CHECK) {
     process.exit(1);
   }
   console.log(
-    `\n\x1b[32m✔  docs/utilities.css is up to date\x1b[0m — ${distinct} utilities from ${astroFiles.length} components\n`,
+    `\n\x1b[32m✔  docs/utilities.css is up to date\x1b[0m — ${distinct} utilities from ${astroFiles.length} components, and no docs page shadows a utility name (${candidates.size} page classes put to Tailwind)\n`,
   );
 } else {
   writeFileSync(OUT, out);
