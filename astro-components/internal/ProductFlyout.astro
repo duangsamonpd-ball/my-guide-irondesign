@@ -236,15 +236,13 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
     </div>
   )}
 
-  {/* `[display:grid]`, NOT the `grid` utility, and that is not a style choice.
-      Fifteen docs pages carry their own `.grid { display:grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:14px }`
-      for their spec cards, in an inline <style> that loads AFTER utilities.css —
-      so the page silently won every column rule this component set. Three
-      separate sweeps were measuring that 220px grid and reporting it as this
-      one's, which is why the numbers looked non-monotonic. ProductFlyout is the
-      first converted component to want the `grid` utility, so it is the first to
-      hit it; the collision is still there for the next one.
+  {/* The plain `grid` utility, which for one day it could not use: fifteen docs
+      pages declared their own `.grid` for spec cards, in an inline <style> that
+      outranks utilities.css, so the page won every column rule set here and
+      three sweeps measured the page's 220px grid while reporting it as this
+      one's. Those rules are `.spec-grid` now and `check:docs-css` asks Tailwind
+      whether any page class would shadow a utility, so the trap cannot come back
+      for the next component either.
 
       Measured breakpoints, not `auto-fit`. The panel is `min(1200, 100vw - 48)`
       wide and the columns get what is left after the 264 rail and 48 of padding,
@@ -254,7 +252,7 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
       -> 1 columns, fitting tracks below their own minimum at 768 and 1000, and
       leaking 1.2px out of the panel at 1000. `minmax(0, 1fr)` cannot overflow,
       and the two numbers above are the content's own, not round ones. */}
-  <div class="pf-cols [display:grid] gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
+  <div class="pf-cols grid gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
     {categories.map((cat) => (
       <div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
         {/* `opacity-75`, not Figma's 70. The group carries the icon and the label

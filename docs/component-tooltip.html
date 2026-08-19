@@ -80,7 +80,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:680px; }
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
 .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:56px 40px; display:flex; gap:56px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+.spec-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 16px 18px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; position:relative; }
 .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:anywhere; }
 .tok td.prop { color:#62748E; }
@@ -272,7 +272,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     <!-- Variants -->
     <div class="sect"><h2 class="sect-h">Variants</h2>
       <div class="sect-sub">Two <code>Property 1</code> variants — <b>Default</b> is title + body; <b>With link</b> adds a "Learn more" action for tooltips that point to more detail. Toggle <code>Show Title</code> off on Default for a compact, title-less tooltip.</div>
-      <div class="grid">
+      <div class="spec-grid">
         <!-- demo:variants -->
         <div class="cell">
           <span class="tt show-on-hover demo-open" tabindex="0" aria-describedby="tt-demo-1">
@@ -347,7 +347,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     <!-- Placement -->
     <div class="sect"><h2 class="sect-h">Placement</h2>
       <div class="sect-sub">Four placements, chosen by available space around the trigger. Toggle exactly one <code>Show arrow-*</code> property per instance. The dashed box marks the trigger element's boundary the tooltip is anchored to.</div>
-      <div class="grid" style="grid-template-columns:1fr 1fr;">
+      <div class="spec-grid" style="grid-template-columns:1fr 1fr;">
         <div class="cell" style="min-height:260px; justify-content:center; padding:16px;">
           <span class="tt">
             <span class="tt-trigger-box"></span>

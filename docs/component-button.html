@@ -103,7 +103,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       padding: 44px; display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap;
       background-image: radial-gradient(#EEF1F5 1px, transparent 1px); background-size: 16px 16px;
     }
-.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
+.spec-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 16px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
 @keyframes spin { to { transform: rotate(360deg); } }
       display: inline-flex; align-items: center; gap: var(--spacing-xs); cursor: pointer;
@@ -233,7 +233,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect">
         <h2 class="sect-h">Variants</h2>
         <div class="sect-sub">Six semantic variants. <b>Primary</b> for the one main action per view; the rest support it. Outline / Ghost / On-dark use <b>blue</b> text that turns <b>pink</b> on hover.</div>
-        <div class="grid">
+        <div class="spec-grid">
         <!-- demo:variants -->
         <div class="cell">
           <button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
@@ -303,7 +303,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect">
         <h2 class="sect-h">States</h2>
         <div class="sect-sub">Four states from Figma — <b>default · hover · focus · disabled</b>. Focus shows a 3px coloured halo matching the button (pink · blue · white @25%); ghost focus uses a blue border. (Loading is a UI extra.)</div>
-        <div class="grid">
+        <div class="spec-grid">
         <!-- demo:states -->
         <div class="cell"><button type="button" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta">
             Default
@@ -375,7 +375,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
           <!-- /demo:nuget-sizes -->
         </div>
 
-        <div class="grid" style="margin-top:14px;grid-template-columns:1fr 1fr;">
+        <div class="spec-grid" style="margin-top:14px;grid-template-columns:1fr 1fr;">
           <!-- demo:nuget-states -->
           <div class="cell"><button type="button" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl py-xs gap-micro">
               <span class="inline-flex items-center gap-sm">

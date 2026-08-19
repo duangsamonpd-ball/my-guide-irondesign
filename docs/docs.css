@@ -10,7 +10,7 @@
  * page had was lost. Edit it directly.
  *
  * Deliberately not here, and still inline per page:
- *   · rules whose copies disagree on a value — .grid, .cell and .canvas size
+ *   · rules whose copies disagree on a value — .spec-grid, .cell and .canvas size
  *     themselves to the content of the page they are on, and forcing one answer
  *     would break the others
  *   · rules reading a page-local alias like --bg, which only some pages define

@@ -86,7 +86,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
 .canvas { border: 1px solid #E2E8F0; border-radius: 14px; background: #fff; padding: 40px; display: flex; gap: 28px; align-items: center; justify-content: center; flex-wrap: wrap; background-image: radial-gradient(#EEF1F5 1px, transparent 1px); background-size: 16px 16px; }
 .canvas.col { flex-direction: column; align-items: flex-start; gap: 20px; }
-.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 14px; }
+.spec-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 18px 16px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
@@ -209,7 +209,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
       <div class="sect">
         <h2 class="sect-h">States</h2>
         <div class="sect-sub">Four states. Checked fills with <b>secondary</b> blue; invalid shows a <b>danger</b> red border; disabled drops opacity.</div>
-        <div class="grid">
+        <div class="spec-grid">
         <!-- demo:states -->
         <div class="cell">
           <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="st-unchecked">

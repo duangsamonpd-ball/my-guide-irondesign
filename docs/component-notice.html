@@ -75,7 +75,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
 .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:40px; display:flex; gap:24px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
 .canvas.col { flex-direction:column; align-items:stretch; gap:20px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:18px; }
+.spec-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:18px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
 .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:anywhere; }
 .tok td.prop { color:#62748E; width:170px; }
@@ -222,7 +222,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 
     <div class="sect"><h2 class="sect-h">Intents</h2>
       <div class="sect-sub">Five semantic colours, shared by both variants — pick by meaning, not by which looks nicest.</div>
-      <div class="grid">
+      <div class="spec-grid">
         <div class="cell">
           <div class="notice notice--filled notice--info" style="max-width:none;padding:16px;"><div class="notice-header"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg><span class="notice-title" style="font-size:0.95rem;">Please note</span></div></div>
           <div class="lbl">Info<small>iron-blue/50</small></div>

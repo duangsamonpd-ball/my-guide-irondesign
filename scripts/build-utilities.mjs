@@ -140,9 +140,15 @@ mkdirSync(TMP, { recursive: true });
  * That noise is not free. Two of the 31 — `grid` and `underline` — are also
  * class names the docs pages use (14 pages and 1), and shipping a rule for a
  * name someone else already uses is how you change a page you never touched.
- * Both are harmless as it stands: the pages' own `.grid` and `.tlink.underline`
- * declare the same properties and, being later in the cascade at equal
- * specificity, win.
+ * That reading was true then and became false the moment a COMPONENT wanted one
+ * of those names. `grid` was scanner noise while nothing used it, so the page
+ * winning was harmless; ProductFlyout then used the `grid` utility for real and
+ * the page went on winning, which cost three sweeps that measured a docs page's
+ * 220px spec grid and reported it as the component's. The pages' rules are
+ * `.spec-grid` and `.elev-card` now, and `check:docs-css` asks Tailwind whether
+ * any page class would shadow a utility rather than trusting either of us to
+ * notice. Stripping the noise below is still worth doing; it is no longer the
+ * only thing standing between a page and a component.
  *
  * A class name can never appear inside a <style> block, so scanning a copy with
  * those blocks and comments removed cannot lose a real one. Everything that

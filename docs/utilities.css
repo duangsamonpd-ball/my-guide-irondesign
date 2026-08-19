@@ -593,14 +593,14 @@
 .box-border {
   box-sizing: border-box;
 }
-.\[display\:grid\] {
-  display: grid;
-}
 .block {
   display: block;
 }
 .flex {
   display: flex;
+}
+.grid {
+  display: grid;
 }
 .hidden {
   display: none;
