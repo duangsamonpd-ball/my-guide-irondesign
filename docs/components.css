@@ -429,6 +429,7 @@
   .tn [data-part='flyout'] { display: flex; position: static; }
   .tn [data-part='panel'] { z-index: 30; }
   .tn [data-part='panel'] {
+    top: 100%;
     width: 1200px;
     max-width: calc(100vw - var(--spacing-xl) * 2);
   }
@@ -473,16 +474,14 @@
   }
   .fm-panel-inner { display: flex; align-items: flex-start; padding: var(--spacing-xs); }
   .fm-notch::before {
-    content: ''; position: absolute; top: -8px; width: 19.25px; height: 8.7966px;
+    content: ''; position: absolute; top: -10px; width: 20px; height: 10px;
     background: var(--color-border);
-    clip-path: path('M0 8.7966L8.21081 0.585786C8.99186 -0.195263 10.2582 -0.195262 11.0392 0.585787L19.25 8.7966H0Z');
+    clip-path: path('M0 10L8.53069 0.665923C9.34217 -0.221975 10.6578 -0.221974 11.4693 0.665924L20 10H0Z');
   }
   .fm-start.fm-notch::before  { left: var(--spacing-lg); }
   .fm-end.fm-notch::before    { right: var(--spacing-lg); }
-  .fm-center.fm-notch::before {
-    --fm-notch-x: calc(50% - 9.625px);
-    left: var(--fm-notch-x);
-  }
+  .fm-center.fm-notch { --fm-notch-x: calc(50% - 10px); }
+  .fm-center.fm-notch::before { left: var(--fm-notch-x); }
   .fm-panel.is-bare { background: none; border: 0; border-radius: 0; box-shadow: none; min-width: 0; }
   .fm-panel.is-bare .fm-panel-inner { padding: 0; display: block; }
   @media (prefers-reduced-motion: reduce) {

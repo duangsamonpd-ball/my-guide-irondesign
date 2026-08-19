@@ -422,6 +422,15 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   .tn [data-part='panel'] { z-index: 30; }
 
   .tn [data-part='panel'] {
+    /* Flush with the bar, as `Preview ideal` has it — the arrow's base meets the
+       panel's top edge with nothing between them.
+
+       FlyoutMenu offsets its panel by `calc(100% + var(--spacing-sm))` from the
+       trigger, which is right for a standalone disclosure. Here the containing
+       block is `.tn` (see `position: static` above) and `.tn` IS the 40px bar, so
+       100% already lands on its bottom edge and the extra 12px became a visible
+       gap under the arrow. Measured 52 against a bar ending at 40 before this. */
+    top: 100%;
     width: 1200px;
     max-width: calc(100vw - var(--spacing-xl) * 2);
   }

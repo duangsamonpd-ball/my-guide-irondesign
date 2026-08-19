@@ -117,7 +117,7 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
 
 <div class:list={['fm', { 'is-open': open }, className]} data-part="flyout" data-fm data-fm-hover={openOnHover ? '' : undefined}>
   <button type="button" class="fm-trigger" data-part="trigger" aria-expanded={open ? 'true' : 'false'} aria-controls={panelId}>
-    <span>{label}</span>
+    <span data-part="label">{label}</span>
     <svg class="fm-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path} /></svg>
   </button>
 
@@ -204,15 +204,19 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
      the panel's edge lifting toward the trigger rather than as a tab of the
      panel's face.
 
+     Resized to 20x10 by Ball on 2026-08-19, from 19.25 x 8.7966. `top` is the
+     full height so the base lands ON the panel's top edge rather than a fraction
+     inside it, which is where the old -8 against a height of 8.7966 put it.
+
      Its offset is NOT Figma's 43px. That number is wherever the arrow happened
      to land under the trigger Ball drew, and it matches the centre of no TopNav
      item — PRODUCTS+caret measures 89.72px, so 44.86 from its left edge, where
      the export puts the arrow's centre at 52.63. The offset belongs to the
      trigger, so it is measured from the trigger here. */
   .fm-notch::before {
-    content: ''; position: absolute; top: -8px; width: 19.25px; height: 8.7966px;
+    content: ''; position: absolute; top: -10px; width: 20px; height: 10px;
     background: var(--color-border);
-    clip-path: path('M0 8.7966L8.21081 0.585786C8.99186 -0.195263 10.2582 -0.195262 11.0392 0.585787L19.25 8.7966H0Z');
+    clip-path: path('M0 10L8.53069 0.665923C9.34217 -0.221975 10.6578 -0.221974 11.4693 0.665924L20 10H0Z');
   }
   .fm-start.fm-notch::before  { left: var(--spacing-lg); }
   .fm-end.fm-notch::before    { right: var(--spacing-lg); }
@@ -222,16 +226,19 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
      script writes `--fm-notch-x` when the panel opens; the fallback keeps it
      centred for the pre-script paint and for anyone who renders `open` with no
      JS at all. */
-  .fm-center.fm-notch::before {
-    /* Declared, not merely read with a fallback — same contract as `--i` below.
-       The stylesheet is where the variable lives and the script only overrides
-       it per instance, which is also what keeps check:vars honest: a var() whose
-       name is declared nowhere in the source reads to that gate as a missing
-       theme token. The default keeps the notch centred for the pre-script paint
-       and for anyone rendering `open` with no JS at all. */
-    --fm-notch-x: calc(50% - 9.625px);
-    left: var(--fm-notch-x);
-  }
+  /* The default lives on the PANEL, not on the ::before that reads it.
+     Declaring it inside the `::before` rule shadowed the value `aimNotch` sets —
+     the script writes the variable on the panel, the pseudo-element re-declared
+     it for itself, and its own declaration won. The arrow sat at the panel's
+     centre (left: 590.375px at 1440) while a probe reading the panel's variable
+     reported it correctly aimed, because that probe was reading the INPUT and
+     not the pixel. Ball's screenshot is what caught it.
+
+     It is declared at all — rather than left to a fallback — for the same reason
+     `--i` is: a var() whose name is declared nowhere in the source reads to
+     check:vars as a missing theme token. */
+  .fm-center.fm-notch { --fm-notch-x: calc(50% - 10px); }
+  .fm-center.fm-notch::before { left: var(--fm-notch-x); }
 
   /* Content that is a card in its own right — see the `bare` prop. */
   .fm-panel.is-bare { background: none; border: 0; border-radius: 0; box-shadow: none; min-width: 0; }
@@ -354,9 +361,19 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
    * puts the untransformed left edge at half the parent minus half the panel,
    * which is all this needs to know.
    */
+  /** Half the notch's width — it is 20px wide, so its centre is 10px in. */
+  const HALF = 10;
+
   function aimNotch(fm: HTMLElement) {
     const panel = fm.querySelector<HTMLElement>('.fm-panel');
-    const trigger = fm.querySelector<HTMLElement>('.fm-trigger');
+    /* The LABEL, not the button. Ball's call, 2026-08-19: the notch points at the
+       middle of the word. The button also contains a 16px caret box whose glyph
+       is a 6px triangle, so its centre sits ~10px to the right of the word's and
+       the arrow reads as aiming at the gap between them rather than at PRODUCTS.
+       Measured: label centre 213, button centre 223, and Figma's hand-placed
+       arrow 217 — between the two, nearer the word. */
+    const trigger = fm.querySelector<HTMLElement>('[data-part="label"]')
+      ?? fm.querySelector<HTMLElement>('.fm-trigger');
     if (!panel || !trigger || !panel.classList.contains('fm-center')) return;
     const parent = panel.offsetParent as HTMLElement | null;
     if (!parent) return;
@@ -364,7 +381,7 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
     const triggerRect = trigger.getBoundingClientRect();
     const panelLeft = parentRect.width / 2 - panel.offsetWidth / 2;
     const centre = triggerRect.left - parentRect.left + triggerRect.width / 2;
-    panel.style.setProperty('--fm-notch-x', `${centre - panelLeft - 9.625}px`);
+    panel.style.setProperty('--fm-notch-x', `${centre - panelLeft - HALF}px`);
   }
 
   window.addEventListener('resize', () => {
