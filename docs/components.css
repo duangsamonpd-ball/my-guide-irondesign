@@ -412,6 +412,9 @@
     .tn-menu .tn-item { justify-content: space-between; width: 100%; }
   }
   .tn-menu > li.tn-menu-extra { display: none; }
+  @media (max-width: 767.98px) {
+    .tn-menu, .tn-burger { display: none; }
+  }
   @media (max-width: 419.98px) {
     .tn--has-menu .tn-menu > li.tn-menu-extra { display: flex; }
     .tn--has-menu .tn-right > .tn-item { display: none; }

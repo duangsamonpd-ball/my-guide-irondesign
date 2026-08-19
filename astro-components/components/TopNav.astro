@@ -320,6 +320,25 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      that broke when the trigger was first added: a 24px button and its gap went
      in without anything coming out. */
   .tn-menu > li.tn-menu-extra { display: none; }
+  /* THE FLOOR, Ball's call 2026-08-19 — measured off the live sites first.
+     ironsoftware.com and ironpdf.com both hide the corporate strip's menu below
+     768 and offer NO mobile version of it: `d-none d-md-block`, and Bootstrap's
+     `md` is 768. Checked at 767 and 768 on both, and neither shows a burger at
+     any width — the whole strip simply is not there on a phone.
+
+     We keep the burger, which they do not, so the collapsed form bottoms out
+     here rather than continuing down to 320. Below this the menu and its trigger
+     go and the bar keeps only the brand lockup, which is what both sites leave
+     at 375. Contact and the language picker ride inside `.tn-menu` at this width
+     (see `.tn-menu-extra`), so they leave with it.
+
+     `--breakpoint-md` is 768 and is labelled "Tablet Large" in tokens.css;
+     `--breakpoint-sm` 480 is "Tablet". The number here is the one both live
+     sites use, not the one whose label reads closest. */
+  @media (max-width: 767.98px) {
+    .tn-menu, .tn-burger { display: none; }
+  }
+
   @media (max-width: 419.98px) {
     .tn--has-menu .tn-menu > li.tn-menu-extra { display: flex; }
     .tn--has-menu .tn-right > .tn-item { display: none; }
