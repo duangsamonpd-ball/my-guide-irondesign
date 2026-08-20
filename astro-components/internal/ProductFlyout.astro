@@ -231,7 +231,29 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
           </div>
         </div>
 
-        <Button size="sm" variant="primary" href={s.ctaHref}>{s.ctaLabel}</Button>
+        {/* Figma's `product-suite` (`1039:2429`) has TWO states and the CTA moves
+            WITH the rail in both: `State=hover` (`1039:2427`) is scrim 0.7 AND
+            `button/primary-hover`. Until 2026-08-20 this line was bare, so the
+            CTA only darkened when the pointer was on the BUTTON — hovering the
+            rail anywhere else rendered scrim 0.7 with a resting button, a state
+            the design does not contain. `forceHover` could not reach it at all:
+            Button's hover is a real `:hover`, and a static docs page has none,
+            so the page illustrating the hover state showed half of it.
+
+            Passed through Button's OWN `class` prop rather than by reaching into
+            it. The rule here is that a component publishes parts, never its
+            classes — and `class` is published. It beats the variant's
+            `bg-button-primary` on SPECIFICITY rather than order: the group
+            variant compiles to `.group\/rail:hover .…` at (0,2,0) against
+            (0,1,0). Verified in the browser, not assumed — the `wrap` note in
+            Button records the case where a passed class was one deep, tied, and
+            lost. */}
+        <Button
+          size="sm"
+          variant="primary"
+          href={s.ctaHref}
+          class="group-hover/rail:bg-button-primary-hover group-focus-within/rail:bg-button-primary-hover group-[.is-hover]/rail:bg-button-primary-hover"
+        >{s.ctaLabel}</Button>
 
         {/* The card's own notch, pointing into the columns. */}
         <div class="absolute right-[-12px] top-1/2 -translate-y-1/2 w-[12px] h-[228px] text-bg-card scale-x-[-1]" aria-hidden="true">

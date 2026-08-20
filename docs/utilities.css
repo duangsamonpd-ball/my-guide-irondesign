@@ -1605,6 +1605,9 @@
   -webkit-user-select: none;
   user-select: none;
 }
+.group-focus-within\/rail\:bg-button-primary-hover:is(:where(.group\/rail):focus-within *) {
+  background-color: var(--color-button-primary-hover);
+}
 .group-focus-within\/rail\:opacity-\[0\.7\]:is(:where(.group\/rail):focus-within *) {
   opacity: 0.7;
 }
@@ -1621,6 +1624,9 @@
   }
   .group-hover\:opacity-100:is(:where(.group):hover *) {
     opacity: 100%;
+  }
+  .group-hover\/rail\:bg-button-primary-hover:is(:where(.group\/rail):hover *) {
+    background-color: var(--color-button-primary-hover);
   }
   .group-hover\/rail\:opacity-\[0\.7\]:is(:where(.group\/rail):hover *) {
     opacity: 0.7;
@@ -1663,6 +1669,9 @@
 .group-has-\[\:focus-visible\]\:shadow-focus-blue:is(:where(.group):has(:is(:focus-visible)) *) {
   --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(38, 147, 236, 0.25));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.group-\[\.is-hover\]\/rail\:bg-button-primary-hover:is(:where(.group\/rail):is(.is-hover) *) {
+  background-color: var(--color-button-primary-hover);
 }
 .group-\[\.is-hover\]\/rail\:opacity-\[0\.7\]:is(:where(.group\/rail):is(.is-hover) *) {
   opacity: 0.7;
