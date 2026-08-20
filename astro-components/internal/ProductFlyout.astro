@@ -1,7 +1,10 @@
 ---
 /**
  * ProductFlyout — the PRODUCTS mega-menu panel, from Figma `FlyoutMenu-product`
- * (`1017:3337` default, `1017:3029` hover) on file Yjom8rPbyL5U1wtwOLkgtU.
+ * (`1017:3337`) on file Yjom8rPbyL5U1wtwOLkgtU. The hover state used to be a
+ * second top-level frame, `1017:3029`; Ball deleted it on 2026-08-20 once the
+ * rail became a component set with a `state` axis, so hover is a variant now
+ * rather than a copy that could drift — and it had drifted, by an arrow.
  *
  * INTERNAL, for the same reason FooterProduct is: this is the CONTENT of a
  * panel, not a control anyone should reach for. `FlyoutMenu` owns the trigger,
@@ -14,22 +17,18 @@
  * the first and the classes vanish from the stylesheet while the markup keeps
  * wearing them, with nothing red anywhere.
  *
- * ## Three places this deliberately does not copy Figma, all measured
+ * ## The category header stopped being a deviation
  *
- * 1. **The category header runs at `opacity-75`, where Figma says 70.** Both
- *    numbers are on the GROUP, which carries the icon and the label together, so
- *    the label is what decides it. `iron-blue/800` is 9.27:1 on its own; at 70%
- *    it composites to #5D809D and lands at 4.17:1 on the panel and 3.99:1 on a
- *    hovered row, both under the 4.5 bar that 14px bold has to meet. 75 is the
- *    first step that clears both — 4.73 and 4.53. Ball's call, 2026-08-19, made
- *    on those numbers. Everything else about the header is Figma's.
+ * Until 2026-08-19 the label was a RAW `#678CB1` in the node — the only unbound
+ * colour in it — and this file shipped `--color-info-strong` instead. Ball bound
+ * it to `iron-blue/800` and put the group opacity on it in the same pass. This
+ * file then read `opacity-75, where Figma says 70` for a day; re-audited
+ * 2026-08-20, the node says 75 as well, so the two sides agree and there is
+ * nothing left to justify. The numbers are at the header itself.
  *
- *    (Until 2026-08-19 the colour was a RAW `#678CB1` in the node, the only
- *    unbound colour in it, and this file shipped `--color-info-strong` instead.
- *    Ball bound it to `iron-blue/800` and added the group opacity in the same
- *    pass.)
+ * ## Two places this deliberately does not copy Figma, all measured
  *
- * 2. **This component has ONE mode — Ball, 2026-08-19.** There is no dark design
+ * 1. **This component has ONE mode — Ball, 2026-08-19.** There is no dark design
  *    for the mega-menu and there is not going to be one, which is why the ten
  *    product accents and `iron-blue-800` are ramp values here rather than
  *    semantic tokens that remap: they are each product's identity colour and a
@@ -42,7 +41,7 @@
  *    pages, so it is latent rather than live. Pinning the surfaces is a design
  *    decision, not a cleanup, so it waits for one.
  *
- * 3. **The rail chrome is inlined rather than exported.** The rainbow IS artwork
+ * 2. **The rail chrome is inlined rather than exported.** The rainbow IS artwork
  *    and stays an exported file — as the RAIL's OWN `background-image`, which is
  *    load-bearing and not a style preference. `npm run audit` decides whether to
  *    resolve a text run's backdrop from painted pixels by walking the run's
@@ -268,12 +267,20 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
   <div class="pf-cols grid gap-lg grow min-w-0 pt-[32px] px-xl pb-xl [grid-template-columns:repeat(3,minmax(0,1fr))] max-[1247.98px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[945.33px]:[grid-template-columns:minmax(0,1fr)]" data-part="columns">
     {categories.map((cat) => (
       <div class="pf-col flex flex-col gap-md min-w-0" data-part="column">
-        {/* `opacity-75`, not Figma's 70. The group carries the icon and the label
-            together, and at 70 the label composites to #5D809D — 4.17:1 on the
-            panel and 3.99:1 on a hovered row, both under the 4.5 bar for 14px
-            bold. 75 is the first step that clears BOTH (4.73 and 4.53); the
-            colour itself is 9.27:1 before the group is applied. Ball's call,
-            2026-08-19, on those numbers. */}
+        {/* `opacity-75` on the GROUP, which carries the icon and the label
+            together, so the label is what decides it. `iron-blue/800` is 9.27:1
+            on its own; at 70 it composited to #5D809D and 4.17:1 on the panel,
+            under the 4.5 bar 14px bold has to meet, so 75 was chosen and Figma
+            followed. Both say 75 now. Ball's call, 2026-08-19.
+
+            The governing number is the PANEL — 4.73:1 — because this header is a
+            SIBLING of the product list and never sits inside a row, so the row
+            hover fill is not its backdrop. `npm run audit` confirms it: this run
+            is only ever reported on #FFFFFF. Recorded because the figure moved
+            anyway when the hover fill changed on 2026-08-20 — the hypothetical
+            composite over the fill went 4.54 (#F2F9FE) to 4.46 (#F1F5F9), below
+            the bar. Nothing renders it. If this header is ever moved into a row,
+            that is the number to re-derive first. */}
         <p class="flex items-center gap-xs pl-xs m-0 text-iron-blue-800 opacity-75">
           {cat.icon && (
             <svg class="w-[16px] h-[16px] shrink-0" viewBox={icons[cat.icon].viewBox} fill="currentColor" aria-hidden="true">
@@ -288,11 +295,17 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
             <li>
               <a
                 class:list={[
-                  'group/row flex items-center gap-xs px-micro py-xs rounded-sm no-underline text-inherit',
+                  /* Hover fill and radius are Figma's, re-read 2026-08-20: the row
+                     carries `rounded-lg` 8px, and the fill moved from
+                     `surface/card-alt` to `surface/background-shade` #F1F5F9,
+                     which is `--color-bg-shade` hex for hex. Three `npm run
+                     audit` exemptions are keyed to that backdrop and were
+                     re-measured with it — see KNOWN in scripts/preview.mjs. */
+                  'group/row flex items-center gap-xs px-micro py-xs rounded-lg no-underline text-inherit',
                   'transition-colors duration-[var(--duration-base)]',
-                  'hover:bg-bg-card-alt focus-visible:bg-bg-card-alt',
+                  'hover:bg-bg-shade focus-visible:bg-bg-shade',
                   'focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]',
-                  forceHover && i === 0 && 'bg-bg-card-alt',
+                  forceHover && i === 0 && 'bg-bg-shade',
                 ]}
                 href={p.href ?? '#'}
                 data-part="row"

@@ -291,17 +291,18 @@ const KNOWN = new Map([
       "Ball's call, 2026-08-19: the product accents stay on brand.",
   ],
   [
-    '#89D3DF on #F2F9FE',
-    'The same accent on a HOVERED row — --color-bg-card-alt rather than the panel surface. 1.59:1. ' +
+    '#89D3DF on #F1F5F9',
+    'The same accent on a HOVERED row — --color-bg-shade rather than the panel surface. 1.54:1. ' +
       'Listed separately because the hover fill is a different backdrop and the anti-rot rule should ' +
-      'notice if either stops happening. Same ruling.',
+      'notice if either stops happening. Same ruling. Was 1.59 over --color-bg-card-alt #F2F9FE until ' +
+      'Ball moved the row hover to background-shade on 2026-08-20; re-measured, not re-decided.',
   ],
   [
     '#63C1A0 on #FFFFFF',
     'IRONXL, IRONBARCODE and IRONQR, 18px/400 — brand/accent-2 (Iron Green 500). 2.17:1. The nearest ' +
       'passing step is iron-green-700 #44806B at 4.62, two down the ramp. ' +
       "Ball's call, 2026-08-19: the product accents stay on brand. " +
-      'Note there is no `#63C1A0 on #F2F9FE` row: the docs illustration hovers one row per column and ' +
+      'Note there is no `#63C1A0 on #F1F5F9` row: the docs illustration hovers one row per column and ' +
       'none of the three green products is that row. Change which row is hovered and a new pair appears.',
   ],
   [
@@ -312,17 +313,19 @@ const KNOWN = new Map([
       "Ball's call, 2026-08-19: the product accents stay on brand.",
   ],
   [
-    '#FDA509 on #F2F9FE',
-    'The same accent on a hovered row. 1.87:1. Same ruling; separate key for the same reason as the ' +
-      'sky pair above.',
+    '#FDA509 on #F1F5F9',
+    'The same accent on a hovered row. 1.81:1. Same ruling; separate key for the same reason as the ' +
+      'sky pair above. Was 1.87 over #F2F9FE before the 2026-08-20 fill change.',
   ],
   [
-    '#E01A59 on #F2F9FE',
-    'IRONPDF on a HOVERED row — Iron Pink 500 over --color-bg-card-alt. 4.43:1, and it is the near ' +
-      'miss of the set: the same colour on the panel surface is 4.71:1 and passes, so this row exists ' +
-      'ONLY because the hover fill is 0.07 too light. iron-pink-600 would clear at 5.97. Fixing it ' +
+    '#E01A59 on #F1F5F9',
+    'IRONPDF on a HOVERED row — Iron Pink 500 over --color-bg-shade. 4.30:1, and it is the near miss ' +
+      'of the set: the same colour on the panel surface is 4.71:1 and passes, so this row exists ONLY ' +
+      'because the hover fill is darker than the panel. iron-pink-600 would clear at 5.97. Fixing it ' +
       'would mean either a darker pink on one state only, or a hover fill chosen for one product out ' +
-      "of ten. Ball's call, 2026-08-19: neither, the accents stay on brand.",
+      "of ten. Ball's call, 2026-08-19: neither, the accents stay on brand. The gap WIDENED on " +
+      '2026-08-20 when the fill moved from --color-bg-card-alt #F2F9FE (4.43) to background-shade ' +
+      '#F1F5F9 (4.30). Same ruling, re-measured — the miss is 0.20 now, not 0.07.',
   ],
   [
     '#E5E5E5 on #3987BF',
@@ -363,11 +366,13 @@ const CHANNEL_TOLERANCE = 16;
  * these get the tolerance above; every other key has to match exactly.
  *
  * This split was forced on 2026-08-19 by the self-test refusing a fresh entry,
- * which is what it is for. `--color-bg-card-alt` is #F2F9FE and the panel
- * surface is #FFFFFF — 13, 6 and 1 levels apart, all UNDER a tolerance that was
- * sized for glyph-rectangle drift on artwork. So `#E01A59 on #F2F9FE`, added to
- * excuse IRONPDF on a hovered mega-menu row, silently began excusing Iron Pink
- * on plain white too, and `…and not an unrelated backdrop at all` went red.
+ * which is what it is for. The mega-menu's hover fill sits a handful of levels
+ * from the panel surface #FFFFFF — `--color-bg-card-alt` #F2F9FE was 13, 6 and 1
+ * away, and `--color-bg-shade` #F1F5F9, which replaced it on 2026-08-20, is 14,
+ * 10 and 6 — all UNDER a tolerance that was sized for glyph-rectangle drift on
+ * artwork. So the IRONPDF-on-a-hovered-row exemption silently began excusing
+ * Iron Pink on plain white too, and `…and not an unrelated backdrop at all`
+ * went red.
  *
  * A tolerance applied where it is not needed is just a wider hole. Two declared
  * tokens are either the same token or they are not; nothing rasterises them.
@@ -1154,11 +1159,11 @@ if (opts['self-test']) {
     ['…and matches the same pair as another machine sampled it', knownFor('#E01A59 on #250718') === '#E01A59 on #1E0818'],
     ['…but NOT a backdrop that is a different part of the artwork', knownFor('#E01A59 on #58321E') !== '#E01A59 on #1E0818'],
     ['…and not an unrelated backdrop at all', knownFor('#E01A59 on #FFFFFF') === null],
-    /* The tolerance applies to SAMPLED backdrops only. #F2F9FE and #FFFFFF are
-       13/6/1 levels apart — inside it — so without the split the hovered-row
+    /* The tolerance applies to SAMPLED backdrops only. #F1F5F9 and #FFFFFF are
+       14/10/6 levels apart — inside it — so without the split the hovered-row
        exemption would excuse the panel surface too. The first row proves the
        declared pair still matches itself; the second proves it does not reach. */
-    ['a DECLARED backdrop still matches itself', knownFor('#E01A59 on #F2F9FE') === '#E01A59 on #F2F9FE'],
+    ['a DECLARED backdrop still matches itself', knownFor('#E01A59 on #F1F5F9') === '#E01A59 on #F1F5F9'],
     ['…but does not stretch to a near-identical declared one', knownFor('#E01A59 on #FEFEFE') === null],
     ['every SAMPLED key is a real KNOWN key', [...SAMPLED].every((k) => KNOWN.has(k))],
     ['…and never across different foregrounds', knownFor('#2693EC on #1E0818') === null],

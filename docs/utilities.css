@@ -994,14 +994,14 @@
 .bg-bg-card {
   background-color: var(--color-bg-card);
 }
-.bg-bg-card-alt {
-  background-color: var(--color-bg-card-alt);
-}
 .bg-bg-dark-shade {
   background-color: var(--color-bg-dark-shade);
 }
 .bg-bg-disabled {
   background-color: var(--color-bg-disabled);
+}
+.bg-bg-shade {
+  background-color: var(--color-bg-shade);
 }
 .bg-border-strong {
   background-color: var(--color-border-strong);
@@ -1781,8 +1781,8 @@
   .hover\:bg-\[var\(--ghost-hover\)\]:hover {
     background-color: var(--ghost-hover);
   }
-  .hover\:bg-bg-card-alt:hover {
-    background-color: var(--color-bg-card-alt);
+  .hover\:bg-bg-shade:hover {
+    background-color: var(--color-bg-shade);
   }
   .hover\:bg-button-outline-hover:hover {
     background-color: var(--color-button-outline-hover);
@@ -1829,8 +1829,8 @@
 .focus-visible\:border-border-focused:focus-visible {
   border-color: var(--color-border-focused);
 }
-.focus-visible\:bg-bg-card-alt:focus-visible {
-  background-color: var(--color-bg-card-alt);
+.focus-visible\:bg-bg-shade:focus-visible {
+  background-color: var(--color-bg-shade);
 }
 .focus-visible\:shadow-\[var\(--focus-ring-blue\)\]:focus-visible {
   --tw-shadow: var(--focus-ring-blue);
