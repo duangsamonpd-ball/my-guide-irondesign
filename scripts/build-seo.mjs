@@ -39,9 +39,12 @@ const CHECK = process.argv.includes('--check');
  */
 const SITE = 'https://duangsamonpd-ball.github.io/my-guide-irondesign';
 
-/** No 1200x630 social card exists yet — see the note in the repo README. An
- *  og:image pointing at an unrelated asset is worse than none, so it is omitted
- *  until a real card is drawn. Set this to the path and it lands on all 31. */
+/** No 1200x630 social card exists yet — see "Social card (og:image)" under
+ *  Deploy in README.md for the reasoning, the drawing spec and the three steps.
+ *  An og:image pointing at an unrelated asset is worse than none, because chat
+ *  clients cache the first image they fetch, so it is omitted until a real card
+ *  is drawn. Set this to the path and it lands on all 31 pages — and flips
+ *  twitter:card from `summary` to `summary_large_image` on its own. */
 const OG_IMAGE = null;
 
 const SITE_NAME = 'Iron Software Design System';

@@ -430,6 +430,43 @@ Each case corresponds to a real misfire — a file that exists on disk but 404s,
 GitHub Pages serves the `docs/` folder on every push to `main` → **https://duangsamonpd-ball.github.io/my-guide-irondesign/**
 (`docs/.nojekyll` keeps Pages from touching the static files.)
 
+### Social card (og:image)
+
+`scripts/build-seo.mjs` writes the `<!-- seo:* -->` block into all 31 pages —
+canonical, Open Graph, Twitter card and JSON-LD. One thing is missing on purpose:
+**`OG_IMAGE` is `null`, so no `og:image` is emitted.**
+
+That is a decision, not an oversight. A card is the picture a chat client shows
+when someone pastes a link, and these clients **cache the first image they
+fetch** — so pointing the tag at some existing asset, a logo or a screenshot,
+is harder to undo later than having no card at all. It stays empty until a real
+one is drawn.
+
+The tag is not the only thing that changes when it lands. `twitter:card` is
+written as `summary` while the constant is null and `summary_large_image` once it
+is set, which is the difference between a small square card and a full-width
+banner. Nothing else needs editing to get that.
+
+**To add one:**
+
+1. Draw it at **1200×630** (1.91:1 — the ratio these clients crop to; under
+   600×315 most of them fall back to the small card anyway).
+2. Save it as **PNG or JPG** into `docs/assets/`. Not SVG: most crawlers do not
+   render it. Keep it under ~1 MB.
+3. Set the one constant — `const OG_IMAGE = 'assets/<file>.png';` — and run
+   `npm run build:seo`.
+
+`check:seo` is part of `npm run check`, so setting the constant without
+rebuilding fails the gate rather than shipping 31 stale pages.
+
+Two things worth knowing before drawing it. It is rendered around 400–500px wide
+in a chat list, so thin or small type disappears; and some clients crop the
+edges, so nothing load-bearing should sit against them.
+
+The constant is a single value, so **one card covers all 31 pages**. Per-page
+cards would need each page to carry its own field — worth doing only if the one
+card turns out not to be enough.
+
 ---
 
 ## 🤝 Contributing
