@@ -125,6 +125,31 @@ const VARIANT = {
 
 const BASE =
   'cursor-pointer inline-flex items-center justify-center font-sans no-underline ' +
+  /* THE BORDER IS RESERVED ON EVERY VARIANT, INCLUDING THE ONES THAT PAINT NONE,
+     and that is why a borderless button measures 4px wider than its Figma node.
+     Measured here 2026-08-21 on docs/component-button.html at 1440, setting
+     border-width to 0 on each and re-reading the box: every variant bw=2, every
+     delta exactly 4.00. `outline` and `ondark` spend it — border-color reads
+     rgb(226,232,240) and rgba(255,255,255,0.3). `primary`, `secondary`,
+     `tertiary` and `ghost` read rgba(0,0,0,0) and spend it on nothing.
+
+     Figma gives `ondark` a stroke and `primary` none, so in the frame the two
+     really are different widths. Making them equal is deliberate: a variant swap
+     cannot then shift the layout around it. The consuming room re-derived this
+     from scratch while auditing the homepage hero — `primary` at 242.75 against
+     241 in `2336:2492`, which is a frame in the IRON-HOMEPAGE file, not this
+     component's own set — and it will happen to the next person too, because
+     nothing said so. That is the only reason this comment exists.
+
+     (The id is written without the word before it on purpose: build-manifest.mjs
+     scrapes `node <id>` out of these files into `figmaNodes`, and that field
+     means the nodes THIS component was drawn from. A page-file frame is not
+     one.) 
+
+     If it is ever reopened as a DEFECT rather than a note, the fix is to drop
+     the border from the borderless variants and add 2px of padding to the
+     bordered ones — NOT the reverse. Taking the border off `outline` would move
+     the thing the variant is named for. */
   'border-[length:var(--border-width-2)] border-solid outline-none rounded-full ' +
   'transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] ' +
   /* `[disabled]` and `[aria-disabled="true"]` were one rule; as variants they
