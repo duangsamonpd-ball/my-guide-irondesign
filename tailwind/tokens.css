@@ -397,7 +397,14 @@
   --fw-h3:        700;
   --fw-h4:        800;
   --fw-title-lg:  700;  /* Title · Large — section intro title */
-  --fw-body-lg:   500;  /* Body large — Medium (Figma) */
+  --fw-body-lg:   400;  /* Body large — Regular. Read off the STYLE's bound variables
+                           2026-08-21, not its description: `Typography/body-lg` binds
+                           weight/normal=400 and its fontName.style is "Regular". The
+                           description says "18px / 500" and is wrong — six descriptions
+                           in that file disagree with what they bind. Was 500 here, which
+                           made this the ONLY disagreement in the whole type scale (23/24
+                           roles matched). No component uses font-body-lg; this is a
+                           published surface a consumer reaches through the class. */
   --fw-quote:     500;  /* Quote — Medium italic */
   --fw-body-title:700;  /* Body title — bold running text at the body size */
   --fw-body:      400;

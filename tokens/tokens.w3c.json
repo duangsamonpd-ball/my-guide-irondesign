@@ -1327,7 +1327,7 @@
         "$value": {
           "fontFamily": "{typography.font-family.body}",
           "fontSize": "18px",
-          "fontWeight": 500,
+          "fontWeight": 400,
           "lineHeight": "28px"
         },
         "$description": "Lead / intro paragraphs sitting under a major heading. Medium 500 (Figma) gives the lead sentence more presence than body without being a heading."
