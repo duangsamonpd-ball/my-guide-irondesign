@@ -58,7 +58,7 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 [**▶ View the live homepage demo**](https://duangsamonpd-ball.github.io/my-guide-irondesign/homepage.html)
 
-- **13 sections** — hero · product grid · Why Iron Suite · audiences · savings stats · 140M growth chart · testimonials · support · monthly releases · 1% For The Planet · CTA · mega-footer
+- **13 sections** — hero · product grid · Why Iron Suite · audiences · savings stats · 140M growth chart · testimonials · support · monthly releases · 1% for the Planet · CTA · mega-footer
 - **100% token-driven** — every colour, font-size, weight, line-height, tracking, spacing, radius and shadow is a CSS variable (`var(--text-3xl)` · `var(--space-hero)` · `var(--leading-7)` · `var(--tracking-tight)` …)
 - **Responsive layout** — 1440 design frame → 1280 container → 24px gutter, fluid down to mobile
 - **Real brand assets** — product logos, partner logos, photography and a dotted world map (`docs/assets/`); the full logo family (24 product marks in colour + mono, 5 wordmark lockups, 2 lockup patterns, 13 product elements) is exported from Figma and documented in [`docs/logo.html`](docs/logo.html)

@@ -27,6 +27,21 @@ jobs:
       - name: Check for token drift
         run: node scripts/check-token-drift.mjs
 
+      # One organisation, two capitalisations, one page. FooterBar and Footer
+      # said "1% For The Planet"; ProductFlyout, in the same repo, said
+      # "1% for the Planet" — which is the organisation's own styling, checked
+      # against onepercentfortheplanet.org. A screen reader met the same partner
+      # twice under two names. 17 uses across 9 files when the gate first ran.
+      #
+      # The rule is about CASE rather than filenames on purpose: Footer renders
+      # `src={src(donateImgSrc)}`, a prop, so there is no filename to key on
+      # until a consumer supplies one.
+      - name: Check the alt-text clash detector can fail
+        run: node scripts/check-alt-text.mjs --self-test
+
+      - name: One subject, one spelling
+        run: node scripts/check-alt-text.mjs
+
       # A `--text-*` size overridden without its paired `--text-*--line-height`
       # leaves Tailwind supplying the other half, and NOTHING here renders the
       # consequence — this repo's Tailwind emits no utilities for itself, and
