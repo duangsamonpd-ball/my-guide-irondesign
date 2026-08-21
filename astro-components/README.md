@@ -650,10 +650,20 @@ The three logo families from Figma section `471:112` behind one prop API:
 ```
 
 Props: `kind` (`mark` | `wordmark` | `element`, default `mark`), `product`, `brand`
-(`iron` | `suite`), `variant` (`default` | `ondark` | `mono`), `mono` (mark only),
+(`iron` | `suite`), `variant` (`default` | `ondark` | `mono` | `onhero`), `mono` (mark only),
 `size` (`24` | `48` | `56` | `64` | `96` | `192`, default `48`), `height` (wordmark only, default `32`),
 `href` (renders an `<a>` with `aria-label`), `label` (alt override — pass `""` for
 decorative use), `basePath` (default `assets`), `class`.
+
+**`variant="onhero"` is the colour mark beside an all-white wordmark** (iron only;
+Figma `Main logo` variant `Onhero`, added 2026-08-21). It exists because `ondark`
+is not enough over photography: `ondark` keeps SOFTWARE on `brand/primary`, which
+measures **1.21:1** against a warm image and cannot be rescued by treating the
+image — that colour's luminance is 0.173, so it reaches only 4.46:1 against pure
+black. `mono` fixes the contrast by discarding all four brand colours; `onhero`
+keeps them and whitens only the wordmark. Over `bg-dark-shade` use `ondark`,
+where SOFTWARE clears 4.04:1 and the pink is the point. On `brand="suite"` it
+falls back to `ondark`, which is the nearest artwork suite has.
 
 **This is the one component that references real files.** A logo *is* its artwork —
 there is no token that can stand in for it — so `basePath` is the escape hatch,

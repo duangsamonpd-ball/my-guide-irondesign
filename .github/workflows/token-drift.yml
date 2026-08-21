@@ -56,6 +56,20 @@ jobs:
       - name: Brand artwork is painted in this system's colours
         run: node scripts/check-logo-fills.mjs
 
+      # The wordmark files are four cuts of one drawing, so their geometry may
+      # differ only by the row each variant sits on in the Figma frame. Anything
+      # else means a partial re-export. Found on 2026-08-21: all three shipped
+      # files carried 60px letterforms while Figma binds size/7xl = 64px —
+      # tokens.css followed on 2026-08-06 and the artwork never did.
+      #
+      # It asks "were these made in one pass" rather than "is this current",
+      # because the second needs Figma and a gate here must not touch the network.
+      - name: Check the export-sync detector can fail
+        run: node scripts/check-artwork-sync.mjs --self-test
+
+      - name: Artwork variants were exported together
+        run: node scripts/check-artwork-sync.mjs
+
       # A `--text-*` size overridden without its paired `--text-*--line-height`
       # leaves Tailwind supplying the other half, and NOTHING here renders the
       # consequence — this repo's Tailwind emits no utilities for itself, and

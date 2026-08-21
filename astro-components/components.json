@@ -597,10 +597,10 @@
         },
         {
           "name": "variant",
-          "type": "'default' | 'ondark' | 'mono' | 'basic' | 'stack'",
+          "type": "'default' | 'ondark' | 'mono' | 'onhero' | 'basic' | 'stack'",
           "required": false,
           "default": "'default'",
-          "description": "Figma's `Property 1`, scoped to the kind: wordmark takes default/ondark/mono (`mono` is iron-only — suite has no mono artwork); lockup takes basic/stack."
+          "description": "Figma's variant axis, scoped to the kind: wordmark takes default/ondark/mono/onhero (`mono` and `onhero` are iron-only — suite has neither in Figma); lockup takes basic/stack. `onhero` is the colour mark beside an ALL-WHITE wordmark, added 2026-08-21 (Figma `Main logo` variant `Onhero`). It exists because `ondark` is not enough over PHOTOGRAPHY: it keeps SOFTWARE on `brand/primary`, which measures 1.21:1 against a warm image. That is not fixable by treating the image — the colour's luminance is 0.173, so it reaches only 4.46:1 against pure black and can never clear the 4.5 bar on any dark ground. `mono` solves it by discarding all four brand colours; `onhero` keeps them and whitens only the wordmark. Over `bg-dark-shade` use `ondark`: SOFTWARE clears 4.04:1 there, and the pink is the point. In Figma the wordmark is one TEXT bound to `text/on dark/heading` — the same variable IRON already used — rather than a raw white."
         },
         {
           "name": "mono",
