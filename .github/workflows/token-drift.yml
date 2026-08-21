@@ -42,6 +42,20 @@ jobs:
       - name: One subject, one spelling
         run: node scripts/check-alt-text.mjs
 
+      # Logo is the one component that renders real FILES, so its colours never
+      # passed through a token and no gate ever read them. Ten of the thirteen
+      # element illustrations turned out to be painted in PRE-RAMP leftovers —
+      # 46 of 103 fills were values Figma no longer binds, and none of the 46
+      # appeared anywhere in tokens.css either. Re-exported 2026-08-21.
+      #
+      # Scope is what Logo can emit, not docs/assets: 83 fills in the partner
+      # imagery are off-ramp and should be. #f25022 is Microsoft's.
+      - name: Check the artwork fill detector can fail
+        run: node scripts/check-logo-fills.mjs --self-test
+
+      - name: Brand artwork is painted in this system's colours
+        run: node scripts/check-logo-fills.mjs
+
       # A `--text-*` size overridden without its paired `--text-*--line-height`
       # leaves Tailwind supplying the other half, and NOTHING here renders the
       # consequence — this repo's Tailwind emits no utilities for itself, and
