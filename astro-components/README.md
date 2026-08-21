@@ -651,7 +651,7 @@ The three logo families from Figma section `471:112` behind one prop API:
 
 Props: `kind` (`mark` | `wordmark` | `element`, default `mark`), `product`, `brand`
 (`iron` | `suite`), `variant` (`default` | `ondark` | `mono`), `mono` (mark only),
-`size` (`24` | `48` | `96` | `192`, default `48`), `height` (wordmark only, default `32`),
+`size` (`24` | `48` | `56` | `64` | `96` | `192`, default `48`), `height` (wordmark only, default `32`),
 `href` (renders an `<a>` with `aria-label`), `label` (alt override — pass `""` for
 decorative use), `basePath` (default `assets`), `class`.
 
@@ -660,9 +660,24 @@ there is no token that can stand in for it — so `basePath` is the escape hatch
 same idea as `Footer.astro`'s `*ImgSrc` props: point it at wherever you copied
 `docs/assets/` to.
 
-`size` is typed to exactly four values on purpose. The mark is drawn on an 8-unit
-grid at 192px; each halving halves the grid unit, so only 24/48/96/192 keep every
-edge on a whole pixel. Off-grid sizes aren't in the type.
+`size` is a closed union on purpose, and four of its six members are the 8-unit
+grid the mark is drawn on: 24/48/96/192. Measured 2026-08-21 across all the
+artwork, as the share of path coordinates landing on a whole pixel:
+
+|  | 24 | 48 | 56 | 64 | 96 | 192 |
+|---|---|---|---|---|---|---|
+| mark | 11.4% | 18.9% | 3.4% | 5.7% | 18.9% | 19.0% |
+| element | 0.3% | 0.3% | 0.3% | 0.3% | 0.3% | 0.3% |
+
+So the grid is real for the **mark** and irrelevant for the **element** artwork,
+which is drawn in fractional coordinates and scales identically at every size —
+96 and 192 included. `56` and `64` are the two off-grid members, both added for
+a specific frame that asks for them (the product mega-menu row and the
+iron-homepage changelog tiles), and `64` is the better-behaved of the two.
+Prefer a grid size wherever one will do; the mark is where the difference shows.
+
+This list used to read "exactly four values" and omit `56`, which had been in the
+type for weeks — prose restating a fact, drifting from it.
 
 Two naming traps worth knowing:
 
@@ -747,10 +762,14 @@ Three things worth knowing before you change it:
   on two columns that cannot shrink splits the free space equally whatever each
   one needs, and never asks the centre column (which scrolls) to give anything
   up. That is what put the CTA and the wordmark outside their boxes at 769–1057.
-- **The 40px brand mark is off the logo grid.** `Logo.astro`'s `size` is typed to
-  24/48/96/192, but Figma uses 40px here, so the mark is a plain `<img>` rather
-  than a `<Logo>`. Widening Logo's union would undermine the grid rule for every
-  other caller.
+- **The 40px brand mark is off the logo grid**, so it is a plain `<img>` rather
+  than a `<Logo>`. That was written when the union was believed to be
+  24/48/96/192 and widening it was believed to cost the grid rule something.
+  Neither survived being measured on 2026-08-21: the union already carried `56`
+  and now carries `64`, and **40px scores 3.4% of coordinates on whole pixels —
+  the same as `56`, which is in.** So the reason this is an `<img>` is history,
+  not a rule. Whether to add `40` and let this be a `<Logo>` is open; it changes
+  what a shipped component renders, so it is a decision rather than a tidy-up.
 
 Figma covers 1440px desktop only — there is no mobile frame. The narrow-viewport
 behaviour is an implementation decision, not a handed-over design: drop the

@@ -30,16 +30,38 @@ interface Props {
   variant?: 'default' | 'ondark' | 'mono' | 'basic' | 'stack';
   /** kind="mark" only — swaps to the black knockout artwork. */
   mono?: boolean;
-  /** kind="mark" / "element". The mark is drawn on an 8-unit grid at 192px, so only
-   *  24/48/96/192 keep every edge on a whole pixel.
+  /** kind="mark" / "element". The mark is drawn on an 8-unit grid at 192px, so
+   *  24/48/96/192 keep the most edges on whole pixels.
    *
-   *  56 is the exception and it is a design decision, not an oversight: the
-   *  product mega-menu row (`FlyoutMenu-product`, Figma `1014:1921`) specifies a
-   *  56px element mark, and the element artwork is a `0 0 96 96` viewBox, so 56
-   *  scales at 0.5833 and its edges land off-pixel. That is visible on a hairline
-   *  and these marks have none — they are solid colour blocks. Do not reach for it
-   *  anywhere the four grid sizes will do. */
-  size?: 24 | 48 | 56 | 96 | 192;
+   *  MEASURED 2026-08-21, because the rule had been stated but never counted.
+   *  Share of path coordinates landing on a whole pixel, across all the artwork
+   *  this component ships:
+   *
+   *              24px    48px    56px    64px    96px   192px
+   *    mark     11.4%   18.9%    3.4%    5.7%   18.9%   19.0%
+   *    element   0.3%    0.3%    0.3%    0.3%    0.3%    0.3%
+   *
+   *  Two things follow, and neither was what the prose here used to say.
+   *
+   *  The rule is REAL FOR THE MARK — 48/96/192 are a clear tier above 24, and
+   *  both off-grid sizes are well below all of them. And the rule is MEANINGLESS
+   *  FOR THE ELEMENT ARTWORK, which is drawn in fractional coordinates
+   *  throughout: 0.3% at every size including 96 and 192, so nothing is gained
+   *  by staying on the grid and nothing is lost by leaving it. The old comment
+   *  justified 56 by how the ELEMENT artwork scales, which was the wrong asset
+   *  to argue from.
+   *
+   *  56 and 64 are both off-grid and both deliberate. 56 came first, for the
+   *  product mega-menu row (`FlyoutMenu-product`, Figma `1014:1921`). 64 was
+   *  added 2026-08-21 for the iron-homepage changelog tiles, which specify it
+   *  exactly, and it is the BETTER of the two on the only measure that ever
+   *  justified excluding either — 5.7% against 56's 3.4%. Keeping it out while
+   *  56 was in could not be defended once the numbers existed.
+   *
+   *  Off-grid edges are visible on a hairline and these marks have none — they
+   *  are solid colour blocks. Still: reach for a grid size anywhere one will do,
+   *  because the mark is where the difference is real. */
+  size?: 24 | 48 | 56 | 64 | 96 | 192;
   /** kind="wordmark" / "lockup" — rendered height in px; width follows the aspect ratio. */
   height?: number;
   /** Wraps the logo in an <a>. */
