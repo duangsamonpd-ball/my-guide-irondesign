@@ -39,11 +39,21 @@ interface Props {
   productLogoSrc?: string;
   /**
    * The band's rainbow backdrop. It is a PROP and painted inline for a reason:
-   * as the utility `bg-[url(assets/Rainbow.svg)]` the path was baked into the
-   * compiled stylesheet, where a consumer's bundler rewrote it to
+   * as a bracketed `bg-` arbitrary value holding the url, the path was baked
+   * into the compiled stylesheet, where a consumer's bundler rewrote it to
    * `/_astro/assets/Rainbow.svg` and it 404'd with the band rendering flat — and
    * no prop existed to correct it, so the roi-calculator carried an
    * `!important` global override instead of a value.
+   *
+   * The class is deliberately NOT spelled out above. Tailwind extracts
+   * candidates from the whole file, COMMENTS INCLUDED, so writing it compiles it
+   * straight back into every consumer's stylesheet — the exact bug this prop
+   * exists to remove. The band stopped wearing the class on 2026-08-18
+   * (`ececa65`); the string survived in this comment until 2026-08-21, and every
+   * consumer build in between still printed `assets/Rainbow.svg … didn't resolve
+   * at build time`. Nothing here could see it: this repo's own pipeline strips
+   * comments before Tailwind reads them (`build-utilities.mjs`) and a consumer's
+   * does not. `check:prose-classes` fails if it comes back.
    */
   rainbowSrc?: string;
   class?: string;

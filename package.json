@@ -49,6 +49,7 @@
     "check:code": "node scripts/build-code-samples.mjs --check",
     "check:types": "astro check --root astro-components",
     "check:peer-range": "node scripts/check-peer-range.mjs --self-test && node scripts/check-peer-range.mjs",
+    "check:prose-classes": "node scripts/check-prose-classes.mjs --self-test && node scripts/check-prose-classes.mjs",
     "build:components-css": "node scripts/build-component-css.mjs",
     "check:components-css": "node scripts/build-component-css.mjs --self-test && node scripts/build-component-css.mjs --check"
   },

@@ -183,6 +183,17 @@ jobs:
       - name: The advertised Astro peer range compiles at its floor
         run: npm run check:peer-range
 
+      # What a CONSUMER's Tailwind compiles out of this package is not what ours
+      # does: build-utilities.mjs strips comments before scanning, a consumer
+      # does not. Measured 2026-08-21 over the same 22 sources — 449 selectors
+      # raw against 420 stripped, 29 rules every consumer ships that this repo
+      # never sees. Twenty-eight are English words that happen to be utility
+      # names and cost bytes only. The twenty-ninth was a relative url() quoted
+      # in the comment explaining why it had been removed, and it kept every
+      # consumer build printing "didn't resolve at build time".
+      - name: Nothing this package ships compiles to a relative url
+        run: npm run check:prose-classes
+
       # Also leaves playground/dist in place for the sweep below.
       - name: Check demo markup is regenerated
         run: node scripts/build-demos.mjs --check
