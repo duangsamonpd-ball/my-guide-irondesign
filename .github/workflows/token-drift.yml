@@ -70,6 +70,20 @@ jobs:
       - name: Artwork variants were exported together
         run: node scripts/check-artwork-sync.mjs
 
+      # A component publishes [data-part] and never its class names — Ball's
+      # ruling, and what lets TopNav style FlyoutMenu at all. So the hooks are
+      # the contract, and until 2026-08-21 nothing checked them: rename one and
+      # every selector keyed to it stops matching in silence.
+      #
+      # Only astro-components/ publishes. With docs/ counted too, renaming a hook
+      # left this green — the generated demo regions still carried the old
+      # attribute and satisfied the selectors by themselves.
+      - name: Check the hook detector can fail
+        run: node scripts/check-parts.mjs --self-test
+
+      - name: Every [data-part] depended on has a publisher
+        run: node scripts/check-parts.mjs
+
       # A `--text-*` size overridden without its paired `--text-*--line-height`
       # leaves Tailwind supplying the other half, and NOTHING here renders the
       # consequence — this repo's Tailwind emits no utilities for itself, and
