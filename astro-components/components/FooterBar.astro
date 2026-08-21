@@ -33,6 +33,30 @@
  *    they read as grey. G2 sets the opacity on each of the five stars and
  *    Capterra sets it on the group; same result, two different ways of saying
  *    it. Neither needs help from CSS, and adding any would double it.
+ *  · **A review rating is drawn in `brand/accent-1`, not in the partner's own
+ *    colour** — Ball's ruling 2026-08-21, and it settles a question raised from
+ *    the consuming room, which had the same widget drawn in G2's #FF492C.
+ *    One amber for every partner, so a row of badges reads as one row.
+ *
+ *    The line runs through the MIDDLE of this component, which is the part worth
+ *    remembering: the stars are ours and the logos are theirs. Measured — the
+ *    four star files are entirely on the ramp (#ffffff, #fda509) while
+ *    `logo-g2.svg` and `logo-capterra.svg` carry #ff492c and
+ *    #ff9d28/#68c5ed/#044d80/#e54747, which belong to G2 and Capterra and must
+ *    stay off it. `check:logo-fills` holds exactly that split: `stars-*` is in
+ *    scope, the partner logos are not.
+ *
+ *    THE HOVER IS RIGHT HERE AND WRONG ELSEWHERE. It stays in this bar. The
+ *    homepage's NuGet section drops it — Ball, same day: over there the resting
+ *    stars beside a printed "4.9" read as confusing rather than as an
+ *    affordance. Note that the hover carries no information either way: the
+ *    stars are `alt=""`, the score is text beside them, and no keyboard or touch
+ *    user ever sees the amber state. It is decoration, and decoration is
+ *    allowed to differ by context.
+ *
+ *    The two drawings do not otherwise converge and are not meant to: 68x12 here
+ *    against 96x16 there is 5.667 versus 6.000, a different drawing rather than
+ *    a scale of one.
  *  · ~~The two lg variants disagree about the Slack row~~ — **closed
  *    2026-08-10.** Ball ruled for 16 back in August and the code always used it;
  *    all four frames now read 127x20 around a 16px icon.

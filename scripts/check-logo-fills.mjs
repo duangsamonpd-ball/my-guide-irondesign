@@ -49,11 +49,32 @@ const green = (s) => `\x1b[32m${s}\x1b[0m`;
 const dim = (s) => `\x1b[90m${s}\x1b[0m`;
 const bold = (s) => `\x1b[1m${s}\x1b[0m`;
 
-/** The four filename shapes Logo.astro builds. The self-test checks it still builds these. */
-const EMITS = /^(lockup-|wordmark-|mark-|logo-\d+-)/;
+/**
+ * Artwork this design system OWNS. Four of the five shapes are the filenames
+ * Logo.astro builds; the self-test checks it still builds them.
+ *
+ * `stars-*` joined on 2026-08-21, on Ball's ruling that a review rating is drawn
+ * in `brand/accent-1` rather than in each partner's own colour. Measured before
+ * adding: all four star files are already on the ramp (#ffffff and #fda509),
+ * while `logo-g2.svg` and `logo-capterra.svg` — the OTHER half of the same
+ * widget — carry #ff492c and #ff9d28/#68c5ed/#044d80/#e54747, which are G2's and
+ * Capterra's. So the line runs through the middle of one component: the stars
+ * are ours, the logos are theirs, and only the stars are held to the ramp.
+ */
+const EMITS = /^(lockup-|wordmark-|mark-|logo-\d+-|stars-)/;
 
-/** #abc and #rrggbbaa both normalise to #rrggbb — tokens.css declares the 6-digit form. */
+/**
+ * #abc and #rrggbbaa both normalise to #rrggbb — tokens.css declares the 6-digit
+ * form. The two colour KEYWORDS SVG artwork actually uses are folded in as well:
+ * before 2026-08-21 this read hex only, so every `fill="white"` in the wordmarks
+ * and the resting stars went unread and the gate reported them clean without
+ * having looked. A checker that silently skips a value is worse than one that
+ * flags it.
+ */
+const KEYWORD = { white: '#ffffff', black: '#000000' };
+
 function normalise(hex) {
+  if (KEYWORD[hex.toLowerCase()]) return KEYWORD[hex.toLowerCase()];
   let h = hex.slice(1).toLowerCase();
   if (h.length === 3) h = h.split('').map((c) => c + c).join('');
   if (h.length === 8) h = h.slice(0, 6);
@@ -71,7 +92,7 @@ function ramp() {
 /** Every hex a file paints with, as {hex, count}. */
 function fillsOf(src) {
   const seen = new Map();
-  for (const m of src.matchAll(/(?:fill|stroke|stop-color)="(#[0-9a-fA-F]{3,8})"/g)) {
+  for (const m of src.matchAll(/(?:fill|stroke|stop-color)="(#[0-9a-fA-F]{3,8}|white|black)"/gi)) {
     const h = normalise(m[1]);
     seen.set(h, (seen.get(h) ?? 0) + 1);
   }
@@ -112,6 +133,8 @@ function selfTest() {
     ['…and one it does declare is spared', spared.length === 1 && spared[0] === onRamp, spared.join(' ') || 'none'],
     ['#abc and #rrggbbaa normalise to the 6-digit form tokens.css uses', shorthand,
      `${normalise('#ABC')} · ${normalise('#11223344')}`],
+    ['fill="white" is READ, not skipped — it was invisible here until 2026-08-21',
+     fillsOf('<svg><path fill="white"/></svg>').has('#ffffff'), 'white → #ffffff'],
     ['Logo.astro still builds every filename this gate knows about', builds && elementsMatch,
      `prefixes ${builds ? 'ok' : 'MOVED'} · ${elementNames.length} element files ${elementsMatch ? 'ok' : 'UNMATCHED'}`],
     ['the sweep reads a real corpus, and the ramp is not empty', list.length > 20 && totalFills > 100 && R.size > 50,
