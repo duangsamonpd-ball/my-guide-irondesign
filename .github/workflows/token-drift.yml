@@ -170,6 +170,19 @@ jobs:
       - name: Components typecheck
         run: npm run check:types
 
+      # The peer range is a claim about machines we do not run, and it was false
+      # for as long as it existed: `>=4.0.0` while TopNav's dynamic slot name
+      # compiles on Astro 7 alone. Two pages in the consuming room died on it at
+      # once, with a CompilerError in a file they do not own. Nothing here could
+      # see it — the docs build on 7, where the syntax is legal.
+      #
+      # It sits beside the typecheck for the same reason: it needs node_modules,
+      # which `npm ci` above already paid for, and it reads the components as
+      # SOURCE rather than as rendered output. The self-test runs first because
+      # this gate's easiest failure is passing when it could not load a compiler.
+      - name: The advertised Astro peer range compiles at its floor
+        run: npm run check:peer-range
+
       # Also leaves playground/dist in place for the sweep below.
       - name: Check demo markup is regenerated
         run: node scripts/build-demos.mjs --check

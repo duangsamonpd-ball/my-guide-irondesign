@@ -16,6 +16,15 @@ See [Setup](#setup) for what each kind needs from you.
 
 ## Setup
 
+**Requires Astro 7 or newer.** `TopNav` renders `<slot name={it.flyout} />`: the
+panel behind a nav item is the consumer's content, so it has to be a slot, and
+which slot has to be chosen per item. Only Astro 7's compiler accepts a dynamic
+slot name — Astro 3-5 (`@astrojs/compiler` 2.x) and Astro 6 (`@astrojs/compiler`
+4.x) both stop the build with `slot[name] must be a static string`, in a file
+you do not own. `npm run check:peer-range` compiles every component against the
+floor `peerDependencies` advertises, and reads the version out of this sentence
+too, so the two cannot drift apart.
+
 These components are token-driven — they don't ship their own colors, sizes,
 or radii. Import the design system's token file once, globally, before using
 any component (e.g. in your root layout).
