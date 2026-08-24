@@ -375,13 +375,13 @@ a.logo:focus-visible { outline: var(--border-width-2) solid var(--color-border-s
 
     <div class="sect"><h2 class="sect-h">Props</h2>
       <table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
-        <tr><td class="prop">kind</td><td class="token">'mark' | 'wordmark' | 'element'</td><td class="val">'mark'</td><td>Picks the family.</td></tr>
+        <tr><td class="prop">kind</td><td class="token">'mark' | 'wordmark' | 'element' | 'lockup'</td><td class="val">'mark'</td><td>Picks the family. <code>lockup</code> is the mark and wordmark locked together.</td></tr>
         <tr><td class="prop">product</td><td class="token">Product | ElementName</td><td class="val">'iron'</td><td>Marks use <code>wd</code>/<code>bc</code>/<code>prt</code>/<code>ws</code>; elements use <code>word</code>/<code>barcode</code>/<code>print</code>/<code>webscraper</code>.</td></tr>
         <tr><td class="prop">brand</td><td class="token">'iron' | 'suite'</td><td class="val">'iron'</td><td>Wordmark only.</td></tr>
-        <tr><td class="prop">variant</td><td class="token">'default' | 'ondark' | 'mono'</td><td class="val">'default'</td><td>Wordmark only. <code>suite</code> + <code>mono</code> falls back to <code>default</code>.</td></tr>
+        <tr><td class="prop">variant</td><td class="token">'default' | 'ondark' | 'mono' | 'onhero' | 'basic' | 'stack'</td><td class="val">'default'</td><td>Scoped to the kind: wordmark takes the first four, lockup takes <code>basic</code>/<code>stack</code>. <code>mono</code> and <code>onhero</code> are iron-only; <code>suite</code> falls back to <code>default</code> and <code>ondark</code>.</td></tr>
         <tr><td class="prop">mono</td><td class="token">boolean</td><td class="val">false</td><td>Mark only — the black knockout artwork.</td></tr>
-        <tr><td class="prop">size</td><td class="token">24 | 48 | 96 | 192</td><td class="val">48</td><td>Mark / element. Off-grid sizes are not in the type.</td></tr>
-        <tr><td class="prop">height</td><td class="token">number</td><td class="val">32</td><td>Wordmark only — width follows the aspect ratio.</td></tr>
+        <tr><td class="prop">size</td><td class="token">24 | 48 | 72 | 96 | 144 | 192</td><td class="val">48</td><td>Mark / element. The ladder is the multiples of 24 — where the 8-point grid and the artwork&#39;s own 96-unit box agree. Off-ladder sizes are not in the type.</td></tr>
+        <tr><td class="prop">height</td><td class="token">number</td><td class="val">32</td><td>Wordmark / lockup — width follows the aspect ratio. Free, because neither is square or on the mark&#39;s grid.</td></tr>
         <tr><td class="prop">href</td><td class="token">string</td><td class="val">—</td><td>Renders an <code>&lt;a&gt;</code> with <code>aria-label</code> instead of a <code>&lt;span&gt;</code>.</td></tr>
         <tr><td class="prop">label</td><td class="token">string</td><td class="val">—</td><td>Overrides alt text. Pass <code>""</code> when a visible name sits next to it.</td></tr>
         <tr><td class="prop">basePath</td><td class="token">string</td><td class="val">'assets'</td><td>Where <code>docs/assets/</code> was copied to.</td></tr>
@@ -423,7 +423,7 @@ a.logo:focus-visible { outline: var(--border-width-2) solid var(--color-border-s
             <span class="inline-flex items-center justify-center shrink-0 leading-[0]" style="width:40px;height:40px;"><img class="block max-w-full size-full" src="assets/mark-ocr.svg" alt="IronOCR" width="40" height="40"></span>
             <span class="inline-flex items-center justify-center shrink-0 leading-[0]" style="height:22px;"><img class="block max-w-full w-auto h-full" src="assets/wordmark-iron-default.svg" alt="Iron Software" height="22"></span>
           </div>
-          <ul><li>Use one of the four grid sizes — <b>24 · 48 · 96 · 192</b>.</li><li>Use <code>mono</code>/<code>variant="mono"</code> instead of a CSS filter.</li><li>Pass <code>label=""</code> when a visible product name sits beside the mark.</li><li>Point <code>basePath</code> at your own asset folder rather than deep-linking the docs.</li></ul></div>
+          <ul><li>Use one of the ladder sizes — <b>24 · 48 · 72 · 96 · 144 · 192</b>. They are the multiples of 24, which is where the industry&#39;s 8-point icon grid and this artwork&#39;s 96-unit box agree; every other size renders more anti-aliased edges.</li><li>Use <code>mono</code>/<code>variant="mono"</code> instead of a CSS filter.</li><li>Pass <code>label=""</code> when a visible product name sits beside the mark.</li><li>Point <code>basePath</code> at your own asset folder rather than deep-linking the docs.</li></ul></div>
         <div class="card dont"><div class="top">✗ Don't</div><div class="body">
             <span class="inline-flex items-center justify-center shrink-0 leading-[0]" style="width:40px;height:26px;"><img class="block max-w-full size-full" src="assets/mark-pdf.svg" alt="" style="width:100%;height:100%;"></span>
             <span class="inline-flex items-center justify-center shrink-0 leading-[0]" style="width:40px;height:40px;filter:hue-rotate(200deg) saturate(1.5);"><img class="block max-w-full size-full" src="assets/mark-pdf.svg" alt="" width="40" height="40"></span>
