@@ -584,29 +584,50 @@
   --line-height-badge:     var(--leading-4);  /* 16px — Figma Typography/UI/badge uses leading/4 */
   --line-height-badge-sm:  var(--leading-3);  /* 12px — Figma Typography/UI/badge-small uses leading/3 */
 
-  /* ── Letter spacing — px, Figma tracking scale ──
-     tighter -0.8 · tight -0.4 · normal 0 · wide 0.4 · wider 0.8 · widest 1.6 */
-  --letter-spacing-h1-hero:  0px;      /* normal — the hero sets its own, unlike h1 */
-  --letter-spacing-h1:       -0.8px;   /* tighter */
-  --letter-spacing-h2:       -0.4px;   /* tight   */
-  --letter-spacing-h3:       -0.4px;   /* tight   */
-  --letter-spacing-h4:       -0.4px;   /* tight — card title */
-  --letter-spacing-overline:  0.4px;   /* wide — Ball, 2026-08-19. Was 0.8 (wider).
+  /* ── Letter spacing — primitives, from Figma's `font` collection ──
+     The six rungs were named in this comment from the day the section was
+     written and never declared, so every role below wrote the raw px with the
+     rung's name beside it in prose. That is the one thing nothing checks, and it
+     cost something real: with no primitive to reach for, a component that wanted
+     -0.4 and was NOT an h4 had to write `tracking-h4`, and three of them did.
+     `check:type-weight` reads a role NAME as a claim about what an element is,
+     so borrowing one is not a style choice — it is a false statement the gate
+     acts on.
+
+     Read off the collection itself on 2026-08-24, and it is SIX — this session
+     first proposed three from the values it had happened to see on nodes, which
+     is not the same as reading the set. `widest` is used by no role today and is
+     declared anyway, because a rung that exists in Figma and not here is how the
+     next borrowing starts. All 17 roles land on a rung exactly. */
+  --letter-spacing-tighter: -0.8px;
+  --letter-spacing-tight:   -0.4px;
+  --letter-spacing-normal:    0px;
+  --letter-spacing-wide:     0.4px;
+  --letter-spacing-wider:    0.8px;
+  --letter-spacing-widest:   1.6px;
+
+  /* ── Letter spacing — roles (semantic → primitive) ── */
+  --letter-spacing-h1-hero: var(--letter-spacing-normal);      /* normal — the hero sets its own, unlike h1 */
+  --letter-spacing-h1: var(--letter-spacing-tighter);   /* tighter */
+  --letter-spacing-h2: var(--letter-spacing-tight);   /* tight   */
+  --letter-spacing-h3: var(--letter-spacing-tight);   /* tight   */
+  --letter-spacing-h4: var(--letter-spacing-tight);   /* tight — card title */
+  --letter-spacing-overline: var(--letter-spacing-wide);   /* wide — Ball, 2026-08-19. Was 0.8 (wider).
                                           --letter-spacing-review stays at 0.8: it was split
                                           off this token in the first place so the two could
                                           move apart, and this is that happening. */
-  --letter-spacing-review:    0.8px;   /* wider — same reason as --fw-review: it had
+  --letter-spacing-review: var(--letter-spacing-wider);   /* wider — same reason as --fw-review: it had
                                           been borrowing the overline's 0.8. */
-  --letter-spacing-body-title: 0px;    /* normal  */
-  --letter-spacing-label:      0px;    /* normal  */
-  --letter-spacing-label-lg:   0px;    /* normal  */
-  --letter-spacing-btn-lg:     0px;    /* normal  */
-  --letter-spacing-btn:        0px;    /* normal  */
-  --letter-spacing-btn-sm:    0.4px;   /* wide    */
-  --letter-spacing-caption-sm:0.4px;   /* wide    */
-  --letter-spacing-nav-label: 0.4px;   /* wide    */
-  --letter-spacing-badge:      0px;    /* normal — was 0.01em, the only em in the system; 0.12px at 12px, so rounded to 0 (Ball, 2026-07-31) */
-  --letter-spacing-badge-sm:   0px;    /* normal  */
+  --letter-spacing-body-title: var(--letter-spacing-normal);    /* normal  */
+  --letter-spacing-label: var(--letter-spacing-normal);    /* normal  */
+  --letter-spacing-label-lg: var(--letter-spacing-normal);    /* normal  */
+  --letter-spacing-btn-lg: var(--letter-spacing-normal);    /* normal  */
+  --letter-spacing-btn: var(--letter-spacing-normal);    /* normal  */
+  --letter-spacing-btn-sm: var(--letter-spacing-wide);   /* wide    */
+  --letter-spacing-caption-sm: var(--letter-spacing-wide);   /* wide    */
+  --letter-spacing-nav-label: var(--letter-spacing-wide);   /* wide    */
+  --letter-spacing-badge: var(--letter-spacing-normal);    /* normal — was 0.01em, the only em in the system; 0.12px at 12px, so rounded to 0 (Ball, 2026-07-31) */
+  --letter-spacing-badge-sm: var(--letter-spacing-normal);    /* normal  */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════

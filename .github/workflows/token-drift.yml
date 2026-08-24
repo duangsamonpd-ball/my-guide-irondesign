@@ -88,6 +88,17 @@ jobs:
       - name: Logo offers sizes its own artwork can draw
         run: node scripts/check-logo-grid.mjs
 
+      # `check:type-scale` pins every size to a leading and every step to its
+      # role, and never reads WEIGHT — which is how Footer's lead paragraph
+      # shipped at 700 wearing the h4 pair. This one reads a component's class
+      # list instead: when a line NAMES a role on any axis, every other axis it
+      # states has to belong to that role. A size is not a claim; a role name is.
+      - name: Check the role-contradiction detector can fail
+        run: node scripts/check-type-weight.mjs --self-test
+
+      - name: A class list agrees with the role it names
+        run: node scripts/check-type-weight.mjs
+
       # A component publishes [data-part] and never its class names — Ball's
       # ruling, and what lets TopNav style FlyoutMenu at all. So the hooks are
       # the contract, and until 2026-08-21 nothing checked them: rename one and

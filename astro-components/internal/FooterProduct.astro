@@ -55,7 +55,7 @@ const { product: p, logoSrc, class: className } = Astro.props;
     name, and `Typography/body` — 16/28 regular — for the description. That is
     the h4 role over the body role. The code had `text-lg` 18 and `text-sm` 14
     under a flat `leading-[1.5]`: one type-scale step low on both runs, which is
-    what made the line box 27. The letter-spacing was already `tracking-h4`
+    what made the line box 27. The letter-spacing was already `tracking-tight`
     -0.4px, so the name's tracking said h4 while its size said title-lg — the
     contradiction that pinned it.
 
@@ -71,7 +71,7 @@ const { product: p, logoSrc, class: className } = Astro.props;
 <li class:list={[className]}>
   <a class="group flex items-center flex-wrap leading-7 gap-[6px] pl-[30px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
     <span class="w-[24px] h-[24px] shrink-0 flex items-center ml-[-30px]"><img class="w-[24px] h-[24px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={logoSrc} alt="" /></span>
-    <span class="text-xl leading-[inherit] font-bold tracking-h4 text-text-on-dark-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
+    <span class="text-xl leading-[inherit] font-bold tracking-tight text-text-on-dark-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
     {/* Ball's ruling 2026-08-24: `support` at rest, `body` on hover — and the
         DASH follows the description rather than the name, which is what he
         changed in Figma. It used to hover to `text-on-dark-heading`, i.e. white.

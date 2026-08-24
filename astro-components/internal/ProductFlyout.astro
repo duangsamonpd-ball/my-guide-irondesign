@@ -224,7 +224,7 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
         <div class="flex flex-col items-center gap-sm w-full">
           <Logo kind="mark" product="suite" size={96} basePath={basePath} label="" />
           <div class="flex flex-col items-center justify-center gap-xs pt-[6px] w-full">
-            <p class="flex items-start text-xl leading-none tracking-h4 whitespace-nowrap m-0">
+            <p class="flex items-start text-xl leading-none tracking-tight whitespace-nowrap m-0">
               <span class="font-bold text-text-heading">{s.prefix}</span><span class="font-medium text-primary">{s.suffix}</span>
             </p>
             <p class="text-sm leading-5 font-normal text-text-body text-center w-full m-0">{s.desc}</p>
@@ -348,7 +348,7 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
                     through the prop. See the `size` prop's note. */}
                 <Logo kind="element" product={p.product} size={48} basePath={basePath} label="" class="shrink-0" />
                 <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
-                  <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
+                  <span class="flex items-start text-lg leading-5 tracking-tight whitespace-nowrap">
                     <span class="font-bold text-text-heading">{p.prefix ?? 'IRON'}</span><span class:list={['font-medium', ACCENT[p.accent]]}>{p.suffix}</span>
                   </span>
                   <span class="text-xs leading-4 font-normal text-text-body min-w-0">{p.desc}</span>

@@ -506,23 +506,29 @@
   --leading-nav-label: var(--leading-4);      /* 16px */
   --leading-badge: var(--leading-4);          /* 16px — Figma Typography/UI/badge uses leading/4 */
   --leading-badge-sm: var(--leading-3);       /* 12px — Figma Typography/UI/badge-small uses leading/3 */
-  --tracking-h1-hero: 0px;                    /* normal — the hero sets its own, unlike h1 */
-  --tracking-h1: -0.8px;                      /* tighter */
-  --tracking-h2: -0.4px;                      /* tight */
-  --tracking-h3: -0.4px;                      /* tight */
-  --tracking-h4: -0.4px;                      /* tight — card title */
-  --tracking-overline: 0.4px;
-  --tracking-review: 0.8px;
-  --tracking-body-title: 0px;                 /* normal */
-  --tracking-label: 0px;                      /* normal */
-  --tracking-label-lg: 0px;                   /* normal */
-  --tracking-btn-lg: 0px;                     /* normal */
-  --tracking-btn: 0px;                        /* normal */
-  --tracking-btn-sm: 0.4px;                   /* wide */
-  --tracking-caption-sm: 0.4px;               /* wide */
-  --tracking-nav-label: 0.4px;                /* wide */
-  --tracking-badge: 0px;                      /* normal — was 0.01em, the only em in the system; 0.12px at 12px, so rounded to 0 (Ball, 2026-07-31) */
-  --tracking-badge-sm: 0px;                   /* normal */
+  --tracking-tighter: -0.8px;
+  --tracking-tight: -0.4px;
+  --tracking-normal: 0px;
+  --tracking-wide: 0.4px;
+  --tracking-wider: 0.8px;
+  --tracking-widest: 1.6px;
+  --tracking-h1-hero: var(--tracking-normal); /* normal — the hero sets its own, unlike h1 */
+  --tracking-h1: var(--tracking-tighter);     /* tighter */
+  --tracking-h2: var(--tracking-tight);       /* tight */
+  --tracking-h3: var(--tracking-tight);       /* tight */
+  --tracking-h4: var(--tracking-tight);       /* tight — card title */
+  --tracking-overline: var(--tracking-wide);
+  --tracking-review: var(--tracking-wider);
+  --tracking-body-title: var(--tracking-normal); /* normal */
+  --tracking-label: var(--tracking-normal);   /* normal */
+  --tracking-label-lg: var(--tracking-normal); /* normal */
+  --tracking-btn-lg: var(--tracking-normal);  /* normal */
+  --tracking-btn: var(--tracking-normal);     /* normal */
+  --tracking-btn-sm: var(--tracking-wide);    /* wide */
+  --tracking-caption-sm: var(--tracking-wide); /* wide */
+  --tracking-nav-label: var(--tracking-wide); /* wide */
+  --tracking-badge: var(--tracking-normal);   /* normal — was 0.01em, the only em in the system; 0.12px at 12px, so rounded to 0 (Ball, 2026-07-31) */
+  --tracking-badge-sm: var(--tracking-normal); /* normal */
   --spacing-micro: 0.25rem;                   /* 4px — icon-text gaps, tight groups */
   --spacing-xs: 0.5rem;                       /* 8px — small spacing within components */
   --spacing-sm: 0.75rem;                      /* 12px — component internal padding */
@@ -747,6 +753,12 @@
   --line-height-nav-label: var(--leading-nav-label);
   --line-height-badge: var(--leading-badge);
   --line-height-badge-sm: var(--leading-badge-sm);
+  --letter-spacing-tighter: var(--tracking-tighter);
+  --letter-spacing-tight: var(--tracking-tight);
+  --letter-spacing-normal: var(--tracking-normal);
+  --letter-spacing-wide: var(--tracking-wide);
+  --letter-spacing-wider: var(--tracking-wider);
+  --letter-spacing-widest: var(--tracking-widest);
   --letter-spacing-h1-hero: var(--tracking-h1-hero);
   --letter-spacing-h1: var(--tracking-h1);
   --letter-spacing-h2: var(--tracking-h2);

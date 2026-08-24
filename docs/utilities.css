@@ -78,6 +78,12 @@
     --font-weight-bold: 700;
     --font-weight-extrabold: 800;
     --font-weight-black: 900;
+    --tracking-tighter: -0.8px;
+    --tracking-tight: -0.4px;
+    --tracking-normal: 0px;
+    --tracking-wide: 0.4px;
+    --tracking-wider: 0.8px;
+    --tracking-widest: 1.6px;
     --radius-xs: 2px;
     --radius-sm: 4px;
     --radius-md: 6px;
@@ -391,23 +397,23 @@
     --leading-nav-label: var(--leading-4);
     --leading-badge: var(--leading-4);
     --leading-badge-sm: var(--leading-3);
-    --tracking-h1-hero: 0px;
-    --tracking-h1: -0.8px;
-    --tracking-h2: -0.4px;
-    --tracking-h3: -0.4px;
-    --tracking-h4: -0.4px;
-    --tracking-overline: 0.4px;
-    --tracking-review: 0.8px;
-    --tracking-body-title: 0px;
-    --tracking-label: 0px;
-    --tracking-label-lg: 0px;
-    --tracking-btn-lg: 0px;
-    --tracking-btn: 0px;
-    --tracking-btn-sm: 0.4px;
-    --tracking-caption-sm: 0.4px;
-    --tracking-nav-label: 0.4px;
-    --tracking-badge: 0px;
-    --tracking-badge-sm: 0px;
+    --tracking-h1-hero: var(--tracking-normal);
+    --tracking-h1: var(--tracking-tighter);
+    --tracking-h2: var(--tracking-tight);
+    --tracking-h3: var(--tracking-tight);
+    --tracking-h4: var(--tracking-tight);
+    --tracking-overline: var(--tracking-wide);
+    --tracking-review: var(--tracking-wider);
+    --tracking-body-title: var(--tracking-normal);
+    --tracking-label: var(--tracking-normal);
+    --tracking-label-lg: var(--tracking-normal);
+    --tracking-btn-lg: var(--tracking-normal);
+    --tracking-btn: var(--tracking-normal);
+    --tracking-btn-sm: var(--tracking-wide);
+    --tracking-caption-sm: var(--tracking-wide);
+    --tracking-nav-label: var(--tracking-wide);
+    --tracking-badge: var(--tracking-normal);
+    --tracking-badge-sm: var(--tracking-normal);
     --spacing-micro: 0.25rem;
     --spacing-xs: 0.5rem;
     --spacing-sm: 0.75rem;
@@ -1397,17 +1403,13 @@
   --tw-tracking: var(--tracking-caption-sm);
   letter-spacing: var(--tracking-caption-sm);
 }
-.tracking-h4 {
-  --tw-tracking: var(--tracking-h4);
-  letter-spacing: var(--tracking-h4);
-}
-.tracking-nav-label {
-  --tw-tracking: var(--tracking-nav-label);
-  letter-spacing: var(--tracking-nav-label);
-}
 .tracking-overline {
   --tw-tracking: var(--tracking-overline);
   letter-spacing: var(--tracking-overline);
+}
+.tracking-tight {
+  --tw-tracking: var(--tracking-tight);
+  letter-spacing: var(--tracking-tight);
 }
 .whitespace-normal {
   white-space: normal;
@@ -2208,6 +2210,12 @@
   --line-height-nav-label: var(--leading-nav-label);
   --line-height-badge: var(--leading-badge);
   --line-height-badge-sm: var(--leading-badge-sm);
+  --letter-spacing-tighter: var(--tracking-tighter);
+  --letter-spacing-tight: var(--tracking-tight);
+  --letter-spacing-normal: var(--tracking-normal);
+  --letter-spacing-wide: var(--tracking-wide);
+  --letter-spacing-wider: var(--tracking-wider);
+  --letter-spacing-widest: var(--tracking-widest);
   --letter-spacing-h1-hero: var(--tracking-h1-hero);
   --letter-spacing-h1: var(--tracking-h1);
   --letter-spacing-h2: var(--tracking-h2);
