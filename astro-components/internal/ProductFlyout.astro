@@ -312,7 +312,14 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
           <span class="text-overline leading-overline font-overline tracking-overline uppercase">{cat.label}</span>
         </p>
 
-        <ul class="flex flex-col list-none m-0 p-0">
+        {/* `gap-xs` is the 8 the rows gained when Ball rebuilt the row as a
+            component on 2026-08-24. The rows had abutted at 72 tall; at the
+            ladder's 48 mark they are 64, and rather than closing the list up he
+            kept the 72 PITCH and let the difference become separation. That is
+            the right call for a row whose hover state is a `rounded-lg` fill —
+            abutting pills read as one block — and it is why the panel is 368 and
+            not the 344 I predicted from rows closing up. */}
+        <ul class="flex flex-col gap-xs list-none m-0 p-0">
           {cat.products.map((p, i) => (
             <li>
               <a
@@ -323,7 +330,7 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
                      which is `--color-bg-shade` hex for hex. Three `npm run
                      audit` exemptions are keyed to that backdrop and were
                      re-measured with it — see KNOWN in scripts/preview.mjs. */
-                  'group/row flex items-center gap-xs px-micro py-xs rounded-lg no-underline text-inherit',
+                  'group/row flex items-center gap-sm px-micro py-xs rounded-lg no-underline text-inherit',
                   'transition-colors duration-[var(--duration-base)]',
                   'hover:bg-bg-shade focus-visible:bg-bg-shade',
                   'focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[-2px]',
@@ -332,9 +339,13 @@ const CARD_NOTCH = 'M11.7348 0L0.263738 108.975C-0.087913 112.316 -0.0879125 115
                 href={p.href ?? '#'}
                 data-part="row"
               >
-                {/* 56 is Figma's, and `Logo` writes width/height as an INLINE
-                    style — a class here could never have beaten it. See the
-                    `size` prop's note for why 56 is allowed at all. */}
+                {/* 48 is the ladder size nearest what this row used to carry.
+                    It was 56 until 2026-08-24 — an off-ladder size that existed
+                    only because this frame had one, and where all ten Figma
+                    instances measured 56.000003814697266, i.e. dragged rather
+                    than chosen. `Logo` writes width/height as an INLINE style,
+                    so a class here could never override it; the size has to come
+                    through the prop. See the `size` prop's note. */}
                 <Logo kind="element" product={p.product} size={48} basePath={basePath} label="" class="shrink-0" />
                 <span class="flex flex-col items-start gap-micro flex-1 min-w-0">
                   <span class="flex items-start text-lg leading-5 tracking-h4 whitespace-nowrap">
