@@ -40,11 +40,39 @@ interface Props {
 const { product: p, logoSrc, class: className } = Astro.props;
 ---
 
+{/* EVERY NUMBER BELOW IS THE NODE'S, and the row is where Footer's whole
+    height sat wrong until 2026-08-24. The band renders 470 against the node's
+    480 in BOTH variants (`346:331` Suite, `507:4048` Default, and the homepage
+    instance `2336:3503` is identical to them node for node — no override). The
+    band is `py-4xl` 64 + the taller of its two columns, and the taller one is
+    this list: ten rows on a flat 8 gap. At 27 a row that is 10x27 + 9x8 = 342,
+    and 64 + 342 + 64 = 470. At the node's 28 it is 352, and the band is 480.
+    Nothing else in the band was short — the left column is 292 tall against a
+    352 column in the node and sets no height in either.
+
+    What the row was drawn in, read off `507:3253` with get_variable_defs:
+    `size/xl` 20 + `weight/bold` + `tracking/tight` + `leading/7` 28 for the
+    name, and `Typography/body` — 16/28 regular — for the description. That is
+    the h4 role over the body role. The code had `text-lg` 18 and `text-sm` 14
+    under a flat `leading-[1.5]`: one type-scale step low on both runs, which is
+    what made the line box 27. The letter-spacing was already `tracking-h4`
+    -0.4px, so the name's tracking said h4 while its size said title-lg — the
+    contradiction that pinned it.
+
+    Proven by injection rather than by reading: setting only these four values
+    on HEAD moved the section 470 -> 480.00, the list 342 -> 352.00 and the row
+    27 -> 28.00, all exact, and the row's text runs landed within 1-2% of the
+    node's own widths (name 94.86 against 97, description 399.52 against 396 —
+    Figma and Chrome shape text differently) where before they were 12-13% under.
+    Geometry to match: the mark is 24 square at y=2, not 22; the name starts 30
+    from the row's left edge, not 26; and the three runs sit on a flat 6, which
+    is why the dash has no margin of its own any more. 6 is not a spacing rung,
+    same as the 26 and 22 this row already wrote by hand. */}
 <li class:list={[className]}>
-  <a class="group flex items-center flex-wrap leading-[1.5] gap-micro pl-[26px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
-    <span class="w-[22px] h-[22px] shrink-0 flex items-center ml-[-26px]"><img class="w-[22px] h-[22px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={logoSrc} alt="" /></span>
-    <span class="text-lg leading-[inherit] font-bold tracking-h4 text-text-on-dark-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
-    <span class="text-sm leading-[inherit] text-text-dark-support mx-micro transition-colors duration-[var(--duration-base)] group-hover:text-text-on-dark-heading group-focus-visible:text-text-on-dark-heading" aria-hidden="true">-</span>
-    <span class="text-sm leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-dark-body group-focus-visible:text-text-on-dark-body">{p.desc}</span>
+  <a class="group flex items-center flex-wrap leading-7 gap-[6px] pl-[30px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
+    <span class="w-[24px] h-[24px] shrink-0 flex items-center ml-[-30px]"><img class="w-[24px] h-[24px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={logoSrc} alt="" /></span>
+    <span class="text-xl leading-[inherit] font-bold tracking-h4 text-text-on-dark-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
+    <span class="text-base leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] group-hover:text-text-on-dark-heading group-focus-visible:text-text-on-dark-heading" aria-hidden="true">-</span>
+    <span class="text-base leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-dark-body group-focus-visible:text-text-on-dark-body">{p.desc}</span>
   </a>
 </li>

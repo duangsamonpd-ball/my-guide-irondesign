@@ -572,9 +572,6 @@
 .mx-auto {
   margin-inline: auto;
 }
-.mx-micro {
-  margin-inline: var(--spacing-micro);
-}
 .mt-\[4px\] {
   margin-top: 4px;
 }
@@ -587,8 +584,8 @@
 .mb-xs {
   margin-bottom: var(--spacing-xs);
 }
-.ml-\[-26px\] {
-  margin-left: -26px;
+.ml-\[-30px\] {
+  margin-left: -30px;
 }
 .box-border {
   box-sizing: border-box;
@@ -681,9 +678,6 @@
 .h-\[16px\] {
   height: 16px;
 }
-.h-\[22px\] {
-  height: 22px;
-}
 .h-\[24px\] {
   height: 24px;
 }
@@ -749,6 +743,9 @@
 }
 .w-\[22px\] {
   width: 22px;
+}
+.w-\[24px\] {
+  width: 24px;
 }
 .w-\[56\.287px\] {
   width: 56.287px;
@@ -1150,8 +1147,8 @@
 .pl-3xl {
   padding-left: var(--spacing-3xl);
 }
-.pl-\[26px\] {
-  padding-left: 26px;
+.pl-\[30px\] {
+  padding-left: 30px;
 }
 .pl-md {
   padding-left: var(--spacing-md);
@@ -1175,6 +1172,10 @@
 .text-3xl {
   font-size: var(--text-3xl);
   line-height: var(--tw-leading, var(--text-3xl--line-height));
+}
+.text-base {
+  font-size: var(--text-base);
+  line-height: var(--tw-leading, var(--text-base--line-height));
 }
 .text-lg {
   font-size: var(--text-lg);
@@ -1254,10 +1255,6 @@
 .leading-\[1\.2\] {
   --tw-leading: 1.2;
   line-height: 1.2;
-}
-.leading-\[1\.5\] {
-  --tw-leading: 1.5;
-  line-height: 1.5;
 }
 .leading-\[inherit\] {
   --tw-leading: inherit;
