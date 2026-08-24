@@ -72,7 +72,17 @@ const { product: p, logoSrc, class: className } = Astro.props;
   <a class="group flex items-center flex-wrap leading-7 gap-[6px] pl-[30px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
     <span class="w-[24px] h-[24px] shrink-0 flex items-center ml-[-30px]"><img class="w-[24px] h-[24px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={logoSrc} alt="" /></span>
     <span class="text-xl leading-[inherit] font-bold tracking-h4 text-text-on-dark-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
-    <span class="text-base leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] group-hover:text-text-on-dark-heading group-focus-visible:text-text-on-dark-heading" aria-hidden="true">-</span>
-    <span class="text-base leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-on-dark-body group-focus-visible:text-text-on-dark-body">{p.desc}</span>
+    {/* Ball's ruling 2026-08-24: `support` at rest, `body` on hover — and the
+        DASH follows the description rather than the name, which is what he
+        changed in Figma. It used to hover to `text-on-dark-heading`, i.e. white.
+
+        Both now take `text-text-dark-body`. Re-read off `507:3253` after his
+        edit, the row binds `text/default/body` where it bound `text/on dark/body`
+        before, and the capital-W `White` that was the dash is gone from the set
+        entirely. `text/default/body` reads #D4D4D4 in this band's mode, which is
+        `--color-text-dark-body` — a FIXED token, not one that flips under
+        `.dark`; the one that flips is `--color-text-body`. */}
+    <span class="text-base leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] group-hover:text-text-dark-body group-focus-visible:text-text-dark-body" aria-hidden="true">-</span>
+    <span class="text-base leading-[inherit] text-text-dark-support transition-colors duration-[var(--duration-base)] min-w-0 group-hover:text-text-dark-body group-focus-visible:text-text-dark-body">{p.desc}</span>
   </a>
 </li>

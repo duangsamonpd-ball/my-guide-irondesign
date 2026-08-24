@@ -85,8 +85,32 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
 ---
 
 <section class:list={['bg-bg-dark-shade bg-cover bg-center text-text-on-dark-heading relative overflow-hidden', className]} style={{ backgroundImage: `url("${src(rainbowSrc)}")` }} aria-label={label}>
-  <div class="max-w-[var(--size-container-content)] mx-auto flex items-stretch py-4xl max-lg:flex-col max-lg:gap-[32px]">
-    <div class="flex-1 pl-xl pr-3xl flex flex-col">
+  {/* NO BREAKPOINT. Ball's ruling 2026-08-24: `auto-fit` + a measured minimum,
+      the same lever `03-spacing` used, rather than moving the round number.
+
+      This band stacked below `lg` 1024 while the two columns needed a measured
+      width, which is the one responsive bug this system keeps having. Measured
+      on `max-content` clones so the number is the CONTENT's and not the width
+      the page happened to be at: the products column needs 634.81 (562.81 of
+      row — "IRONWORD - Edit DOCX Word Files. No Office Interop required." — plus
+      72 of padding) and the left column 628.44. The products column binds, so
+      635, and two of those plus the 2px rule is 1272 — which is exactly where
+      the old flex layout was measured to stop wrapping, from the other
+      direction. Below it the grid drops to one column on its own and there is no
+      number to keep in sync.
+
+      `min(635px,100%)` and not a bare 635px, and `npm run overflow` is what said
+      so — 6 cut elements at 320/375/414 on the first version. A minmax FLOOR is
+      a floor at every width: below 635 the single track stayed 635 and the
+      column hung 315px out of a container that had just been given
+      `overflow-hidden`, so it was cut in silence with a clean `scrollWidth`.
+      That is the exact failure this sweep exists for, and the reason 03-spacing
+      never hit it is that its 260px floor is smaller than any viewport.
+
+      `overflow-hidden` is load-bearing, not tidiness: it is what hides the rule
+      when the grid collapses. See the products column below. */}
+  <div class="max-w-[var(--size-container-content)] mx-auto grid grid-cols-[repeat(auto-fit,minmax(min(635px,100%),1fr))] gap-x-[2px] gap-y-[32px] py-4xl overflow-hidden">
+    <div class="pl-xl pr-3xl flex flex-col">
       {/* 32, which is BOTH the node's row height (`346:428`) and the PNG's own
           natural size — `file` reports 76x32, so the old `h-[30px]` was
           resampling a raster to 71.25x30 for no reason. `leading-4` is Figma's
@@ -162,8 +186,14 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
         </div>
       </div>
     </div>
-    <div class="bg-[var(--transparent-white-10)] w-[2px] shrink-0 self-stretch max-lg:hidden" aria-hidden="true"></div>
-    <div class="flex-1 pl-3xl pr-xl">
+    {/* The rule was a 2px flex item with `max-lg:hidden`. With no breakpoint left
+        there is nothing to hang that `hidden` on, so it becomes a pseudo-element
+        drawn in the 2px column gap — and the CLIP is what replaces the media
+        query. In two columns it sits at -2px from this column, inside the gap.
+        When `auto-fit` collapses, this column starts at the grid's left edge, so
+        -2px is outside the container and `overflow-hidden` above eats it. The
+        layout mode hides it, rather than a number that has to agree with one. */}
+    <div class="pl-3xl pr-xl relative before:content-[''] before:absolute before:left-[-2px] before:top-0 before:bottom-0 before:w-[2px] before:bg-[var(--transparent-white-10)]">
       <ul class="list-none flex flex-col gap-xs m-0 p-0">
         {products.map((p) => <FooterProduct product={p} logoSrc={src(productLogoSrc)} />)}
       </ul>
