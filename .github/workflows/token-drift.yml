@@ -70,6 +70,24 @@ jobs:
       - name: Artwork variants were exported together
         run: node scripts/check-artwork-sync.mjs
 
+      # Logo's `size` union is a claim about the artwork — the marks are drawn on
+      # 8-unit coordinates in a 96-unit box, so only the multiples of 24 keep
+      # most edges on whole pixels. The measured table backing that claim was
+      # written into the component on 2026-08-21 and was TRUE; three commits
+      # later check-logo-fills' own fix re-exported the ten elements and re-drew
+      # their paths, and the table described files that no longer existed. It sat
+      # wrong for three days with every gate green, because nothing read it.
+      #
+      # So this derives the ladder instead of restating it: every member of the
+      # union must be a local maximum of whole-pixel edges, and every number in
+      # the prose is re-counted from the SVGs. Re-export the artwork and it
+      # re-derives rather than believing the comment.
+      - name: Check the size-ladder detector can fail
+        run: node scripts/check-logo-grid.mjs --self-test
+
+      - name: Logo offers sizes its own artwork can draw
+        run: node scripts/check-logo-grid.mjs
+
       # A component publishes [data-part] and never its class names — Ball's
       # ruling, and what lets TopNav style FlyoutMenu at all. So the hooks are
       # the contract, and until 2026-08-21 nothing checked them: rename one and
