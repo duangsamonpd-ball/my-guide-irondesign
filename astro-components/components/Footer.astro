@@ -173,7 +173,19 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
 
             It is a prop and not a class because a class cannot win — see the
             note on `wrap` in Button. */}
-        <div class="flex items-center justify-between gap-y-md flex-wrap">
+        {/* `max-w-[567px]` is Ball's call 2026-08-24, and 567 is `346:439`'s own
+            width — the same 567 the products frame `346:447` and the content
+            frame `346:427` measure, i.e. half the 1280 container less this
+            column's 72 of padding.
+
+            It does nothing in two-column mode, where the column content already
+            IS 567. It exists for the stacked mode `auto-fit` now reaches at 1270
+            instead of 1023: `justify-between` spreads across whatever it is
+            given, so the two buttons were opening a 642px gap the moment the
+            grid collapsed (395 at 1024, 140 at 768). Capping the ROW rather than
+            changing the justification keeps the design's spread and needs no
+            breakpoint — the same reason the grid has none. */}
+        <div class="flex items-center justify-between gap-y-md flex-wrap max-w-[567px]">
           <Button variant="tertiary" size="lg" href="#" wrap class="group">
             Get Full 10 products Suite
             <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
