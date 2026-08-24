@@ -87,18 +87,56 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
 <section class:list={['bg-bg-dark-shade bg-cover bg-center text-text-on-dark-heading relative overflow-hidden', className]} style={{ backgroundImage: `url("${src(rainbowSrc)}")` }} aria-label={label}>
   <div class="max-w-[var(--size-container-content)] mx-auto flex items-stretch py-4xl max-lg:flex-col max-lg:gap-[32px]">
     <div class="flex-1 pl-xl pr-3xl flex flex-col">
-      <p class="flex items-center justify-end gap-xs text-xs leading-[normal] font-medium text-text-on-dark-heading tracking-nav-label m-0">Every Iron Suite Donates <img class="h-[30px] w-auto block" src={src(donateImgSrc)} alt="1% for the Planet" /></p>
-      <div class="flex flex-col gap-2xl pt-3xl">
+      {/* 32, which is BOTH the node's row height (`346:428`) and the PNG's own
+          natural size — `file` reports 76x32, so the old `h-[30px]` was
+          resampling a raster to 71.25x30 for no reason. `leading-4` is Figma's
+          `Typography/caption-sm` 12/16; `leading-[normal]` was ~14.6 here and
+          the row measured 30 against the node's 32. */}
+      <p class="flex items-center justify-end gap-xs text-xs leading-4 font-medium text-text-on-dark-heading tracking-nav-label m-0">Every Iron Suite Donates <img class="h-[32px] w-auto block" src={src(donateImgSrc)} alt="1% for the Planet" /></p>
+      {/* `pt-hero` 80 and `gap-3xl` 48 are the node's, and both were short —
+          `pt-3xl` 48 and `gap-2xl` 32. Together with the two fixes above and the
+          heading's leading below, the column goes 247 -> 296, which is what
+          `346:427` measures. It changes NO band height: this column is the
+          shorter of the two in both variants and the product list sets the
+          480. What it was doing was floating the whole block 45px too high. */}
+      <div class="flex flex-col gap-3xl pt-hero">
         <div class="flex flex-col gap-md">
           {variant === 'suite' ? (
-            <Heading class="font-bold text-3xl leading-[normal] flex items-center gap-micro m-0">
-              <img class="h-[30px] w-auto block" src={src(suiteLogoImgSrc)} alt="" />
+            /* `leading-9` 36 is `--line-height-h2`, and Ball ruled on 2026-08-24
+               that the Suite heading takes it like every other h2 — the node had
+               drawn this one text at 30 while the Default variant's was 36, the
+               one place the two variants disagreed with each other. Both are 36
+               now. `leading-[normal]` computed to ~36.6 here, which is why the
+               row measured 37.
+
+               The mark is sized by WIDTH, not height. Figma draws it as a 32x32
+               box whose visible vector is 32 x 26.67 — the same 1.2 ratio as our
+               own `hash-white color.svg` (viewBox 18x15), so it is one drawing in
+               two wrappers, not two drawings. Sizing by height made it 36 WIDE
+               against the node's 32. At `w-[32px]` the glyph lands 32 x 26.67 and
+               centres to the same y as Figma's padded box: (36-26.67)/2 = 4.67,
+               and 2 + 2.67 = 4.67. `gap-xs` 8 is the node's 40 - 32. */
+            <Heading class="font-bold text-3xl leading-9 flex items-center gap-xs m-0">
+              <img class="w-[32px] h-auto block" src={src(suiteLogoImgSrc)} alt="" />
               <span><span class="text-text-on-dark-heading font-bold">IRON</span><span class="text-primary font-normal">SUITE</span></span>
             </Heading>
           ) : (
             <Heading class="font-bold text-3xl text-text-on-dark-heading leading-[1.2] m-0">{productName}{' is a part of '}<span class="text-text-on-dark-heading font-bold">IRON</span><span class="text-primary font-normal">SUITE</span></Heading>
           )}
-          <p class="text-xl font-bold leading-7 m-0"><span class="text-text-dark-heading">10 .NET API products</span><span class="text-text-dark-support"> for your office documents</span></p>
+          {/* 20/28/800 is the h4 role exactly, and `346:438` binds all three —
+              size/xl, leading/7 and `weight/extrabold`. The size and leading were
+              already right and the weight was `font-bold` 700, which is h3's.
+              `font-h4` is the role's own class and two other components already
+              wear it.
+
+              The first run is `text/default/body`, which reads #D4D4D4 in this
+              band's mode — `--color-text-dark-body`. It was on
+              `text-text-dark-heading` #F5F5F5, one step too bright. Worth knowing
+              how that was pinned: the SAME variable came back #262626 on the
+              light mega-menu panel earlier the same day, so a single reading of
+              `text/default/*` says nothing about which value applies — it is the
+              node's mode that decides, and two readings are what identify it. */}
+          <p class="text-xl font-h4 leading-7 m-0"><span class="text-text-dark-body">10 .NET API products</span><span class="text-text-dark-support"> for your office documents</span></p>
         </div>
         {/* `wrap` is the same fix the product rows above already carry: a label
             that cannot bend does not shrink, it leaves the box — and this band

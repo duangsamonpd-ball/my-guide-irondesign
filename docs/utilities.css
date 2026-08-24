@@ -681,8 +681,8 @@
 .h-\[24px\] {
   height: 24px;
 }
-.h-\[30px\] {
-  height: 30px;
+.h-\[32px\] {
+  height: 32px;
 }
 .h-\[98px\] {
   height: 98px;
@@ -701,6 +701,9 @@
 }
 .h-\[var\(--size-input\)\] {
   height: var(--size-input);
+}
+.h-auto {
+  height: auto;
 }
 .h-full {
   height: 100%;
@@ -746,6 +749,9 @@
 }
 .w-\[24px\] {
   width: 24px;
+}
+.w-\[32px\] {
+  width: 32px;
 }
 .w-\[56\.287px\] {
   width: 56.287px;
@@ -860,8 +866,8 @@
 .gap-0 {
   gap: 0px;
 }
-.gap-2xl {
-  gap: var(--spacing-2xl);
+.gap-3xl {
+  gap: var(--spacing-3xl);
 }
 .gap-\[6px\] {
   gap: 6px;
@@ -1126,14 +1132,14 @@
 .py-xs {
   padding-block: var(--spacing-xs);
 }
-.pt-3xl {
-  padding-top: var(--spacing-3xl);
-}
 .pt-\[6px\] {
   padding-top: 6px;
 }
 .pt-\[32px\] {
   padding-top: 32px;
+}
+.pt-hero {
+  padding-top: var(--spacing-hero);
 }
 .pr-3xl {
   padding-right: var(--spacing-3xl);
@@ -1248,6 +1254,10 @@
   --tw-leading: var(--leading-7);
   line-height: var(--leading-7);
 }
+.leading-9 {
+  --tw-leading: var(--leading-9);
+  line-height: var(--leading-9);
+}
 .leading-\[0\] {
   --tw-leading: 0;
   line-height: 0;
@@ -1259,10 +1269,6 @@
 .leading-\[inherit\] {
   --tw-leading: inherit;
   line-height: inherit;
-}
-.leading-\[normal\] {
-  --tw-leading: normal;
-  line-height: normal;
 }
 .leading-badge {
   --tw-leading: var(--leading-badge);
@@ -1457,8 +1463,8 @@
 .text-text-body {
   color: var(--color-text-body);
 }
-.text-text-dark-heading {
-  color: var(--color-text-dark-heading);
+.text-text-dark-body {
+  color: var(--color-text-dark-body);
 }
 .text-text-dark-support {
   color: var(--color-text-dark-support);
