@@ -546,8 +546,25 @@ if (freeTools) {
   .fb-tools-close:hover { color: var(--color-text-link-menu-hover); }
 
   /* The trigger is a <button> pretending to be a menu link, so the browser's
-     button defaults have to be undone before .fb-menu-link's own rules land. */
-  .fb-tools-trigger { border: var(--border-width-1) solid transparent; background: none; font-family: inherit; cursor: pointer; border-radius: var(--rounded-lg) var(--rounded-lg) 0 0; }
+     button defaults have to be undone before .fb-menu-link's own rules land.
+
+     The transparent border is reserved so the open tab can paint its edge
+     without shifting the row — the same reserve Button documents. Unlike
+     Button, this one sits in a row of eight <a>s that carry no border at all,
+     so the reserve does not cancel out between siblings: it made this item 50
+     where the other eight are 48, and the menu bar 58 against footer-lg
+     2373:4247's 56. The compensation therefore belongs on the bordered
+     element, which is the direction Button's own note picks. `padding-block`
+     rather than a shorthand so the narrow-band override below, which sets its
+     own `padding`, keeps deciding that band by itself.
+
+     Border + padding is 16 on each block edge either way, so the label sits on
+     exactly the pixels it did before and the open state paints what it always
+     painted; only the box stops growing. Measured on the freetools demo at
+     1440: menu bar 58 -> 56, and the Free tools item 50 -> 48 beside its eight
+     neighbours. Compensating the INLINE edges too would be wrong — the row's
+     width is not in dispute, and the sides are what the radius rounds. */
+  .fb-tools-trigger { border: var(--border-width-1) solid transparent; padding-block: calc(var(--spacing-md) - var(--border-width-1)); background: none; font-family: inherit; cursor: pointer; border-radius: var(--rounded-lg) var(--rounded-lg) 0 0; }
   .fb.fb-tools-open .fb-tools-trigger { background: var(--slate-800); border-color: var(--transparent-white-10); border-bottom-color: transparent; }
   .fb-caret { transition: transform var(--duration-slow) var(--ease-emphasized); }
   .fb.fb-tools-open .fb-tools-trigger .fb-caret { transform: rotate(180deg); }
@@ -621,8 +638,17 @@ if (freeTools) {
      against Figma's 124x48. Capping the smaller run's own leading pulls its
      box back inside the strut without moving the glyphs, which sit on the
      baseline either way. This is also the 1px that made the lg bar 225 tall
-     against the 56/88/80 = 224 the design file measures. */
-  .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: var(--leading-5); }
+     against the 56/88/80 = 224 the design file measures.
+
+     The declaration below said `var(--leading-5)` — 20px, the very leading the
+     paragraph above explains this rule exists to escape — from the component's
+     first commit (8a58a9c) to 2026-08-25. The comment was never wrong and the
+     value never matched it, so nothing here read as suspect and the 1px stayed
+     shipped: `.fb-score` measured 21, `.fb-review-rating` 33 against 32,
+     `.fb-review` 49 against 48, `.fb-mid` 89 against 88. It survived because
+     no gate in this repo measures a band against its node — the arithmetic was
+     written down instead of asserted. */
+  .fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: 1; }
 
   .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
   /* Everything in this bar that is dimmed at rest comes back to full strength on

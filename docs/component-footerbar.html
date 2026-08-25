@@ -150,8 +150,10 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-tools-close:hover { color: var(--color-text-link-menu-hover); }
 
 /* The trigger is a <button> pretending to be a menu link, so the browser's
-   button defaults have to be undone before .fb-menu-link's own rules land. */
-.fb-tools-trigger { border: var(--border-width-1) solid transparent; background: none; font-family: inherit; cursor: pointer; border-radius: var(--rounded-lg) var(--rounded-lg) 0 0; }
+   button defaults have to be undone before .fb-menu-link's own rules land.
+   The block padding gives back what the reserved border takes, so this item
+   measures 48 like the eight <a>s beside it — full account in FooterBar.astro. */
+.fb-tools-trigger { border: var(--border-width-1) solid transparent; padding-block: calc(var(--spacing-md) - var(--border-width-1)); background: none; font-family: inherit; cursor: pointer; border-radius: var(--rounded-lg) var(--rounded-lg) 0 0; }
 .fb.fb-tools-open .fb-tools-trigger { background: var(--slate-800); border-color: var(--transparent-white-10); border-bottom-color: transparent; }
 .fb-caret { transition: transform var(--duration-slow) var(--ease-emphasized); }
 .fb.fb-tools-open .fb-tools-trigger .fb-caret { transform: rotate(180deg); }
@@ -179,7 +181,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-review:hover .fb-stars { display: none; }
 .fb-review:hover .fb-stars-hover { display: block; }
 .fb-score { margin: 0; font-size: var(--font-size-review); font-weight: var(--fw-review); line-height: var(--line-height-review); letter-spacing: var(--letter-spacing-review); color: var(--color-text-on-dark-body); white-space: nowrap; }
-.fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: var(--leading-5); }
+.fb-outof { font-size: var(--font-size-xs); font-weight: var(--fw-body); line-height: 1; }
 .fb-brand { display: flex; align-items: center; justify-content: center; gap: var(--spacing-lg); flex-shrink: 0; }
 .fb-logo { display: flex; align-items: center; opacity: var(--opacity-60); transition: opacity var(--duration-base); }
 .fb-logo:hover { opacity: 1; }
