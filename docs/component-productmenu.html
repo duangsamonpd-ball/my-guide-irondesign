@@ -420,6 +420,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <tr><td class="prop">variant</td><td class="token">'default' | 'submenu'</td><td class="val">'default'</td><td>Figma’s <code>Varient</code> property.</td></tr>
         <tr><td class="prop">product</td><td class="token">string</td><td class="val">'pdf'</td><td>Mark artwork — same keys as <a href="component-logo.html">Logo</a>’s <code>product</code>.</td></tr>
         <tr><td class="prop">productName</td><td class="token">string</td><td class="val">'PDF'</td><td>Coloured half of the wordmark.</td></tr>
+        <tr><td class="prop">productHref</td><td class="token">string</td><td class="val">'/'</td><td>Target of the product lockup.</td></tr>
         <tr><td class="prop">runtime</td><td class="token">string</td><td class="val">'for .NET'</td><td>Pass <code>""</code> to hide — <code>undefined</code> falls back to the default.</td></tr>
         <tr><td class="prop">hasTrailingIcon</td><td class="token">boolean</td><td class="val">true</td><td>Figma’s toggle — the caret after the product lockup.</td></tr>
         <tr><td class="prop">items</td><td class="token">MenuItem[]</td><td class="val">[]</td><td><code>{ label, href?, active?, caret? }</code>. Caret defaults to on for every non-active item.</td></tr>
@@ -427,7 +428,8 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         <tr><td class="prop">subItems</td><td class="token">SubItem[]</td><td class="val">[]</td><td>Figma’s “Sub Menu Items” slot.</td></tr>
         <tr><td class="prop">showMenuItems2</td><td class="token">boolean</td><td class="val">false</td><td>Figma’s toggle — trailing links at the right end of the sub tier.</td></tr>
         <tr><td class="prop">subItemsTrailing</td><td class="token">SubItem[]</td><td class="val">[]</td><td>Contents of that trailing group.</td></tr>
-        <tr><td class="prop">ctaLabel / ctaHref</td><td class="token">string</td><td class="val">'Start for Free'</td><td>Primary call-to-action.</td></tr>
+        <tr><td class="prop">ctaLabel</td><td class="token">string</td><td class="val">'Start for Free'</td><td>Primary call-to-action.</td></tr>
+        <tr><td class="prop">ctaHref</td><td class="token">string</td><td class="val">'#'</td><td>Where that call-to-action goes. Not wired by default.</td></tr>
         <tr><td class="prop">showSearch / showAskAi</td><td class="token">boolean</td><td class="val">true</td><td>The two 36px utility bubbles.</td></tr>
         <tr><td class="prop">searchLabel / askAiLabel</td><td class="token">string</td><td class="val">'Search' / 'Ask AI'</td><td>Accessible names — the bubbles are icon-only.</td></tr>
         <tr><td class="prop">basePath</td><td class="token">string</td><td class="val">'assets'</td><td>Where the mark SVGs live. Use an absolute path (<code>/assets</code>) on nested routes.</td></tr>
