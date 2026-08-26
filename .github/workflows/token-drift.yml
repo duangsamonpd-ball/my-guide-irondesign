@@ -324,6 +324,28 @@ jobs:
       - name: Nothing overlaps, escapes or fails to fit
         run: node scripts/check-layout.mjs
 
+      # The gate that did not exist on 2026-08-25, when FooterBar rendered 227
+      # against footer-lg 2373:4247's 224. Both faults were arithmetic WRITTEN
+      # DOWN rather than asserted — one of them in a comment stating the correct
+      # answer beside the wrong value since the component's first commit — and
+      # every gate here asks about source, so a band three pixels tall in the
+      # wrong direction is a correct-looking picture nothing can see.
+      #
+      # It is not a gate with FooterBar's numbers in it: a component DECLARES
+      # its own bands with `@figma-size`, this measures everything that has
+      # declared, and it prints how many components declare nothing so the
+      # unchecked ones stay visible rather than being silently assumed fine.
+      #
+      # The self-test first, and its last row is the one that matters: the same
+      # band, measured on the real page, must come back CLEAN against its own
+      # number and OFF against that number plus three. A gate never seen to fail
+      # is not known to be able to.
+      - name: Check the size probe can fail
+        run: node scripts/check-figma-size.mjs --self-test
+
+      - name: Every declared band measures what its Figma node draws
+        run: node scripts/check-figma-size.mjs
+
       # Same rule as the sweep above: the probes prove they can fail before any
       # reading from them counts. 24 checks, including that the contrast pass
       # REFUSES a page whose text is not in the docs font, and that a gradient it

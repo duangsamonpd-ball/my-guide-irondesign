@@ -48,6 +48,8 @@
     "overflow:self-test": "node scripts/check-overflow.mjs --self-test",
     "wide": "node scripts/check-wide.mjs",
     "wide:self-test": "node scripts/check-wide.mjs --self-test",
+    "figma-size": "node scripts/check-figma-size.mjs",
+    "figma-size:self-test": "node scripts/check-figma-size.mjs --self-test",
     "layout": "node scripts/check-layout.mjs",
     "layout:self-test": "node scripts/check-layout.mjs --self-test",
     "state-diff:self-test": "node scripts/state-diff.mjs --self-test",

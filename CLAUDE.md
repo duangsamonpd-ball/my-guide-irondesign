@@ -30,8 +30,17 @@ npm run check && git commit …
 `node scripts/state-diff.mjs <page> --ref HEAD` compares interactive states pixel
 for pixel, `npm run overflow` sweeps every component across nine widths for
 anything that leaves its box, and `npm run wide` sweeps the two widths ABOVE the
-canvas for anything that keeps growing. All four exit non-zero on failure. None
-is in `npm run check`, which stays runnable anywhere Node runs.
+canvas for anything that keeps growing, and `npm run figma-size` measures every
+band a component has DECLARED against the Figma node it comes from. All five
+exit non-zero on failure. None is in `npm run check`, which stays runnable
+anywhere Node runs.
+
+`figma-size` is the only one that asks whether a number is RIGHT rather than
+whether a layout is broken, and it is opt-in by design: the numbers live in the
+component, in an `@figma-size` block, because a gate carrying one component's
+heights only ever checks that component. It prints how many components declare
+nothing, so unchecked is a visible state and not a silent pass. A declaration
+that will not parse is an error, never a skip.
 
 **Every other instrument here stops at 1440** — `overflow`'s widest width,
 `layout`'s widest, `audit`'s only one, and every Figma frame. A fault above the

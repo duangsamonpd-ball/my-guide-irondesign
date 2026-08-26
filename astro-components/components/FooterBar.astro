@@ -16,6 +16,69 @@
  * This is the first consumer either of those tokens has ever had — they were
  * imported with the colour ramp and sat unread until now.
  *
+ * ── The bands this component declares, and what draws them ────────────────
+ *
+ * `check:figma-size` opens `docs/component-footerbar.html`, measures each of
+ * these and refuses anything more than half a pixel out. They are here rather
+ * than in the gate because a gate carrying FooterBar's numbers is a gate built
+ * from the shape of the bug it already knows — Ball's ruling, 2026-08-26. The
+ * numbers themselves are the ones `f5e0084` landed on, after the 227 that
+ * `footer-lg` draws as 224.
+ *
+ * The `freetools` region and not `default`: all nine menu items exist there,
+ * including the `<button>` whose border reserve was two of the three pixels.
+ *
+ * @figma-size band
+ *   node   2373:4247
+ *   frame  footer-lg
+ *   page   component-footerbar.html
+ *   region freetools
+ *   select .fb
+ *   at     1440
+ *   height 224
+ *   why    the whole bar; 56 + 88 + 80, and each of those is declared below
+ *
+ * @figma-size menu-bar
+ *   node   2373:4247
+ *   frame  footer-lg
+ *   page   component-footerbar.html
+ *   region freetools
+ *   select .fb-menu-bar
+ *   at     1440
+ *   height 56
+ *   why    was 58 — the trigger's transparent border reserve, which does not
+ *
+ * @figma-size mid
+ *   node   2373:4247
+ *   frame  footer-lg
+ *   page   component-footerbar.html
+ *   region freetools
+ *   select .fb-mid
+ *   at     1440
+ *   height 88
+ *   why    was 89 — .fb-outof leading 20 under a comment saying it must be 1
+ *
+ * @figma-size info
+ *   node   2373:4247
+ *   frame  footer-lg
+ *   page   component-footerbar.html
+ *   region freetools
+ *   select .fb-info
+ *   at     1440
+ *   height 80
+ *   why    exact before the fix and after it; declared so it stays that way
+ *
+ * @figma-size menu-item
+ *   node   2373:4247
+ *   frame  footer-lg
+ *   page   component-footerbar.html
+ *   region freetools
+ *   select .fb-menu > li
+ *   at     1440
+ *   height 48
+ *   count  9
+ *   why    the frame gives all nine one height, and eight agreeing hid the ninth
+ *
  * Deviations from the Figma node, all deliberate:
  *  · ~~Gotham on eight text nodes, Light Gray as a style, and a 6px lockup gap~~
  *    — **all closed on the design side 2026-08-10.** The eight review scores are
