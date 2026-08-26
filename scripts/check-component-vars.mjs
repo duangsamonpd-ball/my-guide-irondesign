@@ -17,6 +17,8 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
+import { componentSources, SHARED_MODULES } from './lib/sources.mjs';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const compiledPath = process.argv[2];
 
@@ -57,15 +59,13 @@ const unknown = [];
 /**
  * Internal partials count as components here: `astro-components/internal/`
  * holds markup a component renders, so a variable it reads has to resolve just
- * the same. Named the way SHARED_TS is in build-utilities.mjs — the two scripts
- * have to agree about this folder or the classes compile and the variables go
- * unchecked, or the reverse.
+ * the same.
  */
-const INTERNAL = join(ROOT, 'astro-components/internal');
-const sources = [
-  ...readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).map((f) => [f, join(COMPONENTS, f)]),
-  ...(existsSync(INTERNAL) ? readdirSync(INTERNAL).filter((f) => f.endsWith('.astro')).map((f) => [f, join(INTERNAL, f)]) : []),
-];
+/* From the one enumerator — see scripts/lib/sources.mjs. The comment above
+   still holds, and is now enforced rather than asked for: this script and
+   build-utilities.mjs read the SAME list, so they cannot disagree about which
+   folders exist. */
+const sources = componentSources().map((c) => [c.name + '.astro', c.file]);
 
 for (const [file, fullPath] of sources) {
   const src = readFileSync(fullPath, 'utf8');
@@ -183,7 +183,7 @@ for (const [file, fullPath] of sources) {
  * them at all. Both changes are load-bearing: one makes the classes exist, this
  * one makes a typo in them fail.
  */
-for (const file of ['field.ts', 'choice.ts']) {
+for (const file of SHARED_MODULES) {
   const path = join(ROOT, 'astro-components', file);
   if (!existsSync(path)) continue;
   const code = readFileSync(path, 'utf8')

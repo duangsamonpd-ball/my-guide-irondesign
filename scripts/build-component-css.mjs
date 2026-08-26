@@ -48,7 +48,10 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SOURCES = ['astro-components/components', 'astro-components/internal'];
+/* One enumerator for the whole package. Writing the folder list out again is
+   how `internal/` came to be walked by four scripts and skipped by the rest —
+   see scripts/lib/sources.mjs. */
+import { componentSources } from './lib/sources.mjs';
 const OUT = join(ROOT, 'docs/components.css');
 
 const CHECK = process.argv.includes('--check');
@@ -118,13 +121,12 @@ function collect(readFile = (p) => readFileSync(p, 'utf8')) {
   const owner = new Map();          // selector -> [component, …]
   const bareTags = [];
 
-  for (const rel of SOURCES) {
-    const dir = join(ROOT, rel);
-    if (!existsSync(dir)) continue;
-    for (const file of readdirSync(dir).filter((f) => f.endsWith('.astro')).sort()) {
-      const css = styleBlocks(readFile(join(dir, file))).trim();
+  for (const source of componentSources()) {
+    {
+      const css = styleBlocks(readFile(source.file)).trim();
       if (!css) continue;
-      const name = basename(file, '.astro');
+      const name = source.name;
+      const rel = source.rel.replace(/\/[^/]*$/, '');
       blocks.push({ name, rel, css });
 
       for (const list of [...topLevelSelectors(css), ...nestedSelectors(css)]) {

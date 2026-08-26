@@ -1354,5 +1354,161 @@
         }
       ]
     }
+  ],
+  "$internalComment": "Not exported by name and not counted above: rendered by the public components, reachable via the package's ./internal/* export. Described here so gates and tooling can see them; a consumer should not import them.",
+  "internal": [
+    {
+      "name": "FlyoutMenu",
+      "file": "astro-components/internal/FlyoutMenu.astro",
+      "docs": "docs/component-flyoutmenu.html",
+      "interactive": true,
+      "figmaNodes": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Trigger label."
+        },
+        {
+          "name": "openOnHover",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Opens on hover as well as on click/focus. Off by default: on touch there is no hover to leave, and the pattern is only ever an enhancement."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Render open on first paint — for docs and tests, not for a live nav."
+        },
+        {
+          "name": "align",
+          "type": "'start' | 'center' | 'end'",
+          "required": false,
+          "default": "'start'",
+          "description": "Which edge the panel is pinned to. A wide mega-menu under a trigger near the right of the bar has to hang left or it leaves the viewport; `center` is the ironsoftware.com arrangement, where the panel is much wider than its trigger."
+        },
+        {
+          "name": "notch",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Draws the notch pointing up at the trigger."
+        },
+        {
+          "name": "bare",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Drop the panel's own surface — background, border, radius, shadow and the inner padding — because the content brings its own. `ProductFlyout` does: it is a card in its own right, and stacking the two put a 12px radius and a modal shadow around a 12px radius and a modal shadow. The notch is NOT dropped. It belongs to the flyout, not to the content — it points at the trigger, which the content knows nothing about."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "FooterProduct",
+      "file": "astro-components/internal/FooterProduct.astro",
+      "docs": null,
+      "interactive": false,
+      "figmaNodes": [],
+      "props": [
+        {
+          "name": "product",
+          "type": "Product",
+          "required": true
+        },
+        {
+          "name": "logoSrc",
+          "type": "string",
+          "required": true,
+          "description": "Already-encoded path to the 22px mark that fades in on hover."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false,
+          "description": "Lands on the <li>. The docs page uses it to force the hover illustration — `.demo-row-hover img` and `.demo-row-hover .text-text-dark-support` — since :hover cannot be rendered statically. Footer itself passes nothing."
+        }
+      ]
+    },
+    {
+      "name": "ProductFlyout",
+      "file": "astro-components/internal/ProductFlyout.astro",
+      "docs": null,
+      "interactive": false,
+      "figmaNodes": [],
+      "props": [
+        {
+          "name": "categories",
+          "type": "FlyoutCategory[]",
+          "required": true
+        },
+        {
+          "name": "suite",
+          "type": "{",
+          "required": false,
+          "description": "The left rail. Omit to render the columns alone."
+        },
+        {
+          "name": "prefix",
+          "type": "string",
+          "required": false,
+          "description": "Bold half of the lockup wordmark."
+        },
+        {
+          "name": "suffix",
+          "type": "string",
+          "required": false,
+          "description": "Coloured half."
+        },
+        {
+          "name": "desc",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "ctaLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "ctaHref",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "donateLabel",
+          "type": "string",
+          "required": false,
+          "description": "Text beside the 1%-for-the-Planet mark."
+        },
+        {
+          "name": "basePath",
+          "type": "string",
+          "required": false,
+          "default": "'assets'",
+          "description": "Where `docs/assets/` was copied to — same escape hatch as `Logo`."
+        },
+        {
+          "name": "forceHover",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Renders the rail and the first product in their hover state, for the docs page. `:hover` cannot be captured statically, and the two halves hover independently, so this forces both at once for one illustration."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    }
   ]
 }

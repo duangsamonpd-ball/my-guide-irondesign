@@ -18,6 +18,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
+import { componentSources } from './lib/sources.mjs';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const W3C = JSON.parse(readFileSync(join(ROOT, 'tokens/tokens.w3c.json'), 'utf8'));
@@ -533,13 +535,17 @@ const blankComments = (src) =>
     .replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ' '))
     .replace(/^([ \t]*)\/\/.*$/gm, (m, indent) => indent + ' '.repeat(m.length - indent.length));
 
-const COMPONENTS = join(ROOT, 'astro-components/components');
-for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro'))) {
-  const src = blankComments(readFileSync(join(COMPONENTS, file), 'utf8'));
+/* INTERNAL COMPONENTS TOO, from 2026-08-26. This walked `components/` alone,
+   so a raw colour was a build failure in `FooterBar` and invisible in
+   `ProductFlyout` — same package, same stylesheet, same dark mode. The hole was
+   empty when it was closed (all three internal components measured clean, with
+   comments stripped), which is the cheapest possible moment to close one. */
+for (const source of componentSources()) {
+  const src = blankComments(readFileSync(source.file, 'utf8'));
   src.split('\n').forEach((line, i) => {
     for (const [raw] of line.matchAll(RAW_COLOUR)) {
       checks++;
-      err('components', `${basename(file)}:${i + 1}`, `hardcoded ${raw} — use a semantic token, or color-mix() over one for a tint`);
+      err('components', `${source.name}.astro:${i + 1}`, `hardcoded ${raw} — use a semantic token, or color-mix() over one for a tint`);
     }
   });
 }

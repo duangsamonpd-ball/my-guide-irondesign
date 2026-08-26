@@ -36,6 +36,8 @@ import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
+import { SHARED_MODULES } from './lib/sources.mjs';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PKG_DIR = join(ROOT, 'astro-components');
 const COMPONENTS = join(PKG_DIR, 'components');
@@ -312,13 +314,14 @@ for (const [label, path] of COUNTED) {
  * the exact set that has to be scanned — components/, internal/, and the shared
  * `.ts` files carrying class strings — so the README's `@source` block is
  * derivable from it rather than a thing to remember. CLAUDE.md already warns
- * that a new shared module has to be named in two scripts; this makes the third
- * place fail loudly instead of silently shipping classes with no rules.
+ * that a new shared module has to be named; scripts/lib/sources.mjs is now the
+ * one place that names it, and this makes the README fail loudly instead of
+ * silently shipping classes with no rules.
  */
-const buildUtils = readFileSync(join(ROOT, 'scripts/build-utilities.mjs'), 'utf8');
-const sharedTs = [...(buildUtils.match(/SHARED_TS\s*=\s*\[([^\]]*)\]/)?.[1] ?? '').matchAll(/'([^']+)'/g)]
-  .map((m) => m[1])
-  .filter((f) => existsSync(join(PKG_DIR, f)));
+/* Imported, not regexed out of another script's SOURCE. That worked, but it
+   made this the fourth place the list could be got wrong — and a regex over a
+   sibling script is a dependency nothing declares. */
+const sharedTs = SHARED_MODULES.filter((f) => existsSync(join(PKG_DIR, f)));
 
 const wantSources = ['components/*.astro', 'internal/*.astro', ...sharedTs];
 const sourceLines = [...readme.matchAll(/@source\s+"[^"]*@iron-software\/astro-components\/([^"]+)"/g)].map((m) => m[1]);

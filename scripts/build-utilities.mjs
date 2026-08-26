@@ -28,6 +28,8 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
+import { internalSources, SHARED_MODULES } from './lib/sources.mjs';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const THEME = join(ROOT, 'tailwind/theme.css');
 const COMPONENTS = join(ROOT, 'astro-components/components');
@@ -85,7 +87,7 @@ const astroFiles = existsSync(COMPONENTS)
  * rather than globbed: `index.ts` and `icons.ts` sit beside these and contain no
  * classes, and scanning prose for class names is what note 3 below is about.
  */
-const SHARED_TS = ['field.ts', 'choice.ts'].filter((f) => existsSync(join(ROOT, 'astro-components', f)));
+const SHARED_TS = SHARED_MODULES.filter((f) => existsSync(join(ROOT, 'astro-components', f)));
 
 /**
  * Internal .astro partials outside components/ — same contract as SHARED_TS.
@@ -95,10 +97,10 @@ const SHARED_TS = ['field.ts', 'choice.ts'].filter((f) => existsSync(join(ROOT, 
  * never reach docs/utilities.css renders unstyled in the docs while every gate
  * stays green, which is the failure this whole file exists to prevent.
  */
-const INTERNAL_DIR = join(ROOT, 'astro-components/internal');
-const SHARED_ASTRO = existsSync(INTERNAL_DIR)
-  ? readdirSync(INTERNAL_DIR).filter((f) => f.endsWith('.astro'))
-  : [];
+/* From the one enumerator, not from a path written out here — see
+   scripts/lib/sources.mjs for what happened when each script decided this for
+   itself. */
+const SHARED_ASTRO = internalSources();
 
 /**
  * If the glob matches nothing, Tailwind does not complain — it emits a valid
@@ -195,8 +197,8 @@ for (const file of SHARED_TS) {
   writeFileSync(join(SCAN, file), strip(readFileSync(join(ROOT, 'astro-components', file), 'utf8')));
 }
 
-for (const file of SHARED_ASTRO) {
-  writeFileSync(join(SCAN, file), strip(readFileSync(join(INTERNAL_DIR, file), 'utf8')));
+for (const source of SHARED_ASTRO) {
+  writeFileSync(join(SCAN, source.name + '.astro'), strip(readFileSync(source.file, 'utf8')));
 }
 
 const inputPath = join(TMP, 'utilities.in.css');

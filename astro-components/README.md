@@ -997,12 +997,18 @@ caught one of them being missed.** `check:parity` matches each component against
 *its own* docs page, so two components drifting apart from each other is the one
 shape it cannot see.
 
-**Two scripts know about this file, and both had to.** `build-utilities.mjs`
-scans it for Tailwind (its `@source` glob was `*.astro`, so a class moved here
-would simply have stopped being compiled — absent from the stylesheet every docs
-page links, with the class still in their markup). `check-component-vars.mjs`
-validates its strings, so a typo here fails the same way it would in a
-component. Adding another shared module means adding it to both lists.
+**Scripts have to know about this file, and one place tells them.** Tailwind's
+`@source` glob was `*.astro`, so a class string moved into a `.ts` module would
+simply have stopped being compiled — absent from the stylesheet every docs page
+links, with the class still in their markup. `build-utilities.mjs` scans it,
+`check-component-vars.mjs` validates its strings, and `check-type-weight.mjs`
+reads it too.
+
+**Adding another shared module means adding it in exactly one place:**
+`SHARED_MODULES` in `scripts/lib/sources.mjs`. This paragraph used to say "two
+scripts, add it to both lists". The list was written out in three scripts and
+regexed out of a fourth by 2026-08-26 — a count of scripts is a fact nothing
+checks, and it had already been wrong for weeks.
 
 ## Icon strategy
 

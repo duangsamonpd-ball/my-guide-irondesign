@@ -29,11 +29,19 @@
  *
  * ── WHAT IT DOES NOT DO ────────────────────────────────────────────────────
  *
- * It does not require a page to HAVE a table. Fifteen of the nineteen pages
- * document no props at all, most of them because the component takes none worth
- * a table, and inventing a requirement here would be a policy nobody asked for.
- * A page with no table is unchecked, and the count of those is printed so
- * "unchecked" stays a visible state rather than a silent pass.
+ * It does not require a page to HAVE a table. Most pages document no props at
+ * all, because the component takes none worth a table, and inventing a
+ * requirement here would be a policy nobody asked for. A page with no table is
+ * unchecked, and the count of those is printed so "unchecked" stays a visible
+ * state rather than a silent pass.
+ *
+ * INTERNAL COMPONENTS ARE CHECKED TOO, as of 2026-08-26. `component-flyoutmenu`
+ * carries a props table for a component in `astro-components/internal/`, which
+ * is not exported by name and therefore not in the manifest's public array. For
+ * a day this gate could only NAME that page as unverifiable. The manifest now
+ * describes internal components under their own key — separate, so the public
+ * surface the consuming room diffs is untouched — and those tables are checked
+ * exactly like the rest.
  *
  * Pure Node, no browser, no node_modules — so it runs inside `npm run check`.
  *
@@ -228,12 +236,18 @@ if (SELF_TEST) {
 }
 
 let checked = 0, unchecked = [], rowCount = 0;
+/* Universality is judged over the PUBLIC components only. `class` is a promise
+   this package makes to consumers; an internal component that happens to take
+   it is not what makes that promise, and one that does not must not be able to
+   revoke the exemption for nineteen pages. */
 const universal = universalProps(manifest.components);
 console.log(
   `\n${C.b}Props tables${C.x} ${C.dim}${universal.size ? `universal, so no table owes a row: ${[...universal].join(', ')}` : 'no universal props'}${C.x}\n`,
 );
 
-for (const component of manifest.components) {
+/* Public and internal alike: what makes a table checkable is that something
+   describes the component, not whether a consumer may import it. */
+for (const component of [...manifest.components, ...(manifest.internal ?? [])]) {
   if (!component.docs) continue;
   const page = join(ROOT, component.docs);
   if (!existsSync(page)) {
@@ -268,7 +282,9 @@ for (const component of manifest.components) {
    check that table, and the honest thing is to say so every run rather than to
    let it read as covered. Not a failure: whether internal components get a
    manifest entry is a decision, not a defect. */
-const claimed = new Set(manifest.components.map((c) => c.docs).filter(Boolean));
+const claimed = new Set(
+  [...manifest.components, ...(manifest.internal ?? [])].map((c) => c.docs).filter(Boolean),
+);
 const orphans = readdirSync(join(ROOT, 'docs'))
   .filter((f) => /^component-.*\.html$/.test(f) && !claimed.has(`docs/${f}`))
   .filter((f) => parseTable(readFileSync(join(ROOT, 'docs', f), 'utf8')) !== null);

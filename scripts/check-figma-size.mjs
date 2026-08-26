@@ -88,9 +88,10 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, normalize, extname } from 'node:path';
 import { serveFonts, useLocalFonts, installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
 
+import { componentSources } from './lib/sources.mjs';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
-const SRC = join(ROOT, 'astro-components', 'components');
 
 const C = process.stdout.isTTY
   ? { r: '\x1b[31m', g: '\x1b[32m', y: '\x1b[33m', b: '\x1b[1m', dim: '\x1b[2m', x: '\x1b[0m' }
@@ -282,10 +283,14 @@ const argv = process.argv.slice(2);
 const SELF_TEST = argv.includes('--self-test');
 const only = argv.filter((a) => !a.startsWith('-')).map((s) => s.toLowerCase());
 
-const files = readdirSync(SRC).filter((f) => f.endsWith('.astro')).sort();
+/* Every component in the package, internal included — from the one enumerator.
+   An internal component renders inside a public one, so its bands are drawn on
+   the same frames; there is no reason a gate about pixels should care which
+   folder a file lives in. See scripts/lib/sources.mjs. */
+const files = componentSources();
 const all = { decls: [], errors: [] };
-for (const f of files) {
-  const r = parseDecls(readFileSync(join(SRC, f), 'utf8'), f);
+for (const source of files) {
+  const r = parseDecls(readFileSync(source.file, 'utf8'), source.name + '.astro');
   all.decls.push(...r.decls);
   all.errors.push(...r.errors);
 }

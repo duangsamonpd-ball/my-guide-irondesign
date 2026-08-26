@@ -7,9 +7,12 @@
  * for a home; the Figma frame that landed (`FlyoutMenu-product`) settled that it
  * is the PRODUCTS mega-menu on the corporate strip, so the public surface it had
  * was promising a component nobody was meant to reach for. `internal/` is the
- * same shelf `FooterProduct` and `ProductFlyout` sit on, and the two scripts
- * that must know about that folder — `build-utilities.mjs`,
- * `check-component-vars.mjs` — already walk it.
+ * same shelf `FooterProduct` and `ProductFlyout` sit on. Which scripts walk that
+ * folder is no longer a list anyone maintains: `scripts/lib/sources.mjs` is the
+ * one enumerator and it returns `internal` as data. This used to name two
+ * scripts; the true answer had become four, with nothing able to say so — and
+ * the ones that did NOT know skipped this file, which is how `check:parity`
+ * stopped asking about it the day it moved here.
  *
  * It stays a component rather than being folded into TopNav because the reveal,
  * the ARIA and the script below are the expensive half and they are not about

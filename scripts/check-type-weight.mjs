@@ -76,8 +76,11 @@ const KNOWN = [{
   why: 'A mixed-weight headline: the <b> inside carries the emphasis and is 700, so putting `--fw-title-lg` 700 on the whole line would flatten the one distinction the markup exists to make. Deliberate, and documented at the line.',
 }];
 
-const DIRS = ['astro-components/components', 'astro-components/internal'];
-const SHARED_TS = ['astro-components/field.ts', 'astro-components/choice.ts'];
+/* One enumerator for the whole package. Writing the folder list out again is
+   how `internal/` came to be walked by four scripts and skipped by the rest —
+   see scripts/lib/sources.mjs. */
+import { componentSources, SHARED_MODULES } from './lib/sources.mjs';
+const SHARED_TS = SHARED_MODULES.map((f) => `astro-components/${f}`);
 
 /** `--name: value;` pairs from a stylesheet, last one wins. */
 function declarations(css) {
@@ -177,12 +180,7 @@ function classStrings(src) {
 }
 
 function sourceFiles() {
-  const out = [];
-  for (const d of DIRS) {
-    const abs = join(ROOT, d);
-    if (!existsSync(abs)) continue;
-    for (const f of readdirSync(abs).filter((f) => f.endsWith('.astro')).sort()) out.push(join(abs, f));
-  }
+  const out = componentSources().map((c) => c.file);
   for (const f of SHARED_TS) if (existsSync(join(ROOT, f))) out.push(join(ROOT, f));
   return out;
 }

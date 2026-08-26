@@ -156,10 +156,21 @@ the start.
   rung of `--leading-*` or the single-line `1`, and that a step a role uses agrees
   with that role — deriving both the step set and the role map from `tokens.css`
   rather than restating them.
-- **A shared module in `astro-components/*.ts` must be named in two scripts** —
-  `build-utilities.mjs` (`SHARED_TS`) compiles its classes, `check-component-vars.mjs`
-  validates them. Miss the first and the utilities vanish from the stylesheet
-  while the classes stay in the markup, with nothing red anywhere.
+- **Where the components are is asked once, in `scripts/lib/sources.mjs`.** It
+  walks `astro-components/`, returns `internal` as data rather than as a folder
+  each script has to remember, and THROWS on an `.astro` outside both declared
+  folders — so a new folder cannot be invisible to every gate. The same module
+  names the shared `.ts` modules that carry class strings (`SHARED_MODULES`),
+  because Tailwind only emits a utility it has seen and a class string in a
+  `.ts` file reaches the stylesheet only if a script was told about that file.
+
+  This bullet used to say a shared module "must be named in two scripts" and
+  name them. Both halves rotted: the list was written out in THREE scripts and
+  regexed out of a fourth, and `internal/` was walked by four scripts and
+  skipped by the rest — which is how `check:parity` stopped asking about
+  FlyoutMenu the day it moved there, while its docs page went on serving a copy
+  of the CSS from before the move. **A count of scripts is a fact nothing
+  checks.** Import the list; do not restate it.
 - **A bare tag selector in a docs page styles the components on it.** `docs.css`
   learned this once — a bare `footer { padding }` padded every component footer
   below 640 — and the per-page copies of that rule outlived the fix. On

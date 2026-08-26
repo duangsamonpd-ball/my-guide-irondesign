@@ -11,11 +11,13 @@
  * the reveal and the ARIA; this owns what is inside. Keeping them apart is what
  * lets the panel be laid out and measured without a script running.
  *
- * Two scripts must know this folder exists, the same contract `field.ts` and
- * `FooterProduct.astro` already have: `build-utilities.mjs` compiles the classes
- * below and `check-component-vars.mjs` validates the variables they read. Miss
- * the first and the classes vanish from the stylesheet while the markup keeps
- * wearing them, with nothing red anywhere.
+ * No script names this folder any more. Every one of them asks
+ * `scripts/lib/sources.mjs`, which walks the package and returns `internal` as
+ * DATA. This paragraph used to say "two scripts must know this folder exists"
+ * and name them; by 2026-08-26 the answer was four, and nothing could have
+ * said so — a count in prose is a fact nothing checks. Worse, the scripts that
+ * did NOT know silently skipped this file, which is how `check:parity` stopped
+ * asking about `FlyoutMenu` the day it moved here.
  *
  * ## The category header stopped being a deviation
  *
