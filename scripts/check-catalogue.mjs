@@ -513,6 +513,54 @@ const PARSERS = [
       return n;
     },
   },
+
+  /**
+   * A COUNT written into prose is the same restatement as a hex written into a
+   * table, and it rots the same way. On 2026-08-26 an audit of the three repos
+   * found `WORKFLOW.md` in the consuming room crediting the skills repo with
+   * "16 Claude Code skills" when it ships fifteen — and the day before, three
+   * components here said "two scripts must know this folder exists" when the
+   * answer had become four. Neither had anything looking at it.
+   *
+   * The sharp version of the rule, which is what this parser encodes: a count is
+   * safe when the file that states it can SEE what it counts. `19 components`
+   * in this repo's README is checkable against the manifest; the same sentence
+   * in another repo is not checkable by anyone, and that is the one that was
+   * wrong. So — count what this repo owns, here; never write a count of what
+   * another repo owns, anywhere.
+   *
+   * Deliberately narrow. Only the nouns this repo can actually derive are
+   * matched, and a phrase it cannot resolve is left alone rather than guessed
+   * at: a checker that flags "100 components" in a sentence about scale would
+   * teach people to word around it.
+   */
+  {
+    name: 'readme/counted claims',
+    pages: ['README.md', 'astro-components/README.md'],
+    floor: 4,
+    run(page, src) {
+      const derived = {
+        components: JSON.parse(readFileSync(join(ROOT, 'astro-components/components.json'), 'utf8')).count,
+        pages: readdirSync(join(ROOT, 'docs')).filter((f) => f.endsWith('.html')).length,
+      };
+      let n = 0;
+      for (const m of src.matchAll(/\b(\d{1,4})\s+(components?|pages?)\b/g)) {
+        const [, stated, noun] = m;
+        const key = noun.replace(/s$/, '') + 's';
+        const truth = derived[key];
+        if (truth === undefined) continue;
+        /* `8 of 19 components` — the first number is a subset of the second and
+           says nothing about the total. Only judge a count that stands alone. */
+        const before = src.slice(Math.max(0, m.index - 6), m.index);
+        if (/\bof\s$/.test(before)) continue;
+        n++;
+        if (Number(stated) !== truth) {
+          record(page, this.name, `says ${stated} ${noun} — this repo has ${truth}`);
+        }
+      }
+      return n;
+    },
+  },
 ];
 
 /**
