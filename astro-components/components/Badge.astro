@@ -8,6 +8,34 @@
  * package exports it. The notes at the bottom are what the conversion cost, kept
  * because they are still true, not because this is still a trial.
  *
+ * ── The bands this component declares, and what draws them ────────────────
+ *
+ * `779:3486` draws every md variant 67x24 and every sm variant 59x20 — twelve
+ * of each, all one height per size. Twelve agreeing is the point: a badge is a
+ * box round a line of text, so an unpaired line-height or a padding rung moved
+ * one step shows up here and nowhere else.
+ *
+ * @figma-size md
+ *   node   779:3486
+ *   frame  Badge
+ *   page   component-badge.html
+ *   region subtle-solid
+ *   select span.text-badge
+ *   at     1440
+ *   height 24
+ *   why    py-micro 4 x2 + leading-badge 16; six intents x subtle and solid
+ *   count  12
+ *
+ * @figma-size sm
+ *   node   865:3451
+ *   frame  Badge
+ *   page   component-badge.html
+ *   region variants
+ *   select span.text-badge-sm
+ *   at     1440
+ *   height 20
+ *   why    the size=sm row; the only sm badge the docs render
+ *
  * `intent` matches Figma outright — the Figma property was `status` until Ball
  * renamed it.
  */

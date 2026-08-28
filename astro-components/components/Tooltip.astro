@@ -1,4 +1,53 @@
 ---
+/**
+ * Tooltip — Figma `615:12354`, `Variant=Default` 615:12355 (200x144) and
+ * `Variant=Action` 615:12365 (200x172).
+ *
+ * ── The bands this component declares, and what draws them ────────────────
+ *
+ * A tooltip's height is its CONTENT, so only a bubble carrying the node's own
+ * body text can be compared with the node at all. The docs render four, and
+ * exactly one of them is that comparison: title + the 4-line body the node
+ * draws. The other three are shorter copy, and their heights are correct
+ * answers to a different question.
+ *
+ * `Variant=Action` is therefore NOT declared. Its 172 is title 36 + a 136 body
+ * holding the same 4-line text plus the link, and every action tooltip on the
+ * docs page pairs the link with the short body instead — 134, which is right
+ * for what it says. Declaring 172 against it would be reading content as
+ * geometry. The two structural bands below hold the parts that are shared.
+ *
+ * @figma-size bubble
+ *   node   615:12355
+ *   frame  Tooltip
+ *   page   component-tooltip.html
+ *   region variants
+ *   select .tt-bubble:not(.has-link):has(.tt-title)
+ *   at     1440
+ *   height 144
+ *   why    36 + 108, the only bubble drawn from the node's own body text
+ *
+ * @figma-size body
+ *   node   615:12363
+ *   frame  Tooltip
+ *   page   component-tooltip.html
+ *   region variants
+ *   select .tt-bubble:not(.has-link):not(:has(.tt-title)) .tt-body
+ *   at     1440
+ *   height 108
+ *   why    12 + four lines of leading-5 + 16; the same text with no title
+ *
+ * @figma-size title
+ *   node   615:12361
+ *   frame  Tooltip
+ *   page   component-tooltip.html
+ *   region variants
+ *   select .tt-title
+ *   at     1440
+ *   height 36
+ *   why    spacing-xs 8 x2 + leading-5 20, and the icon slot does not move it
+ *   count  3
+ */
 import { randomUUID } from 'node:crypto';
 // Figma draws the link's trailing arrow as a Font Awesome `arrow-right` glyph in
 // a 16px box. `icons.arrowRight` is that same glyph, so this needs no new asset.
@@ -97,7 +146,14 @@ const titleIcon = isAction && title && icon ? icons[icon] : null;
      see .tt-arrow. Without it the arrow paints a dark diamond corner across the
      bubble's lighter fill, because a positioned sibling wins over a static one
      whatever the DOM order. */
-  .tt-content { background: var(--neutral-800); border: var(--border-width-1) solid var(--neutral-950); border-radius: var(--rounded-md); box-shadow: var(--shadow-tooltip); overflow: hidden; display: flex; flex-direction: column; position: relative; z-index: 1; }
+/* The ring is an INSET SHADOW, not a border. `615:12360` is 200x144 and its two
+     bands are 36 + 108, so the stroke is drawn inside that; a real border made
+     the bubble 146 and the title-less one 110. Nothing about the picture
+     changes: in the title band the ring sits under `.tt-title`'s background,
+     which is the same `--neutral-950`, and in the body band there is no
+     background to hide it. Same reading as ProductMenu's chips and the Footer
+     review card — a Figma stroke lives inside the box it is drawn on. */
+  .tt-content { background: var(--neutral-800); border-radius: var(--rounded-md); box-shadow: inset 0 0 0 var(--border-width-1) var(--neutral-950), var(--shadow-tooltip); overflow: hidden; display: flex; flex-direction: column; position: relative; z-index: 1; }
   /* Figma types the link as `Typography/UI/Button small` outright — semibold with
      wide tracking — and gives the title the same 600, so both borrow --fw-btn-sm
      rather than earning a weight token of their own. */

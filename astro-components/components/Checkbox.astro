@@ -1,4 +1,62 @@
 ---
+/**
+ * ── The band this component declares, and what draws it ───────────────────
+ *
+ * A SINGLE-LINE ROW IS 20, and that number has been wrong once already. The
+ * shared control rule carried a bare `mt-px` — the only class in `choice.ts`
+ * with no reason written beside it — which pushed the box a pixel below the
+ * label and made the row 21. The canvas top-aligns them: 922:5422 and 335:31 are both y=0 h=20 inside 335:30,
+ * so the box and the label share a top edge and the row is the label's line.
+ * Consumers were cancelling it by hand before anyone here noticed.
+ *
+ * The control itself is NOT declared: it is `size-[var(--size-box-md)]`, a
+ * literal, so injected padding cannot move it and arm 3 refuses the reading.
+ * Its diameter is held by `check:theme` instead. The row is the emergent one,
+ * and the row is where the fault was.
+ *
+ * `preview` and not `states`, and the reason is a docs bug rather than a
+ * component one: the states grid gives each cell a 160px minimum, and
+ * "Accept terms" does not fit the ~94px left after the cell padding, the box and
+ * the gap — so all four of those rows wrap to two lines and measure 40. Radio's
+ * same grid says "Option" and fits, which is why only one of the two pages
+ * showed it. Nothing overflows, nothing is cut, and no sweep here asks whether a
+ * two-word label stayed on one line. Reported rather than fixed: widening that
+ * grid is a decision about the page.
+ *
+ * @figma-size row-described
+ *   node   335:30
+ *   frame  Checkbox
+ *   page   component-checkbox.html
+ *   region preview
+ *   select label:has(span.text-caption)
+ *   at     1440
+ *   height 64
+ *   why    label 20 + gap-micro 4 + a 2-line description 40, as 340:352 draws
+ *   count  1
+ *
+ * @figma-size row
+ *   node   922:5422
+ *   frame  Checkbox
+ *   page   component-checkbox.html
+ *   region preview
+ *   select label:not(:has(span.text-caption))
+ *   at     1440
+ *   height 20
+ *   why    box and label share a top edge, so the row is the label's one line
+ *   count  1
+ *
+ * @figma-size label-text
+ *   node   335:31
+ *   frame  Checkbox
+ *   page   component-checkbox.html
+ *   region preview
+ *   select span.text-label-lg
+ *   at     1440
+ *   height 20
+ *   why    leading-label-lg is --leading-5; the line the row is made of
+ *   count  2
+ */
+
 import {
   choiceRow, choiceInput, choiceControl, choiceSize, choiceText,
   choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled,

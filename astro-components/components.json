@@ -9,6 +9,8 @@
       "docs": "docs/component-badge.html",
       "interactive": false,
       "figmaNodes": [
+        "779:3486",
+        "865:3451",
         "776:899"
       ],
       "props": [
@@ -106,7 +108,11 @@
       "file": "astro-components/components/Checkbox.astro",
       "docs": "docs/component-checkbox.html",
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "335:30",
+        "922:5422",
+        "335:31"
+      ],
       "props": [
         {
           "name": "label",
@@ -897,7 +903,10 @@
       "file": "astro-components/components/Radio.astro",
       "docs": "docs/component-radio.html",
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "451:488",
+        "922:5387"
+      ],
       "props": [
         {
           "name": "label",
@@ -1151,7 +1160,11 @@
       "file": "astro-components/components/Tooltip.astro",
       "docs": "docs/component-tooltip.html",
       "interactive": true,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "615:12355",
+        "615:12363",
+        "615:12361"
+      ],
       "props": [
         {
           "name": "variant",

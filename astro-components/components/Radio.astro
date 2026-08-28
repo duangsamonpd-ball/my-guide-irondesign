@@ -1,4 +1,47 @@
 ---
+/**
+ * ── The band this component declares, and what draws it ───────────────────
+ *
+ * A SINGLE-LINE ROW IS 20, and that number has been wrong once already. The
+ * shared control rule carried a bare `mt-px` — the only class in `choice.ts`
+ * with no reason written beside it — which pushed the box a pixel below the
+ * label and made the row 21. The canvas top-aligns them: 922:5387 and 451:491 are both y=0 h=20 inside 451:488,
+ * so the box and the label share a top edge and the row is the label's line.
+ * Consumers were cancelling it by hand before anyone here noticed.
+ *
+ * The described row is declared too, and it is the node's own Default variant:
+ * 20 + 4 + 20 = 44 in Radio, where Checkbox's same shape is 64 because its
+ * description runs to two lines. Both are content as much as geometry, so they
+ * hold only while the docs keep the copy the node was drawn with — which is
+ * exactly what a band should catch if someone edits one without the other.
+ *
+ * The control itself is NOT declared: it is `size-[var(--size-box-md)]`, a
+ * literal, so injected padding cannot move it and arm 3 refuses the reading.
+ * Its diameter is held by `check:theme` instead. The row is the emergent one,
+ * and the row is where the fault was.
+ *
+ * @figma-size row-described
+ *   node   451:488
+ *   frame  Radio
+ *   page   component-radio.html
+ *   region preview
+ *   select label:has(span.text-caption)
+ *   at     1440
+ *   height 44
+ *   why    label 20 + gap-micro 4 + a one-line description 20, as 451:490 draws
+ *   count  3
+ *
+ * @figma-size row
+ *   node   922:5387
+ *   frame  Radio
+ *   page   component-radio.html
+ *   region states
+ *   select label
+ *   at     1440
+ *   height 20
+ *   why    four rows with no description, so each is one 20px line
+ *   count  4
+ */
 import {
   choiceRow, choiceInput, choiceControl, choiceSize, choiceText,
   choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled,
