@@ -239,7 +239,16 @@
       "file": "astro-components/components/Footer.astro",
       "docs": "docs/component-footer.html",
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "507:4048",
+        "346:331",
+        "346:447",
+        "346:428",
+        "346:434",
+        "346:438",
+        "346:433",
+        "346:439"
+      ],
       "props": [
         {
           "name": "variant",
@@ -1417,7 +1426,9 @@
       "file": "astro-components/internal/FooterProduct.astro",
       "docs": null,
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "507:3253"
+      ],
       "props": [
         {
           "name": "product",

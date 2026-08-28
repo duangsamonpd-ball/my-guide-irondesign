@@ -18,6 +18,47 @@
  * said so — a count in prose is a fact nothing checks. Worse, the scripts that
  * did NOT know silently skipped this file, which is how `check:parity` stopped
  * asking about `FlyoutMenu` the day it moved here.
+ *
+ * ── The row this component declares, and what draws it ────────────────────
+ *
+ * The 28 below is the whole reason `Footer`'s band was 470 for as long as it
+ * was, and it is the number that had NO check: ten rows agreeing with each
+ * other at 27 looked exactly like ten rows agreeing at 28. It is declared here
+ * rather than on Footer because this file is where it is spent — the band is
+ * arithmetic over it (10 x 28 + 9 x 8 = 352, + 64 x 2 = 480), and `Footer`
+ * declares both ends of that sum, so a row that moves cannot move quietly.
+ *
+ * Twice, at 10 and at 1, because the docs render this row in two places and the
+ * hover pair is a hand-forced state — a row that is 28 in the list and
+ * something else under `.demo-row-hover` is a docs bug that renders as spec.
+ *
+ * @figma-size row
+ *   node   507:3253
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region default
+ *   select li
+ *   at     1440
+ *   count  10
+ *   height 28
+ *   why    size/xl 20 + leading/7 28 over Typography/body 16/28; was 27
+ *
+ * @figma-size row-hover
+ *   node   507:3253
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region hover-active
+ *   select li
+ *   at     1440
+ *   height 28
+ *   why    the forced-hover copy; only the colours move, never the box
+ *
+ * The mark is NOT declared, and the gate is why. It is `h-[24px]`, a literal in
+ * this file, so 10px of injected padding cannot move it and arm 3 refuses the
+ * reading rather than passing it — which is the arm behaving. `figma-size` is
+ * for a height nobody wrote down: one that EMERGES from type, spacing and
+ * content, where ten elements agreeing prove nothing. A hard-coded box already
+ * carries its number in source where a reader can see it.
  */
 export interface Product {
   prefix: string;   // e.g. "IRON"
@@ -49,8 +90,15 @@ const { product: p, logoSrc, class: className } = Astro.props;
     band is `py-4xl` 64 + the taller of its two columns, and the taller one is
     this list: ten rows on a flat 8 gap. At 27 a row that is 10x27 + 9x8 = 342,
     and 64 + 342 + 64 = 470. At the node's 28 it is 352, and the band is 480.
-    Nothing else in the band was short — the left column is 292 tall against a
-    352 column in the node and sets no height in either.
+    Nothing else in the band was short — the left column's content ends at 296
+    inside a 352 column and sets no height in either. This paragraph said 292
+    until 2026-08-28, when declaring the column's parts sent someone to read
+    `346:427` and the four numbers under it added up to 296: 32 + 80 + 80 + 48
+    + 56, every one of them now a declared band. Two files had written this
+    number down and they disagreed, which is the whole argument for declaring
+    it — see the note above Footer's `heading` band. (Not spelled with the
+    marker: any line carrying it IS a declaration, so a prose mention is a
+    malformed one, and the self-test said so within the minute.)
 
     What the row was drawn in, read off `507:3253` with get_variable_defs:
     `size/xl` 20 + `weight/bold` + `tracking/tight` + `leading/7` 28 for the

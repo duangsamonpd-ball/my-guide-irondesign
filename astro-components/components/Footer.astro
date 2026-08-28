@@ -1,5 +1,127 @@
 ---
+/**
+ * Footer — the violet IRONSUITE cross-sell band, Figma `Product footer`
+ * (set 346:330; `Variant=Suite` 346:331, `Variant=Default` 507:4048, and the
+ * homepage instance 2336:3503 is identical to them node for node).
+ *
+ * NOT the same component as FooterBar.astro, which is the black bar underneath.
+ * They stack. See FooterBar's header for the other half of that confusion.
+ *
+ * ── The bands this component declares, and what draws them ────────────────
+ *
+ * These are the numbers `f19a0af` landed on when the band rendered 470 against
+ * the node's 480, and until now nothing has held them: the fix was found by a
+ * consuming room measuring a built page, and the only record of it was prose.
+ * The band's height is not its own — it is `py-4xl` 64 twice plus the TALLER of
+ * its two columns, which is the product list — so a row losing a pixel moves the
+ * whole band and ten rows agreeing hid nothing. That is why the row, the list
+ * and the band are all declared: the arithmetic between them is the claim.
+ *
+ * `band` is declared on BOTH variants because they disagreed with each other
+ * until 2026-08-24 and one number cannot prove two frames.
+ *
+ * @figma-size band-default
+ *   node   507:4048
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region default
+ *   select section
+ *   at     1440
+ *   height 480
+ *   why    py-4xl 64 x2 + the product list, which is the taller column
+ *
+ * @figma-size band-suite
+ *   node   346:331
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region suite
+ *   select section
+ *   at     1440
+ *   height 480
+ *   why    the Suite variant; it disagreed with Default until Ball ruled on 36
+ *
+ * @figma-size products
+ *   node   346:447
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region default
+ *   select ul
+ *   at     1440
+ *   height 352
+ *   why    ten rows of 28 on a flat gap-xs 8; at the old 27 it was 342
+ *
+ * @figma-size donate
+ *   node   346:428
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region default
+ *   select p.tracking-caption-sm
+ *   at     1440
+ *   height 32
+ *   why    the PNG's own natural height too; leading-[normal] made it 30
+ *
+ * The left column is NOT declared as one band, and reading the node is what
+ * settled that. `346:427` "content" measures 352, not the 296 this file used to
+ * claim it did — 352 is the STRETCHED frame, matching the products column
+ * beside it, and 296 is where its content stops inside that. In code the same
+ * element stretches the same way, so 10px of injected padding cannot move it
+ * and arm 3 rightly refuses the reading. What is declared instead is every part
+ * that column is made of: 32 + `pt-hero` 80 + 80 + `gap-3xl` 48 + 56 = 296,
+ * with the two gaps being tokens `check:theme` already holds. A part that moves
+ * moves one of these.
+ *
+ * @figma-size heading
+ *   node   346:434
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region default
+ *   select h2
+ *   at     1440
+ *   height 36
+ *   why    text-3xl 30 x leading-[1.2]; the Default variant's half of the 36
+ *
+ * @figma-size heading-suite
+ *   node   346:434
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region suite
+ *   select h2
+ *   at     1440
+ *   height 36
+ *   why    leading-9 --line-height-h2; the node drew this one 30 until Ball
+ *
+ * @figma-size lead
+ *   node   346:438
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region default
+ *   select p.text-xl
+ *   at     1440
+ *   height 28
+ *   why    20/28/700, and 700 is Ball's ruling — it matches no type role
+ *
+ * @figma-size text-section
+ *   node   346:433
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region default
+ *   select div.gap-md
+ *   at     1440
+ *   height 80
+ *   why    36 + gap-md 16 + 28; the heading and the lead with the gap between
+ *
+ * @figma-size cta
+ *   node   346:439
+ *   frame  Product footer
+ *   page   component-footer.html
+ *   region default
+ *   select div.max-w-\[567px\]
+ *   at     1440
+ *   height 56
+ *   why    one row of size=lg buttons; it wraps below 1270 and grows, by design
+ */
 import Button from './Button.astro';
+
 import { icons } from '../icons';
 import FooterProduct from '../internal/FooterProduct.astro';
 
@@ -125,8 +247,10 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
       <p class="flex items-center justify-end gap-xs text-xs leading-4 font-medium text-text-on-dark-heading tracking-caption-sm m-0">Every Iron Suite Donates <img class="h-[32px] w-auto block" src={src(donateImgSrc)} alt="1% for the Planet" /></p>
       {/* `pt-hero` 80 and `gap-3xl` 48 are the node's, and both were short —
           `pt-3xl` 48 and `gap-2xl` 32. Together with the two fixes above and the
-          heading's leading below, the column goes 247 -> 296, which is what
-          `346:427` measures. It changes NO band height: this column is the
+          heading's leading below, the column's content goes 247 -> 296. NOT what
+          `346:427` measures, which this comment claimed until 2026-08-28: that
+          frame is 352, stretched to the products column beside it, and 296 is
+          where its content stops inside it. It changes NO band height: this column is the
           shorter of the two in both variants and the product list sets the
           480. What it was doing was floating the whole block 45px too high. */}
       <div class="flex flex-col gap-3xl pt-hero">
