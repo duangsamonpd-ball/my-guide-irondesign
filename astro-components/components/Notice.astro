@@ -2,10 +2,18 @@
 /**
  * ── Why this component declares no `figma-size` band ──────────────────────
  *
- * No Figma node. `search_design_system` returns nothing for it in the published
- * library (checked 2026-08-28), and a band needs a node to be a band rather than
- * a snapshot of what happens to render today. It is on the standing list of node
- * URLs waiting on Ball, with FileUpload, FormCard and TrialKeyCard.
+ * There IS a node, and this comment said otherwise for one commit. `852:1267`
+ * on the ` ↳ Notice` page is a SPEC FRAME — `info-bordered` 645x85,
+ * `info-filled` 645x168, `success-bordered` 645x61, and so on, one frame per
+ * intent and fill. It is not a COMPONENT SET, which is why
+ * `search_design_system` returned nothing: that searches published components,
+ * and "not a published component" is not "not drawn". Same shape of mistake as
+ * reading a variant set's absence as a missing design.
+ *
+ * Not declared YET rather than undeclarable. A notice's height is its copy, so
+ * each of those frames can only be compared against a demo carrying the text it
+ * was drawn with — the caveat Tooltip's Action variant is already written up
+ * under. That is work with a known answer, not a blocked item.
  */
 interface Props {
   variant?: 'filled' | 'bordered';

@@ -2,9 +2,11 @@
 /**
  * ── Why this component declares no `figma-size` band ──────────────────────
  *
- * No Figma node in the published library (checked 2026-08-28). Waiting on a
- * node URL. The fields INSIDE it are covered — Input, Select and Textarea each
- * declare their 96/72/150 — so what is unheld here is the card's own frame.
+ * No node found on 2026-08-28: nothing in the published library, no page of its
+ * own, and neither catch-all page (`Other element`, `Test`) holds one. That is
+ * what was checked — not every frame on every canvas. The fields INSIDE it are
+ * covered — Input, Select and Textarea each declare their 96/72/150 — so what is
+ * unheld here is the card's own frame.
  */
 // quote / key / check are shared with the other card components — see ../icons.
 import { icons } from '../icons';
