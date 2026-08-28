@@ -11,6 +11,13 @@
  * files — a logo *is* its artwork, there is no token that can stand in for it.
  * `basePath` points at wherever `docs/assets/` was copied to, same escape hatch
  * as Footer.astro's *ImgSrc props.
+ *
+ * ── Why this component declares no `figma-size` band ──────────────────────
+ *
+ * Its size ladder is fixed, and it already has a better gate than a rendered
+ * band: `check:logo-grid` DERIVES the ladder from the SVGs themselves rather
+ * than comparing it to numbers written down anywhere. A band here would restate
+ * what that already proves, against a box that injected padding cannot move.
  */
 
 type Product = 'pdf' | 'wd' | 'xl' | 'ppt' | 'qr' | 'ocr' | 'bc' | 'prt' | 'zip' | 'ws' | 'suite' | 'iron';

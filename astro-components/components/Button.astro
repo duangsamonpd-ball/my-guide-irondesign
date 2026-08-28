@@ -1,4 +1,15 @@
 ---
+/**
+ * ── Why this component declares no `figma-size` band ──────────────────────
+ *
+ * Every height it has is a token: `h-[var(--size-btn-lg|md|sm)]`, 56/48/36 on
+ * `231:1406`. A box whose height is a literal cannot pass that gate's third
+ * arm — 10px of injected padding does not move it — and it should not: the arm
+ * exists to prove the probe is pointed at the box about to change. What holds
+ * those three numbers is `check:theme`, which compares the token against
+ * `tokens.w3c.json`, and that is the right instrument for a value that is
+ * declared rather than emergent.
+ */
 interface Props {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ondark' | 'ghost';
   size?: 'lg' | 'md' | 'sm';

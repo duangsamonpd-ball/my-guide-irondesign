@@ -1,4 +1,13 @@
 ---
+/**
+ * ── Why this component declares no `figma-size` band ──────────────────────
+ *
+ * It has no box. `.tlink` is a bare inline `<a>` with no `display` of its own,
+ * so its height is whatever line box the host page gives it, and padding on an
+ * inline element does not move one — the gate would refuse the reading, and it
+ * would be right to. Figma draws it as two SPEC FRAMES rather than a variant
+ * set for the same reason: a text link is a role, not a shape.
+ */
 import { icons } from '../icons';
 
 interface Props {

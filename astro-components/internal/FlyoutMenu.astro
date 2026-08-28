@@ -69,6 +69,14 @@
  * Escape and outside-press are bound once at document level rather than per
  * instance — the alternative is N listeners doing identical work, and they would
  * each have to re-derive which flyout the event happened in anyway.
+ *
+ * ── Why this component declares no `figma-size` band ──────────────────────
+ *
+ * It has no size of its own. The panel is `position: absolute` round whatever
+ * is slotted into it, so its height is its content's — and its content, on the
+ * one frame Figma draws, is `ProductFlyout`, which declares two bands and
+ * explains why it cannot declare the other two. Measuring this wrapper would be
+ * measuring that component twice under a different name.
  */
 import { icons } from '../icons';
 

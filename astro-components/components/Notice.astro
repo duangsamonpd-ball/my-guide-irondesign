@@ -1,4 +1,12 @@
 ---
+/**
+ * ── Why this component declares no `figma-size` band ──────────────────────
+ *
+ * No Figma node. `search_design_system` returns nothing for it in the published
+ * library (checked 2026-08-28), and a band needs a node to be a band rather than
+ * a snapshot of what happens to render today. It is on the standing list of node
+ * URLs waiting on Ball, with FileUpload, FormCard and TrialKeyCard.
+ */
 interface Props {
   variant?: 'filled' | 'bordered';
   intent?: 'info' | 'success' | 'important' | 'warning' | 'danger';
