@@ -10,6 +10,79 @@
  * A 40px strip: Iron Software lockup + corporate menu on the left, office
  * address, Contact Us and the language picker on the right. Pair it above
  * ProductMenu.astro for the full two-bar header.
+ *
+ * ── The bands this component declares, and what draws them ────────────────
+ *
+ * `231:1508` is 1440x40 and holds ONE 16px row inset 12 top and bottom, so the
+ * 40 is not a number this component sets — it is 12 + 16 + 12, and `check:figma-size`
+ * holds both ends. The strip is the same 40 in both variants; `transparent`
+ * only drops the fill, and declaring it twice is what says so.
+ *
+ * `.tn-item` is scoped away from `.tn-menu-extra` on purpose. The extras are the
+ * contact and language links duplicated INTO the menu for the burger, hidden at
+ * this width, so a bare `.tn-item` matches nine elements of which two are zero
+ * tall — a count that passes while measuring something that is not on screen.
+ *
+ * @figma-size bar
+ *   node   231:1508
+ *   frame  Top Nav
+ *   page   component-topnav.html
+ *   region default
+ *   select .tn
+ *   at     1440
+ *   height 40
+ *   why    12 + the 16px row + 12; the strip sets no height of its own
+ *
+ * @figma-size bar-transparent
+ *   node   507:5350
+ *   frame  Top Nav
+ *   page   component-topnav.html
+ *   region transparent
+ *   select .tn
+ *   at     1440
+ *   height 40
+ *   why    Variant=Transparent drops the fill and nothing else
+ *
+ * @figma-size row-left
+ *   node   231:1510
+ *   frame  Top Nav
+ *   page   component-topnav.html
+ *   region default
+ *   select .tn-left
+ *   at     1440
+ *   height 16
+ *   why    lockup + menu; the node insets it 12 from the top of the strip
+ *
+ * @figma-size row-right
+ *   node   231:1570
+ *   frame  Top Nav
+ *   page   component-topnav.html
+ *   region default
+ *   select .tn-right
+ *   at     1440
+ *   height 16
+ *   why    address + Contact Us + the language picker, on the same 16
+ *
+ * @figma-size brand
+ *   node   507:5285
+ *   frame  Top Nav
+ *   page   component-topnav.html
+ *   region default
+ *   select .tn-brand
+ *   at     1440
+ *   height 16
+ *   why    the _Top nav iron instance; the mark is 16 and the text rides it
+ *
+ * @figma-size menu-item
+ *   node   507:5171
+ *   frame  Top Nav
+ *   page   component-topnav.html
+ *   region default
+ *   select .tn-menu > li:not(.tn-menu-extra) .tn-item
+ *   at     1440
+ *   height 16
+ *   why    the five _Menu Item instances the node draws in 231:1514
+ *   count  5
  */
 
 import { icons } from '../icons';

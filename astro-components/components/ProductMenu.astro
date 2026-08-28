@@ -14,6 +14,78 @@
  * about "desktop screen breakpoints" and there is no mobile frame. The narrow
  * behaviour below (drop the runtime label, then the util bubbles, then let the
  * menu scroll) is an implementation decision, not a design that was handed over.
+ *
+ * ── The bands this component declares, and what draws them ────────────────
+ *
+ * The two tiers are the claim, and so is their sum: `790:4779` is 137, which is
+ * the 72 above plus the 65 below, and all of it is declared so a tier cannot
+ * move without one of them saying so. Inside the second tier the same shape
+ * again — 65 is 12 + the 41 the chips stand in + 12.
+ *
+ * FOUR THINGS IN THIS BAR CANNOT BE DECLARED, and that is the gate refusing
+ * rather than passing. `.pm-bar`, `.pm-brand`, `.pm-item`, `.pm-utils` and
+ * `.pm-right` are either `min-height: 72px` or flex children stretched into it,
+ * so 10px of injected padding does not move them and arm 3 will not call the
+ * reading a reading. Their node heights — 40 for the lockup, 36 for the util
+ * pair, 48 for the CTA — describe CONTENT inside a stretched box, which is a
+ * different question from the one this gate asks.
+ *
+ * @figma-size bar
+ *   node   790:1177
+ *   frame  Product menu
+ *   page   component-productmenu.html
+ *   region default
+ *   select .pm
+ *   at     1440
+ *   height 72
+ *   why    the whole component in the one-tier variant; it was 73
+ *
+ * @figma-size bar-submenu
+ *   node   790:4779
+ *   frame  Product menu
+ *   page   component-productmenu.html
+ *   region submenu
+ *   select .pm
+ *   at     1440
+ *   height 137
+ *   why    72 + 65, and both halves are declared below; it was 140.8
+ *
+ * @figma-size sub
+ *   node   799:846
+ *   frame  Product menu
+ *   page   component-productmenu.html
+ *   region submenu
+ *   select .pm-sub
+ *   at     1440
+ *   height 65
+ *   why    the second tier; 12 + 41 + 12, with its rule inside
+ *
+ * @figma-size sub-inner
+ *   node   799:847
+ *   frame  Product menu
+ *   page   component-productmenu.html
+ *   region submenu
+ *   select .pm-sub-inner
+ *   at     1440
+ *   height 41
+ *   why    the chip row itself, inset 12 from the tier
+ *
+ * @figma-size chip
+ *   node   507:5503
+ *   frame  Product menu
+ *   page   component-productmenu.html
+ *   region submenu
+ *   select .pm-chip
+ *   at     1440
+ *   height 41
+ *   why    seven Product sub menu instances: the lead, five in the slot, one in
+ *   count  7
+ *
+ * The chips land on 40.8, not 41, and the 0.2 is understood rather than
+ * tolerated: `line-height: 1.2` on 14px is 16.8 where the node's text node is
+ * 17 tall. It sits inside the gate's half-pixel, which still refuses the 1.8
+ * this pass removed. If the sub-menu label ever gets a type role in Figma, that
+ * 0.2 is where to spend it.
  */
 
 // chevron-down and graduation-cap each repeat several times below — see ../icons.
@@ -225,12 +297,22 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
     The 40px mark is Figma's own size here — it is deliberately off the 24/48/96/192
     grid the logo specimen documents, so it is set explicitly rather than via Logo.astro.
   */
-  .pm { width: 100%; background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border-strong); font-family: 'Montserrat', sans-serif; }
+  .pm { width: 100%; background: var(--color-bg-base); font-family: 'Montserrat', sans-serif; }
+  /* NO border-bottom here. It used to carry one, in border/strong, ON TOP of the
+     one .pm-bar already keeps inside its 72 — two rules stacked, and the
+     component measured 73 against 790:1177's 72 in the default variant and
+     140.8 against 790:4779's 137 in the submenu one. The comment below had the
+     principle exactly right and nothing asserted it; `check:figma-size` does
+     now. 790:1177 draws ONE stroke, border/strong, on the ROOT with h-72
+     including it, so the colour moves down to .pm-bar and the rule does not. */
   /* box-sizing so the 1px rule sits *inside* the 72px — Figma's tier is 72px total
      (137px = 72 + 65 on the submenu variant), not 72 plus a border. */
   /* `position: relative` is here for the narrow-width menu panel, which drops
      out of the bar and is positioned against it rather than against the page. */
-  .pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; padding: 0 var(--spacing-xl); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border); position: relative; }
+  .pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; padding: 0 var(--spacing-xl); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border-strong); position: relative; }
+  /* Now that the base rule is border/strong this actually does something: it
+     had been restating the base colour, so the tiers were divided by the same
+     rule that closes the component. The soft one belongs between them. */
   .pm--submenu .pm-bar { border-bottom-color: var(--color-border); }
 
   /* Both side columns are flex:1 0 0 (Figma `flex-[1_0_0]`), not 1 0 auto — that is
@@ -274,18 +356,28 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
   .pm-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
   .pm-burger-icon { width: 16px; height: 16px; display: block; }
 
-  .pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); border-bottom: var(--border-width-1) solid var(--color-border-strong); }
+  /* 799:846 is 65 and its content sits at y=12 with height 41, so 12 + 41 + 12 is
+     the whole tier and the stroke is drawn INSIDE it. A border-bottom is a 66th
+     pixel; an inset shadow paints the same line and takes no space. Same reading
+     as the Footer review card, whose 124x48 has its stroke inside too. */
+  .pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); box-shadow: inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
   .pm-sub-inner { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
   .pm-chips { display: flex; align-items: center; gap: var(--spacing-xs); list-style: none; margin: 0; padding: 0; }
   .pm-chips-2 { display: flex; align-items: center; gap: var(--spacing-md); }
-  .pm-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm) var(--spacing-md); border: var(--border-width-1) solid transparent; border-radius: var(--rounded-3xl); font-size: var(--font-size-sm); font-weight: var(--fw-nav-sub); line-height: 1.2; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
+  /* ALL FOUR variants of 507:5503 are 125x41 — Default, Hover, Active and
+     Activehover — so the box does not grow when the border appears, and the
+     node's text sits at x=16 y=12 in a chip that is 12 + 17 + 12. A reserved
+     transparent border, the pattern Button and FooterBar's trigger use, adds 2
+     here instead of nothing: the chip measured 42.8. An inset shadow needs no
+     reserve at all, because it never took part in layout in the first place. */
+  .pm-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--rounded-3xl); font-size: var(--font-size-sm); font-weight: var(--fw-nav-sub); line-height: 1.2; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
   .pm-chip svg { width: 16px; height: 13px; flex-shrink: 0; }
   .pm-chip:hover { color: var(--color-primary); }
-  .pm-chip.is-active { background: var(--color-bg-base); border-color: var(--color-border); border-radius: var(--rounded-lg); }
+  .pm-chip.is-active { background: var(--color-bg-base); box-shadow: inset 0 0 0 var(--border-width-1) var(--color-border); border-radius: var(--rounded-lg); }
   /* Figma `Activehover` — the box darkens its border and the label turns brand.
      Figma's `Active` leaves the label its default colour, so the brand colour
      belongs to the hover, not to being active. */
-  .pm-chip.is-active:hover { border-color: var(--color-border-strong); color: var(--color-primary); }
+  .pm-chip.is-active:hover { box-shadow: inset 0 0 0 var(--border-width-1) var(--color-border-strong); color: var(--color-primary); }
   .pm-div { width: 1px; height: 24px; flex-shrink: 0; background: var(--slate-300); }
 
   /* Figma covers 1440px desktop only — shed the optional pieces before the bar
@@ -313,7 +405,12 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
   }
 
   /* 1043 is the sub tier's own number and has nothing to do with the bar's —
-     .pm-chips-2 leaves .pm-sub-inner by 273.66px until then. The scroller below
+     .pm-chips-2 leaves .pm-sub-inner by 273.66px until then. That 273.66 is now
+     APPROXIMATE by about 16: the chips lost the 2px their reserved border was
+     adding to each of eight, on 2026-08-28. It is stale in the safe direction —
+     narrower content leaves the row by less, so the scroller is needed no
+     earlier — and re-measuring it moves a breakpoint, which is a change to make
+     on purpose rather than as a side effect. The scroller below
      already existed; it just started at 768, 275px under where it was needed. */
   @media (max-width: 1042.98px) { .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
 
