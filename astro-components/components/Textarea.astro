@@ -1,4 +1,24 @@
 ---
+/**
+ * ── The band this component declares, and what draws it ───────────────────
+ *
+ * All six states of `914:2485` are 280x150, and this is the component where
+ * that number had the least to stand on: Textarea has no reconciliation of its
+ * own — its values came from Input's ruling — and its control is a DESIGNED
+ * 98px over a `min-height: 86`, which `rows` cannot produce. A designed height
+ * that no gate holds is a number waiting to be tidied into `rows={3}` by
+ * someone reading the markup and not the canvas. 20 + 8 + 98 + 8 + 16 = 150.
+ *
+ * @figma-size field
+ *   node   914:2486
+ *   frame  Textarea component
+ *   page   component-textarea.html
+ *   region preview
+ *   select div.max-w-\[340px\]
+ *   at     1440
+ *   height 150
+ *   why    20 + 8 + the designed 98 + 8 + 16; the 98 cannot come from rows
+ */
 import { fieldShell, fieldLabel, fieldRequiredMark, fieldControl, fieldBorder, fieldHint, fieldError, fieldId } from '../field';
 
 interface Props {

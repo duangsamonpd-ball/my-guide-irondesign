@@ -1,4 +1,30 @@
 ---
+/**
+ * ── The band this component declares, and what draws it ───────────────────
+ *
+ * `912:1819` draws all six states at 280x96, and the 96 is the WHOLE field —
+ * label 20 + `gap-xs` 8 + the 44 control + 8 + a 16 hint. That sum is the claim
+ * worth holding: the control's 44 is `--size-input`, a token `check:theme`
+ * already keeps, but the two gaps and the hint's line are spent here and by
+ * `Select` and `Textarea` too. All three agree on every value in that row as of
+ * `b7f80ad`, and two of the three fixes that got them there were the set
+ * disagreeing with ITSELF — which is what a shared shell is for and what
+ * nothing was measuring.
+ *
+ * `preview` and not `states`: the node's 96 includes a label and the states
+ * demo renders none, so those five would be a correct 76 against the wrong
+ * question.
+ *
+ * @figma-size field
+ *   node   912:1819
+ *   frame  Input component
+ *   page   component-input.html
+ *   region preview
+ *   select div.max-w-\[340px\]
+ *   at     1440
+ *   height 96
+ *   why    20 + 8 + the --size-input 44 + 8 + a 16 hint, label and all
+ */
 import { fieldShell, fieldLabel, fieldRequiredMark, fieldControl, fieldBorder, fieldHint, fieldError, fieldId } from '../field';
 
 interface Props {

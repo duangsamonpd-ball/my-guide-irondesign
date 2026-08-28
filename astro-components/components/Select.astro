@@ -1,4 +1,40 @@
 ---
+/**
+ * ── The bands this component declares, and what draws them ────────────────
+ *
+ * The OPEN menu is where this component's geometry lives, and it is the one
+ * state no screenshot diff of a docs page has ever compared, because it needs a
+ * class the demo adds by hand. `911:1685` is 4 of padding round five options on
+ * a 48 pitch — 44 tall with a 4 gap — and the docs draw three, so the menu's own
+ * 244 is content and only the option is structural. The option is the one that
+ * matters anyway: 12/8 padding round a 28px line is what makes 44, and both
+ * halves of that are rungs.
+ *
+ * `field` is declared on `preview` and not `states`, because the node's 72 is a
+ * LABEL plus the control and the states demo renders no labels — five correct
+ * 44s that are not the same measurement.
+ *
+ * @figma-size field
+ *   node   911:1698
+ *   frame  Select
+ *   page   component-select.html
+ *   region preview
+ *   select .sel
+ *   at     1440
+ *   height 72
+ *   why    label 20 + gap-xs 8 + the --size-input control 44
+ *
+ * @figma-size option
+ *   node   911:1686
+ *   frame  Select
+ *   page   component-select.html
+ *   region menu
+ *   select .sel-opt
+ *   at     1440
+ *   height 44
+ *   why    px-sm 12 / py-xs 8 round a 28px line; the docs draw three of five
+ *   count  3
+ */
 import { randomUUID } from 'node:crypto';
 
 interface Option {

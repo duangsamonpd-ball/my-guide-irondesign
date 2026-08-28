@@ -515,7 +515,9 @@
       "file": "astro-components/components/Input.astro",
       "docs": "docs/component-input.html",
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "912:1819"
+      ],
       "props": [
         {
           "name": "label",
@@ -975,7 +977,10 @@
       "file": "astro-components/components/Select.astro",
       "docs": "docs/component-select.html",
       "interactive": true,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "911:1698",
+        "911:1686"
+      ],
       "props": [
         {
           "name": "label",
@@ -1087,7 +1092,9 @@
       "file": "astro-components/components/Textarea.astro",
       "docs": "docs/component-textarea.html",
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "914:2486"
+      ],
       "props": [
         {
           "name": "label",
@@ -1477,7 +1484,10 @@
       "file": "astro-components/internal/ProductFlyout.astro",
       "docs": null,
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "1014:1917",
+        "1063:2904"
+      ],
       "props": [
         {
           "name": "categories",

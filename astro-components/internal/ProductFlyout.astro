@@ -1,5 +1,50 @@
 ---
 /**
+ * ── The bands this component declares, and what draws them ────────────────
+ *
+ * `1017:3337` is 1200x368 and the docs page CANNOT SHOW IT AT THAT WIDTH, so
+ * the panel and the row are deliberately not declared here. `.content` caps at
+ * 1200 and `.canvas` spends 40 of padding either side plus a border, leaving
+ * the panel 1110 — and at 1110 the three columns are 252.67 instead of the
+ * node's 282.67, which is enough for three product descriptions to break over
+ * two lines. Row 64 becomes 72 three times and the panel becomes 384. No
+ * viewport fixes it: the cap is the page's content column, not the window.
+ *
+ * THE COMPONENT IS RIGHT, AND THAT WAS MEASURED RATHER THAN ASSUMED. Forcing
+ * the panel's host to the node's own 1200 in the live page gives **368 exactly**,
+ * all ten rows **64**, and all ten descriptions **16** — one line each, as the
+ * node draws them — and releasing it returns 384, so the probe was reading the
+ * live tree and not a cached one. The columns land on 282, against 282.67 on
+ * the canvas.
+ *
+ * What IS declared is everything that survives the narrower column: the
+ * category header and the product name, which is `whitespace-nowrap` and so
+ * says the same thing at any width. If this demo ever gets a frame of its own
+ * wide enough for the panel, `panel 368` and `row 64` are waiting.
+ *
+ * @figma-size header
+ *   node   1014:1917
+ *   frame  FlyoutMenu-product
+ *   page   component-flyoutmenu.html
+ *   region product
+ *   select .pf-col > p
+ *   at     1440
+ *   height 16
+ *   why    the icon is 16 and the label rides it; three category headers
+ *   count  3
+ *
+ * @figma-size name
+ *   node   1063:2904
+ *   frame  FlyoutMenu-product
+ *   page   component-flyoutmenu.html
+ *   region product
+ *   select .pf-col li .text-lg
+ *   at     1440
+ *   height 20
+ *   why    18/20 nowrap, so the column's width cannot change it
+ *   count  10
+ */
+/**
  * ProductFlyout — the PRODUCTS mega-menu panel, from Figma `FlyoutMenu-product`
  * (`1017:3337`) on file Yjom8rPbyL5U1wtwOLkgtU. The hover state used to be a
  * second top-level frame, `1017:3029`; Ball deleted it on 2026-08-20 once the
