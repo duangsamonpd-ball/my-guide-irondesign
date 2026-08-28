@@ -30,6 +30,26 @@
  * pair, 48 for the CTA — describe CONTENT inside a stretched box, which is a
  * different question from the one this gate asks.
  *
+ * @figma-size cta
+ *   node   314:205
+ *   frame  Product menu
+ *   page   component-productmenu.html
+ *   region default
+ *   select .pm-right
+ *   at     1440
+ *   height 48
+ *   why    the CTA row with button-Nuget in it; 12 + 48 + 12 is the tier
+ *
+ * @figma-size cta-button
+ *   node   314:205
+ *   frame  Product menu
+ *   page   component-productmenu.html
+ *   region cta-button
+ *   select .pm-right
+ *   at     1440
+ *   height 48
+ *   why    the same row with 231:1411 swapped in, which is why md is fixed
+ *
  * @figma-size bar
  *   node   790:1177
  *   frame  Product menu
@@ -93,6 +113,7 @@
 // needs fill-rule="evenodd", which the shared Icon shape does not model.
 import { icons } from '../icons';
 import NugetButton from './NugetButton.astro';
+import Button from './Button.astro';
 
 interface MenuItem {
   label: string;
@@ -126,6 +147,23 @@ interface Props {
   /** Figma `showMenuItems2` — trailing links at the right end of the sub tier. */
   showMenuItems2?: boolean;
   subItemsTrailing?: SubItem[];
+  /**
+   * Which component fills the CTA slot. Figma models this as an INSTANCE-SWAP
+   * property called `Instance` on `790:4778`, whose preferred list is exactly
+   * two: `button-Nuget` and `button` pinned at `231:1411`
+   * (`Variant=primary, Size=md`). A closed set of two is a prop here rather
+   * than a slot — it is an enum on the canvas, this repo does not spell a
+   * variant axis as a boolean or an open hole, and a prop is the only one of
+   * the two that `check:props-table` and the manifest can see.
+   *
+   * BOTH VALUES ARE 48 TALL AND THAT IS THE WHOLE CONSTRAINT. `314:205` is
+   * 368 x 48.0004 inside a 72 tier — 12 + 48 + 12 — so the swap is safe only at
+   * `size=md`. `button` at lg is 56 and would make the tier 80; that is why the
+   * preferred instance is pinned to a VARIANT and not to the `231:1406` set,
+   * and why `size` is fixed here rather than exposed. The `cta` band below
+   * measures both values so a future edit cannot quietly reintroduce it.
+   */
+  cta?: 'nuget' | 'button';
   ctaLabel?: string;
   ctaHref?: string;
   showSearch?: boolean;
@@ -148,6 +186,7 @@ const {
   subItems = [],
   showMenuItems2 = false,
   subItemsTrailing = [],
+  cta = 'nuget',
   ctaLabel = 'Start for Free',
   ctaHref = '#',
   showSearch = true,
@@ -227,7 +266,9 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
           Composing also deleted the second copy of two SVG paths and left
           `--color-text-on-primary` with no users at all — `.pm-cta` was the only
           one in the library, which settles a question that was open. */}
-      <NugetButton size="md" href={ctaHref} label={ctaLabel} />
+      {cta === 'button'
+        ? <Button variant="primary" size="md" href={ctaHref} class="pm-cta-swap">{ctaLabel}</Button>
+        : <NugetButton size="md" href={ctaHref} label={ctaLabel} />}
 
       {/* The centre group needs 769px of bar to lay out, and below that it was
           simply `display: none` — the whole product menu gone with nothing in
@@ -349,7 +390,14 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      pill itself is NugetButton now and brings its own fill, height, padding,
      radius, type and focus ring — this is the one thing the bar still says about
      it, and it is a containing block, not a look. */
-  .pm-right { display: flex; align-items: center; justify-content: flex-end; flex: 1 0 0; min-width: 0; }
+/* `align-self: center` and not the bar's `stretch`, which is what this
+     inherited. Two reasons and they are the same reason. `314:205` is 48 tall,
+     inset 12 in a 72 tier — stretched it measured 71, a structural difference
+     the picture hides because the CTA centres either way. And stretched, the
+     CTA's own height stops mattering: a 56px button would sit inside 71 and
+     move NOTHING, so no rendered band could ever see it. Centred, this box IS
+     the CTA's height, which is what makes `cta` below a band that can fail. */
+  .pm-right { display: flex; align-items: center; justify-content: flex-end; align-self: center; flex: 1 0 0; min-width: 0; }
 
   .pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-heading); cursor: pointer; }
   .pm-burger:hover { color: var(--color-primary); }
@@ -487,6 +535,23 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      It is a containing block, not a look — the pill brings its own fill, height,
      padding, radius, type and focus ring. */
   .pm-right > a { position: relative; }
+
+  /* THE SWAPPED CTA'S HALF OF THE 434 BREAKPOINT. The pill above it keeps its
+     shape and drops its label, because it still has two glyphs to show; a plain
+     button has none, so collapsing its label would leave an empty pill. It gives
+     up its inline padding instead — the same trade, made the other way round.
+     `npm run overflow` is what asked for this: at 320 the swapped CTA left
+     `.pm-bar` by 30.72px, visible and unclipped, while the pill form was clean.
+
+     Two classes deep on purpose. A single utility class is one deep, and which
+     of the two wins is decided by their order in the compiled stylesheet rather
+     than by where they are written — the same trap `wrap` exists to avoid on
+     Button. `.pm-right > a.pm-cta-swap` cannot lose that race whichever sheet
+     lands first. Global for the reason above: the button is a composed child and
+     a scoped selector would stamp this component's id on both sides. */
+  @media (max-width: 433.98px) {
+    .pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
+  }
 </style>
 
 

@@ -732,8 +732,16 @@ second tier of sub-navigation chips:
 Props: `variant` (`default` | `submenu`), `product`, `productName`, `runtime`
 (default `"for .NET"` — pass `""` to hide), `productHref`, `hasTrailingIcon`,
 `items` (`{ label, href?, active?, caret? }[]`), `subLead`, `subItems`,
-`showMenuItems2`, `subItemsTrailing`, `ctaLabel`, `ctaHref`, `showSearch`,
-`showAskAi`, `searchLabel`, `askAiLabel`, `basePath` (default `assets`), `class`.
+`showMenuItems2`, `subItemsTrailing`, `cta` (`nuget` | `button`), `ctaLabel`,
+`ctaHref`, `showSearch`, `showAskAi`, `searchLabel`, `askAiLabel`, `basePath`
+(default `assets`), `class`.
+
+`cta` is Figma's `Instance` swap. The canvas exposes the call-to-action as an
+instance-swap property whose preferred list is exactly two — `button-Nuget` and
+`button` pinned at `231:1411` (`Variant=primary, Size=md`) — so it is an enum
+here rather than a slot: a closed set of two, and the only one of the two shapes
+a props table and the manifest can check. **The size is fixed at `md` on
+purpose.** `314:205` is 48 tall inside a 72px tier, and `button` at `lg` is 56.
 
 `hasTrailingIcon` and `showMenuItems2` keep Figma's own property names so the
 component stays traceable to the design file — the first toggles the caret after

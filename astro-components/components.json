@@ -773,6 +773,7 @@
       "interactive": true,
       "figmaNodes": [
         "790:4778",
+        "314:205",
         "790:1177",
         "790:4779",
         "799:846",
@@ -850,6 +851,13 @@
           "type": "SubItem[]",
           "required": false,
           "default": "[]"
+        },
+        {
+          "name": "cta",
+          "type": "'nuget' | 'button'",
+          "required": false,
+          "default": "'nuget'",
+          "description": "Which component fills the CTA slot. Figma models this as an INSTANCE-SWAP property called `Instance` on `790:4778`, whose preferred list is exactly two: `button-Nuget` and `button` pinned at `231:1411` (`Variant=primary, Size=md`). A closed set of two is a prop here rather than a slot — it is an enum on the canvas, this repo does not spell a variant axis as a boolean or an open hole, and a prop is the only one of the two that `check:props-table` and the manifest can see. BOTH VALUES ARE 48 TALL AND THAT IS THE WHOLE CONSTRAINT. `314:205` is 368 x 48.0004 inside a 72 tier — 12 + 48 + 12 — so the swap is safe only at `size=md`. `button` at lg is 56 and would make the tier 80; that is why the preferred instance is pinned to a VARIANT and not to the `231:1406` set, and why `size` is fixed here rather than exposed. The `cta` band below measures both values so a future edit cannot quietly reintroduce it."
         },
         {
           "name": "ctaLabel",
