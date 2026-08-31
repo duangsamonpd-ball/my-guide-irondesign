@@ -339,6 +339,15 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
     grid the logo specimen documents, so it is set explicitly rather than via Logo.astro.
   */
   .pm { width: 100%; background: var(--color-bg-base); font-family: 'Montserrat', sans-serif; }
+  /* THE CLOSING RULE IS FULL-BLEED AND THE CONTENT ROW IS NOT — two different
+     boxes, and until 2026-08-31 they were the same one. `.pm-bar` carried both
+     the rule and the flex row, so capping it to the node's 1392 would have
+     stopped the rule at 1440 as well. The rule belongs to the root, which is
+     where 790:1177 draws it; an inset shadow paints it without taking a pixel,
+     the same reading as `.pm-sub` and `.pm-chip` below.
+     Only the ONE-TIER variant closes here. In the submenu variant the component
+     closes on `.pm-sub`, which has carried that rule since 13828a1. */
+  .pm:not(.pm--submenu) { box-shadow: inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
   /* NO border-bottom here. It used to carry one, in border/strong, ON TOP of the
      one .pm-bar already keeps inside its 72 — two rules stacked, and the
      component measured 73 against 790:1177's 72 in the default variant and
@@ -346,15 +355,21 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      principle exactly right and nothing asserted it; `check:figma-size` does
      now. 790:1177 draws ONE stroke, border/strong, on the ROOT with h-72
      including it, so the colour moves down to .pm-bar and the rule does not. */
-  /* box-sizing so the 1px rule sits *inside* the 72px — Figma's tier is 72px total
-     (137px = 72 + 65 on the submenu variant), not 72 plus a border. */
-  /* `position: relative` is here for the narrow-width menu panel, which drops
+  /* box-sizing so the cap below counts the padding, the way `.tn-inner` does:
+     1440 total is the node's 1392 of content plus 24 either side. Figma's tier
+     is 72px total (137px = 72 + 65 on the submenu variant).
+     THE CAP. `content` on 790:1177 is `Fill container` with `Max width: 1392`,
+     confirmed by Ball 2026-08-27. Without it the row just kept growing — 1872
+     at 1920, 2512 at 2560 — and the brand and the CTA drifted to the far edges
+     while `.tn-inner` stopped at 1440 in the bar directly above. `npm run wide`
+     cannot see this class of fault and it is not a hole in the sweep: it skips
+     an element that PAINTS, because a full-bleed painted band is deliberate,
+     and this band both paints and holds the content. Every other component
+     that stacks these two jobs splits them — `.tn-inner`, `.fb-mid-inner`,
+     `.fb-tools-inner`, `.fb-info-inner` — and this one did not.
+     `position: relative` is here for the narrow-width menu panel, which drops
      out of the bar and is positioned against it rather than against the page. */
-  .pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; padding: 0 var(--spacing-xl); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border-strong); position: relative; }
-  /* Now that the base rule is border/strong this actually does something: it
-     had been restating the base colour, so the tiers were divided by the same
-     rule that closes the component. The soft one belongs between them. */
-  .pm--submenu .pm-bar { border-bottom-color: var(--color-border); }
+  .pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; max-width: var(--size-container-max); margin-inline: auto; padding: 0 var(--spacing-xl); background: var(--color-bg-base); position: relative; }
 
   /* Both side columns are flex:1 0 0 (Figma `flex-[1_0_0]`), not 1 0 auto — that is
      what keeps the menu optically centred instead of pushed by the brand's width. */
@@ -408,7 +423,11 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      the whole tier and the stroke is drawn INSIDE it. A border-bottom is a 66th
      pixel; an inset shadow paints the same line and takes no space. Same reading
      as the Footer review card, whose 124x48 has its stroke inside too. */
-  .pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); box-shadow: inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
+  /* TWO rules, both inset, both full-bleed: border/default ON TOP divides the
+     tiers, border/strong underneath closes the component. The soft one used to
+     live on `.pm-bar` as a border-bottom, and moved here when `.pm-bar` was
+     capped — a divider between two full-bleed bands cannot stop at 1440. */
+  .pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); box-shadow: inset 0 var(--border-width-1) 0 var(--color-border), inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
   .pm-sub-inner { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
   .pm-chips { display: flex; align-items: center; gap: var(--spacing-xs); list-style: none; margin: 0; padding: 0; }
   .pm-chips-2 { display: flex; align-items: center; gap: var(--spacing-md); }

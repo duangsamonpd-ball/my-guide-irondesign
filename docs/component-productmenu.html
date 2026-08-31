@@ -83,8 +83,8 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .dd ul { margin:14px 16px 18px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
 footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 .pm { width: 100%; background: var(--color-bg-base); font-family: 'Montserrat', sans-serif; }
-.pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; padding: 0 var(--spacing-xl); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border-strong); position: relative; }
-.pm--submenu .pm-bar { border-bottom-color: var(--color-border); }
+.pm:not(.pm--submenu) { box-shadow: inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
+.pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; max-width: var(--size-container-max); margin-inline: auto; padding: 0 var(--spacing-xl); background: var(--color-bg-base); position: relative; }
 .pm-brand { display: flex; align-items: center; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; text-decoration: none; color: var(--color-text-heading); }
 .pm-mark { display: block; width: 40px; height: 40px; flex-shrink: 0; }
 .pm-name { font-size: var(--font-size-xl); line-height: 1; letter-spacing: -0.04em; white-space: nowrap; }
@@ -113,7 +113,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .pm-burger:hover { color: var(--color-primary); }
 .pm-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 .pm-burger-icon { width: 16px; height: 16px; display: block; }
-.pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); box-shadow: inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
+.pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); box-shadow: inset 0 var(--border-width-1) 0 var(--color-border), inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
 .pm-sub-inner { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
 .pm-chips { display: flex; align-items: center; gap: var(--spacing-xs); list-style: none; margin: 0; padding: 0; }
 .pm-chips-2 { display: flex; align-items: center; gap: var(--spacing-md); }
