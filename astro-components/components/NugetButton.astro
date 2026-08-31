@@ -30,8 +30,11 @@
  *
  * ── Why this component declares no `figma-size` band ──────────────────────
  *
- * Same as Button: `h-[var(--size-btn-lg|md)]` is a literal, so a rendered-band
- * gate can only refuse it. `277:372`'s 56 and 48 are held by `check:theme`.
+ * Same as Button: the height is `--size-btn-lg` or `--size-btn-md`, a literal,
+ * so a rendered-band gate can only refuse it — and the two names are spelled out
+ * here for the same reason they are there, that a `lg|md` shorthand in a comment
+ * is a class candidate to the scanner. `277:372`'s 56 and 48 are held by
+ * `check:theme`.
  * The number on this component that a band COULD hold is its width — 187 on
  * `790:2393`, the arithmetic that explained a 3px shortfall — and `figma-size`
  * measures height only.

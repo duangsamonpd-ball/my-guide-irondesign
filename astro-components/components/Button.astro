@@ -2,8 +2,16 @@
 /**
  * ── Why this component declares no `figma-size` band ──────────────────────
  *
- * Every height it has is a token: `h-[var(--size-btn-lg|md|sm)]`, 56/48/36 on
- * `231:1406`. A box whose height is a literal cannot pass that gate's third
+ * Every height it has is a token — `--size-btn-lg`, `--size-btn-md` and
+ * `--size-btn-sm`, 56/48/36 on `231:1406`, each reaching the element as an
+ * arbitrary-value height utility. Those three names are written out rather than
+ * folded into one `lg|md|sm` shorthand on purpose: Tailwind extracts candidates
+ * from the whole file and cannot tell a comment from markup, so the shorthand
+ * compiled into a real rule with `var(--size-btn-lg|md|sm)` in it and made every
+ * consumer's build print `Unexpected token Delim('|')`. That is gated by
+ * `check:prose-classes`, which now compiles this package the way a consumer
+ * does and refuses a rule whose value the CSS parser rejects.
+ * A box whose height is a literal cannot pass that gate's third
  * arm — 10px of injected padding does not move it — and it should not: the arm
  * exists to prove the probe is pointed at the box about to change. What holds
  * those three numbers is `check:theme`, which compares the token against

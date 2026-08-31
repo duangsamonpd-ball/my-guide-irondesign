@@ -63,7 +63,7 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync, statSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative, extname } from 'node:path';
 
@@ -140,12 +140,61 @@ function compile(tag, files) {
     process.exit(1);
   }
 
+  /* THE SECOND PASS, and it is the consumer's rather than ours. Tailwind only
+     PARSES the CSS it emitted when it optimizes, so `--minify` is what turns a
+     value the parser rejects into a printed diagnostic. Without it the pass
+     above writes the broken declaration out and exits 0, which is exactly how
+     two of them sat in this package's own comments from 2026-08-28 to
+     2026-08-31 with every gate green. The exit code is 0 either way — the
+     issues go to stdout — so this reads the output rather than the status. */
+  const minCss = `${outCss}.min.css`;
+  /* spawnSync, not execFileSync, and that is the whole reason this reads both
+     streams: the CLI prints its issues to STDERR and still exits 0, so a run
+     that only kept stdout saw an empty string and reported a clean package.
+     Caught by the planted self-test row, which is what it is for. */
+  const run = spawnSync(CLI, ['-i', inCss, '-o', minCss, '--minify'],
+                        { encoding: 'utf8' });
+  const out = String(run.stdout || '') + String(run.stderr || '');
+  const issues = parseIssues(out);
+  if (run.status !== 0 && !issues.length) {
+    console.error(red(`\n✖  tailwindcss failed to optimize the package sources\n`));
+    console.error(out || String(run.error?.message ?? ''));
+    process.exit(1);
+  }
+
   const css = readFileSync(outCss, 'utf8');
   const rules = [];
   for (const m of css.matchAll(/(\.[^\s{,][^{,\n]*?)\s*\{([^}]*)\}/g)) {
     rules.push({ selector: m[1].trim(), body: m[2] });
   }
-  return { rules, bytes: css.length };
+  return { rules, bytes: css.length, issues, minBytes: statSync(minCss).size };
+}
+
+/**
+ * One finding per `^--` caret the optimizer prints, with the selector taken
+ * from the nearest quoted rule above it.
+ *
+ * The first version split the output on `Issue #N:` and found nothing, because
+ * THAT HEADER ONLY APPEARS WHEN THERE IS MORE THAN ONE. A single warning is
+ * printed under "Found 1 warning while optimizing generated CSS:" with no
+ * numbered header at all — so the parser was keyed to a shape that only exists
+ * once the package is broken in two places, and read a package broken in one
+ * as clean. The caret is in every form of the message; the header is not.
+ */
+function parseIssues(out) {
+  const lines = String(out).replace(/\x1b\[[0-9;]*m/g, '').split('\n');
+  const found = [];
+  for (let i = 0; i < lines.length; i++) {
+    const caret = lines[i].match(/\^--\s*(.+?)\s*$/);
+    if (!caret) continue;
+    let selector = '(unknown selector)';
+    for (let j = i - 1; j >= 0 && j > i - 8; j--) {
+      const sel = lines[j].match(/(\.[^\s{]+)\s*\{/);
+      if (sel) { selector = sel[1]; break; }
+    }
+    found.push({ selector, message: caret[1] });
+  }
+  return found;
 }
 
 /** A url() a consumer's bundler has to resolve against a location that is not ours. */
@@ -216,12 +265,38 @@ function selfTest() {
   rows.push([`prose with no candidate yields nothing`, relativeUrls(q.rules).length === 0,
              `${relativeUrls(q.rules).length} finding(s)`]);
 
+  /* The new refusal, and its CONTROL. A shorthand in a comment must be reported;
+     the same utility written out ONE TOKEN PER NAME must not, or the rule would
+     read "never quote an arbitrary value" rather than "never quote one that
+     does not parse". The control is the half that keeps this usable. */
+  const broken = write('broken.astro',
+    `---\n/**\n * Every height is a token: \`h-[var(--size-x-lg|md|sm)]\`.\n */\n---\n<div></div>\n`);
+  const sound = write('sound.astro',
+    `---\n/**\n * Every height is a token: \`h-[var(--size-x-lg)]\`.\n */\n---\n<div></div>\n`);
+
+  const b = compile('broken', [broken]);
+  const s = compile('sound', [sound]);
+
+  rows.push([`a pipe shorthand quoted in a COMMENT does not parse, and is reported`,
+             b.issues.length === 1 && /Delim/.test(b.issues[0].message) &&
+               /size-x-lg/.test(b.issues[0].selector),
+             b.issues.length ? `${b.issues[0].selector} — ${b.issues[0].message}` : 'nothing reported']);
+
+  rows.push([`…and the same utility spelled out ONE token per name is not — the rule is about parsing, not about arbitrary values`,
+             s.issues.length === 0 && s.rules.some((r) => /size-x-lg/.test(r.selector)),
+             `${s.issues.length} issue(s), rule ${s.rules.some((r) => /size-x-lg/.test(r.selector)) ? 'emitted' : 'MISSING'}`]);
+
   // Vacuity: the real compile must produce a real stylesheet, not an empty one.
   const files = shippedFiles();
   const real = compile('vacuity', files);
   rows.push([`the real compile produces a populated stylesheet, not an empty one`,
              real.rules.length > 100 && real.bytes > 10000,
              `${real.rules.length} rules, ${real.bytes} bytes`]);
+
+  /* The same vacuity guard for the SECOND pass. An optimizer run that emitted
+     nothing would report no issues, which reads exactly like a clean package. */
+  rows.push([`…and so does the optimizer pass the new refusal reads`,
+             real.minBytes > 5000, `${real.minBytes} bytes minified`]);
 
   // Scope: the walker must actually reach the subject.
   const hasFooter = files.some((f) => f.endsWith('components/Footer.astro'));
@@ -279,6 +354,21 @@ if (findings.length) {
   process.exit(1);
 }
 
+if (raw.issues.length) {
+  console.error(red(`\n✖  ${raw.issues.length} rule(s) a consumer compiles from this package do not PARSE\n`));
+  for (const f of raw.issues) {
+    console.error(`  ${bold(f.selector)}`);
+    console.error(`    ${dim(f.message)}`);
+    for (const w of sourcesOf(f.selector, files)) console.error(`    ${dim(`written in ${w}`)}`);
+  }
+  console.error(`\n  Tailwind extracts candidates from the whole file, COMMENTS INCLUDED, so a`);
+  console.error(`  class quoted to EXPLAIN it is compiled like one that is worn. These reach the`);
+  console.error(`  consumer as a build warning and a rule the browser discards.`);
+  console.error(`\n  Break the candidate rather than the value: write the names out — one token`);
+  console.error(`  per name — instead of folding them into an \`a|b|c\` shorthand.\n`);
+  process.exit(1);
+}
+
 // Context, deliberately not enforced — see the header.
-console.log(green(`\n✔  nothing this package ships compiles to a relative url`) +
+console.log(green(`\n✔  nothing this package ships compiles to a relative url, and every rule it does compile parses`) +
             dim(`  — ${files.length} files, ${raw.rules.length} rules compile out of them`) + '\n');
