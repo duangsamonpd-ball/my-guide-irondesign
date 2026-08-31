@@ -50,28 +50,51 @@ interface Props {
   variant?: 'default' | 'ondark' | 'mono' | 'onhero' | 'basic' | 'stack';
   /** kind="mark" only — swaps to the black knockout artwork. */
   mono?: boolean;
-  /** kind="mark" / "element". The mark is drawn on an 8-unit grid in a 96-unit
-   *  box, so the multiples of 24 keep the most edges on whole pixels.
+  /** kind="mark" / "element". The ladder is the standard icon ladder, and what
+   *  each rung costs in crispness is measured below rather than enforced.
    *
    *  MEASURED 2026-08-21, because the rule had been stated but never counted;
    *  re-measured and widened to the full ladder 2026-08-24.
    *  Share of path coordinates landing on a whole pixel, across all the artwork
    *  this component ships:
    *
-   *              24px    48px    56px    64px    72px    96px   144px   192px
-   *    mark     11.4%   18.9%    3.4%    5.7%   11.4%   18.9%   18.9%   19.0%
-   *    element   2.1%    4.2%    0.5%    2.8%    2.1%   12.6%    4.2%   12.6%
+   *              16px    24px    32px    48px    64px    72px    96px   144px   192px
+   *    mark      5.7%   11.4%    5.7%   18.9%    5.7%   11.4%   18.9%   18.9%   19.0%
+   *    element   0.6%    2.1%    2.8%    4.2%    2.8%    2.1%   12.6%    4.2%   12.6%
    *
-   *  THE LADDER IS EVERY MULTIPLE OF 24, and it is the same answer from two
-   *  directions. Arithmetically: the artwork is drawn on 8-unit coordinates in a
-   *  96-unit box, so a coordinate 8k lands whole at size S when kS/12 is an
-   *  integer, which for every k means S divisible by 12 — and the second tier,
-   *  the coordinates on 4-unit steps, needs 24. The table agrees: 24/48/72/96/
-   *  144/192 measure 11.4-19.0% and NOTHING else clears 6.7%. Conventionally:
-   *  the near-universal icon ladder is the 8-point grid (Material's baseline
-   *  icon is 24 and its largest standard is 48; Tailwind's `size-*` runs
-   *  16/20/24/32/40/48/64/80/96). Multiples of 24 are exactly where the industry
-   *  ladder and this artwork's own arithmetic agree, so the union is that.
+   *  THE LADDER IS THE STANDARD ONE — Ball's call, 2026-08-31. 16/24/32/48/64
+   *  plus the large end this component already served. It is what a consumer
+   *  expects and what composes with `size-*`; Material's baseline icon is 24 and
+   *  its largest standard 48, and Tailwind runs 16/20/24/32/40/48/64/80/96.
+   *
+   *  IT USED TO BE "EVERY MULTIPLE OF 24", DERIVED FROM A GRID THIS ARTWORK DOES
+   *  NOT HAVE. The line above this table said for a week that "the mark is drawn
+   *  on an 8-unit grid in a 96-unit box". Counted 2026-08-31: coordinates that
+   *  are multiples of 8 are 6.6% of the marks — BELOW the 11.4% on multiples of
+   *  4 and the 18.9% on multiples of 2, which is the giveaway, since every
+   *  multiple of 8 is also a multiple of 4 and 2. There is no 8-unit grid. What
+   *  is true is narrower and less flattering: 18.9% of mark coordinates are
+   *  integers at all, every one of those is even, and the other 81% sit on no
+   *  grid at any size. That is ordinary for logo artwork exported from Figma,
+   *  and it means the ceiling is 18.9% wherever the ladder is put. The old rule
+   *  was ranking a fifth of the drawing and reading it as a property of the
+   *  whole.
+   *
+   *  WHY THE LADDER STOPPED BEING A REFUSAL. `check:logo-grid` used to fail the
+   *  build on a size that sat beside a crisper neighbour, and the system was
+   *  already ignoring it in the two places anyone looks: `TopNav` draws the iron
+   *  mark at 16 — this same drawing scaled by a sixth, coordinates like 6.46
+   *  landing nowhere near a pixel edge — and `ProductMenu` draws the product
+   *  mark at 40, which measures 3.4% against 48's 18.9%. Both have shipped for
+   *  months with no report of a soft edge, which is what the paragraph below
+   *  predicts: these marks are solid colour blocks with no hairline to blur.
+   *
+   *  A ladder is an API about LAYOUT. Whether one drawing stays sharp across it
+   *  is a property of the ARTWORK, and the industry answer to that is a second
+   *  drawing — optical sizing — not a shorter ladder. So the gate reports the
+   *  cost of every rung on every run and refuses none of them. The table itself
+   *  is still gated, and that is the half that matters: it is what caught the
+   *  artwork moving under this comment in the first place.
    *
    *  CONFIRMED AGAINST THE RENDER, not just the path data. Coordinates are a
    *  proxy; what a reader sees is pixels. Six marks were rasterised at nineteen
@@ -93,20 +116,23 @@ interface Props {
    *  are legitimate if a frame ever needs them, and `check:logo-grid` will pass
    *  them.
    *
-   *  WHAT THIS COSTS, and it is worth saying plainly: 16 and 32 are on the
-   *  8-point grid and are NOT on this list, because one 96-unit drawing cannot
-   *  be crisp at them — 5.7% each. A mark that must be sharp at 16 or 32 needs
-   *  its own drawing at that size, which is what optical sizing is for and what
-   *  Material and SF Symbols both ship. That is artwork work, not a prop.
+   *  WHAT THE SMALL END COSTS, and it is worth saying plainly: 16 and 32 both
+   *  measure 5.7% for the marks against 24's 11.4%. They are on the ladder
+   *  because consumers need them and because 40 and 16 were ALREADY being used
+   *  off-ladder; they are not on it because one 96-unit drawing is crisp there.
+   *  A mark that must be sharp at 16 or 32 needs its own drawing at that size,
+   *  which is what optical sizing is for and what Material and SF Symbols both
+   *  ship. That is artwork work, not a prop, and nothing here is waiting on it.
    *
-   *  56 AND 64 WERE REMOVED 2026-08-24. Both were added for one frame each — 56
-   *  for the product mega-menu row (`FlyoutMenu-product`, Figma `1014:1921`,
-   *  where the instance measures 56.000003814697266, i.e. dragged rather than
-   *  chosen) and 64 for the iron-homepage changelog tiles (`2418:8806`). Neither
-   *  is a local maximum: 56 draws 3.4% where 48 next door draws 18.9%, and 64
-   *  draws 5.7% where 72 draws 11.4%. A union that grows by one frame at a time
-   *  stops being a list of sizes that render well and becomes a list of sizes
-   *  someone needed, which is what `height` already is for the non-square kinds.
+   *  56 AND 64 WERE REMOVED 2026-08-24 AND 64 IS BACK. Both had been added for
+   *  one frame each — 56 for the product mega-menu row (`FlyoutMenu-product`,
+   *  Figma `1014:1921`, where the instance measures 56.000003814697266, i.e.
+   *  dragged rather than chosen) and 64 for the iron-homepage changelog tiles
+   *  (`2418:8806`) — and the objection was that a union growing one frame at a
+   *  time becomes a list of sizes someone needed rather than a ladder. That
+   *  objection still stands and is what the STANDARD ladder answers: 64 is on it
+   *  by the same rule as 16 and 32, chosen once, for everyone. 56 is not, and a
+   *  frame that wants 56 is still a frame that dragged a handle.
    *
    *  THE ELEMENT ROW MOVED UNDER THIS COMMENT ONCE. Until 2026-08-24 it read a
    *  flat 0.3% at every size, with the conclusion that the grid rule is
@@ -119,15 +145,19 @@ interface Props {
    *  are re-exported onto eighths.
    *
    *  32 WAS ASKED FOR ON 2026-08-31, by a consuming room that needed it for the
-   *  product element — Figma `2407:12727` draws that element at 32 ten times.
-   *  The paragraph above already answered it for the MARK (5.7%, and a mark that
-   *  must be sharp at 32 needs its own drawing). What that paragraph did not
-   *  say, because it treats the elements as along for the ride, is that 32 IS a
-   *  local maximum for the ELEMENTS: 2.8% against 24's 2.1%. So the request was
-   *  right about its own family and still cannot be granted — `size` is one
-   *  union across both, a size has to be a local maximum in both, and for the
-   *  marks 32 is beaten by 24 by exactly the 2x factor the rule uses. Adding it
-   *  would turn `check:logo-grid` red.
+   *  product element — Figma `2407:12727` draws that element at 32 ten times —
+   *  and it is on the ladder now. Measuring it is what turned up the reason the
+   *  old rule could not grant it: 32 IS a local maximum for the ELEMENTS, 2.8%
+   *  against 24's 2.1%, and is beaten for the MARKS, 5.7% against 11.4%. `size`
+   *  is one union across both families, so a rule requiring a local maximum in
+   *  both could never offer it however the artwork moved.
+   *
+   *  THE TWO FAMILIES ARE ON DIFFERENT GRIDS, which is the fact under all of
+   *  this and is worth keeping. Swept 8-96, they agree everywhere except four
+   *  sizes: 32 and 64 are element-only, 36 and 60 are mark-only. Both are local
+   *  maxima at 8, 12, 24, 48, 72 and 96. The marks sit on even integers, the
+   *  elements on thirds — which is why 32 and 64 behave identically for them,
+   *  both needing coordinates on multiples of 3. `--probe` prints any of this.
    *
    *  Swept 8-96 with `node scripts/check-logo-grid.mjs --probe`, the two
    *  families agree everywhere except FOUR sizes, and they are worth naming
@@ -150,7 +180,7 @@ interface Props {
    *  Off-grid edges are visible on a hairline and these marks have none — they
    *  are solid colour blocks. Still: reach for a ladder size anywhere one will
    *  do, because the mark is where the difference is real. */
-  size?: 24 | 48 | 72 | 96 | 144 | 192;
+  size?: 16 | 24 | 32 | 48 | 64 | 72 | 96 | 144 | 192;
   /** kind="wordmark" / "lockup" — rendered height in px; width follows the aspect ratio. */
   height?: number;
   /** Wraps the logo in an <a>. */

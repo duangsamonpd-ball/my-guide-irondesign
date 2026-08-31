@@ -651,7 +651,7 @@ The three logo families from Figma section `471:112` behind one prop API:
 
 Props: `kind` (`mark` | `wordmark` | `element`, default `mark`), `product`, `brand`
 (`iron` | `suite`), `variant` (`default` | `ondark` | `mono` | `onhero`), `mono` (mark only),
-`size` (`24` | `48` | `56` | `64` | `96` | `192`, default `48`), `height` (wordmark only, default `32`),
+`size` (`16` | `24` | `32` | `48` | `64` | `72` | `96` | `144` | `192`, default `48`), `height` (wordmark only, default `32`),
 `href` (renders an `<a>` with `aria-label`), `label` (alt override — pass `""` for
 decorative use), `basePath` (default `assets`), `class`.
 

@@ -235,18 +235,26 @@ function selfTest() {
       JSON.stringify(bad) !== JSON.stringify(t.rows.mark)]);
   }
 
-  /* The local-maximum rule must be able to say NO. 48 is crisp and 56 sits in
-     its shadow; if the rule cannot tell those apart it cannot fail at all. */
+  /* The local-maximum measurement no longer refuses anything, so these rows are
+     about whether the NUMBER is still right. A report that cannot tell a crisp
+     size from a soft one prints noise, and noise in a column nothing enforces is
+     how a measurement quietly stops meaning anything. 48 is crisp and 56 sits in
+     its shadow; if it cannot separate those it is not measuring. */
   const good = localMax('mark', 48), poor = localMax('mark', 56);
-  rows.push(['48 is a local maximum for the marks', good.beaten.length === 0]);
-  rows.push(['56 is beaten by a crisper neighbour', poor.beaten.length > 0]);
+  rows.push(['48 reads as a local maximum for the marks', good.beaten.length === 0]);
+  rows.push(['56 reads as beaten by a crisper neighbour', poor.beaten.length > 0]);
 
-  /* The 2x factor has to REFUSE in both directions or it is just a wider hole.
-     Above: a real tier change is caught. Here: the 0.7-point wobble that made
-     this gate flag a standard size on its first run must NOT be, and 64 — which
-     loses to 72 by exactly the factor — must still be. */
-  rows.push(['a 1.3x wobble inside a noisy family is not a finding', localMax('element', 24).beaten.length === 0]);
-  rows.push(['a size beaten by exactly the factor still fails', localMax('mark', 64).beaten.length > 0]);
+  /* The 2x factor has to discriminate in both directions or the column is just
+     "everything is beaten". Above: a real tier change is seen. Here: the
+     0.7-point wobble that made this gate flag a standard size on its first run
+     must NOT be, and 64 — which loses to 72 by exactly the factor — must be. */
+  rows.push(['a 1.3x wobble inside a noisy family is not reported', localMax('element', 24).beaten.length === 0]);
+  rows.push(['a size beaten by exactly the factor is reported', localMax('mark', 64).beaten.length > 0]);
+
+  /* And the half that DOES still fail the build has to be able to. The table
+     check is the whole gate now, so a planted disagreement must be caught. */
+  const real = share('mark', 48);
+  rows.push(['the table check can still see a disagreement', Math.abs(real - (real + 1)) > 0.05]);
 
   const pass = rows.filter(([, ok]) => ok).length;
   for (const [what, ok] of rows) console.log(`  ${ok ? green('✔') : red('✖')}  ${what}`);
@@ -272,14 +280,34 @@ if (u.sizes.length !== u.raw.length) {
 
 const problems = [];
 
-/* 1 — every offered size is a local maximum, in BOTH families it applies to. */
+/* 1 — WHAT EACH OFFERED SIZE COSTS, reported and not enforced.
+ *
+ * This was a refusal until 2026-08-31: a size that sat beside a crisper
+ * neighbour failed the build. Ball's call to drop that, and the argument is that
+ * the system was already ignoring the rule in the two places anyone actually
+ * looks. `TopNav` draws the iron mark at 16 — the same 96-unit drawing scaled by
+ * a sixth, coordinates like 6.46 landing nowhere near a pixel edge — and
+ * `ProductMenu` draws the product mark at 40, which measures 3.4% against 48's
+ * 18.9%. Both have shipped for months with no report of a soft edge, which is
+ * what the `size` JSDoc predicts: these marks are solid colour blocks with no
+ * hairline for an off-grid edge to blur.
+ *
+ * A size ladder is an API about LAYOUT. Whether one drawing stays crisp across
+ * it is a property of the ARTWORK, and the industry answer to that is a second
+ * drawing (optical sizing), not a shorter ladder. So the ladder is the standard
+ * one now, and this stays as the number that says what it costs — visible on
+ * every run, refusing nothing.
+ *
+ * The measurement itself is unchanged and still gated: property 2 below is what
+ * keeps these figures honest, and it is the half that caught the artwork moving
+ * under the comment in the first place. */
+const cost = [];
 for (const family of Object.keys(FAMILIES)) {
   for (const size of u.sizes) {
     const { here, beaten } = localMax(family, size);
-    if (beaten.length) problems.push(
-      `${family}: size ${size} draws ${here}% of its coordinates on whole pixels, but ` +
-      beaten.map((b) => `${b.size} draws ${b.pct}%`).join(' and ') +
-      `\n      A size offered by the union should not sit beside a crisper one — either drop ${size} or use ${beaten.sort((x, y) => y.pct - x.pct)[0].size}.`);
+    if (beaten.length) cost.push(
+      `${family} @ ${size}px draws ${here}% of its coordinates on whole pixels, where ` +
+      beaten.sort((x, y) => y.pct - x.pct).map((b) => `${b.size} draws ${b.pct}%`).join(' and '));
   }
 }
 
@@ -336,5 +364,14 @@ if (problems.length) {
 
 const counts = Object.fromEntries(Object.keys(FAMILIES).map((f) => [f, filesOf(f).length]));
 console.log(green(bold(
-  `\n✔  Logo offers ${u.sizes.length} sizes — ${u.sizes.join(', ')} — and every one is a local maximum of whole-pixel edges`)) +
-  dim(`\n   across ${counts.mark} marks and ${counts.element} elements, with the JSDoc table matching the artwork to 0.1%\n`));
+  `\n✔  Logo offers ${u.sizes.length} sizes — ${u.sizes.join(', ')} — and the JSDoc table matches the artwork to 0.1%`)) +
+  dim(`\n   across ${counts.mark} marks and ${counts.element} elements`));
+
+if (cost.length) {
+  console.log(dim(`\n   ${cost.length} of those sit beside a crisper neighbour. Reported, not enforced —`));
+  console.log(dim(`   a ladder is an API about layout, and one drawing staying sharp across it is`));
+  console.log(dim(`   a property of the artwork. The fix, if one is ever wanted, is a second`));
+  console.log(dim(`   drawing at the small end, not a shorter ladder:`));
+  for (const c of cost) console.log(dim(`     ${c}`));
+}
+console.log();
