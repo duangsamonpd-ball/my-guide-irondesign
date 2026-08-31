@@ -447,28 +447,71 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
   .pm-chip.is-active:hover { box-shadow: inset 0 0 0 var(--border-width-1) var(--color-border-strong); color: var(--color-primary); }
   .pm-div { width: 1px; height: 24px; flex-shrink: 0; background: var(--slate-300); }
 
-  /* Figma covers 1440px desktop only — shed the optional pieces before the bar
-     breaks. Every number below is the width its own content measured out at,
-     not a device size: a round breakpoint sitting under the measured one is the
-     bug this component had at 769–1057, and the one the sweep exists to find. */
-  @media (max-width: 1180px) { .pm-runtime { display: none; } .pm-item { padding: 0 var(--spacing-sm); } }
+  /* ── SHEDDING THE OPTIONAL PIECES ──────────────────────────────────────
+     Figma covers 1440px desktop only, so the bar drops what it can spare
+     before it breaks. There are three drops and they happen in this order:
+     the runtime label, then the util bubbles (and the menu starts scrolling),
+     then the CTA's label and the brand's chevron.
 
-  /* 1058, not 1024. With the util bubbles on screen the bar needs 1058 for the
-     CTA to fit, so 1025–1057 had it hanging 96.55px out of .pm-right. */
+     WHICH WIDTH EACH ONE HAPPENS AT IS MEASURED AT RUNTIME, NOT WRITTEN HERE.
+     Every number this block used to carry — 1180, 1058, 434 — was measured
+     against the component's OWN DEFAULT STRINGS, and they are right for
+     `IRONPDF` / `Start for Free` and wrong for anything else a consumer passes.
+     Measured 2026-08-31 with `productName="SUITE"` and `ctaLabel="Buy License
+     Today"`: `.pm-right` left `.pm-bar` by 31.55px at 434-435, and the brand's
+     chevron left `.pm-brand` by 13.52px at 1181. Both are one pixel above a
+     breakpoint, which is the signature of a threshold measured against content
+     that has since changed — except here the content did not change, the
+     CONSUMER did, and no number written in this file can be right for every
+     string it will be given.
+
+     So the script measures what the bar's three columns actually need and adds
+     the drop classes below until they fit. `.pm--fit` on the root says that has
+     happened; the media queries at the bottom of this block are the no-JS
+     fallback and carry the old numbers, which remain correct for the defaults.
+
+     A CONTAINER QUERY WOULD NOT HAVE FIXED THIS, and it was the first thing
+     suggested. `.pm-bar` is full-bleed, so its inline size IS the viewport up to
+     the 1440 cap; `@container (max-width: 434px)` computes the same answer the
+     media query does. It would buy independence from the PLACEMENT, which is a
+     real thing to want and a different thing from this. */
+  .pm-drop-runtime .pm-runtime { display: none; }
+  .pm-drop-runtime .pm-item { padding: 0 var(--spacing-sm); }
+
+  .pm-drop-utils .pm-utils { display: none; }
+  .pm-drop-utils .pm-menu { overflow-x: auto; scrollbar-width: none; }
+  .pm-drop-utils .pm-menu::-webkit-scrollbar { display: none; }
+  /* Basis auto, not 0 — this is the whole fix for what used to be 769–961. With
+     basis 0 on both side columns the free space is split equally between them
+     whatever they need, and .pm-center is never forced to give anything up, so
+     the shrink lands on two columns that cannot shrink (mark, nowrap wordmark,
+     nowrap CTA) and their children leave the box. With basis auto the columns
+     state their width, the shrink falls on the one child that can absorb it,
+     and the menu scrolls — which it already does by this point. Kept off the
+     base rule on purpose: while the utils are still up, basis 0 is what centres
+     the menu optically rather than pushing it by the brand's width. */
+  .pm-drop-utils .pm-brand, .pm-drop-utils .pm-right { flex: 1 0 auto; }
+
+  .pm-drop-label .pm-brand > .pm-caret { display: none; }
+
+  /* ── THE NO-JS FALLBACK, and the numbers live only here now ─────────────
+     Same three drops at the widths they were measured at for the DEFAULT
+     strings, which is the best a stylesheet can do without measuring. Scoped
+     to `:not(.pm--fit)` so the script's answer wins the moment it has one.
+     1180: where `IRONPDF for .NET` stops fitting beside the menu.
+     1058, not 1024: with the util bubbles up the bar needs 1058 for the CTA,
+     so 1025–1057 had it hanging 96.55px out of `.pm-right`.
+     434: the bar needs 410 for the brand and the full CTA, and the 24px burger
+     plus its 16px gap took that to 434. */
+  @media (max-width: 1180px) {
+    .pm:not(.pm--fit) .pm-runtime { display: none; }
+    .pm:not(.pm--fit) .pm-item { padding: 0 var(--spacing-sm); }
+  }
   @media (max-width: 1057.98px) {
-    .pm-utils { display: none; }
-    .pm-menu { overflow-x: auto; scrollbar-width: none; }
-    .pm-menu::-webkit-scrollbar { display: none; }
-    /* Basis auto, not 0 — this is the whole fix for 769–961. With basis 0 on
-       both side columns the free space is split equally between them whatever
-       they need, and .pm-center is never forced to give anything up, so the
-       shrink lands on two columns that cannot shrink (mark, nowrap wordmark,
-       nowrap CTA) and their children leave the box. With basis auto the columns
-       state their width, the shrink falls on the one child that can absorb it,
-       and the menu scrolls — which it already does at these widths anyway.
-       Kept out of the base rule on purpose: at >=1058 basis 0 is what centres
-       the menu optically rather than pushing it by the brand's width. */
-    .pm-brand, .pm-right { flex: 1 0 auto; }
+    .pm:not(.pm--fit) .pm-utils { display: none; }
+    .pm:not(.pm--fit) .pm-menu { overflow-x: auto; scrollbar-width: none; }
+    .pm:not(.pm--fit) .pm-menu::-webkit-scrollbar { display: none; }
+    .pm:not(.pm--fit) .pm-brand, .pm:not(.pm--fit) .pm-right { flex: 1 0 auto; }
   }
 
   /* 1043 is the sub tier's own number and has nothing to do with the bar's —
@@ -502,15 +545,13 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
     .pm-item.is-active { background: none; border-left-color: transparent; border-right-color: transparent; }
   }
 
-  /* 434, and it is the trigger that put it there. The bar needs 410 for the
-     brand and the full CTA; adding a 24px button and its 16px gap took that to
-     434, so 320/375/414 — clean a moment earlier — broke. Below it the CTA
-     keeps its pill and both glyphs but drops the label out of the flow, and the
-     brand drops its chevron: 434 -> 310, which is 10px of room at 320. The
-     label goes to a clipped 1px box, NOT `display: none`, so the link keeps its
-     accessible name and the pill is still "Start for Free" to a screen reader. */
+  /* THE THIRD DROP's no-JS half. The CTA keeps its pill and both glyphs but
+     takes its label out of the flow, and the brand drops its chevron: 434 -> 310
+     for the defaults, which is 10px of room at 320. The label goes to a clipped
+     1px box, NOT `display: none`, so the link keeps its accessible name and the
+     pill is still "Start for Free" to a screen reader. */
   @media (max-width: 433.98px) {
-    .pm-brand > .pm-caret { display: none; }
+    .pm:not(.pm--fit) .pm-brand > .pm-caret { display: none; }
   }
 </style>
 
@@ -534,8 +575,9 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
   layout it is only a part of. Ball's call, 2026-08-19.
 -->
 <style is:global>
+  .pm-drop-label .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   @media (max-width: 433.98px) {
-    .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .pm:not(.pm--fit) .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   }
 </style>
 <style is:global>
@@ -568,8 +610,9 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      Button. `.pm-right > a.pm-cta-swap` cannot lose that race whichever sheet
      lands first. Global for the reason above: the button is a composed child and
      a scoped selector would stamp this component's id on both sides. */
+  .pm-drop-label .pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
   @media (max-width: 433.98px) {
-    .pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
+    .pm:not(.pm--fit) .pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
   }
 </style>
 
@@ -596,6 +639,95 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
         setOpen(false);
         if (focusTrigger) trigger.focus();
       };
+
+      // ── FITTING THE BAR TO ITS OWN CONTENT ──────────────────────────────
+      // The three drops used to happen at three widths written into the
+      // stylesheet, each measured against this component's DEFAULT strings and
+      // each wrong for a consumer who passes longer ones. Nothing in CSS can
+      // ask "does this fit"; this can, so it does, and the stylesheet keeps
+      // those numbers only as the no-JS fallback.
+      //
+      // WHAT IS MEASURED is the rendered result, not an estimate of it. The
+      // first version of this added up `scrollWidth` across the three columns
+      // and compared the total to the bar — and under-reported, because a flex
+      // child with `min-width: 0` whose nowrap content overflows does not
+      // report that content in `scrollWidth`. It left the drops off entirely
+      // and `npm run overflow` came back with 13 findings where the stylesheet
+      // alone had had 2, including the DEFAULT strings at 900. So this asks the
+      // same question the sweep asks: has anything left the box it is in.
+      const bar = pm.querySelector<HTMLElement>('.pm-bar');
+      const DROPS = ['pm-drop-runtime', 'pm-drop-utils', 'pm-drop-label'];
+      const SLACK = 0.5;
+
+      const overflows = () => {
+        if (!bar) return false;
+        const cs = getComputedStyle(bar);
+        const box = bar.getBoundingClientRect();
+        const stack: Array<[HTMLElement, number, number]> = [[
+          bar,
+          box.left + parseFloat(cs.paddingLeft) - SLACK,
+          box.right - parseFloat(cs.paddingRight) + SLACK,
+        ]];
+
+        // Depth-first over the bar's own subtree, which is a few dozen nodes.
+        // Not just the columns and their direct children: the CTA is a composed
+        // button that is `overflow: hidden`, so when its label stops fitting the
+        // PILL clips it and the bar reports that everything fits. Measured at
+        // 434 with `ctaLabel="Buy License Today"` — the label span was 8.2px
+        // outside its own <a>, cut, with the row itself inside the bar. A cut is
+        // the worse half of this: there is no scrollbar to show for it.
+        while (stack.length) {
+          const [el, left, right] = stack.pop()!;
+          for (const child of Array.from(el.children) as HTMLElement[]) {
+            const ccs = getComputedStyle(child);
+            // display:none is not in the row; an absolutely positioned child is
+            // out of flow — below the panel breakpoint the menu is both in turn.
+            if (ccs.display === 'none' || ccs.position === 'absolute') continue;
+            const cbox = child.getBoundingClientRect();
+            if (cbox.right > right || cbox.left < left) return true;
+            // A box that SCROLLS is meant to hold more than it shows — the menu
+            // is the entire reason the second drop exists — so a child
+            // leaving it is the design working. `hidden` is not that: it is a
+            // silent cut, and it is checked like anything else.
+            const scrolls = ccs.overflowX === 'auto' || ccs.overflowX === 'scroll';
+            if (scrolls) continue;
+            stack.push([child, cbox.left - SLACK, cbox.right + SLACK]);
+          }
+        }
+        return false;
+      };
+
+      let fitting = false;
+      const fit = () => {
+        if (!bar || fitting) return;
+        fitting = true;
+        pm.classList.remove(...DROPS);
+        for (const drop of DROPS) {
+          if (!overflows()) break;
+          pm.classList.add(drop);
+        }
+        fitting = false;
+      };
+
+      // `.pm--fit` switches the fallback media queries off, so it is added in
+      // the same frame as the first measurement rather than before it.
+      fit();
+      pm.classList.add('pm--fit');
+
+      // Re-measure when the bar changes width, and again once the webfont has
+      // landed: every width above is a text measurement, and the first one is
+      // taken in whatever face was available at the time.
+      // Straight from the observer, not through a rAF. A ResizeObserver
+      // callback already runs once per frame after layout, so the throttle
+      // bought nothing and cost a frame: the drops landed one frame after the
+      // resize, which a person does not see and `npm run overflow` does —
+      // it sets a viewport, waits a single frame, and read the bar mid-flight.
+      // Re-entry is guarded by `fitting`, and the classes this adds do not
+      // change the bar's own width, so the observer does not re-fire on them.
+      if (bar && typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(() => fit()).observe(bar);
+      }
+      if (document.fonts?.ready) document.fonts.ready.then(fit);
 
       trigger.addEventListener('click', () => setOpen(!pm.classList.contains('pm-menu-open')));
       // Escape closes from anywhere in the bar and hands focus back, and a click

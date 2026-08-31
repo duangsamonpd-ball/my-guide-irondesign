@@ -105,10 +105,6 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .pm-util:hover { border-color: var(--color-border-strong); }
 .pm-util:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 .pm-right { display: flex; align-items: center; justify-content: flex-end; align-self: center; flex: 1 0 0; min-width: 0; }
-.pm-right > a { position: relative; }
-@media (max-width: 433.98px) {
-.pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
-}
 .pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-heading); cursor: pointer; }
 .pm-burger:hover { color: var(--color-primary); }
 .pm-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
@@ -123,12 +119,45 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
 .pm-chip.is-active { background: var(--color-bg-base); box-shadow: inset 0 0 0 var(--border-width-1) var(--color-border); border-radius: var(--rounded-lg); }
 .pm-chip.is-active:hover { box-shadow: inset 0 0 0 var(--border-width-1) var(--color-border-strong); color: var(--color-primary); }
 .pm-div { width: 1px; height: 24px; flex-shrink: 0; background: var(--slate-300); }
-@media (max-width: 1180px) { .pm-runtime { display: none; } .pm-item { padding: 0 var(--spacing-sm); } }
-@media (max-width: 1057.98px) { .pm-utils { display: none; } .pm-menu { overflow-x: auto; scrollbar-width: none; } .pm-menu::-webkit-scrollbar { display: none; } .pm-brand, .pm-right { flex: 1 0 auto; } }
+.pm-drop-runtime .pm-runtime { display: none; }
+.pm-drop-runtime .pm-item { padding: 0 var(--spacing-sm); }
+.pm-drop-utils .pm-utils { display: none; }
+.pm-drop-utils .pm-menu { overflow-x: auto; scrollbar-width: none; }
+.pm-drop-utils .pm-menu::-webkit-scrollbar { display: none; }
+.pm-drop-utils .pm-brand, .pm-drop-utils .pm-right { flex: 1 0 auto; }
+.pm-drop-label .pm-brand > .pm-caret { display: none; }
+@media (max-width: 1180px) {
+  .pm:not(.pm--fit) .pm-runtime { display: none; }
+  .pm:not(.pm--fit) .pm-item { padding: 0 var(--spacing-sm); }
+}
+@media (max-width: 1057.98px) {
+  .pm:not(.pm--fit) .pm-utils { display: none; }
+  .pm:not(.pm--fit) .pm-menu { overflow-x: auto; scrollbar-width: none; }
+  .pm:not(.pm--fit) .pm-menu::-webkit-scrollbar { display: none; }
+  .pm:not(.pm--fit) .pm-brand, .pm:not(.pm--fit) .pm-right { flex: 1 0 auto; }
+}
 @media (max-width: 1042.98px) { .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
-@media (max-width: 768px) { .pm-burger { display: inline-flex; } .pm-center { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border); } .pm.pm-menu-open .pm-center { display: flex; } .pm-menu { flex-direction: column; align-items: stretch; overflow-x: visible; } .pm-menu li { display: flex; } .pm-item { justify-content: space-between; width: 100%; padding: var(--spacing-sm) 0; } .pm-item.is-active { background: none; border-left-color: transparent; border-right-color: transparent; } }
-@media (max-width: 433.98px) { .pm-brand > .pm-caret { display: none; } }
-@media (max-width: 433.98px) { .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
+@media (max-width: 768px) {
+  .pm-burger { display: inline-flex; }
+  .pm-center { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border); }
+  .pm.pm-menu-open .pm-center { display: flex; }
+  .pm-menu { flex-direction: column; align-items: stretch; overflow-x: visible; }
+  .pm-menu li { display: flex; }
+  .pm-item { justify-content: space-between; width: 100%; padding: var(--spacing-sm) 0; }
+  .pm-item.is-active { background: none; border-left-color: transparent; border-right-color: transparent; }
+}
+@media (max-width: 433.98px) {
+  .pm:not(.pm--fit) .pm-brand > .pm-caret { display: none; }
+}
+.pm-drop-label .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 433.98px) {
+  .pm:not(.pm--fit) .pm-right [data-part='label'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+.pm-right > a { position: relative; }
+.pm-drop-label .pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
+@media (max-width: 433.98px) {
+  .pm:not(.pm--fit) .pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
+}
 @media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} }
   </style>
 </head>
@@ -277,7 +306,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         + burger — and a button has no business owning a breakpoint measured from a
         layout it is only a part of. Ball's call, 2026-08-19.
         -->
-        <script type="module">function e(e=document){e.querySelectorAll(`.pm:not([data-pm-init])`).forEach(e=>{let t=e.querySelector(`.pm-burger`),n=e.querySelector(`.pm-center`);if(!t||!n)return;e.dataset.pmInit=`1`;let r=n=>{e.classList.toggle(`pm-menu-open`,n),t.setAttribute(`aria-expanded`,String(n))},i=n=>{e.classList.contains(`pm-menu-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`pm-menu-open`))),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)}),document.addEventListener(`click`,t=>{e.contains(t.target)||i(!1)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
+        <script type="module">function e(e=document){e.querySelectorAll(`.pm:not([data-pm-init])`).forEach(e=>{let t=e.querySelector(`.pm-burger`),n=e.querySelector(`.pm-center`);if(!t||!n)return;e.dataset.pmInit=`1`;let r=n=>{e.classList.toggle(`pm-menu-open`,n),t.setAttribute(`aria-expanded`,String(n))},i=n=>{e.classList.contains(`pm-menu-open`)&&(r(!1),n&&t.focus())},a=e.querySelector(`.pm-bar`),o=[`pm-drop-runtime`,`pm-drop-utils`,`pm-drop-label`],s=.5,c=()=>{if(!a)return!1;let e=getComputedStyle(a),t=a.getBoundingClientRect(),n=[[a,t.left+parseFloat(e.paddingLeft)-s,t.right-parseFloat(e.paddingRight)+s]];for(;n.length;){let[e,t,r]=n.pop();for(let i of Array.from(e.children)){let e=getComputedStyle(i);if(e.display===`none`||e.position===`absolute`)continue;let a=i.getBoundingClientRect();if(a.right>r||a.left<t)return!0;e.overflowX===`auto`||e.overflowX===`scroll`||n.push([i,a.left-s,a.right+s])}}return!1},l=!1,u=()=>{if(!(!a||l)){l=!0,e.classList.remove(...o);for(let t of o){if(!c())break;e.classList.add(t)}l=!1}};u(),e.classList.add(`pm--fit`),a&&typeof ResizeObserver<`u`&&new ResizeObserver(()=>u()).observe(a),document.fonts?.ready&&document.fonts.ready.then(u),t.addEventListener(`click`,()=>r(!e.classList.contains(`pm-menu-open`))),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)}),document.addEventListener(`click`,t=>{e.contains(t.target)||i(!1)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
         <!-- /demo:default -->
       </div><div class="frame-cap">variant="default"</div></div>
     </div>
