@@ -118,6 +118,30 @@ interface Props {
    *  difference is visible, and the elements are along for the ride until they
    *  are re-exported onto eighths.
    *
+   *  32 WAS ASKED FOR ON 2026-08-31, by a consuming room that needed it for the
+   *  product element — Figma `2407:12727` draws that element at 32 ten times.
+   *  The paragraph above already answered it for the MARK (5.7%, and a mark that
+   *  must be sharp at 32 needs its own drawing). What that paragraph did not
+   *  say, because it treats the elements as along for the ride, is that 32 IS a
+   *  local maximum for the ELEMENTS: 2.8% against 24's 2.1%. So the request was
+   *  right about its own family and still cannot be granted — `size` is one
+   *  union across both, a size has to be a local maximum in both, and for the
+   *  marks 32 is beaten by 24 by exactly the 2x factor the rule uses. Adding it
+   *  would turn `check:logo-grid` red.
+   *
+   *  Swept 8-96 with `node scripts/check-logo-grid.mjs --probe`, the two
+   *  families agree everywhere except FOUR sizes, and they are worth naming
+   *  because the next request will be one of them:
+   *
+   *     32   element only   64   element only
+   *     36   mark only      60   mark only
+   *
+   *  Both families are local maxima at 8, 12, 24, 48, 72 and 96 — the multiples
+   *  of 12 — and the union is that agreement from 24 up. Which is also why 64
+   *  keeps coming back: like 32 it is a real step on the element ladder and a
+   *  trough on the mark's. The way to serve either is artwork or a split prop,
+   *  not a wider union.
+   *
    *  `check:logo-grid` derives all of this from the SVGs on every run: the table
    *  above is compared to a fresh count, and every member of the union has to be
    *  a local maximum. Re-export the artwork and the gate re-derives the ladder

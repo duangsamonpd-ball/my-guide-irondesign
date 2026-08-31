@@ -69,6 +69,17 @@ const ASSETS = join(ROOT, 'docs/assets');
 const LOGO = join(ROOT, 'astro-components/components/Logo.astro');
 const SELF_TEST = process.argv.includes('--self-test');
 const TABLE = process.argv.includes('--table');
+/* `--probe 32,40` answers "is this size absent by design or absent by oversight"
+   with the SAME metric the gate enforces, rather than a second one written for
+   the question. Asked of 32 on 2026-08-31, because a consuming room needed it
+   and node 2407:12727 draws the product element at 32 ten times over. */
+const PROBE = (() => {
+  const i = process.argv.indexOf('--probe');
+  if (i === -1) return null;
+  const v = process.argv[i + 1];
+  if (!v) { console.error('--probe needs a size, e.g. --probe 32'); process.exit(1); }
+  return v.split(',').map((n) => Number(n.trim())).filter((n) => Number.isFinite(n) && n > 0);
+})();
 
 const red = (s) => `\x1b[31m${s}\x1b[0m`;
 const green = (s) => `\x1b[32m${s}\x1b[0m`;
@@ -286,6 +297,25 @@ if (!t) {
         `\n      The comment describes files that have changed under it. Re-run \`node scripts/check-logo-grid.mjs --table\` and paste the table in.`);
     });
   }
+}
+
+if (PROBE) {
+  console.log(dim(`\n  Is each size a local maximum of whole-pixel edges? Same rule the gate enforces:`));
+  console.log(dim(`  a neighbour at ${NEIGHBOURS.join(', ')} counts only if it draws >= ${BEATEN_BY}x as many coordinates whole.\n`));
+  for (const size of PROBE) {
+    for (const family of Object.keys(FAMILIES)) {
+      const { here, beaten } = localMax(family, size);
+      const near = NEIGHBOURS.map((d) => size + d).filter((s) => s > 0)
+        .map((s) => `${s}:${share(family, s).toFixed(1)}%`).join('  ');
+      const verdict = beaten.length
+        ? red(`beaten by ${beaten.map((b) => `${b.size} (${b.pct.toFixed(1)}%)`).join(', ')}`)
+        : green('local maximum');
+      console.log(`   ${String(size).padStart(4)}px  ${family.padEnd(8)} ${(here.toFixed(1) + '%').padStart(7)}   ${verdict}`);
+      console.log(dim(`         neighbours  ${near}`));
+    }
+  }
+  console.log();
+  process.exit(0);
 }
 
 if (TABLE) {
