@@ -86,6 +86,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, extname, normalize, basename } from 'node:path';
 
 import { LOCAL_FONT_LINK, serveFonts, installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
+import { componentSources } from './lib/sources.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
@@ -116,6 +117,40 @@ const KNOWN = new Map([
       'Confirmed present on HEAD by stashing 1cc5efd and re-running, so it is not a regression.',
   ],
 ]);
+
+/* ── 0b. the widths a component's own CSS says are interesting ────────────── */
+
+/**
+ * EVERY BREAKPOINT IS TWO CLAIMS AND THIS SWEEP ONLY EVER CHECKED ONE.
+ *
+ * `@media (max-width: 433.98px) { … }` says "below here the content does not
+ * fit". The other half — "at 434 it DOES" — is the half that rots, because the
+ * number was measured once against the content of the day and the content keeps
+ * moving. ProductMenu's 434 was measured when a 24px trigger was added; by
+ * 2026-08-31 the bar needed 436.72 for its own DEFAULT strings, so 434, 435 and
+ * 436 each put the CTA 2.72px outside the bar. Nine fixed widths cannot see a
+ * three-pixel band, and no list of widths written by hand ever will: the band
+ * moves whenever the content does.
+ *
+ * So the widths come from the component. Each `max-width: N` in its own <style>
+ * contributes ceil(N) and ceil(N)+1 — the last width the rule applies at and the
+ * first it does not — and the sweep asserts the same property it asserts
+ * everywhere else: nothing leaves its box. A breakpoint that is moved brings its
+ * own new test widths with it, and one that is deleted takes them away.
+ */
+function breakpointEdges(name) {
+  const src = componentSources().find((c) => c.name.toLowerCase() === name.toLowerCase());
+  if (!src) return [];
+  const css = readFileSync(src.file, 'utf8');
+  const out = new Set();
+  for (const m of css.matchAll(/@media[^{]*?\(\s*max-width\s*:\s*([\d.]+)px\s*\)/g)) {
+    const n = Math.ceil(Number(m[1]));
+    if (!Number.isFinite(n) || n < 240) continue;
+    out.add(n);
+    out.add(n + 1);
+  }
+  return [...out].sort((a, b) => a - b);
+}
 
 /* ── 1. arguments ─────────────────────────────────────────────────────────── */
 
@@ -601,6 +636,7 @@ const WIDTHS = opts.widths;
 const findings = [];
 const rows = [];
 let unarmed = 0;
+let edgeWidths = 0;
 
 if (!opts.json) {
   console.log(bold(`\n  Overflow sweep — ${pages.length} component(s) × ${WIDTHS.length} widths\n`));
@@ -656,6 +692,20 @@ for (const file of pages) {
     for (const f of found) findings.push({ page: name, width: w, ...f });
     cells.push(found.length);
   }
+
+  /* The component's OWN breakpoint edges, swept after the shared widths. They
+     are not in the table because the table is one column per width and these
+     differ per component; the findings land in the same list and read the same
+     way, tagged with the width so the row says where to look. */
+  const edges = ready ? breakpointEdges(name).filter((w) => !WIDTHS.includes(w)) : [];
+  for (const w of edges) {
+    await page.setViewportSize({ width: w, height: 1200 });
+    await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => r())));
+    const found = await page.evaluate(() => overflows());
+    for (const f of found) findings.push({ page: name, width: w, edge: true, ...f });
+  }
+  edgeWidths += edges.length;
+
   await page.close();
 
   if (!ready) unarmed++;
@@ -703,7 +753,7 @@ const spills = live.filter((r) => !r.cut);
 const stale = fullRun ? [...KNOWN.keys()].filter((k) => !seenKnown.has(k)) : [];
 
 if (opts.json) {
-  console.log(JSON.stringify({ widths: WIDTHS, fullRun, rows, cut, spills, known: [...seenKnown], stale }, null, 2));
+  console.log(JSON.stringify({ widths: WIDTHS, edgeWidths, fullRun, rows, cut, spills, known: [...seenKnown], stale }, null, 2));
 } else {
   const show = (list, heading, colour) => {
     if (!list.length) return;
@@ -738,7 +788,8 @@ if (opts.json) {
   console.log(
     cut.length || spills.length || stale.length || unarmed || escapes.length
       ? red(bold(`\n✖  ${cut.length} cut, ${spills.length} spilling across ${pages.length} component(s)${escapes.length ? `, ${escapes.length} request(s) blocked` : ''}\n`))
-      : green(bold(`\n✔  nothing leaves its box — ${pages.length} component(s) × ${WIDTHS.length} widths\n`))
+      : green(bold(`\n✔  nothing leaves its box — ${pages.length} component(s) × ${WIDTHS.length} widths` +
+                   `, plus ${edgeWidths} width(s) taken from the components' own breakpoints\n`))
   );
 }
 
