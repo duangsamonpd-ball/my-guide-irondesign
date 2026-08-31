@@ -542,9 +542,14 @@ const PARSERS = [
       const derived = {
         components: JSON.parse(readFileSync(join(ROOT, 'astro-components/components.json'), 'utf8')).count,
         pages: readdirSync(join(ROOT, 'docs')).filter((f) => f.endsWith('.html')).length,
+        /* The README said "all eight gates" and then listed thirteen, twice, for
+           long enough that nobody read the number any more. package.json is
+           right there, so the count is checkable and now checked. */
+        gates: JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'))
+          .scripts.check.split('&&').length,
       };
       let n = 0;
-      for (const m of src.matchAll(/\b(\d{1,4})\s+(components?|pages?)\b/g)) {
+      for (const m of src.matchAll(/\b(\d{1,4})\s+(components?|pages?|gates?)\b/g)) {
         const [, stated, noun] = m;
         const key = noun.replace(/s$/, '') + 's';
         const truth = derived[key];

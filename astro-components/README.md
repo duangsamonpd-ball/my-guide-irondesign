@@ -221,11 +221,12 @@ Props: `size` (`lg` | `md`, default `lg`), `label` (default `Free NuGet Download
 Tailwind utility, and utilities are not a contract — they change when the markup
 does, which is how four page-side overrides in a consuming app went dead silently
 once. So the label carries a stable attribute instead, and a composing layout may
-write CSS against it. `ProductMenu` is the first caller: below 434px its bar
-cannot fit the brand and the full pill, so it takes the label out of flow (a
-clipped 1px box, not `display: none`, so the link keeps its accessible name) and
-the pill goes 186.64px → 88px. That breakpoint stays in `ProductMenu`, because it
-was measured from that bar — brand + CTA + burger — not from this button.
+write CSS against it. `ProductMenu` is the first caller: when its bar cannot fit
+the brand and the full pill, it takes the label out of flow (a clipped 1px box,
+not `display: none`, so the link keeps its accessible name) and the pill goes
+186.64px → 88px. **When that happens is measured at runtime, not written as a
+width** — see `ProductMenu.astro` below. The rule stays in `ProductMenu` either
+way, because it is about that bar — brand + CTA + burger — not about this button.
 
 Reaching for anything else in here is reaching for a utility class, and it will
 break. If you need another part named, ask for one.
@@ -670,24 +671,41 @@ there is no token that can stand in for it — so `basePath` is the escape hatch
 same idea as `Footer.astro`'s `*ImgSrc` props: point it at wherever you copied
 `docs/assets/` to.
 
-`size` is a closed union on purpose, and four of its six members are the 8-unit
-grid the mark is drawn on: 24/48/96/192. Measured 2026-08-21 across all the
-artwork, as the share of path coordinates landing on a whole pixel:
+`size` is a closed union, and since 2026-08-31 it is the **standard icon ladder**
+rather than a list of sizes this artwork renders well. That is a deliberate
+change of meaning: a ladder is an API about layout, and whether one drawing stays
+sharp across it is a property of the artwork.
 
-|  | 24 | 48 | 56 | 64 | 96 | 192 |
-|---|---|---|---|---|---|---|
-| mark | 11.4% | 18.9% | 3.4% | 5.7% | 18.9% | 19.0% |
-| element | 0.3% | 0.3% | 0.3% | 0.3% | 0.3% | 0.3% |
+What each rung costs is measured, not guessed — the share of path coordinates
+landing on a whole pixel, across everything this component ships:
 
-So the grid is real for the **mark** and irrelevant for the **element** artwork,
-which is drawn in fractional coordinates and scales identically at every size —
-96 and 192 included. `56` and `64` are the two off-grid members, both added for
-a specific frame that asks for them (the product mega-menu row and the
-iron-homepage changelog tiles), and `64` is the better-behaved of the two.
-Prefer a grid size wherever one will do; the mark is where the difference shows.
+|  | 16 | 24 | 32 | 48 | 64 | 72 | 96 | 144 | 192 |
+|---|---|---|---|---|---|---|---|---|---|
+| mark | 5.7% | 11.4% | 5.7% | 18.9% | 5.7% | 11.4% | 18.9% | 18.9% | 19.0% |
+| element | 0.6% | 2.1% | 2.8% | 4.2% | 2.8% | 2.1% | 12.6% | 4.2% | 12.6% |
 
-This list used to read "exactly four values" and omit `56`, which had been in the
-type for weeks — prose restating a fact, drifting from it.
+`check:logo-grid` re-derives that table from the SVGs on every run and fails if
+the copy in `Logo.astro` has drifted from it, so re-exporting the artwork
+re-derives the ladder rather than leaving a stale number behind. It **reports**
+the soft rungs and refuses none of them.
+
+Two things worth knowing before choosing a size:
+
+- **The two families sit on different grids.** The marks are on even integers,
+  the elements on thirds. Swept 8–96 they agree everywhere except four sizes:
+  32 and 64 suit the elements, 36 and 60 suit the marks. Both are at their best
+  at 24, 48, 72 and 96.
+- **The ceiling is low for the marks at any size.** 81% of their coordinates are
+  not integers at all, which is ordinary for logo artwork exported from Figma. A
+  mark that must be genuinely sharp at 16 or 32 needs its own drawing at that
+  size — optical sizing, what Material and SF Symbols both ship — not a different
+  number here.
+
+Prefer 24, 48, 96 or 192 wherever one will do; the mark is where the difference
+shows. This paragraph has now been wrong twice by restating a measurement that
+moved underneath it — the element row read a flat `0.3%` here long after
+`91cd864` re-exported those files — so the numbers above are the ones the gate
+prints, and the gate is the thing to believe.
 
 Two naming traps worth knowing:
 
@@ -736,6 +754,34 @@ Props: `variant` (`default` | `submenu`), `product`, `productName`, `runtime`
 `ctaHref`, `showSearch`, `showAskAi`, `searchLabel`, `askAiLabel`, `basePath`
 (default `assets`), `class`.
 
+**The bar fits itself to its own content.** It sheds three things in order as
+room runs out — the runtime label, then the Search / Ask AI bubbles (the menu
+starts scrolling at the same moment), then the CTA's label and the brand's
+chevron. Which width each of those happens at is **measured in the browser**, not
+written into the stylesheet.
+
+That is not the usual arrangement and it is worth knowing why. Those three
+thresholds used to be three numbers — 1180, 1058, 434 — every one an honest
+measurement of `IRONPDF` and `Start for Free`, and every one wrong for a consumer
+passing anything longer. With `productName="SUITE"` and `ctaLabel="Buy License
+Today"` the CTA left the bar by 31.55px across 434–465 and the brand's chevron
+left its column by 13.52px across 1181–1207. A container query does not help: the
+bar is full-bleed, so its inline size is the viewport, and the threshold would be
+just as fixed.
+
+What this means for you:
+
+- **No JavaScript, no problem.** The old media queries are still there as the
+  fallback and still carry those numbers, which remain correct for the defaults.
+  A page that never runs the script gets exactly the behaviour it got before.
+- **Long labels are safe.** Pass whatever `productName`, `runtime` and `ctaLabel`
+  the design asks for; the bar sheds in the same order and finds the point
+  itself. Swept 320–1460 at every width with the strings above: nothing leaves
+  its box.
+- **It reads its own layout, so it respects its container.** Placed in something
+  narrower than the viewport, it sheds when *that* box runs out rather than when
+  the window does.
+
 `cta` is Figma's `Instance` swap. The canvas exposes the call-to-action as an
 instance-swap property whose preferred list is exactly two — `button-Nuget` and
 `button` pinned at `231:1411` (`Variant=primary, Size=md`) — so it is an enum
@@ -776,28 +822,32 @@ Three things worth knowing before you change it:
   items stretch to the bar instead of carrying their own height.
 - **Both side columns are `flex: 1 0 0`**, not `1 0 auto`. That is what keeps the
   menu optically centred instead of being pushed around by the brand's width —
-  but only above 1058. Below that the rule flips to `1 0 auto`, because basis 0
-  on two columns that cannot shrink splits the free space equally whatever each
-  one needs, and never asks the centre column (which scrolls) to give anything
-  up. That is what put the CTA and the wordmark outside their boxes at 769–1057.
+  but only while the utility bubbles are still up. Once they are shed the rule
+  flips to `1 0 auto`, because basis 0 on two columns that cannot shrink splits
+  the free space equally whatever each one needs, and never asks the centre
+  column (which scrolls) to give anything up. That is what used to put the CTA
+  and the wordmark outside their boxes at 769–1057.
 - **The 40px brand mark is off the logo grid**, so it is a plain `<img>` rather
   than a `<Logo>`. That was written when the union was believed to be
   24/48/96/192 and widening it was believed to cost the grid rule something.
-  Neither survived being measured on 2026-08-21: the union already carried `56`
-  and now carries `64`, and **40px scores 3.4% of coordinates on whole pixels —
-  the same as `56`, which is in.** So the reason this is an `<img>` is history,
-  not a rule. Whether to add `40` and let this be a `<Logo>` is open; it changes
-  what a shipped component renders, so it is a decision rather than a tidy-up.
+  Neither survived being measured: **40px scores 3.4% of coordinates on whole
+  pixels**, and since 2026-08-31 the union is the standard ladder and its gate
+  reports the cost of a rung instead of refusing it — so "off the grid" is no
+  longer a reason for anything. The reason this is an `<img>` is history. Whether
+  to make it a `<Logo>` is open; it changes what a shipped component renders, so
+  it is a decision rather than a tidy-up.
 
 Figma covers 1440px desktop only — there is no mobile frame. The narrow-viewport
 behaviour is an implementation decision, not a handed-over design: drop the
-runtime label at 1180px, the utility bubbles and the menu's optical centring at
-1058px, let the sub tier scroll at 1043px, turn the centre group into a panel at
-769px, and take the CTA down to its two glyphs at 434px. Every number except
-1180 is the width its own content measured out at, found by sweeping 1px at a
-time — the one that used to be round, 1024, was 33px and 275px under what two
-different pieces needed, which is the band the CTA and the trailing chip group
-were spilling in.
+runtime label, then the utility bubbles and the menu's optical centring, then the
+CTA's label and the brand's chevron — **each when the bar measures that it no
+longer fits**, not at a width written here. Two thresholds are still numbers
+because they are layout MODES rather than fit decisions: the sub tier starts
+scrolling at 1043px and the centre group becomes a disclosure panel at 769px.
+
+The three fit numbers used to be written down — 1180, 1058 and 434 — each found
+by sweeping 1px at a time, and each correct only for `IRONPDF` and
+`Start for Free`. They survive as the no-JS fallback and nothing else.
 
 - **The centre group is a disclosure below 769**, not a deletion. Same WAI-ARIA
   pattern as `TopNav`'s corporate menu and `FooterBar`'s tools tab, and the same
@@ -805,13 +855,15 @@ were spilling in.
   set of links, nothing to keep in sync, and no screen reader hears "Licensing"
   twice. Escape closes and returns focus; an outside click closes without taking
   it.
-- **434 is the trigger's own cost.** The bar needs 410 for the brand and the full
-  CTA; a 24px button and its 16px gap took that to 434, which broke 320/375/414
-  — clean a moment earlier. This is the second time adding an affordance moved a
-  narrow-end number (`deb78df` was the first), so re-sweep the narrow end after
-  adding one, not just the band being fixed. Below 434 the brand drops its
-  chevron and the CTA's label moves to a clipped 1px box — **not**
-  `display: none`, which would leave a pink pill with no accessible name.
+- **The narrow end is where an affordance costs the most.** The fallback's 434 is
+  the record of that: the bar needs 410 for the brand and the full CTA, and a
+  24px burger plus its 16px gap took it to 434, breaking 320/375/414 — clean a
+  moment earlier. That was the second time adding an affordance moved a
+  narrow-end number (`deb78df` was the first). The runtime measurement absorbs
+  this now, but the lesson stands for anything it cannot see: re-sweep the narrow
+  end after adding an affordance, not just the band being fixed. When the label
+  goes it moves to a clipped 1px box — **not** `display: none`, which would leave
+  a pink pill with no accessible name.
 
 ### `TopNav.astro`
 

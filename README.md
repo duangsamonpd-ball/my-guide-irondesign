@@ -189,26 +189,32 @@ slate/200                  --color-border                  dividers
 
 ## 🔤 Typography
 
-**Outfit is retired — the system runs on Montserrat (content + UI) and Roboto Mono (code).** Line-heights and tracking are expressed in **px**, mirroring the Figma variable scales (`leading` = px ÷ 4; tracking: tighter −0.8 · tight −0.4 · normal 0 · wide 0.4 · wider 0.8).
+**Outfit is retired — the system runs on Montserrat (content + UI) and Roboto Mono (code).** Line-heights and tracking are expressed in **px**, mirroring the Figma variable scales (`leading` = px ÷ 4; tracking: tighter −0.8 · tight −0.4 · normal 0 · wide 0.4 · wider 0.8 · widest 1.6).
+
+Every row below is a **role token** in `tailwind/tokens.css` — `--font-size-h2`, `--line-height-h2`, `--fw-h2`, `--letter-spacing-h2`. Read the values there; the tables here are a summary and a summary can drift, which is what `check:type-scale` and `check:type-weight` exist to catch on the code side.
 
 ### Content scale
 
-| Style | Size | Weight | Line-height | Tracking |
-|---|---|---|---|---|
-| H1 · hero | 48px | 900 Black | 48 | −0.8 |
-| H1 | 40px | 900 Black | 48 | −0.8 |
-| H2 | 30px | 800 Extrabold | 36 | −0.4 |
-| H3 | 24px | 700 Bold | 32 | −0.4 |
-| H4 | 20px | 800 Extrabold | 28 | −0.4 |
-| Title · Large | 18px | 700 Bold | 28 | — |
-| Body large | 18px | 500 Medium | 28 | — |
-| Quote | 18px | 500 Medium *italic* | 28 | — |
-| Body | 16px | 400 Regular | 28 | — |
-| Caption | 14px | 400 Regular | 20 | — |
-| Label | 14px | 500 Medium | 20 | — |
-| Caption SM | 12px | 500 Medium | 16 | 0.4 |
-| Overline | 14px | 700 Bold · UPPER | 16 | 0.8 |
-| Code | 14px | Roboto Mono | 24 | — |
+| Style | Role | Size | Weight | Line-height | Tracking |
+|---|---|---|---|---|---|
+| H1 · hero | `h1-hero` | 48px | 800 Extrabold | 48 | 0 |
+| H1 | `h1` | 40px | 800 Extrabold | 48 | −0.8 |
+| H2 | `h2` | 30px | 800 Extrabold | 36 | −0.4 |
+| H3 | `h3` | 24px | 700 Bold | 32 | −0.4 |
+| H4 | `h4` | 20px | 800 Extrabold | 28 | −0.4 |
+| Title · Large | `title-lg` | 18px | 700 Bold | 28 | — |
+| Body large | `body-lg` | 18px | 400 Regular | 28 | — |
+| Quote | `quote` | 18px | 500 Medium *italic* | 28 | — |
+| Body title | `body-title` | 16px | 700 Bold | 28 | 0 |
+| Body | `body` | 16px | 400 Regular | 28 | — |
+| Label · Large | `label-lg` | 16px | 500 Medium | 20 | 0 |
+| Caption | `caption` | 14px | 400 Regular | 20 | — |
+| Label | `label` | 14px | 500 Medium | 20 | 0 |
+| Overline | `overline` | 14px | 700 Bold · UPPER | 16 | 0.4 |
+| Code | `code` | 14px | Roboto Mono 400 | 24 | — |
+| Caption SM | `caption-sm` | 12px | 500 Medium | 16 | 0.4 |
+
+Four of those were wrong in this file until 2026-08-31, all in the same direction — a value edited in `tokens.css` and not here. `h1-hero` and `h1` read 900 Black (both are 800 since 2026-08-17), `h1-hero` claimed −0.8 tracking where it is `normal`, `body-lg` read 500 (it became 400 in `203a99a`), and `overline` read 0.8 where it is `wide`, 0.4. `body-title` and `label-lg` were missing outright.
 
 ### UI scale
 
@@ -326,32 +332,45 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 `tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check          # all eight gates
+npm run check          # 24 gates; the only thing that decides is the exit code
 ```
 
-Eight gates run in order, and any one of them fails the build:
+**The list below is a summary — `npm run check` in `package.json` is the list.** Read the exit code, never the output: a gate that *crashes* prints a stack trace with no failure marker, so grepping the log for one reports success on the worst failure there is.
 
 | Gate | Asserts |
 |---|---|
 | `check:theme` | `theme.css` has been regenerated from `tokens.css` |
-| `check:utilities` | `docs/utilities.css` still carries every class the converted components wear |
+| `check:utilities` | `docs/utilities.css` still carries every class the converted components wear — and it goes stale on a *token* edit too, with no new class anywhere |
 | `check:tokens` | every token agrees across `tokens.w3c.json`, `tokens.css` and `theme.css` — and no component hardcodes a hex where a semantic token exists |
+| `check:alt-text` | every `<img>` a component ships either describes itself or is explicitly decorative |
+| `check:logo-fills` | the brand artwork is painted in colours this system still uses |
+| `check:artwork-sync` | the four cuts of the wordmark are one drawing, so a stale export cannot hide among them |
+| `check:logo-grid` | `Logo`'s size ladder and the measured table in its JSDoc are re-derived from the SVGs |
+| `check:parts` | a component's published `[data-part]` hooks still exist in what it renders |
+| `check:type-scale` | every `--text-*` step is paired with its `--text-*--line-height`, each pair is a rung of `--leading-*`, and a step a role uses agrees with that role |
+| `check:type-weight` | a class list that *names* a type role agrees with that role on every axis |
 | `check:parity` | every CSS rule in a component's `<style>` also appears in its `docs/component-*.html` page |
-| `check:exports` | every component is in the barrel, and every `exports` map target resolves |
+| `check:props-table` | the hand-typed Prop / Type / Default tables in the docs match the generated manifest, both directions |
+| `check:exports` | every component is in the barrel, every `exports` map target resolves, and every component has a README section |
 | `check:vars` | every `var(--…)` a component reads still resolves once Tailwind has compiled the theme |
-| `check:docs-css` | no docs page redefines a rule it should be inheriting from the shared `docs.css` shell |
+| `check:docs-css` | no docs page redefines a rule it should inherit from the shared `docs.css` shell |
+| `check:components-css` | `docs/components.css` is current with the component `<style>` blocks it is generated from |
 | `check:contrast` | every colour pair Badge paints meets WCAG AA, derived from `Badge.astro` and resolved through `tokens.css` |
-| `check:catalogue` | every colour value the docs **write out by hand** still equals the token it names — the two reference pages restate ~150 of them, and a hex typed into a table cell was outside every other gate |
+| `check:catalogue` | every colour value and every count the docs **write out by hand** still equals the thing it names |
 | `check:seo` | the generated description, canonical, OG and JSON-LD blocks are current on every docs page |
+| `check:shell` | the shared page shell — nav, sidebar, footer — is identical across the docs pages |
 | `check:manifest` | `components.json` still matches the `interface Props` blocks it is parsed from |
+| `check:fonts` | the pages ask for the faces the type scale actually uses |
 | `check:code` | the `astro` samples in the docs pages match the ones in `astro-components/README.md` |
 | `check:render` | the demo **markup** in the docs pages still matches what the components actually render |
 
-Eleven of the thirteen are plain Node with no dependencies. Two are not: `check:vars` compiles `theme.css` with the real Tailwind v4 CLI first, because a `var()` that resolves in the source can still be missing after compilation; and `check:render` builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
+Most are plain Node with no dependencies. Two are not: `check:vars` compiles `theme.css` with the real Tailwind v4 CLI first, because a `var()` that resolves in the source can still be missing after compilation; and `check:render` builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
 
-`check:catalogue` runs its own `--self-test` first, and so can `check:catalogue --self-test` on its own. A checker that parses hand-written HTML fails by matching **nothing**, which reads as a clean page; each of its parsers therefore carries a floor and has to react to a planted error before its silence is worth anything.
+Four more gates run in CI rather than here, because each needs a build: `check:types` (`astro check`), `check:peer-range` (compiles every component against the oldest Astro the `peerDependencies` range advertises), `check:prose-classes` (compiles this package the way a *consumer* does, and refuses a rule that carries a relative `url()` or that does not parse) and `check:flat-scope` (asks the rendered tree what each rule reaches once Astro's scoping is stripped).
 
-All thirteen read source text. For what a browser sees instead, see [Looking at the rendered result](#looking-at-the-rendered-result) below.
+Several carry a `--self-test` that must pass before their output is worth anything. A checker that parses hand-written HTML fails by matching **nothing**, which reads as a clean page; each such parser therefore carries a floor and has to react to a planted error before its silence means anything.
+
+Every gate above reads source text. For what a browser sees instead, see [Looking at the rendered result](#looking-at-the-rendered-result) below — and note that `npm run overflow`, `npm run wide`, `npm run layout` and `npm run figma-size` are **tools, not gates**, run on purpose rather than on every commit.
 
 Token coverage spans colors, spacing, radius, shadows, blur, opacity, sizing, the semantic type scale and breakpoints.
 
@@ -370,7 +389,7 @@ npm run check:theme    # fails if it is out of date
 
 **Fix the generated layer, not the source** — unless the design genuinely changed in Figma, in which case update `tokens.w3c.json` first and propagate outward.
 
-CI runs the six dependency-free gates on every push and PR, compiles `theme.css` with real Tailwind v4 in a second job so `check:vars` runs against a genuinely compiled stylesheet, and renders the components with Astro in a third so `check:render` can compare real markup ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
+CI runs the dependency-free gates on every push and PR, compiles `theme.css` with real Tailwind v4 in a second job so `check:vars` runs against a genuinely compiled stylesheet, and renders the components with Astro in a third so `check:render`, the overflow sweep and the contrast audit can work against real markup in a real browser ([`.github/workflows/token-drift.yml`](.github/workflows/token-drift.yml)).
 
 ### Generated demo markup
 
