@@ -516,7 +516,7 @@
   --font-size-3xl--line-height:  var(--leading-9);   /* 36px — h2 30/36 */
   --font-size-4xl--line-height:  var(--leading-10);  /* 40px — no role uses 4xl */
   --font-size-5xl--line-height:  var(--leading-ratio-title);  /* 1.2 — h1: 48px at 40, 38.4 at 32 */
-  --font-size-6xl--line-height:  1;                  /* h1-hero was 48/48, a ratio of exactly 1 */
+  --font-size-6xl--line-height:  var(--leading-ratio-hero);  /* 56px at 48, 42px at 36 */
   --font-size-7xl--line-height:  1;                  /* 64px — display, no role */
   --font-size-8xl--line-height:  1;                  /* 72px — display, no role */
   --font-size-9xl--line-height:  1;                  /* 96px — display, no role */
@@ -580,8 +580,23 @@
      consumer as a silent change to a class they already use. */
   --leading-ratio-title: 1.2;   /* 40/48 at the top of h1's range, unchanged */
 
+  /* THE HERO, and the one value in this scale that was set below what the face
+     asks for. Measured 2026-09-01: Montserrat ExtraBold at 48px declares a line
+     box of 58px — ascent 46 plus descent 12 — and h1-hero's ratio of 1.000 gave
+     it 48, ten pixels under, with this headline's own ink (47.90px) clearing it
+     by 0.10px. Every other level sits at that natural box or above it: h1 and h2
+     at 1.200 are 58/48 to within a rounding error, h3 and h4 are looser. The
+     hero alone was 17% under.
+
+     7/6 puts it at 56 — two under the natural box, so still tighter than h1, as
+     a display level should be — and it is the only candidate that lands on whole
+     pixels at BOTH ends of the range this level now spans: 48→56 and 36→42. 1.15
+     gives 55.2 and 41.4. Written as a division because no decimal is exact:
+     1.1667 x 48 is 56.0016. `check:type-scale` computes this shape already. */
+  --leading-ratio-hero:  calc(7 / 6);  /* 56px at 48, 42px at 36 */
+
   /* ── Line heights (semantic → leading primitive) ── */
-  --line-height-h1-hero:  1;                          /* 48px at 48 — unchanged at 1440 */
+  --line-height-h1-hero:  var(--leading-ratio-hero);   /* 56px at 48, 42px at 36 */
   --line-height-h1:       var(--leading-ratio-title);  /* 48px at 40 — unchanged at 1440 */
   --line-height-h2:       var(--leading-9);   /* 36px */
   --line-height-h3:       var(--leading-8);   /* 32px */

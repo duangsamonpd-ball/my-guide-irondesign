@@ -46,6 +46,24 @@ export function term(v) {
  */
 export function len(v) {
   const s = String(v).trim();
+
+  /* `calc(<number> / <number>)` — a RATIO, and the only calc form read here.
+     `check:type-scale` already computes this shape and calls it "the shape
+     Tailwind's own pairs take"; it is also how an exact ratio is written when a
+     decimal would not be exact, which is why h1-hero's leading is `calc(7 / 6)`
+     rather than 1.1667 — 7/6 of 48 is 56 and of 36 is 42, both whole, and no
+     rounded decimal gives that.
+
+     Every OTHER calc stays unreadable on purpose. `calc(3rem + 1px)` mixes units
+     this module cannot resolve against each other, and `compare()` turning that
+     into a refusal is the behaviour two self-test rows exist to hold. */
+  const ratio = s.match(/^calc\(\s*([\d.]+)\s*\/\s*([\d.]+)\s*\)$/i);
+  if (ratio) {
+    const a = parseFloat(ratio[1]);
+    const b = parseFloat(ratio[2]);
+    return b === 0 || Number.isNaN(a) || Number.isNaN(b) ? null : `${a / b}`;
+  }
+
   const parts = s.split(/\s+(?=[+-]\s)/);
   if (parts.length === 1) {
     const t = term(s);
@@ -126,8 +144,14 @@ export function bounds(v) {
   const s = String(v).trim();
   const fn = s.match(/^clamp\(([\s\S]*)\)$/i);
   if (!fn) {
-    const t = term(s);
-    return t === null || t.unit !== '' ? null : [t.n, t.n];
+    /* Through len(), not term(), so a RATIO has ends too. Reading it with term()
+       returned null for `calc(7 / 6)`, and a caller that skips on null would
+       have gone blind on exactly the value it had just been given — the same
+       silent skip this function was written to end. */
+    const one = len(s);
+    if (one === null) return null;
+    const n = parseFloat(one);
+    return Number.isNaN(n) || !/^-?[\d.]+$/.test(one) ? null : [n, n];
   }
   const args = splitArgs(fn[1]);
   if (args.length !== 3) return null;

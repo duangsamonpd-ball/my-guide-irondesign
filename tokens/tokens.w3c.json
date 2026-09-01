@@ -1265,10 +1265,10 @@
           "fontFamily": "{typography.font-family.body}",
           "fontSize": "clamp(36px, 1.9714rem + 1.1429vw, 48px)",
           "fontWeight": 800,
-          "lineHeight": "1",
+          "lineHeight": "calc(7 / 6)",
           "letterSpacing": "0px"
         },
-        "$description": "Hero variant of H1 — still a real <h1>. A size modifier (h1.hero) used once on the homepage hero for maximum impact. No separate non-semantic Display level. FLUID from 2026-09-01: 36px at the 390 frame to 48px at the 1440 frame, interpolated between the two frames that exist. DERIVED, NOT FROM FIGMA — the design file has no fluid primitive and its `font` collection has a single mode, so a range cannot be bound there; the same reason `duration` records and the same ruling as `review`. The MAXIMUM is the value this level has always had, so 1440 does not move. line-height is a RATIO of 1 because a fixed px leading under a moving size holds its ratio at one end only — at 48px it is the same 48px h1-hero has always had."
+        "$description": "Hero variant of H1 — still a real <h1>. A size modifier (h1.hero) used once on the homepage hero for maximum impact. No separate non-semantic Display level. FLUID from 2026-09-01: 36px at the 390 frame to 48px at the 1440 frame, interpolated between the two frames that exist. DERIVED, NOT FROM FIGMA — the design file has no fluid primitive and its `font` collection has a single mode, so a range cannot be bound there; the same reason `duration` records and the same ruling as `review`. The MAXIMUM is the value this level has always had, so 1440 does not move. line-height is a RATIO of 1 because a fixed px leading under a moving size holds its ratio at one end only — at 48px it is the same 48px h1-hero has always had. Line-height moved from a ratio of 1.000 to 7/6 on 2026-09-01: Montserrat ExtraBold declares a 58px line box at 48px (ascent 46 + descent 12) and 1.000 gave it 48, ten pixels under, while every other level sits at that natural box or above it. 7/6 is 56 at 48 and 42 at 36 — whole pixels at both ends of the range, and still tighter than h1, which a display level should be. Written as a division because 1.1667 x 48 is 56.0016."
       },
       "h1": {
         "$type": "typography",
