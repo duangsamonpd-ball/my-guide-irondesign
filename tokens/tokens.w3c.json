@@ -1181,12 +1181,14 @@
         "$type": "dimension"
       },
       "5xl": {
-        "$value": "40px",
-        "$type": "dimension"
+        "$value": "clamp(32px, 1.8143rem + 0.7619vw, 40px)",
+        "$type": "dimension",
+        "$description": " FLUID from 2026-09-01 — this step is resolved by exactly one role and moves with it; see that role for the range and why it is derived rather than bound in Figma."
       },
       "6xl": {
-        "$value": "48px",
-        "$type": "dimension"
+        "$value": "clamp(36px, 1.9714rem + 1.1429vw, 48px)",
+        "$type": "dimension",
+        "$description": " FLUID from 2026-09-01 — this step is resolved by exactly one role and moves with it; see that role for the range and why it is derived rather than bound in Figma."
       },
       "7xl": {
         "$value": "64px",
@@ -1261,23 +1263,23 @@
         "$type": "typography",
         "$value": {
           "fontFamily": "{typography.font-family.body}",
-          "fontSize": "48px",
+          "fontSize": "clamp(36px, 1.9714rem + 1.1429vw, 48px)",
           "fontWeight": 800,
-          "lineHeight": "48px",
+          "lineHeight": "1",
           "letterSpacing": "0px"
         },
-        "$description": "Hero variant of H1 — still a real <h1>. A size modifier (h1.hero) used once on the homepage hero for maximum impact. No separate non-semantic Display level."
+        "$description": "Hero variant of H1 — still a real <h1>. A size modifier (h1.hero) used once on the homepage hero for maximum impact. No separate non-semantic Display level. FLUID from 2026-09-01: 36px at the 390 frame to 48px at the 1440 frame, interpolated between the two frames that exist. DERIVED, NOT FROM FIGMA — the design file has no fluid primitive and its `font` collection has a single mode, so a range cannot be bound there; the same reason `duration` records and the same ruling as `review`. The MAXIMUM is the value this level has always had, so 1440 does not move. line-height is a RATIO of 1 because a fixed px leading under a moving size holds its ratio at one end only — at 48px it is the same 48px h1-hero has always had."
       },
       "h1": {
         "$type": "typography",
         "$value": {
           "fontFamily": "{typography.font-family.body}",
-          "fontSize": "40px",
+          "fontSize": "clamp(32px, 1.8143rem + 0.7619vw, 40px)",
           "fontWeight": 800,
-          "lineHeight": "48px",
+          "lineHeight": "1.2",
           "letterSpacing": "-0.8px"
         },
-        "$description": "The page's main title — exactly one per page. Largest level; carries SEO/screen-reader meaning. Inner pages use this; homepage adds the hero modifier."
+        "$description": "The page's main title — exactly one per page. Largest level; carries SEO/screen-reader meaning. Inner pages use this; homepage adds the hero modifier. FLUID from 2026-09-01: 32px at the 390 frame to 40px at the 1440 frame, interpolated between the two frames that exist. DERIVED, NOT FROM FIGMA — the design file has no fluid primitive and its `font` collection has a single mode, so a range cannot be bound there; the same reason `duration` records and the same ruling as `review`. The MAXIMUM is the value this level has always had, so 1440 does not move. line-height is a RATIO of 1.2 because a fixed px leading under a moving size holds its ratio at one end only — at 40px it is the 48px h1 has always had."
       },
       "h2": {
         "$type": "typography",

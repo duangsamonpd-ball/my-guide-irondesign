@@ -343,11 +343,14 @@ if (SELF_TEST) {
       ['theme', /\n[^\n]*--text-base--line-height:[^\n]*/, ''],
       ['utilities', /--text-base--line-height: var\(--leading-7\);/, '--text-base--line-height: calc(1.5 / 1);'],
     ], 'text-base'],
-    /* The 48px step paired with `1`. Computed that IS h1-hero's 48px, so this
-       must NOT fire: it is the control for the ROLE check, proving it compares
-       computed values rather than text. */
-    ['ROLE — `1` on the 48px step must stay clean (control)', [['theme',
-      /--text-6xl--line-height: var\(--leading-12\);/, '--text-6xl--line-height: 1;']], null],
+    /* h2's pair rewritten from its px rung to the RATIO rung that computes to
+       the same 36px at 30px. Same value, different text, and it must NOT fire:
+       this is the control proving ROLE compares computed values rather than
+       strings. It used to plant `1` on the 48px step — that stopped arming the
+       day h1-hero went fluid and its pair became `1` in the live theme, and the
+       self-test said so rather than passing a vacuous row. */
+    ['ROLE — h2\u2019s pair as a ratio rung, same computed value (control)', [['theme',
+      /--text-3xl--line-height: var\(--leading-9\);/, '--text-3xl--line-height: var(--leading-ratio-title);']], null],
     ['COMPILED — utilities.css compiled before the pair', [['utilities',
       /--text-5xl--line-height:[^;]*;/, '']], 'text-5xl'],
 
@@ -356,19 +359,19 @@ if (SELF_TEST) {
        "13 … all 9" and exited 0 — the step left the check and the count was the
        only tell. These three rows are what makes that state impossible. */
     ['FLUID — a fluid step against a fixed leading', [['theme',
-      /--text-6xl: 48px;/, '--text-6xl: clamp(32px, 5vw, 48px);']], 'text-6xl'],
+      /--text-3xl: 30px;/, '--text-3xl: clamp(24px, 3vw, 30px);']], 'text-3xl'],
     /* The control, and the thing it demonstrates is the authoring: a ratio
        leading follows the size for free, so the step, its pair AND the role's
        own rung all become `1` and the ramp stays checkable at both ends. A fix
        that merely refused fluid values would fail this row. */
     ['FLUID — fluid step, ratio leading throughout (control)', [
-      ['theme', /--text-6xl: 48px;/, '--text-6xl: clamp(32px, 5vw, 48px);'],
-      ['theme', /--text-6xl--line-height: var\(--leading-12\);/, '--text-6xl--line-height: 1;'],
-      ['theme', /--leading-h1-hero: var\(--leading-12\);/, '--leading-h1-hero: 1;'],
+      ['theme', /--text-3xl: 30px;/, '--text-3xl: clamp(24px, 3vw, 30px);'],
+      ['theme', /--text-3xl--line-height: var\(--leading-9\);/, '--text-3xl--line-height: var(--leading-ratio-title);'],
+      ['theme', /--leading-h2: var\(--leading-9\);/, '--leading-h2: var(--leading-ratio-title);'],
     ], null],
     /* A literal the gate cannot read must be NAMED, not quietly not-a-step. */
     ['UNREAD — a step in a unit this gate does not read', [['theme',
-      /--text-6xl: 48px;/, '--text-6xl: 3rem;']], 'text-6xl'],
+      /--text-3xl: 30px;/, '--text-3xl: 1.875rem;']], 'text-3xl'],
   ];
 
   let armed = 0;

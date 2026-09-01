@@ -35,6 +35,8 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
+import { px } from './lib/dimension.mjs';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SELF_TEST = process.argv.includes('--self-test');
 const PAGE = 'docs/02-typography.html';
@@ -54,8 +56,10 @@ const CSS_TO_W3C = {
   'nav-sub': 'nav-dropdown', 'nav-label': 'nav-group-label', 'badge-sm': 'badge-small',
 };
 
-const REM = 16;
-const px = (v) => (v == null ? null : /rem\s*$/.test(v) ? parseFloat(v) * REM : parseFloat(v));
+/* Shared with check:tokens. A specimen can now carry a clamp — h1 and h1-hero
+   went fluid on 2026-09-01 — and the first version of this gate read one as NaN
+   and reported two IDENTICAL clamp strings as drift. The right failure shape
+   (NaN never equals NaN) but still wrong, and the fix is one reader, not two. */
 
 function run({ html, w3c }) {
   const findings = [];
@@ -151,10 +155,14 @@ if (SELF_TEST) {
   }
 
   const FAULTS = [
+    /* h1-hero's specimen is a CLAMP now, so these anchor on its line-height:1
+       instead of the 3rem it used to carry. The old patterns stopped matching
+       the day the level went fluid and this self-test refused to run rather than
+       reporting five green rows out of seven. */
     ['TRACKING — h1-hero given h1’s tracking (the real 2026-09-01 fault)',
-      [/(<div style="font-size:3rem;[^"]*?)letter-spacing:0px;/, '$1letter-spacing:-0.8px;'], 'h1-hero'],
+      [/(<div style="font-size:clamp\(36px[^"]*?)letter-spacing:0px;/, '$1letter-spacing:-0.8px;'], 'h1-hero'],
     ['CANNOT WRAP — the truncation put back',
-      [/(<div style="font-size:3rem;[^"]*?letter-spacing:0px;)/, '$1 overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'], 'h1-hero'],
+      [/(<div style="font-size:clamp\(36px[^"]*?letter-spacing:0px;)/, '$1 overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'], 'h1-hero'],
     ['WEIGHT — h2 dropped to semibold',
       [/(<div style="font-size:1\.875rem; )font-weight:800;/, '$1font-weight:600;'], 'h2'],
     ['SIZE — h3 drawn a step small',

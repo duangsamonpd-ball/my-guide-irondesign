@@ -28,6 +28,8 @@
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
+
+import { bounds } from './lib/dimension.mjs';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -465,12 +467,25 @@ const PARSERS = [
           if (!fam) continue;
           const v = raw(`--${name}`);
           if (v === null) { record(page, this.name, `names \`--${name}\`, which tokens.css does not declare`); n++; continue; }
-          const px = /^([\d.]+)rem$/.test(v) ? parseFloat(v) * 16 : /^(-?[\d.]+)px$/.test(v) ? parseFloat(v) : parseFloat(v);
-          const said = parseFloat((stated[fam] ?? '').replace(/&[a-z]+;/g, ' ').match(/-?[\d.]+/)?.[0] ?? 'NaN');
+          /* BOTH ENDS, not the first number in the cell. When h1 and h1-hero went
+             fluid on 2026-09-01 this read `36` out of "36px → 48px" and compared
+             it against parseFloat of a clamp, which is NaN — so the guard below
+             skipped both rows in silence while the count still included them.
+             A fluid value states two numbers and the prose about it states two;
+             comparing one against the other was never going to hold. */
+          const ends = bounds(v);
+          const nums = [...(stated[fam] ?? '').replace(/&[a-z]+;/g, ' ').matchAll(/-?[\d.]+/g)].map((x) => parseFloat(x[0]));
           n++;
-          if (Number.isNaN(said) || Number.isNaN(px)) continue;
-          if (Math.abs(px - said) > 0.01 && !(px <= 2 && said <= 2)) {
-            record(page, this.name, `row says ${said} for \`--${name}\` — tokens.css resolves it to ${px}`);
+          if (ends === null || nums.length === 0) continue;
+          const [lo, hi] = ends;
+          const wanted = lo === hi ? [lo] : [lo, hi];
+          /* A ratio (`1`, `1.2`) and a px length are both legal here and the
+             page states them in their own terms, so the small-value pair is left
+             alone exactly as before. */
+          for (const w of wanted) {
+            if (nums.some((said) => Math.abs(w - said) <= 0.01 || (w <= 2 && said <= 2))) continue;
+            record(page, this.name, `row states ${nums.join(' / ')} for \`--${name}\` — tokens.css resolves it to `
+              + (lo === hi ? `${hi}` : `${lo} → ${hi}`) + `, and ${w} is not among them`);
           }
         }
       }
@@ -635,8 +650,16 @@ if (SELF_TEST) {
        that resolves to 20. */
     ['component/anatomy tags', 'docs/component-radio.html', /(<b>--size-box<\/b> \()[\d.]+px\)/, '$199px)'],
     /* The typography page stated every value correctly on the day its token
-       names were added; this proves the parser would notice if one moved. */
-    ['typography/type rows', 'docs/02-typography.html', /(<tr><td>Size<\/td><td>)48px/, '$199px'],
+       names were added; this proves the parser would notice if one moved. It
+       used to plant on the 48px Size cell, which was h1-hero's and is a range
+       now — the plant stopped landing and the self-test said so. */
+    ['typography/type rows', 'docs/02-typography.html', /(<tr><td>Size<\/td><td>)30px/, '$199px'],
+    /* The FLUID half, and the reason it needs its own row: this parser used to
+       read the first number out of a two-ended cell and compare it against
+       parseFloat of a clamp, i.e. NaN, then skip. Corrupting the TOP of the
+       range while leaving the bottom correct is the case that was invisible. */
+    ['typography/type rows (a fluid row\u2019s far end)', 'docs/02-typography.html',
+      /(<tr><td>Size<\/td><td>36px \u2192 )48px/, '$199px'],
     ['opacity/transparency ramps', 'docs/05-opacity.html', /(<div class="ramp-fill" style="background:)#FFFFFF80/, '$1#FFFFFFBB'],
     /* Two entries, because this parser has two halves that fail in opposite
        directions and one plant can only arm one of them. The DELETION is the

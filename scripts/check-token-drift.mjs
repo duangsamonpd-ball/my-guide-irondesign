@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
 import { componentSources } from './lib/sources.mjs';
+import { px } from './lib/dimension.mjs';
 
 const SELF = fileURLToPath(import.meta.url);
 const SELF_TEST = process.argv.includes('--self-test');
@@ -85,7 +86,9 @@ function resolve(layer, name, seen = new Set()) {
 
 /* ── value normalisers ───────────────────────────────────────────────────── */
 
-const REM = 16;
+/* `px` reads a dimension, fixed or fluid — see scripts/lib/dimension.mjs. It is
+   imported rather than defined here because check:specimens needs the same
+   answer, and the second copy is what this repo keeps getting wrong. */
 
 /**
  * One length → a canonical string. `1.5rem`, `24px` and a bare `24` all read as
@@ -103,62 +106,6 @@ const REM = 16;
  * property of its inherited font size and `vw` of the viewport, and this gate
  * has neither.
  */
-const LENGTH = /^(-?[\d.]+)([a-z%]*)$/i;
-
-function len(v) {
-  const m = String(v).trim().match(LENGTH);
-  if (!m) return null;
-  const n = parseFloat(m[1]);
-  if (Number.isNaN(n)) return null;
-  const unit = m[2].toLowerCase();
-  if (unit === '' || unit === 'px') return `${n}`;
-  if (unit === 'rem') return `${n * REM}`;
-  return `${n}${unit}`;
-}
-
-/** Split on TOP-LEVEL commas only, so a nested call keeps its own arguments. */
-function splitArgs(s) {
-  const out = [];
-  let depth = 0;
-  let cur = '';
-  for (const ch of s) {
-    if (ch === '(') depth++;
-    else if (ch === ')') depth--;
-    if (ch === ',' && depth === 0) { out.push(cur); cur = ''; continue; }
-    cur += ch;
-  }
-  out.push(cur);
-  return out;
-}
-
-/**
- * Any dimension, FIXED or FLUID → a canonical string, or null if unreadable.
- *
- * The fluid half exists because of a hole measured on 2026-09-01, and the hole
- * was not that a clamp compared wrong — it was that it did not compare at all.
- * `parseFloat('clamp(32px, 5vw, 48px)')` is NaN, so the old normaliser returned
- * null for BOTH sides of the comparison, and `compare()` asked `null !== null`,
- * which is false. Proven by injection: `clamp(32px, 5vw, 48px)` in the source of
- * truth against `clamp(64px, 9vw, 96px)` in both consumable layers reported
- * "No drift", with the token still inside the checked count — a vacuous pass,
- * not a skip. `compare()` now refuses an unreadable side outright, so even a
- * shape this function has never seen cannot come back as agreement; this makes
- * the shape we DO expect comparable rather than merely refused.
- *
- * Compared structurally, argument by argument, so `clamp(2rem, 5vw, 4rem)` and
- * `clamp(32px, 5vw, 64px)` are the same value written twice and a moved
- * breakpoint is drift.
- */
-function px(v) {
-  if (v == null) return null;
-  if (typeof v === 'number') return String(v);
-  const s = String(v).trim();
-  const fn = s.match(/^(clamp|min|max)\(([\s\S]*)\)$/i);
-  if (!fn) return len(s);
-  const args = splitArgs(fn[2]).map(px);
-  return args.some((a) => a === null) ? null : `${fn[1].toLowerCase()}(${args.join(',')})`;
-}
-
 const num = (v) => (v == null ? null : parseFloat(String(v)));
 const hex = (v) => (v == null ? null : String(v).trim().toUpperCase());
 
@@ -701,7 +648,10 @@ if (SELF_TEST) {
     process.exit(1);
   }
 
-  const W3C_SIZE = '"fontSize": "48px"';
+  /* h1-hero's own size, which is now the fluid shape this gate was repaired for.
+     The anchor moved when the level went fluid, and a plant that no longer lands
+     THROWS rather than passing — which is how this comment came to be updated. */
+  const W3C_SIZE = '"fontSize": "clamp(36px, 1.9714rem + 1.1429vw, 48px)"';
   const TOKENS_SIZE = '--font-size-h1-hero:  var(--font-size-6xl);';
   const THEME_SIZE = '--text-h1-hero: var(--text-6xl);';
   const css = (v) => [
@@ -721,6 +671,17 @@ if (SELF_TEST) {
       [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(32px, 5vw, 48px)')], false],
     ['FLUID — same value, rem vs px (control, must stay clean)',
       [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(2rem, 5vw, 3rem)')], false],
+
+    /* THE SHAPE ACTUALLY SHIPPING. A fluid middle term is a SUM of a rem and a
+       vw, not a single length, and the first attempt at this gate could not read
+       one — it refused the very values it had been repaired to compare, which is
+       the right failure but still a failure. */
+    ['SUM — a real fluid middle term, written twice (control)',
+      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 1.8143rem + 0.7619vw, 40px)')], false],
+    ['SUM — the same term with its addends swapped (control)',
+      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 0.7619vw + 29.0288px, 40px)')], false],
+    ['SUM — only the slope of the middle term differs',
+      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 1.8143rem + 0.9000vw, 40px)')], true],
 
     ['MIXED — fluid in w3c, fixed in the layers', w3c('clamp(32px, 5vw, 48px)'), true],
     ['MIXED — fixed in w3c, fluid in the layers', css('clamp(32px, 5vw, 48px)'), true],

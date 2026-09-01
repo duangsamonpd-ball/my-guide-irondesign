@@ -445,8 +445,16 @@
   --font-size-2xl:  24px;
   --font-size-3xl:  30px;
   --font-size-4xl:  36px;
-  --font-size-5xl:  40px;
-  --font-size-6xl:  48px;
+  /* THE TWO FLUID STEPS. Each clamp runs from the value at the 390 frame to the
+     value at the 1440 frame, so its MAXIMUM is exactly what this step has always
+     been and the desktop canvas the system was drawn against does not move. Only
+     h1 resolves 5xl and only h1-hero resolves 6xl — no other role and no
+     component wears either — so the range reaches exactly the two levels it was
+     measured for. Nothing between the endpoints is invented; it is interpolated
+     between the two frames we have. NOT FROM FIGMA: the design file has no fluid
+     primitive and its `font` collection has one mode. See tokens.w3c.json. */
+  --font-size-5xl:  clamp(32px, 1.8143rem + 0.7619vw, 40px);  /* h1 32→40 */
+  --font-size-6xl:  clamp(36px, 1.9714rem + 1.1429vw, 48px);  /* h1-hero 36→48 */
   --font-size-7xl:  64px;  /* Figma size/7xl — was 60 until 2026-08-06 */
   --font-size-8xl:  72px;
   --font-size-9xl:  96px;
@@ -503,8 +511,8 @@
   --font-size-2xl--line-height:  var(--leading-8);   /* 32px — h3 24/32 */
   --font-size-3xl--line-height:  var(--leading-9);   /* 36px — h2 30/36 */
   --font-size-4xl--line-height:  var(--leading-10);  /* 40px — no role uses 4xl */
-  --font-size-5xl--line-height:  var(--leading-12);  /* 48px — h1 40/48 */
-  --font-size-6xl--line-height:  var(--leading-12);  /* 48px — h1-hero 48/48 */
+  --font-size-5xl--line-height:  var(--leading-ratio-title);  /* 1.2 — h1: 48px at 40, 38.4 at 32 */
+  --font-size-6xl--line-height:  1;                  /* h1-hero was 48/48, a ratio of exactly 1 */
   --font-size-7xl--line-height:  1;                  /* 64px — display, no role */
   --font-size-8xl--line-height:  1;                  /* 72px — display, no role */
   --font-size-9xl--line-height:  1;                  /* 96px — display, no role */
@@ -553,9 +561,24 @@
   --leading-24:  96px;
   --leading-32: 128px;
 
+  /* ── Leading RATIOS — the rungs a FLUID step needs ────────────────────────
+     A px rung is the right shape for a fixed size and the wrong one for a step
+     that moves: pinned at 48px under a size running 36→48, the ratio swings 1.00
+     at the top of the range to 1.33 at the bottom, and no width in between was
+     designed. `check:type-scale` refuses that pairing by name (FLUID).
+
+     A ratio follows the size for free, which is why the single-line `1` already
+     in this file works and why these join it. They are named `ratio` rather than
+     by a number because the numeric rungs above mean PIXELS — `--leading-12` is
+     48px — and a rung whose name implied px while holding 1.2 would be the worst
+     of both. They are deliberately not Tailwind's `tight`/`snug` either: those
+     names carry Tailwind's own values, and quietly redefining one would reach a
+     consumer as a silent change to a class they already use. */
+  --leading-ratio-title: 1.2;   /* 40/48 at the top of h1's range, unchanged */
+
   /* ── Line heights (semantic → leading primitive) ── */
-  --line-height-h1-hero:  var(--leading-12);  /* 48px */
-  --line-height-h1:       var(--leading-12);  /* 48px */
+  --line-height-h1-hero:  1;                          /* 48px at 48 — unchanged at 1440 */
+  --line-height-h1:       var(--leading-ratio-title);  /* 48px at 40 — unchanged at 1440 */
   --line-height-h2:       var(--leading-9);   /* 36px */
   --line-height-h3:       var(--leading-8);   /* 32px */
   --line-height-h4:       var(--leading-7);   /* 28px */
