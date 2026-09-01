@@ -14,7 +14,7 @@
     "build:utilities": "node scripts/build-utilities.mjs",
     "check:theme": "node scripts/build-theme.mjs --check",
     "check:utilities": "node scripts/build-utilities.mjs --check",
-    "check:tokens": "node scripts/check-token-drift.mjs",
+    "check:tokens": "node scripts/check-token-drift.mjs --self-test && node scripts/check-token-drift.mjs",
     "check:alt-text": "node scripts/check-alt-text.mjs --self-test && node scripts/check-alt-text.mjs",
     "check:logo-fills": "node scripts/check-logo-fills.mjs --self-test && node scripts/check-logo-fills.mjs",
     "check:artwork-sync": "node scripts/check-artwork-sync.mjs --self-test && node scripts/check-artwork-sync.mjs",

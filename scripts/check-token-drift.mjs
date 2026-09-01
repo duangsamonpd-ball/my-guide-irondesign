@@ -15,14 +15,37 @@
  */
 
 import { readFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
 import { componentSources } from './lib/sources.mjs';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const SELF = fileURLToPath(import.meta.url);
+const SELF_TEST = process.argv.includes('--self-test');
+const ROOT = join(dirname(SELF), '..');
 
-const W3C = JSON.parse(readFileSync(join(ROOT, 'tokens/tokens.w3c.json'), 'utf8'));
+/**
+ * The self-test plants a fault on the REAL files, in a child process, through
+ * this one channel. Nothing else reads the three data files directly.
+ *
+ * A PLANT THAT DOES NOT LAND THROWS. A fault injection that silently matched
+ * nothing would make every self-test row pass while proving nothing at all —
+ * this repo has been bitten by exactly that, so the miss is a crash, not a skip.
+ */
+const FAULT = process.env.TOKEN_DRIFT_FAULT ? JSON.parse(process.env.TOKEN_DRIFT_FAULT) : [];
+
+function readSource(file) {
+  let text = readFileSync(join(ROOT, file), 'utf8');
+  for (const [target, find, replace] of FAULT) {
+    if (target !== file) continue;
+    if (!text.includes(find)) throw new Error(`planted fault did not land in ${file}: ${find}`);
+    text = text.replace(find, replace);
+  }
+  return text;
+}
+
+const W3C = JSON.parse(readSource('tokens/tokens.w3c.json'));
 
 const errors = [];
 const warnings = [];
@@ -39,7 +62,7 @@ const warn = (family, token, msg) => warnings.push({ family, token, msg });
  * overwrite half the palette with its dark counterpart.
  */
 function parseLayer(file) {
-  const css = readFileSync(join(ROOT, file), 'utf8').split(/^\.dark\s*\{/m)[0];
+  const css = readSource(file).split(/^\.dark\s*\{/m)[0];
   const vars = new Map();
   for (const [, name, value] of css.matchAll(/^\s*--([\w-]+):\s*([^;]+);/gm)) {
     vars.set(name, value.trim());
@@ -64,14 +87,76 @@ function resolve(layer, name, seen = new Set()) {
 
 const REM = 16;
 
-/** Any dimension (number, "1.5rem", "24px", "9999px") → px as a number. */
+/**
+ * One length → a canonical string. `1.5rem`, `24px` and a bare `24` all read as
+ * "24"; `5vw` reads as "5vw" and never as "5".
+ *
+ * The old normaliser was `parseFloat` with a `rem` special case, which meant a
+ * unit it did not know was silently discarded rather than refused — `5vw` and
+ * `5px` compared equal. Nothing in this system carries such a unit today
+ * (measured: 202 px, 44 rem, 6 unitless, nothing else), so this changes no
+ * current verdict; it is here because the fluid work below puts viewport units
+ * inside values this function has to read.
+ *
+ * Only `px`, `rem` and unitless convert. Everything else stays symbolic, which
+ * is a refusal to claim an equivalence that depends on context: `em` is a
+ * property of its inherited font size and `vw` of the viewport, and this gate
+ * has neither.
+ */
+const LENGTH = /^(-?[\d.]+)([a-z%]*)$/i;
+
+function len(v) {
+  const m = String(v).trim().match(LENGTH);
+  if (!m) return null;
+  const n = parseFloat(m[1]);
+  if (Number.isNaN(n)) return null;
+  const unit = m[2].toLowerCase();
+  if (unit === '' || unit === 'px') return `${n}`;
+  if (unit === 'rem') return `${n * REM}`;
+  return `${n}${unit}`;
+}
+
+/** Split on TOP-LEVEL commas only, so a nested call keeps its own arguments. */
+function splitArgs(s) {
+  const out = [];
+  let depth = 0;
+  let cur = '';
+  for (const ch of s) {
+    if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    if (ch === ',' && depth === 0) { out.push(cur); cur = ''; continue; }
+    cur += ch;
+  }
+  out.push(cur);
+  return out;
+}
+
+/**
+ * Any dimension, FIXED or FLUID → a canonical string, or null if unreadable.
+ *
+ * The fluid half exists because of a hole measured on 2026-09-01, and the hole
+ * was not that a clamp compared wrong — it was that it did not compare at all.
+ * `parseFloat('clamp(32px, 5vw, 48px)')` is NaN, so the old normaliser returned
+ * null for BOTH sides of the comparison, and `compare()` asked `null !== null`,
+ * which is false. Proven by injection: `clamp(32px, 5vw, 48px)` in the source of
+ * truth against `clamp(64px, 9vw, 96px)` in both consumable layers reported
+ * "No drift", with the token still inside the checked count — a vacuous pass,
+ * not a skip. `compare()` now refuses an unreadable side outright, so even a
+ * shape this function has never seen cannot come back as agreement; this makes
+ * the shape we DO expect comparable rather than merely refused.
+ *
+ * Compared structurally, argument by argument, so `clamp(2rem, 5vw, 4rem)` and
+ * `clamp(32px, 5vw, 64px)` are the same value written twice and a moved
+ * breakpoint is drift.
+ */
 function px(v) {
   if (v == null) return null;
-  if (typeof v === 'number') return v;
+  if (typeof v === 'number') return String(v);
   const s = String(v).trim();
-  if (s.endsWith('rem')) return parseFloat(s) * REM;
-  const n = parseFloat(s);
-  return Number.isNaN(n) ? null : n;
+  const fn = s.match(/^(clamp|min|max)\(([\s\S]*)\)$/i);
+  if (!fn) return len(s);
+  const args = splitArgs(fn[2]).map(px);
+  return args.some((a) => a === null) ? null : `${fn[1].toLowerCase()}(${args.join(',')})`;
 }
 
 const num = (v) => (v == null ? null : parseFloat(String(v)));
@@ -111,9 +196,25 @@ const show = (v) => {
   return String(v);
 };
 
+/** A normaliser that could not read its input. `NaN` counts: `num` returns it. */
+const unreadable = (v) => v === null || (typeof v === 'number' && Number.isNaN(v));
+
 /**
  * Compare one token against every layer that should carry it.
  * `names` is the variable name per layer — a string when both use the same one.
+ *
+ * A NORMALISER THAT CANNOT READ A SIDE IS A REFUSAL, NEVER AN AGREEMENT. This
+ * is the `None == None` shape, and it is checked here rather than in each
+ * normaliser because it is a property of the comparison: two values the gate
+ * cannot read are not thereby equal, whatever they are. Until 2026-09-01 the
+ * test was `normalise(raw) !== want` alone, so any value shape nobody had fed
+ * this gate yet — a `clamp()` was the one that surfaced it — passed in silence
+ * on BOTH sides at once. The token stayed inside the checked count while
+ * comparing nothing, which is why the total could not give it away either.
+ *
+ * So the guarantee is now about shapes rather than about clamp: whatever
+ * arrives next that `px`, `num`, `hex` or `shadow` cannot parse comes back as a
+ * named error asking for the normaliser to learn it.
  */
 function compare({ family, token, expected, names, normalise, only }) {
   checks++;
@@ -126,7 +227,17 @@ function compare({ family, token, expected, names, normalise, only }) {
     const raw = resolve(layer, name);
     if (raw == null) {
       err(family, token, `missing from ${layer.file} — expected \`--${name}\``);
-    } else if (normalise(raw) !== want) {
+      continue;
+    }
+
+    const got = normalise(raw);
+    if (unreadable(want) || unreadable(got)) {
+      const side = unreadable(want)
+        ? `w3c = ${show(expected)}`
+        : `${layer.file} \`--${name}\` = ${show(raw)}`;
+      err(family, token, `cannot be compared — ${side} is a shape this gate's normaliser ` +
+        `does not read, and two unread values are not agreement. Teach the normaliser the shape.`);
+    } else if (got !== want) {
       err(family, token, `${layer.file} \`--${name}\` = ${show(raw)} · w3c = ${show(expected)}`);
     }
   }
@@ -488,7 +599,7 @@ for (const { prefix, themePrefix, utility } of TYPE_ROLE_NS) {
 {
   checks++;
   const stamp = '/**\n * Iron Software Design System — Tailwind v4 theme';
-  if (!readFileSync(join(ROOT, 'tailwind/theme.css'), 'utf8').startsWith(stamp)) {
+  if (!readSource('tailwind/theme.css').startsWith(stamp)) {
     err('generated', 'theme.css', 'file header is missing — was it hand-edited? run: node scripts/build-theme.mjs');
   }
 }
@@ -564,6 +675,107 @@ if (warnings.length) {
     console.log(`\n  ${family}`);
     for (const { token, msg } of items) console.log(`    · ${token} — ${msg}`);
   }
+}
+
+/* ── self-test ───────────────────────────────────────────────────────────── */
+
+/**
+ * Per CLAUDE.md: a check that cannot fail on the machine that wrote it is not a
+ * check. Each fault below is planted on the REAL token files, one at a time, in
+ * a child process, and the gate must name `h1-hero` — not merely exit non-zero,
+ * which a crashing script also does.
+ *
+ * The two CONTROL rows are the point of the exercise. Before 2026-09-01 this
+ * gate reported "No drift" for a `clamp()` in the source of truth against a
+ * completely different `clamp()` in both consumable layers, because `px()`
+ * returned null for each and `null !== null` is false. A fix that simply
+ * refused every clamp would turn that row green while breaking the fluid work
+ * it exists to allow, so `identical clamps` and `same value, rem vs px` must
+ * stay CLEAN while `slope only` fails: together they prove the gate compares
+ * fluid values rather than rejecting their shape.
+ */
+if (SELF_TEST) {
+  if (errors.length) {
+    console.error(`\n\x1b[31m✖  self-test cannot run — the live tree already has ${errors.length} drift(s)\x1b[0m\n`);
+    for (const { family, token, msg } of errors) console.error(`    ${family} ${token}: ${msg}`);
+    process.exit(1);
+  }
+
+  const W3C_SIZE = '"fontSize": "48px"';
+  const TOKENS_SIZE = '--font-size-h1-hero:  var(--font-size-6xl);';
+  const THEME_SIZE = '--text-h1-hero: var(--text-6xl);';
+  const css = (v) => [
+    ['tailwind/tokens.css', TOKENS_SIZE, `--font-size-h1-hero:  ${v};`],
+    ['tailwind/theme.css', THEME_SIZE, `--text-h1-hero: ${v};`],
+  ];
+  const w3c = (v) => [['tokens/tokens.w3c.json', W3C_SIZE, `"fontSize": "${v}"`]];
+
+  const FAULTS = [
+    /* The arm. Without this row every row below could be passing because the
+       token is not reached at all rather than because the comparison works. */
+    ['ARM — a plain px disagreement', css('40px'), true],
+
+    ['FLUID — disagreeing clamps', [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(64px, 9vw, 96px)')], true],
+    ['FLUID — only the slope differs', [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(32px, 6vw, 48px)')], true],
+    ['FLUID — identical clamps (control, must stay clean)',
+      [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(32px, 5vw, 48px)')], false],
+    ['FLUID — same value, rem vs px (control, must stay clean)',
+      [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(2rem, 5vw, 3rem)')], false],
+
+    ['MIXED — fluid in w3c, fixed in the layers', w3c('clamp(32px, 5vw, 48px)'), true],
+    ['MIXED — fixed in w3c, fluid in the layers', css('clamp(32px, 5vw, 48px)'), true],
+
+    /* The general rule, not the clamp special case: a shape no normaliser here
+       reads must be an error rather than a silent agreement.
+
+       THE SECOND ROW IS THE ONE THAT TESTS THE GUARD. With only one side
+       unreadable the comparison is `null !== "48"`, which was already an error
+       before the guard existed — that row proves nothing about it. The guard is
+       reached only when BOTH sides are unread, which is `null !== null`, false,
+       and is exactly the shape the clamp arrived in. */
+    ['SHAPE — unreadable on one side', css('calc(3rem + 1px)'), true],
+    ['SHAPE — unreadable on BOTH sides (the `null !== null` case)',
+      [...w3c('calc(3rem + 1px)'), ...css('calc(3rem + 2px)')], true],
+    /* `parseFloat` discarded any unit it did not know, so this pair — 48vw
+       against the w3c's 48px — used to compare EQUAL. */
+    ['UNIT — a unit that used to be discarded', css('48vw'), true],
+  ];
+
+  let failed = 0;
+  console.log(`\n  \x1b[1mself-test\x1b[0m — the live tree reports 0 drifts (${checks} tokens)\n`);
+
+  for (const [name, patches, shouldFail] of FAULTS) {
+    let status = 0;
+    let out = '';
+    try {
+      out = execFileSync(process.execPath, [SELF], {
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'pipe'],
+        env: { ...process.env, TOKEN_DRIFT_FAULT: JSON.stringify(patches) },
+      });
+    } catch (e) {
+      status = e.status ?? 1;
+      out = `${e.stdout ?? ''}${e.stderr ?? ''}`;
+    }
+
+    /* A plant that matched nothing crashes readSource. That also exits 1, and
+       would otherwise be read as the fault being caught. */
+    const landed = !out.includes('planted fault did not land');
+    const named = out.includes('h1-hero');
+    const ok = landed && (shouldFail ? status !== 0 && named : status === 0 && !named);
+
+    if (!ok) failed++;
+    const mark = ok ? '\x1b[32m✔\x1b[0m' : '\x1b[31m✖\x1b[0m';
+    const verdict = !landed ? 'PLANT DID NOT LAND' : status === 0 ? 'clean' : named ? 'named h1-hero' : `exit ${status}, did not name it`;
+    console.log(`    ${mark} ${name.padEnd(52)} ${verdict}`);
+  }
+
+  if (failed) {
+    console.log(`\n\x1b[31m✖  self-test: ${failed} of ${FAULTS.length} rows wrong\x1b[0m\n`);
+    process.exit(1);
+  }
+  console.log(`\n\x1b[32m✔  self-test: ${FAULTS.length}/${FAULTS.length} — the gate fails where it must and stays clean where it must\x1b[0m\n`);
+  process.exit(0);
 }
 
 if (errors.length) {

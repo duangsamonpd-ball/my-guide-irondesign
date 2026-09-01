@@ -121,6 +121,32 @@ const LENGTH = /^-?[\d.]+px$/;
 const px = (v) => (v !== null && LENGTH.test(v) ? parseFloat(v) : null);
 
 /**
+ * A step's size as the ENDS OF ITS RANGE — `[min, max]`, equal for a fixed step.
+ *
+ * Until 2026-09-01 a step was derived as a `--text-*` holding a literal px
+ * length, and a fluid one therefore was not a step at all: measured by planting
+ * `clamp(32px, 5vw, 48px)` on `--text-6xl`, this gate went from "14 numeric type
+ * steps … all 10 that a role uses" to "13 … all 9", exit 0 both times. The step
+ * left the check silently and the only tell was a count in the success line.
+ * That is worse than the drift checker's vacuous pass, which at least kept the
+ * token inside its total.
+ *
+ * Reading both ends is not bookkeeping: a fixed line-height beside a fluid size
+ * holds its ratio at exactly one end, so a pairing this gate judges at one size
+ * has to be judged at two.
+ */
+function ends(value) {
+  if (value == null) return null;
+  const fixed = px(value);
+  if (fixed !== null) return [fixed, fixed];
+  const fluid = value.trim().match(/^clamp\(([^,]+),[^,]+,([^)]+)\)$/i);
+  if (!fluid) return null;
+  const lo = px(fluid[1].trim());
+  const hi = px(fluid[2].trim());
+  return lo === null || hi === null ? null : [lo, hi];
+}
+
+/**
  * A line-height declaration as the browser would compute it, in px.
  * `28px` is 28. `1` is 1 x the font size — the single-line idiom this system
  * already uses for --leading-btn-lg, --leading-btn-sm and --leading-nav.
@@ -156,8 +182,23 @@ function run({ theme, utilities }) {
   }
   const vars = declarations(theme.slice(start));
 
-  /* DERIVED, not typed: a step is a --text-* holding a literal length. */
-  const steps = [...vars.keys()].filter((n) => /^text-[a-z0-9]+$/.test(n) && LENGTH.test(vars.get(n)));
+  /* DERIVED, not typed: a step is a --text-* holding a size this gate can read
+     at both ends — a px literal, or a clamp() between two of them. */
+  const steps = [...vars.keys()].filter((n) => /^text-[a-z0-9]+$/.test(n) && ends(vars.get(n)) !== null);
+
+  /* A --text-* whose value we CANNOT read is not silently not-a-step.
+     A `var(--text-*)` reference is excluded because that is how a ROLE is
+     written — `--text-h1: var(--text-5xl)` — and the roles map below owns it.
+     Getting that wrong names all nine roles as unread steps, which is how this
+     rule was first written. What is left is a literal this gate cannot parse. */
+  const REF = /^var\(--[\w-]+\)$/;
+  for (const n of [...vars.keys()].filter(
+    (n) => /^text-[a-z0-9]+$/.test(n) && !REF.test(vars.get(n)) && ends(vars.get(n)) === null,
+  )) {
+    add('UNREAD', n, `\`--${n}: ${vars.get(n)}\` is not a px length or a clamp() of two, so every ` +
+      `rule below — the pair, the ladder, the role — would skip this step. A step this gate cannot ` +
+      `read must say so rather than leave the ramp one shorter.`);
+  }
 
   /* DERIVED: role -> step, from `--text-<role>: var(--text-<step>)`. */
   const roles = new Map(steps.map((s) => [s, []]));
@@ -173,7 +214,11 @@ function run({ theme, utilities }) {
   const utilVars = declarations(utilities);
 
   for (const step of steps) {
-    const size = px(vars.get(step));
+    const [lo, hi] = ends(vars.get(step));
+    const fluid = lo !== hi;
+    /* The max end is what a fixed step always was, so every message below reads
+       unchanged for the 14 fixed steps this ramp has today. */
+    const size = hi;
     const pairName = `${step}--line-height`;
     const declared = vars.get(pairName);
 
@@ -195,13 +240,48 @@ function run({ theme, utilities }) {
         `single-line \`1\` — a ratio from outside this system does not follow the step's size`);
     }
 
+    /* A FLUID SIZE WITH A FIXED LEADING HOLDS ITS RATIO AT ONE END ONLY.
+       Tailwind emits `text-<step>` as font-size AND its paired line-height, so
+       the two travel together in one class; a size that moves between 32 and 48
+       against a leading pinned at 48px renders 1.00 at the top of the range and
+       1.50 at the bottom, and no viewport in between was designed. The fix is
+       not here — it is a fluid `--leading-*` rung moving in lockstep, or the
+       single-line `1`, which is a ratio and follows the size for free. */
+    if (fluid && effective !== null && LENGTH.test(effective)) {
+      const r = (at) => (px(effective) / at).toFixed(2);
+      add('FLUID', step, `\`--${step}\` moves between ${lo}px and ${hi}px while ` +
+        `\`--${pairName}\` resolves to the fixed ${effective} — that is a ratio of ${r(hi)} at the ` +
+        `top of the range and ${r(lo)} at the bottom. A fluid size needs a fluid leading in lockstep, ` +
+        `or the single-line \`1\`, which is a ratio and follows on its own.`);
+    }
+
+    /* JUDGED AT EVERY END THE STEP HAS. For a fixed step that is one size and
+       this is the check it always was; for a fluid one an agreement that holds
+       at 48px and breaks at 32px is not an agreement. */
     const rs = roles.get(step);
-    if (rs.length && mine !== null) {
-      const want = rs.map((r) => ({ ...r, px: computed(r.leading, size) }));
-      if (!want.some((r) => r.px !== null && Math.abs(r.px - mine) < 0.01)) {
-        add('ROLE', step, `${from === 'compiled' ? 'the compiled stylesheet applies' : 'resolves to'} ` +
-          `${mine}px at ${size}px, and no role that uses this step pairs it with that: ` +
-          `${want.map((r) => `${r.role} ${r.px}px`).join(' · ')}`);
+    if (rs.length) {
+      for (const at of fluid ? [hi, lo] : [hi]) {
+        const m = computed(effective, at);
+        /* NOT `continue`. A line-height shape this gate cannot compute — a
+           clamp() against a clamped size needs a viewport model neither of us
+           has — would otherwise take the role agreement out of the check
+           without saying so, which is the exact fault this pass was opened to
+           fix one layer up. `1` and the other ratio forms follow a fluid size
+           for free and are the way this system already writes it. */
+        if (m === null) {
+          if (effective !== null) {
+            add('UNREAD', step, `\`--${pairName}\` resolves to \`${effective}\`, which this gate cannot ` +
+              `compute at a given size, so the role agreement for this step goes unchecked at ${at}px. ` +
+              `A ratio — the single-line \`1\` — follows a fluid size on its own and stays checkable.`);
+          }
+          continue;
+        }
+        const want = rs.map((r) => ({ ...r, px: computed(r.leading, at) }));
+        if (!want.some((r) => r.px !== null && Math.abs(r.px - m) < 0.01)) {
+          add('ROLE', step, `${from === 'compiled' ? 'the compiled stylesheet applies' : 'resolves to'} ` +
+            `${m}px at ${at}px, and no role that uses this step pairs it with that: ` +
+            `${want.map((r) => `${r.role} ${r.px}px`).join(' · ')}`);
+        }
       }
     }
 
@@ -270,6 +350,25 @@ if (SELF_TEST) {
       /--text-6xl--line-height: var\(--leading-12\);/, '--text-6xl--line-height: 1;']], null],
     ['COMPILED — utilities.css compiled before the pair', [['utilities',
       /--text-5xl--line-height:[^;]*;/, '']], 'text-5xl'],
+
+    /* The 2026-09-01 pass. Planting this clamp on the UNFIXED gate moved the
+       success line from "14 numeric type steps … all 10 that a role uses" to
+       "13 … all 9" and exited 0 — the step left the check and the count was the
+       only tell. These three rows are what makes that state impossible. */
+    ['FLUID — a fluid step against a fixed leading', [['theme',
+      /--text-6xl: 48px;/, '--text-6xl: clamp(32px, 5vw, 48px);']], 'text-6xl'],
+    /* The control, and the thing it demonstrates is the authoring: a ratio
+       leading follows the size for free, so the step, its pair AND the role's
+       own rung all become `1` and the ramp stays checkable at both ends. A fix
+       that merely refused fluid values would fail this row. */
+    ['FLUID — fluid step, ratio leading throughout (control)', [
+      ['theme', /--text-6xl: 48px;/, '--text-6xl: clamp(32px, 5vw, 48px);'],
+      ['theme', /--text-6xl--line-height: var\(--leading-12\);/, '--text-6xl--line-height: 1;'],
+      ['theme', /--leading-h1-hero: var\(--leading-12\);/, '--leading-h1-hero: 1;'],
+    ], null],
+    /* A literal the gate cannot read must be NAMED, not quietly not-a-step. */
+    ['UNREAD — a step in a unit this gate does not read', [['theme',
+      /--text-6xl: 48px;/, '--text-6xl: 3rem;']], 'text-6xl'],
   ];
 
   let armed = 0;
