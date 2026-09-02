@@ -40,11 +40,42 @@ function rules(css) {
   return out.filter((r) => r.includes('{'));
 }
 
+/**
+ * THE PARSER ABOVE GOES BLIND, AND SO DOES THE BROWSER. `rules()` counts braces,
+ * so one stray `}` desynchronises it and every rule after that point is swallowed
+ * into the body of the one before — the selector check then examines nothing and
+ * says so in green. Measured 2026-09-02 on `component-button.html`: an orphaned
+ * declaration block (its selector and `{` deleted, the body and `}` left behind)
+ * hid **15 of its 29 selectors** from this gate, `footer` and `.tok td` and the
+ * whole `@media(max-width:640px)` among them.
+ *
+ * It is not only the gate. Chrome recovers from the stray `}` by consuming it as
+ * part of the NEXT rule's prelude, so `.anatomy` became part of an invalid
+ * selector and was dropped: that page had been rendering its Anatomy panel with
+ * `padding: 0` and no border, against the 34px and 1px its rule asks for, for as
+ * long as the orphan had been there. A blind gate and a live rendering bug from
+ * the same character.
+ *
+ * So balance is checked BEFORE anything is parsed, and it is an ERROR rather
+ * than a skip — a file this cannot read is a file nothing downstream has read
+ * either.
+ */
+function imbalance(css) {
+  let depth = 0;
+  let stray = 0;
+  for (const ch of css.replace(/\/\*[\s\S]*?\*\//g, '')) {
+    if (ch === '{') depth++;
+    else if (ch === '}' && --depth < 0) { stray++; depth = 0; }
+  }
+  return { stray, unclosed: depth };
+}
+
 const selector = (r) => r.slice(0, r.indexOf('{')).replace(/\s+/g, ' ').trim();
 
 const shell = new Set(rules(readFileSync(join(DOCS, 'docs.css'), 'utf8')).map(selector));
 
 const clashes = [];
+const unbalanced = [];
 /**
  * A SECOND SHADOW OF THE SAME KIND. Thirteen docs pages used to declare their
  * own `--space-*` ladder — micro/xs/sm/md/lg/xl/2xl/3xl/4xl/hero, every rung a
@@ -75,6 +106,8 @@ let checked = 0;
 for (const file of readdirSync(DOCS).filter((f) => f.endsWith('.html'))) {
   const src = readFileSync(join(DOCS, file), 'utf8');
   const css = [...src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]).join('\n');
+  const { stray, unclosed } = imbalance(css);
+  if (stray || unclosed) unbalanced.push({ file, stray, unclosed });
   for (const s of new Set(rules(css).map(selector))) {
     if (shell.has(s)) clashes.push({ file, selector: s });
   }
@@ -82,6 +115,19 @@ for (const file of readdirSync(DOCS).filter((f) => f.endsWith('.html'))) {
     aliases.push({ file, name: m });
   }
   checked++;
+}
+
+if (unbalanced.length) {
+  console.error(`\n\x1b[31m✖  ${unbalanced.length} docs page${unbalanced.length > 1 ? 's have' : ' has'} an unbalanced <style> block\x1b[0m\n`);
+  for (const u of unbalanced) {
+    const what = [u.stray && `${u.stray} unmatched \`}\``, u.unclosed && `${u.unclosed} unclosed \`{\``].filter(Boolean).join(', ');
+    console.error(`    \x1b[1mdocs/${u.file}\x1b[0m  \x1b[31m✖\x1b[0m ${what}`);
+  }
+  console.error(`\n  Every selector after the break is invisible to this gate, and the browser`);
+  console.error(`  drops the rule that follows it — the stray \`}\` is consumed as part of the`);
+  console.error(`  next rule's prelude, which makes that selector invalid. Usually an orphaned`);
+  console.error(`  declaration block whose selector was deleted and whose body was left.\n`);
+  process.exit(1);
 }
 
 if (aliases.length) {
@@ -110,4 +156,4 @@ if (clashes.length) {
   process.exit(1);
 }
 
-console.log(`\n\x1b[32m✔  ${checked} docs pages leave the ${shell.size} shared shell rules alone, and none re-spell --spacing-*\x1b[0m\n`);
+console.log(`\n\x1b[32m✔  ${checked} docs pages parse whole, leave the ${shell.size} shared shell rules alone, and none re-spell --spacing-*\x1b[0m\n`);

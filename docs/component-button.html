@@ -106,13 +106,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .spec-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 16px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
 @keyframes spin { to { transform: rotate(360deg); } }
-      display: inline-flex; align-items: center; gap: var(--spacing-xs); cursor: pointer;
-      height: var(--size-btn-lg); padding: 0 var(--spacing-2xl);
-      border: none; outline: none; border-radius: var(--rounded-full);
-      background: var(--color-primary); color: var(--color-primary-on);
-      font-family: 'Montserrat', sans-serif; white-space: nowrap;
-      transition: background .15s, box-shadow .15s;
-    }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#E01A59; }
 .tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:anywhere; }
@@ -122,7 +115,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .dd .card .top { padding:10px 16px; font-size:0.72rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:20px; display:flex; align-items:center; justify-content:center; min-height:96px; background:#FCFCFD; }
 .dd ul { margin:12px 16px 16px; padding-left:18px; font-size:0.74rem; color:#62748E; line-height:1.7; }
-footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem; border-top:1px solid #E2E8F0; margin-top:56px; }
 @media (max-width:640px){
       header {padding:12px 20px;} .page-title {padding:24px 20px 18px;}
       .page-title h1 {font-size:1.5rem;} .canvas {padding:28px;}
@@ -525,7 +517,7 @@ footer { text-align:center; padding:48px 40px; color:#A1A1A1; font-size:0.78rem;
         </div>
       </div>
 
-      <footer>Iron Software Design System &nbsp;·&nbsp; Button component &nbsp;·&nbsp; 2025</footer>
+      <footer class="docfoot">Iron Software Design System &nbsp;·&nbsp; Button component &nbsp;·&nbsp; 2025</footer>
     </div><!-- /content -->
   </div><!-- /main-content -->
 </div><!-- /layout -->
