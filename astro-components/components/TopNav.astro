@@ -397,6 +397,15 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   .tn-phone { color: inherit; text-decoration: none; }
   .tn-address-block:hover, .tn-phone:hover { color: var(--color-text-link-menu-hover); }
   .tn-address-block:focus-visible, .tn-phone:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 3px; }
+  /* 10 AND NOT 11, ON PURPOSE — Ball's call, 2026-09-03, after the audit raised
+     it. `231:1572` measures 11 wide, but the two numbers are not the same kind
+     of measurement: Figma's is a TEXT node holding a Font Awesome glyph, so its
+     11 is the glyph's advance width, while this is an outlined path in a box we
+     choose. Matching the 11 would stretch the drawing to fit a number that
+     describes type metrics rather than artwork. It is the only gap over a pixel
+     left between this component and its node; every other box lands inside 1.1
+     — right 594.94 against 596, address block 293.33 against 294, and that 0.67
+     is this. Do not "fix" it to 11. */
   .tn-pin { width: 10px; height: 14px; flex-shrink: 0; }
 
   .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-dark-heading); }
