@@ -332,6 +332,15 @@
   --color-bg-section:       var(--slate-50);          /* #F8FAFC — slate/50 — neutral section band. Same value as --color-bg-disabled today, deliberately not an alias: a band and a dead control have no reason to move together. */
   --color-bg-section-alt:   var(--iron-blue-50);      /* #F2F9FE — iron-blue/50 — brand-tinted section band */
   --color-bg-disabled:      var(--slate-50);          /* #F8FAFC — slate/50 — disabled input / control fill */
+  /* A FIXED light band, the mirror of --color-bg-footer's fixed dark one, and
+     like it NEVER remapped in .dark — see the .dark block, which lists neither.
+     ProductMenu's bar is Ball's case (2026-09-03): the product header keeps the
+     white Figma draws in both themes, so the type on it takes the
+     --color-text-on-*-light pair and its rules take the slate primitives, none
+     of which flip either. A surface pinned on its own would have kept white
+     under text that had turned light. */
+  --color-bg-nav:           #FFFFFF;                  /* white — product header band, fixed */
+  --color-bg-nav-alt:       var(--slate-50);           /* #F8FAFC — slate/50 — the header's second tier, fixed with it */
   --color-bg-footer:        var(--neutral-900);       /* #171717 — neutral/900 — footer / dark band background */
   --color-bg-footer-alt:    var(--neutral-950);       /* #0A0A0A — neutral/950 — deeper footer sub-band */
 

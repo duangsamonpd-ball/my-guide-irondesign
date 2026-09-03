@@ -435,6 +435,8 @@ const COLORS = {
   'surface.background-shade': 'color-bg-shade',
   'surface.card': 'color-bg-card',
   'surface.card-alt': 'color-bg-card-alt',
+  'surface.nav': 'color-bg-nav',
+  'surface.nav-alt': 'color-bg-nav-alt',
   'surface.footer': 'color-bg-footer',
   'surface.footer-alt': 'color-bg-footer-alt',
   /* surface.disabled had no entry here and no entry in tokens.w3c.json until

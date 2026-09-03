@@ -426,6 +426,16 @@
         "$type": "color",
         "$description": "Iron Blue/50 — alternative / feature highlight card (light)"
       },
+      "nav-alt": {
+        "$value": "#F8FAFC",
+        "$type": "color",
+        "$description": "Slate/50 — the product header's second tier, and the foot of the active tab's wash so the two meet on one colour. Fixed like surface/nav: same value in every mode. Ball created both in Figma on 2026-09-03; this one replaced a Neutral/50 that was one hair warmer and shared with nothing."
+      },
+      "nav": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "White — the product header's band. A FIXED light surface: .dark never remaps it, the mirror of surface/footer, which is a fixed dark one. Ball's call 2026-09-03 — the bar keeps the colour Figma draws in both themes, so everything painted on it uses the text-on-light pair and the border primitives rather than tokens that flip."
+      },
       "footer": {
         "$value": "#171717",
         "$type": "color",

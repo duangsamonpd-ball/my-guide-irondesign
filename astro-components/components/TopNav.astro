@@ -121,14 +121,30 @@ interface NavItem {
 }
 
 interface Props {
-  /** Figma's `variant` — `transparent` is Figma's "Without bg". */
+  /** Figma's `variant`. The second variant was renamed `Transparent` on the
+   *  canvas (it read "Without bg" until Ball's 2026-09-03 pass), so the two
+   *  sides now spell it the same way. */
   variant?: 'default' | 'transparent';
   brandLabel?: string;
   brandHref?: string;
   items?: NavItem[];
-  /** Figma's `showAddress` toggle. */
+  /** Figma's `showAddress` toggle. Covers the phone number too — `231:1571`
+   *  holds both, and the node has no separate switch for the number. */
   showAddress?: boolean;
   address?: string;
+  /**
+   * `1123:2433`, the number beside the address. Both it and the address are
+   * links (Ball, 2026-09-03) though Figma draws them as flat text: a phone
+   * number you cannot tap is a defect on the device most likely to see one.
+   *
+   * The two hrefs are DERIVED from the two strings rather than being props with
+   * their own defaults, so a consumer who changes the address cannot leave the
+   * map pointing at Chicago. Pass `addressHref` / `phoneHref` to override, or
+   * `''` to render that half as plain text again.
+   */
+  phone?: string;
+  addressHref?: string;
+  phoneHref?: string;
   contact?: NavItem;
   language?: NavItem;
   showLanguage?: boolean;
@@ -141,6 +157,9 @@ const {
   items = [],
   showAddress = true,
   address = '205 N. Michigan Ave. Chicago, IL 60611, USA',
+  phone = '+1 (312) 500-3060',
+  addressHref,
+  phoneHref,
   contact = { label: 'Contact Us' },
   language = { label: 'EN' },
   showLanguage = true,
@@ -150,6 +169,18 @@ const {
 /* The caret moved to `icons.ts` as `caretDown` on 2026-08-19, so the links here
    and FlyoutMenu's trigger draw the same one. Its viewBox is offset to centre the
    6.246x3.765 triangle inside 16x16 — Figma uses that box as the gap. */
+
+/* Derived, not defaulted — see the props. `??` and not `||`, so an explicit
+   empty string survives as "do not link this half" rather than falling back to
+   the derived URL. `tel:` keeps `+` and digits only; a dialler cannot read the
+   brackets and spaces the label needs. */
+const addressLink = addressHref ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+const phoneLink = phoneHref ?? `tel:${phone.replace(/[^+\d]/g, '')}`;
+
+/* An `<a href="">` is a link to the current page, so the un-linked form has to
+   be a different ELEMENT, not an anchor with nothing in it. */
+const AddressTag = addressLink ? 'a' : 'span';
+const PhoneTag = phoneLink ? 'a' : 'span';
 
 /* Same id scheme as FooterBar's tools panel: the trigger has to point at the
    panel with aria-controls, and a page may carry more than one bar. */
@@ -234,9 +265,17 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
 
     <div class="tn-right">
       {showAddress && (
+        /* Two boxes inside one <address>, which is how `231:1571` draws it: the
+           pin and the street line are `Address Block` 1123:2445, the number is
+           1123:2433 beside it. They are separate elements and not one run of
+           text because they are two destinations — a map and a dialler — and
+           because the number is the half that leaves first below 1349. */
         <address class="tn-address">
-          <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"/></svg>
-          {address}
+          <AddressTag class="tn-address-block" href={addressLink || undefined}>
+            <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"/></svg>
+            {address}
+          </AddressTag>
+          {phone && <PhoneTag class="tn-phone" href={phoneLink || undefined}>{phone}</PhoneTag>}
         </address>
       )}
 
@@ -295,7 +334,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   .tn-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); height: 40px; box-sizing: border-box; max-width: 1440px; margin: 0 auto; padding: var(--spacing-sm) var(--spacing-xl); }
 
   .tn-left { display: flex; align-items: center; gap: var(--spacing-xl); min-width: 0; }
-  .tn-right { display: flex; align-items: center; gap: var(--spacing-lg); min-width: 0; }
+  .tn-right { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
 
   .tn-brand { display: flex; align-items: center; gap: var(--spacing-micro); flex-shrink: 0; text-decoration: none; }
   /* Figma puts the mark in a 16px square with the 16x13.33 artwork centred inside,
@@ -305,7 +344,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   .tn-brand-text b { font-weight: var(--fw-nav-label); }
   .tn-brand-text span { font-weight: var(--fw-caption-sm); }
 
-  .tn-menu { display: flex; align-items: center; gap: var(--spacing-lg); list-style: none; margin: 0; padding: 0; min-width: 0; }
+  .tn-menu { display: flex; align-items: center; gap: var(--spacing-md); list-style: none; margin: 0; padding: 0; min-width: 0; }
   /* Each <li> must be a flex container, not a block. As a block it lays out an
      inline line box with a strut from the inherited font, and the inline-flex
      .tn-item then sits on that strut's baseline — about 1.4px below the brand
@@ -345,11 +384,26 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   /* <address> is the element for the contact details of the nearest article or
      document, which is exactly what this office line is. It costs two resets:
      the UA italicises it, and it is a block element with its own margins. */
-  .tn-address { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-dark-heading); white-space: nowrap; font-style: normal; margin: 0; }
+  /* `spacing-xs` is the wrapper's own gap, between the two boxes; the 4 that
+     used to be here belongs to `Address Block` and moved down with it. With the
+     number hidden the wrapper has one child and the gap draws nothing, so the
+     address measures the same 293.33 it did before the split. */
+  .tn-address { display: inline-flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-dark-heading); white-space: nowrap; font-style: normal; margin: 0; }
+  /* `color: inherit` because a UA link colour would beat the inherited white,
+     and the hover is the bar's one hover — the same brand pink `.tn-item` uses.
+     Figma draws no state for either half; a link with no affordance at all is
+     the worse answer. */
+  .tn-address-block { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: inherit; text-decoration: none; }
+  .tn-phone { color: inherit; text-decoration: none; }
+  .tn-address-block:hover, .tn-phone:hover { color: var(--color-text-link-menu-hover); }
+  .tn-address-block:focus-visible, .tn-phone:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 3px; }
   .tn-pin { width: 10px; height: 14px; flex-shrink: 0; }
 
   .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-dark-heading); }
-  .tn-globe { width: 16px; height: 16px; flex-shrink: 0; }
+  /* 14 and not 16: `507:5344` binds `size/sm` now — Ball, 2026-09-03 — and the
+     node box went 16x16 to 14x14 with it, taking `Language Selector` from 55 to
+     53 and the whole right column from 598 to 596. */
+  .tn-globe { width: 14px; height: 14px; flex-shrink: 0; }
 
   /* The trigger only exists below the breakpoint; above it the menu is inline
      and there is nothing to open. */
@@ -359,19 +413,48 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
   .tn-burger-icon { width: 16px; height: 16px; display: block; }
 
   /* Figma covers 1440px desktop only, so every number below is measured off the
-     rendered bar rather than read off the canvas. Shed the address first — it is
-     the longest and least navigational item — then the corporate menu.
+     rendered bar rather than read off the canvas: the width the bar REQUIRES is
+     `.tn-left` + `.tn-right` + the inner gap and padding with nothing squashed,
+     and each rule sits just under the requirement of the state above it.
 
-     Both breakpoints were too low and left a band where the content was already
-     too wide but still on screen. The address un-hid at 1101 and needs 1260; the
-     menu un-hid at 721 and needs 945. Between those the items overlapped rather
-     than overflowed, because `.tn-menu` and `.tn-right` are both `min-width: 0`
-     and flex will squash a child past its own text before it will let it stick
-     out. Overlapping text reads as a rendering fault, not a layout one, which is
-     why it survived every gate and every look at this component. */
-  @media (max-width: 1259.98px) { .tn-address { display: none; } }
+     Re-derived 2026-09-03, when the phone number arrived and the two gaps went
+     to 16. The arm for that pass was the old tree: gap 20 with no number gives
+     1256.14, which is the measurement 1259.98 was cut from, so the formula was
+     answering the same question it answered the first time before any new number
+     was read off it.
 
-  @media (max-width: 944.98px) {
+       state                                          requires   rule
+       address + number + menu                        1346.53    1349.98
+       address, no number                             1230.14    1234.98
+       menu inline, address gone                       920.81     924.98
+       brand + contact + language + trigger            409.41     414.98
+
+     Each requirement fell exactly 2 when the globe went from 16 to 14 later the
+     same day, and no rule moved: rounding each one up to its rung lands on the
+     same four numbers, and every rule still sits ABOVE what it gates, which is
+     the side to be wrong on. The 1254.14 the arm now returns is the old tree
+     PLUS that 2 — it no longer reproduces 1259.98 to the pixel, and the reason
+     is written here rather than left as a number that stopped matching.
+
+     The number leaves FIRST and the address second — Ball's call, 2026-09-03.
+     `231:1571` gives them one `showAddress` between them, but a bar that keeps
+     its street address and drops its phone number is the wrong way round only if
+     you read the node as a switch; as a layout it is the number that is pure
+     duplication of the Contact Us link beside it. The alternative was dropping
+     both together at 1350, which takes the address off every 1366 laptop.
+
+     Every threshold used to be too low, leaving a band where the content was
+     already too wide but still on screen: the address un-hid at 1101 and needed
+     1260, the menu un-hid at 721 and needed 945. In those bands the items
+     overlapped rather than overflowed, because `.tn-menu` and `.tn-right` are
+     both `min-width: 0` and flex will squash a child past its own text before it
+     will let it stick out. Overlapping text reads as a rendering fault, not a
+     layout one, which is why it survived every gate and every look at this
+     component. */
+  @media (max-width: 1349.98px) { .tn-phone { display: none; } }
+  @media (max-width: 1234.98px) { .tn-address { display: none; } }
+
+  @media (max-width: 924.98px) {
     .tn-burger { display: inline-flex; }
     /* Out of the strip and across the full bar. `.tn` is the positioning
        context, so this hangs below a 40px-tall bar whatever the page around it
@@ -407,12 +490,18 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
 
      `--breakpoint-md` is 768 and is labelled "Tablet Large" in tokens.css;
      `--breakpoint-sm` 480 is "Tablet". The number here is the one both live
-     sites use, not the one whose label reads closest. */
+     sites use, not the one whose label reads closest.
+
+     One consequence worth writing down rather than quietly fixing: 414.98 below
+     is measured on a strip that still counts the trigger, and this rule has
+     taken the trigger away by then. Without it the same strip needs 371.41, so
+     contact and the language picker would survive to 375. Left as it is because
+     moving a phone-width breakpoint is a design call, not arithmetic. */
   @media (max-width: 767.98px) {
     .tn-menu, .tn-burger { display: none; }
   }
 
-  @media (max-width: 419.98px) {
+  @media (max-width: 414.98px) {
     .tn--has-menu .tn-menu > li.tn-menu-extra { display: flex; }
     .tn--has-menu .tn-right > .tn-item { display: none; }
     .tn--has-menu .tn-lang { display: none; }

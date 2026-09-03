@@ -361,6 +361,8 @@
   --color-bg-section: var(--slate-50);        /* #F8FAFC — slate/50 — neutral section band. Same value as --color-bg-disabled today, deliberately not an alias: a band and a dead control have no reason to move together. */
   --color-bg-section-alt: var(--iron-blue-50); /* #F2F9FE — iron-blue/50 — brand-tinted section band */
   --color-bg-disabled: var(--slate-50);       /* #F8FAFC — slate/50 — disabled input / control fill */
+  --color-bg-nav: #FFFFFF;                    /* white — product header band, fixed */
+  --color-bg-nav-alt: var(--slate-50);        /* #F8FAFC — slate/50 — the header's second tier, fixed with it */
   --color-bg-footer: var(--neutral-900);      /* #171717 — neutral/900 — footer / dark band background */
   --color-bg-footer-alt: var(--neutral-950);  /* #0A0A0A — neutral/950 — deeper footer sub-band */
   --color-bg-dark: var(--iron-violet-950);    /* #260F27 — iron-violet/950 — main page background (was 900) */

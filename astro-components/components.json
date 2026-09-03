@@ -1254,7 +1254,7 @@
           "type": "'default' | 'transparent'",
           "required": false,
           "default": "'default'",
-          "description": "Figma's `variant` — `transparent` is Figma's \"Without bg\"."
+          "description": "Figma's `variant`. The second variant was renamed `Transparent` on the canvas (it read \"Without bg\" until Ball's 2026-09-03 pass), so the two sides now spell it the same way."
         },
         {
           "name": "brandLabel",
@@ -1278,13 +1278,30 @@
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "Figma's `showAddress` toggle."
+          "description": "Figma's `showAddress` toggle. Covers the phone number too — `231:1571` holds both, and the node has no separate switch for the number."
         },
         {
           "name": "address",
           "type": "string",
           "required": false,
           "default": "'205 N. Michigan Ave. Chicago, IL 60611, USA'"
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "required": false,
+          "default": "'+1 (312) 500-3060'",
+          "description": "`1123:2433`, the number beside the address. Both it and the address are links (Ball, 2026-09-03) though Figma draws them as flat text: a phone number you cannot tap is a defect on the device most likely to see one. The two hrefs are DERIVED from the two strings rather than being props with their own defaults, so a consumer who changes the address cannot leave the map pointing at Chicago. Pass `addressHref` / `phoneHref` to override, or `''` to render that half as plain text again."
+        },
+        {
+          "name": "addressHref",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "phoneHref",
+          "type": "string",
+          "required": false
         },
         {
           "name": "contact",

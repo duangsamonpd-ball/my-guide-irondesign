@@ -890,28 +890,31 @@ The 40px corporate utility strip that sits above `ProductMenu`, from Figma node
 <TopNav items={items} showAddress={false} showLanguage={false} />
 ```
 
-The office line renders as `<address>`, the element for the contact details of the nearest article or document. It costs two resets the component already carries — the UA italicises `<address>` and gives it block margins.
+The office line renders as `<address>`, the element for the contact details of the nearest article or document. It costs two resets the component already carries — the UA italicises `<address>` and gives it block margins. Inside it are two links: the street line goes to a map and the number to a dialler, and **both hrefs are derived from the strings they label**, so changing `address` cannot leave the map pointing at Chicago. Pass `addressHref` / `phoneHref` to aim them somewhere else, or `''` to render that half as plain text.
 
-**Narrow widths need no props.** The strip sheds in three measured stages, and a
+**Narrow widths need no props.** The strip sheds in four measured stages, and a
 hamburger takes over where the menu no longer fits inline:
 
 | below | what changes |
 |---|---|
-| **1260** | the address goes — the longest item and the least navigational |
-| **945** | the corporate menu becomes a panel under the bar, opened by the hamburger |
-| **420** | Contact Us and the language picker move into that same panel |
+| **1350** | the phone number goes — the Contact Us link beside it already reaches the same place |
+| **1235** | the address goes — the longest item and the least navigational |
+| **925** | the corporate menu becomes a panel under the bar, opened by the hamburger |
+| **415** | Contact Us and the language picker move into that same panel |
 
 Every number is the width the content actually stops fitting at, measured on the
 rendered bar rather than read off Figma, which covers 1440 only. The menu is the
-same `<ul>` at every width — inline above 945, the panel below it — so a screen
+same `<ul>` at every width — inline above 925, the panel below it — so a screen
 reader is never offered two copies of the same link. The trigger follows the
 WAI-ARIA disclosure pattern: it owns `aria-expanded`, points at the panel with
 `aria-controls`, closes on Escape with focus handed back, and closes on a click
 outside without stealing focus.
 
-Props: `variant` (`default` | `transparent` — Figma's "Without bg"), `items`
+Props: `variant` (`default` | `transparent`), `items`
 (`{ label, href?, caret? }[]`, caret on by default), `showAddress` (Figma's own
-toggle), `address`, `contact`, `language`, `showLanguage`, `brandHref`, `class`.
+toggle, and it covers the number too — the node has no separate switch),
+`address`, `phone`, `addressHref`, `phoneHref`, `contact`, `language`,
+`showLanguage`, `brandHref`, `class`.
 
 Like `ProductMenu` it introduced **no new tokens**: `slate/800` →
 `--slate-800`, `text/on-dark/heading` → `--color-text-on-dark-heading`, and

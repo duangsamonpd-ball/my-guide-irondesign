@@ -89,13 +89,13 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tn--transparent { background: transparent; }
 .tn-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); height: 40px; box-sizing: border-box; max-width: 1440px; margin: 0 auto; padding: var(--spacing-sm) var(--spacing-xl); }
 .tn-left { display: flex; align-items: center; gap: var(--spacing-xl); min-width: 0; }
-.tn-right { display: flex; align-items: center; gap: var(--spacing-lg); min-width: 0; }
+.tn-right { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
 .tn-brand { display: flex; align-items: center; gap: var(--spacing-micro); flex-shrink: 0; text-decoration: none; }
 .tn-mark { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-neutral); }
 .tn-brand-text { font-size: var(--font-size-xs); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-dark-heading); text-transform: uppercase; white-space: nowrap; }
 .tn-brand-text b { font-weight: var(--fw-nav-label); }
 .tn-brand-text span { font-weight: var(--fw-caption-sm); }
-.tn-menu { display: flex; align-items: center; gap: var(--spacing-lg); list-style: none; margin: 0; padding: 0; min-width: 0; }
+.tn-menu { display: flex; align-items: center; gap: var(--spacing-md); list-style: none; margin: 0; padding: 0; min-width: 0; }
 .tn-menu > li { display: flex; align-items: center; }
 .tn-item { display: inline-flex; align-items: center; gap: 0; font-size: var(--font-size-xs); font-weight: var(--fw-nav-label); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-nav-label); color: var(--color-text-on-dark-heading); text-transform: uppercase; text-decoration: none; white-space: nowrap; }
 .tn-mark-colour { display: none; }
@@ -110,16 +110,21 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tn-item:hover { color: var(--color-text-link-menu-hover); }
 .tn-item:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 3px; }
 .tn-caret { width: 16px; height: 16px; flex-shrink: 0; }
-.tn-address { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-dark-heading); white-space: nowrap; font-style: normal; margin: 0; }
+.tn-address { display: inline-flex; align-items: center; gap: var(--spacing-xs); font-size: var(--font-size-xs); font-weight: var(--fw-caption-sm); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-on-dark-heading); white-space: nowrap; font-style: normal; margin: 0; }
+.tn-address-block { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: inherit; text-decoration: none; }
+.tn-phone { color: inherit; text-decoration: none; }
+.tn-address-block:hover, .tn-phone:hover { color: var(--color-text-link-menu-hover); }
+.tn-address-block:focus-visible, .tn-phone:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 3px; }
 .tn-pin { width: 10px; height: 14px; flex-shrink: 0; }
 .tn-lang { display: inline-flex; align-items: center; gap: var(--spacing-micro); color: var(--color-text-on-dark-heading); }
-.tn-globe { width: 16px; height: 16px; flex-shrink: 0; }
+.tn-globe { width: 14px; height: 14px; flex-shrink: 0; }
 .tn-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: none; color: var(--color-text-on-dark-heading); cursor: pointer; flex-shrink: 0; }
 .tn-burger:hover { color: var(--color-text-link-menu-hover); }
 .tn-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 .tn-burger-icon { width: 16px; height: 16px; display: block; }
-@media (max-width: 1259.98px) { .tn-address { display: none; } }
-@media (max-width: 944.98px) {
+@media (max-width: 1349.98px) { .tn-phone { display: none; } }
+@media (max-width: 1234.98px) { .tn-address { display: none; } }
+@media (max-width: 924.98px) {
     .tn-burger { display: inline-flex; }
     .tn-menu { display: none; position: absolute; top: 40px; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--slate-800); }
     .tn.tn-menu-open .tn-menu { display: flex; }
@@ -130,7 +135,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 @media (max-width: 767.98px) {
 .tn-menu, .tn-burger { display: none; }
 }
-@media (max-width: 419.98px) {
+@media (max-width: 414.98px) {
     .tn--has-menu .tn-menu > li.tn-menu-extra { display: flex; }
     .tn--has-menu .tn-right > .tn-item { display: none; }
     .tn--has-menu .tn-lang { display: none; }
@@ -288,8 +293,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             </div>
             <div class="tn-right">
               <address class="tn-address">
-                <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"></path></svg>
-                205 N. Michigan Ave. Chicago, IL 60611, USA
+                <a class="tn-address-block" href="https://www.google.com/maps/search/?api=1&amp;query=205%20N.%20Michigan%20Ave.%20Chicago%2C%20IL%2060611%2C%20USA">
+                  <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"></path></svg>
+                  205 N. Michigan Ave. Chicago, IL 60611, USA</a>
+                <a class="tn-phone" href="tel:+13125003060">+1 (312) 500-3060</a>
               </address>
               <a class="tn-item" href="#">
                 Contact Us
@@ -314,7 +321,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect"><h2 class="sect-h">Transparent</h2>
-      <div class="sect-sub">Figma’s “Without bg”. No fill, so the strip sits directly over a hero image or dark section. Check contrast against whatever sits behind it — the labels are white and get no scrim of their own.</div>
+      <div class="sect-sub">Figma’s <code>Variant=Transparent</code>. No fill, so the strip sits directly over a hero image or dark section. Check contrast against whatever sits behind it — the labels are white and get no scrim of their own.</div>
       <div class="frame"><div class="frame-scroll on-hero">
         <!-- demo:transparent -->
         <div class="tn tn--transparent tn--has-menu">
@@ -386,8 +393,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             </div>
             <div class="tn-right">
               <address class="tn-address">
-                <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"></path></svg>
-                205 N. Michigan Ave. Chicago, IL 60611, USA
+                <a class="tn-address-block" href="https://www.google.com/maps/search/?api=1&amp;query=205%20N.%20Michigan%20Ave.%20Chicago%2C%20IL%2060611%2C%20USA">
+                  <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"></path></svg>
+                  205 N. Michigan Ave. Chicago, IL 60611, USA</a>
+                <a class="tn-phone" href="tel:+13125003060">+1 (312) 500-3060</a>
               </address>
               <a class="tn-item" href="#">
                 Contact Us
@@ -492,10 +501,13 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <div class="sect"><h2 class="sect-h">Props</h2>
       <table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
-        <tr><td class="prop">variant</td><td class="token">'default' | 'transparent'</td><td class="val">'default'</td><td>Figma’s <code>variant</code>; <code>transparent</code> is its “Without bg”.</td></tr>
+        <tr><td class="prop">variant</td><td class="token">'default' | 'transparent'</td><td class="val">'default'</td><td>Figma’s <code>variant</code>, same two names.</td></tr>
         <tr><td class="prop">items</td><td class="token">NavItem[]</td><td class="val">[]</td><td><code>{ label, href?, caret? }</code>. Caret is on by default — Figma shows one on every item.</td></tr>
         <tr><td class="prop">showAddress</td><td class="token">boolean</td><td class="val">true</td><td>Figma’s own toggle.</td></tr>
-        <tr><td class="prop">address</td><td class="token">string</td><td class="val">'205 N. Michigan Ave. Chicago, IL 60611, USA'</td><td>Office address text.</td></tr>
+        <tr><td class="prop">address</td><td class="token">string</td><td class="val">'205 N. Michigan Ave. Chicago, IL 60611, USA'</td><td>Office address text. Links to a map derived from this string, so the two cannot disagree.</td></tr>
+        <tr><td class="prop">phone</td><td class="token">string</td><td class="val">'+1 (312) 500-3060'</td><td><code>1123:2433</code>, beside the address and under the same <code>showAddress</code>. It is the half that leaves first, below 1350.</td></tr>
+        <tr><td class="prop">addressHref</td><td class="token">string</td><td class="val">—</td><td>Overrides the derived map URL; <code>''</code> renders the address as plain text.</td></tr>
+        <tr><td class="prop">phoneHref</td><td class="token">string</td><td class="val">—</td><td>Overrides the derived <code>tel:</code>; <code>''</code> renders the number as plain text.</td></tr>
         <tr><td class="prop">contact</td><td class="token">NavItem</td><td class="val">{ label: 'Contact Us' }</td><td>Pass <code>null</code> to drop it.</td></tr>
         <tr><td class="prop">language</td><td class="token">NavItem</td><td class="val">{ label: 'EN' }</td><td>Rendered after the globe icon.</td></tr>
         <tr><td class="prop">showLanguage</td><td class="token">boolean</td><td class="val">true</td><td>Hides the globe + locale group.</td></tr>
@@ -524,13 +536,13 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <output class="vp-w">1024<span>px</span></output>
         </div>
         <div class="vp-stage">
-          <div class="vp-shell" data-vp-layouts="1260:full, 945:address hidden, 420:menu is a panel, 0:contact + language in the panel">
+          <div class="vp-shell" data-vp-layouts="1350:full, 1235:number hidden, 925:address hidden, 768:menu is a panel, 415:menu and trigger gone, 0:contact + language gone">
             <iframe class="vp-frame" title="Top Nav preview"></iframe>
             <div class="vp-grip" role="slider" tabindex="0" aria-label="Preview width" aria-valuemin="320" aria-valuenow="1024"></div>
           </div>
         </div>
       </div>
-      <div class="sect-sub" style="margin-top:14px;">Drag the handle across <b>1100</b> and <b>720</b> to watch each element go. The presets are deliberately not this component&rsquo;s own thresholds, so the gap between the two is visible: at the <code>--breakpoint-lg</code> preset of 1024 the address is already gone, and at <code>--breakpoint-md</code> 768 the menu is still there with 48px to spare. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
+      <div class="sect-sub" style="margin-top:14px;">Drag the handle across <b>1350</b>, <b>1235</b> and <b>925</b> to watch each element go. The presets are deliberately not this component&rsquo;s own thresholds, so the gap between the two is visible: at the <code>--breakpoint-lg</code> preset of 1024 the address and the number are both already gone, and 768 is the one threshold here that is not a measurement &mdash; it is the width both live sites drop the corporate strip at, so the menu and its trigger stop exactly there. The handle takes arrow keys (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is the only reliable way to land on an exact threshold.</div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
@@ -579,7 +591,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       &lt;/<span class="c-tag">ul</span>&gt;
     &lt;/<span class="c-tag">div</span>&gt;
     &lt;<span class="c-tag">div</span> <span class="c-attr">class</span>=<span class="c-str">"tn-right"</span>&gt;
-      &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tn-address"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"tn-pin"</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;205 N. Michigan Ave. …&lt;/<span class="c-tag">span</span>&gt;
+      &lt;<span class="c-tag">address</span> <span class="c-attr">class</span>=<span class="c-str">"tn-address"</span>&gt;
+        &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tn-address-block"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"tn-pin"</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;205 N. Michigan Ave. …&lt;/<span class="c-tag">a</span>&gt;
+        &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tn-phone"</span>&gt;+1 (312) 500-3060&lt;/<span class="c-tag">a</span>&gt;
+      &lt;/<span class="c-tag">address</span>&gt;
       &lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tn-item"</span>&gt;Contact Us&lt;/<span class="c-tag">a</span>&gt;
       &lt;<span class="c-tag">span</span> <span class="c-attr">class</span>=<span class="c-str">"tn-lang"</span>&gt;&lt;<span class="c-tag">svg</span> <span class="c-attr">class</span>=<span class="c-str">"tn-globe"</span>&gt;…&lt;/<span class="c-tag">svg</span>&gt;&lt;<span class="c-tag">a</span> <span class="c-attr">class</span>=<span class="c-str">"tn-item"</span>&gt;EN&lt;/<span class="c-tag">a</span>&gt;&lt;/<span class="c-tag">span</span>&gt;
     &lt;/<span class="c-tag">div</span>&gt;

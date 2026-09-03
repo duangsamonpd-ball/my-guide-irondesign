@@ -285,6 +285,8 @@
     --color-bg-section: var(--slate-50);
     --color-bg-section-alt: var(--iron-blue-50);
     --color-bg-disabled: var(--slate-50);
+    --color-bg-nav: #FFFFFF;
+    --color-bg-nav-alt: var(--slate-50);
     --color-bg-footer: var(--neutral-900);
     --color-bg-footer-alt: var(--neutral-950);
     --color-bg-dark: var(--iron-violet-950);

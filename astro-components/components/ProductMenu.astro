@@ -17,10 +17,18 @@
  *
  * ── The bands this component declares, and what draws them ────────────────
  *
- * The two tiers are the claim, and so is their sum: `790:4779` is 137, which is
- * the 72 above plus the 65 below, and all of it is declared so a tier cannot
+ * The two tiers are the claim, and so is their sum: `790:4779` is 140, which is
+ * the 72 above plus the 68 below, and all of it is declared so a tier cannot
  * move without one of them saying so. Inside the second tier the same shape
- * again — 65 is 12 + the 41 the chips stand in + 12.
+ * again — 68 is 12 + the 44 the chips stand in + 12.
+ *
+ * ALL FOUR OF THOSE MOVED ON 2026-09-03 and no gate could have said so. Ball
+ * bound the chip label to `Typography/UI/nav-sub`, whose `leading/5` is 20 where
+ * the unbound Gotham it replaced sat at 17: the chip went 41 → 44, the tier 65 →
+ * 68, the variant 137 → 140. `check:figma-size` compares the RENDER against the
+ * number written here, so while the component and this block agreed with each
+ * other it stayed green against a node that had moved underneath both. A
+ * declared band is a claim about a node at the moment someone read it.
  *
  * FOUR THINGS IN THIS BAR CANNOT BE DECLARED, and that is the gate refusing
  * rather than passing. `.pm-bar`, `.pm-brand`, `.pm-item`, `.pm-utils` and
@@ -67,8 +75,8 @@
  *   region submenu
  *   select .pm
  *   at     1440
- *   height 137
- *   why    72 + 65, and both halves are declared below; it was 140.8
+ *   height 140
+ *   why    72 + 68, and both halves are declared below
  *
  * @figma-size sub
  *   node   799:846
@@ -77,8 +85,8 @@
  *   region submenu
  *   select .pm-sub
  *   at     1440
- *   height 65
- *   why    the second tier; 12 + 41 + 12, with its rule inside
+ *   height 68
+ *   why    the second tier; 12 + 44 + 12, with its rule inside
  *
  * @figma-size sub-inner
  *   node   799:847
@@ -87,7 +95,7 @@
  *   region submenu
  *   select .pm-sub-inner
  *   at     1440
- *   height 41
+ *   height 44
  *   why    the chip row itself, inset 12 from the tier
  *
  * @figma-size chip
@@ -97,15 +105,16 @@
  *   region submenu
  *   select .pm-chip
  *   at     1440
- *   height 41
+ *   height 44
  *   why    seven Product sub menu instances: the lead, five in the slot, one in
  *   count  7
  *
- * The chips land on 40.8, not 41, and the 0.2 is understood rather than
- * tolerated: `line-height: 1.2` on 14px is 16.8 where the node's text node is
- * 17 tall. It sits inside the gate's half-pixel, which still refuses the 1.8
- * this pass removed. If the sub-menu label ever gets a type role in Figma, that
- * 0.2 is where to spend it.
+ * The chips used to land on 40.8 against a 41 node, and that 0.2 was written up
+ * here as `line-height: 1.2` on 14px giving 16.8 where the node's text sat at
+ * 17, with the note that the day the label got a type role in Figma was the day
+ * to spend it. It did, on 2026-09-03: `Typography/UI/nav-sub` is 14/20, the
+ * component takes `--line-height-nav-sub` now, and 12 + 20 + 12 is 44 exactly
+ * with no remainder to explain.
  */
 
 // chevron-down and graduation-cap each repeat several times below — see ../icons.
@@ -330,15 +339,29 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
   /*
     Figma node 790:4778 ("Product menu"). Every colour, space and size below is a
     token — the Figma variables map 1:1 onto the system's own names:
-      surface/background → --color-bg-base   · surface/card-alt → --color-bg-card-alt
-      border/default     → --color-border    · border/strong    → --color-border-strong
-      brand|button/primary → --color-primary  · text/default/heading → --color-text-heading
+      surface/nav        → --color-bg-nav    · surface/card-alt → --iron-blue-50
+      surface/nav-alt    → --color-bg-nav-alt
+      border/default     → --slate-200       · border/strong    → --slate-300
+      brand|button/primary → --color-primary  · text/default/heading → --color-text-on-light-heading
+
+    THIS BAR DOES NOT FOLLOW THE THEME — Ball's call, 2026-09-03. Every one of
+    those names on the right is a token `.dark` never remaps: `--color-bg-nav` is
+    a fixed light surface the way `--color-bg-footer` is a fixed dark one, and
+    the type on it takes the `text-on-light` pair whose whole reason for existing
+    is that `--color-text-heading` flips and it must not. The border, card-alt
+    and link semantics all flip too, so their light values are written as the
+    primitives they resolve to — the same thing `.tn--default` does with
+    `--slate-800` and `.pm-div` already did with `--slate-300`.
+
+    Pinning the SURFACE alone would have been the bug: a white band under
+    `--color-text-heading` that had turned #FAFAFA in dark mode is white on
+    white. Six tokens flip here, and they move together or not at all.
     Menu items use Figma's "Typography/UI/Button large" style (--fw-btn-lg / 16px),
     the CTA uses "Typography/UI/Button default" (--fw-btn / 14px / --leading-4).
     The 40px mark is Figma's own size here — it is deliberately off the 24/48/96/192
     grid the logo specimen documents, so it is set explicitly rather than via Logo.astro.
   */
-  .pm { width: 100%; background: var(--color-bg-base); font-family: 'Montserrat', sans-serif; }
+  .pm { width: 100%; background: var(--color-bg-nav); font-family: 'Montserrat', sans-serif; }
   /* THE CLOSING RULE IS FULL-BLEED AND THE CONTENT ROW IS NOT — two different
      boxes, and until 2026-08-31 they were the same one. `.pm-bar` carried both
      the rule and the flex row, so capping it to the node's 1392 would have
@@ -347,7 +370,7 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      the same reading as `.pm-sub` and `.pm-chip` below.
      Only the ONE-TIER variant closes here. In the submenu variant the component
      closes on `.pm-sub`, which has carried that rule since 13828a1. */
-  .pm:not(.pm--submenu) { box-shadow: inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
+  .pm:not(.pm--submenu) { box-shadow: inset 0 calc(-1 * var(--border-width-1)) 0 var(--slate-300); }
   /* NO border-bottom here. It used to carry one, in border/strong, ON TOP of the
      one .pm-bar already keeps inside its 72 — two rules stacked, and the
      component measured 73 against 790:1177's 72 in the default variant and
@@ -369,35 +392,60 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      `.fb-tools-inner`, `.fb-info-inner` — and this one did not.
      `position: relative` is here for the narrow-width menu panel, which drops
      out of the bar and is positioned against it rather than against the page. */
-  .pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; max-width: var(--size-container-max); margin-inline: auto; padding: 0 var(--spacing-xl); background: var(--color-bg-base); position: relative; }
+  .pm-bar { display: flex; align-items: stretch; gap: var(--spacing-md); min-height: 72px; box-sizing: border-box; max-width: var(--size-container-max); margin-inline: auto; padding: 0 var(--spacing-xl); background: var(--color-bg-nav); position: relative; }
 
   /* Both side columns are flex:1 0 0 (Figma `flex-[1_0_0]`), not 1 0 auto — that is
      what keeps the menu optically centred instead of pushed by the brand's width. */
-  .pm-brand { display: flex; align-items: center; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; text-decoration: none; color: var(--color-text-heading); }
+  .pm-brand { display: flex; align-items: center; gap: var(--spacing-xs); flex: 1 0 0; min-width: 0; text-decoration: none; color: var(--color-text-on-light-heading); }
   .pm-mark { display: block; width: 40px; height: 40px; flex-shrink: 0; }
   .pm-name { font-size: var(--font-size-xl); line-height: 1; letter-spacing: -0.04em; white-space: nowrap; }
   .pm-name b { font-weight: var(--fw-btn-lg); }
   .pm-name-hl { font-weight: var(--fw-body); color: var(--color-primary); text-transform: uppercase; }
-  .pm-runtime { font-size: var(--font-size-sm); font-weight: var(--fw-body); color: var(--color-text-heading); white-space: nowrap; }
+  .pm-runtime { font-size: var(--font-size-sm); font-weight: var(--fw-body); color: var(--color-text-on-light-heading); white-space: nowrap; }
   .pm-caret { width: 14px; height: 14px; flex-shrink: 0; }
+  /* The MENU caret only. `507:5519` is a `size-[16px]` box holding a 14px glyph,
+     and `icons.chevronDown` is drawn on a 16 viewBox with the same slack around
+     it — so 16 here is the node's box, not a bigger arrow. At 14 every item with
+     a caret measured ~2.5 short of the node (134.59 against 137, 127.05 against
+     130, 113.14 against 116, 95.66 against 98) while Home, which has none, was
+     the only one over. The brand's chevron stays 14: `790:4783` is a 14-wide
+     text node, a different box that happens to share this class. */
+  .pm-item .pm-caret { width: 16px; height: 16px; }
 
   .pm-center { display: flex; align-items: stretch; gap: var(--spacing-sm); min-width: 0; }
   .pm-menu { display: flex; align-items: stretch; list-style: none; margin: 0; padding: 0; min-width: 0; }
   .pm-menu li { display: flex; }
   /* Items stretch to the bar instead of carrying their own 72px, so the whole tier
      stays clickable without re-stating the height in two places. */
-  .pm-item { display: flex; align-items: center; gap: var(--spacing-xs); padding: 0 var(--spacing-md); font-size: var(--font-size-base); font-weight: var(--fw-btn-lg); line-height: 1; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
+  .pm-item { display: flex; align-items: center; gap: var(--spacing-xs); padding: 0 var(--spacing-md); font-size: var(--font-size-base); font-weight: var(--fw-btn-lg); line-height: 1; color: var(--color-text-on-light-heading); text-decoration: none; white-space: nowrap; }
   .pm-item:hover { color: var(--color-primary); }
-  /* Figma `Active` is a tab-like panel — a white→neutral/50 wash down the full
-     72px tier with white side rules. `Active no bg` is the same minus the wash;
-     the panel is the default here. */
-  .pm-item.is-active { color: var(--color-primary); background: linear-gradient(to bottom, var(--color-bg-base), var(--neutral-50)); border-left: var(--border-width-1) solid var(--color-bg-base); border-right: var(--border-width-1) solid var(--color-bg-base); }
+  /* THE ACTIVE ITEM IS A DIFFERENT VARIANT IN EACH BAR, and the node says so in
+     pixels: 790:1177's active item is #FFFFFF at every row of its 72 with no
+     rule on either side — `Active no bg` — while 790:4779's carries the wash and
+     the side rules — `Active`. Which is the sensible reading: the panel is a TAB,
+     and a tab wants a tier to be a tab TO. Until 2026-09-03 the panel was drawn
+     in both, on Ball's 2026-07-30 choice, taken before the submenu variant
+     existed to make the distinction. */
+  .pm-item.is-active { color: var(--color-primary); }
+  /* Three background layers, not a background plus two borders, and both halves
+     of that matter. The side rules are a GRADIENT — sampled down 507:5526's own
+     edge: #FEFEFE · #F5F7FA · #ECF0F5 · #E3E8F0 · #E2E8F0, white at the top and
+     border/default exactly where it meets the divider under the tier — which a
+     solid border cannot draw and which codegen flattens to `border-[white]`,
+     its first stop. And a border took 2px of layout, so an item grew when it
+     became active; a background layer takes none. */
+  .pm--submenu .pm-item.is-active {
+    background:
+      linear-gradient(to bottom, var(--color-bg-nav), var(--slate-200)) left / var(--border-width-1) 100% no-repeat,
+      linear-gradient(to bottom, var(--color-bg-nav), var(--slate-200)) right / var(--border-width-1) 100% no-repeat,
+      linear-gradient(to bottom, var(--color-bg-nav), var(--color-bg-nav-alt));
+  }
   .pm-item.is-active .pm-caret { transform: rotate(180deg); }
 
   .pm-utils { display: flex; align-items: center; gap: var(--spacing-sm); flex-shrink: 0; }
-  .pm-util { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex-shrink: 0; padding: 0; background: var(--color-bg-card-alt); border: var(--border-width-1) solid var(--color-border); border-radius: var(--rounded-full); color: var(--color-text-link); cursor: pointer; }
+  .pm-util { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex-shrink: 0; padding: 0; background: var(--iron-blue-50); border: var(--border-width-1) solid var(--slate-200); border-radius: var(--rounded-full); color: var(--iron-blue-500); cursor: pointer; }
   .pm-util svg { width: 16px; height: 16px; display: block; }
-  .pm-util:hover { border-color: var(--color-border-strong); }
+  .pm-util:hover { border-color: var(--slate-300); }
   .pm-util:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
 
   /* `position: relative` so the narrow-width label below clips against the pill
@@ -414,7 +462,7 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      the CTA's height, which is what makes `cta` below a band that can fail. */
   .pm-right { display: flex; align-items: center; justify-content: flex-end; align-self: center; flex: 1 0 0; min-width: 0; }
 
-  .pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-heading); cursor: pointer; }
+  .pm-burger { display: none; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: 0; background: none; color: var(--color-text-on-light-heading); cursor: pointer; }
   .pm-burger:hover { color: var(--color-primary); }
   .pm-burger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
   .pm-burger-icon { width: 16px; height: 16px; display: block; }
@@ -427,7 +475,7 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      tiers, border/strong underneath closes the component. The soft one used to
      live on `.pm-bar` as a border-bottom, and moved here when `.pm-bar` was
      capped — a divider between two full-bleed bands cannot stop at 1440. */
-  .pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--neutral-50); box-shadow: inset 0 var(--border-width-1) 0 var(--color-border), inset 0 calc(-1 * var(--border-width-1)) 0 var(--color-border-strong); }
+  .pm-sub { display: flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--color-bg-nav-alt); box-shadow: inset 0 var(--border-width-1) 0 var(--slate-200), inset 0 calc(-1 * var(--border-width-1)) 0 var(--slate-300); }
   .pm-sub-inner { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
   .pm-chips { display: flex; align-items: center; gap: var(--spacing-xs); list-style: none; margin: 0; padding: 0; }
   .pm-chips-2 { display: flex; align-items: center; gap: var(--spacing-md); }
@@ -437,14 +485,19 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      transparent border, the pattern Button and FooterBar's trigger use, adds 2
      here instead of nothing: the chip measured 42.8. An inset shadow needs no
      reserve at all, because it never took part in layout in the first place. */
-  .pm-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--rounded-3xl); font-size: var(--font-size-sm); font-weight: var(--fw-nav-sub); line-height: 1.2; color: var(--color-text-heading); text-decoration: none; white-space: nowrap; }
-  .pm-chip svg { width: 16px; height: 13px; flex-shrink: 0; }
+  .pm-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--rounded-lg); font-size: var(--font-size-nav-sub); font-weight: var(--fw-nav-sub); line-height: var(--line-height-nav-sub); color: var(--color-text-on-light-heading); text-decoration: none; white-space: nowrap; }
+  /* The icon at the size it was drawn. `icons.graduationCap` is outlined on an
+     `0 0 18 14` viewBox — its own ink box — and 507:5505 is an 18-wide node, so
+     16x13 was this SVG scaled to 89% and it cost the chip 2 of the 2.91 it was
+     short. The node is 18x16, the 16 being the text line box around a 14-tall
+     glyph, which is what centring 14 in the 44 already does. */
+  .pm-chip svg { width: 18px; height: 14px; flex-shrink: 0; }
   .pm-chip:hover { color: var(--color-primary); }
-  .pm-chip.is-active { background: var(--color-bg-base); box-shadow: inset 0 0 0 var(--border-width-1) var(--color-border); border-radius: var(--rounded-lg); }
+  .pm-chip.is-active { background: var(--color-bg-nav); box-shadow: inset 0 0 0 var(--border-width-1) var(--slate-200); border-radius: var(--rounded-lg); }
   /* Figma `Activehover` — the box darkens its border and the label turns brand.
      Figma's `Active` leaves the label its default colour, so the brand colour
      belongs to the hover, not to being active. */
-  .pm-chip.is-active:hover { box-shadow: inset 0 0 0 var(--border-width-1) var(--color-border-strong); color: var(--color-primary); }
+  .pm-chip.is-active:hover { box-shadow: inset 0 0 0 var(--border-width-1) var(--slate-300); color: var(--color-primary); }
   .pm-div { width: 1px; height: 24px; flex-shrink: 0; background: var(--slate-300); }
 
   /* ── SHEDDING THE OPTIONAL PIECES ──────────────────────────────────────
@@ -502,8 +555,30 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      1058, not 1024: with the util bubbles up the bar needs 1058 for the CTA,
      so 1025–1057 had it hanging 96.55px out of `.pm-right`.
      434: the bar needs 410 for the brand and the full CTA, and the 24px burger
-     plus its 16px gap took that to 434. */
-  @media (max-width: 1180px) {
+     plus its 16px gap took that to 434.
+
+     RE-READ 2026-09-03, off the script rather than off the layout: `?frame=` runs
+     the fit script, so the widths where it changes its mind ARE these numbers.
+     Swept 1440 → 320 and refined to 1px, with the defaults:
+
+       none → drop-runtime                1184   (this rule: was 1180)
+       drop-runtime → +drop-utils         1019   (1057.98, fires 39 early)
+       the panel takes over, nothing needed 768
+       none → drop-runtime again           512
+       → +drop-label                       387   (433.98, fires 47 early)
+
+     Only the first moved this pass and only that one is changed: every menu item
+     gained 2px with the caret box, the centre column took 10 of the bar, and the
+     brand chevron — which is what actually leaves first, by 0.44px here — began
+     leaving 4px sooner. 1181–1184 was a band where a no-JS page overflowed.
+
+     THE OTHER TWO FIRE EARLY, WHICH IS THE SAFE SIDE, and both are left alone:
+     they hide something that would still have fitted rather than letting it
+     escape, and pulling a breakpoint 39 and 47 pixels is a visible change to
+     make on purpose. Measured here so the next person does not re-derive them.
+     The sub tier's own 1042.98 is still right: its row needs 994.66 + 48 of
+     padding = 1042.66, so the scroller arrives 0.32px before it is needed. */
+  @media (max-width: 1184px) {
     .pm:not(.pm--fit) .pm-runtime { display: none; }
     .pm:not(.pm--fit) .pm-item { padding: 0 var(--spacing-sm); }
   }
@@ -530,7 +605,7 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      a hard-coded 72px, which the sub tier variant would have got wrong. */
   @media (max-width: 768px) {
     .pm-burger { display: inline-flex; }
-    .pm-center { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--color-bg-base); border-bottom: var(--border-width-1) solid var(--color-border); }
+    .pm-center { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--color-bg-nav); border-bottom: var(--border-width-1) solid var(--slate-200); }
     .pm.pm-menu-open .pm-center { display: flex; }
     /* The inline tier scrolls sideways; a stacked panel must not, or the rows
        inherit a scroller with nothing to scroll and swallow the horizontal
@@ -540,9 +615,12 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
     /* Each row is its own hit target across the panel, so the caret sits at the
        end of the line rather than tight against the label as it does inline. */
     .pm-item { justify-content: space-between; width: 100%; padding: var(--spacing-sm) 0; }
-    /* `is-active` is a 72px tab — a wash down the tier with white side rules.
-       Stacked, that reads as a stray box, so the panel keeps only the colour. */
-    .pm-item.is-active { background: none; border-left-color: transparent; border-right-color: transparent; }
+    /* `is-active` is a 72px tab — a wash down the tier with its side rules.
+       Stacked, that reads as a stray box, so the panel keeps only the colour.
+       Qualified by `.pm--submenu` to MATCH the rule it is overriding: as a bare
+       `.pm-item.is-active` it lost on specificity and the tab came back inside
+       the panel. */
+    .pm--submenu .pm-item.is-active { background: none; }
   }
 
   /* THE THIRD DROP's no-JS half. The CTA keeps its pill and both glyphs but
