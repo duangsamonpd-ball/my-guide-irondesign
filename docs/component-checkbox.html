@@ -101,7 +101,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 18px 16px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; width:160px; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -374,7 +374,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect">
         <h2 class="sect-h">Token Reference</h2>
         <div class="sect-sub">Every value resolves to a design token — never hard-coded.</div>
-        <table class="tok">
+        <div class="tok-scroll"><table class="tok">
           <thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead>
           <tbody>
             <tr><td class="prop">Box size</td><td class="token">--size-box</td><td class="val">18px</td></tr>
@@ -388,7 +388,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <tr><td class="prop">Description</td><td class="token">--color-text-support</td><td class="val"><span class="sw" style="background:#45556C"></span>#45556C</td></tr>
             <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-blue</td><td class="val">0 0 0 3px · 25%</td></tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       <!-- ── Code ── -->

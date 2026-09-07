@@ -164,10 +164,62 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
    saw `--color-text-on-dark-hea`. `check-layout.mjs` found this on ten pages the
    day it was written, by asking each word for its own width rather than asking
    the box whether it had overflowed.
-   `anywhere` rather than `break-word`: these are identifiers, not prose, and a
-   mid-token break with the rest on the next line is readable where a clipped
-   one is not. It changes nothing at any width where the name already fits. */
-.tok td.token, .tok td.val, .tok td.prop { overflow-wrap: anywhere; }
+
+   That was fixed with `overflow-wrap: anywhere`, on the argument that a broken
+   token beats a clipped one. True, and both are worse than the third option,
+   which is what this is now: the table SCROLLS and the identifier stays whole.
+   Measured at 375 before the change — 177 words broken mid-word across all 23
+   `.tok` tables, `boole/an`, `varia/nt`, `open/OnH/over`, `ProductFlyou/t`.
+   Ball's ruling, 2026-09-07.
+
+   `nowrap` rather than `overflow-wrap: normal`, because normal still breaks at
+   the hyphens a token name is full of: `--color-success` / `-strong` on two
+   lines is the same defect wearing a legal break opportunity. Inline `<code>`
+   in the Notes column is in the list for the same reason and costs nothing —
+   the widths came out identical with and without it, because those columns
+   never set the table's minimum.
+
+   The prose in Notes is NOT here: it must go on wrapping at spaces. Each page's
+   own `.tok td` rule carries that, because it is one of the per-page rules this
+   file does not own — see the header. */
+.tok td.token, .tok td.val, .tok td.prop, .tok td code { white-space: nowrap; }
+
+/* The scroller the rule above assumes. `.tok` itself cannot be it: `display:
+   block` on a <table> hands the layout to an anonymous table box that shrinks
+   to its content, so the table would stop filling its column at every width
+   where it already fits. A wrapper leaves table layout alone.
+
+   `check-layout.mjs` is built for this: `insideXScroller()` walks the ancestors
+   for `overflow-x: auto|scroll` and exempts what it finds from both the WORD
+   and the ESCAPES detectors — text that a reader can scroll to is not text that
+   has been lost. H-SCROLL stays armed, because it asks about the DOCUMENT, and
+   a contained scroller does not widen it. */
+.tok-scroll { overflow-x: auto; }
+
+/* The prose column needs a MEASURE, or scrolling makes it worse rather than
+   better. A table column's minimum is its longest word, so once the table is
+   free to exceed its container the Notes column collapsed to about that and the
+   prose inside it wrapped into a ribbon: on FlyoutMenu at 375 the tallest row
+   went to 259px of mostly-empty height, because the row is as tall as the one
+   column nobody can see yet.
+
+   22ch is the largest measure that costs nothing at 1440, and it was found by
+   sweeping rather than chosen. Across all 23 tables, tallest row at 375 and
+   tables still scrolling at 1440:
+
+       none  259px / 0      22ch  154px / 0
+       18ch  214px / 0      24ch  154px / 1   <- TopNav's second table,
+       20ch  184px / 0      30ch  139px / 1      1177 in a 1112 container
+
+   So the ceiling is not readability, it is the widest table at the widest
+   supported width, and 24ch is one step past it. Desktop is unchanged: at 1440
+   every table still fits and nothing scrolls.
+
+   `td:not([class])` rather than a new class on 85 cells: every classed cell in
+   these tables is an identifier — `prop`, `token`, `val`, 645 of them — and
+   every unclassed one is prose. The selector states that rule instead of
+   restating the list. */
+.tok td:not([class]) { min-width: 22ch; }
 .sem-token, .cell .lbl small, .width-token, code { overflow-wrap: anywhere; }
 /* `code` is in that list because these docs quote identifiers inline
    constantly — `hover:bg-primary-600`, `var(--color-text-body);` — and an

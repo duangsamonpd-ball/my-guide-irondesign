@@ -78,7 +78,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .canvas.dark { background:#0A0A0A; background-image:none; border-color:#171717; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
 .cell.dark { background:#0A0A0A; border-color:#171717; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; width:170px; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -317,7 +317,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
-      <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
+      <div class="tok-scroll"><table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
         <tr><td class="prop">Plain · text</td><td class="token">--color-text-link</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
         <tr><td class="prop">Plain · hover</td><td class="token">--color-text-link-hover</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
         <tr><td class="prop">Plain · dark text</td><td class="token">--color-text-dark-link</td><td class="val"><span class="sw" style="background:#67B3F2"></span>#67B3F2</td></tr>
@@ -330,7 +330,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="prop">Underline · hover</td><td class="token">--border-width-1-5</td><td class="val">100% opacity · 1.5px</td></tr>
         <tr><td class="prop">Underline offset</td><td class="token">— (fixed)</td><td class="val">21.5% · 3.44px at 16px</td></tr>
         <tr><td class="prop">Weight</td><td class="token">— (fixed)</td><td class="val">600</td></tr>
-      </tbody></table>
+      </tbody></table></div>
     </div>
 
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>

@@ -75,7 +75,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .page-title h1 { font-size:2rem; font-weight: 800; letter-spacing:-0.5px; margin-bottom:8px; }
 .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -529,7 +529,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect"><h2 class="sect-h">Props</h2>
-      <table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+      <div class="tok-scroll"><table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
         <tr><td class="prop">variant</td><td class="token">'default' | 'submenu'</td><td class="val">'default'</td><td>Figma’s <code>Varient</code> property.</td></tr>
         <tr><td class="prop">product</td><td class="token">string</td><td class="val">'pdf'</td><td>Mark artwork — same keys as <a href="component-logo.html">Logo</a>’s <code>product</code>.</td></tr>
         <tr><td class="prop">productName</td><td class="token">string</td><td class="val">'PDF'</td><td>Coloured half of the wordmark.</td></tr>
@@ -547,7 +547,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="prop">showSearch / showAskAi</td><td class="token">boolean</td><td class="val">true</td><td>The two 36px utility bubbles.</td></tr>
         <tr><td class="prop">searchLabel / askAiLabel</td><td class="token">string</td><td class="val">'Search' / 'Ask AI'</td><td>Accessible names — the bubbles are icon-only.</td></tr>
         <tr><td class="prop">basePath</td><td class="token">string</td><td class="val">'assets'</td><td>Where the mark SVGs live. Use an absolute path (<code>/assets</code>) on nested routes.</td></tr>
-      </tbody></table>
+      </tbody></table></div>
     </div>
 
     <div class="sect">
@@ -580,7 +580,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
       <div class="sect-sub">Every Figma variable on this component already had a counterpart in the system — no new tokens were introduced.</div>
-      <table class="tok"><thead><tr><th>Figma variable</th><th>System token</th><th>Value</th><th>Used for</th></tr></thead><tbody>
+      <div class="tok-scroll"><table class="tok"><thead><tr><th>Figma variable</th><th>System token</th><th>Value</th><th>Used for</th></tr></thead><tbody>
         <tr><td class="prop">surface/background</td><td class="token">--color-bg-base</td><td class="val">#FFFFFF</td><td>Bar fill, active chip fill</td></tr>
         <tr><td class="prop">surface/card-alt</td><td class="token">--color-bg-card-alt</td><td class="val">#F2F9FE</td><td>Search / Ask AI bubbles</td></tr>
         <tr><td class="prop">border/default</td><td class="token">--color-border</td><td class="val">#E2E8F0</td><td>Tier rule, bubble + chip border</td></tr>
@@ -593,7 +593,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="prop">Typography/UI/Button large</td><td class="token">--fw-btn-lg · --font-size-base</td><td class="val">700 / 16px</td><td>Top menu items</td></tr>
         <tr><td class="prop">Typography/UI/Button default</td><td class="token">--fw-btn · --font-size-sm · --leading-4</td><td class="val">600 / 14px / 16px</td><td>CTA label</td></tr>
         <tr><td class="prop">spacing xs · sm · md · xl</td><td class="token">--spacing-xs/sm/md/xl</td><td class="val">8 / 12 / 16 / 24px</td><td>All gaps and padding</td></tr>
-      </tbody></table>
+      </tbody></table></div>
     </div>
 
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>

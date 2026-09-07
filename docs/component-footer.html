@@ -94,7 +94,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .page-title h1 { font-size:2rem; font-weight: 800; letter-spacing:-0.5px; margin-bottom:8px; }
 .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:680px; }
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; }
 .dd .card .top { padding:12px 16px; font-size:0.74rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:16px; font-size:0.78rem; color:#62748E; line-height:1.6; }
@@ -495,7 +495,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 
     <div class="sect">
       <h2 class="sect-h">Token Reference</h2>
-      <table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
+      <div class="tok-scroll"><table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
         <tr><td class="prop">Background</td><td class="token">--footer-bg (iron-violet/950)</td><td class="val"><span class="sw" style="background:#260F27"></span>#260F27</td></tr>
         <tr><td class="prop">Background art</td><td class="token">rainbowSrc (default /assets/Rainbow.svg)</td><td class="val">cover</td></tr>
         <tr><td class="prop">Text</td><td class="token">--on-color</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td></tr>
@@ -504,7 +504,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
         <tr><td class="prop">Headline / product</td><td class="token">--text-3xl / --text-lg</td><td class="val">30 / 18px</td></tr>
         <tr><td class="prop">Divider</td><td class="token">rgba(255,255,255,.10)</td><td class="val">2px</td></tr>
         <tr><td class="prop">Radius (CTA)</td><td class="token">--r-full</td><td class="val">9999px</td></tr>
-      </tbody></table>
+      </tbody></table></div>
     </div>
 
     <!-- Code -->

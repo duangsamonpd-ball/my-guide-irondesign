@@ -82,7 +82,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:56px 40px; display:flex; gap:56px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
 .spec-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 16px 18px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; position:relative; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -424,13 +424,13 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           </span>
         </span></span>
       </div>
-      <table class="tok" style="margin-top:14px;">
+      <div class="tok-scroll"><table class="tok" style="margin-top:14px;">
         <thead><tr><th>Size</th><th>Width</th><th>Use for</th></tr></thead>
         <tbody>
           <tr><td class="prop">Default</td><td class="val">200px</td><td class="prop">Short labels, single short sentence</td></tr>
           <tr><td class="prop">Wide</td><td class="val">350px</td><td class="prop">Longer explanations, two short sentences</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
 
     <!-- Anatomy -->
@@ -459,7 +459,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <!-- Token Reference -->
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
-      <table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
+      <div class="tok-scroll"><table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
         <tr><td class="prop">Container background</td><td class="token">--tt-bg (neutral/800)</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
         <tr><td class="prop">Title background</td><td class="token">--tt-title-bg (neutral/950)</td><td class="val"><span class="sw" style="background:#0A0A0A"></span>#0A0A0A</td></tr>
         <tr><td class="prop">Title text</td><td class="token">--tt-title (text/on dark/heading)</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td></tr>
@@ -472,7 +472,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="prop">Width</td><td class="token">--tt-w / --tt-w-max</td><td class="val">200px / 350px</td></tr>
         <tr><td class="prop">Title padding</td><td class="token" colspan="1">8px 16px</td><td class="val">--space-xs --space-md</td></tr>
         <tr><td class="prop">Body padding</td><td class="token" colspan="1">12px 16px 16px</td><td class="val">--space-sm --space-md --space-md</td></tr>
-      </tbody></table>
+      </tbody></table></div>
     </div>
 
     <!-- Code -->

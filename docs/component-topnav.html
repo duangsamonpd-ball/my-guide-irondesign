@@ -78,7 +78,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
 .on-hero { background:linear-gradient(115deg,#391C39,#94153D 55%,#331433); }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -500,7 +500,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect"><h2 class="sect-h">Props</h2>
-      <table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+      <div class="tok-scroll"><table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
         <tr><td class="prop">variant</td><td class="token">'default' | 'transparent'</td><td class="val">'default'</td><td>Figma’s <code>variant</code>, same two names.</td></tr>
         <tr><td class="prop">items</td><td class="token">NavItem[]</td><td class="val">[]</td><td><code>{ label, href?, caret? }</code>. Caret is on by default — Figma shows one on every item.</td></tr>
         <tr><td class="prop">showAddress</td><td class="token">boolean</td><td class="val">true</td><td>Figma’s own toggle.</td></tr>
@@ -513,7 +513,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="prop">showLanguage</td><td class="token">boolean</td><td class="val">true</td><td>Hides the globe + locale group.</td></tr>
         <tr><td class="prop">brandHref</td><td class="token">string</td><td class="val">'/'</td><td>Target of the Iron Software lockup.</td></tr>
         <tr><td class="prop">brandLabel</td><td class="token">string</td><td class="val">—</td><td>Overrides the lockup&#39;s accessible name.</td></tr>
-      </tbody></table>
+      </tbody></table></div>
     </div>
 
     <div class="sect">
@@ -547,14 +547,14 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
       <div class="sect-sub">Like Product Menu, this component introduced no new tokens.</div>
-      <table class="tok"><thead><tr><th>Figma variable</th><th>System token</th><th>Value</th><th>Used for</th></tr></thead><tbody>
+      <div class="tok-scroll"><table class="tok"><thead><tr><th>Figma variable</th><th>System token</th><th>Value</th><th>Used for</th></tr></thead><tbody>
         <tr><td class="prop">slate/800</td><td class="token">--slate-800</td><td class="val"><span class="sw" style="background:#1D293D"></span>#1D293D</td><td>Strip fill</td></tr>
         <tr><td class="prop">text/on-dark/heading</td><td class="token">--color-text-on-dark-heading</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td><td>All labels, address, globe</td></tr>
         <tr><td class="prop">(mark fill)</td><td class="token">--color-neutral</td><td class="val"><span class="sw" style="background:#62748E"></span>#62748E</td><td>Iron Software mark — recessive, not white</td></tr>
         <tr><td class="prop">Typography/UI/Nav label</td><td class="token">--fw-nav-label · --font-size-xs · --leading-4 · --letter-spacing-nav-label</td><td class="val">700 / 12px / 16px / 0.4px</td><td>Menu labels, Contact Us, EN</td></tr>
         <tr><td class="prop">Typography/Caption SM</td><td class="token">--fw-caption-sm · --letter-spacing-caption-sm</td><td class="val">500 / 0.4px</td><td>Address, “SOFTWARE” half of the lockup</td></tr>
         <tr><td class="prop">spacing micro · sm · lg · xl</td><td class="token">--spacing-micro/sm/lg/xl</td><td class="val">4 / 12 / 20 / 24px</td><td>Icon gaps, padding, item gaps</td></tr>
-      </tbody></table>
+      </tbody></table></div>
     </div>
 
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>

@@ -83,7 +83,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
 .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:56px 40px; display:flex; gap:56px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 16px 18px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; position:relative; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -895,7 +895,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <div class="sect">
       <h2 class="sect-h">Props</h2>
-      <table class="tok">
+      <div class="tok-scroll"><table class="tok">
         <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead>
         <tbody>
           <tr><td class="prop">label</td><td class="token">string</td><td class="val">—</td><td>Trigger text. <b>Required</b> &mdash; the trigger has no other accessible name.</td></tr>
@@ -906,7 +906,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <tr><td class="prop">open</td><td class="token">boolean</td><td class="val">false</td><td>Render open on first paint &mdash; for docs and tests, not for a live nav.</td></tr>
           <tr><td class="prop">class</td><td class="token">string</td><td class="val">—</td><td>Merged onto the root, as on every component.</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <div class="sect-sub" style="margin-top:14px;">The panel is a slot: whatever you put in it becomes the flyout. Its direct children are numbered by the script and rise in turn as it opens, so composing columns needs no hand-numbering &mdash; and a column inserted in the middle cannot leave the sequence stale.</div>
     </div>
 

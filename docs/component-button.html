@@ -108,7 +108,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 @keyframes spin { to { transform: rotate(360deg); } }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#E01A59; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; width:120px; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -281,14 +281,14 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         </button>
         <!-- /demo:sizes -->
       </div>
-        <table class="tok" style="margin-top:14px;">
+        <div class="tok-scroll"><table class="tok" style="margin-top:14px;">
           <thead><tr><th>Size</th><th>Height</th><th>Font</th><th>Weight</th><th>Tracking</th></tr></thead>
           <tbody>
             <tr><td class="prop">Large</td><td class="val">56px</td><td class="val">16px</td><td class="val">700</td><td class="val">0</td></tr>
             <tr><td class="prop">Default</td><td class="val">48px</td><td class="val">14px</td><td class="val">600</td><td class="val">0</td></tr>
             <tr><td class="prop">Small</td><td class="val">36px</td><td class="val">12px</td><td class="val">600</td><td class="val">0.4px</td></tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       <!-- ── States ── -->
@@ -442,7 +442,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect">
         <h2 class="sect-h">Token Reference</h2>
         <div class="sect-sub">Primary / Large. Every value resolves to a design token — never hard-coded.</div>
-        <table class="tok">
+        <div class="tok-scroll"><table class="tok">
           <thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead>
           <tbody>
             <tr><td class="prop">Background</td><td class="token">--color-button-primary</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
@@ -455,7 +455,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <tr><td class="prop">Padding X</td><td class="token">--space-lg + 6</td><td class="val">26px</td></tr>
             <tr><td class="prop">Focus ring</td><td class="token">--shadow-focus-magenta</td><td class="val">0 0 0 3px · pink 25%</td></tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       <!-- ── Code ── -->

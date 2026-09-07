@@ -81,7 +81,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .canvas.col { flex-direction:column; align-items:stretch; gap:20px; }
 .spec-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; width:170px; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -238,7 +238,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
-      <table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
+      <div class="tok-scroll"><table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
         <tr><td class="prop">Min-height</td><td class="token">— (fixed)</td><td class="val">86px</td></tr>
         <tr><td class="prop">Border</td><td class="token">--color-border</td><td class="val"><span class="sw" style="background:#E2E8F0"></span>#E2E8F0</td></tr>
         <tr><td class="prop">Border · hover</td><td class="token">--color-border-strong</td><td class="val"><span class="sw" style="background:#CAD5E2"></span>#CAD5E2</td></tr>
@@ -249,7 +249,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="prop">Text</td><td class="token">--color-text-body</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
         <tr><td class="prop">Placeholder</td><td class="token">--color-text-placeholder</td><td class="val"><span class="sw" style="background:#525252"></span>#525252</td></tr>
         <tr><td class="prop">Label</td><td class="token">--font-size-label / --fw-label</td><td class="val">14px / 500</td></tr>
-      </tbody></table>
+      </tbody></table></div>
     </div>
 
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>

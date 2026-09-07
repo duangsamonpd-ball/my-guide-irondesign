@@ -93,7 +93,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .page-title h1 { font-size:2rem; font-weight: 800; letter-spacing:-0.5px; margin-bottom:8px; }
 .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:680px; }
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:anywhere; }
+.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; }
 .dd .card .top { padding:12px 16px; font-size:0.74rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:16px; font-size:0.78rem; color:#62748E; line-height:1.6; }
@@ -884,7 +884,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
     <div class="sect">
       <h2 class="sect-h">Token Reference</h2>
       <div class="sect-sub">This component is the first consumer either footer background token has ever had. Both were imported with the colour ramp and sat unread until now.</div>
-      <table class="tok">
+      <div class="tok-scroll"><table class="tok">
         <thead><tr><th>Figma variable</th><th>Token</th><th>Used for</th></tr></thead>
         <tbody>
           <tr><td>surface/footer-alt</td><td><code>--color-bg-footer-alt</code></td><td>Menu row + brand row fill</td></tr>
@@ -895,7 +895,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
           <tr><td>transparent/white/20</td><td><code>--transparent-white-20</code></td><td>Dividers</td></tr>
           <tr><td>transparent/white/10</td><td><code>--transparent-white-10</code></td><td>Review card border</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
 
 
