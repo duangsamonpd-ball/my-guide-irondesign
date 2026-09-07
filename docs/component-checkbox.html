@@ -86,7 +86,18 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
 .canvas { border: 1px solid #E2E8F0; border-radius: 14px; background: #fff; padding: 40px; display: flex; gap: 28px; align-items: center; justify-content: center; flex-wrap: wrap; background-image: radial-gradient(#EEF1F5 1px, transparent 1px); background-size: 16px 16px; }
 .canvas.col { flex-direction: column; align-items: flex-start; gap: 20px; }
-.spec-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 14px; }
+/* `auto-fit` + a MEASURED minimum, the same rule 03-spacing.html argues for.
+   160 was below what a cell needs: measured max-content 174.80 (the label
+   20px box + 8px gap + 108.8px of "Accept terms" = 136.80, inside 18px padding
+   each side and a 1px border = 174.80), so "Accept terms" broke over two lines
+   at 1440, 1024, 768 and 375 — clean at the five widths between, which is why
+   it read as cosmetic.
+   The track width is always >= the floor, so a floor above 174.80 cannot wrap
+   at any width; 180 is the rung 04-borders.html already uses and leaves 5.2px.
+   `auto-fit` rather than `auto-fill` because at 1440 the container is 1112 and
+   auto-fill built SIX tracks for four cells — two empty ones on the right,
+   squeezing the four real cells to 173.66 and causing the wrap by 1.14px. */
+.spec-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:22px 18px 16px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#2693EC; }
