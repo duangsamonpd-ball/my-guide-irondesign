@@ -150,7 +150,7 @@ const KNOWN = new Map([
   ],
   [
     '#E01A59 on #1E0818',
-    'The IRONPDF and IRONPTT product suffixes, 18px/400, Iron Pink 500 over the maroon block of ' +
+    'The IRONPDF and IRONPPT product suffixes, 18px/400, Iron Pink 500 over the maroon block of ' +
       'Rainbow.svg. Measured 4.04:1 across 100% of the glyph area against a 4.5 bar. Unfixable by any ' +
       'treatment of the image: pink 500 tops out at 4.46:1 on pure black. The other eight suffixes use ' +
       'sky, green and orange accents and sit at 8.19–10.55 here. ' +
