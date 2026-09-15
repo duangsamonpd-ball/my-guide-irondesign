@@ -210,12 +210,6 @@ const KNOWN = new Map([
       "read the number. Ball's standing ruling, 2026-08-03.",
   ],
   [
-    '#2693EC on #F2F9FE',
-    'Select\'s selected option, 16px/600, over --color-bg-card-alt in the open menu. 3.05:1. The ' +
-      'option is also marked with aria-selected and a check glyph, so the state does not rest on the ' +
-      "colour. Ball's standing ruling, 2026-08-03.",
-  ],
-  [
     '#2693EC on #FAFBFC',
     'TextLink in a mode cell on its own docs page, 16px/600. 3.13:1. It is a LINK and it is ' +
       "underlined, which is the mitigation the ruling names. Ball's standing ruling, 2026-08-03.",
