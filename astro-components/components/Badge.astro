@@ -85,9 +85,15 @@ const SUBTLE = {
 /**
  * Solid label colour is per INTENT, not per theme — `.dark` remaps only the
  * -subtle/-strong pairs, so a solid badge is identical in both modes and one
- * label colour cannot serve all six. success/warning/info have light fills and
- * take `text/on-light`; white on them is 2.17 / 1.99 / 3.25 and fails AA.
+ * label colour cannot serve all six. success/warning have light fills and
+ * take `text/on-light`; white on them is 2.17 / 1.99 and fails AA.
  * danger/important/neutral have dark fills and take `text/on-dark`.
+ *
+ * `info` takes `text/on-dark` KNOWING it fails: white on --color-info is 3.25:1
+ * where 12px/700 needs 4.5, and `text/on-light` gave 5.52. Ball's ruling
+ * 2026-09-15, following Figma (`789:656` md, `865:3474` sm bind
+ * `text/on dark/heading`); recorded as an exemption in check-contrast.mjs. The
+ * fix, if it is ever wanted, is the fill — white clears on iron-blue-700.
  *
  * These used to be badge-specific tokens (`badge-solid` / `-inverse`). They are
  * not badge-specific at all — the same choice applies to any fixed-lightness
@@ -104,7 +110,7 @@ const SOLID = {
   success: 'bg-success text-text-on-light-heading',
   warning: 'bg-warning text-text-on-light-heading',
   danger: 'bg-danger text-text-on-dark-heading',
-  info: 'bg-info text-text-on-light-heading',
+  info: 'bg-info text-text-on-dark-heading',
   important: 'bg-important text-text-on-dark-heading',
   neutral: 'bg-neutral text-text-on-dark-heading',
 } as const;

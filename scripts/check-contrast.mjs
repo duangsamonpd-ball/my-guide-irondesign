@@ -35,12 +35,19 @@ const AA = 4.5;
 
 /**
  * Pairs that do not clear AA and are a design decision rather than a bug — both
- * values coming from Figma, say — so they warn instead of failing. Empty on
- * purpose: the two subtle pairs that lived here were fixed on 2026-07-31 by
- * darkening the -strong step to 800, and this check is what said so. An entry
- * that starts passing is reported as an error, so the list cannot rot.
+ * values coming from Figma, say — so they warn instead of failing. The two
+ * subtle pairs that lived here were fixed on 2026-07-31 by darkening the
+ * -strong step to 800, and this check is what said so. An entry that starts
+ * passing is reported as an error, so the list cannot rot.
  */
-const KNOWN = new Map([]);
+const SOLID_INFO =
+  'White on --color-info, 3.25:1. Ball ruled 2026-09-15 to follow Figma (789:656 / 865:3474 bind ' +
+  'text/on dark/heading) knowing it fails; text/on-light gave 5.52. The fill does not change with the ' +
+  'theme, so light and dark are the same pair. Fix by darkening the fill, not by changing the label back.';
+const KNOWN = new Map([
+  ['solid/info/light', SOLID_INFO],
+  ['solid/info/dark', SOLID_INFO],
+]);
 
 /* ── read the two sources ─────────────────────────────────────────────────── */
 

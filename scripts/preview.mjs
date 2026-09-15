@@ -111,7 +111,9 @@ const KNOWN = new Map([
     '#FFFFFF on #2693EC',
     'The same brand blue as a solid fill (.btn--secondary). 3.25:1. No single label colour clears AA across ' +
       'the state chain — white is 3.25/4.47/6.42 and #171717 is 5.52/4.01/2.79 over default/hover/active — ' +
-      'so the fill would have to darken to iron-blue-700 to fix it. Kept as the brand secondary.',
+      'so the fill would have to darken to iron-blue-700 to fix it. Kept as the brand secondary. ' +
+      'Also Badge solid info since 2026-09-15 — Ball followed Figma to a white label on --color-info, ' +
+      'the same pair, recorded in check-contrast.mjs.',
   ],
   /* The three Footer pairs, Ball's call 2026-08-12, made on PIXEL-MEASURED
    * numbers rather than the composited ones his 2026-08-03 ruling was given. All

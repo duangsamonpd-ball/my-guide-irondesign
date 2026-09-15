@@ -308,7 +308,7 @@
      (1.99:1) or success (2.17:1), so one value could never serve every fill.
      Splitting by the background's lightness is what the badge pair was already
      doing by hand. */
-  --color-text-on-dark-heading:  #FFFFFF;            /* white — headings on any dark surface; also a solid badge on a DARK fill: danger 4.55:1, important 8.46:1, neutral 4.76:1 */
+  --color-text-on-dark-heading:  #FFFFFF;            /* white — headings on any dark surface; also a solid badge on a DARK fill: danger 4.55:1, important 8.46:1, neutral 4.76:1 — and info 3.25:1, below AA by Ball's ruling 2026-09-15 (see Badge.astro) */
   --color-text-on-dark-body:     var(--neutral-200); /* #E5E5E5 — neutral/200 — body copy on any dark surface */
   --color-text-on-light-heading: var(--neutral-900); /* #171717 — headings on a fixed light surface; also a solid badge on a LIGHT fill: success 8.25:1, warning 9.02:1, info 5.52:1 (white there is 2.17/1.99/3.25 — fails AA) */
   --color-text-on-light-body:    var(--neutral-800); /* #262626 — body copy on a fixed light surface. Same value as --color-text-body today, deliberately NOT an alias: that one flips under .dark and this one must not. */
