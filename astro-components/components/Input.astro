@@ -65,6 +65,10 @@ const {
 } = Astro.props;
 
 const inputId = fieldId(id, name, 'input');
+/* The message under the field is only read to a screen reader if the control
+   points at it. Select has always done this; Input did not, so its error and
+   hint were visible and silent. One id for whichever span renders. */
+const descId = (error && errorMessage) || hint ? `${inputId}-desc` : undefined;
 ---
 
 <div class:list={[fieldShell, className]}>
@@ -89,11 +93,13 @@ const inputId = fieldId(id, name, 'input');
       value={value}
       disabled={disabled}
       required={required}
+      aria-invalid={error ? 'true' : undefined}
+      aria-describedby={descId}
     />
   </div>
   {error && errorMessage ? (
-    <span class={fieldError}><svg class={fieldErrorIcon} viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>{errorMessage}</span>
+    <span id={descId} class={fieldError}><svg class={fieldErrorIcon} viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>{errorMessage}</span>
   ) : hint ? (
-    <span class={fieldHint}>{hint}</span>
+    <span id={descId} class={fieldHint}>{hint}</span>
   ) : null}
 </div>

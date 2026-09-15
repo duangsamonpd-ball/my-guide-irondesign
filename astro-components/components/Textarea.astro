@@ -56,6 +56,9 @@ const {
 } = Astro.props;
 
 const textareaId = fieldId(id, name, 'textarea');
+/* Same wiring as Input and Select: the control points at the message under it,
+   so a screen reader announces the hint or the error with the field. */
+const descId = (error && errorMessage) || hint ? `${textareaId}-desc` : undefined;
 
 /* Figma fixes the box at 98px (`914:2488` and every sibling state) over a
    `min-height` of 86. `rows` cannot express 98: three rows of `leading/7` plus
@@ -87,10 +90,12 @@ const sizing = rows === undefined ? 'h-[98px]' : '';
     placeholder={placeholder}
     disabled={disabled}
     required={required}
+    aria-invalid={error ? 'true' : undefined}
+    aria-describedby={descId}
   >{value}</textarea>
   {error && errorMessage ? (
-    <span class={fieldError}><svg class={fieldErrorIcon} viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>{errorMessage}</span>
+    <span id={descId} class={fieldError}><svg class={fieldErrorIcon} viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>{errorMessage}</span>
   ) : hint ? (
-    <span class={fieldHint}>{hint}</span>
+    <span id={descId} class={fieldHint}>{hint}</span>
   ) : null}
 </div>

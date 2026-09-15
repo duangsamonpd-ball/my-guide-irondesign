@@ -169,9 +169,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             Email address
           </label>
           <div class="relative flex items-center">
-            <input id="email-address" name="email-address" type="email" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" placeholder="you@example.com">
+            <input id="email-address" name="email-address" type="email" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" placeholder="you@example.com" aria-describedby="email-address-desc">
           </div>
-          <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support">We&#39;ll never share your email.</span>
+          <span id="email-address-desc" class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support">We&#39;ll never share your email.</span>
         </div>
         <!-- /demo:preview -->
       </div>
@@ -205,9 +205,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         </div><div class="cell">
           <div class="flex flex-col gap-xs w-full max-w-[340px]">
             <div class="relative flex items-center">
-              <input id="st-error" name="st-error" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input-danger focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" value="not-an-email">
+              <input id="st-error" name="st-error" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input-danger focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" value="not-an-email" aria-invalid="true" aria-describedby="st-error-desc">
             </div>
-            <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger flex items-center gap-micro"><svg class="size-[12px] shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"></path></svg>Enter a valid email.</span>
+            <span id="st-error-desc" class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger flex items-center gap-micro"><svg class="size-[12px] shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"></path></svg>Enter a valid email.</span>
           </div>
           <div class="lbl">Error<small>danger border</small></div>
         </div><div class="cell">
@@ -239,9 +239,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             Password
           </label>
           <div class="relative flex items-center">
-            <input id="password" name="password" type="password" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input-danger focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" value="123">
+            <input id="password" name="password" type="password" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input-danger focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" value="123" aria-invalid="true" aria-describedby="password-desc">
           </div>
-          <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger flex items-center gap-micro"><svg class="size-[12px] shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"></path></svg>Must be at least 8 characters.</span>
+          <span id="password-desc" class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger flex items-center gap-micro"><svg class="size-[12px] shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"></path></svg>Must be at least 8 characters.</span>
         </div>
         <!-- /demo:compositions -->
       </div>
@@ -256,9 +256,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             Email address
           </label>
           <div class="relative flex items-center">
-            <input id="anatomy-email" name="anatomy-email" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" placeholder="you@example.com">
+            <input id="anatomy-email" name="anatomy-email" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" placeholder="you@example.com" aria-describedby="anatomy-email-desc">
           </div>
-          <span class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support">Helper text.</span>
+          <span id="anatomy-email-desc" class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support">Helper text.</span>
         </div>
         <!-- /demo:anatomy -->
       <div class="anatomy-tags">
