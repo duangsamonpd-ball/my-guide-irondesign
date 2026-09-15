@@ -542,6 +542,12 @@
           "description": "Any input type the HTML spec defines."
         },
         {
+          "name": "autocomplete",
+          "type": "string",
+          "required": false,
+          "description": "The input's purpose, so browsers and assistive tech can fill it — `email`, `name`, `tel`, `current-password`, `new-password`, `organization` … (WCAG 1.3.5). A string because Astro types it as one; the token list is the HTML spec's. Omit it and the browser decides."
+        },
+        {
           "name": "placeholder",
           "type": "string",
           "required": false

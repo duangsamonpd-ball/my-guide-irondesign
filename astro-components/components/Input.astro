@@ -39,6 +39,11 @@ interface Props {
   // current, which is the kind of restated fact nothing checks.
   /** Any input type the HTML spec defines. */
   type?: astroHTML.JSX.HTMLInputTypeAttribute;
+  /** The input's purpose, so browsers and assistive tech can fill it —
+   *  `email`, `name`, `tel`, `current-password`, `new-password`, `organization`
+   *  … (WCAG 1.3.5). A string because Astro types it as one; the token list is
+   *  the HTML spec's. Omit it and the browser decides. */
+  autocomplete?: string;
   placeholder?: string;
   value?: string;
   hint?: string;
@@ -54,6 +59,7 @@ const {
   id,
   name,
   type = 'text',
+  autocomplete,
   placeholder,
   value,
   hint,
@@ -88,6 +94,7 @@ const descId = (error && errorMessage) || hint ? `${inputId}-desc` : undefined;
       id={inputId}
       name={name}
       type={type}
+      autocomplete={autocomplete}
       class:list={['h-[var(--size-input)] px-sm', fieldControl, fieldBorder(error)]}
       placeholder={placeholder}
       value={value}

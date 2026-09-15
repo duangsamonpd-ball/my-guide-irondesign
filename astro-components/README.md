@@ -299,8 +299,11 @@ cannot reach into.
 <Input label="Email address" name="email" error errorMessage="Enter a valid email address." value="not-an-email" />
 ```
 
-Props: `label`, `id`, `name`, `type` (default `text`), `placeholder`, `value`, `hint`,
-`error`, `errorMessage`, `disabled`, `required`, `class`.
+Props: `label`, `id`, `name`, `type` (default `text`), `autocomplete`, `placeholder`, `value`, `hint`,
+`error`, `errorMessage`, `disabled`, `required`, `class`. Pass `autocomplete` on any field
+that collects personal data (`email`, `name`, `tel`, `current-password` …) — it is what lets
+the browser fill it, and WCAG 1.3.5 asks for it. The field also points `aria-describedby`
+at its hint or error and sets `aria-invalid` when `error`.
 
 ### `Textarea.astro`
 

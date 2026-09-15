@@ -42,6 +42,7 @@ const states = [
         label="Email address"
         name="email-address"
         type="email"
+        autocomplete="email"
         placeholder="you@example.com"
         hint="We'll never share your email."
       />
@@ -57,11 +58,12 @@ const states = [
     </div>
 
     <div data-demo="compositions">
-      <Input label="Full name" name="full-name" required placeholder="Jane Cooper" />
+      <Input label="Full name" name="full-name" autocomplete="name" required placeholder="Jane Cooper" />
       <Input
         label="Password"
         name="password"
         type="password"
+        autocomplete="current-password"
         value="123"
         error
         errorMessage="Must be at least 8 characters."
