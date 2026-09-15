@@ -97,10 +97,14 @@ const DOT = { sm: 'after:size-[6px]', md: 'after:size-[8px]', lg: 'after:size-[1
       DOT[size],
       'after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)]',
       'group-has-[:checked]:after:scale-100',
-      /* Figma thickens the ring to 2px once selected — unselected is 1px. */
+      /* Figma thickens the ring to 2px once selected — unselected is 1px.
+         Since 2026-09-15 (`451:448` and siblings) the unselected ring is
+         `border/input` (was `border/strong`, 1.49:1), invalid is
+         `border/input-danger`, and the selected ring binds `border/selected` —
+         the same #2693EC as the dot, named for its role. */
       invalid
-        ? 'border-danger after:bg-danger'
-        : 'border-border-strong after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-secondary',
+        ? 'border-border-input-danger after:bg-danger'
+        : 'border-border-input after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-border-selected',
     ]}
   ></span>
   {label && (

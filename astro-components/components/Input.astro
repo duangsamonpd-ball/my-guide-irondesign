@@ -25,7 +25,8 @@
  *   height 96
  *   why    20 + 8 + the --size-input 44 + 8 + a 16 hint, label and all
  */
-import { fieldShell, fieldLabel, fieldRequiredMark, fieldControl, fieldBorder, fieldHint, fieldError, fieldId } from '../field';
+import { fieldShell, fieldLabel, fieldRequiredMark, fieldControl, fieldBorder, fieldHint, fieldError, fieldErrorIcon, fieldId } from '../field';
+import { icons } from '../icons';
 
 interface Props {
   label?: string;
@@ -91,7 +92,7 @@ const inputId = fieldId(id, name, 'input');
     />
   </div>
   {error && errorMessage ? (
-    <span class={fieldError}>{errorMessage}</span>
+    <span class={fieldError}><svg class={fieldErrorIcon} viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>{errorMessage}</span>
   ) : hint ? (
     <span class={fieldHint}>{hint}</span>
   ) : null}

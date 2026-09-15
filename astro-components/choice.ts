@@ -55,7 +55,7 @@ export const choiceInput = 'absolute w-px h-px opacity-0 pointer-events-none';
  */
 export const choiceControl = [
   'shrink-0 inline-flex items-center justify-center',
-  'bg-bg-base border',
+  'bg-bg-input border',
   'transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)]',
   'group-has-[:focus-visible]:shadow-focus-blue',
 ].join(' ');

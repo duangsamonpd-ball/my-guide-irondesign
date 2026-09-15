@@ -314,7 +314,7 @@
     .pm:not(.pm--fit) .pm-menu::-webkit-scrollbar { display: none; }
     .pm:not(.pm--fit) .pm-brand, .pm:not(.pm--fit) .pm-right { flex: 1 0 auto; }
   }
-  @media (max-width: 1042.98px) { .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
+  @media (max-width: 1045.98px) { .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
   @media (max-width: 768px) {
     .pm-burger { display: inline-flex; }
     .pm-center { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 0; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-sm); background: var(--color-bg-nav); border-bottom: var(--border-width-1) solid var(--slate-200); }

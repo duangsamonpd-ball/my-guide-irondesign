@@ -266,9 +266,10 @@
   --color-text-heading-alt:     var(--iron-blue-600);    /* #217BC4 — Coloured headline accents, kickers · 4.08:1 on --color-bg-shade — LARGE TEXT ONLY (24px+, or 18.66px+ bold) */
   --color-text-body:            var(--neutral-800); /* #262626 — Default running text */
   --color-text-muted:           var(--neutral-600); /* #525252 — Captions, hints, field descriptions · 7.13:1 on --color-bg-shade — real text, must meet AA */
-  --color-text-placeholder:     var(--neutral-600); /* #525252 — Input placeholder text. Same value as muted today but deliberately NOT an alias of it: a placeholder sits on the input's own bg-base fill, a hint sits on the page (which may be bg-shade), so the two have different contrast budgets and must be free to diverge. */
+  --color-text-placeholder:     #262626B3;          /* neutral/800 at 70% — Input placeholder text. Figma text/default/placeholder keeps the alpha in the variable, so this is a literal 8-digit hex (B3 = round-half-up .70 × 255) and not var() + color-mix(): check:tokens compares the layers as strings. 5.66:1 on --color-bg-input, 5.41:1 on --color-bg-input-hover. Deliberately NOT an alias of muted: a placeholder sits on the field's fill, a hint on the page. */
   --color-text-disabled:        var(--neutral-400); /* #A1A1A1 — Disabled controls ONLY · exempt from contrast minimums; kept light so a disabled control reads as inert (5.86:1 away from body) */
   --color-text-support:         var(--slate-600);   /* #45556C — Support headlines, caption titles · 6.92:1 on --color-bg-shade */
+  --color-text-danger:          var(--iron-red-700); /* #A8181D — a field's error message and its icon (Figma: text/default/danger) · 7.46:1 on --color-bg-input. Not --color-danger (#E5242A, 4.55:1): that is the status colour, this is text. */
   --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons (Figma: on action) */
   --color-text-on-action-hover:          var(--iron-pink-500); /* #E01A59 — brand/primary — text on a hovered action */
   --color-text-on-action-tertiary:       var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
@@ -283,11 +284,12 @@
   /* ── Text / Default — Dark Mode (Figma: text/default dark column) ── */
   --color-text-dark-heading:     var(--neutral-100);  /* #F5F5F5 — neutral/100 */
   --color-text-dark-heading-alt: var(--iron-orange-500);   /* #FDA509 — brand/accent 1 */
-  --color-text-dark-body:        var(--neutral-300);  /* #D4D4D4 — neutral/300 */
+  --color-text-dark-body:        var(--neutral-200);  /* #E5E5E5 — neutral/200 (Figma dark column; neutral/300 until 2026-09-15) · 14.13:1 on --color-bg-dark-input */
   --color-text-dark-muted:       var(--neutral-400);  /* #A1A1A1 — neutral/400 · 4.54:1 on --color-bg-dark-card */
-  --color-text-dark-placeholder: var(--neutral-400);  /* #A1A1A1 — neutral/400 · 6.89:1 on the iron-violet/950 page background */
+  --color-text-dark-placeholder: #E5E5E5B3;           /* neutral/200 at 70%, alpha in the variable as in light · 7.40:1 on --color-bg-dark-input, 5.97:1 on --color-bg-dark-input-hover */
   --color-text-dark-disabled:    var(--neutral-500);  /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
+  --color-text-dark-danger:      var(--iron-red-300);      /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card, the lowest surface a field sits on */
   --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
   --color-text-dark-link-hover:  var(--iron-pink-400);     /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
 
@@ -332,6 +334,13 @@
   --color-bg-section:       var(--slate-50);          /* #F8FAFC — slate/50 — neutral section band. Same value as --color-bg-disabled today, deliberately not an alias: a band and a dead control have no reason to move together. */
   --color-bg-section-alt:   var(--iron-blue-50);      /* #F2F9FE — iron-blue/50 — brand-tinted section band */
   --color-bg-disabled:      var(--slate-50);          /* #F8FAFC — slate/50 — disabled input / control fill */
+  /* A form field's own fills (Figma: surface/input*, 2026-09-15). Same values as
+     base / shade / disabled today, and deliberately not aliases of them: the
+     fill and --color-border-input are ONE contrast pair — 4.35:1 on the hover
+     fill — so they move together, not with the page bands that share a value. */
+  --color-bg-input:          #FFFFFF;                 /* white — field fill */
+  --color-bg-input-hover:    var(--slate-100);        /* #F1F5F9 — slate/100 — hovered field; hover shows by fill, not border */
+  --color-bg-input-disabled: var(--slate-50);         /* #F8FAFC — slate/50 — disabled field */
   /* A FIXED light band, the mirror of --color-bg-footer's fixed dark one, and
      like it NEVER remapped in .dark — see the .dark block, which lists neither.
      ProductMenu's bar is Ball's case (2026-09-03): the product header keeps the
@@ -356,6 +365,9 @@
   --color-bg-dark-card:     var(--iron-violet-800);   /* #522950 — iron-violet/800 — card, modal, panel backgrounds */
   --color-bg-dark-card-alt: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — alternative / feature highlight card (Figma dark, updated from iron-violet/950) */
   --color-bg-dark-disabled: var(--iron-violet-900);   /* #391C39 — iron-violet/900 — disabled input / control fill (dark) */
+  --color-bg-dark-input:          var(--iron-violet-950); /* #260F27 — iron-violet/950 — field fill (dark) */
+  --color-bg-dark-input-hover:    var(--iron-violet-850); /* #462244 — iron-violet/850 — hovered field (dark) */
+  --color-bg-dark-input-disabled: var(--iron-violet-900); /* #391C39 — iron-violet/900 — disabled field (dark) */
   --color-bg-dark-section:     var(--iron-violet-900); /* #391C39 — iron-violet/900 — neutral section band (dark), one rung above the page */
   /* The one surface value in this file that is not a ramp rung, and it is
      deliberate: the pair has to stay "neutral vs tinted" in dark the way it is
@@ -381,11 +393,23 @@
   --color-border-focused:   var(--color-border-focus); /* alias — Button ghost variant naming */
   --color-border-selected:  var(--iron-blue-500);     /* #2693EC — selected item outline */
   --color-border-error:     var(--iron-red-500);      /* #E5242A — error state border (Figma: danger) */
+  --color-border-strong-alt: var(--slate-400);        /* #90A1B9 — slate/400 (Figma: border/strong-alt) · 2.69:1 on white — decorative, never a control's boundary */
+  /* A form field's boundary (Figma: border/input*, 2026-09-15). --color-border is
+     a divider and a card edge, where 1.23:1 is the point; a field's edge is what
+     WCAG 1.4.11 measures and needs 3:1, so it is a different token rather than a
+     darker --color-border that would have darkened every divider with it. */
+  --color-border-input:          var(--slate-500);    /* #62748E — slate/500 · 4.76:1 on --color-bg-input, 4.35:1 on --color-bg-input-hover */
+  --color-border-input-disabled: var(--slate-200);    /* #E2E8F0 — slate/200 · exempt from 1.4.11 */
+  --color-border-input-danger:   var(--iron-red-700); /* #A8181D — iron-red/700 · 7.46:1 — the same red as --color-text-danger */
 
   /* ── Borders — Dark Theme (Figma: border, dark column) ── */
   --color-border-dark:        var(--iron-violet-800); /* #522950 — iron-violet/800 — dividers, input borders. Read off Figma's own variable table, which MCP cannot return (one mode per call) — it was iron-violet/500 here, three ramp steps too light, and read at 2.83:1 against the page where the light-mode border reads 1.23:1. /800 lands at 1.28:1, the same weight the light mode has. */
   --color-border-dark-strong: var(--iron-violet-700); /* #6B3567 — iron-violet/700 — hover borders, strong dividers. Same correction: was /600 at 2.18:1 against the page, /700 is 1.67:1 against light mode's 1.49:1. */
   --color-border-dark-alt:    var(--iron-blue-500);   /* #2693EC — brand/secondary — same as light mode */
+  --color-border-dark-strong-alt:     var(--iron-violet-600); /* #84427C — iron-violet/600 — decorative */
+  --color-border-dark-input:          var(--iron-violet-400); /* #BA84B1 — iron-violet/400 · 3.92:1 on --color-bg-dark-card, the lowest of page/hover/card/disabled/section-alt; /500 fails on three of the five */
+  --color-border-dark-input-disabled: var(--iron-violet-800); /* #522950 — iron-violet/800 · exempt */
+  --color-border-dark-input-danger:   var(--iron-red-300);    /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
@@ -430,7 +454,7 @@
   --fw-btn:       600;  /* Button · default / small — semibold */
   --fw-btn-sm:    600;  /* Button · small — semibold */
   --fw-nav:       500;
-  --fw-nav-sub:   500;  /* Nav dropdown item — medium */
+  --fw-nav-sub:   600;  /* Nav dropdown item — semibold (Figma Typography/UI/nav-sub binds weight/semibold; 500 until 2026-09-15) */
   --fw-badge:     700;  /* Badge — bold */
   --fw-badge-sm:  700;  /* Badge · small — bold */
   --fw-nav-active:700;
@@ -521,7 +545,7 @@
   --font-size-3xl--line-height:  var(--leading-9);   /* 36px — h2 30/36 */
   --font-size-4xl--line-height:  var(--leading-10);  /* 40px — no role uses 4xl */
   --font-size-5xl--line-height:  var(--leading-ratio-title);  /* 1.2 — h1: 48px at 40, 38.4 at 32 */
-  --font-size-6xl--line-height:  var(--leading-ratio-hero);  /* 56px at 48, 42px at 36 */
+  --font-size-6xl--line-height:  1;  /* 48px at 48, 36px at 36 — h1-hero's pair */
   --font-size-7xl--line-height:  1;                  /* 64px — display, no role */
   --font-size-8xl--line-height:  1;                  /* 72px — display, no role */
   --font-size-9xl--line-height:  1;                  /* 96px — display, no role */
@@ -585,23 +609,17 @@
      consumer as a silent change to a class they already use. */
   --leading-ratio-title: 1.2;   /* 40/48 at the top of h1's range, unchanged */
 
-  /* THE HERO, and the one value in this scale that was set below what the face
-     asks for. Measured 2026-09-01: Montserrat ExtraBold at 48px declares a line
-     box of 58px — ascent 46 plus descent 12 — and h1-hero's ratio of 1.000 gave
-     it 48, ten pixels under, with this headline's own ink (47.90px) clearing it
-     by 0.10px. Every other level sits at that natural box or above it: h1 and h2
-     at 1.200 are 58/48 to within a rounding error, h3 and h4 are looser. The
-     hero alone was 17% under.
+  /* THE HERO is 1, the single-line ratio, and that is Ball's ruling (2026-09-15)
+     to follow `Typography/h1-hero`, which binds `leading/12` = 48 at 48.
 
-     7/6 puts it at 56 — two under the natural box, so still tighter than h1, as
-     a display level should be — and it is the only candidate that lands on whole
-     pixels at BOTH ends of the range this level now spans: 48→56 and 36→42. 1.15
-     gives 55.2 and 41.4. Written as a division because no decimal is exact:
-     1.1667 x 48 is 56.0016. `check:type-scale` computes this shape already. */
-  --leading-ratio-hero:  calc(7 / 6);  /* 56px at 48, 42px at 36 */
+     It reverses a measured correction, so the measurement stays on record: on
+     2026-09-01 Montserrat ExtraBold at 48px declared a 58px line box (ascent 46 +
+     descent 12), and at 48 this headline's own ink cleared the box by 0.10px.
+     The hero was 7/6 (56 at 48, 42 at 36) from then until this ruling. A hero
+     that wraps to two lines sits its lines closer than any other level does. */
 
   /* ── Line heights (semantic → leading primitive) ── */
-  --line-height-h1-hero:  var(--leading-ratio-hero);   /* 56px at 48, 42px at 36 */
+  --line-height-h1-hero:  1;   /* 48px at 48, 36px at 36 — Figma leading/12 at the 1440 frame */
   --line-height-h1:       var(--leading-ratio-title);  /* 48px at 40 — unchanged at 1440 */
   --line-height-h2:       var(--leading-9);   /* 36px */
   --line-height-h3:       var(--leading-8);   /* 32px */
@@ -719,6 +737,7 @@
   --shadow-focus-blue:    0 0 0 3px rgba(38, 147, 236, 0.25);  /* Focus ring — the only one. iron-blue/500 at 25%, matching the focus BORDER (--color-border-focus) and what Figma's field nodes specify. Was rgba(42,149,213,.25) = #2A95D5, the same stray "Deep Blue" Ball removed from the Tooltip, so every field ringed in a blue no other token used. */
   --shadow-focus-teal:    0 0 0 3px rgba(99, 193, 160, 0.25);  /* Focus ring — secondary */
   --shadow-focus-magenta: 0 0 0 3px rgba(224, 26, 89, 0.25);   /* Focus ring — destructive */
+  --shadow-focus-danger:  0 0 0 3px rgba(168, 24, 29, 0.25);   /* Focus ring — a form field in error. iron-red/700 at 25%, the Error+Focus state (Figma 1152:2649), matching --color-border-input-danger the way focus-blue matches its border. Raw in Figma and the same in both modes, so under .dark it reads 1.17:1 against the page and the 2px border carries the focus. */
   --shadow-tooltip:       0 4px 8px 0 rgba(0, 0, 0, 0.25);     /* Tooltip drop shadow — Figma blur is 8, not 16 */
   --focus-ring-blue:      var(--shadow-focus-blue);            /* Alias. Button reached for this name while every field reached for --shadow-focus-blue, and the two held different blues; one source of truth now, so they cannot drift apart again. */
   --focus-ring-white:     0 0 0 3px rgba(255, 255, 255, 0.25); /* Focus ring — Button tertiary (on dark fill) */
@@ -885,6 +904,7 @@
   --color-text-placeholder: var(--color-text-dark-placeholder);
   --color-text-disabled:    var(--color-text-dark-disabled);
   --color-text-support:     var(--color-text-dark-support);
+  --color-text-danger:      var(--color-text-dark-danger);
   --color-text-link:        var(--color-text-dark-link);
   --color-text-link-hover:  var(--color-text-dark-link-hover);
 
@@ -896,11 +916,18 @@
   --color-bg-disabled: var(--color-bg-dark-disabled);
   --color-bg-section:     var(--color-bg-dark-section);
   --color-bg-section-alt: var(--color-bg-dark-section-alt);
+  --color-bg-input:          var(--color-bg-dark-input);
+  --color-bg-input-hover:    var(--color-bg-dark-input-hover);
+  --color-bg-input-disabled: var(--color-bg-dark-input-disabled);
 
   /* ── Borders ── */
   --color-border:        var(--color-border-dark);
   --color-border-strong: var(--color-border-dark-strong);
   --color-border-alt:    var(--color-border-dark-alt);
+  --color-border-strong-alt:     var(--color-border-dark-strong-alt);
+  --color-border-input:          var(--color-border-dark-input);
+  --color-border-input-disabled: var(--color-border-dark-input-disabled);
+  --color-border-input-danger:   var(--color-border-dark-input-danger);
 
   /* ── Buttons ── */
   --color-button-outline:       var(--color-button-dark-outline);

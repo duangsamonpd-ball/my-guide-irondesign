@@ -479,7 +479,7 @@ pre {
       <tr>
         <td><span class="role-badge" style="background:#F8FAFC;color:#262626;">body</span></td>
         <td class="td-light"><div class="color-dot"><div class="dot" style="background:#262626;"></div><span>#262626 <span style="color:#A1A1A1;">neutral/800</span></span></div></td>
-        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#D4D4D4;border-color:rgba(0,0,0,0.15);"></div><span style="color:#C8C8D8;">#D4D4D4 <span style="color:#5A5A7A;">neutral/300</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#E5E5E5;border-color:rgba(0,0,0,0.15);"></div><span style="color:#C8C8D8;">#E5E5E5 <span style="color:#5A5A7A;">neutral/200</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-text-body)')">--color-text-body</span></td>
         <td style="color:#737373;font-size:0.75rem;">Default running text, paragraphs</td>
       </tr>
@@ -503,6 +503,13 @@ pre {
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#CEA7C8;"></div><span style="color:#C8C8D8;">#CEA7C8 <span style="color:#5A5A7A;">iron-violet/300</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-text-support)')">--color-text-support</span></td>
         <td style="color:#737373;font-size:0.75rem;">Support headlines, caption titles</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FFE1E2;color:#A8181D;">danger</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#A8181D;"></div><span>#A8181D <span style="color:#A1A1A1;">iron-red/700</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#FF9DA1;"></div><span style="color:#C8C8D8;">#FF9DA1 <span style="color:#5A5A7A;">iron-red/300</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-text-danger)')">--color-text-danger</span></td>
+        <td style="color:#737373;font-size:0.75rem;">A field's error message and its icon. Not <code style="font-size:0.7rem;">--color-danger</code>, which is the status red</td>
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#E01A59;color:#fff;">on primary</span></td>
@@ -650,6 +657,27 @@ pre {
         <td><span class="token-pill css" onclick="copyText('var(--color-bg-disabled)')">--color-bg-disabled</span></td>
         <td style="color:#737373;font-size:0.75rem;">Disabled input / control fill</td>
       </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#45556C;">input</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#FFFFFF;border:1px solid var(--neutral-300);"></div><span>#FFFFFF <span style="color:#A1A1A1;">white</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#260F27;"></div><span style="color:#C8C8D8;">#260F27 <span style="color:#5A5A7A;">iron-violet/950</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-bg-input)')">--color-bg-input</span></td>
+        <td style="color:#737373;font-size:0.75rem;">A form field's fill — one contrast pair with <code style="font-size:0.7rem;">--color-border-input</code></td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#45556C;">input-hover</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F1F5F9;border:1px solid var(--neutral-300);"></div><span>#F1F5F9 <span style="color:#A1A1A1;">slate/100</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#462244;"></div><span style="color:#C8C8D8;">#462244 <span style="color:#5A5A7A;">iron-violet/850</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-bg-input-hover)')">--color-bg-input-hover</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Hovered field — hover shows by fill, not border</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#45556C;">input-disabled</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#F8FAFC;border:1px solid var(--neutral-300);"></div><span>#F8FAFC <span style="color:#A1A1A1;">slate/50</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#391C39;"></div><span style="color:#C8C8D8;">#391C39 <span style="color:#5A5A7A;">iron-violet/900</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-bg-input-disabled)')">--color-bg-input-disabled</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Disabled field fill</td>
+      </tr>
     </tbody>
   </table>
 
@@ -672,7 +700,7 @@ pre {
         <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E2E8F0;"></div><span>#E2E8F0 <span style="color:#A1A1A1;">slate/200</span></span></div></td>
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#522950;"></div><span style="color:#C8C8D8;">#522950 <span style="color:#5A5A7A;">iron-violet/800</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-border)')">--color-border</span></td>
-        <td style="color:#737373;font-size:0.75rem;">Dividers, input borders, card edges</td>
+        <td style="color:#737373;font-size:0.75rem;">Dividers, card edges — a field's edge is <code style="font-size:0.7rem;">--color-border-input</code></td>
       </tr>
       <tr>
         <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">strong</span></td>
@@ -694,6 +722,34 @@ pre {
         <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#2693EC;"></div><span style="color:#C8C8D8;">#2693EC <span style="color:#5A5A7A;">iron-blue/500</span></span></div></td>
         <td><span class="token-pill css" onclick="copyText('var(--color-border-selected)')">--color-border-selected</span></td>
         <td style="color:#737373;font-size:0.75rem;">Selected item outline</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">strong-alt</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#90A1B9;"></div><span>#90A1B9 <span style="color:#A1A1A1;">slate/400</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#84427C;"></div><span style="color:#C8C8D8;">#84427C <span style="color:#5A5A7A;">iron-violet/600</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-border-strong-alt)')">--color-border-strong-alt</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Decorative only — 2.69:1, never a control's boundary</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">input</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#62748E;"></div><span>#62748E <span style="color:#A1A1A1;">slate/500</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#BA84B1;"></div><span style="color:#C8C8D8;">#BA84B1 <span style="color:#5A5A7A;">iron-violet/400</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-border-input)')">--color-border-input</span></td>
+        <td style="color:#737373;font-size:0.75rem;">A form field's boundary — WCAG 1.4.11 needs 3:1: 4.76 light, 3.92 dark on the card</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#F8FAFC;color:#62748E;">input-disabled</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#E2E8F0;"></div><span>#E2E8F0 <span style="color:#A1A1A1;">slate/200</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#522950;"></div><span style="color:#C8C8D8;">#522950 <span style="color:#5A5A7A;">iron-violet/800</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-border-input-disabled)')">--color-border-input-disabled</span></td>
+        <td style="color:#737373;font-size:0.75rem;">Disabled field boundary — exempt</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge" style="background:#FFE1E2;color:#A8181D;">input-danger</span></td>
+        <td class="td-light"><div class="color-dot"><div class="dot" style="background:#A8181D;"></div><span>#A8181D <span style="color:#A1A1A1;">iron-red/700</span></span></div></td>
+        <td class="td-dark"><div class="color-dot"><div class="dot" style="background:#FF9DA1;"></div><span style="color:#C8C8D8;">#FF9DA1 <span style="color:#5A5A7A;">iron-red/300</span></span></div></td>
+        <td><span class="token-pill css" onclick="copyText('var(--color-border-input-danger)')">--color-border-input-danger</span></td>
+        <td style="color:#737373;font-size:0.75rem;">A field in error — the same red as <code style="font-size:0.7rem;">--color-text-danger</code></td>
       </tr>
     </tbody>
   </table>
@@ -876,7 +932,7 @@ pre {
 <span class="c-comment">/* ✅ DARK MODE — put .dark on any ancestor */</span>
 .<span class="c-key">dark</span> {
   --<span class="c-key">color-text-heading</span>: <span class="c-str">var(--color-text-dark-heading)</span>;   <span class="c-comment">/* #F5F5F5 */</span>
-  --<span class="c-key">color-text-body</span>:    <span class="c-str">var(--color-text-dark-body)</span>;      <span class="c-comment">/* #D4D4D4 */</span>
+  --<span class="c-key">color-text-body</span>:    <span class="c-str">var(--color-text-dark-body)</span>;      <span class="c-comment">/* #E5E5E5 */</span>
   --<span class="c-key">color-bg-base</span>:      <span class="c-str">var(--color-bg-dark)</span>;             <span class="c-comment">/* #260F27 */</span>
   --<span class="c-key">color-bg-shade</span>:     <span class="c-str">var(--color-bg-dark-shade)</span>;       <span class="c-comment">/* #462244 */</span>
   --<span class="c-key">color-bg-card</span>:      <span class="c-str">var(--color-bg-dark-card)</span>;        <span class="c-comment">/* #522950 */</span>
@@ -958,7 +1014,7 @@ pre {
 <span class="c-comment">/* Text — light / dark */</span>
 --<span class="c-key">color-text-heading</span>:      <span class="c-val">#171717</span>;   <span class="c-comment">/* neutral-900  ↔  dark: #F5F5F5 */</span>
 --<span class="c-key">color-text-heading-alt</span>:  <span class="c-val">#217BC4</span>;   <span class="c-comment">/* iron-blue-600 ↔  dark: #FDA509 · large text only */</span>
---<span class="c-key">color-text-body</span>:         <span class="c-val">#262626</span>;   <span class="c-comment">/* neutral-800   ↔  dark: #D4D4D4 */</span>
+--<span class="c-key">color-text-body</span>:         <span class="c-val">#262626</span>;   <span class="c-comment">/* neutral-800   ↔  dark: #E5E5E5 */</span>
 --<span class="c-key">color-text-muted</span>:        <span class="c-val">#525252</span>;   <span class="c-comment">/* neutral-600   ↔  dark: #A1A1A1 */</span>
 --<span class="c-key">color-text-disabled</span>:     <span class="c-val">#A1A1A1</span>;   <span class="c-comment">/* neutral-400   ↔  dark: #737373 · disabled only */</span>
 --<span class="c-key">color-text-link</span>:         <span class="c-val">#2693EC</span>;   <span class="c-comment">/* iron-blue-500 ↔  dark: #67B3F2 */</span>

@@ -72,10 +72,14 @@ function raw(name, mode = 'light') {
   return v == null ? null : v.trim();
 }
 
-/** Resolve a custom property to a hex. Null when it is not one — a length, or absent. */
+/**
+ * Resolve a custom property to a hex. Null when it is not one — a length, or absent.
+ * 8-digit hex counts: `--color-text-placeholder` carries its alpha in the value,
+ * as Figma's variable does, and a 6-digit-only reader called it "not declared".
+ */
 function resolve(name, mode = 'light') {
   const v = (raw(name, mode) ?? '').toUpperCase();
-  return /^#[0-9A-F]{6}$/.test(v) ? v : null;
+  return /^#[0-9A-F]{6}(?:[0-9A-F]{2})?$/.test(v) ? v : null;
 }
 
 /* ── findings ─────────────────────────────────────────────────────────────── */
@@ -306,7 +310,7 @@ const PARSERS = [
     floor: 35,
     run(page, src) {
       const re =
-        /<div class="sem-card" onclick="copy\('(#[0-9A-Fa-f]{6})','(--[a-z0-9-]+)'\)">\s*<div class="sem-color" style="background:([^";]+);?"><\/div>\s*<div class="sem-body">\s*<div class="sem-name">([^<]*)<\/div>\s*<div class="sem-hex">([^<]*)<\/div>\s*<div class="sem-token">(--[a-z0-9-]+)<\/div>/gs;
+        /<div class="sem-card" onclick="copy\('(#[0-9A-Fa-f]{6}(?:[0-9A-Fa-f]{2})?)','(--[a-z0-9-]+)'\)">\s*<div class="sem-color" style="background:([^";]+);?"><\/div>\s*<div class="sem-body">\s*<div class="sem-name">([^<]*)<\/div>\s*<div class="sem-hex">([^<]*)<\/div>\s*<div class="sem-token">(--[a-z0-9-]+)<\/div>/gs;
       let n = 0;
       for (const m of src.matchAll(re)) {
         const [, clickHex, clickToken, swatch, label, shownHex, shownToken] = m;
@@ -317,7 +321,7 @@ const PARSERS = [
         if (shownHex.trim().toUpperCase() !== clickHex.toUpperCase())
           record(page, this.name, `${at}: copies ${clickHex.toUpperCase()} but displays ${shownHex.trim().toUpperCase()}`);
         const sw = swatch.trim().toUpperCase();
-        if (/^#[0-9A-F]{6}$/.test(sw) && sw !== clickHex.toUpperCase())
+        if (/^#[0-9A-F]{6}(?:[0-9A-F]{2})?$/.test(sw) && sw !== clickHex.toUpperCase())
           record(page, this.name, `${at}: swatch paints ${sw} but the card says ${clickHex.toUpperCase()}`);
         expect(page, this.name, shownToken, 'light', clickHex, at);
         n++;

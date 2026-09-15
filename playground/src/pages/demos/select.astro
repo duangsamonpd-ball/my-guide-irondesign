@@ -43,7 +43,7 @@ const states = [
   { props: { name: 'sel-default', value: 'pro' }, lbl: 'Default' },
   { props: { name: 'sel-placeholder', placeholder: 'Select a plan…' }, lbl: 'Placeholder', note: 'text-muted' },
   { props: { name: 'sel-open', value: 'pro', class: 'open demo-trigger' }, lbl: 'Open / Focus', note: 'secondary ring' },
-  { props: { name: 'sel-error', placeholder: 'Select a plan…', error: true }, lbl: 'Error', note: 'danger border' },
+  { props: { name: 'sel-error', placeholder: 'Select a plan…', error: true, errorMessage: 'Choose a plan.' }, lbl: 'Error', note: 'input-danger border + message' },
   { props: { name: 'sel-disabled', value: 'locked', disabled: true }, lbl: 'Disabled' },
 ];
 const locked = [{ value: 'locked', label: 'Locked' }];

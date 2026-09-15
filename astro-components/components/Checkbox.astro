@@ -115,10 +115,17 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
          then unified the whole family on 2026-08-10, so **every** Checkbox and
          Radio set — box, labelled and card — now takes `brand/secondary`, and
          only the CARD's selected outline is `border/selected`. One rule, and
-         `choice.ts` already had that outline right. */
+         `choice.ts` already had that outline right.
+
+         The unchecked edge is `border/input` since 2026-09-15 (`329:94` and every
+         sibling) — `border/strong` was 1.49:1 and WCAG 1.4.11 asks 3 of a
+         control's boundary. Invalid is `border/input-danger`. A checked invalid
+         box keeps the status red fill: Figma draws no checked+invalid state, and
+         the white tick holds 4.55:1 on it in both modes, where input-danger's
+         dark value would put white at 2:1. */
       invalid
-        ? 'border-danger group-has-[:checked]:bg-danger group-has-[:checked]:border-danger'
-        : 'border-border-strong group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary',
+        ? 'border-border-input-danger group-has-[:checked]:bg-danger group-has-[:checked]:border-danger'
+        : 'border-border-input group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary',
     ]}
   >
     <svg

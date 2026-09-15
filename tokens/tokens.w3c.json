@@ -275,9 +275,9 @@
         "$description": "Neutral/600 — captions, hints and field descriptions (light). 7.13:1 — real text, so it must meet AA"
       },
       "placeholder": {
-        "$value": "#525252",
+        "$value": "#262626B3",
         "$type": "color",
-        "$description": "Neutral/600 — input placeholder text (light). Same value as muted today, but a separate token on purpose: a placeholder always sits on the input's own bg-base fill, while a hint sits on the page, which may be bg-shade. Different backgrounds, different contrast budgets — neutral/500 would pass on the first (4.74:1) and fail on the second (4.33:1)."
+        "$description": "Neutral/800 at 70% — input placeholder text (light). Figma text/default/placeholder carries the alpha in the variable itself, so this is 8-digit hex (B3 = round-half-up 0.70 × 255) rather than a formula. Composited: 5.66:1 on surface/input, 5.41:1 on surface/input-hover. A separate token from muted on purpose: a placeholder sits on the field's own fill, a hint on the page."
       },
       "disabled": {
         "$value": "#A1A1A1",
@@ -288,6 +288,11 @@
         "$value": "#45556C",
         "$type": "color",
         "$description": "Slate/600 — support headlines, caption titles (light). 6.92:1"
+      },
+      "danger": {
+        "$value": "#A8181D",
+        "$type": "color",
+        "$description": "Iron Red/700 — a field's error message and its icon (light). Figma text/default/danger. 7.46:1 on surface/input, 6.81:1 on surface/input-hover."
       },
       "on-primary": {
         "$value": "#FFFFFF",
@@ -343,9 +348,9 @@
         "$description": "Iron Orange/500 — brand/accent 1 — coloured headline accents (dark)"
       },
       "body": {
-        "$value": "#D4D4D4",
+        "$value": "#E5E5E5",
         "$type": "color",
-        "$description": "Neutral/300 — running text (dark)"
+        "$description": "Neutral/200 — running text (dark). Figma text/default/body, dark column; neutral/300 here until 2026-09-15. 14.13:1 on surface-dark/input."
       },
       "muted": {
         "$value": "#A1A1A1",
@@ -353,9 +358,9 @@
         "$description": "Neutral/400 — captions, hints and field descriptions (dark). 4.54:1"
       },
       "placeholder": {
-        "$value": "#A1A1A1",
+        "$value": "#E5E5E5B3",
         "$type": "color",
-        "$description": "Neutral/400 — input placeholder text (dark). 5.81:1 on the iron-violet/900 page background."
+        "$description": "Neutral/200 at 70% — input placeholder text (dark), alpha in the variable as in the light column. Composited: 7.40:1 on surface-dark/input, 5.97:1 on surface-dark/input-hover."
       },
       "disabled": {
         "$value": "#737373",
@@ -366,6 +371,11 @@
         "$value": "#CEA7C8",
         "$type": "color",
         "$description": "Iron Violet/300 — support headlines (dark)"
+      },
+      "danger": {
+        "$value": "#FF9DA1",
+        "$type": "color",
+        "$description": "Iron Red/300 — a field's error message and its icon (dark). 5.91:1 on surface-dark/card, the lowest of the surfaces a field can sit on."
       },
       "link": {
         "$value": "#67B3F2",
@@ -460,6 +470,21 @@
         "$value": "#F2F9FE",
         "$type": "color",
         "$description": "Iron Blue/50 — brand-tinted alternating page-section band. Pairs with surface/section the way card-alt pairs with card: same lightness (they differ by 1.6%), different hue."
+      },
+      "input": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "white — a form field's fill (light). Figma surface/input. Same value as background today; separate because a field's fill and its border/input are one contrast pair and have to be checked together."
+      },
+      "input-hover": {
+        "$value": "#F1F5F9",
+        "$type": "color",
+        "$description": "Slate/100 — a hovered field's fill (light). Hover is shown by the fill, not the border, which stays border/input."
+      },
+      "input-disabled": {
+        "$value": "#F8FAFC",
+        "$type": "color",
+        "$description": "Slate/50 — a disabled field's fill (light). Figma surface/input-disabled."
       }
     },
     "surface-dark": {
@@ -498,6 +523,21 @@
         "$value": "#372647",
         "$type": "color",
         "$description": "Brand-tinted section band (dark) — brand/secondary at 8% over Iron Violet/950. Off-ramp on purpose: the violet ramp's three usable surface rungs (800/900/950) are all taken, so the pair keeps its meaning by hue rather than by lightness, exactly as it does in light mode. 8% is where it sits equidistant from both neighbours (1.089 against each)."
+      },
+      "input": {
+        "$value": "#260F27",
+        "$type": "color",
+        "$description": "Iron Violet/950 — a form field's fill (dark)."
+      },
+      "input-hover": {
+        "$value": "#462244",
+        "$type": "color",
+        "$description": "Iron Violet/850 — a hovered field's fill (dark)."
+      },
+      "input-disabled": {
+        "$value": "#391C39",
+        "$type": "color",
+        "$description": "Iron Violet/900 — a disabled field's fill (dark)."
       }
     },
     "border": {
@@ -521,6 +561,26 @@
         "$value": "#2693EC",
         "$type": "color",
         "$description": "Iron Blue/500 — selected item outline (both modes)"
+      },
+      "strong-alt": {
+        "$value": "#90A1B9",
+        "$type": "color",
+        "$description": "Slate/400 — Figma border/strong-alt (light). 2.69:1 on white, so it is decorative: never the boundary of a control."
+      },
+      "input": {
+        "$value": "#62748E",
+        "$type": "color",
+        "$description": "Slate/500 — a form field's boundary (light). WCAG 1.4.11 asks 3:1 of it, which border/default (1.23:1) cannot give: 4.76:1 on surface/input, 4.35:1 on surface/input-hover."
+      },
+      "input-disabled": {
+        "$value": "#E2E8F0",
+        "$type": "color",
+        "$description": "Slate/200 — a disabled field's boundary (light). Exempt from 1.4.11."
+      },
+      "input-danger": {
+        "$value": "#A8181D",
+        "$type": "color",
+        "$description": "Iron Red/700 — the boundary of a field in error (light). The same red as text/danger, so border, icon and message are one colour. 7.46:1."
       }
     },
     "border-dark": {
@@ -539,6 +599,26 @@
         "$value": "#2693EC",
         "$type": "color",
         "$description": "Iron Blue/500 — brand/secondary — same as light mode (dark)"
+      },
+      "strong-alt": {
+        "$value": "#84427C",
+        "$type": "color",
+        "$description": "Iron Violet/600 — Figma border/strong-alt (dark). Decorative, like the light value."
+      },
+      "input": {
+        "$value": "#BA84B1",
+        "$type": "color",
+        "$description": "Iron Violet/400 — a form field's boundary (dark). 3.92:1 on surface-dark/card, the lowest of page, hover, card, disabled and section-alt; iron-violet/500 fails on three of those five."
+      },
+      "input-disabled": {
+        "$value": "#522950",
+        "$type": "color",
+        "$description": "Iron Violet/800 — a disabled field's boundary (dark). Exempt from 1.4.11."
+      },
+      "input-danger": {
+        "$value": "#FF9DA1",
+        "$type": "color",
+        "$description": "Iron Red/300 — the boundary of a field in error (dark). 5.91:1 on surface-dark/card."
       }
     },
     "transparent": {
@@ -896,6 +976,17 @@
         "color": "rgba(224, 26, 89, 0.25)"
       },
       "$type": "shadow"
+    },
+    "focus-danger": {
+      "$value": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "blur": 0,
+        "spread": 3,
+        "color": "rgba(168, 24, 29, 0.25)"
+      },
+      "$type": "shadow",
+      "$description": "Focus ring on a field in error — iron-red/700 at 25%, the Error+Focus state (Figma 1152:2649), where it is a raw effect. Same in both modes, so under .dark it is 1.17:1 against the page and the 2px border carries the focus."
     }
   },
   "blur": {
@@ -1275,10 +1366,10 @@
           "fontFamily": "{typography.font-family.body}",
           "fontSize": "clamp(36px, 1.9714rem + 1.1429vw, 48px)",
           "fontWeight": 800,
-          "lineHeight": "calc(7 / 6)",
+          "lineHeight": "1",
           "letterSpacing": "0px"
         },
-        "$description": "Hero variant of H1 — still a real <h1>. A size modifier (h1.hero) used once on the homepage hero for maximum impact. No separate non-semantic Display level. FLUID from 2026-09-01: 36px at the 390 frame to 48px at the 1440 frame, interpolated between the two frames that exist. DERIVED, NOT FROM FIGMA — the design file has no fluid primitive and its `font` collection has a single mode, so a range cannot be bound there; the same reason `duration` records and the same ruling as `review`. The MAXIMUM is the value this level has always had, so 1440 does not move. line-height is a RATIO of 1 because a fixed px leading under a moving size holds its ratio at one end only — at 48px it is the same 48px h1-hero has always had. Line-height moved from a ratio of 1.000 to 7/6 on 2026-09-01: Montserrat ExtraBold declares a 58px line box at 48px (ascent 46 + descent 12) and 1.000 gave it 48, ten pixels under, while every other level sits at that natural box or above it. 7/6 is 56 at 48 and 42 at 36 — whole pixels at both ends of the range, and still tighter than h1, which a display level should be. Written as a division because 1.1667 x 48 is 56.0016."
+        "$description": "Hero variant of H1 — still a real <h1>. A size modifier (h1.hero) used once on the homepage hero for maximum impact. No separate non-semantic Display level. FLUID from 2026-09-01: 36px at the 390 frame to 48px at the 1440 frame, interpolated between the two frames that exist. DERIVED, NOT FROM FIGMA — the design file has no fluid primitive and its `font` collection has a single mode, so a range cannot be bound there; the same reason `duration` records and the same ruling as `review`. The MAXIMUM is the value this level has always had, so 1440 does not move. line-height is a RATIO of 1 because a fixed px leading under a moving size holds its ratio at one end only — at 48px it is the same 48px h1-hero has always had. Line-height is 1 by Ball's ruling of 2026-09-15, following Figma `Typography/h1-hero` (leading/12, 48 at 48). It was 7/6 from 2026-09-01, set because Montserrat ExtraBold declares a 58px line box at 48px (ascent 46 + descent 12) and 1 leaves the ink 0.10px of clearance; that measurement still holds, and a two-line hero sits tighter than any other level."
       },
       "h1": {
         "$type": "typography",
@@ -1491,10 +1582,10 @@
         "$value": {
           "fontFamily": "{typography.font-family.body}",
           "fontSize": "14px",
-          "fontWeight": 500,
+          "fontWeight": 600,
           "lineHeight": "20px"
         },
-        "$description": "Dropdown items, footer links, sidebar entries. Line-height 20px (not 1) because these can wrap to two lines."
+        "$description": "Dropdown items, footer links, sidebar entries. Line-height 20px (not 1) because these can wrap to two lines. Weight 600 — Figma Typography/UI/nav-sub binds weight/semibold; 500 until 2026-09-15."
       },
       "nav-group-label": {
         "$type": "typography",

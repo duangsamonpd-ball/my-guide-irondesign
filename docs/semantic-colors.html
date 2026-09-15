@@ -500,7 +500,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <div class="palette-group">
-    <h2 class="palette-group-header">Text · Light<span class="gh-count">14</span></h2>
+    <h2 class="palette-group-header">Text · Light<span class="gh-count">15</span></h2>
     <div class="palette-group-sub">Type colours on light surfaces. Contrast notes live in the token descriptions.</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#171717','--color-text-heading')">
@@ -543,13 +543,13 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         </div>
       </div>
 
-      <div class="sem-card" onclick="copy('#525252','--color-text-placeholder')">
-        <div class="sem-color" style="background:#525252;"></div>
+      <div class="sem-card" onclick="copy('#262626B3','--color-text-placeholder')">
+        <div class="sem-color" style="background:#262626B3;"></div>
         <div class="sem-body">
           <div class="sem-name">Placeholder</div>
-          <div class="sem-hex">#525252</div>
+          <div class="sem-hex">#262626B3</div>
           <div class="sem-token">--color-text-placeholder</div>
-          <div class="sem-desc">input placeholder text (light). Same value as Muted, separate token — it sits on the input's own fill, not the page.</div>
+          <div class="sem-desc">input placeholder text (light) — neutral/800 at 70%, the alpha kept in the token as Figma keeps it. 5.66:1 on the field fill.</div>
         </div>
       </div>
 
@@ -570,6 +570,16 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="sem-hex">#45556C</div>
           <div class="sem-token">--color-text-support</div>
           <div class="sem-desc">support headlines, caption titles (light).</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#A8181D','--color-text-danger')">
+        <div class="sem-color" style="background:#A8181D;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Danger</div>
+          <div class="sem-hex">#A8181D</div>
+          <div class="sem-token">--color-text-danger</div>
+          <div class="sem-desc">a field's error message and its icon (light). 7.46:1 — not the status red.</div>
         </div>
       </div>
 
@@ -656,7 +666,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <div class="palette-group">
-    <h2 class="palette-group-header">Text · Dark<span class="gh-count">8</span></h2>
+    <h2 class="palette-group-header">Text · Dark<span class="gh-count">9</span></h2>
     <div class="palette-group-sub">The same roles retuned for dark surfaces.</div>
     <div class="semantic-grid">
       <div class="sem-card dark-surface" onclick="copy('#F5F5F5','--color-text-dark-heading')">
@@ -679,11 +689,11 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         </div>
       </div>
 
-      <div class="sem-card dark-surface" onclick="copy('#D4D4D4','--color-text-dark-body')">
-        <div class="sem-color" style="background:#D4D4D4;"></div>
+      <div class="sem-card dark-surface" onclick="copy('#E5E5E5','--color-text-dark-body')">
+        <div class="sem-color" style="background:#E5E5E5;"></div>
         <div class="sem-body">
           <div class="sem-name">Body</div>
-          <div class="sem-hex">#D4D4D4</div>
+          <div class="sem-hex">#E5E5E5</div>
           <div class="sem-token">--color-text-dark-body</div>
           <div class="sem-desc">running text</div>
         </div>
@@ -716,6 +726,16 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="sem-hex">#CEA7C8</div>
           <div class="sem-token">--color-text-dark-support</div>
           <div class="sem-desc">support headlines</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#FF9DA1','--color-text-dark-danger')">
+        <div class="sem-color" style="background:#FF9DA1;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Danger</div>
+          <div class="sem-hex">#FF9DA1</div>
+          <div class="sem-token">--color-text-dark-danger</div>
+          <div class="sem-desc">a field's error message and its icon (dark). 5.91:1 on the dark card.</div>
         </div>
       </div>
 
@@ -768,7 +788,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <div class="palette-group">
-    <h2 class="palette-group-header">Surface · Light<span class="gh-count">6</span></h2>
+    <h2 class="palette-group-header">Surface · Light<span class="gh-count">9</span></h2>
     <div class="palette-group-sub">Page, card and band backgrounds.</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#FFFFFF','--color-bg-base')">
@@ -830,28 +850,58 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="sem-desc">deeper footer sub-band</div>
         </div>
       </div>
+
+      <div class="sem-card" onclick="copy('#FFFFFF','--color-bg-input')">
+        <div class="sem-color" style="background:#FFFFFF;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input</div>
+          <div class="sem-hex">#FFFFFF</div>
+          <div class="sem-token">--color-bg-input</div>
+          <div class="sem-desc">a form field's fill — one contrast pair with --color-border-input</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#F1F5F9','--color-bg-input-hover')">
+        <div class="sem-color" style="background:#F1F5F9;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input Hover</div>
+          <div class="sem-hex">#F1F5F9</div>
+          <div class="sem-token">--color-bg-input-hover</div>
+          <div class="sem-desc">hovered field — hover shows by fill, not border</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#F8FAFC','--color-bg-input-disabled')">
+        <div class="sem-color" style="background:#F8FAFC;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input Disabled</div>
+          <div class="sem-hex">#F8FAFC</div>
+          <div class="sem-token">--color-bg-input-disabled</div>
+          <div class="sem-desc">disabled field fill</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="palette-group">
-    <h2 class="palette-group-header">Surface · Dark<span class="gh-count">5</span></h2>
+    <h2 class="palette-group-header">Surface · Dark<span class="gh-count">8</span></h2>
     <div class="palette-group-sub">Dark-mode backgrounds — the Iron Violet family.</div>
     <div class="semantic-grid">
-      <div class="sem-card dark-surface" onclick="copy('#391C39','--color-bg-dark-base')">
-        <div class="sem-color" style="background:#391C39;"></div>
+      <div class="sem-card dark-surface" onclick="copy('#260F27','--color-bg-dark')">
+        <div class="sem-color" style="background:#260F27;"></div>
         <div class="sem-body">
           <div class="sem-name">Background</div>
-          <div class="sem-hex">#391C39</div>
-          <div class="sem-token">--color-bg-dark-base</div>
+          <div class="sem-hex">#260F27</div>
+          <div class="sem-token">--color-bg-dark</div>
           <div class="sem-desc">main page background</div>
         </div>
       </div>
 
-      <div class="sem-card dark-surface" onclick="copy('#260F27','--color-bg-dark-shade')">
-        <div class="sem-color" style="background:#260F27;"></div>
+      <div class="sem-card dark-surface" onclick="copy('#462244','--color-bg-dark-shade')">
+        <div class="sem-color" style="background:#462244;"></div>
         <div class="sem-body">
           <div class="sem-name">Background Shade</div>
-          <div class="sem-hex">#260F27</div>
+          <div class="sem-hex">#462244</div>
           <div class="sem-token">--color-bg-dark-shade</div>
           <div class="sem-desc">band fills, alternating sections</div>
         </div>
@@ -886,11 +936,41 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="sem-desc">disabled input / control fill</div>
         </div>
       </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#260F27','--color-bg-dark-input')">
+        <div class="sem-color" style="background:#260F27;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input</div>
+          <div class="sem-hex">#260F27</div>
+          <div class="sem-token">--color-bg-dark-input</div>
+          <div class="sem-desc">a form field's fill (dark)</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#462244','--color-bg-dark-input-hover')">
+        <div class="sem-color" style="background:#462244;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input Hover</div>
+          <div class="sem-hex">#462244</div>
+          <div class="sem-token">--color-bg-dark-input-hover</div>
+          <div class="sem-desc">hovered field (dark)</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#391C39','--color-bg-dark-input-disabled')">
+        <div class="sem-color" style="background:#391C39;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input Disabled</div>
+          <div class="sem-hex">#391C39</div>
+          <div class="sem-token">--color-bg-dark-input-disabled</div>
+          <div class="sem-desc">disabled field fill (dark)</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="palette-group">
-    <h2 class="palette-group-header">Border · Light<span class="gh-count">4</span></h2>
+    <h2 class="palette-group-header">Border · Light<span class="gh-count">8</span></h2>
     <div class="palette-group-sub">Dividers, input edges, focus and selection outlines.</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#E2E8F0','--color-border')">
@@ -899,7 +979,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="sem-name">Default</div>
           <div class="sem-hex">#E2E8F0</div>
           <div class="sem-token">--color-border</div>
-          <div class="sem-desc">dividers, input borders, card edges</div>
+          <div class="sem-desc">dividers, card edges — not a field's boundary (1.23:1); that is --color-border-input</div>
         </div>
       </div>
 
@@ -932,28 +1012,68 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="sem-desc">selected item outline</div>
         </div>
       </div>
+
+      <div class="sem-card" onclick="copy('#90A1B9','--color-border-strong-alt')">
+        <div class="sem-color" style="background:#90A1B9;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Strong Alt</div>
+          <div class="sem-hex">#90A1B9</div>
+          <div class="sem-token">--color-border-strong-alt</div>
+          <div class="sem-desc">decorative only — 2.69:1, never a control's boundary</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#62748E','--color-border-input')">
+        <div class="sem-color" style="background:#62748E;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input</div>
+          <div class="sem-hex">#62748E</div>
+          <div class="sem-token">--color-border-input</div>
+          <div class="sem-desc">a form field's boundary — 4.76:1, WCAG 1.4.11 asks 3</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#E2E8F0','--color-border-input-disabled')">
+        <div class="sem-color" style="background:#E2E8F0;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input Disabled</div>
+          <div class="sem-hex">#E2E8F0</div>
+          <div class="sem-token">--color-border-input-disabled</div>
+          <div class="sem-desc">disabled field boundary — exempt</div>
+        </div>
+      </div>
+
+      <div class="sem-card" onclick="copy('#A8181D','--color-border-input-danger')">
+        <div class="sem-color" style="background:#A8181D;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input Danger</div>
+          <div class="sem-hex">#A8181D</div>
+          <div class="sem-token">--color-border-input-danger</div>
+          <div class="sem-desc">a field in error — the same red as --color-text-danger</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="palette-group">
-    <h2 class="palette-group-header">Border · Dark<span class="gh-count">3</span></h2>
+    <h2 class="palette-group-header">Border · Dark<span class="gh-count">7</span></h2>
     <div class="palette-group-sub">Dark-mode borders stay in the Iron Violet family.</div>
     <div class="semantic-grid">
-      <div class="sem-card dark-surface" onclick="copy('#9D4F90','--color-border-dark')">
-        <div class="sem-color" style="background:#9D4F90;"></div>
+      <div class="sem-card dark-surface" onclick="copy('#522950','--color-border-dark')">
+        <div class="sem-color" style="background:#522950;"></div>
         <div class="sem-body">
           <div class="sem-name">Default</div>
-          <div class="sem-hex">#9D4F90</div>
+          <div class="sem-hex">#522950</div>
           <div class="sem-token">--color-border-dark</div>
-          <div class="sem-desc">dividers, input borders, card edges</div>
+          <div class="sem-desc">dividers, card edges (dark)</div>
         </div>
       </div>
 
-      <div class="sem-card dark-surface" onclick="copy('#84427C','--color-border-dark-strong')">
-        <div class="sem-color" style="background:#84427C;"></div>
+      <div class="sem-card dark-surface" onclick="copy('#6B3567','--color-border-dark-strong')">
+        <div class="sem-color" style="background:#6B3567;"></div>
         <div class="sem-body">
           <div class="sem-name">Strong</div>
-          <div class="sem-hex">#84427C</div>
+          <div class="sem-hex">#6B3567</div>
           <div class="sem-token">--color-border-dark-strong</div>
           <div class="sem-desc">hover borders, strong dividers (dark).</div>
         </div>
@@ -966,6 +1086,46 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="sem-hex">#2693EC</div>
           <div class="sem-token">--color-border-dark-alt</div>
           <div class="sem-desc">brand/secondary — same as light mode</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#84427C','--color-border-dark-strong-alt')">
+        <div class="sem-color" style="background:#84427C;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Strong Alt</div>
+          <div class="sem-hex">#84427C</div>
+          <div class="sem-token">--color-border-dark-strong-alt</div>
+          <div class="sem-desc">decorative only (dark)</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#BA84B1','--color-border-dark-input')">
+        <div class="sem-color" style="background:#BA84B1;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input</div>
+          <div class="sem-hex">#BA84B1</div>
+          <div class="sem-token">--color-border-dark-input</div>
+          <div class="sem-desc">a form field's boundary (dark) — 3.92:1 on the dark card, the lowest surface</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#522950','--color-border-dark-input-disabled')">
+        <div class="sem-color" style="background:#522950;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input Disabled</div>
+          <div class="sem-hex">#522950</div>
+          <div class="sem-token">--color-border-dark-input-disabled</div>
+          <div class="sem-desc">disabled field boundary (dark) — exempt</div>
+        </div>
+      </div>
+
+      <div class="sem-card dark-surface" onclick="copy('#FF9DA1','--color-border-dark-input-danger')">
+        <div class="sem-color" style="background:#FF9DA1;"></div>
+        <div class="sem-body">
+          <div class="sem-name">Input Danger</div>
+          <div class="sem-hex">#FF9DA1</div>
+          <div class="sem-token">--color-border-dark-input-danger</div>
+          <div class="sem-desc">a field in error (dark) — 5.91:1 on the dark card</div>
         </div>
       </div>
     </div>

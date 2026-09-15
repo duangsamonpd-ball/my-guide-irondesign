@@ -36,6 +36,7 @@
  *   count  3
  */
 import { randomUUID } from 'node:crypto';
+import { icons } from '../icons';
 
 interface Option {
   value: string;
@@ -110,7 +111,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       'flex items-center justify-between gap-xs',
       'font-sans text-body leading-body outline-none',
       'border',
-      'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
+      'transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)]',
       /* Written as branches rather than layered utilities because the rules they
          replace were decided by specificity, not by order. `.sel.disabled
          .sel-trigger` (0,3,0) beat `.sel-trigger.is-placeholder` (0,2,0), so a
@@ -125,9 +126,11 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          override any more. Worth keeping in mind if it is ever revisited: the two
          tokens are NOT interchangeable under `.dark`, where disabled resolves to
          iron-violet/900 and shade to iron-violet/950. */
+      /* The field fills (Figma `461:32`: surface/input, -hover, -disabled). Hover
+         is the fill now, not the border — scoped `:not(.open)` like the rest. */
       disabled
-        ? 'bg-bg-disabled text-text-disabled [&.is-placeholder]:text-text-disabled cursor-not-allowed'
-        : 'bg-bg-base text-text-body [&.is-placeholder]:text-text-placeholder cursor-pointer',
+        ? 'bg-bg-input-disabled text-text-disabled [&.is-placeholder]:text-text-disabled cursor-not-allowed'
+        : 'bg-bg-input text-text-body [&.is-placeholder]:text-text-placeholder cursor-pointer group-[:not(.open)]:hover:bg-bg-input-hover',
       /* Same reason. `.sel.error .sel-trigger` and `.sel.open .sel-trigger` had
          equal specificity with error later in the file, so an errored Select kept
          the danger border when open and never took the hover border at all. The
@@ -139,7 +142,10 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          box-shadow none, outline-style none. That is a WCAG 2.4.7 failure, it
          predates the Tailwind conversion, and Figma 461:32 draws Focus as a
          CLOSED field with the blue border and ring. Colours follow Input and
-         Textarea: blue normally, magenta when the field is in error.
+         Textarea: blue normally, `input-danger` red when the field is in error,
+         and 2px as an inset shadow over the 1px border — see fieldBorder in
+         field.ts for why not a 2px border. Disabled takes its own border and
+         wins over error, as the canvas draws no disabled-and-errored state.
 
          `focus-visible`, not `focus`, because this is a button — `:focus` would
          paint the ring on every mouse click, on top of the open state that the
@@ -150,9 +156,11 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          focus-visible both (0,3,0), and Tailwind emits focus-visible after
          hover — so a trigger that is hovered AND focused shows focus. A plain
          `focus-visible:` would have been (0,2,0) and lost to hover. */
-      error
-        ? 'border-danger group-[:not(.open)]:focus-visible:shadow-focus-magenta group-[.open]:shadow-focus-magenta'
-        : 'border-border group-[:not(.open)]:hover:border-border-strong group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:shadow-focus-blue group-[.open]:border-border-focus group-[.open]:shadow-focus-blue',
+      disabled
+        ? 'border-border-input-disabled'
+        : error
+          ? 'border-border-input-danger group-[:not(.open)]:focus-visible:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)] group-[.open]:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]'
+          : 'border-border-input group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] group-[.open]:border-border-focus group-[.open]:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]',
     ]}
     disabled={disabled}
     aria-haspopup="listbox"
@@ -224,7 +232,10 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
              `:not(.selected)` carries that forward without depending on which
              utility Tailwind emits last. */
           '[&:not(.selected):hover]:bg-bg-shade [&:not(.selected).active]:bg-bg-shade',
-          '[&.selected]:bg-bg-card-alt [&.selected]:text-secondary [&.selected]:font-semibold',
+          /* Selected text is `text/default/heading` (Figma `911:1687`, 2026-09-15):
+             `brand/secondary` on card-alt was 3.05:1, under AA for 16px text. The
+             blue stays on the tick, a graphic, where 3.05 clears 3:1. */
+          '[&.selected]:bg-bg-card-alt [&.selected]:text-text-heading [&.selected]:font-semibold',
           { selected: opt.value === value },
         ]}
         role="option"
@@ -250,7 +261,7 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
       leading/4, tracking/wide — where this set text-caption (14px, no leading,
       no tracking). Error differs from hint by colour alone, as on the canvas. */}
   {error && errorMessage ? (
-    <span id={descId} class="block text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-danger mt-xs">{errorMessage}</span>
+    <span id={descId} class="flex items-center gap-micro text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger mt-xs"><svg class="size-[12px] shrink-0" viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>{errorMessage}</span>
   ) : hint ? (
     <span id={descId} class="block text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support mt-xs">{hint}</span>
   ) : null}

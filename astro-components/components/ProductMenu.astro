@@ -576,8 +576,7 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      they hide something that would still have fitted rather than letting it
      escape, and pulling a breakpoint 39 and 47 pixels is a visible change to
      make on purpose. Measured here so the next person does not re-derive them.
-     The sub tier's own 1042.98 is still right: its row needs 994.66 + 48 of
-     padding = 1042.66, so the scroller arrives 0.32px before it is needed. */
+     The sub tier has its own number, 1045.98 — see the rule above it. */
   @media (max-width: 1184px) {
     .pm:not(.pm--fit) .pm-runtime { display: none; }
     .pm:not(.pm--fit) .pm-item { padding: 0 var(--spacing-sm); }
@@ -589,15 +588,17 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
     .pm:not(.pm--fit) .pm-brand, .pm:not(.pm--fit) .pm-right { flex: 1 0 auto; }
   }
 
-  /* 1043 is the sub tier's own number and has nothing to do with the bar's —
-     .pm-chips-2 leaves .pm-sub-inner by 273.66px until then. That 273.66 is now
-     APPROXIMATE by about 16: the chips lost the 2px their reserved border was
-     adding to each of eight, on 2026-08-28. It is stale in the safe direction —
-     narrower content leaves the row by less, so the scroller is needed no
-     earlier — and re-measuring it moves a breakpoint, which is a change to make
-     on purpose rather than as a side effect. The scroller below
-     already existed; it just started at 768, 275px under where it was needed. */
-  @media (max-width: 1042.98px) { .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
+  /* 1046 is the sub tier's own number and has nothing to do with the bar's.
+     MEASURED 2026-09-15 with `npm run overflow -- --pages productmenu --widths
+     1043,…,1052`: .pm-chips-2 leaves .pm-sub-inner by 2.94px at 1043–1045 and
+     is inside it from 1046. It moved from 1043 because the chip label follows
+     `Typography/UI/nav-sub`, and that style went 500 → 600 — a heavier face
+     over eight labels is 2.94px of row. The row now needs ~1045.60, so the
+     scroller starts at 1045.98, 0.38px before it is needed.
+
+     A type token is a layout input here: re-run the sweep at this edge whenever
+     --fw-nav-sub, --font-size-nav-sub or the chip padding moves. */
+  @media (max-width: 1045.98px) { .pm-sub-inner { overflow-x: auto; scrollbar-width: none; } .pm-sub-inner::-webkit-scrollbar { display: none; } }
 
   /* 769 is where the centre group stops fitting inline. Below it the same <ul>
      becomes a panel under the bar rather than disappearing. `.pm-bar` is the

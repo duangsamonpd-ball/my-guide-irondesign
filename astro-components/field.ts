@@ -41,7 +41,16 @@ export const fieldRequiredMark = 'text-danger';
 /** Caption SM — size/xs, weight/medium, leading/4, tracking/wide. */
 const caption = 'text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm';
 export const fieldHint = `${caption} text-text-support`;
-export const fieldError = `${caption} text-danger`;
+/**
+ * The error row: a 12px `circle-exclamation` and the message, both
+ * `text/default/danger`, 4px apart (Figma `error` row in `912:1844` and every
+ * Error / Error+Focus variant, 2026-09-15). The icon is what stops the error
+ * being colour-only (WCAG 1.4.1); it is `aria-hidden`, the message carries the
+ * meaning. `flex` not `inline-flex`: the span sits in a flex column, and the
+ * row is 16 tall either way — the icon is shorter than Caption SM's leading.
+ */
+export const fieldError = `${caption} text-text-danger flex items-center gap-micro`;
+export const fieldErrorIcon = 'size-[12px] shrink-0';
 
 /**
  * Everything the two controls share. Box sizing is deliberately absent: Input
@@ -52,10 +61,13 @@ export const fieldError = `${caption} text-danger`;
  */
 export const fieldControl = [
   'w-full rounded-md font-sans text-body leading-body text-text-body',
-  'bg-bg-base border outline-none',
-  'transition-[border-color,box-shadow] duration-[var(--duration-fast)]',
+  'bg-bg-input border outline-none',
+  /* Hover is the FILL (Figma `912:1826`, `surface/input-hover`); the border stays
+     `border/input`. `enabled:` because a disabled field still matches `:hover`. */
+  'enabled:hover:bg-bg-input-hover',
+  'transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)]',
   'placeholder:text-text-placeholder',
-  'disabled:bg-bg-disabled disabled:text-text-disabled disabled:cursor-not-allowed',
+  'disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed',
 ].join(' ');
 
 /**
@@ -67,15 +79,21 @@ export const fieldControl = [
  * danger-coloured one. As two sets of equal-weight utilities that would have
  * come down to whichever Tailwind emitted last, which is not a thing to rely on.
  */
+/*
+ * Focus is 2px in Figma (`912:1834`, `1152:2649`), drawn as an INSIDE stroke that
+ * is not part of layout. A 2px CSS border would take a pixel off every side of
+ * the content box and move the text on focus, so the border stays 1px and the
+ * second pixel is an inset shadow in the same colour, stacked under the ring.
+ */
 export const fieldBorder = (error: boolean): string =>
   error
-    ? 'border-danger focus:border-danger focus:shadow-focus-magenta'
+    ? 'border-border-input-danger focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]'
     /* `border-focus`, not `secondary`. Figma binds `border/focused` on the field
        nodes (Input `912:1819`, Select's open state `911:1706`), and the ring
        beside it was already on the right token — only the border was borrowing
        the brand blue. Same value, and the same in dark; what changes is that a
        focus colour can now move without moving the brand. */
-    : 'border-border hover:border-border-strong focus:border-border-focus focus:shadow-focus-blue';
+    : 'border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]';
 
 /**
  * A stable id for the label's `for`. Prefers what the caller gave, falls back to
