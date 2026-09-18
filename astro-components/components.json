@@ -1075,7 +1075,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Marks it required for assistive tech and native form validation — unlike Input and Textarea, no `*` is drawn."
+          "description": "Marks the field required — native form validation, `aria-required`, and a `*` after the label."
         },
         {
           "name": "labelSize",

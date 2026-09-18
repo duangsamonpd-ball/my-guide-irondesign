@@ -178,8 +178,8 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="canvas">
         <!-- demo:preview -->
         <div class="sel group relative w-full">
-          <label id="sel-demo-1-label" class="block text-text-heading font-medium leading-5 mb-xs text-label">Country</label>
-          <button type="button" id="sel-demo-1-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] bg-bg-input text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer group-[:not(.open)]:hover:bg-bg-input-hover border-border-input group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] group-[.open]:border-border-focus group-[.open]:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-1-listbox" aria-labelledby="sel-demo-1-label sel-demo-1-trigger">
+          <label id="sel-demo-1-label" class="block text-text-heading font-medium leading-5 mb-xs text-label">Country<span class="text-danger"> *</span></label>
+          <button type="button" id="sel-demo-1-trigger" class="sel-trigger w-full h-[var(--size-input)] rounded-md px-sm flex items-center justify-between gap-xs font-sans text-body leading-body outline-none border transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] bg-bg-input text-text-body [&amp;.is-placeholder]:text-text-placeholder cursor-pointer group-[:not(.open)]:hover:bg-bg-input-hover border-border-input group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] group-[.open]:border-border-focus group-[.open]:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" aria-haspopup="listbox" aria-expanded="false" aria-controls="sel-demo-1-listbox" aria-labelledby="sel-demo-1-label sel-demo-1-trigger" aria-required="true">
             <span class="sel-value">United States</span>
             <svg class="w-[10px] h-[5px] shrink-0 overflow-visible text-text-support transition-transform duration-[var(--duration-base)] group-[.open]:rotate-180" viewBox="0.75 0.75 10 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M0.75 0.75L5.75 5.75L10.75 0.75"></path></svg>
           </button>
@@ -197,7 +197,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             </div>
           </div>
           <!-- native select carries the real form value; visually hidden, drives progressive enhancement -->
-          <select name="country" class="absolute inset-0 opacity-0 pointer-events-none" tabindex="-1" aria-hidden="true">
+          <select name="country" class="absolute inset-0 opacity-0 pointer-events-none" required tabindex="-1" aria-hidden="true">
             <option value="" disabled>Select…</option>
             <option value="us" selected>United States</option><option value="uk">United Kingdom</option><option value="th">Thailand</option><option value="de">Germany</option><option value="jp">Japan</option>
           </select>
@@ -421,7 +421,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="ptable-name">errorMessage</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The message under an errored field, with a warning icon; shown only while <code>error</code> is set.</td></tr>
         <tr><td class="ptable-name">hint</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Helper text under the field, read out with it; replaced by <code>errorMessage</code> while <code>error</code> is set.</td></tr>
         <tr><td class="ptable-name">disabled</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables the trigger and the hidden <code>&lt;select&gt;</code>, and greys it out.</td></tr>
-        <tr><td class="ptable-name">required</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Marks it required for assistive tech and native form validation — unlike Input and Textarea, no <code>*</code> is drawn.</td></tr>
+        <tr><td class="ptable-name">required</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Marks the field required — native form validation, <code>aria-required</code>, and a <code>*</code> after the label.</td></tr>
         <tr><td class="ptable-name">labelSize</td><td class="ptable-type"><span class="ptable-m">'sm'</span> | <span class="ptable-m">'md'</span></td><td class="ptable-default">'md'</td><td class="ptable-notes">Label size: <code>md</code> is the 14px form label, <code>sm</code> the 12px caption for dense rows.</td></tr>
         <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the wrapper that holds label, trigger and menu.</td></tr>
       </tbody></table></div>

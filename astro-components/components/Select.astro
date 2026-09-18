@@ -36,6 +36,7 @@
  *   count  3
  */
 import { randomUUID } from 'node:crypto';
+import { fieldRequiredMark } from '../field';
 import { icons } from '../icons';
 
 interface Option {
@@ -62,7 +63,7 @@ interface Props {
   hint?: string;
   /** Disables the trigger and the hidden `<select>`, and greys it out. */
   disabled?: boolean;
-  /** Marks it required for assistive tech and native form validation — unlike Input and Textarea, no `*` is drawn. */
+  /** Marks the field required — native form validation, `aria-required`, and a `*` after the label. */
   required?: boolean;
   /** Label size: `md` is the 14px form label, `sm` the 12px caption for dense rows. */
   labelSize?: 'sm' | 'md';
@@ -110,7 +111,10 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
            weight 500, so only size and tracking differ. */
         labelSize === 'sm' ? 'text-caption-sm tracking-caption-sm' : 'text-label',
       ]}
-    >{label}</label>
+    >{label}{/* The same marker, in the same class, as Input and Textarea — Select
+         drew none until 2026-09-18, so a sighted user could not tell a required
+         Select from an optional one while a screen reader was told by
+         aria-required. Code-only in all three: no Figma node draws it. */}{required && <span class={fieldRequiredMark}> *</span>}</label>
   )}
   <button
     type="button"
