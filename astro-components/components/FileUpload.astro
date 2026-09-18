@@ -8,16 +8,27 @@
  * That is what was checked — not every frame on every canvas.
  */
 interface Props {
+  /** The call to action in the empty state. */
   label?: string;
+  /** The blue link line under the label, with an arrow. */
   linkText?: string;
+  /** The limit shown on the right while no file is chosen; pass an empty string to hide it. */
   sizeLimitText?: string;
+  /** The form field name of the file input. */
   name?: string;
+  /** File types the picker offers, passed to the input's `accept` — e.g. `.pdf,image/*`. */
   accept?: string;
+  /** Error state: danger styling and a warning icon, with `errorMessage` in place of `label`. */
   error?: boolean;
+  /** The message shown while `error` is set; `Upload failed` when omitted. */
   errorMessage?: string;
+  /** Disables the file input and dims the drop zone to 50%. */
   disabled?: boolean;
+  /** The chosen file's name — switches to the filled state with a tick and a Remove button, which dispatches a `file-remove` event for the page to handle. */
   fileName?: string;
+  /** Size shown under `fileName`, in whatever words you pass — e.g. `2.4 MB`. */
   fileSize?: string;
+  /** Extra classes on the drop zone. */
   class?: string;
 }
 

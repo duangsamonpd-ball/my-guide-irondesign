@@ -394,6 +394,25 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
 
       <!-- ── Code ── -->
+      <div class="sect">
+        <h2 class="sect-h">Props</h2>
+        <div class="sect-sub">Read from <code>interface Props</code> in <code>Checkbox.astro</code>, so it cannot drift from the component.</div>
+        <!-- props:Checkbox -->
+        <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+          <tr><td class="ptable-name">label</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The text beside the control; the whole row is clickable.</td></tr>
+          <tr><td class="ptable-name">description</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A second, muted line under the label; shown only with <code>label</code>.</td></tr>
+          <tr><td class="ptable-name">id</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The input's id; falls back to <code>name</code>, then to a generated one.</td></tr>
+          <tr><td class="ptable-name">name</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The form field name — also the id when <code>id</code> is not given.</td></tr>
+          <tr><td class="ptable-name">size</td><td class="ptable-type"><span class="ptable-m">'sm'</span> | <span class="ptable-m">'md'</span> | <span class="ptable-m">'lg'</span></td><td class="ptable-default">'md'</td><td class="ptable-notes">Control size: 16 / 20 / 24px for <code>sm</code> / <code>md</code> / <code>lg</code>.</td></tr>
+          <tr><td class="ptable-name">checked</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Starts checked.</td></tr>
+          <tr><td class="ptable-name">invalid</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Error colouring — a danger edge, and a danger fill once selected; visual only, it sets no <code>aria-invalid</code>.</td></tr>
+          <tr><td class="ptable-name">disabled</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables it and dims the whole row to 50%.</td></tr>
+          <tr><td class="ptable-name">card</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Wraps the row in a bordered card that takes the selected outline and tint when chosen.</td></tr>
+          <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the row (or card), after the component's own.</td></tr>
+        </tbody></table></div>
+        <!-- /props:Checkbox -->
+      </div>
+
       <div class="sect sect-code">
         <h2 class="sect-h">Code</h2>
         <div class="sect-sub">Copy-and-own — a native input + a styled box. Accessible and framework-free.</div>

@@ -275,6 +275,26 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </tbody></table></div>
     </div>
 
+    <div class="sect">
+      <h2 class="sect-h">Props</h2>
+      <div class="sect-sub">Read from <code>interface Props</code> in <code>FileUpload.astro</code>, so it cannot drift from the component.</div>
+      <!-- props:FileUpload -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">label</td><td class="ptable-type">string</td><td class="ptable-default">'Drag &amp; drop your file'</td><td class="ptable-notes">The call to action in the empty state.</td></tr>
+        <tr><td class="ptable-name">linkText</td><td class="ptable-type">string</td><td class="ptable-default">'Select file from computer'</td><td class="ptable-notes">The blue link line under the label, with an arrow.</td></tr>
+        <tr><td class="ptable-name">sizeLimitText</td><td class="ptable-type">string</td><td class="ptable-default">'Size up to 100 MB'</td><td class="ptable-notes">The limit shown on the right while no file is chosen; pass an empty string to hide it.</td></tr>
+        <tr><td class="ptable-name">name</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The form field name of the file input.</td></tr>
+        <tr><td class="ptable-name">accept</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">File types the picker offers, passed to the input's <code>accept</code> — e.g.</td></tr>
+        <tr><td class="ptable-name">error</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Error state: danger styling and a warning icon, with <code>errorMessage</code> in place of <code>label</code>.</td></tr>
+        <tr><td class="ptable-name">errorMessage</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The message shown while <code>error</code> is set; <code>Upload failed</code> when omitted.</td></tr>
+        <tr><td class="ptable-name">disabled</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables the file input and dims the drop zone to 50%.</td></tr>
+        <tr><td class="ptable-name">fileName</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The chosen file's name — switches to the filled state with a tick and a Remove button, which dispatches a <code>file-remove</code> event for the page to handle.</td></tr>
+        <tr><td class="ptable-name">fileSize</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Size shown under <code>fileName</code>, in whatever words you pass — e.g.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the drop zone.</td></tr>
+      </tbody></table></div>
+      <!-- /props:FileUpload -->
+    </div>
+
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="code-wrap">
           <div class="code-tabs">

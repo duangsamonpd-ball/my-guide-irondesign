@@ -48,16 +48,27 @@ import {
 } from '../choice';
 
 interface Props {
+  /** The text beside the control; the whole row is clickable. */
   label?: string;
+  /** A second, muted line under the label; shown only with `label`. */
   description?: string;
+  /** The input's id; defaults to `${name}-${value}`. */
   id?: string;
+  /** The group name — radios sharing it are one choice. */
   name: string;
+  /** The value this radio submits when it is the one chosen. */
   value: string;
+  /** Control size: 16 / 20 / 24px for `sm` / `md` / `lg`. */
   size?: 'sm' | 'md' | 'lg';
+  /** Starts selected. */
   checked?: boolean;
+  /** Error colouring — a danger ring and dot; visual only, it sets no `aria-invalid`. */
   invalid?: boolean;
+  /** Disables it and dims the whole row to 50%. */
   disabled?: boolean;
+  /** Wraps the row in a bordered card that takes the selected outline and tint when chosen. */
   card?: boolean;
+  /** Extra classes on the row (or card), after the component's own. */
   class?: string;
 }
 

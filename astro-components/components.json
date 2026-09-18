@@ -123,57 +123,67 @@
         {
           "name": "label",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The text beside the control; the whole row is clickable."
         },
         {
           "name": "description",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "A second, muted line under the label; shown only with `label`."
         },
         {
           "name": "id",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The input's id; falls back to `name`, then to a generated one."
         },
         {
           "name": "name",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The form field name — also the id when `id` is not given."
         },
         {
           "name": "size",
           "type": "'sm' | 'md' | 'lg'",
           "required": false,
-          "default": "'md'"
+          "default": "'md'",
+          "description": "Control size: 16 / 20 / 24px for `sm` / `md` / `lg`."
         },
         {
           "name": "checked",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Starts checked."
         },
         {
           "name": "invalid",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Error colouring — a danger edge, and a danger fill once selected; visual only, it sets no `aria-invalid`."
         },
         {
           "name": "disabled",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Disables it and dims the whole row to 50%."
         },
         {
           "name": "card",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Wraps the row in a bordered card that takes the selected outline and tint when chosen."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the row (or card), after the component's own."
         }
       ]
     },
@@ -188,61 +198,72 @@
           "name": "label",
           "type": "string",
           "required": false,
-          "default": "'Drag & drop your file'"
+          "default": "'Drag & drop your file'",
+          "description": "The call to action in the empty state."
         },
         {
           "name": "linkText",
           "type": "string",
           "required": false,
-          "default": "'Select file from computer'"
+          "default": "'Select file from computer'",
+          "description": "The blue link line under the label, with an arrow."
         },
         {
           "name": "sizeLimitText",
           "type": "string",
           "required": false,
-          "default": "'Size up to 100 MB'"
+          "default": "'Size up to 100 MB'",
+          "description": "The limit shown on the right while no file is chosen; pass an empty string to hide it."
         },
         {
           "name": "name",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The form field name of the file input."
         },
         {
           "name": "accept",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "File types the picker offers, passed to the input's `accept` — e.g. `.pdf,image/*`."
         },
         {
           "name": "error",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Error state: danger styling and a warning icon, with `errorMessage` in place of `label`."
         },
         {
           "name": "errorMessage",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The message shown while `error` is set; `Upload failed` when omitted."
         },
         {
           "name": "disabled",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Disables the file input and dims the drop zone to 50%."
         },
         {
           "name": "fileName",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The chosen file's name — switches to the filled state with a tick and a Remove button, which dispatches a `file-remove` event for the page to handle."
         },
         {
           "name": "fileSize",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Size shown under `fileName`, in whatever words you pass — e.g. `2.4 MB`."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the drop zone."
         }
       ]
     },
@@ -944,62 +965,73 @@
         {
           "name": "label",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The text beside the control; the whole row is clickable."
         },
         {
           "name": "description",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "A second, muted line under the label; shown only with `label`."
         },
         {
           "name": "id",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The input's id; defaults to `${name}-${value}`."
         },
         {
           "name": "name",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The group name — radios sharing it are one choice."
         },
         {
           "name": "value",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The value this radio submits when it is the one chosen."
         },
         {
           "name": "size",
           "type": "'sm' | 'md' | 'lg'",
           "required": false,
-          "default": "'md'"
+          "default": "'md'",
+          "description": "Control size: 16 / 20 / 24px for `sm` / `md` / `lg`."
         },
         {
           "name": "checked",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Starts selected."
         },
         {
           "name": "invalid",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Error colouring — a danger ring and dot; visual only, it sets no `aria-invalid`."
         },
         {
           "name": "disabled",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Disables it and dims the whole row to 50%."
         },
         {
           "name": "card",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Wraps the row in a bordered card that takes the selected outline and tint when chosen."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the row (or card), after the component's own."
         }
       ]
     },

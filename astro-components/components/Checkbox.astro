@@ -63,15 +63,25 @@ import {
 } from '../choice';
 
 interface Props {
+  /** The text beside the control; the whole row is clickable. */
   label?: string;
+  /** A second, muted line under the label; shown only with `label`. */
   description?: string;
+  /** The input's id; falls back to `name`, then to a generated one. */
   id?: string;
+  /** The form field name — also the id when `id` is not given. */
   name?: string;
+  /** Control size: 16 / 20 / 24px for `sm` / `md` / `lg`. */
   size?: 'sm' | 'md' | 'lg';
+  /** Starts checked. */
   checked?: boolean;
+  /** Error colouring — a danger edge, and a danger fill once selected; visual only, it sets no `aria-invalid`. */
   invalid?: boolean;
+  /** Disables it and dims the whole row to 50%. */
   disabled?: boolean;
+  /** Wraps the row in a bordered card that takes the selected outline and tint when chosen. */
   card?: boolean;
+  /** Extra classes on the row (or card), after the component's own. */
   class?: string;
 }
 
