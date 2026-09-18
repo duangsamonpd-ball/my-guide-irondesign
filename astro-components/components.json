@@ -528,17 +528,20 @@
         {
           "name": "label",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The visible label, tied to the field by `for` and `id`."
         },
         {
           "name": "id",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The field's id; falls back to `name`, then to a generated one."
         },
         {
           "name": "name",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The form field name — also the id when `id` is not given."
         },
         {
           "name": "type",
@@ -556,45 +559,53 @@
         {
           "name": "placeholder",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Text shown while the field is empty; not a substitute for `label`."
         },
         {
           "name": "value",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The initial value."
         },
         {
           "name": "hint",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set."
         },
         {
           "name": "error",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`."
         },
         {
           "name": "errorMessage",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The message under an errored field, with a warning icon; shown only while `error` is set."
         },
         {
           "name": "disabled",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Disables the field and greys it out."
         },
         {
           "name": "required",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Marks the field required — native form validation, and a `*` after the label."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the wrapper that holds label, field and message."
         }
       ]
     },
@@ -1005,68 +1016,79 @@
         {
           "name": "label",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The visible label; the trigger is named by it for assistive tech."
         },
         {
           "name": "options",
           "type": "Option[]",
-          "required": true
+          "required": true,
+          "description": "The choices, each `{ value, label }`."
         },
         {
           "name": "value",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The `value` of the option selected at first; omit it to show `placeholder`."
         },
         {
           "name": "placeholder",
           "type": "string",
           "required": false,
-          "default": "'Select…'"
+          "default": "'Select…'",
+          "description": "Text shown until an option is picked."
         },
         {
           "name": "name",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The form field name, carried by a hidden native `<select>` so the choice submits with the form."
         },
         {
           "name": "error",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`."
         },
         {
           "name": "errorMessage",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The message under an errored field, with a warning icon; shown only while `error` is set."
         },
         {
           "name": "hint",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set."
         },
         {
           "name": "disabled",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Disables the trigger and the hidden `<select>`, and greys it out."
         },
         {
           "name": "required",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Marks it required for assistive tech and native form validation — unlike Input and Textarea, no `*` is drawn."
         },
         {
           "name": "labelSize",
           "type": "'sm' | 'md'",
           "required": false,
           "default": "'md'",
-          "description": "Label typography ramp. 'md' (default) is the 14px form label; 'sm' is the 12px caption."
+          "description": "Label size: `md` is the 14px form label, `sm` the 12px caption for dense rows."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the wrapper that holds label, trigger and menu."
         }
       ]
     },
@@ -1147,66 +1169,77 @@
         {
           "name": "label",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The visible label, tied to the field by `for` and `id`."
         },
         {
           "name": "id",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The field's id; falls back to `name`, then to a generated one."
         },
         {
           "name": "name",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The form field name — also the id when `id` is not given."
         },
         {
           "name": "placeholder",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Text shown while the field is empty; not a substitute for `label`."
         },
         {
           "name": "value",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The initial text."
         },
         {
           "name": "rows",
           "type": "number",
           "required": false,
-          "description": "Height in text rows. **Omit it** and the box is Figma's own 98px — a designed number, not three lines of 28 plus padding, which is what `rows` would give. Passing `rows` hands the height back to the browser."
+          "description": "Height in text rows; omit it for Figma's designed 98px box, which no `rows` value gives. 98 is a designed number, not three lines of 28 plus padding (that is 102). Passing `rows` hands the height back to the browser."
         },
         {
           "name": "hint",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set."
         },
         {
           "name": "error",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`."
         },
         {
           "name": "errorMessage",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The message under an errored field, with a warning icon; shown only while `error` is set."
         },
         {
           "name": "disabled",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Disables the field and greys it out."
         },
         {
           "name": "required",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Marks the field required — native form validation, and a `*` after the label."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the wrapper that holds label, field and message."
         }
       ]
     },

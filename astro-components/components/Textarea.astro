@@ -23,20 +23,31 @@ import { fieldShell, fieldLabel, fieldRequiredMark, fieldControl, fieldBorder, f
 import { icons } from '../icons';
 
 interface Props {
+  /** The visible label, tied to the field by `for` and `id`. */
   label?: string;
+  /** The field's id; falls back to `name`, then to a generated one. */
   id?: string;
+  /** The form field name — also the id when `id` is not given. */
   name?: string;
+  /** Text shown while the field is empty; not a substitute for `label`. */
   placeholder?: string;
+  /** The initial text. */
   value?: string;
-  /** Height in text rows. **Omit it** and the box is Figma's own 98px — a
-   *  designed number, not three lines of 28 plus padding, which is what `rows`
-   *  would give. Passing `rows` hands the height back to the browser. */
+  /** Height in text rows; omit it for Figma's designed 98px box, which no `rows` value gives.
+   *  98 is a designed number, not three lines of 28 plus padding (that is 102).
+   *  Passing `rows` hands the height back to the browser. */
   rows?: number;
+  /** Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set. */
   hint?: string;
+  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. */
   error?: boolean;
+  /** The message under an errored field, with a warning icon; shown only while `error` is set. */
   errorMessage?: string;
+  /** Disables the field and greys it out. */
   disabled?: boolean;
+  /** Marks the field required — native form validation, and a `*` after the label. */
   required?: boolean;
+  /** Extra classes on the wrapper that holds label, field and message. */
   class?: string;
 }
 

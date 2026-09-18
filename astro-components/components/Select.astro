@@ -44,18 +44,29 @@ interface Option {
 }
 
 interface Props {
+  /** The visible label; the trigger is named by it for assistive tech. */
   label?: string;
+  /** The choices, each `{ value, label }`. */
   options: Option[];
+  /** The `value` of the option selected at first; omit it to show `placeholder`. */
   value?: string;
+  /** Text shown until an option is picked. */
   placeholder?: string;
+  /** The form field name, carried by a hidden native `<select>` so the choice submits with the form. */
   name?: string;
+  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. */
   error?: boolean;
+  /** The message under an errored field, with a warning icon; shown only while `error` is set. */
   errorMessage?: string;
+  /** Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set. */
   hint?: string;
+  /** Disables the trigger and the hidden `<select>`, and greys it out. */
   disabled?: boolean;
+  /** Marks it required for assistive tech and native form validation — unlike Input and Textarea, no `*` is drawn. */
   required?: boolean;
-  /** Label typography ramp. 'md' (default) is the 14px form label; 'sm' is the 12px caption. */
+  /** Label size: `md` is the 14px form label, `sm` the 12px caption for dense rows. */
   labelSize?: 'sm' | 'md';
+  /** Extra classes on the wrapper that holds label, trigger and menu. */
   class?: string;
 }
 

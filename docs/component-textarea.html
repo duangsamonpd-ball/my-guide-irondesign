@@ -259,6 +259,27 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </tbody></table></div>
     </div>
 
+    <div class="sect">
+      <h2 class="sect-h">Props</h2>
+      <div class="sect-sub">Read from <code>interface Props</code> in <code>Textarea.astro</code>, so it cannot drift from the component.</div>
+      <!-- props:Textarea -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">label</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The visible label, tied to the field by <code>for</code> and <code>id</code>.</td></tr>
+        <tr><td class="ptable-name">id</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The field's id; falls back to <code>name</code>, then to a generated one.</td></tr>
+        <tr><td class="ptable-name">name</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The form field name — also the id when <code>id</code> is not given.</td></tr>
+        <tr><td class="ptable-name">placeholder</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Text shown while the field is empty; not a substitute for <code>label</code>.</td></tr>
+        <tr><td class="ptable-name">value</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The initial text.</td></tr>
+        <tr><td class="ptable-name">rows</td><td class="ptable-type">number</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Height in text rows; omit it for Figma's designed 98px box, which no <code>rows</code> value gives.</td></tr>
+        <tr><td class="ptable-name">hint</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Helper text under the field, read out with it; replaced by <code>errorMessage</code> while <code>error</code> is set.</td></tr>
+        <tr><td class="ptable-name">error</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Error state: danger border and <code>aria-invalid</code>, with <code>errorMessage</code> shown in place of <code>hint</code>.</td></tr>
+        <tr><td class="ptable-name">errorMessage</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The message under an errored field, with a warning icon; shown only while <code>error</code> is set.</td></tr>
+        <tr><td class="ptable-name">disabled</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables the field and greys it out.</td></tr>
+        <tr><td class="ptable-name">required</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Marks the field required — native form validation, and a <code>*</code> after the label.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the wrapper that holds label, field and message.</td></tr>
+      </tbody></table></div>
+      <!-- /props:Textarea -->
+    </div>
+
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="code-wrap">
           <div class="code-tabs">
