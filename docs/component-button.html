@@ -108,7 +108,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 @keyframes spin { to { transform: rotate(360deg); } }
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:34px; display:flex; flex-direction:column; align-items:center; gap:22px; }
 .atag b { color:#E01A59; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:normal; }
+.tok td { vertical-align:top; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; width:120px; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -168,6 +168,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
       <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
       <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+      <a href="component-table.html" class="sidebar-link"><i class="sidebar-icon">▦</i>Table</a>
       <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
       <a href="component-topnav.html" class="sidebar-link"><i class="sidebar-icon">📍</i>Top Nav</a>
       <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
@@ -281,7 +282,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         </button>
         <!-- /demo:sizes -->
       </div>
-        <div class="tok-scroll"><table class="tok" style="margin-top:14px;">
+        <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-top:14px;"><table data-ds-table="tok" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm tok">
           <thead><tr><th>Size</th><th>Height</th><th>Font</th><th>Weight</th><th>Tracking</th></tr></thead>
           <tbody>
             <tr><td class="prop">Large</td><td class="val">56px</td><td class="val">16px</td><td class="val">700</td><td class="val">0</td></tr>
@@ -442,7 +443,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect">
         <h2 class="sect-h">Token Reference</h2>
         <div class="sect-sub">Primary / Large. Every value resolves to a design token — never hard-coded.</div>
-        <div class="tok-scroll"><table class="tok">
+        <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="tok" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm tok">
           <thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead>
           <tbody>
             <tr><td class="prop">Background</td><td class="token">--color-button-primary</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
@@ -463,7 +464,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <h2 class="sect-h">Props</h2>
         <div class="sect-sub">Read from <code>interface Props</code> in <code>Button.astro</code>, so it cannot drift from the component.</div>
         <!-- props:Button -->
-        <div class="ptable-wrap"><table class="ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
           <tr><td class="ptable-name">variant</td><td class="ptable-type"><span class="ptable-m">'primary'</span> | <span class="ptable-m">'secondary'</span> | <span class="ptable-m">'tertiary'</span> | <span class="ptable-m">'outline'</span> | <span class="ptable-m">'ondark'</span> | <span class="ptable-m">'ghost'</span></td><td class="ptable-default">'primary'</td><td class="ptable-notes">The fill: <code>primary</code> pink, <code>secondary</code> blue, <code>tertiary</code> black, <code>outline</code> white with a border, <code>ondark</code> translucent white for dark surfaces, <code>ghost</code> none until hover.</td></tr>
           <tr><td class="ptable-name">size</td><td class="ptable-type"><span class="ptable-m">'lg'</span> | <span class="ptable-m">'md'</span> | <span class="ptable-m">'sm'</span></td><td class="ptable-default">'md'</td><td class="ptable-notes">Height 56 / 48 / 36px, with padding and type stepping down to match.</td></tr>
           <tr><td class="ptable-name">wrap</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Let a long label wrap instead of leaving the box.</td></tr>

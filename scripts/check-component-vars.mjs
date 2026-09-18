@@ -210,7 +210,24 @@ for (const file of SHARED_MODULES) {
  * recognised utility classes is not being checked by anything here, and this
  * script would still exit 0.
  */
-const unchecked = perFile.filter((f) => f.vars === 0 && f.classes === 0);
+/*
+ * A component whose classes all live in a shared module is checked THROUGH it.
+ * Table (2026-09-18) is the first: its whole class list is in `table.ts`,
+ * because the docs tables wear the same strings, so `Table.astro` itself holds
+ * none and read to this guard as unchecked while the pass above was validating
+ * every one of its classes. It counts only if it really imports a module that
+ * contributed — an import of a module with no classes, or of nothing, does not.
+ */
+const sharedWithClasses = new Set(
+  perFile.filter((f) => SHARED_MODULES.includes(f.file) && f.classes > 0).map((f) => f.file.replace(/\.ts$/, '')),
+);
+const checkedThroughShared = (f) => {
+  const path = sources.find(([name]) => name === f.file)?.[1];
+  if (!path) return false;
+  const code = readFileSync(path, 'utf8');
+  return [...code.matchAll(/from\s+['"]\.\.\/([\w-]+)(?:\.ts)?['"]/g)].some((m) => sharedWithClasses.has(m[1]));
+};
+const unchecked = perFile.filter((f) => f.vars === 0 && f.classes === 0 && !checkedThroughShared(f));
 if (unchecked.length) {
   console.error(`\n\x1b[31m✖  ${unchecked.length} component(s) contribute nothing for this gate to check\x1b[0m\n`);
   for (const { file } of unchecked) console.error(`    \x1b[31m✖\x1b[0m ${file} — no var(--…) usages and no known utility classes`);

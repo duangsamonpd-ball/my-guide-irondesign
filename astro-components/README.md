@@ -55,6 +55,7 @@ does not scan `node_modules` by default:
 @source "../../node_modules/@iron-software/astro-components/internal/*.astro";
 @source "../../node_modules/@iron-software/astro-components/field.ts";
 @source "../../node_modules/@iron-software/astro-components/choice.ts";
+@source "../../node_modules/@iron-software/astro-components/table.ts";
 ```
 
 Those four are not a suggestion: they are the exact source set the design system
@@ -439,6 +440,35 @@ The root is an `<aside>` — the HTML spec names "call-out boxes" as an aside, w
 Only the icon (and, on `bordered`, the left bar) carries the intent colour — the title and paragraph always stay neutral (`--color-text-heading` on `filled`, `--color-text-body` on `bordered`). `important` is a genuinely new intent (not one of the system's original 4 semantic colours) — it uses the `iron-purple-50`/`iron-purple-500` primitives directly since there's no `status/important` semantic token yet.
 
 Each intent's icon is an inline **Font Awesome Free Solid** SVG (`circle-info`, `circle-check`, `circle-exclamation`, `triangle-exclamation`, `circle-xmark`) — path data hard-coded in the component, `fill="currentColor"` so it inherits the intent color. No icon font or CDN dependency; see "Icon strategy" below.
+
+### `Table.astro`
+
+A styled box for an ordinary HTML table. You write `<thead>`, `<tbody>`, `<tr>`, `<th>` and `<td>`; the component styles them, and a cell can hold any other component:
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
+```astro
+<Table label="Products">
+  <thead>
+    <tr><th scope="col">Product name</th><th scope="col">Category</th><th scope="col">Price</th></tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row">IronPDF</th><td>PDF</td><td><Badge intent="success">$749</Badge></td></tr>
+  </tbody>
+</Table>
+
+<!-- dense reference tables -->
+<Table size="sm">…</Table>
+```
+
+Props: `size` (`md` | `sm`, default `md`), `label` (an `aria-label` for the table when no visible heading names it), `class` (on the scroll box).
+
+Use `<th scope="row">` for the cell that names its row — it takes `--color-text-heading` at medium weight, and a screen reader reads it out with every cell in that row. A table wider than its container scrolls sideways inside the rounded box instead of widening the page; the box is `[data-part="scroller"]`.
+
+**No Figma node yet.** It is modelled on Flowbite's default table (Ball's reference, 2026-09-18), in system tokens: box `--rounded-xl` with a `--color-border` edge on `--color-bg-card`; header row `--color-bg-section`, medium weight, sentence case; body text `text-caption` (14/20) in `--color-text-support`; row dividers `--color-border`; padding `md` 24 across / 16 down (header 12), `sm` 16 / 12 (header 8). Check a drawing against these when one exists.
+
+The class strings live in `table.ts`, not in the component, because **every table in `docs/` wears the same ones** — `build-docs-tables.mjs` stamps them onto the docs markup and `check:tables` fails if one differs. The styling is Tailwind descendant variants (`[&_th]:…`) rather than a `<style>` block, because the cells are the caller's markup: Astro's scoping never reaches slotted elements, and `:global()` is dropped by the browser on a docs page that carries the rule verbatim.
 
 ### `Tooltip.astro`
 
@@ -1004,7 +1034,7 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 8 of 19 components take a required
+  destructure rather than the interface. Only 8 of 20 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
   `Tooltip.body`, and the card components' labels.
@@ -1111,10 +1141,10 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 19 components ported
+## 20 components ported
 
 Button, NugetButton, TextLink, Input, Textarea, FileUpload, Select, Checkbox,
-Radio, Badge, Notice, Tooltip, FlyoutMenu, Product Footer, FooterBar, FormCard,
+Radio, Badge, Notice, Table, Tooltip, FlyoutMenu, Product Footer, FooterBar, FormCard,
 TrialKeyCard, Logo, TopNav and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
 two-bar site header, and `Footer` + `FooterBar` the full two-band site footer. If
 the design system docs (`docs/component-*.html`) gain a new

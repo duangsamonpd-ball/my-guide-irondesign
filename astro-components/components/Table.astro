@@ -1,0 +1,39 @@
+---
+/**
+ * Table — a styled box for an ordinary HTML table. Write `<thead>`, `<tbody>`,
+ * `<tr>`, `<th>` and `<td>` yourself and the component styles them; any cell
+ * can hold any other component (a Badge, a TextLink, a Button).
+ *
+ * Modelled on Flowbite's default table, Ball's reference 2026-09-18. There is
+ * no Figma node yet: every value is a system token picked to match the
+ * reference, and the list is in the README section so a drawing can be checked
+ * against it when there is one. The class strings live in `../table.ts`,
+ * because the docs tables wear the same ones — see that file for why.
+ *
+ * Use `<th scope="row">` for the cell that names its row (the first column in
+ * the reference): it takes the heading colour and medium weight, and a screen
+ * reader announces it with every cell in the row.
+ *
+ * A table wider than its container scrolls sideways inside the rounded box
+ * rather than widening the page. The scroller is published as
+ * `[data-part="scroller"]` for a page that needs to reach it.
+ */
+import { tableWrap, tableClass } from '../table';
+
+interface Props {
+  /** Cell padding — `md` is the reference's 24 across and 16 down; `sm` is 16 by 12 for dense reference tables. */
+  size?: 'md' | 'sm';
+  /** Names the table for assistive tech when no visible heading does. */
+  label?: string;
+  /** Extra classes on the scroll box, applied after the component's own. */
+  class?: string;
+}
+
+const { size = 'md', label, class: className } = Astro.props;
+---
+
+<div class:list={[tableWrap, className]} data-part="scroller">
+  <table class={tableClass(size)} aria-label={label}>
+    <slot />
+  </table>
+</div>

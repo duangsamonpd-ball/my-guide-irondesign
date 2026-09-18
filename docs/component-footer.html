@@ -94,7 +94,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .page-title h1 { font-size:2rem; font-weight: 800; letter-spacing:-0.5px; margin-bottom:8px; }
 .page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:680px; }
 .chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:normal; }
+.tok td { vertical-align:middle; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; }
 .dd .card .top { padding:12px 16px; font-size:0.74rem; font-weight:800; display:flex; align-items:center; gap:7px; }
 .dd .body { padding:16px; font-size:0.78rem; color:#62748E; line-height:1.6; }
@@ -144,6 +144,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
       <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
       <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+      <a href="component-table.html" class="sidebar-link"><i class="sidebar-icon">▦</i>Table</a>
       <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
       <a href="component-topnav.html" class="sidebar-link"><i class="sidebar-icon">📍</i>Top Nav</a>
       <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
@@ -495,7 +496,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 
     <div class="sect">
       <h2 class="sect-h">Token Reference</h2>
-      <div class="tok-scroll"><table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="tok" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
         <tr><td class="prop">Background</td><td class="token">--footer-bg (iron-violet/950)</td><td class="val"><span class="sw" style="background:#260F27"></span>#260F27</td></tr>
         <tr><td class="prop">Background art</td><td class="token">rainbowSrc (default /assets/Rainbow.svg)</td><td class="val">cover</td></tr>
         <tr><td class="prop">Text</td><td class="token">--on-color</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td></tr>

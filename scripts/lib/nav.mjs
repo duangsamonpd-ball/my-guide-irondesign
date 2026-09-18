@@ -35,6 +35,7 @@ export const NAV = [
   { href: 'component-select.html', icon: '🔽', label: 'Select' },
   { href: 'component-badge.html', icon: '🏷️', label: 'Badge' },
   { href: 'component-notice.html', icon: '💡', label: 'Notice' },
+  { href: 'component-table.html', icon: '▦', label: 'Table' },
   { href: 'component-logo.html', icon: '✳️', label: 'Logo' },
   { href: 'component-topnav.html', icon: '📍', label: 'Top Nav' },
   { href: 'component-productmenu.html', icon: '🧭', label: 'Product Menu' },

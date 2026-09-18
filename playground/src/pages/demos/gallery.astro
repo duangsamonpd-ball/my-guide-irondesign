@@ -45,7 +45,7 @@ import { dirname, join } from 'node:path';
 import { NAV } from '../../../../scripts/lib/nav.mjs';
 import {
   Badge, Button, Checkbox, FileUpload, Footer, FooterBar, FormCard,
-  Input, Logo, Notice, ProductMenu, Radio, Select, Textarea, TextLink, Tooltip,
+  Input, Logo, Notice, ProductMenu, Radio, Select, Table, Textarea, TextLink, Tooltip,
   NugetButton, TopNav, TrialKeyCard,
 } from '@iron-software/astro-components';
 
@@ -136,6 +136,7 @@ const cards: Record<string, { kind?: 'wide' | 'band' }> = {
   'component-select.html': {},
   'component-badge.html': {},
   'component-notice.html': { kind: 'wide' },
+  'component-table.html': { kind: 'wide' },
   'component-logo.html': {},
   'component-topnav.html': { kind: 'band' },
   'component-productmenu.html': { kind: 'band' },
@@ -259,6 +260,15 @@ const entries = [
               {c.href === 'component-notice.html' && (
                 <Notice variant="bordered" intent="info" title="Please note"
                   text="Trial keys are issued once per email address and last thirty days." />
+              )}
+              {c.href === 'component-table.html' && (
+                <Table size="sm" label="Products">
+                  <thead><tr><th scope="col">Product</th><th scope="col">Category</th><th scope="col">Price</th></tr></thead>
+                  <tbody>
+                    <tr><th scope="row">IronPDF</th><td>PDF</td><td>$749</td></tr>
+                    <tr><th scope="row">IronOCR</th><td>OCR</td><td>$749</td></tr>
+                  </tbody>
+                </Table>
               )}
               {c.href === 'component-logo.html' && (
                 <div class="gstack-row">

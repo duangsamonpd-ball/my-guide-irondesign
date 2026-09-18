@@ -46,6 +46,7 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { tableWrap, tableClass } from '../astro-components/table.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
@@ -113,7 +114,10 @@ export function renderTable(component, indent) {
       + `<td class="ptable-default">${dflt}</td><td class="ptable-notes">${note}</td></tr>`;
   });
   return [
-    `${indent}<div class="ptable-wrap"><table class="ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>`,
+    /* The same markup build-docs-tables.mjs stamps onto every other docs table,
+       written out here in full: if this emitted a placeholder class, the two
+       scripts would each call the other's output stale. */
+    `${indent}<div data-ds-table-wrap class="${tableWrap}"><table data-ds-table="ptable" class="${tableClass('sm')} ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>`,
     ...rows,
     `${indent}</tbody></table></div>`,
   ].join('\n');

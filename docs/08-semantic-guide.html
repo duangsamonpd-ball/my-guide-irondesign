@@ -46,6 +46,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="utilities.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; line-height: 1.6; }
 .content { padding: 40px; max-width: 1200px; margin: 0 auto; }
@@ -67,25 +68,17 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .concept-card.bad  .label { color: #C91D23; }
 .concept-card.good .label { color: #345F50; }
 .concept-card p { font-size: 0.82rem; color: #62748E; margin-top: 8px; line-height: 1.6; }
-.mapping-table {
-      width: 100%; border-collapse: collapse;
-      background: white; border-radius: 14px; overflow: hidden;
-      border: 1px solid #E2E8F0; margin-bottom: 32px;
-      font-size: 0.82rem;
-    }
-.mapping-table thead tr { background: #F8FAFC; }
-.mapping-table th {
-      padding: 12px 16px; text-align: left;
-      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: #A1A1A1;
-      border-bottom: 1px solid #E2E8F0;
-    }
 .mapping-table th.th-light { background: var(--iron-orange-50); color: #997A00; border-bottom: 1px solid #E2E8F0; }
 .mapping-table th.th-dark { background: #1E1E2A; color: #89D3DF; border-bottom: 1px solid #2E2E3A; }
-.mapping-table td { padding: 12px 16px; border-bottom: 1px solid #F1F5F9; vertical-align: middle; overflow-wrap: anywhere; }
+.mapping-table td { vertical-align: middle; overflow-wrap: anywhere; }
+/* A hex is one word. Below 1440 the table is narrower than its content and
+   `overflow-wrap: anywhere` let the Color column collapse to one character, so
+   #E01A59 stood as seven lines (126px tall at 1100 — measured on HEAD before
+   2026-09-18 as well as after). The table's box scrolls since then, so the value
+   can stay whole and the reader scrolls to it. */
+.mapping-table .color-dot { white-space: nowrap; }
 .mapping-table td.td-light { background: #FEFDF5; }
 .mapping-table td.td-dark { background: #1A1A26; }
-.mapping-table tr:last-child td { border-bottom: none; }
 .mapping-table tr:hover td.td-light { background: #FAF9E8; }
 .mapping-table tr:hover td.td-dark { background: #222230; }
 .mapping-table tr:hover td:not(.td-light):not(.td-dark) { background: #FAFAFA; }
@@ -186,7 +179,6 @@ pre {
       header { padding: 12px 20px; }
       .concept-row { grid-template-columns: 1fr; }
       .tab-bar { flex-wrap: wrap; gap: 4px; }
-      .mapping-table { display: block; overflow-x: auto; }
     }
 .sidebar-link {
       display: flex;
@@ -272,6 +264,7 @@ pre {
       <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
       <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
       <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+      <a href="component-table.html" class="sidebar-link"><i class="sidebar-icon">▦</i>Table</a>
       <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
       <a href="component-topnav.html" class="sidebar-link"><i class="sidebar-icon">📍</i>Top Nav</a>
       <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
@@ -320,7 +313,7 @@ pre {
 
   <!-- Brand -->
   <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">Brand & Interactive</p>
-  <table class="mapping-table">
+  <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-bottom:32px;"><table data-ds-table="mapping-table" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm mapping-table">
     <thead>
       <tr>
         <th>Role</th>
@@ -397,11 +390,11 @@ pre {
         <td style="color:#737373;font-size:0.75rem;">Data-vis, premium / pro tiers</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <!-- Semantic -->
   <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">Semantic States</p>
-  <table class="mapping-table">
+  <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-bottom:32px;"><table data-ds-table="mapping-table" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm mapping-table">
     <thead>
       <tr>
         <th>Role</th>
@@ -446,12 +439,12 @@ pre {
         <td style="color:#737373;font-size:0.75rem;">Info banners, help text, tooltips</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <!-- Text / default — light + dark -->
   <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Text / Default</p>
   <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Light mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-text-*</code> · Dark mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-text-dark-*</code></p>
-  <table class="mapping-table">
+  <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-bottom:32px;"><table data-ds-table="mapping-table" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm mapping-table">
     <thead>
       <tr>
         <th style="width:110px;">Role</th>
@@ -547,12 +540,12 @@ pre {
         <td style="color:#737373;font-size:0.75rem;">Hovered / active link state</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <!-- Text / on dark · on light -->
   <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Text / On Dark &middot; On Light</p>
   <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Text on a surface that does <b>not</b> follow the theme &mdash; a footer that is dark in both modes, a solid badge whose fill is a status colour, a section painted a fixed light colour. Pick by how light the <i>background</i> is, not by the mode; both columns below are identical because <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">.dark</code> never remaps these. Using <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-text-*</code> on such a surface is the bug these prevent: that ramp flips, the surface does not, and the text lands at ~1:1.</p>
-  <table class="mapping-table">
+  <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-bottom:32px;"><table data-ds-table="mapping-table" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm mapping-table">
     <thead>
       <tr>
         <th style="width:110px;">Role</th>
@@ -592,12 +585,12 @@ pre {
         <td style="color:#737373;font-size:0.75rem;">Body copy on a fixed light surface</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <!-- Surfaces — light + dark -->
   <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Surface</p>
   <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Light mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-bg-*</code> · Dark mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-bg-dark-*</code></p>
-  <table class="mapping-table">
+  <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-bottom:32px;"><table data-ds-table="mapping-table" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm mapping-table">
     <thead>
       <tr>
         <th style="width:120px;">Role</th>
@@ -679,12 +672,12 @@ pre {
         <td style="color:#737373;font-size:0.75rem;">Disabled field fill</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <!-- Borders — light + dark -->
   <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Border</p>
   <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Light mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-border-*</code> · Dark mode uses <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-border-dark-*</code></p>
-  <table class="mapping-table">
+  <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-bottom:32px;"><table data-ds-table="mapping-table" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm mapping-table">
     <thead>
       <tr>
         <th style="width:120px;">Role</th>
@@ -752,12 +745,12 @@ pre {
         <td style="color:#737373;font-size:0.75rem;">A field in error — the same red as <code style="font-size:0.7rem;">--color-text-danger</code></td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <!-- Buttons — light + dark -->
   <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Button</p>
   <p style="font-size:0.75rem;color:#A1A1A1;margin-bottom:14px;">Button fills. Most map to brand colours; <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">black</code> uses neutral in light mode and <code style="font-size:0.7rem;background:#F1F5F9;padding:2px 6px;border-radius:4px;">--color-button-dark-*</code> (iron-violet) in dark.</p>
-  <table class="mapping-table">
+  <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-bottom:32px;"><table data-ds-table="mapping-table" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm mapping-table">
     <thead>
       <tr>
         <th style="width:140px;">Role</th>
@@ -825,7 +818,7 @@ pre {
         <td style="color:#737373;font-size:0.75rem;">Outline / ghost button, hovered</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <!-- ── CODE EXAMPLES ─────────────────────────────────────────────────────── -->
   <div class="section-label">Code Examples</div>
@@ -1221,54 +1214,54 @@ color: #3A86FF;</code>
   </div>
 
   <!-- File table with download links -->
-  <div style="background:white; border:1px solid #E2E8F0; border-radius:14px; overflow:hidden; margin-bottom:40px;">
-    <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
+  <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-bottom:40px;">
+    <table data-ds-table="" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm">
       <thead>
-        <tr style="background:#F8FAFC;">
-          <th style="padding:12px 20px; text-align:left; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0;">File</th>
-          <th style="padding:12px 20px; text-align:left; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0;">Path in repo</th>
-          <th style="padding:12px 20px; text-align:left; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0;">Use for</th>
-          <th style="padding:12px 20px; text-align:left; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0;"></th>
+        <tr>
+          <th>File</th>
+          <th>Path in repo</th>
+          <th>Use for</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr style="border-bottom:1px solid #F1F5F9;">
-          <td style="padding:14px 20px; font-weight:700;">tokens.css</td>
-          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">tailwind/tokens.css</td>
-          <td style="padding:14px 20px; color:#737373;">Any CSS/SCSS project — import once at root</td>
-          <td style="padding:14px 20px;">
+        <tr>
+          <td style="font-weight:700;">tokens.css</td>
+          <td style="font-family:monospace; font-size:0.75rem; color:#2693EC;">tailwind/tokens.css</td>
+          <td style="color:#737373;">Any CSS/SCSS project — import once at root</td>
+          <td>
             <a href="https://github.com/duangsamonpd-ball/my-guide-irondesign/blob/main/tailwind/tokens.css" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:5px; font-size:0.72rem; font-weight:700; color:#2693EC; text-decoration:none; padding:5px 12px; border:1px solid #2693EC; border-radius:20px; white-space:nowrap;" onmouseover="this.style.background='#F0F9FF'" onmouseout="this.style.background='transparent'">↓ Download</a>
           </td>
         </tr>
-        <tr style="border-bottom:1px solid #F1F5F9;">
-          <td style="padding:14px 20px; font-weight:700;">theme.css</td>
-          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">tailwind/theme.css</td>
-          <td style="padding:14px 20px; color:#737373;">Tailwind v4 — <code>&#64;import</code> instead of <code>tailwindcss</code></td>
-          <td style="padding:14px 20px;">
+        <tr>
+          <td style="font-weight:700;">theme.css</td>
+          <td style="font-family:monospace; font-size:0.75rem; color:#2693EC;">tailwind/theme.css</td>
+          <td style="color:#737373;">Tailwind v4 — <code>&#64;import</code> instead of <code>tailwindcss</code></td>
+          <td>
             <a href="https://github.com/duangsamonpd-ball/my-guide-irondesign/blob/main/tailwind/theme.css" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:5px; font-size:0.72rem; font-weight:700; color:#2693EC; text-decoration:none; padding:5px 12px; border:1px solid #2693EC; border-radius:20px; white-space:nowrap;" onmouseover="this.style.background='#F0F9FF'" onmouseout="this.style.background='transparent'">↓ Download</a>
           </td>
         </tr>
-        <tr style="border-bottom:1px solid #F1F5F9;">
-          <td style="padding:14px 20px; font-weight:700;">tokens.w3c.json</td>
-          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">tokens/tokens.w3c.json</td>
-          <td style="padding:14px 20px; color:#737373;">Source of truth — W3C Design Token format</td>
-          <td style="padding:14px 20px;">
+        <tr>
+          <td style="font-weight:700;">tokens.w3c.json</td>
+          <td style="font-family:monospace; font-size:0.75rem; color:#2693EC;">tokens/tokens.w3c.json</td>
+          <td style="color:#737373;">Source of truth — W3C Design Token format</td>
+          <td>
             <a href="https://github.com/duangsamonpd-ball/my-guide-irondesign/blob/main/tokens/tokens.w3c.json" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:5px; font-size:0.72rem; font-weight:700; color:#2693EC; text-decoration:none; padding:5px 12px; border:1px solid #2693EC; border-radius:20px; white-space:nowrap;" onmouseover="this.style.background='#F0F9FF'" onmouseout="this.style.background='transparent'">↓ Download</a>
           </td>
         </tr>
-        <tr style="border-bottom:1px solid #F1F5F9;">
-          <td style="padding:14px 20px; font-weight:700;">tokens.legacy.json</td>
-          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">tokens/tokens.legacy.json</td>
-          <td style="padding:14px 20px; color:#737373;">Legacy format — for older tooling compatibility</td>
-          <td style="padding:14px 20px;">
+        <tr>
+          <td style="font-weight:700;">tokens.legacy.json</td>
+          <td style="font-family:monospace; font-size:0.75rem; color:#2693EC;">tokens/tokens.legacy.json</td>
+          <td style="color:#737373;">Legacy format — for older tooling compatibility</td>
+          <td>
             <a href="https://github.com/duangsamonpd-ball/my-guide-irondesign/blob/main/tokens/tokens.legacy.json" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:5px; font-size:0.72rem; font-weight:700; color:#2693EC; text-decoration:none; padding:5px 12px; border:1px solid #2693EC; border-radius:20px; white-space:nowrap;" onmouseover="this.style.background='#F0F9FF'" onmouseout="this.style.background='transparent'">↓ Download</a>
           </td>
         </tr>
         <tr>
-          <td style="padding:14px 20px; font-weight:700;">colors.css</td>
-          <td style="padding:14px 20px; font-family:monospace; font-size:0.75rem; color:#2693EC;">tailwind/colors.css</td>
-          <td style="padding:14px 20px; color:#737373;">Raw scale only (50–950) — for standalone use</td>
-          <td style="padding:14px 20px;">
+          <td style="font-weight:700;">colors.css</td>
+          <td style="font-family:monospace; font-size:0.75rem; color:#2693EC;">tailwind/colors.css</td>
+          <td style="color:#737373;">Raw scale only (50–950) — for standalone use</td>
+          <td>
             <a href="https://github.com/duangsamonpd-ball/my-guide-irondesign/blob/main/tailwind/colors.css" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:5px; font-size:0.72rem; font-weight:700; color:#2693EC; text-decoration:none; padding:5px 12px; border:1px solid #2693EC; border-radius:20px; white-space:nowrap;" onmouseover="this.style.background='#F0F9FF'" onmouseout="this.style.background='transparent'">↓ Download</a>
           </td>
         </tr>

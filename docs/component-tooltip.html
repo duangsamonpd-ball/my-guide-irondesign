@@ -64,6 +64,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="utilities.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -82,7 +83,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:56px 40px; display:flex; gap:56px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
 .spec-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 16px 18px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; position:relative; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:middle; overflow-wrap:normal; }
+.tok td { vertical-align:middle; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -173,6 +174,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
       <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
       <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+      <a href="component-table.html" class="sidebar-link"><i class="sidebar-icon">▦</i>Table</a>
       <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
       <a href="component-topnav.html" class="sidebar-link"><i class="sidebar-icon">📍</i>Top Nav</a>
       <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
@@ -424,7 +426,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           </span>
         </span></span>
       </div>
-      <div class="tok-scroll"><table class="tok" style="margin-top:14px;">
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card" style="margin-top:14px;"><table data-ds-table="tok" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm tok">
         <thead><tr><th>Size</th><th>Width</th><th>Use for</th></tr></thead>
         <tbody>
           <tr><td class="prop">Default</td><td class="val">200px</td><td class="prop">Short labels, single short sentence</td></tr>
@@ -459,7 +461,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <!-- Token Reference -->
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
-      <div class="tok-scroll"><table class="tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="tok" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm tok"><thead><tr><th>Part</th><th>Token</th><th>Value</th></tr></thead><tbody>
         <tr><td class="prop">Container background</td><td class="token">--tt-bg (neutral/800)</td><td class="val"><span class="sw" style="background:#262626"></span>#262626</td></tr>
         <tr><td class="prop">Title background</td><td class="token">--tt-title-bg (neutral/950)</td><td class="val"><span class="sw" style="background:#0A0A0A"></span>#0A0A0A</td></tr>
         <tr><td class="prop">Title text</td><td class="token">--tt-title (text/on dark/heading)</td><td class="val"><span class="sw" style="background:#FFFFFF"></span>#FFFFFF</td></tr>

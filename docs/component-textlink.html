@@ -64,6 +64,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="utilities.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 .sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
@@ -78,7 +79,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .canvas.dark { background:#0A0A0A; background-image:none; border-color:#171717; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
 .cell.dark { background:#0A0A0A; border-color:#171717; }
-.tok td { padding:9px 14px; border-bottom:1px solid #F1F5F9; vertical-align:top; overflow-wrap:normal; }
+.tok td { vertical-align:top; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; width:170px; }
 .c-tag {color:#89D3DF;}
 .c-attr {color:#FDA509;}
@@ -163,6 +164,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <a href="component-select.html" class="sidebar-link"><i class="sidebar-icon">🔽</i>Select</a>
       <a href="component-badge.html" class="sidebar-link"><i class="sidebar-icon">🏷️</i>Badge</a>
       <a href="component-notice.html" class="sidebar-link"><i class="sidebar-icon">💡</i>Notice</a>
+      <a href="component-table.html" class="sidebar-link"><i class="sidebar-icon">▦</i>Table</a>
       <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
       <a href="component-topnav.html" class="sidebar-link"><i class="sidebar-icon">📍</i>Top Nav</a>
       <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
@@ -317,7 +319,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect"><h2 class="sect-h">Token Reference</h2>
-      <div class="tok-scroll"><table class="tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="tok" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm tok"><thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead><tbody>
         <tr><td class="prop">Plain · text</td><td class="token">--color-text-link</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
         <tr><td class="prop">Plain · hover</td><td class="token">--color-text-link-hover</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
         <tr><td class="prop">Plain · dark text</td><td class="token">--color-text-dark-link</td><td class="val"><span class="sw" style="background:#67B3F2"></span>#67B3F2</td></tr>

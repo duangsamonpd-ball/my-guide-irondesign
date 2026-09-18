@@ -154,9 +154,14 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
    already describes this ("Captions, hints, field descriptions — real text,
    must meet AA") and lands at 7.81:1 and 6.90:1 on the two backdrops. */
 .cell .lbl small { display:block; font-weight:500; color:var(--color-text-muted); font-size:0.62rem; margin-top:2px; font-family:'Roboto Mono',monospace; }
-.tok { width:100%; border-collapse:collapse; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; font-size:0.78rem; }
-.tok thead th { background:#FAFAFA; text-align:left; padding:10px 14px; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#A1A1A1; border-bottom:1px solid #E2E8F0; }
-.tok tr:last-child td { border-bottom:none; }
+/* THE BOX IS NOT HERE ANY MORE. Since 2026-09-18 every docs table wears the
+   Table component's own classes, stamped from astro-components/table.ts by
+   build-docs-tables.mjs and gated by check:tables — the border, radius, header
+   fill, padding and row dividers all come from there. What stays below is the
+   page's CELL vocabulary: mono identifiers, swatches, the Notes measure. A rule
+   that sets padding, a border or a header colour on `.tok` would fight the
+   component's classes (they are unlayered, so it would win on source order)
+   and bring the drift back. */
 .tok td.token { font-family:'Roboto Mono',monospace; font-size:0.72rem; color:var(--c-accent); }
 /* Token names are single unbreakable words up to 28 characters long, and `.tok`
    above clips (`overflow: hidden`). At 375px that combination did not overflow,
@@ -184,17 +189,11 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
    file does not own — see the header. */
 .tok td.token, .tok td.val, .tok td.prop, .tok td code { white-space: nowrap; }
 
-/* The scroller the rule above assumes. `.tok` itself cannot be it: `display:
-   block` on a <table> hands the layout to an anonymous table box that shrinks
-   to its content, so the table would stop filling its column at every width
-   where it already fits. A wrapper leaves table layout alone.
-
-   `check-layout.mjs` is built for this: `insideXScroller()` walks the ancestors
-   for `overflow-x: auto|scroll` and exempts what it finds from both the WORD
-   and the ESCAPES detectors — text that a reader can scroll to is not text that
-   has been lost. H-SCROLL stays armed, because it asks about the DOCUMENT, and
-   a contained scroller does not widen it. */
-.tok-scroll { overflow-x: auto; }
+/* The scroller the rule above assumes is the table's box — `overflow-x-auto`
+   in `tableWrap`. A <table> cannot be its own scroller: `display: block` hands
+   the layout to an anonymous table box that shrinks to its content.
+   `check-layout.mjs` exempts text inside an x-scroller from its WORD and
+   ESCAPES detectors; H-SCROLL stays armed, because it asks about the DOCUMENT. */
 
 /* The prose column needs a MEASURE, or scrolling makes it worse rather than
    better. A table column's minimum is its longest word, so once the table is
@@ -232,32 +231,16 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
   font-weight: 600;
   color: #171717;
 }
-/* ── .ptable — the GENERATED props table (build-props-tables.mjs) ──────────
-   Modelled on the Class / Styles tables in the Tailwind CSS docs, on Ball's
-   ask 2026-09-18: no outer box, no header fill, a hairline between rows, and
-   the identifiers set in mono so the eye runs down the Prop column.
-
-   A separate class rather than a restyle of `.tok`, because `.tok` is also every
-   token-reference table on 23 pages, and those carry swatches and values this
-   layout was not measured against. Hand-written props tables move over when
-   their page gains a `<!-- props:* -->` region.
-
-   The header is --color-text-heading at 600, sentence case. `.tok`'s header is
-   #A1A1A1 on #FAFAFA, 2.48:1, and that is not a style to copy.
+/* ── .ptable — the cells of the GENERATED props table (build-props-tables.mjs)
+   The box is the Table component's, like every docs table; these rules are only
+   what the four columns hold. The identifiers are mono so the eye runs down the
+   Prop column.
 
    A union type wraps BETWEEN members, never inside one: each member is an
    inline-block `.ptable-m`, so `'primary' | 'secondary'` can break at a bar but
    `'secondary'` cannot become `'secon/dary'` — the same defect the `.tok`
    comment above records as 177 broken words at 375. */
-.ptable-wrap { overflow-x: auto; }
-.ptable { width: 100%; border-collapse: collapse; font-size: 0.8125rem; line-height: 1.6; text-align: left; }
-.ptable th {
-  padding: 0 16px 10px 0; font-weight: 600; font-size: 0.8125rem;
-  color: var(--color-text-heading); border-bottom: 1px solid var(--color-border);
-}
-.ptable td { padding: 12px 16px 12px 0; vertical-align: top; border-bottom: 1px solid var(--color-bg-shade); }
-.ptable tr:last-child td { border-bottom: none; }
-.ptable th:last-child, .ptable td:last-child { padding-right: 0; }
+.ptable td { vertical-align: top; }
 .ptable-name, .ptable-type, .ptable-default { font-family: 'Roboto Mono', monospace; font-size: 0.75rem; }
 .ptable-name { color: var(--c-accent); font-weight: 600; white-space: nowrap; }
 .ptable-type { color: var(--color-text-muted); max-width: 34ch; }
@@ -484,12 +467,11 @@ html.vp-only, html.vp-only body { margin:0; padding:0; background:transparent; o
      meaning is obvious; `data-label` is not needed for the same reason. */
   .ptable thead { display: none; }
   .ptable, .ptable tbody { display: block; }
-  .ptable tr {
-    display: grid; grid-template-columns: 1fr auto; column-gap: 12px;
-    padding: 12px 0; border-bottom: 1px solid var(--color-bg-shade);
-  }
-  .ptable tr:last-child { border-bottom: none; }
-  .ptable td { display: block; padding: 0; border: none; }
+  /* The row takes the padding its cells give up. `table.ptable` rather than
+     `.ptable`: this file loads before utilities.css, so an equal-specificity
+     rule here loses to the component's `[&_td]:px-md` on source order. */
+  .ptable tr { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; padding: 12px 16px; }
+  table.ptable td { display: block; padding: 0; }
   .ptable-type, .ptable-notes { grid-column: 1 / -1; max-width: none; min-width: 0; }
   .ptable-type { margin-top: 2px; }
   .ptable-notes { margin-top: 6px; }

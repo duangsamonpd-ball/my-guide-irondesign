@@ -129,7 +129,7 @@ export const internalSources = () => componentSources().filter((c) => c.internal
  * the second is the barrel. Neither carries a class string, and adding them
  * would make Tailwind scan files that can only produce false positives.
  */
-export const SHARED_MODULES = ['field.ts', 'choice.ts'];
+export const SHARED_MODULES = ['field.ts', 'choice.ts', 'table.ts'];
 
 /** Absolute paths of the shared modules that actually exist. */
 export function sharedModuleFiles() {

@@ -1,0 +1,58 @@
+---
+/**
+ * Demo source for docs/component-table.html.
+ *
+ * The rows are Flowbite's own example (Ball's reference, 2026-09-18), so the
+ * docs page can be held up against the reference side by side.
+ */
+import { Table, Badge } from '@iron-software/astro-components';
+
+const ROWS = [
+  { name: 'Apple MacBook Pro 17"', color: 'Silver', category: 'Laptop', price: '$2999', stock: 231 },
+  { name: 'Microsoft Surface Pro', color: 'White', category: 'Laptop PC', price: '$1999', stock: 423 },
+  { name: 'Magic Mouse 2', color: 'Black', category: 'Accessories', price: '$99', stock: 121 },
+];
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Table label="Products">
+        <thead>
+          <tr><th scope="col">Product name</th><th scope="col">Color</th><th scope="col">Category</th><th scope="col">Price</th><th scope="col">Stock</th></tr>
+        </thead>
+        <tbody>
+          {ROWS.map((r) => (
+            <tr><th scope="row">{r.name}</th><td>{r.color}</td><td>{r.category}</td><td>{r.price}</td><td>{r.stock}</td></tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+
+    <div data-demo="size-sm">
+      <Table size="sm" label="Products, compact">
+        <thead>
+          <tr><th scope="col">Product name</th><th scope="col">Category</th><th scope="col">Price</th></tr>
+        </thead>
+        <tbody>
+          {ROWS.map((r) => (
+            <tr><th scope="row">{r.name}</th><td>{r.category}</td><td>{r.price}</td></tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+
+    <div data-demo="components">
+      <Table label="Licences">
+        <thead>
+          <tr><th scope="col">Product</th><th scope="col">Status</th><th scope="col">Seats</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">IronPDF</th><td><Badge intent="success" dot>Active</Badge></td><td>10</td></tr>
+          <tr><th scope="row">IronOCR</th><td><Badge intent="warning">Trial</Badge></td><td>1</td></tr>
+          <tr><th scope="row">IronXL</th><td><Badge intent="danger">Expired</Badge></td><td>5</td></tr>
+        </tbody>
+      </Table>
+    </div>
+  </body>
+</html>

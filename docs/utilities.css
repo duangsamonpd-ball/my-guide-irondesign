@@ -831,6 +831,9 @@
 .grow {
   flex-grow: 1;
 }
+.border-collapse {
+  border-collapse: collapse;
+}
 .-translate-y-1\/2 {
   --tw-translate-y: calc(calc(1 / 2 * 100%) * -1);
   translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -949,6 +952,9 @@
 }
 .overflow-visible {
   overflow: visible;
+}
+.overflow-x-auto {
+  overflow-x: auto;
 }
 .rounded-2xl {
   border-radius: var(--radius-2xl);
@@ -1206,6 +1212,9 @@
 }
 .text-center {
   text-align: center;
+}
+.text-left {
+  text-align: left;
 }
 .font-sans {
   font-family: var(--font-sans);
@@ -2012,6 +2021,71 @@
   .max-\[594\.98px\]\:hidden {
     display: none;
   }
+}
+.\[\&_tbody_th\]\:py-md tbody th {
+  padding-block: var(--spacing-md);
+}
+.\[\&_tbody_th\]\:py-sm tbody th {
+  padding-block: var(--spacing-sm);
+}
+.\[\&_tbody_th\]\:font-medium tbody th {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+}
+.\[\&_tbody_th\]\:whitespace-nowrap tbody th {
+  white-space: nowrap;
+}
+.\[\&_tbody_th\]\:text-text-heading tbody th {
+  color: var(--color-text-heading);
+}
+.\[\&_tbody_tr\]\:border-b tbody tr {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+}
+.\[\&_tbody_tr\]\:border-border tbody tr {
+  border-color: var(--color-border);
+}
+.\[\&_tbody_tr\:last-child\]\:border-b-0 tbody tr:last-child {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 0px;
+}
+.\[\&_td\]\:px-md td {
+  padding-inline: var(--spacing-md);
+}
+.\[\&_td\]\:px-xl td {
+  padding-inline: var(--spacing-xl);
+}
+.\[\&_td\]\:py-md td {
+  padding-block: var(--spacing-md);
+}
+.\[\&_td\]\:py-sm td {
+  padding-block: var(--spacing-sm);
+}
+.\[\&_th\]\:px-md th {
+  padding-inline: var(--spacing-md);
+}
+.\[\&_th\]\:px-xl th {
+  padding-inline: var(--spacing-xl);
+}
+.\[\&_thead\]\:bg-bg-section thead {
+  background-color: var(--color-bg-section);
+}
+.\[\&_thead_th\]\:border-b thead th {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+}
+.\[\&_thead_th\]\:border-border thead th {
+  border-color: var(--color-border);
+}
+.\[\&_thead_th\]\:py-sm thead th {
+  padding-block: var(--spacing-sm);
+}
+.\[\&_thead_th\]\:py-xs thead th {
+  padding-block: var(--spacing-xs);
+}
+.\[\&_thead_th\]\:font-medium thead th {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
 }
 .\[\&\.is-placeholder\]\:text-text-disabled.is-placeholder {
   color: var(--color-text-disabled);

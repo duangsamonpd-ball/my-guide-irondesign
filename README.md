@@ -69,7 +69,7 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ## 🧬 Astro components
 
-19 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — use them instead of copy-pasting markup out of the docs. **11 of them are styled with Tailwind utility classes and need either Tailwind (pointed at this package's sources) or the pre-compiled `@iron-software/design-system/utilities.css`** — see [the package README's Setup section](astro-components/README.md#setup), which is gated so it cannot go stale.
+20 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — use them instead of copy-pasting markup out of the docs. **12 of them are styled with Tailwind utility classes and need either Tailwind (pointed at this package's sources) or the pre-compiled `@iron-software/design-system/utilities.css`** — see [the package README's Setup section](astro-components/README.md#setup), which is gated so it cannot go stale.
 
 | Component | Notes |
 |---|---|
@@ -332,7 +332,7 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 `tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check          # 26 gates; the only thing that decides is the exit code
+npm run check          # 27 gates; the only thing that decides is the exit code
 ```
 
 **The list below is a summary — `npm run check` in `package.json` is the list.** Read the exit code, never the output: a gate that *crashes* prints a stack trace with no failure marker, so grepping the log for one reports success on the worst failure there is.
@@ -352,6 +352,7 @@ npm run check          # 26 gates; the only thing that decides is the exit code
 | `check:specimens` | every live type specimen in the typography page matches the token its own table names — and can wrap, so it shows the level rather than a truncation of it |
 | `check:parity` | every CSS rule in a component's `<style>` also appears in its `docs/component-*.html` page |
 | `check:props` | every `<!-- props:* -->` table in the docs is current with the manifest it is generated from |
+| `check:tables` | every docs table wears the `Table` component's classes from `table.ts`, and no `<table>` in the docs is unaccounted for |
 | `check:props-table` | every Prop / Type / Default table in the docs — generated or hand-typed — matches the manifest, both directions |
 | `check:exports` | every component is in the barrel, every `exports` map target resolves, and every component has a README section |
 | `check:vars` | every `var(--…)` a component reads still resolves once Tailwind has compiled the theme |
@@ -453,7 +454,7 @@ GitHub Pages serves the `docs/` folder on every push to `main` → **https://dua
 
 ### Social card (og:image)
 
-`scripts/build-seo.mjs` writes the `<!-- seo:* -->` block into all 31 pages —
+`scripts/build-seo.mjs` writes the `<!-- seo:* -->` block into all 32 pages —
 canonical, Open Graph, Twitter card and JSON-LD. One thing is missing on purpose:
 **`OG_IMAGE` is `null`, so no `og:image` is emitted.**
 
@@ -478,13 +479,13 @@ banner. Nothing else needs editing to get that.
    `npm run build:seo`.
 
 `check:seo` is part of `npm run check`, so setting the constant without
-rebuilding fails the gate rather than shipping 31 stale pages.
+rebuilding fails the gate rather than shipping 32 stale pages.
 
 Two things worth knowing before drawing it. It is rendered around 400–500px wide
 in a chat list, so thin or small type disappears; and some clients crop the
 edges, so nothing load-bearing should sit against them.
 
-The constant is a single value, so **one card covers all 31 pages**. Per-page
+The constant is a single value, so **one card covers all 32 pages**. Per-page
 cards would need each page to carry its own field — worth doing only if the one
 card turns out not to be enough.
 

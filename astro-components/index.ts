@@ -36,6 +36,7 @@ export { default as NugetButton } from './components/NugetButton.astro';
 export { default as ProductMenu } from './components/ProductMenu.astro';
 export { default as Radio } from './components/Radio.astro';
 export { default as Select } from './components/Select.astro';
+export { default as Table } from './components/Table.astro';
 export { default as TextLink } from './components/TextLink.astro';
 export { default as Textarea } from './components/Textarea.astro';
 export { default as Tooltip } from './components/Tooltip.astro';
