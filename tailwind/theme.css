@@ -387,8 +387,8 @@
   --color-border-focused: var(--color-border-focus); /* alias — Button ghost variant naming */
   --color-border-selected: var(--iron-blue-500); /* #2693EC — selected item outline */
   --color-border-error: var(--iron-red-500);  /* #E5242A — error state border (Figma: danger) */
-  --color-border-strong-alt: var(--slate-400); /* #90A1B9 — slate/400 (Figma: border/strong-alt) · 2.69:1 on white — decorative, never a control's boundary */
-  --color-border-input: var(--slate-500);     /* #62748E — slate/500 · 4.76:1 on --color-bg-input, 4.35:1 on --color-bg-input-hover */
+  --color-border-strong-alt: var(--slate-400); /* #90A1B9 — slate/400 (Figma: border/strong-alt) · 2.63:1 on white — decorative here; --color-border-input takes the same value on purpose */
+  --color-border-input: var(--slate-400);     /* #90A1B9 — slate/400 · 2.63:1 on --color-bg-input, 2.40:1 on --color-bg-input-hover — FAILS 1.4.11, by decision */
   --color-border-input-disabled: var(--slate-200); /* #E2E8F0 — slate/200 · exempt from 1.4.11 */
   --color-border-input-danger: var(--iron-red-700); /* #A8181D — iron-red/700 · 7.46:1 — the same red as --color-text-danger */
   --color-border-dark: var(--iron-violet-800); /* #522950 — iron-violet/800 — dividers, input borders. Read off Figma's own variable table, which MCP cannot return (one mode per call) — it was iron-violet/500 here, three ramp steps too light, and read at 2.83:1 against the page where the light-mode border reads 1.23:1. /800 lands at 1.28:1, the same weight the light mode has. */

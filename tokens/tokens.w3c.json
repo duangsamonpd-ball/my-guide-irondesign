@@ -565,12 +565,12 @@
       "strong-alt": {
         "$value": "#90A1B9",
         "$type": "color",
-        "$description": "Slate/400 — Figma border/strong-alt (light). 2.69:1 on white, so it is decorative: never the boundary of a control."
+        "$description": "Slate/400 — Figma border/strong-alt (light). 2.63:1 on white. Decorative here; border/input takes the same value on purpose."
       },
       "input": {
-        "$value": "#62748E",
+        "$value": "#90A1B9",
         "$type": "color",
-        "$description": "Slate/500 — a form field's boundary (light). WCAG 1.4.11 asks 3:1 of it, which border/default (1.23:1) cannot give: 4.76:1 on surface/input, 4.35:1 on surface/input-hover."
+        "$description": "Slate/400 — a form field's boundary (light). 2.63:1 on surface/input, 2.40:1 on surface/input-hover: BELOW the 3:1 WCAG 1.4.11 asks, by decision on 2026-09-18 — slate/500 (4.76:1) made the fields read hard. No gate measures a border, so this description is the record."
       },
       "input-disabled": {
         "$value": "#E2E8F0",

@@ -312,7 +312,7 @@
     --color-border-selected: var(--iron-blue-500);
     --color-border-error: var(--iron-red-500);
     --color-border-strong-alt: var(--slate-400);
-    --color-border-input: var(--slate-500);
+    --color-border-input: var(--slate-400);
     --color-border-input-disabled: var(--slate-200);
     --color-border-input-danger: var(--iron-red-700);
     --color-border-dark: var(--iron-violet-800);

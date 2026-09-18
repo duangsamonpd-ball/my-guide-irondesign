@@ -336,7 +336,7 @@
   --color-bg-disabled:      var(--slate-50);          /* #F8FAFC — slate/50 — disabled input / control fill */
   /* A form field's own fills (Figma: surface/input*, 2026-09-15). Same values as
      base / shade / disabled today, and deliberately not aliases of them: the
-     fill and --color-border-input are ONE contrast pair — 4.35:1 on the hover
+     fill and --color-border-input are ONE contrast pair — 2.40:1 on the hover
      fill — so they move together, not with the page bands that share a value. */
   --color-bg-input:          #FFFFFF;                 /* white — field fill */
   --color-bg-input-hover:    var(--slate-100);        /* #F1F5F9 — slate/100 — hovered field; hover shows by fill, not border */
@@ -393,12 +393,16 @@
   --color-border-focused:   var(--color-border-focus); /* alias — Button ghost variant naming */
   --color-border-selected:  var(--iron-blue-500);     /* #2693EC — selected item outline */
   --color-border-error:     var(--iron-red-500);      /* #E5242A — error state border (Figma: danger) */
-  --color-border-strong-alt: var(--slate-400);        /* #90A1B9 — slate/400 (Figma: border/strong-alt) · 2.69:1 on white — decorative, never a control's boundary */
+  --color-border-strong-alt: var(--slate-400);        /* #90A1B9 — slate/400 (Figma: border/strong-alt) · 2.63:1 on white — decorative here; --color-border-input takes the same value on purpose */
   /* A form field's boundary (Figma: border/input*, 2026-09-15). --color-border is
      a divider and a card edge, where 1.23:1 is the point; a field's edge is what
      WCAG 1.4.11 measures and needs 3:1, so it is a different token rather than a
-     darker --color-border that would have darkened every divider with it. */
-  --color-border-input:          var(--slate-500);    /* #62748E — slate/500 · 4.76:1 on --color-bg-input, 4.35:1 on --color-bg-input-hover */
+     darker --color-border that would have darkened every divider with it.
+     Light --color-border-input went slate/500 → slate/400 on 2026-09-18, knowingly
+     BELOW that 3:1: slate/500 made the fields read hard, and Figma had moved
+     first. Nothing gates a border's contrast (`audit` measures text), so this
+     comment is the only record that it fails. Dark is untouched and passes. */
+  --color-border-input:          var(--slate-400);    /* #90A1B9 — slate/400 · 2.63:1 on --color-bg-input, 2.40:1 on --color-bg-input-hover — FAILS 1.4.11, by decision */
   --color-border-input-disabled: var(--slate-200);    /* #E2E8F0 — slate/200 · exempt from 1.4.11 */
   --color-border-input-danger:   var(--iron-red-700); /* #A8181D — iron-red/700 · 7.46:1 — the same red as --color-text-danger */
 
