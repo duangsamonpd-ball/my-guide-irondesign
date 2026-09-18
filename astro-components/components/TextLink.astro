@@ -11,10 +11,15 @@
 import { icons } from '../icons';
 
 interface Props {
+  /** Where the link goes. */
   href: string;
+  /** `plain` is link-coloured text for general pages; `underline` is body-coloured text with a soft underline for long-form reading. */
   variant?: 'plain' | 'underline';
+  /** The colours for a dark background. */
   dark?: boolean;
+  /** Opens in a new tab (`target="_blank"`, `rel="noopener"`) and adds a north-east arrow. */
   external?: boolean;
+  /** Extra classes on the `<a>`, after the component's own. */
   class?: string;
 }
 

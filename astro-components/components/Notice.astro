@@ -16,9 +16,13 @@
  * under. That is work with a known answer, not a blocked item.
  */
 interface Props {
+  /** `filled` is a tinted card with the title on its own line; `bordered` is a left bar with the title leading into the text. */
   variant?: 'filled' | 'bordered';
+  /** The icon and bar colour, by meaning — the text itself always stays neutral. */
   intent?: 'info' | 'success' | 'important' | 'warning' | 'danger';
+  /** The bold heading, or the lead-in on `bordered`. */
   title: string;
+  /** The body paragraph. */
   text: string;
   /**
    * Whether the notice announces itself to a screen reader.
@@ -28,6 +32,7 @@ interface Props {
    * be announced out of nowhere, which is worse than saying nothing.
    */
   live?: boolean;
+  /** Extra classes on the `<aside>`, after the component's own. */
   class?: string;
 }
 

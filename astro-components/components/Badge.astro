@@ -41,18 +41,23 @@
  */
 
 interface Props {
+  /** The colour, by meaning: `success`, `warning`, `danger`, `info`, `important`, or `neutral` grey. */
   intent?: 'success' | 'warning' | 'danger' | 'info' | 'important' | 'neutral';
   /**
+   * `subtle` is a tinted fill with coloured text; `solid` is a full-colour fill.
    * Figma `779:3486` ships `variant=subtle|solid`; this took a `solid` boolean
    * until 2026-08-11. Eight components in this library express their variant
    * axis as an enum named `variant` and Badge was the only one spelling one as
    * a boolean — the same reasoning that turned `small` into `size` below.
    */
   variant?: 'subtle' | 'solid';
-  /** Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06. */
+  /** Height 24 (`md`) or 20 (`sm`). Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06. */
   size?: 'sm' | 'md';
+  /** Fully rounded ends instead of the 4px corners Figma draws. */
   pill?: boolean;
+  /** A small leading dot in the label's colour — for a status that is on or live. */
   dot?: boolean;
+  /** Extra classes on the badge, after the component's own. */
   class?: string;
 }
 

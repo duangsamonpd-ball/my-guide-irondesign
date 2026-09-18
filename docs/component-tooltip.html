@@ -478,6 +478,24 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <!-- Code -->
+    <div class="sect">
+      <h2 class="sect-h">Props</h2>
+      <div class="sect-sub">Read from <code>interface Props</code> in <code>Tooltip.astro</code>, so it cannot drift from the component.</div>
+      <!-- props:Tooltip -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">variant</td><td class="ptable-type"><span class="ptable-m">'default'</span> | <span class="ptable-m">'action'</span></td><td class="ptable-default">'default'</td><td class="ptable-notes"><code>default</code> centres the text; <code>action</code> left-aligns it and allows a title icon and a link.</td></tr>
+        <tr><td class="ptable-name">title</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">An optional bold first line in the bubble.</td></tr>
+        <tr><td class="ptable-name">icon</td><td class="ptable-type">IconName</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Leading glyph in the title, by name from <code>../icons</code>.</td></tr>
+        <tr><td class="ptable-name">body</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The tooltip text.</td></tr>
+        <tr><td class="ptable-name">linkHref</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Where the bubble's link goes; the link shows only with <code>linkText</code> too, and makes the tooltip <code>action</code>.</td></tr>
+        <tr><td class="ptable-name">linkText</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The link's words, with a trailing arrow; needs <code>linkHref</code>.</td></tr>
+        <tr><td class="ptable-name">placement</td><td class="ptable-type"><span class="ptable-m">'above'</span> | <span class="ptable-m">'below'</span> | <span class="ptable-m">'left'</span> | <span class="ptable-m">'right'</span></td><td class="ptable-default">'above'</td><td class="ptable-notes">Which side of the trigger the bubble opens on.</td></tr>
+        <tr><td class="ptable-name">wide</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Widens the bubble to a fixed 350px for long copy.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the trigger wrapper, after the component's own.</td></tr>
+      </tbody></table></div>
+      <!-- /props:Tooltip -->
+    </div>
+
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="sect-sub">Copy-and-own — HTML markup, or the token-bound CSS. Show exactly one <code>.tt-arrow</code> per instance.</div>
       <div class="code-wrap">

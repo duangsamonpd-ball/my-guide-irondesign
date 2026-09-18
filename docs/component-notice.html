@@ -301,6 +301,21 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </tbody></table></div>
     </div>
 
+    <div class="sect">
+      <h2 class="sect-h">Props</h2>
+      <div class="sect-sub">Read from <code>interface Props</code> in <code>Notice.astro</code>, so it cannot drift from the component.</div>
+      <!-- props:Notice -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">variant</td><td class="ptable-type"><span class="ptable-m">'filled'</span> | <span class="ptable-m">'bordered'</span></td><td class="ptable-default">'filled'</td><td class="ptable-notes"><code>filled</code> is a tinted card with the title on its own line; <code>bordered</code> is a left bar with the title leading into the text.</td></tr>
+        <tr><td class="ptable-name">intent</td><td class="ptable-type"><span class="ptable-m">'info'</span> | <span class="ptable-m">'success'</span> | <span class="ptable-m">'important'</span> | <span class="ptable-m">'warning'</span> | <span class="ptable-m">'danger'</span></td><td class="ptable-default">'info'</td><td class="ptable-notes">The icon and bar colour, by meaning — the text itself always stays neutral.</td></tr>
+        <tr><td class="ptable-name">title</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The bold heading, or the lead-in on <code>bordered</code>.</td></tr>
+        <tr><td class="ptable-name">text</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The body paragraph.</td></tr>
+        <tr><td class="ptable-name">live</td><td class="ptable-type">boolean</td><td class="ptable-default">true</td><td class="ptable-notes">Whether the notice announces itself to a screen reader.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;aside&gt;</code>, after the component's own.</td></tr>
+      </tbody></table></div>
+      <!-- /props:Notice -->
+    </div>
+
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="code-wrap">
           <div class="code-tabs">

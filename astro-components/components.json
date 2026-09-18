@@ -18,38 +18,42 @@
           "name": "intent",
           "type": "'success' | 'warning' | 'danger' | 'info' | 'important' | 'neutral'",
           "required": false,
-          "default": "'neutral'"
+          "default": "'neutral'",
+          "description": "The colour, by meaning: `success`, `warning`, `danger`, `info`, `important`, or `neutral` grey."
         },
         {
           "name": "variant",
           "type": "'subtle' | 'solid'",
           "required": false,
           "default": "'subtle'",
-          "description": "Figma `779:3486` ships `variant=subtle|solid`; this took a `solid` boolean until 2026-08-11. Eight components in this library express their variant axis as an enum named `variant` and Badge was the only one spelling one as a boolean — the same reasoning that turned `small` into `size` below."
+          "description": "`subtle` is a tinted fill with coloured text; `solid` is a full-colour fill. Figma `779:3486` ships `variant=subtle|solid`; this took a `solid` boolean until 2026-08-11. Eight components in this library express their variant axis as an enum named `variant` and Badge was the only one spelling one as a boolean — the same reasoning that turned `small` into `size` below."
         },
         {
           "name": "size",
           "type": "'sm' | 'md'",
           "required": false,
           "default": "'md'",
-          "description": "Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06."
+          "description": "Height 24 (`md`) or 20 (`sm`). Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06."
         },
         {
           "name": "pill",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Fully rounded ends instead of the 4px corners Figma draws."
         },
         {
           "name": "dot",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "A small leading dot in the label's colour — for a status that is on or live."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the badge, after the component's own."
         }
       ]
     },
@@ -733,23 +737,27 @@
           "name": "variant",
           "type": "'filled' | 'bordered'",
           "required": false,
-          "default": "'filled'"
+          "default": "'filled'",
+          "description": "`filled` is a tinted card with the title on its own line; `bordered` is a left bar with the title leading into the text."
         },
         {
           "name": "intent",
           "type": "'info' | 'success' | 'important' | 'warning' | 'danger'",
           "required": false,
-          "default": "'info'"
+          "default": "'info'",
+          "description": "The icon and bar colour, by meaning — the text itself always stays neutral."
         },
         {
           "name": "title",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The bold heading, or the lead-in on `bordered`."
         },
         {
           "name": "text",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The body paragraph."
         },
         {
           "name": "live",
@@ -761,7 +769,8 @@
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the `<aside>`, after the component's own."
         }
       ]
     },
@@ -1180,30 +1189,35 @@
         {
           "name": "href",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "Where the link goes."
         },
         {
           "name": "variant",
           "type": "'plain' | 'underline'",
           "required": false,
-          "default": "'plain'"
+          "default": "'plain'",
+          "description": "`plain` is link-coloured text for general pages; `underline` is body-coloured text with a soft underline for long-form reading."
         },
         {
           "name": "dark",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "The colours for a dark background."
         },
         {
           "name": "external",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Opens in a new tab (`target=\"_blank\"`, `rel=\"noopener\"`) and adds a north-east arrow."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the `<a>`, after the component's own."
         }
       ]
     },
@@ -1309,12 +1323,13 @@
           "type": "'default' | 'action'",
           "required": false,
           "default": "'default'",
-          "description": "Figma's `Variant`. `action` left-aligns the bubble and opens the title's icon slot; `default` centres everything. A tooltip carrying a link is `action` whether or not you say so — Figma draws no centred tooltip with a link, and that inference is what the component did before the prop existed."
+          "description": "`default` centres the text; `action` left-aligns it and allows a title icon and a link. Figma's `Variant`. `action` left-aligns the bubble and opens the title's icon slot; `default` centres everything. A tooltip carrying a link is `action` whether or not you say so — Figma draws no centred tooltip with a link, and that inference is what the component did before the prop existed."
         },
         {
           "name": "title",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "An optional bold first line in the bubble."
         },
         {
           "name": "icon",
@@ -1325,23 +1340,27 @@
         {
           "name": "body",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The tooltip text."
         },
         {
           "name": "linkHref",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Where the bubble's link goes; the link shows only with `linkText` too, and makes the tooltip `action`."
         },
         {
           "name": "linkText",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The link's words, with a trailing arrow; needs `linkHref`."
         },
         {
           "name": "placement",
           "type": "'above' | 'below' | 'left' | 'right'",
           "required": false,
-          "default": "'above'"
+          "default": "'above'",
+          "description": "Which side of the trigger the bubble opens on."
         },
         {
           "name": "wide",
@@ -1353,7 +1372,8 @@
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the trigger wrapper, after the component's own."
         }
       ]
     },

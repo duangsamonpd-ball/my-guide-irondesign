@@ -54,23 +54,30 @@ import { randomUUID } from 'node:crypto';
 import { icons, type IconName } from '../icons';
 
 interface Props {
-  /** Figma's `Variant`. `action` left-aligns the bubble and opens the title's
+  /** `default` centres the text; `action` left-aligns it and allows a title icon and a link.
+   *  Figma's `Variant`. `action` left-aligns the bubble and opens the title's
    *  icon slot; `default` centres everything. A tooltip carrying a link is
    *  `action` whether or not you say so — Figma draws no centred tooltip with a
    *  link, and that inference is what the component did before the prop existed. */
   variant?: 'default' | 'action';
+  /** An optional bold first line in the bubble. */
   title?: string;
   /** Leading glyph in the title, by name from `../icons`. Figma draws
    *  `buildings`; any icon in the set works. Needs a `title` to sit in, and is
    *  ignored on the `default` variant, which Figma draws without one. */
   icon?: IconName;
+  /** The tooltip text. */
   body: string;
+  /** Where the bubble's link goes; the link shows only with `linkText` too, and makes the tooltip `action`. */
   linkHref?: string;
+  /** The link's words, with a trailing arrow; needs `linkHref`. */
   linkText?: string;
+  /** Which side of the trigger the bubble opens on. */
   placement?: 'above' | 'below' | 'left' | 'right';
   /** Widens the bubble to a fixed 350px for long copy. Was `maxWidth` until
    *  2026-08-06 — a boolean named like a length, setting `width`, not `max-width`. */
   wide?: boolean;
+  /** Extra classes on the trigger wrapper, after the component's own. */
   class?: string;
 }
 
