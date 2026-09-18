@@ -29,11 +29,16 @@
  *
  * ── WHAT IT DOES NOT DO ────────────────────────────────────────────────────
  *
- * It does not require a page to HAVE a table. Most pages document no props at
- * all, because the component takes none worth a table, and inventing a
- * requirement here would be a policy nobody asked for. A page with no table is
+ * It does not require a page to HAVE a table. A page with no table is
  * unchecked, and the count of those is printed so "unchecked" stays a visible
  * state rather than a silent pass.
+ *
+ * This comment used to say most pages had none "because the component takes
+ * none worth a table". That was never measured and it was wrong: on 2026-09-18
+ * the fifteen table-less pages documented 140 props between them, Button alone
+ * seven. The tables are now GENERATED (`build-props-tables.mjs`, gated as
+ * `check:props`) and a page gains one by carrying a `<!-- props:Name -->`
+ * region. Generated or hand-typed, this gate reads the result the same way.
  *
  * INTERNAL COMPONENTS ARE CHECKED TOO, as of 2026-08-26. `component-flyoutmenu`
  * carries a props table for a component in `astro-components/internal/`, which
@@ -300,6 +305,6 @@ console.log(
   failed
     ? `\n${C.r}✖${C.x}  a docs table disagrees with the component it documents.\n`
     : `\n${C.g}✔${C.x}  ${rowCount} row(s) across ${checked} table(s) match their Props.` +
-      `${C.dim} ${unchecked.length} page(s) document no props and are unchecked.${C.x}\n`,
+      `${C.dim} ${unchecked.length} page(s) have no props table yet — add a <!-- props:Name --> region and run npm run build:props.${C.x}\n`,
 );
 process.exit(failed ? 1 : 0);

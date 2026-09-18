@@ -19,7 +19,9 @@
  * declared rather than emergent.
  */
 interface Props {
+  /** The fill: `primary` pink, `secondary` blue, `tertiary` black, `outline` white with a border, `ondark` translucent white for dark surfaces, `ghost` none until hover. */
   variant?: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ondark' | 'ghost';
+  /** Height 56 / 48 / 36px, with padding and type stepping down to match. */
   size?: 'lg' | 'md' | 'sm';
   /**
    * Let a long label wrap instead of leaving the box. Off by default: a button
@@ -37,9 +39,13 @@ interface Props {
    * the same place and loses identically.
    */
   wrap?: boolean;
+  /** Dims it to 50% and blocks clicks — on a link as `aria-disabled="true"`, since `<a>` has no `disabled`. */
   disabled?: boolean;
+  /** The native type, `button` rather than HTML's `submit` so a button in a form does not submit it by accident; ignored when `href` is set. */
   type?: 'button' | 'submit' | 'reset';
+  /** Renders an `<a>` instead of a `<button>`, with the same look. */
   href?: string;
+  /** Extra classes, applied after the component's own. */
   class?: string;
 }
 

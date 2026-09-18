@@ -458,6 +458,23 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         </table></div>
       </div>
 
+      <!-- ── Props ── -->
+      <div class="sect">
+        <h2 class="sect-h">Props</h2>
+        <div class="sect-sub">Read from <code>interface Props</code> in <code>Button.astro</code>, so it cannot drift from the component.</div>
+        <!-- props:Button -->
+        <div class="tok-scroll"><table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+          <tr><td class="prop">variant</td><td class="token">'primary' | 'secondary' | 'tertiary' | 'outline' | 'ondark' | 'ghost'</td><td class="val">'primary'</td><td>The fill: <code>primary</code> pink, <code>secondary</code> blue, <code>tertiary</code> black, <code>outline</code> white with a border, <code>ondark</code> translucent white for dark surfaces, <code>ghost</code> none until hover.</td></tr>
+          <tr><td class="prop">size</td><td class="token">'lg' | 'md' | 'sm'</td><td class="val">'md'</td><td>Height 56 / 48 / 36px, with padding and type stepping down to match.</td></tr>
+          <tr><td class="prop">wrap</td><td class="token">boolean</td><td class="val">false</td><td>Let a long label wrap instead of leaving the box.</td></tr>
+          <tr><td class="prop">disabled</td><td class="token">boolean</td><td class="val">false</td><td>Dims it to 50% and blocks clicks — on a link as <code>aria-disabled="true"</code>, since <code>&lt;a&gt;</code> has no <code>disabled</code>.</td></tr>
+          <tr><td class="prop">type</td><td class="token">'button' | 'submit' | 'reset'</td><td class="val">'button'</td><td>The native type, <code>button</code> rather than HTML's <code>submit</code> so a button in a form does not submit it by accident; ignored when <code>href</code> is set.</td></tr>
+          <tr><td class="prop">href</td><td class="token">string</td><td class="val">—</td><td>Renders an <code>&lt;a&gt;</code> instead of a <code>&lt;button&gt;</code>, with the same look.</td></tr>
+          <tr><td class="prop">class</td><td class="token">string</td><td class="val">—</td><td>Extra classes, applied after the component's own.</td></tr>
+        </tbody></table></div>
+        <!-- /props:Button -->
+      </div>
+
       <!-- ── Code ── -->
       <div class="sect sect-code">
         <h2 class="sect-h">Code</h2>

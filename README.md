@@ -332,7 +332,7 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 `tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check          # 25 gates; the only thing that decides is the exit code
+npm run check          # 26 gates; the only thing that decides is the exit code
 ```
 
 **The list below is a summary — `npm run check` in `package.json` is the list.** Read the exit code, never the output: a gate that *crashes* prints a stack trace with no failure marker, so grepping the log for one reports success on the worst failure there is.
@@ -351,7 +351,8 @@ npm run check          # 25 gates; the only thing that decides is the exit code
 | `check:type-weight` | a class list that *names* a type role agrees with that role on every axis |
 | `check:specimens` | every live type specimen in the typography page matches the token its own table names — and can wrap, so it shows the level rather than a truncation of it |
 | `check:parity` | every CSS rule in a component's `<style>` also appears in its `docs/component-*.html` page |
-| `check:props-table` | the hand-typed Prop / Type / Default tables in the docs match the generated manifest, both directions |
+| `check:props` | every `<!-- props:* -->` table in the docs is current with the manifest it is generated from |
+| `check:props-table` | every Prop / Type / Default table in the docs — generated or hand-typed — matches the manifest, both directions |
 | `check:exports` | every component is in the barrel, every `exports` map target resolves, and every component has a README section |
 | `check:vars` | every `var(--…)` a component reads still resolves once Tailwind has compiled the theme |
 | `check:docs-css` | no docs page redefines a rule it should inherit from the shared `docs.css` shell |

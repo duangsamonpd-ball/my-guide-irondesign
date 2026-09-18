@@ -64,13 +64,15 @@
           "name": "variant",
           "type": "'primary' | 'secondary' | 'tertiary' | 'outline' | 'ondark' | 'ghost'",
           "required": false,
-          "default": "'primary'"
+          "default": "'primary'",
+          "description": "The fill: `primary` pink, `secondary` blue, `tertiary` black, `outline` white with a border, `ondark` translucent white for dark surfaces, `ghost` none until hover."
         },
         {
           "name": "size",
           "type": "'lg' | 'md' | 'sm'",
           "required": false,
-          "default": "'md'"
+          "default": "'md'",
+          "description": "Height 56 / 48 / 36px, with padding and type stepping down to match."
         },
         {
           "name": "wrap",
@@ -83,23 +85,27 @@
           "name": "disabled",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Dims it to 50% and blocks clicks — on a link as `aria-disabled=\"true\"`, since `<a>` has no `disabled`."
         },
         {
           "name": "type",
           "type": "'button' | 'submit' | 'reset'",
           "required": false,
-          "default": "'button'"
+          "default": "'button'",
+          "description": "The native type, `button` rather than HTML's `submit` so a button in a form does not submit it by accident; ignored when `href` is set."
         },
         {
           "name": "href",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Renders an `<a>` instead of a `<button>`, with the same look."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes, applied after the component's own."
         }
       ]
     },

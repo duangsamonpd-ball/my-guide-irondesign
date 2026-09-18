@@ -119,6 +119,7 @@ the vendoring is a testing one, and the bytes are identical either way.
 | `docs/components.css` | `npm run build:components-css` | every component's `<style>` block |
 | `<!-- demo:* -->` regions | `npm run build:demos` | `playground/src/pages/demos/*.astro` |
 | `<!-- code:astro -->` samples | `npm run build:code` | the ```astro block in `astro-components/README.md` |
+| `<!-- props:* -->` tables | `npm run build:props` | each component's `interface Props` (Notes = first sentence of its `/** */`) |
 | `<!-- seo:* -->` blocks | `npm run build:seo` | the page's own `<h1>` and lead |
 | the props manifest | `npm run build:manifest` | each component's `Props` interface |
 | `vendor/fonts/` | `npm run vendor:fonts` | Google Fonts, fetched once (third-party, OFL) |
