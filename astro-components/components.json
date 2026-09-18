@@ -1211,7 +1211,14 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Opens in a new tab (`target=\"_blank\"`, `rel=\"noopener\"`) and adds a north-east arrow."
+          "description": "Opens in a new tab (`target=\"_blank\"`, `rel=\"noopener\"`), adds a north-east arrow, and tells a screen reader it will."
+        },
+        {
+          "name": "newTabLabel",
+          "type": "string",
+          "required": false,
+          "default": "'(opens in a new tab)'",
+          "description": "What a screen reader hears after an `external` link's text — change it for a page in another language."
         },
         {
           "name": "class",

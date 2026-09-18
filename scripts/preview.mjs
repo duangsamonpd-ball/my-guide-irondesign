@@ -517,6 +517,8 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
        1%-for-the-Planet logo. Only the glyph rectangles may be sampled. -->
   <div style="background-image:linear-gradient(#222,#222);color:#fff">glyphs on dark beside a white box<span style="background:#fff;display:inline-block;width:90px;height:16px"></span></div>
   <div style="opacity:0"><span style="color:#999">invisible, not low contrast</span></div>
+  <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;color:#eee">sr-only by clip rect</span>
+  <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;color:#eee">sr-only by clip-path</span>
   <div style="opacity:0.02"><span style="color:#999">faint but painted, still a finding</span></div>
 </div>
 <!-- /demo:self-test -->
@@ -737,8 +739,12 @@ function auditContrast(scopeSel) {
 
       const cs = getComputedStyle(el);
       if (cs.visibility !== 'visible' || cs.display === 'none') continue;
-      // Screen-reader-only text is clipped to a pixel and never seen.
-      if (cs.clipPath !== 'none' && rect.width <= 2) continue;
+      // Screen-reader-only text is clipped to a pixel and never seen. Both
+      // spellings: clip-path is Tailwind's sr-only, but the older clip rect is
+      // still the most-copied visually-hidden pattern, and this read it as a
+      // painted run at 1.18:1 the first time one appeared (TextLink's
+      // new-tab label, 2026-09-18) — contrast measured on text nobody sees.
+      if ((cs.clipPath !== 'none' || (cs.clip && cs.clip !== 'auto')) && rect.width <= 2) continue;
 
       // The ancestor chain, outermost first, so the stack can be built in
       // paint order.
@@ -1124,6 +1130,8 @@ if (opts['self-test']) {
     ['a real SVG paints pixels', assets.some((a) => (a.src ?? '').includes('logo-g2') && !a.hidden && a.painted > 0)],
     ['a display:none image is not called broken', hiddenReal?.hidden === true && hiddenReal?.painted > 0],
     ['…but a hidden BLANK one still is', hiddenBlank?.hidden === true && hiddenBlank?.painted === 0],
+    ['visually-hidden text is not measured, by clip rect or by clip-path',
+      !contrast.results.some((r) => r.text.includes('sr-only by'))],
     ['#999999 on white measures 2.85:1', near(run('p.failing')?.ratio ?? 0, 2.85, 0.02)],
     ['…and is reported as failing AA', (run('p.failing')?.ratio ?? 0) < (run('p.failing')?.bar ?? 0)],
     ['#595959 on white passes AA', (run('p.passing')?.ratio ?? 0) >= 4.5],

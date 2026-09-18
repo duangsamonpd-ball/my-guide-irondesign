@@ -17,13 +17,15 @@ interface Props {
   variant?: 'plain' | 'underline';
   /** The colours for a dark background. */
   dark?: boolean;
-  /** Opens in a new tab (`target="_blank"`, `rel="noopener"`) and adds a north-east arrow. */
+  /** Opens in a new tab (`target="_blank"`, `rel="noopener"`), adds a north-east arrow, and tells a screen reader it will. */
   external?: boolean;
+  /** What a screen reader hears after an `external` link's text — change it for a page in another language. */
+  newTabLabel?: string;
   /** Extra classes on the `<a>`, after the component's own. */
   class?: string;
 }
 
-const { href, variant = 'plain', dark = false, external = false, class: className } = Astro.props;
+const { href, variant = 'plain', dark = false, external = false, newTabLabel = '(opens in a new tab)', class: className } = Astro.props;
 
 const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
 
@@ -62,7 +64,7 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
  */
 ---
 
-<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}><slot />{external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}</a>
+<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}><slot />{external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
 
 <style>
   .tlink {
@@ -107,4 +109,18 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
      0.46em of margin is the 3px + a 4.42px whitespace space the markup used to
      render between them, held at the size it shipped at rather than re-spaced. */
   .tlink .ext-icon { width: 0.55em; height: 0.55em; margin-left: 0.46em; }
+
+  /* The arrow is aria-hidden, so on its own it told only a sighted reader that
+     the link leaves the tab — a screen-reader user heard a plain link and was
+     moved to a new tab with no Back history (WCAG technique G201). This says it
+     in words, and paints nothing: the standard visually-hidden pattern, clipped
+     to 1px, so the underline variant draws no stub past the arrow either.
+     `clip-path: inset(50%)` rather than the older `clip: rect()` — the spelling
+     Tailwind's own sr-only uses, and the one `npm run audit` knows to skip. Ball's
+     choice 2026-09-18 over labelling the <svg> (inconsistent inside links) or
+     dropping target=_blank (a behaviour change for every consumer). */
+  .tlink .ext-label {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
 </style>
