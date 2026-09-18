@@ -83,16 +83,37 @@ export function firstSentence(text) {
   return s;
 }
 
+/**
+ * A union is split into members so the CSS can let it wrap BETWEEN them and
+ * never inside one. The ` | ` text stays in the cell, so the table still reads
+ * as the type it is to anything that strips tags — `check:props-table` does.
+ * Only top-level bars split: `Array<'a' | 'b'>` stays one member.
+ */
+export function renderType(type) {
+  const members = [];
+  let depth = 0, cur = '';
+  for (const ch of type) {
+    if ('<([{'.includes(ch)) depth++;
+    else if ('>)]}'.includes(ch)) depth--;
+    if (ch === '|' && depth === 0) { members.push(cur.trim()); cur = ''; continue; }
+    cur += ch;
+  }
+  members.push(cur.trim());
+  if (members.length === 1) return esc(members[0]);
+  return members.map((m) => `<span class="ptable-m">${esc(m)}</span>`).join(' | ');
+}
+
 export function renderTable(component, indent) {
   const pad = (n) => indent + ' '.repeat(n);
   const rows = component.props.map((p) => {
-    const note = [p.required ? '<strong>Required.</strong>' : '', prose(firstSentence(p.description))]
-      .filter(Boolean).join(' ');
-    return `${pad(2)}<tr><td class="prop">${esc(p.name)}</td><td class="token">${esc(p.type)}</td>`
-      + `<td class="val">${p.default === undefined ? '—' : esc(p.default)}</td><td>${note}</td></tr>`;
+    const note = [p.required ? '<span class="ptable-req">Required</span>' : '', prose(firstSentence(p.description))]
+      .filter(Boolean).join('');
+    const dflt = p.default === undefined ? '<span class="ptable-none">—</span>' : esc(p.default);
+    return `${pad(2)}<tr><td class="ptable-name">${esc(p.name)}</td><td class="ptable-type">${renderType(p.type)}</td>`
+      + `<td class="ptable-default">${dflt}</td><td class="ptable-notes">${note}</td></tr>`;
   });
   return [
-    `${indent}<div class="tok-scroll"><table class="tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>`,
+    `${indent}<div class="ptable-wrap"><table class="ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>`,
     ...rows,
     `${indent}</tbody></table></div>`,
   ].join('\n');
@@ -143,8 +164,9 @@ if (SELF_TEST) {
     ['a current region is left alone', regenerate(fresh, byName).out === fresh],
     ['an unknown name is reported', regenerate(page('x').replace(/Demo/g, 'Nope'), byName).unknown.length === 1],
     ['an unpaired marker is reported', regenerate('<!-- props:Demo -->\nno close', byName).unpaired.length === 1],
-    ['Notes keeps only the first sentence', fresh.includes('<td>Picks the size.</td>') && !fresh.includes('internals')],
-    ['a required prop says so and shows no default', /href<\/td><td class="token">string<\/td><td class="val">—<\/td><td><strong>Required\.<\/strong><\/td>/.test(fresh)],
+    ['Notes keeps only the first sentence', fresh.includes('<td class="ptable-notes">Picks the size.</td>') && !fresh.includes('internals')],
+    ['a required prop says so and shows no default', /href<\/td><td class="ptable-type">string<\/td><td class="ptable-default"><span class="ptable-none">—<\/span><\/td><td class="ptable-notes"><span class="ptable-req">Required<\/span><\/td>/.test(fresh)],
+    ['a union splits into members at top-level bars only', renderType("'a' | Array<'b' | 'c'>") === '<span class="ptable-m">\'a\'</span> | <span class="ptable-m">Array&lt;\'b\' | \'c\'&gt;</span>'],
     ['a full stop inside code does not end the sentence', firstSentence('Use `a.b` here. Then more.') === 'Use `a.b` here.'],
   ];
   let bad = 0;

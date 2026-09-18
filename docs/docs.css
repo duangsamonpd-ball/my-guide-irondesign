@@ -232,6 +232,52 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
   font-weight: 600;
   color: #171717;
 }
+/* ── .ptable — the GENERATED props table (build-props-tables.mjs) ──────────
+   Modelled on the Class / Styles tables in the Tailwind CSS docs, on Ball's
+   ask 2026-09-18: no outer box, no header fill, a hairline between rows, and
+   the identifiers set in mono so the eye runs down the Prop column.
+
+   A separate class rather than a restyle of `.tok`, because `.tok` is also every
+   token-reference table on 23 pages, and those carry swatches and values this
+   layout was not measured against. Hand-written props tables move over when
+   their page gains a `<!-- props:* -->` region.
+
+   The header is --color-text-heading at 600, sentence case. `.tok`'s header is
+   #A1A1A1 on #FAFAFA, 2.48:1, and that is not a style to copy.
+
+   A union type wraps BETWEEN members, never inside one: each member is an
+   inline-block `.ptable-m`, so `'primary' | 'secondary'` can break at a bar but
+   `'secondary'` cannot become `'secon/dary'` — the same defect the `.tok`
+   comment above records as 177 broken words at 375. */
+.ptable-wrap { overflow-x: auto; }
+.ptable { width: 100%; border-collapse: collapse; font-size: 0.8125rem; line-height: 1.6; text-align: left; }
+.ptable th {
+  padding: 0 16px 10px 0; font-weight: 600; font-size: 0.8125rem;
+  color: var(--color-text-heading); border-bottom: 1px solid var(--color-border);
+}
+.ptable td { padding: 12px 16px 12px 0; vertical-align: top; border-bottom: 1px solid var(--color-bg-shade); }
+.ptable tr:last-child td { border-bottom: none; }
+.ptable th:last-child, .ptable td:last-child { padding-right: 0; }
+.ptable-name, .ptable-type, .ptable-default { font-family: 'Roboto Mono', monospace; font-size: 0.75rem; }
+.ptable-name { color: var(--c-accent); font-weight: 600; white-space: nowrap; }
+.ptable-type { color: var(--color-text-muted); max-width: 34ch; }
+.ptable-m { display: inline-block; white-space: nowrap; }
+.ptable-default { color: var(--color-text-heading); white-space: nowrap; }
+.ptable-none { color: var(--color-text-muted); }
+.ptable-notes { color: var(--color-text-body); min-width: 22ch; }
+.ptable-notes code {
+  font-family: 'Roboto Mono', monospace; font-size: 0.72rem; white-space: nowrap;
+  background: var(--color-bg-shade); color: var(--color-text-heading);
+  padding: 1px 5px; border-radius: 4px;
+}
+.ptable-req {
+  display: inline-block; margin-right: 6px; padding: 0 6px; border-radius: 9999px;
+  font-size: 0.6875rem; font-weight: 600; line-height: 1.5;
+  color: var(--color-text-heading); background: var(--color-bg-shade);
+}
+/* Its below-640 card layout lives in the shell's one `@media(max-width:640px)`
+   block further down: a second block with that condition is a selector the
+   pages also declare, and check:docs-css rightly reads it as a clash. */
 .tok .sw { display:inline-block; width:12px; height:12px; border-radius:3px; border:1px solid rgba(0,0,0,0.15); margin-right:7px; vertical-align:-1px; }
 .code-wrap { position: relative; }
 .code-wrap pre { background:#171717; color:#E5E5E5; border-radius:12px; padding:20px 22px; overflow-x:auto; font-family:'Roboto Mono',monospace; font-size:0.76rem; line-height:1.7; }
@@ -430,6 +476,34 @@ html.vp-only, html.vp-only body { margin:0; padding:0; background:transparent; o
      Reported from the rendered page 2026-08-15; the desktop rule at the top of
      this file was already scoped this way. */
   footer.docfoot { padding:24px 16px; }
+
+  /* Below 640 a four-column table can only scroll, and the column that scrolls
+     out of sight is Notes — the one a reader needs. So each row becomes a small
+     card instead: name and default on one line, the type under them, the note
+     under that. The header row goes, because every cell now sits where its
+     meaning is obvious; `data-label` is not needed for the same reason. */
+  .ptable thead { display: none; }
+  .ptable, .ptable tbody { display: block; }
+  .ptable tr {
+    display: grid; grid-template-columns: 1fr auto; column-gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--color-bg-shade);
+  }
+  .ptable tr:last-child { border-bottom: none; }
+  .ptable td { display: block; padding: 0; border: none; }
+  .ptable-type, .ptable-notes { grid-column: 1 / -1; max-width: none; min-width: 0; }
+  .ptable-type { margin-top: 2px; }
+  .ptable-notes { margin-top: 6px; }
+  /* Pinned, not left to auto-placement: Default comes after Type in the
+     source, and a full-width Type has already moved the cursor to row 2. */
+  .ptable-name { grid-row: 1; grid-column: 1; }
+  .ptable-default { grid-row: 1; grid-column: 2; text-align: right; }
+  /* With the header gone the value on the right needs its own label, and a dash
+     for "no default" says nothing once there is no column for it to sit in. */
+  .ptable-default::before {
+    content: 'default '; font-family: 'Montserrat', sans-serif; font-size: 0.6875rem;
+    font-weight: 500; color: var(--color-text-muted);
+  }
+  .ptable-default:has(.ptable-none) { display: none; }
 }
 @media(max-width:768px) {
   .hamburger { margin-left:auto; display:flex; }
