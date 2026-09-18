@@ -62,8 +62,10 @@ interface Props {
   size?: 'sm' | 'md' | 'lg';
   /** Starts selected. */
   checked?: boolean;
-  /** Error colouring — a danger ring and dot; visual only, it sets no `aria-invalid`. */
+  /** Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio. */
   invalid?: boolean;
+  /** Names the radio for assistive tech when there is no visible `label` — without either it has no name at all. */
+  ariaLabel?: string;
   /** Disables it and dims the whole row to 50%. */
   disabled?: boolean;
   /** Wraps the row in a bordered card that takes the selected outline and tint when chosen. */
@@ -81,6 +83,7 @@ const {
   size = 'md',
   checked = false,
   invalid = false,
+  ariaLabel,
   disabled = false,
   card = false,
   class: className,
@@ -98,7 +101,16 @@ const DOT = { sm: 'after:size-[6px]', md: 'after:size-[8px]', lg: 'after:size-[1
   class:list={[choiceRow, disabled ? choiceDisabled : choiceEnabled, card && choiceCard, className]}
   for={inputId}
 >
-  <input class={choiceInput} id={inputId} name={name} value={value} type="radio" checked={checked} disabled={disabled} />
+  {/* aria-invalid on each radio: ARIA 1.2 names the radiogroup as the owner of
+      invalidity, but this component is one radio and has no group to put it on,
+      and screen readers announce it on the radio itself. The page's group — a
+      <fieldset> with a <legend> — is where the message belongs; point the radios
+      at it if the page wants it read with each one. */}
+  <input
+    class={choiceInput} id={inputId} name={name} value={value} type="radio" checked={checked} disabled={disabled}
+    aria-invalid={invalid ? 'true' : undefined}
+    aria-label={label ? undefined : ariaLabel}
+  />
   {/* The dot is a pseudo-element, as it was in the CSS — there is nothing for it
       to mark up, and an empty <span> inside the ring would be a lie about the
       document. `after:` variants carry it across unchanged. */}

@@ -22,7 +22,7 @@ const states = [
   { name: 'st-unchecked', props: {}, lbl: 'Unchecked', note: 'border-strong' },
   { name: 'st-checked', props: { checked: true }, lbl: 'Checked', note: 'secondary fill' },
   { name: 'st-disabled', props: { disabled: true }, lbl: 'Disabled', note: 'opacity .5' },
-  { name: 'st-invalid', props: { invalid: true }, lbl: 'Invalid', note: 'danger border' },
+  { name: 'st-invalid', props: { invalid: true, errorMessage: 'Accept the terms to continue.' }, lbl: 'Invalid', note: 'danger border + message' },
 ];
 ---
 

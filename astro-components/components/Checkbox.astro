@@ -61,6 +61,8 @@ import {
   choiceRow, choiceInput, choiceControl, choiceSize, choiceText,
   choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled,
 } from '../choice';
+import { fieldError, fieldErrorIcon } from '../field';
+import { icons } from '../icons';
 
 interface Props {
   /** The text beside the control; the whole row is clickable. */
@@ -75,8 +77,12 @@ interface Props {
   size?: 'sm' | 'md' | 'lg';
   /** Starts checked. */
   checked?: boolean;
-  /** Error colouring — a danger edge, and a danger fill once selected; visual only, it sets no `aria-invalid`. */
+  /** Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone. */
   invalid?: boolean;
+  /** The message under the label while `invalid` is set, with a warning icon, read out with the checkbox. */
+  errorMessage?: string;
+  /** Names the checkbox for assistive tech when there is no visible `label` — without either it has no name at all. */
+  ariaLabel?: string;
   /** Disables it and dims the whole row to 50%. */
   disabled?: boolean;
   /** Wraps the row in a bordered card that takes the selected outline and tint when chosen. */
@@ -93,12 +99,29 @@ const {
   size = 'md',
   checked = false,
   invalid = false,
+  errorMessage,
+  ariaLabel,
   disabled = false,
   card = false,
   class: className,
 } = Astro.props;
 
 const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
+
+/* The error message sits in the text column, under the label, so it lines up
+   with the text it is about and the component keeps one root. But everything
+   inside a <label> becomes the input's accessible name, so while a message is
+   showing the name is narrowed to the label text alone (aria-labelledby) and
+   the description and message are announced as descriptions instead. With no
+   message the markup is exactly what it was before 2026-09-18.
+
+   `invalid` without a message still sets aria-invalid, but a sighted reader
+   sees only the red edge — WCAG 1.4.1 asks for more than colour, which is what
+   `errorMessage` is for. */
+const errId = invalid && errorMessage ? `${inputId}-err` : undefined;
+const labelId = errId && label ? `${inputId}-label` : undefined;
+const descTextId = errId && label && description ? `${inputId}-desc` : undefined;
+const describedBy = [descTextId, errId].filter(Boolean).join(' ') || undefined;
 
 /* Figma ships the tick at 0.7 x the box — 14 at MD, confirmed against `329:108`,
    so 11.2 and 16.8 at the other two. Kept as arbitrary values rather than rounded
@@ -114,7 +137,13 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
   class:list={[choiceRow, disabled ? choiceDisabled : choiceEnabled, card && choiceCard, className]}
   for={inputId}
 >
-  <input class={choiceInput} id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled} />
+  <input
+    class={choiceInput} id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled}
+    aria-invalid={invalid ? 'true' : undefined}
+    aria-label={label ? undefined : ariaLabel}
+    aria-labelledby={labelId}
+    aria-describedby={describedBy}
+  />
   <span
     class:list={[
       choiceControl, choiceSize[size], RADIUS[size],
@@ -150,10 +179,13 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
       <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   </span>
-  {label && (
+  {(label || errId) && (
     <span class={choiceText}>
-      <span class={choiceLabel}>{label}</span>
-      {description && <span class={choiceDesc}>{description}</span>}
+      {label && <span id={labelId} class={choiceLabel}>{label}</span>}
+      {label && description && <span id={descTextId} class={choiceDesc}>{description}</span>}
+      {errId && (
+        <span id={errId} class={fieldError}><svg class={fieldErrorIcon} viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>{errorMessage}</span>
+      )}
     </span>
   )}
 </label>

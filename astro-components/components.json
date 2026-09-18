@@ -163,7 +163,19 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error colouring — a danger edge, and a danger fill once selected; visual only, it sets no `aria-invalid`."
+          "description": "Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone."
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "required": false,
+          "description": "The message under the label while `invalid` is set, with a warning icon, read out with the checkbox."
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "description": "Names the checkbox for assistive tech when there is no visible `label` — without either it has no name at all."
         },
         {
           "name": "disabled",
@@ -1011,7 +1023,13 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error colouring — a danger ring and dot; visual only, it sets no `aria-invalid`."
+          "description": "Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio."
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "description": "Names the radio for assistive tech when there is no visible `label` — without either it has no name at all."
         },
         {
           "name": "disabled",

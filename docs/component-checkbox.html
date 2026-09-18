@@ -263,17 +263,18 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="lbl">Disabled<small>opacity .5</small></div>
         </div><div class="cell">
           <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="st-invalid">
-            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="st-invalid" name="st-invalid" type="checkbox">
+            <input class="absolute w-px h-px opacity-0 pointer-events-none" id="st-invalid" name="st-invalid" type="checkbox" aria-invalid="true" aria-labelledby="st-invalid-label" aria-describedby="st-invalid-err">
             <span class="shrink-0 inline-flex items-center justify-center bg-bg-input border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-input-danger group-has-[:checked]:bg-danger group-has-[:checked]:border-danger">
               <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </span>
             <span class="flex flex-col gap-micro">
-              <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Accept terms</span>
+              <span id="st-invalid-label" class="text-label-lg font-label-lg text-text-body leading-label-lg">Accept terms</span>
+              <span id="st-invalid-err" class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger flex items-center gap-micro"><svg class="size-[12px] shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"></path></svg>Accept the terms to continue.</span>
             </span>
           </label>
-          <div class="lbl">Invalid<small>danger border</small></div>
+          <div class="lbl">Invalid<small>danger border + message</small></div>
         </div>
         <!-- /demo:states -->
       </div>
@@ -405,7 +406,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <tr><td class="ptable-name">name</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The form field name — also the id when <code>id</code> is not given.</td></tr>
           <tr><td class="ptable-name">size</td><td class="ptable-type"><span class="ptable-m">'sm'</span> | <span class="ptable-m">'md'</span> | <span class="ptable-m">'lg'</span></td><td class="ptable-default">'md'</td><td class="ptable-notes">Control size: 16 / 20 / 24px for <code>sm</code> / <code>md</code> / <code>lg</code>.</td></tr>
           <tr><td class="ptable-name">checked</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Starts checked.</td></tr>
-          <tr><td class="ptable-name">invalid</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Error colouring — a danger edge, and a danger fill once selected; visual only, it sets no <code>aria-invalid</code>.</td></tr>
+          <tr><td class="ptable-name">invalid</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Error state: a danger edge (and fill once checked) plus <code>aria-invalid</code>; pair it with <code>errorMessage</code> so the error is not colour alone.</td></tr>
+          <tr><td class="ptable-name">errorMessage</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The message under the label while <code>invalid</code> is set, with a warning icon, read out with the checkbox.</td></tr>
+          <tr><td class="ptable-name">ariaLabel</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Names the checkbox for assistive tech when there is no visible <code>label</code> — without either it has no name at all.</td></tr>
           <tr><td class="ptable-name">disabled</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables it and dims the whole row to 50%.</td></tr>
           <tr><td class="ptable-name">card</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Wraps the row in a bordered card that takes the selected outline and tint when chosen.</td></tr>
           <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the row (or card), after the component's own.</td></tr>
