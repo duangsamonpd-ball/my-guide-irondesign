@@ -89,6 +89,34 @@ const ACCEPTED = new Map([
       "2026-07-31 so the consumer decides. The open menu is `left-0 right-0` on the field, so at " +
       '1920 an unconstrained demo field makes a 1910px option row. Sizing it is the page\'s job.',
   ],
+  [
+    'table|table.w-full',
+    'Table fills its container by design — `w-full`, as Flowbite\'s reference does — and ships no ' +
+      'width of its own, the same call as Select above: the page decides how wide a table is. The ' +
+      'demo sits in a full-width docs cell, so above 1440 it grows with the viewport (2558px at ' +
+      '2560). Accepted 2026-09-18, the day the component shipped.',
+  ],
+  [
+    'table|tr',
+    'Table fills its container by design — `w-full`, as Flowbite\'s reference does — and ships no ' +
+      'width of its own, the same call as Select above: the page decides how wide a table is. The ' +
+      'demo sits in a full-width docs cell, so above 1440 it grows with the viewport (2558px at ' +
+      '2560). Accepted 2026-09-18, the day the component shipped.',
+  ],
+  [
+    'gallery|table.w-full',
+    'Table fills its container by design — `w-full`, as Flowbite\'s reference does — and ships no ' +
+      'width of its own, the same call as Select above: the page decides how wide a table is. The ' +
+      'demo sits in a full-width docs cell, so above 1440 it grows with the viewport (2558px at ' +
+      '2560). Accepted 2026-09-18, the day the component shipped.',
+  ],
+  [
+    'gallery|tr',
+    'Table fills its container by design — `w-full`, as Flowbite\'s reference does — and ships no ' +
+      'width of its own, the same call as Select above: the page decides how wide a table is. The ' +
+      'demo sits in a full-width docs cell, so above 1440 it grows with the viewport (2558px at ' +
+      '2560). Accepted 2026-09-18, the day the component shipped.',
+  ],
 ]);
 
 /* ── 1. arguments ─────────────────────────────────────────────────────────── */

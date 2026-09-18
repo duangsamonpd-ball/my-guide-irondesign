@@ -261,7 +261,7 @@ Two variants for two contexts:
 <TextLink href="https://example.com" external>Learn more</TextLink>
 ```
 
-Props: `href` (required), `variant` (`plain` | `underline`, default `plain`), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"` + a trailing north-east arrow icon), `class`. The slot is the link text.
+Props: `href` (required), `variant` (`plain` | `underline`, default `plain`), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"`, a trailing north-east arrow icon, and a visually-hidden " (opens in a new tab)" for screen readers), `newTabLabel` (replaces that text, e.g. for another language), `class`. The slot is the link text.
 
 - **`plain`** — `--color-text-link` / hover `--color-text-link-hover`, no underline. For general and marketing pages where a whole paragraph of underlines would read as dense.
 - **`underline`** — text stays `--color-text-heading` throughout; a separate `--color-border-selected`-coloured underline goes from 50% opacity/1px thick (default) to 100% opacity/2px thick (hover) — implemented with `text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent)` rather than a separate absolutely-positioned line (which is how the Figma source models it); real `text-decoration` reflows correctly with text wrapping, a manual line does not.
@@ -355,7 +355,8 @@ The dropzone icon (upload / has-file / error) is an inline **Font Awesome Free S
 
 Props: `label`, `options` (`{ value, label }[]`, required), `value`, `placeholder`,
 `name`, `error`, `errorMessage`, `hint`, `disabled`, `required` (blocks form
-submit when empty; also sets `aria-required` on the trigger), `class`.
+submit when empty; also sets `aria-required` on the trigger and draws the `*`),
+`labelSize` (`md` | `sm`, default `md`), `class`.
 
 A hidden native `<select>` mirrors the chosen value so the component still
 works inside a plain HTML `<form>` submit without JS — `tabindex="-1"` +
@@ -380,7 +381,7 @@ The selected-option checkmark is an inline **Font Awesome Free Solid** `check` S
 <Checkbox label="Accept terms" description="Whole card is the target." card />
 ```
 
-Props: `label`, `description`, `id`, `name`, `checked`, `invalid`, `disabled`, `card` (renders the whole-card selectable layout), `class`.
+Props: `label`, `description`, `id`, `name`, `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger edge + `aria-invalid`), `errorMessage` (icon + message under the label while `invalid`, so the error is not colour alone), `ariaLabel` (names it when there is no visible `label`), `disabled`, `card` (renders the whole-card selectable layout), `class`.
 
 ### `Radio.astro`
 
@@ -393,7 +394,7 @@ Props: `label`, `description`, `id`, `name`, `checked`, `invalid`, `disabled`, `
 <Radio name="bill" value="monthly" label="Monthly" card checked />
 ```
 
-Props: `name` (required — groups radios), `value` (required), `label`, `description`, `id`, `checked`, `invalid`, `disabled`, `card`, `class`.
+Props: `name` (required — groups radios), `value` (required), `label`, `description`, `id`, `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger ring + `aria-invalid`; put the message on the group's `<fieldset>`), `ariaLabel` (names it when there is no visible `label`), `disabled`, `card`, `class`.
 
 ### `Badge.astro`
 
