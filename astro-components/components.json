@@ -505,32 +505,38 @@
         {
           "name": "icon",
           "type": "'quote' | 'key' | 'check'",
-          "required": true
+          "required": true,
+          "description": "The icon in the tinted square beside the title."
         },
         {
           "name": "title",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The card's heading; it also names the form for assistive tech."
         },
         {
           "name": "subtitle",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "A short line under the title."
         },
         {
           "name": "submitLabel",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The text on the full-width submit button."
         },
         {
           "name": "noteLeft",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Small print under the button, such as \"No obligation to proceed\"."
         },
         {
           "name": "noteRight",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "A second note beside the first, with a dot between them when both are set."
         },
         {
           "name": "headingLevel",
@@ -548,12 +554,14 @@
         {
           "name": "method",
           "type": "'get' | 'post'",
-          "required": false
+          "required": false,
+          "description": "How the form sends — omitted means the browser's default, `get`."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the `<form>`, after the component's own."
         }
       ]
     },

@@ -12,11 +12,17 @@
 import { icons } from '../icons';
 
 interface Props {
+  /** The icon in the tinted square beside the title. */
   icon: 'quote' | 'key' | 'check';
+  /** The card's heading; it also names the form for assistive tech. */
   title: string;
+  /** A short line under the title. */
   subtitle?: string;
+  /** The text on the full-width submit button. */
   submitLabel: string;
+  /** Small print under the button, such as "No obligation to proceed". */
   noteLeft?: string;
+  /** A second note beside the first, with a dot between them when both are set. */
   noteRight?: string;
   /**
    * Heading level for the card title. It used to be a hard-coded `h3`, which
@@ -26,7 +32,9 @@ interface Props {
   headingLevel?: 2 | 3 | 4 | 5;
   /** Where the form posts. Omitted means the current URL, which is what a form with no action does. */
   action?: string;
+  /** How the form sends — omitted means the browser's default, `get`. */
   method?: 'get' | 'post';
+  /** Extra classes on the `<form>`, after the component's own. */
   class?: string;
 }
 

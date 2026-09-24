@@ -289,6 +289,25 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </tbody></table></div>
     </div>
 
+    <div class="sect">
+      <h2 class="sect-h">Props</h2>
+      <div class="sect-sub">Read from <code>interface Props</code> in <code>FormCard.astro</code>, so it cannot drift from the component.</div>
+      <!-- props:FormCard -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">icon</td><td class="ptable-type"><span class="ptable-m">'quote'</span> | <span class="ptable-m">'key'</span> | <span class="ptable-m">'check'</span></td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The icon in the tinted square beside the title.</td></tr>
+        <tr><td class="ptable-name">title</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The card's heading; it also names the form for assistive tech.</td></tr>
+        <tr><td class="ptable-name">subtitle</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A short line under the title.</td></tr>
+        <tr><td class="ptable-name">submitLabel</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The text on the full-width submit button.</td></tr>
+        <tr><td class="ptable-name">noteLeft</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Small print under the button, such as "No obligation to proceed".</td></tr>
+        <tr><td class="ptable-name">noteRight</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A second note beside the first, with a dot between them when both are set.</td></tr>
+        <tr><td class="ptable-name">headingLevel</td><td class="ptable-type"><span class="ptable-m">2</span> | <span class="ptable-m">3</span> | <span class="ptable-m">4</span> | <span class="ptable-m">5</span></td><td class="ptable-default">3</td><td class="ptable-notes">Heading level for the card title.</td></tr>
+        <tr><td class="ptable-name">action</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Where the form posts.</td></tr>
+        <tr><td class="ptable-name">method</td><td class="ptable-type"><span class="ptable-m">'get'</span> | <span class="ptable-m">'post'</span></td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">How the form sends — omitted means the browser's default, <code>get</code>.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;form&gt;</code>, after the component's own.</td></tr>
+      </tbody></table></div>
+      <!-- /props:FormCard -->
+    </div>
+
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>
       <div class="code-wrap">
           <div class="code-tabs">
