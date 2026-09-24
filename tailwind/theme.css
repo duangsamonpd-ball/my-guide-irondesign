@@ -391,10 +391,10 @@
   --color-border-input: var(--slate-400);     /* #90A1B9 — slate/400 · 2.63:1 on --color-bg-input, 2.40:1 on --color-bg-input-hover — FAILS 1.4.11, by decision */
   --color-border-input-disabled: var(--slate-200); /* #E2E8F0 — slate/200 · exempt from 1.4.11 */
   --color-border-input-danger: var(--iron-red-700); /* #A8181D — iron-red/700 · 7.46:1 — the same red as --color-text-danger */
-  --color-border-dark: var(--iron-violet-800); /* #522950 — iron-violet/800 — dividers, input borders. Read off Figma's own variable table, which MCP cannot return (one mode per call) — it was iron-violet/500 here, three ramp steps too light, and read at 2.83:1 against the page where the light-mode border reads 1.23:1. /800 lands at 1.28:1, the same weight the light mode has. */
-  --color-border-dark-strong: var(--iron-violet-700); /* #6B3567 — iron-violet/700 — hover borders, strong dividers. Same correction: was /600 at 2.18:1 against the page, /700 is 1.67:1 against light mode's 1.49:1. */
+  --color-border-dark: var(--iron-violet-700); /* #6B3567 — iron-violet/700 — dividers, card edges. Was /800 until 2026-09-24, which is --color-bg-dark-card itself: 1.00:1 on a card, so every table divider and card edge vanished in dark mode. /700 reads 1.30:1 on the card (light mode's slate/200 on white is 1.23), 1.67 on section, 1.97 on the page. Ball's call, 2026-09-24. */
+  --color-border-dark-strong: var(--iron-violet-600); /* #84427C — iron-violet/600 — hover borders, strong dividers. Moved off /700 on 2026-09-24 when the default border took /700, so strong stays one step heavier: 1.70:1 on the card, 2.59 on the page. Same value as --color-border-dark-strong-alt now, which is decorative. */
   --color-border-dark-alt: var(--iron-blue-500); /* #2693EC — brand/secondary — same as light mode */
-  --color-border-dark-strong-alt: var(--iron-violet-600); /* #84427C — iron-violet/600 — decorative */
+  --color-border-dark-strong-alt: var(--iron-violet-500); /* #9D4F90 — iron-violet/500 — decorative. Moved off /600 on 2026-09-24 when strong took /600, so the dark ramp keeps light's three steps (default < strong < strong-alt): 2.21:1 on the card, where light's slate/400 is 2.63 on white. */
   --color-border-dark-input: var(--iron-violet-400); /* #BA84B1 — iron-violet/400 · 3.92:1 on --color-bg-dark-card, the lowest of page/hover/card/disabled/section-alt; /500 fails on three of the five */
   --color-border-dark-input-disabled: var(--iron-violet-800); /* #522950 — iron-violet/800 · exempt */
   --color-border-dark-input-danger: var(--iron-red-300); /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card */
@@ -929,10 +929,10 @@
   --color-bg-input-disabled: var(--color-bg-dark-input-disabled); /* #391C39 — iron-violet/900 — disabled field (dark) */
   --color-bg-section: var(--color-bg-dark-section); /* #391C39 — iron-violet/900 — neutral section band (dark), one rung above the page */
   --color-bg-section-alt: var(--color-bg-dark-section-alt); /* brand/secondary 8% over iron-violet/900 — brand-tinted section band (dark) */
-  --color-border: var(--color-border-dark);   /* #522950 — iron-violet/800 — dividers, input borders. Read off Figma's own variable table, which MCP cannot return (one mode per call) — it was iron-violet/500 here, three ramp steps too light, and read at 2.83:1 against the page where the light-mode border reads 1.23:1. /800 lands at 1.28:1, the same weight the light mode has. */
-  --color-border-strong: var(--color-border-dark-strong); /* #6B3567 — iron-violet/700 — hover borders, strong dividers. Same correction: was /600 at 2.18:1 against the page, /700 is 1.67:1 against light mode's 1.49:1. */
+  --color-border: var(--color-border-dark);   /* #6B3567 — iron-violet/700 — dividers, card edges. Was /800 until 2026-09-24, which is --color-bg-dark-card itself: 1.00:1 on a card, so every table divider and card edge vanished in dark mode. /700 reads 1.30:1 on the card (light mode's slate/200 on white is 1.23), 1.67 on section, 1.97 on the page. Ball's call, 2026-09-24. */
+  --color-border-strong: var(--color-border-dark-strong); /* #84427C — iron-violet/600 — hover borders, strong dividers. Moved off /700 on 2026-09-24 when the default border took /700, so strong stays one step heavier: 1.70:1 on the card, 2.59 on the page. Same value as --color-border-dark-strong-alt now, which is decorative. */
   --color-border-alt: var(--color-border-dark-alt); /* #2693EC — brand/secondary — same as light mode */
-  --color-border-strong-alt: var(--color-border-dark-strong-alt); /* #84427C — iron-violet/600 — decorative */
+  --color-border-strong-alt: var(--color-border-dark-strong-alt); /* #9D4F90 — iron-violet/500 — decorative. Moved off /600 on 2026-09-24 when strong took /600, so the dark ramp keeps light's three steps (default < strong < strong-alt): 2.21:1 on the card, where light's slate/400 is 2.63 on white. */
   --color-border-input: var(--color-border-dark-input); /* #BA84B1 — iron-violet/400 · 3.92:1 on --color-bg-dark-card, the lowest of page/hover/card/disabled/section-alt; /500 fails on three of the five */
   --color-border-input-disabled: var(--color-border-dark-input-disabled); /* #522950 — iron-violet/800 · exempt */
   --color-border-input-danger: var(--color-border-dark-input-danger); /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card */

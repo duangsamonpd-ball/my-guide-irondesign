@@ -315,10 +315,10 @@
     --color-border-input: var(--slate-400);
     --color-border-input-disabled: var(--slate-200);
     --color-border-input-danger: var(--iron-red-700);
-    --color-border-dark: var(--iron-violet-800);
-    --color-border-dark-strong: var(--iron-violet-700);
+    --color-border-dark: var(--iron-violet-700);
+    --color-border-dark-strong: var(--iron-violet-600);
     --color-border-dark-alt: var(--iron-blue-500);
-    --color-border-dark-strong-alt: var(--iron-violet-600);
+    --color-border-dark-strong-alt: var(--iron-violet-500);
     --color-border-dark-input: var(--iron-violet-400);
     --color-border-dark-input-disabled: var(--iron-violet-800);
     --color-border-dark-input-danger: var(--iron-red-300);

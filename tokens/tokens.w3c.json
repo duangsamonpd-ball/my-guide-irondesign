@@ -586,14 +586,14 @@
     "border-dark": {
       "_group": "border — Figma: border (dark column)",
       "default": {
-        "$value": "#522950",
-        "$type": "color",
-        "$description": "Iron Violet/500 — dividers, input borders, card edges (dark)"
-      },
-      "strong": {
         "$value": "#6B3567",
         "$type": "color",
-        "$description": "Iron Violet/600 — hover borders, strong dividers (dark). Updated from iron-violet/400"
+        "$description": "Iron Violet/700 — dividers, card edges (dark). Was /800, the card fill itself (1.00:1); /700 is 1.30:1 on the card. 2026-09-24."
+      },
+      "strong": {
+        "$value": "#84427C",
+        "$type": "color",
+        "$description": "Iron Violet/600 — hover borders, strong dividers (dark). Moved from /700 when default took it, 2026-09-24; 1.70:1 on the card."
       },
       "alternative": {
         "$value": "#2693EC",
@@ -601,9 +601,9 @@
         "$description": "Iron Blue/500 — brand/secondary — same as light mode (dark)"
       },
       "strong-alt": {
-        "$value": "#84427C",
+        "$value": "#9D4F90",
         "$type": "color",
-        "$description": "Iron Violet/600 — Figma border/strong-alt (dark). Decorative, like the light value."
+        "$description": "Iron Violet/500 — Figma border/strong-alt (dark). Decorative, like the light value. Moved from /600 when strong took it, 2026-09-24; 2.21:1 on the card."
       },
       "input": {
         "$value": "#BA84B1",
