@@ -114,6 +114,42 @@ const componentPages = () =>
 /* ── parsers ──────────────────────────────────────────────────────────────── */
 
 /**
+ * The swatch cards on the colours page. Each states one token three times —
+ * the value it copies, the swatch it paints, the hex it prints — plus the token
+ * name twice; all five must agree with each other and the value with tokens.css.
+ * `cls` is the card's whole class attribute, matched exactly.
+ */
+function swatchCards(name, cls, floor) {
+  return {
+    name,
+    page: 'docs/semantic-colors.html',
+    floor,
+    run(page, src) {
+      const re = new RegExp(
+        `<div class="${cls}" onclick="copy\\('(#[0-9A-Fa-f]{6}(?:[0-9A-Fa-f]{2})?)','(--[a-z0-9-]+)'\\)">\\s*<div class="sem-color" style="background:([^";]+);?"><\\/div>\\s*<div class="sem-body">\\s*<div class="sem-name">([^<]*)<\\/div>\\s*<div class="sem-hex">([^<]*)<\\/div>\\s*<div class="sem-token">(--[a-z0-9-]+)<\\/div>`,
+        'gs',
+      );
+      let n = 0;
+      for (const m of src.matchAll(re)) {
+        const [, clickHex, clickToken, swatch, label, shownHex, shownToken] = m;
+        const at = `card "${label.trim()}"`;
+        // the card states the same two facts three times; they must agree
+        if (clickToken !== shownToken)
+          record(page, this.name, `${at}: copies \`${clickToken}\` but displays \`${shownToken}\``);
+        if (shownHex.trim().toUpperCase() !== clickHex.toUpperCase())
+          record(page, this.name, `${at}: copies ${clickHex.toUpperCase()} but displays ${shownHex.trim().toUpperCase()}`);
+        const sw = swatch.trim().toUpperCase();
+        if (/^#[0-9A-F]{6}(?:[0-9A-F]{2})?$/.test(sw) && sw !== clickHex.toUpperCase())
+          record(page, this.name, `${at}: swatch paints ${sw} but the card says ${clickHex.toUpperCase()}`);
+        expect(page, this.name, shownToken, 'light', clickHex, at);
+        n++;
+      }
+      return n;
+    },
+  };
+}
+
+/**
  * Each entry: a name, the floor it must clear, and a function that walks one
  * page's source. Floors are set below the counts observed when this was written
  * so ordinary editing does not trip them, while deleting a whole shape does.
@@ -304,31 +340,17 @@ const PARSERS = [
       return n;
     },
   },
-  {
-    name: 'colors/swatch cards',
-    page: 'docs/semantic-colors.html',
-    floor: 35,
-    run(page, src) {
-      const re =
-        /<div class="sem-card" onclick="copy\('(#[0-9A-Fa-f]{6}(?:[0-9A-Fa-f]{2})?)','(--[a-z0-9-]+)'\)">\s*<div class="sem-color" style="background:([^";]+);?"><\/div>\s*<div class="sem-body">\s*<div class="sem-name">([^<]*)<\/div>\s*<div class="sem-hex">([^<]*)<\/div>\s*<div class="sem-token">(--[a-z0-9-]+)<\/div>/gs;
-      let n = 0;
-      for (const m of src.matchAll(re)) {
-        const [, clickHex, clickToken, swatch, label, shownHex, shownToken] = m;
-        const at = `card "${label.trim()}"`;
-        // the card states the same two facts three times; they must agree
-        if (clickToken !== shownToken)
-          record(page, this.name, `${at}: copies \`${clickToken}\` but displays \`${shownToken}\``);
-        if (shownHex.trim().toUpperCase() !== clickHex.toUpperCase())
-          record(page, this.name, `${at}: copies ${clickHex.toUpperCase()} but displays ${shownHex.trim().toUpperCase()}`);
-        const sw = swatch.trim().toUpperCase();
-        if (/^#[0-9A-F]{6}(?:[0-9A-F]{2})?$/.test(sw) && sw !== clickHex.toUpperCase())
-          record(page, this.name, `${at}: swatch paints ${sw} but the card says ${clickHex.toUpperCase()}`);
-        expect(page, this.name, shownToken, 'light', clickHex, at);
-        n++;
-      }
-      return n;
-    },
-  },
+  swatchCards('colors/swatch cards', 'sem-card', 35),
+  /* The dark-surface cards are the same markup with one more class, and the
+     regex above names the class exactly — so all 26 of them were outside every
+     gate. That cost something real: on 2026-09-24 the dark borders moved
+     (/800 -> /700, /700 -> /600, /600 -> /500), `08-semantic-guide.html` went red
+     here as it should, and the three matching cards on this page went on
+     showing the old values with the build green. A grep found them. A separate
+     entry rather than an optional class, so each set keeps its own floor: a
+     restyle that broke only the dark cards would otherwise hide under the light
+     cards' count. */
+  swatchCards('colors/swatch cards (dark surface)', 'sem-card dark-surface', 26),
   /**
    * The transparency ramps on the opacity page. Fourteen 8-digit hexes typed
    * into a table — the exact shape that put a retired blue on the shadows page
@@ -649,6 +671,7 @@ if (SELF_TEST) {
     ['guide/code-sample declarations', 'docs/08-semantic-guide.html', /(--<span class="c-key">color-primary<\/span>:\s*<span class="c-val">)#[0-9A-Fa-f]{6}/, '$1#BADBAD'],
     ['guide/code-sample var comments', 'docs/08-semantic-guide.html', /(<span class="c-comment">\/\*\s*)#[0-9A-Fa-f]{6}/, '$1#BADBAD'],
     ['colors/swatch cards', 'docs/semantic-colors.html', /(<div class="sem-card" onclick="copy\(')#[0-9A-Fa-f]{6}/, '$1#BADBAD'],
+    ['colors/swatch cards (dark surface)', 'docs/semantic-colors.html', /(<div class="sem-card dark-surface" onclick="copy\(')#[0-9A-Fa-f]{6}/, '$1#BADBAD'],
     /* Planted on the page whose Anatomy callout had been wrong since it was
        written — the parser exists because nothing noticed 18px against a token
        that resolves to 20. */
