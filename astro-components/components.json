@@ -385,32 +385,35 @@
           "name": "menu",
           "type": "Link[]",
           "required": false,
-          "default": "[\n    { label: 'About Us' },\n    { label: 'News' },\n    { label: 'Customers' },\n    { label: 'Careers' },\n    { label: 'Academy' },\n    { label: 'Webinars' },\n    { label: 'Customer HUB Login' },\n    { label: 'Contact Us' },\n  ]"
+          "default": "[\n    { label: 'About Us' },\n    { label: 'News' },\n    { label: 'Customers' },\n    { label: 'Careers' },\n    { label: 'Academy' },\n    { label: 'Webinars' },\n    { label: 'Customer HUB Login' },\n    { label: 'Contact Us' },\n  ]",
+          "description": "The links along the top row, each `{ label, href? }`."
         },
         {
           "name": "freeTools",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Figma's `Property 1=Free tools version` — shows the Free Tools item, which exists in the Default variant too but is hidden there."
+          "description": "Shows the Free Tools item in the menu, before Webinars. Figma's `Property 1=Free tools version` — the item exists in the Default variant too but is hidden there."
         },
         {
           "name": "freeToolsLabel",
           "type": "string",
           "required": false,
-          "default": "'Free tools'"
+          "default": "'Free tools'",
+          "description": "The Free Tools item's text."
         },
         {
           "name": "freeToolsHref",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Where the Free Tools item links when there is no panel — with `toolGroups` it is a button that opens one instead."
         },
         {
           "name": "toolGroups",
           "type": "ToolGroup[]",
           "required": false,
           "default": "[\n    {\n      title: 'PDF Converters',\n      icon: 'arrowsRotate',\n      columns: [\n        [{ label: 'PDF to JPG' }, { label: 'URL to PDF' }],\n        [{ label: 'HTML to PDF' }, { label: 'PDF to PNG' }],\n        [{ label: 'Tiff to PDF' }, { label: 'SVG to PDF' }],\n        [{ label: 'JPG to PDF' }, { label: 'Docx to PDF' }],\n        [{ label: 'Text to PDF' }],\n      ],\n    },\n    {\n      title: 'PDF Editors',\n      icon: 'penToSquare',\n      columns: [\n        [{ label: 'Password Protect PDF' }, { label: 'Flatten PDF Form' }],\n        [{ label: 'Merge PDF' }, { label: 'Compress PDF' }],\n      ],\n    },\n    { title: 'Others', icon: 'wrench', columns: [[{ label: 'JSON to C#' }]] },\n  ]",
-          "description": "Figma's `Property 1=Free tool open` — the panel the Free Tools item opens."
+          "description": "The panel the Free Tools item opens: groups of links, each with a title, an icon and its columns. Figma's `Property 1=Free tool open`. Pass `[]` for a plain link instead."
         },
         {
           "name": "toolsOpen",
@@ -423,77 +426,90 @@
           "name": "closeToolsLabel",
           "type": "string",
           "required": false,
-          "default": "'Close free tools'"
+          "default": "'Close free tools'",
+          "description": "Accessible name for the panel's close button, which shows only an icon."
         },
         {
           "name": "reviews",
           "type": "Review[]",
           "required": false,
-          "default": "[\n    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', starsHover: 'stars-g2-hover.svg', score: '4.9', outOf: '/5' },\n    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/5' },\n  ]"
+          "default": "[\n    { name: 'G2', logo: 'logo-g2.svg', stars: 'stars-g2.svg', starsHover: 'stars-g2-hover.svg', score: '4.9', outOf: '/5' },\n    { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/5' },\n  ]",
+          "description": "The review scores — logo, stars and score for each site."
         },
         {
           "name": "address",
           "type": "string",
           "required": false,
-          "default": "'205 N. Michigan Ave. Chicago, IL 60611 USA +1\\u00A0(312)\\u00A0252-3088'"
+          "default": "'205 N. Michigan Ave. Chicago, IL 60611 USA +1\\u00A0(312)\\u00A0252-3088'",
+          "description": "The postal address and phone number under the logo."
         },
         {
           "name": "socials",
           "type": "Social[]",
           "required": false,
-          "default": "[\n    { name: 'GitHub', icon: 'icon-github.svg' },\n    { name: 'YouTube', icon: 'icon-youtube.svg' },\n    { name: 'X', icon: 'icon-x.svg' },\n    { name: 'Facebook', icon: 'icon-facebook.svg' },\n    { name: 'LinkedIn', icon: 'icon-linkedin.svg' },\n  ]"
+          "default": "[\n    { name: 'GitHub', icon: 'icon-github.svg' },\n    { name: 'YouTube', icon: 'icon-youtube.svg' },\n    { name: 'X', icon: 'icon-x.svg' },\n    { name: 'Facebook', icon: 'icon-facebook.svg' },\n    { name: 'LinkedIn', icon: 'icon-linkedin.svg' },\n  ]",
+          "description": "The social icons, each `{ name, icon, href? }`; `name` is the link's accessible name."
         },
         {
           "name": "slackLabel",
           "type": "string",
           "required": false,
-          "default": "'Join Iron Slack'"
+          "default": "'Join Iron Slack'",
+          "description": "The Slack link's text."
         },
         {
           "name": "slackHref",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Where the Slack link goes."
         },
         {
           "name": "partners",
           "type": "Partner[]",
           "required": false,
-          "default": "[\n    { name: 'PDF Association Member', logo: 'logo-pdf-association-member.svg', width: 46 },\n    { name: 'Microsoft Partner', logo: 'logo-microsoft.svg', width: 92 },\n    { name: 'AWS Partner Network', logo: 'logo-aws.svg', width: 86 },\n  ]"
+          "default": "[\n    { name: 'PDF Association Member', logo: 'logo-pdf-association-member.svg', width: 46 },\n    { name: 'Microsoft Partner', logo: 'logo-microsoft.svg', width: 92 },\n    { name: 'AWS Partner Network', logo: 'logo-aws.svg', width: 86 },\n  ]",
+          "description": "The partner logos, each with the width it is drawn at."
         },
         {
           "name": "copyright",
           "type": "string",
           "required": false,
-          "default": "'Copyright © Iron Software 2013-2026'"
+          "default": "'Copyright © Iron Software 2013-2026'",
+          "description": "The copyright line in the bottom row."
         },
         {
           "name": "legal",
           "type": "Link[]",
           "required": false,
-          "default": "[{ label: 'Terms' }, { label: 'Privacy' }, { label: 'Cookie' }]"
+          "default": "[{ label: 'Terms' }, { label: 'Privacy' }, { label: 'Cookie' }]",
+          "description": "The legal links in the bottom row, with a divider between each."
         },
         {
           "name": "donateLabel",
           "type": "string",
           "required": false,
-          "default": "'Every Iron Suite Donates'"
+          "default": "'Every Iron Suite Donates'",
+          "description": "The text beside the 1% for the Planet logo."
         },
         {
           "name": "donateImg",
           "type": "string",
           "required": false,
-          "default": "'1% logo - Horizontal.png'"
+          "default": "'1% logo - Horizontal.png'",
+          "description": "The 1% for the Planet logo's file name, inside `basePath`."
         },
         {
           "name": "basePath",
           "type": "string",
           "required": false,
-          "default": "'assets'"
+          "default": "'assets'",
+          "description": "The folder every image and icon is loaded from."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the `<footer>`, after the component's own."
         }
       ]
     },

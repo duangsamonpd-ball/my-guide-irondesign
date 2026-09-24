@@ -899,6 +899,34 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       </table></div>
     </div>
 
+    <div class="sect">
+      <h2 class="sect-h">Props</h2>
+      <div class="sect-sub">Read from <code>interface Props</code> in <code>FooterBar.astro</code>, so it cannot drift from the component.</div>
+      <!-- props:FooterBar -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">menu</td><td class="ptable-type">Link[]</td><td class="ptable-default"><span class="ptable-none">8 items</span></td><td class="ptable-notes">The links along the top row, each <code>{ label, href? }</code>.</td></tr>
+        <tr><td class="ptable-name">freeTools</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Shows the Free Tools item in the menu, before Webinars.</td></tr>
+        <tr><td class="ptable-name">freeToolsLabel</td><td class="ptable-type">string</td><td class="ptable-default">'Free tools'</td><td class="ptable-notes">The Free Tools item's text.</td></tr>
+        <tr><td class="ptable-name">freeToolsHref</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Where the Free Tools item links when there is no panel — with <code>toolGroups</code> it is a button that opens one instead.</td></tr>
+        <tr><td class="ptable-name">toolGroups</td><td class="ptable-type">ToolGroup[]</td><td class="ptable-default"><span class="ptable-none">3 items</span></td><td class="ptable-notes">The panel the Free Tools item opens: groups of links, each with a title, an icon and its columns.</td></tr>
+        <tr><td class="ptable-name">toolsOpen</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Render the panel already open.</td></tr>
+        <tr><td class="ptable-name">closeToolsLabel</td><td class="ptable-type">string</td><td class="ptable-default">'Close free tools'</td><td class="ptable-notes">Accessible name for the panel's close button, which shows only an icon.</td></tr>
+        <tr><td class="ptable-name">reviews</td><td class="ptable-type">Review[]</td><td class="ptable-default"><span class="ptable-none">2 items</span></td><td class="ptable-notes">The review scores — logo, stars and score for each site.</td></tr>
+        <tr><td class="ptable-name">address</td><td class="ptable-type">string</td><td class="ptable-default">'205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088'</td><td class="ptable-notes">The postal address and phone number under the logo.</td></tr>
+        <tr><td class="ptable-name">socials</td><td class="ptable-type">Social[]</td><td class="ptable-default"><span class="ptable-none">5 items</span></td><td class="ptable-notes">The social icons, each <code>{ name, icon, href? }</code>; <code>name</code> is the link's accessible name.</td></tr>
+        <tr><td class="ptable-name">slackLabel</td><td class="ptable-type">string</td><td class="ptable-default">'Join Iron Slack'</td><td class="ptable-notes">The Slack link's text.</td></tr>
+        <tr><td class="ptable-name">slackHref</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Where the Slack link goes.</td></tr>
+        <tr><td class="ptable-name">partners</td><td class="ptable-type">Partner[]</td><td class="ptable-default"><span class="ptable-none">3 items</span></td><td class="ptable-notes">The partner logos, each with the width it is drawn at.</td></tr>
+        <tr><td class="ptable-name">copyright</td><td class="ptable-type">string</td><td class="ptable-default">'Copyright © Iron Software 2013-2026'</td><td class="ptable-notes">The copyright line in the bottom row.</td></tr>
+        <tr><td class="ptable-name">legal</td><td class="ptable-type">Link[]</td><td class="ptable-default"><span class="ptable-none">3 items</span></td><td class="ptable-notes">The legal links in the bottom row, with a divider between each.</td></tr>
+        <tr><td class="ptable-name">donateLabel</td><td class="ptable-type">string</td><td class="ptable-default">'Every Iron Suite Donates'</td><td class="ptable-notes">The text beside the 1% for the Planet logo.</td></tr>
+        <tr><td class="ptable-name">donateImg</td><td class="ptable-type">string</td><td class="ptable-default">'1% logo - Horizontal.png'</td><td class="ptable-notes">The 1% for the Planet logo's file name, inside <code>basePath</code>.</td></tr>
+        <tr><td class="ptable-name">basePath</td><td class="ptable-type">string</td><td class="ptable-default">'assets'</td><td class="ptable-notes">The folder every image and icon is loaded from.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;footer&gt;</code>, after the component's own.</td></tr>
+      </tbody></table></div>
+      <!-- /props:FooterBar -->
+    </div>
+
 
 
     </div>

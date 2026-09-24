@@ -214,28 +214,52 @@ interface ToolGroup {
 }
 
 interface Props {
+  /** The links along the top row, each `{ label, href? }`. */
   menu?: Link[];
-  /** Figma's `Property 1=Free tools version` — shows the Free Tools item, which
-   *  exists in the Default variant too but is hidden there. */
+  /**
+   * Shows the Free Tools item in the menu, before Webinars.
+   *
+   * Figma's `Property 1=Free tools version` — the item exists in the Default
+   * variant too but is hidden there.
+   */
   freeTools?: boolean;
+  /** The Free Tools item's text. */
   freeToolsLabel?: string;
+  /** Where the Free Tools item links when there is no panel — with `toolGroups` it is a button that opens one instead. */
   freeToolsHref?: string;
-  /** Figma's `Property 1=Free tool open` — the panel the Free Tools item opens. */
+  /**
+   * The panel the Free Tools item opens: groups of links, each with a title, an icon and its columns.
+   *
+   * Figma's `Property 1=Free tool open`. Pass `[]` for a plain link instead.
+   */
   toolGroups?: ToolGroup[];
   /** Render the panel already open. Off by default; the trigger owns it after that. */
   toolsOpen?: boolean;
+  /** Accessible name for the panel's close button, which shows only an icon. */
   closeToolsLabel?: string;
+  /** The review scores — logo, stars and score for each site. */
   reviews?: Review[];
+  /** The postal address and phone number under the logo. */
   address?: string;
+  /** The social icons, each `{ name, icon, href? }`; `name` is the link's accessible name. */
   socials?: Social[];
+  /** The Slack link's text. */
   slackLabel?: string;
+  /** Where the Slack link goes. */
   slackHref?: string;
+  /** The partner logos, each with the width it is drawn at. */
   partners?: Partner[];
+  /** The copyright line in the bottom row. */
   copyright?: string;
+  /** The legal links in the bottom row, with a divider between each. */
   legal?: Link[];
+  /** The text beside the 1% for the Planet logo. */
   donateLabel?: string;
+  /** The 1% for the Planet logo's file name, inside `basePath`. */
   donateImg?: string;
+  /** The folder every image and icon is loaded from. */
   basePath?: string;
+  /** Extra classes on the `<footer>`, after the component's own. */
   class?: string;
 }
 
