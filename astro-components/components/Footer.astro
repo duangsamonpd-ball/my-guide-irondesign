@@ -134,10 +134,11 @@ interface Product {
 }
 
 interface Props {
-  /** Suite: full-brand headline for homepage/generic pages. Default: names the current product (cross-sell). */
+  /** `suite` is the full-brand headline for the homepage or a generic page; `default` names the current product as a cross-sell. */
   variant?: 'suite' | 'default';
-  /** Required when variant="default" — e.g. "IronPDF" */
+  /** The product the `default` headline names, such as "IronPDF" — required for that variant. */
   productName?: string;
+  /** The rows of the product list: `prefix`, `suffix` and `desc`, plus an optional `accent` colour for the suffix and an `href`. */
   products: Product[];
   /**
    * Heading level for the band's headline. The band is a section of a page, not a
@@ -148,7 +149,9 @@ interface Props {
   /** Accessible name for the band's landmark, read by the "list of regions" view. */
   label?: string;
   /**
-   * Asset paths. These default to SITE-ROOT paths, not paths relative to the
+   * The 1% for the Planet logo beside "Every Iron Suite Donates".
+   *
+   * All four asset paths default to SITE-ROOT paths, not paths relative to the
    * page: `assets/logo.svg` resolves against the current URL, so it is correct
    * only on a page that happens to sit at `/` and 404s on `/pricing` — silently,
    * because a missing image logs nothing a build can fail on. A consuming app
@@ -157,7 +160,9 @@ interface Props {
    * they are published under a repository subpath.
    */
   donateImgSrc?: string;
+  /** The Iron Suite mark before the `suite` headline. */
   suiteLogoImgSrc?: string;
+  /** The logo that appears beside a product row on hover or keyboard focus. */
   productLogoSrc?: string;
   /**
    * The band's rainbow backdrop. It is a PROP and painted inline for a reason:
@@ -178,6 +183,7 @@ interface Props {
    * does not. `check:prose-classes` fails if it comes back.
    */
   rainbowSrc?: string;
+  /** Extra classes on the `<section>`, after the component's own. */
   class?: string;
 }
 

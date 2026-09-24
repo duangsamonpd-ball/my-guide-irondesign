@@ -304,18 +304,19 @@
           "type": "'suite' | 'default'",
           "required": false,
           "default": "'default'",
-          "description": "Suite: full-brand headline for homepage/generic pages. Default: names the current product (cross-sell)."
+          "description": "`suite` is the full-brand headline for the homepage or a generic page; `default` names the current product as a cross-sell."
         },
         {
           "name": "productName",
           "type": "string",
           "required": false,
-          "description": "Required when variant=\"default\" — e.g. \"IronPDF\""
+          "description": "The product the `default` headline names, such as \"IronPDF\" — required for that variant."
         },
         {
           "name": "products",
           "type": "Product[]",
-          "required": true
+          "required": true,
+          "description": "The rows of the product list: `prefix`, `suffix` and `desc`, plus an optional `accent` colour for the suffix and an `href`."
         },
         {
           "name": "headingLevel",
@@ -336,19 +337,21 @@
           "type": "string",
           "required": false,
           "default": "'/assets/1% logo - Horizontal.png'",
-          "description": "Asset paths. These default to SITE-ROOT paths, not paths relative to the page: `assets/logo.svg` resolves against the current URL, so it is correct only on a page that happens to sit at `/` and 404s on `/pricing` — silently, because a missing image logs nothing a build can fail on. A consuming app that keeps these in `public/assets/` needs to pass nothing; anything else passes its own path. The docs are the one caller that must override, because they are published under a repository subpath."
+          "description": "The 1% for the Planet logo beside \"Every Iron Suite Donates\". All four asset paths default to SITE-ROOT paths, not paths relative to the page: `assets/logo.svg` resolves against the current URL, so it is correct only on a page that happens to sit at `/` and 404s on `/pricing` — silently, because a missing image logs nothing a build can fail on. A consuming app that keeps these in `public/assets/` needs to pass nothing; anything else passes its own path. The docs are the one caller that must override, because they are published under a repository subpath."
         },
         {
           "name": "suiteLogoImgSrc",
           "type": "string",
           "required": false,
-          "default": "'/assets/hash-white color.svg'"
+          "default": "'/assets/hash-white color.svg'",
+          "description": "The Iron Suite mark before the `suite` headline."
         },
         {
           "name": "productLogoSrc",
           "type": "string",
           "required": false,
-          "default": "'/assets/logo.svg'"
+          "default": "'/assets/logo.svg'",
+          "description": "The logo that appears beside a product row on hover or keyboard focus."
         },
         {
           "name": "rainbowSrc",
@@ -360,7 +363,8 @@
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the `<section>`, after the component's own."
         }
       ]
     },

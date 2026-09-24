@@ -508,6 +508,25 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       </tbody></table></div>
     </div>
 
+    <div class="sect">
+      <h2 class="sect-h">Props</h2>
+      <div class="sect-sub">Read from <code>interface Props</code> in <code>Footer.astro</code>, so it cannot drift from the component.</div>
+      <!-- props:Footer -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">variant</td><td class="ptable-type"><span class="ptable-m">'suite'</span> | <span class="ptable-m">'default'</span></td><td class="ptable-default">'default'</td><td class="ptable-notes"><code>suite</code> is the full-brand headline for the homepage or a generic page; <code>default</code> names the current product as a cross-sell.</td></tr>
+        <tr><td class="ptable-name">productName</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The product the <code>default</code> headline names, such as "IronPDF" — required for that variant.</td></tr>
+        <tr><td class="ptable-name">products</td><td class="ptable-type">Product[]</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The rows of the product list: <code>prefix</code>, <code>suffix</code> and <code>desc</code>, plus an optional <code>accent</code> colour for the suffix and an <code>href</code>.</td></tr>
+        <tr><td class="ptable-name">headingLevel</td><td class="ptable-type"><span class="ptable-m">2</span> | <span class="ptable-m">3</span> | <span class="ptable-m">4</span></td><td class="ptable-default">2</td><td class="ptable-notes">Heading level for the band's headline.</td></tr>
+        <tr><td class="ptable-name">label</td><td class="ptable-type">string</td><td class="ptable-default">'Iron Suite'</td><td class="ptable-notes">Accessible name for the band's landmark, read by the "list of regions" view.</td></tr>
+        <tr><td class="ptable-name">donateImgSrc</td><td class="ptable-type">string</td><td class="ptable-default">'/assets/1% logo - Horizontal.png'</td><td class="ptable-notes">The 1% for the Planet logo beside "Every Iron Suite Donates".</td></tr>
+        <tr><td class="ptable-name">suiteLogoImgSrc</td><td class="ptable-type">string</td><td class="ptable-default">'/assets/hash-white color.svg'</td><td class="ptable-notes">The Iron Suite mark before the <code>suite</code> headline.</td></tr>
+        <tr><td class="ptable-name">productLogoSrc</td><td class="ptable-type">string</td><td class="ptable-default">'/assets/logo.svg'</td><td class="ptable-notes">The logo that appears beside a product row on hover or keyboard focus.</td></tr>
+        <tr><td class="ptable-name">rainbowSrc</td><td class="ptable-type">string</td><td class="ptable-default">'/assets/Rainbow.svg'</td><td class="ptable-notes">The band's rainbow backdrop.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;section&gt;</code>, after the component's own.</td></tr>
+      </tbody></table></div>
+      <!-- /props:Footer -->
+    </div>
+
     <!-- Code -->
     <div class="sect sect-code">
       <h2 class="sect-h">Code</h2>
