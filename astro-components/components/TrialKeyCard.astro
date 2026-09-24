@@ -9,11 +9,17 @@
 import { icons } from '../icons';
 
 interface Props {
+  /** The icon in the tinted circle at the top of the card. */
   icon: 'quote' | 'key' | 'check';
+  /** The regular-weight words before the bold part of the headline. */
   headingPrefix?: string;
+  /** The bold middle of the headline, such as "30-day Trial Key". */
   headingBold: string;
+  /** The regular-weight words after the bold part. */
   headingSuffix?: string;
+  /** The email field's placeholder — and its hidden label too, unless `inputLabel` is set. */
   inputPlaceholder: string;
+  /** The `name` the email is submitted under. */
   inputName?: string;
   /**
    * The field's real label. The card's design has no room for a visible one, so
@@ -23,9 +29,13 @@ interface Props {
    * Defaults to the placeholder text.
    */
   inputLabel?: string;
+  /** A line under the field, linked to it with `aria-describedby`. */
   hint?: string;
+  /** The text on the full-width submit button. */
   submitLabel: string;
+  /** A small icon after the button's text. */
   submitIcon?: 'quote' | 'key' | 'check';
+  /** Small print under the button, dot-separated; pass `[]` for none. */
   footerNotes: string[];
   /**
    * Heading level for the card's headline. It was a `<p>`, so the card
@@ -34,7 +44,9 @@ interface Props {
   headingLevel?: 2 | 3 | 4 | 5;
   /** Where the form posts. Omitted means the current URL. */
   action?: string;
+  /** How the form sends — omitted means the browser's default, `get`. */
   method?: 'get' | 'post';
+  /** Extra classes on the `<form>`, after the component's own. */
   class?: string;
 }
 

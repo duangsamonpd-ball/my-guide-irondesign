@@ -1500,34 +1500,40 @@
         {
           "name": "icon",
           "type": "'quote' | 'key' | 'check'",
-          "required": true
+          "required": true,
+          "description": "The icon in the tinted circle at the top of the card."
         },
         {
           "name": "headingPrefix",
           "type": "string",
           "required": false,
-          "default": "'Get your free'"
+          "default": "'Get your free'",
+          "description": "The regular-weight words before the bold part of the headline."
         },
         {
           "name": "headingBold",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The bold middle of the headline, such as \"30-day Trial Key\"."
         },
         {
           "name": "headingSuffix",
           "type": "string",
           "required": false,
-          "default": "'instantly.'"
+          "default": "'instantly.'",
+          "description": "The regular-weight words after the bold part."
         },
         {
           "name": "inputPlaceholder",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The email field's placeholder — and its hidden label too, unless `inputLabel` is set."
         },
         {
           "name": "inputName",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "The `name` the email is submitted under."
         },
         {
           "name": "inputLabel",
@@ -1538,22 +1544,26 @@
         {
           "name": "hint",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "A line under the field, linked to it with `aria-describedby`."
         },
         {
           "name": "submitLabel",
           "type": "string",
-          "required": true
+          "required": true,
+          "description": "The text on the full-width submit button."
         },
         {
           "name": "submitIcon",
           "type": "'quote' | 'key' | 'check'",
-          "required": false
+          "required": false,
+          "description": "A small icon after the button's text."
         },
         {
           "name": "footerNotes",
           "type": "string[]",
-          "required": true
+          "required": true,
+          "description": "Small print under the button, dot-separated; pass `[]` for none."
         },
         {
           "name": "headingLevel",
@@ -1571,12 +1581,14 @@
         {
           "name": "method",
           "type": "'get' | 'post'",
-          "required": false
+          "required": false,
+          "description": "How the form sends — omitted means the browser's default, `get`."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the `<form>`, after the component's own."
         }
       ]
     }
