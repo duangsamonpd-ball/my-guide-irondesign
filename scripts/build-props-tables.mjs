@@ -104,12 +104,43 @@ export function renderType(type) {
   return members.map((m) => `<span class="ptable-m">${esc(m)}</span>`).join(' | ');
 }
 
+/**
+ * The Default cell. Most defaults are a word, and are shown as written. Two
+ * kinds are not, both first met on FooterBar (2026-09-24):
+ *
+ * - A long array literal — `menu`'s eight links, `toolGroups`' three groups of
+ *   columns — is the component's CONTENT, not a setting, and printed whole it
+ *   ran to forty lines in one cell. It is summarised as a count; the literal
+ *   stays in components.json and in the component.
+ * - A `\uXXXX` escape is how the source spells a character it wants to be
+ *   unambiguous about (the address's non-breaking spaces). A reader needs the
+ *   character, not the escape.
+ */
+export function shownDefault(d) {
+  const v = d.trim();
+  if (v.startsWith('[') && v.endsWith(']') && (v.includes('\n') || v.length > 40)) {
+    let depth = 0, quote = null, items = 0, seen = false;
+    for (let i = 1; i < v.length - 1; i++) {
+      const ch = v[i];
+      if (quote) { if (ch === '\\') i++; else if (ch === quote) quote = null; continue; }
+      if (ch === "'" || ch === '"' || ch === '`') { quote = ch; seen = true; continue; }
+      if ('{[('.includes(ch)) { depth++; seen = true; continue; }
+      if ('}])'.includes(ch)) { depth--; continue; }
+      if (ch === ',' && depth === 0) { if (seen) items++; seen = false; continue; }
+      if (!/\s/.test(ch)) seen = true;
+    }
+    if (seen) items++;
+    return `<span class="ptable-none">${items} item${items === 1 ? '' : 's'}</span>`;
+  }
+  return esc(v.replace(/\\u([0-9a-fA-F]{4})/g, (_, h) => String.fromCharCode(parseInt(h, 16))));
+}
+
 export function renderTable(component, indent) {
   const pad = (n) => indent + ' '.repeat(n);
   const rows = component.props.map((p) => {
     const note = [p.required ? '<span class="ptable-req">Required</span>' : '', prose(firstSentence(p.description))]
       .filter(Boolean).join('');
-    const dflt = p.default === undefined ? '<span class="ptable-none">—</span>' : esc(p.default);
+    const dflt = p.default === undefined ? '<span class="ptable-none">—</span>' : shownDefault(p.default);
     return `${pad(2)}<tr><td class="ptable-name">${esc(p.name)}</td><td class="ptable-type">${renderType(p.type)}</td>`
       + `<td class="ptable-default">${dflt}</td><td class="ptable-notes">${note}</td></tr>`;
   });
@@ -171,6 +202,9 @@ if (SELF_TEST) {
     ['Notes keeps only the first sentence', fresh.includes('<td class="ptable-notes">Picks the size.</td>') && !fresh.includes('internals')],
     ['a required prop says so and shows no default', /href<\/td><td class="ptable-type">string<\/td><td class="ptable-default"><span class="ptable-none">—<\/span><\/td><td class="ptable-notes"><span class="ptable-req">Required<\/span><\/td>/.test(fresh)],
     ['a union splits into members at top-level bars only', renderType("'a' | Array<'b' | 'c'>") === '<span class="ptable-m">\'a\'</span> | <span class="ptable-m">Array&lt;\'b\' | \'c\'&gt;</span>'],
+    ['a long array default is shown as a count', shownDefault("[\n  { label: 'a, b' },\n  { label: 'c' },\n]") === '<span class="ptable-none">2 items</span>'],
+    ['a short default is shown as written', shownDefault("'sm'") === "'sm'"],
+    ['a \\u escape is shown as its character', shownDefault("'a\\u00A0b'") === "'a\u00A0b'"],
     ['a full stop inside code does not end the sentence', firstSentence('Use `a.b` here. Then more.') === 'Use `a.b` here.'],
   ];
   let bad = 0;

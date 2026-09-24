@@ -409,6 +409,7 @@
           "name": "toolGroups",
           "type": "ToolGroup[]",
           "required": false,
+          "default": "[\n    {\n      title: 'PDF Converters',\n      icon: 'arrowsRotate',\n      columns: [\n        [{ label: 'PDF to JPG' }, { label: 'URL to PDF' }],\n        [{ label: 'HTML to PDF' }, { label: 'PDF to PNG' }],\n        [{ label: 'Tiff to PDF' }, { label: 'SVG to PDF' }],\n        [{ label: 'JPG to PDF' }, { label: 'Docx to PDF' }],\n        [{ label: 'Text to PDF' }],\n      ],\n    },\n    {\n      title: 'PDF Editors',\n      icon: 'penToSquare',\n      columns: [\n        [{ label: 'Password Protect PDF' }, { label: 'Flatten PDF Form' }],\n        [{ label: 'Merge PDF' }, { label: 'Compress PDF' }],\n      ],\n    },\n    { title: 'Others', icon: 'wrench', columns: [[{ label: 'JSON to C#' }]] },\n  ]",
           "description": "Figma's `Property 1=Free tool open` — the panel the Free Tools item opens."
         },
         {
@@ -433,7 +434,8 @@
         {
           "name": "address",
           "type": "string",
-          "required": false
+          "required": false,
+          "default": "'205 N. Michigan Ave. Chicago, IL 60611 USA +1\\u00A0(312)\\u00A0252-3088'"
         },
         {
           "name": "socials",

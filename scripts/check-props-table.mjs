@@ -133,12 +133,35 @@ export const sameType = (a, b) => {
   return parts(a) === parts(b);
 };
 
-/* The page writes an em dash where the component has no default. */
+/**
+ * The page writes an em dash where the component has no default.
+ *
+ * Two more spellings since 2026-09-24, both from build-props-tables.mjs: a long
+ * array literal is shown as "N items", and a `\uXXXX` escape as its character.
+ * Neither is taken on trust. The manifest's literal is EVALUATED here — a
+ * different reader from the generator's bracket-counting scanner — so the count
+ * and the character are re-derived rather than matched against the same code
+ * that produced them. A literal that will not evaluate is simply not equal.
+ */
+const literal = (src) => {
+  try { return new Function(`"use strict"; return (${src});`)(); } catch { return undefined; }
+};
 export const sameDefault = (docs, manifest) => {
   const d = (docs ?? '').trim();
   const m = (manifest ?? '').trim();
   if (d === m) return true;
   if ((d === '—' || d === '-' || d === '') && m === '') return true;
+  const count = /^(\d+) items?$/.exec(d);
+  if (count) {
+    const v = literal(m);
+    return Array.isArray(v) && v.length === Number(count[1]);
+  }
+  if (/^['"]/.test(m)) {
+    const v = literal(m);
+    // text() folds every whitespace run in a cell to one space — a no-break
+    // space included — so the evaluated value is folded the same way.
+    return typeof v === 'string' && d === (m[0] + v + m[0]).replace(/\s+/g, ' ').trim();
+  }
   return false;
 };
 
@@ -225,6 +248,9 @@ if (SELF_TEST) {
     ['a prop the table invented', compare(component, [...table(), { name: 'ghost', type: 'string', default: '—' }]), (f) => f.length === 1 && /component does not/.test(f[0])],
     ['a default that has drifted', compare(component, table({ size: { default: '56' } })), (f) => f.length === 1],
     ['an em dash IS "no default"', compare(component, table()), (f) => f.length === 0],
+    ['"N items" matches an array literal of N', sameDefault('2 items', "[{ a: 'x, y' }, { a: 'z' }]"), (ok) => ok === true],
+    ['"N items" with the wrong N does not', sameDefault('3 items', "[{ a: 'x, y' }, { a: 'z' }]"), (ok) => ok === false],
+    ['an escape matches its character only', [sameDefault("'caf\u00E9'", "'caf\\u00E9'"), sameDefault("'cafe'", "'caf\\u00E9'")], ([yes, no]) => yes && !no],
     ['the table parser decodes entities', parseTable(html), (r) => r.length === 1 && r[0].type === "'mark' | 'lockup'" && r[0].default === "'mark'"],
     ['a page with no Prop/Type table reads null', parseTable('<table><thead><tr><th>Token</th></tr></thead></table>'), (r) => r === null],
     ['CONTROL — &amp;#39; is not decoded twice', decode('&amp;#39;'), (s) => s === '&#39;'],
@@ -305,6 +331,8 @@ console.log(
   failed
     ? `\n${C.r}✖${C.x}  a docs table disagrees with the component it documents.\n`
     : `\n${C.g}✔${C.x}  ${rowCount} row(s) across ${checked} table(s) match their Props.` +
-      `${C.dim} ${unchecked.length} page(s) have no props table yet — add a <!-- props:Name --> region and run npm run build:props.${C.x}\n`,
+      (unchecked.length
+        ? `${C.dim} ${unchecked.length} page(s) have no props table yet — add a <!-- props:Name --> region and run npm run build:props.${C.x}\n`
+        : ` Every component page has one.\n`),
 );
 process.exit(failed ? 1 : 0);

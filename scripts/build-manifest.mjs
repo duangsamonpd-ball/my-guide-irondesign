@@ -123,7 +123,12 @@ function defaults(fm) {
   const out = {};
   const parts = splitTopLevel(m[1]);
   for (const raw of parts) {
-    const p = raw.trim();
+    /* A comment ABOVE an entry is part of its slice, and the name is read as
+       "everything before the first colon" — so a comment citing a Figma node
+       ("880:1078") became the prop's name, and the real prop lost its default.
+       FooterBar's `address` and `toolGroups` both read as having none until
+       2026-09-24. Leading comments are dropped before anything is read. */
+    const p = raw.trim().replace(/^(?:\/\*[\s\S]*?\*\/\s*|\/\/[^\n]*\n\s*)+/, '');
     if (!p) continue;
     const eq = p.indexOf('=');
     if (eq === -1) continue;
