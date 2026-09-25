@@ -341,7 +341,7 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
 .semantic-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
 .sem-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.10); }
 .sem-color { height: 90px; }
-.sem-body  { background: white; padding: 10px 12px; }
+.sem-body  { background: white; padding: 10px 12px; flex: 1; }
 .sem-name  { font-size: 0.75rem; font-weight: 700; color: #171717; margin-bottom: 2px; }
 .sem-hex   { font-family: monospace; font-size: 0.65rem; color: #2693EC; }
 .sem-token {
