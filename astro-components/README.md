@@ -394,7 +394,7 @@ Props: `label`, `description`, `id`, `name`, `size` (`sm` | `md` | `lg`, default
 <Radio name="bill" value="monthly" label="Monthly" card checked />
 ```
 
-Props: `name` (required — groups radios), `value` (required), `label`, `description`, `id`, `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger ring + `aria-invalid`; put the message on the group's `<fieldset>`), `ariaLabel` (names it when there is no visible `label`), `disabled`, `card`, `class`.
+Props: `name` (required — groups radios), `value` (required), `label`, `description`, `id`, `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger ring + `aria-invalid`; put the message on the group's `<fieldset>`), `ariaLabel` (names it when there is no visible `label`), `ariaDescribedby` (id of the group's error message), `disabled`, `card`, `class`.
 
 ### `Badge.astro`
 

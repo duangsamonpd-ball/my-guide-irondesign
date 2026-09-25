@@ -232,6 +232,42 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
+    <div class="sect"><h2 class="sect-h">Group</h2>
+      <div class="sect-sub">Radios that make one choice sit in a <b>&lt;fieldset&gt;</b> named by its <b>&lt;legend&gt;</b>. An error belongs to the choice, not to one radio: every radio takes <b>invalid</b>, and one message under the list is pointed at by each radio's <b>ariaDescribedby</b>.</div>
+      <div class="canvas col" style="max-width:420px;margin:0 auto;">
+        <!-- demo:group -->
+        <fieldset class="border-0 p-0 m-0 min-w-0 flex flex-col gap-xs">
+          <legend class="text-label font-label text-text-heading leading-label mb-xs">Plan</legend>
+          <div class="flex flex-col gap-md">
+            <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="grp-starter">
+              <input class="absolute w-px h-px opacity-0 pointer-events-none" id="grp-starter" name="grp" value="starter" type="radio" aria-invalid="true" aria-describedby="grp-err">
+              <span class="shrink-0 inline-flex items-center justify-center bg-bg-input border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-input-danger after:bg-danger"></span>
+              <span class="flex flex-col gap-micro">
+                <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Starter</span>
+                <span class="text-caption text-text-muted leading-caption max-w-[360px]">For individuals getting started.</span>
+              </span>
+            </label><label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="grp-pro">
+              <input class="absolute w-px h-px opacity-0 pointer-events-none" id="grp-pro" name="grp" value="pro" type="radio" aria-invalid="true" aria-describedby="grp-err">
+              <span class="shrink-0 inline-flex items-center justify-center bg-bg-input border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-input-danger after:bg-danger"></span>
+              <span class="flex flex-col gap-micro">
+                <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Pro</span>
+                <span class="text-caption text-text-muted leading-caption max-w-[360px]">For growing teams that ship daily.</span>
+              </span>
+            </label><label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="grp-enterprise">
+              <input class="absolute w-px h-px opacity-0 pointer-events-none" id="grp-enterprise" name="grp" value="enterprise" type="radio" aria-invalid="true" aria-describedby="grp-err">
+              <span class="shrink-0 inline-flex items-center justify-center bg-bg-input border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-full after:size-[8px] after:rounded-full after:scale-0 after:transition-transform after:duration-[var(--duration-fast)] group-has-[:checked]:after:scale-100 border-border-input-danger after:bg-danger"></span>
+              <span class="flex flex-col gap-micro">
+                <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Enterprise</span>
+                <span class="text-caption text-text-muted leading-caption max-w-[360px]">Advanced controls &amp; support.</span>
+              </span>
+            </label>
+          </div>
+          <span id="grp-err" class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger flex items-center gap-micro"><svg class="size-[12px] shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"></path></svg>Choose a plan to continue.</span>
+        </fieldset>
+        <!-- /demo:group -->
+      </div>
+    </div>
+
     <div class="sect"><h2 class="sect-h">Card group</h2>
       <div class="sect-sub">For prominent, selectable options — the whole card is the target and highlights when chosen.</div>
       <div class="canvas col" style="gap:12px;max-width:420px;margin:0 auto;">
@@ -308,6 +344,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="ptable-name">checked</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Starts selected.</td></tr>
         <tr><td class="ptable-name">invalid</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Error state: a danger ring and dot plus <code>aria-invalid</code>; put the message on the group, since the error is about the choice, not one radio.</td></tr>
         <tr><td class="ptable-name">ariaLabel</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Names the radio for assistive tech when there is no visible <code>label</code> — without either it has no name at all.</td></tr>
+        <tr><td class="ptable-name">ariaDescribedby</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Id of the group's error message, so it is read out with this radio.</td></tr>
         <tr><td class="ptable-name">disabled</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables it and dims the whole row to 50%.</td></tr>
         <tr><td class="ptable-name">card</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Wraps the row in a bordered card that takes the selected outline and tint when chosen.</td></tr>
         <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the row (or card), after the component's own.</td></tr>

@@ -66,6 +66,8 @@ interface Props {
   invalid?: boolean;
   /** Names the radio for assistive tech when there is no visible `label` — without either it has no name at all. */
   ariaLabel?: string;
+  /** Id of the group's error message, so it is read out with this radio. Give every radio in an invalid group the same id. */
+  ariaDescribedby?: string;
   /** Disables it and dims the whole row to 50%. */
   disabled?: boolean;
   /** Wraps the row in a bordered card that takes the selected outline and tint when chosen. */
@@ -84,6 +86,7 @@ const {
   checked = false,
   invalid = false,
   ariaLabel,
+  ariaDescribedby,
   disabled = false,
   card = false,
   class: className,
@@ -104,12 +107,14 @@ const DOT = { sm: 'after:size-[6px]', md: 'after:size-[8px]', lg: 'after:size-[1
   {/* aria-invalid on each radio: ARIA 1.2 names the radiogroup as the owner of
       invalidity, but this component is one radio and has no group to put it on,
       and screen readers announce it on the radio itself. The page's group — a
-      <fieldset> with a <legend> — is where the message belongs; point the radios
-      at it if the page wants it read with each one. */}
+      <fieldset> with a <legend> — is where the message belongs, and
+      `ariaDescribedby` points each radio at it so it is read with each one.
+      Figma draws that group as `Radio group` `1228:44`. */}
   <input
     class={choiceInput} id={inputId} name={name} value={value} type="radio" checked={checked} disabled={disabled}
     aria-invalid={invalid ? 'true' : undefined}
     aria-label={label ? undefined : ariaLabel}
+    aria-describedby={ariaDescribedby}
   />
   {/* The dot is a pseudo-element, as it was in the CSS — there is nothing for it
       to mark up, and an empty <span> inside the ring would be a lie about the

@@ -3,7 +3,7 @@
  * Demo source for docs/component-radio.html.
  *
  * Every region on that page is generated as of 2026-08-13 — preview, states,
- * card group, anatomy and both Do/Don't cards. Nothing about the component is
+ * group (2026-09-25), card group, anatomy and both Do/Don't cards. Nothing about the component is
  * hand-written in docs/ any more; what stays hand-written there is the prose:
  * the `.atag` callouts beside the anatomy, the `.top` labels on the cards, and
  * the `<ul>` of advice under each.
@@ -19,6 +19,12 @@
  * label was tied to its control. Generating them ties each one.
  */
 import { Radio } from '@iron-software/astro-components';
+import { icons } from '@iron-software/astro-components/icons';
+/* The legend and the message wear Input's own strings, so the group reads as
+   one family with the fields around it. field.ts is not a package export —
+   the relative path is deliberate: a copy of these strings here is the drift
+   the header above describes. */
+import { fieldLabel, fieldError, fieldErrorIcon } from '../../../../astro-components/field';
 
 const plans = [
   { value: 'starter', label: 'Starter', desc: 'For individuals getting started.', checked: true },
@@ -48,6 +54,22 @@ const states = [
           <div class="lbl">{s.lbl}<small>{s.note}</small></div>
         </div>
       ))}
+    </div>
+
+    {/* Radio has no group of its own: the page writes the <fieldset>. Figma
+        draws it as `Radio group` `1228:44` — legend, then options 16 apart,
+        then the message, 8 between each. A <legend> is not a flex item, so its
+        gap is a margin. */}
+    <div data-demo="group">
+      <fieldset class="border-0 p-0 m-0 min-w-0 flex flex-col gap-xs">
+        <legend class={`${fieldLabel} mb-xs`}>Plan</legend>
+        <div class="flex flex-col gap-md">
+          {plans.map((p) => (
+            <Radio name="grp" value={p.value} label={p.label} description={p.desc} invalid ariaDescribedby="grp-err" />
+          ))}
+        </div>
+        <span id="grp-err" class={fieldError}><svg class={fieldErrorIcon} viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>Choose a plan to continue.</span>
+      </fieldset>
     </div>
 
     <div data-demo="card-group">

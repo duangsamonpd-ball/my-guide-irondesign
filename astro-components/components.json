@@ -1071,6 +1071,12 @@
           "description": "Names the radio for assistive tech when there is no visible `label` — without either it has no name at all."
         },
         {
+          "name": "ariaDescribedby",
+          "type": "string",
+          "required": false,
+          "description": "Id of the group's error message, so it is read out with this radio. Give every radio in an invalid group the same id."
+        },
+        {
           "name": "disabled",
           "type": "boolean",
           "required": false,
