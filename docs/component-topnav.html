@@ -656,24 +656,27 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect"><h2 class="sect-h">Props</h2>
-      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="tok" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm tok"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
-        <tr><td class="prop">variant</td><td class="token">'default' | 'transparent'</td><td class="val">'default'</td><td>Figma’s <code>variant</code>, same two names.</td></tr>
-        <tr><td class="prop">items</td><td class="token">NavItem[]</td><td class="val">[]</td><td><code>{ label, href?, caret? }</code>. Caret is on by default — Figma shows one on every item.</td></tr>
-        <tr><td class="prop">showAddress</td><td class="token">boolean</td><td class="val">true</td><td>Figma’s own toggle.</td></tr>
-        <tr><td class="prop">address</td><td class="token">string</td><td class="val">'205 N. Michigan Ave. Chicago, IL 60611, USA'</td><td>Office address text. Links to a map derived from this string, so the two cannot disagree.</td></tr>
-        <tr><td class="prop">phone</td><td class="token">string</td><td class="val">'+1 (312) 500-3060'</td><td><code>1123:2433</code>, beside the address and under the same <code>showAddress</code>. It is the half that leaves first, below 1400.</td></tr>
-        <tr><td class="prop">addressHref</td><td class="token">string</td><td class="val">—</td><td>Overrides the derived map URL; <code>''</code> renders the address as plain text.</td></tr>
-        <tr><td class="prop">phoneHref</td><td class="token">string</td><td class="val">—</td><td>Overrides the derived <code>tel:</code>; <code>''</code> renders the number as plain text.</td></tr>
-        <tr><td class="prop">contact</td><td class="token">NavItem</td><td class="val">{ label: 'Contact Us' }</td><td>Pass <code>null</code> to drop it.</td></tr>
-        <tr><td class="prop">language</td><td class="token">NavItem</td><td class="val">{ label: 'EN' }</td><td>Rendered after the globe icon.</td></tr>
-        <tr><td class="prop">showLanguage</td><td class="token">boolean</td><td class="val">true</td><td>Hides the globe + locale group.</td></tr>
-        <tr><td class="prop">showLogin</td><td class="token">boolean</td><td class="val">true</td><td>The account icon between Contact Us and the language picker (Figma <code>login-hubspot</code>) and the Customer HUB panel it opens.</td></tr>
-        <tr><td class="prop">ticketHref</td><td class="token">string</td><td class="val">'#'</td><td>Where the login panel&rsquo;s &ldquo;View your Ticket&rdquo; tile goes. Figma names no URL, so pass the real one.</td></tr>
-        <tr><td class="prop">licenseHref</td><td class="token">string</td><td class="val">'#'</td><td>Where the login panel&rsquo;s &ldquo;View your License&rdquo; tile goes.</td></tr>
-        <tr><td class="prop">loginOpen</td><td class="token">boolean</td><td class="val">false</td><td>Renders the login panel open on first paint. For a docs page or a test, never a live nav.</td></tr>
-        <tr><td class="prop">brandHref</td><td class="token">string</td><td class="val">'/'</td><td>Target of the Iron Software lockup.</td></tr>
-        <tr><td class="prop">brandLabel</td><td class="token">string</td><td class="val">—</td><td>Overrides the lockup&#39;s accessible name.</td></tr>
+      <!-- props:TopNav -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">variant</td><td class="ptable-type"><span class="ptable-m">'default'</span> | <span class="ptable-m">'transparent'</span></td><td class="ptable-default">'default'</td><td class="ptable-notes">Figma's <code>variant</code>, with the same two names.</td></tr>
+        <tr><td class="ptable-name">brandLabel</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Declared but never read, so it changes nothing today.</td></tr>
+        <tr><td class="ptable-name">brandHref</td><td class="ptable-type">string</td><td class="ptable-default">'/'</td><td class="ptable-notes">Where the Iron Software lockup links to.</td></tr>
+        <tr><td class="ptable-name">items</td><td class="ptable-type">NavItem[]</td><td class="ptable-default">[]</td><td class="ptable-notes">The corporate menu, each <code>{ label, href?, caret?, flyout? }</code> — the caret is on by default, as Figma draws one on every item.</td></tr>
+        <tr><td class="ptable-name">showAddress</td><td class="ptable-type">boolean</td><td class="ptable-default">true</td><td class="ptable-notes">Figma's <code>showAddress</code> toggle.</td></tr>
+        <tr><td class="ptable-name">address</td><td class="ptable-type">string</td><td class="ptable-default">'205 N. Michigan Ave. Chicago, IL 60611, USA'</td><td class="ptable-notes">The office address, linked to a map derived from this string so the two cannot disagree.</td></tr>
+        <tr><td class="ptable-name">phone</td><td class="ptable-type">string</td><td class="ptable-default">'+1 (312) 500-3060'</td><td class="ptable-notes"><code>1123:2433</code>, the number beside the address and under the same <code>showAddress</code> — it is the half that leaves first, below 1400.</td></tr>
+        <tr><td class="ptable-name">addressHref</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Overrides the derived map URL; <code>''</code> renders the address as plain text.</td></tr>
+        <tr><td class="ptable-name">phoneHref</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Overrides the derived <code>tel:</code> link; <code>''</code> renders the number as plain text.</td></tr>
+        <tr><td class="ptable-name">contact</td><td class="ptable-type">NavItem</td><td class="ptable-default">{ label: 'Contact Us' }</td><td class="ptable-notes">The Contact Us link on the right of the strip; pass <code>null</code> to drop it.</td></tr>
+        <tr><td class="ptable-name">language</td><td class="ptable-type">NavItem</td><td class="ptable-default">{ label: 'EN' }</td><td class="ptable-notes">The locale link, drawn after the globe icon.</td></tr>
+        <tr><td class="ptable-name">showLanguage</td><td class="ptable-type">boolean</td><td class="ptable-default">true</td><td class="ptable-notes">Shows the globe and locale group.</td></tr>
+        <tr><td class="ptable-name">showLogin</td><td class="ptable-type">boolean</td><td class="ptable-default">true</td><td class="ptable-notes">The account icon between Contact Us and the language picker, and the Customer HUB panel it opens.</td></tr>
+        <tr><td class="ptable-name">ticketHref</td><td class="ptable-type">string</td><td class="ptable-default">'#'</td><td class="ptable-notes">Where the login panel's "View your Ticket" tile goes.</td></tr>
+        <tr><td class="ptable-name">licenseHref</td><td class="ptable-type">string</td><td class="ptable-default">'#'</td><td class="ptable-notes">Where the login panel's "View your License" tile goes.</td></tr>
+        <tr><td class="ptable-name">loginOpen</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Renders the login panel open on first paint, for a docs page or a test — never a live nav.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the outer bar.</td></tr>
       </tbody></table></div>
+      <!-- /props:TopNav -->
     </div>
 
     <div class="sect">

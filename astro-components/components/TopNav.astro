@@ -122,19 +122,27 @@ interface NavItem {
 }
 
 interface Props {
-  /** Figma's `variant`. The second variant was renamed `Transparent` on the
+  /** Figma's `variant`, with the same two names. The second variant was renamed `Transparent` on the
    *  canvas (it read "Without bg" until Ball's 2026-09-03 pass), so the two
    *  sides now spell it the same way. */
   variant?: 'default' | 'transparent';
+  /** Declared but never read, so it changes nothing today. Kept until Ball
+   *  rules whether it should name the lockup or be deleted. */
   brandLabel?: string;
+  /** Where the Iron Software lockup links to. */
   brandHref?: string;
+  /** The corporate menu, each `{ label, href?, caret?, flyout? }` — the caret is
+   *  on by default, as Figma draws one on every item. `flyout` turns the item
+   *  into a panel trigger fed by the slot of that name. */
   items?: NavItem[];
   /** Figma's `showAddress` toggle. Covers the phone number too — `231:1571`
    *  holds both, and the node has no separate switch for the number. */
   showAddress?: boolean;
+  /** The office address, linked to a map derived from this string so the two cannot disagree. */
   address?: string;
   /**
-   * `1123:2433`, the number beside the address. Both it and the address are
+   * `1123:2433`, the number beside the address and under the same
+   * `showAddress` — it is the half that leaves first, below 1400. Both it and the address are
    * links (Ball, 2026-09-03) though Figma draws them as flat text: a phone
    * number you cannot tap is a defect on the device most likely to see one.
    *
@@ -144,24 +152,30 @@ interface Props {
    * `''` to render that half as plain text again.
    */
   phone?: string;
+  /** Overrides the derived map URL; `''` renders the address as plain text. */
   addressHref?: string;
+  /** Overrides the derived `tel:` link; `''` renders the number as plain text. */
   phoneHref?: string;
+  /** The Contact Us link on the right of the strip; pass `null` to drop it. */
   contact?: NavItem;
+  /** The locale link, drawn after the globe icon. */
   language?: NavItem;
+  /** Shows the globe and locale group. */
   showLanguage?: boolean;
   /**
-   * The account trigger between Contact Us and the language picker — Figma
-   * `login-hubspot` `1245:1966`, added 2026-09-30 — and the Customer HUB panel it
-   * opens. The node has no property for it, so it is on by default like the
-   * rest of the strip.
+   * The account icon between Contact Us and the language picker, and the
+   * Customer HUB panel it opens. Figma `login-hubspot` `1245:1966`, added
+   * 2026-09-30; the node has no property for it, so it is on by default like
+   * the rest of the strip.
    */
   showLogin?: boolean;
   /** Where the login panel's "View your Ticket" tile goes. */
   ticketHref?: string;
   /** Where the login panel's "View your License" tile goes. */
   licenseHref?: string;
-  /** Render the login panel open on first paint. For a docs page or a test, never a live nav. */
+  /** Renders the login panel open on first paint, for a docs page or a test — never a live nav. */
   loginOpen?: boolean;
+  /** Extra classes on the outer bar. */
   class?: string;
 }
 

@@ -1440,24 +1440,27 @@
           "type": "'default' | 'transparent'",
           "required": false,
           "default": "'default'",
-          "description": "Figma's `variant`. The second variant was renamed `Transparent` on the canvas (it read \"Without bg\" until Ball's 2026-09-03 pass), so the two sides now spell it the same way."
+          "description": "Figma's `variant`, with the same two names. The second variant was renamed `Transparent` on the canvas (it read \"Without bg\" until Ball's 2026-09-03 pass), so the two sides now spell it the same way."
         },
         {
           "name": "brandLabel",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Declared but never read, so it changes nothing today. Kept until Ball rules whether it should name the lockup or be deleted."
         },
         {
           "name": "brandHref",
           "type": "string",
           "required": false,
-          "default": "'/'"
+          "default": "'/'",
+          "description": "Where the Iron Software lockup links to."
         },
         {
           "name": "items",
           "type": "NavItem[]",
           "required": false,
-          "default": "[]"
+          "default": "[]",
+          "description": "The corporate menu, each `{ label, href?, caret?, flyout? }` — the caret is on by default, as Figma draws one on every item. `flyout` turns the item into a panel trigger fed by the slot of that name."
         },
         {
           "name": "showAddress",
@@ -1470,49 +1473,55 @@
           "name": "address",
           "type": "string",
           "required": false,
-          "default": "'205 N. Michigan Ave. Chicago, IL 60611, USA'"
+          "default": "'205 N. Michigan Ave. Chicago, IL 60611, USA'",
+          "description": "The office address, linked to a map derived from this string so the two cannot disagree."
         },
         {
           "name": "phone",
           "type": "string",
           "required": false,
           "default": "'+1 (312) 500-3060'",
-          "description": "`1123:2433`, the number beside the address. Both it and the address are links (Ball, 2026-09-03) though Figma draws them as flat text: a phone number you cannot tap is a defect on the device most likely to see one. The two hrefs are DERIVED from the two strings rather than being props with their own defaults, so a consumer who changes the address cannot leave the map pointing at Chicago. Pass `addressHref` / `phoneHref` to override, or `''` to render that half as plain text again."
+          "description": "`1123:2433`, the number beside the address and under the same `showAddress` — it is the half that leaves first, below 1400. Both it and the address are links (Ball, 2026-09-03) though Figma draws them as flat text: a phone number you cannot tap is a defect on the device most likely to see one. The two hrefs are DERIVED from the two strings rather than being props with their own defaults, so a consumer who changes the address cannot leave the map pointing at Chicago. Pass `addressHref` / `phoneHref` to override, or `''` to render that half as plain text again."
         },
         {
           "name": "addressHref",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Overrides the derived map URL; `''` renders the address as plain text."
         },
         {
           "name": "phoneHref",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Overrides the derived `tel:` link; `''` renders the number as plain text."
         },
         {
           "name": "contact",
           "type": "NavItem",
           "required": false,
-          "default": "{ label: 'Contact Us' }"
+          "default": "{ label: 'Contact Us' }",
+          "description": "The Contact Us link on the right of the strip; pass `null` to drop it."
         },
         {
           "name": "language",
           "type": "NavItem",
           "required": false,
-          "default": "{ label: 'EN' }"
+          "default": "{ label: 'EN' }",
+          "description": "The locale link, drawn after the globe icon."
         },
         {
           "name": "showLanguage",
           "type": "boolean",
           "required": false,
-          "default": "true"
+          "default": "true",
+          "description": "Shows the globe and locale group."
         },
         {
           "name": "showLogin",
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "The account trigger between Contact Us and the language picker — Figma `login-hubspot` `1245:1966`, added 2026-09-30 — and the Customer HUB panel it opens. The node has no property for it, so it is on by default like the rest of the strip."
+          "description": "The account icon between Contact Us and the language picker, and the Customer HUB panel it opens. Figma `login-hubspot` `1245:1966`, added 2026-09-30; the node has no property for it, so it is on by default like the rest of the strip."
         },
         {
           "name": "ticketHref",
@@ -1533,12 +1542,13 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Render the login panel open on first paint. For a docs page or a test, never a live nav."
+          "description": "Renders the login panel open on first paint, for a docs page or a test — never a live nav."
         },
         {
           "name": "class",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra classes on the outer bar."
         }
       ]
     },
