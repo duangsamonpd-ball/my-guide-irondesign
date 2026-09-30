@@ -48,6 +48,20 @@
  * surface the consuming room diffs is untouched — and those tables are checked
  * exactly like the rest.
  *
+ * ── AND THE README, as of 2026-09-30 ───────────────────────────────────────
+ *
+ * `astro-components/README.md` writes each public component's props out in
+ * prose — `Props: \`a\` (…), \`b\`, …` — and that sentence was the one place a
+ * consumer reads props that nothing compared to anything. The 2026-09-18 audit
+ * found four props missing there on one day. So the same set equality now runs
+ * against it: the prop NAMES at the top level of the `Props` paragraph (anything
+ * inside parentheses is a value or an explanation and is not read), plus the
+ * first column of a markdown table that follows it, which is how FooterBar
+ * writes nineteen props. Names only — the prose is free to explain types and
+ * defaults however it likes, and the docs tables above are where those are
+ * gated. Unlike those tables, `class` is not exempt: every section lists it.
+ * A public component whose section has no `Props` paragraph at all is a fault.
+ *
  * Pure Node, no browser, no node_modules — so it runs inside `npm run check`.
  *
  *   node scripts/check-props-table.mjs [--self-test]
@@ -211,7 +225,71 @@ export function compare(component, rows, universal = new Set()) {
   return faults;
 }
 
-/* ── 3. run ───────────────────────────────────────────────────────────────── */
+/* ── 3. the README's Props prose ──────────────────────────────────────────── */
+
+/** `### \`Name.astro\`` → the section's text, up to the next `###`. */
+export function readmeSections(md) {
+  const out = new Map();
+  for (const part of md.split(/^### /m).slice(1)) {
+    const h = part.match(/^`(\w+)\.astro`/);
+    if (h) out.set(h[1], part);
+  }
+  return out;
+}
+
+/**
+ * The prop names a section's `Props` paragraph lists, or null when it has none.
+ * A name is a backticked identifier OUTSIDE parentheses — `(\`a\` | \`b\`)` is a
+ * union and `(default \`x\`)` a value, neither a prop. Backticks are skipped as
+ * a unit first, so a `)` inside code cannot close a parenthesis.
+ *
+ * READING STOPS AT THE LIST'S FULL STOP — the first `.` at the top level that
+ * ends a sentence. Input's paragraph goes on to explain `autocomplete` and
+ * `error` after `class.`, so a whole-paragraph read would keep passing with
+ * `error` deleted from the list itself: the set comparison would find it in the
+ * explanation. A `.` inside parentheses (`e.g. for another language`) is not
+ * the end. A markdown table right after the paragraph contributes its first
+ * column.
+ */
+export function readmePropNames(section) {
+  const start = section.search(/^Props\b/m);
+  if (start < 0) return null;
+  const rest = section.slice(start);
+  const para = rest.split(/\n\s*\n/)[0];
+  const names = [];
+  let depth = 0;
+  for (let i = 0; i < para.length; i++) {
+    const ch = para[i];
+    if (ch === '`') {
+      const j = para.indexOf('`', i + 1);
+      if (j < 0) break;
+      if (depth === 0) names.push(para.slice(i + 1, j));
+      i = j;
+    } else if (ch === '(') depth++;
+    else if (ch === ')') depth = Math.max(0, depth - 1);
+    else if (ch === '.' && depth === 0 && (i + 1 === para.length || /\s/.test(para[i + 1]))) break;
+  }
+  const after = rest.slice(para.length).replace(/^\s*\n/, '');
+  if (after.startsWith('|')) {
+    for (const line of after.split('\n')) {
+      if (!line.startsWith('|')) break;
+      const cell = line.split('|')[1] ?? '';
+      for (const m of cell.matchAll(/`([^`]+)`/g)) names.push(m[1]);
+    }
+  }
+  return [...new Set(names.filter((n) => /^[a-zA-Z][a-zA-Z0-9]*$/.test(n)))];
+}
+
+export function compareReadme(component, names) {
+  const want = new Set((component.props ?? []).map((p) => p.name));
+  const got = new Set(names);
+  return [
+    ...[...want].filter((n) => !got.has(n)).map((n) => `${n} — the component has it, the README's Props line does not`),
+    ...[...got].filter((n) => !want.has(n)).map((n) => `${n} — the README's Props line has it, the component does not`),
+  ];
+}
+
+/* ── 4. run ───────────────────────────────────────────────────────────────── */
 
 const SELF_TEST = process.argv.includes('--self-test');
 const manifest = JSON.parse(readFileSync(join(ROOT, 'astro-components', 'components.json'), 'utf8'));
@@ -254,6 +332,24 @@ if (SELF_TEST) {
     ['the table parser decodes entities', parseTable(html), (r) => r.length === 1 && r[0].type === "'mark' | 'lockup'" && r[0].default === "'mark'"],
     ['a page with no Prop/Type table reads null', parseTable('<table><thead><tr><th>Token</th></tr></thead></table>'), (r) => r === null],
     ['CONTROL — &amp;#39; is not decoded twice', decode('&amp;#39;'), (s) => s === '&#39;'],
+    ['README — top-level names only, not a union or a default in parentheses',
+      readmePropNames("Props: `kind` (`mark` | `lockup`, default `mark`), `size`, `href`.\n\nMore."),
+      (n) => n.join() === 'kind,size,href'],
+    ['README — a `)` inside code does not close the parenthesis',
+      readmePropNames("Props: `a` (`f()` then `x`), `b`."), (n) => n.join() === 'a,b'],
+    ['README — a table after the Props paragraph adds its first column',
+      readmePropNames("Props, all optional:\n\n| | |\n|---|---|\n| `kind`, `size` | the size |\n| `href` | `notAProp` |\n\nAfter."),
+      (n) => n.join() === 'kind,size,href'],
+    ['README — prose after the list\'s full stop is not read as the list',
+      readmePropNames("Props: `kind`, `size`. Pass `href` when it links."), (n) => n.join() === 'kind,size'],
+    ['README — a full stop inside parentheses does not end the list',
+      readmePropNames("Props: `kind` (e.g. for this. Or that), `size`."), (n) => n.join() === 'kind,size'],
+    ['README — a section with no Props paragraph reads null', readmePropNames('Some text.\n'), (n) => n === null],
+    ['README CONTROL — a Props line that agrees is silent', compareReadme(component, ['kind', 'size', 'href']), (f) => f.length === 0],
+    ['README — a prop the Props line does not mention', compareReadme(component, ['kind', 'href']), (f) => f.length === 1 && /README's Props line does not/.test(f[0])],
+    ['README — a prop the Props line invented', compareReadme(component, ['kind', 'size', 'href', 'ghost']), (f) => f.length === 1 && /component does not/.test(f[0])],
+    ['README — sections are keyed by their `Name.astro` heading',
+      readmeSections("### `A.astro`\nProps: `x`.\n\n### Other\n\n### `B.astro`\nno props\n"), (m) => [...m.keys()].join() === 'A,B'],
   ];
 
   console.log(`\n${C.b}Self-test${C.x} ${C.dim}props table vs Props${C.x}`);
@@ -327,12 +423,41 @@ if (orphans.length) {
   for (const f of orphans) console.log(`      ${C.dim}docs/${f} — nothing checks these rows${C.x}`);
 }
 
+/* The README. Public components only: an internal one is not something a
+   consumer passes props to, and its README section says it moved. */
+const readme = readmeSections(readFileSync(join(ROOT, 'astro-components', 'README.md'), 'utf8'));
+let readmeChecked = 0, readmeNames = 0;
+const readmeFailed = [];
+console.log(`\n${C.b}README Props lines${C.x} ${C.dim}astro-components/README.md, names only${C.x}\n`);
+for (const component of manifest.components) {
+  const section = readme.get(component.name);
+  if (!section) continue; // a missing section is check:exports' finding, not this gate's
+  const names = readmePropNames(section);
+  if (names === null) {
+    readmeFailed.push(component.name);
+    console.log(`  ${C.r}✖${C.x} ${component.name.padEnd(14)} the README section has no Props paragraph — ${(component.props ?? []).length} props undocumented there`);
+    continue;
+  }
+  const faults = compareReadme(component, names);
+  readmeChecked++;
+  readmeNames += names.length;
+  if (!faults.length) {
+    console.log(`  ${C.g}✓${C.x} ${component.name.padEnd(14)} ${C.dim}${names.length} name(s) match${C.x}`);
+  } else {
+    readmeFailed.push(component.name);
+    console.log(`  ${C.r}✖${C.x} ${component.name.padEnd(14)}`);
+    for (const f of faults) console.log(`      ${f}`);
+  }
+}
+if (readmeFailed.length) failed = true;
+
 console.log(
   failed
-    ? `\n${C.r}✖${C.x}  a docs table disagrees with the component it documents.\n`
+    ? `\n${C.r}✖${C.x}  a docs table or README Props line disagrees with the component it documents.\n`
     : `\n${C.g}✔${C.x}  ${rowCount} row(s) across ${checked} table(s) match their Props.` +
       (unchecked.length
         ? `${C.dim} ${unchecked.length} page(s) have no props table yet — add a <!-- props:Name --> region and run npm run build:props.${C.x}\n`
-        : ` Every component page has one.\n`),
+        : ` Every component page has one.`) +
+      ` ${readmeNames} README prop name(s) across ${readmeChecked} section(s) match too.\n`,
 );
 process.exit(failed ? 1 : 0);
