@@ -337,7 +337,7 @@
       "link-menu-alt": {
         "$value": "#171717",
         "$type": "color",
-        "$description": "Neutral/900 — menu links on a card or panel surface that follows the theme (Figma: link-menu-alt). NOT for the white product bar: surface/nav stays white in dark mode while this turns white"
+        "$description": "Neutral/900 — menu links on a card or panel surface that follows the theme (Figma: link-menu-alt). No consumer in code yet: the product menu and the flyout menus have ONE mode (Ball, 2026-09-30) and take the fixed text-on-light-heading instead. NOT for the white product bar: surface/nav stays white in dark mode while this turns white"
       },
       "link-menu-alt-hover": {
         "$value": "#E01A59",

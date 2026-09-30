@@ -150,7 +150,13 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
 
 <style>
   /* PROVISIONAL — see the note at the top of this file. Every value below is a
-     neutral token choice made to be legible, not a design decision. */
+     neutral token choice made to be legible, not a design decision.
+
+     ONE MODE — Ball, 2026-09-30: the product menu and the flyout menus have no
+     dark mode. So nothing here reads a token `.dark` remaps: the surface is
+     `--color-bg-nav` (fixed white, ProductMenu's own), the rules and the notch
+     are `--slate-200` (what `--color-border` resolves to in light), and the
+     trigger's type is the `text-on-light` pair. Every light value is unchanged. */
   .fm { position: relative; display: inline-block; }
 
   .fm-trigger {
@@ -158,11 +164,11 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
     padding: var(--spacing-xs) var(--spacing-sm);
     font-family: inherit; font-size: var(--font-size-btn); font-weight: var(--fw-btn);
     line-height: var(--leading-5); letter-spacing: var(--letter-spacing-btn);
-    color: var(--color-text-body); background: none;
+    color: var(--color-text-on-light-body); background: none;
     border: var(--border-width-1) solid transparent; border-radius: var(--rounded-md);
     cursor: pointer; transition: color var(--duration-base);
   }
-  .fm-trigger:hover { color: var(--color-text-link); }
+  .fm-trigger:hover { color: var(--iron-blue-500); }
   .fm-trigger:focus-visible { outline: var(--border-width-2) solid var(--color-border-focus); outline-offset: 2px; }
   /* 16, not 12: `caretDown` centres a 6.246x3.765 triangle inside a 16x16 box
      and Figma uses that box AS the gap. Drawing it at 12 shrinks the triangle and
@@ -177,8 +183,8 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
   .fm-panel {
     position: absolute; top: calc(100% + var(--spacing-sm)); z-index: 20;
     min-width: 220px;
-    background: var(--color-bg-card);
-    border: var(--border-width-1) solid var(--color-border);
+    background: var(--color-bg-nav);
+    border: var(--border-width-1) solid var(--slate-200);
     border-radius: var(--rounded-lg);
     box-shadow: var(--shadow-float);
     opacity: 0; visibility: hidden;
@@ -237,7 +243,7 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
      trigger, so it is measured from the trigger here. */
   .fm-notch::before {
     content: ''; position: absolute; top: -10px; width: 20px; height: 10px;
-    background: var(--color-border);
+    background: var(--slate-200);
     clip-path: path('M0 10L8.53069 0.665923C9.34217 -0.221975 10.6578 -0.221974 11.4693 0.665924L20 10H0Z');
   }
   .fm-start.fm-notch::before  { left: var(--spacing-lg); }

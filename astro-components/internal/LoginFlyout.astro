@@ -22,22 +22,28 @@
  * `text/default/link-menu-alt`. 12 + 48 + 8 + 40 + 12 + the border's 2 = 122,
  * which is why each label is two lines: 119.5 - 32 - 2 leaves 85.5 for it.
  *
- * `1245:2049`, a 1px `border/default` LINE across the top inside the border,
- * is not drawn: it lies exactly on the border's own top edge and adds nothing.
+ * The set is `1252:1507` since 2026-09-30, `Variant=Default | Hover`: the
+ * Default above keeps the id `1245:2088`, Hover is `1252:1488`. A 1px LINE that
+ * lay on the container's own top border (`1245:2049`) was deleted by Ball the
+ * same day.
  *
  * ## Where the code decides and the canvas does not
  *
- * - **Hover.** The node is a single COMPONENT with no states. Ball's call,
- *   2026-09-30: a tile hovers to `border/strong` and its label to
- *   `link-menu-alt-hover` — the pair `Product sub menu`'s Activehover uses.
+ * - **Hover.** Ball's call, 2026-09-30: a tile hovers to `border/strong` and
+ *   its label to `link-menu-alt-hover` — the pair `Product sub menu`'s
+ *   Activehover uses. Drawn into Figma afterwards as `Variant=Hover`
+ *   `1252:1488`, both tiles hovered, which is what `forceHover` renders.
  * - **Links.** The canvas names no URLs, so both are props defaulting to `#`
  *   (Ball, 2026-09-30); the consumer passes the real Customer HUB addresses.
- * - **Dark mode follows the theme**, unlike ProductFlyout's one mode, because
- *   the node binds the semantic pair that flips: `surface/card` and
- *   `link-menu-alt`, which Figma added for exactly this panel. The circle is the
- *   raw `iron-blue/50` primitive in the node, so it stays light in both.
- *   `link-menu-alt-hover` is one pink in both columns, 2.49:1 on the dark card —
- *   below AA, and recorded at the token rather than overridden here.
+ * - **One mode — Ball, 2026-09-30: the product menu and the flyout menus have
+ *   no dark mode.** The node binds semantic tokens that flip (`surface/card`,
+ *   `border/*`, `text/default/support`, `link-menu-alt`), so each is written
+ *   as the fixed token or primitive its LIGHT value resolves to, and they move
+ *   together, as ProductMenu's bar did: a pinned surface under type that had
+ *   turned white would be white on white. `--color-text-on-light-heading` is
+ *   `link-menu-alt`'s light #171717; `--iron-blue-800` is `support`'s. The pink
+ *   hover never flipped. That leaves `--color-text-link-menu-alt` with no
+ *   consumer in code — its dark value is the one thing this panel must not do.
  *
  * The two icons are Font Awesome 7 Duotone Solid glyphs (`ticket`, `award`) set
  * as text in the node. Figma's own SVG export renders them server-side, so the
@@ -133,8 +139,8 @@ const tiles = [
     box-sizing: border-box; width: 297px; max-width: 100%;
     display: flex; flex-direction: column; gap: var(--spacing-md);
     padding: var(--spacing-lg);
-    background: var(--color-bg-card);
-    border: var(--border-width-1) solid var(--color-border);
+    background: var(--color-bg-nav);
+    border: var(--border-width-1) solid var(--slate-200);
     border-radius: var(--rounded-lg);
     box-shadow: var(--shadow-modal);
     font-family: 'Montserrat', sans-serif;
@@ -145,7 +151,7 @@ const tiles = [
     margin: 0; text-align: center; text-transform: uppercase;
     font-size: var(--font-size-overline); font-weight: var(--fw-overline);
     line-height: var(--line-height-overline); letter-spacing: var(--letter-spacing-overline);
-    color: var(--color-text-support); opacity: var(--opacity-75);
+    color: var(--iron-blue-800); opacity: var(--opacity-75);
   }
 
   .lf-tiles { display: flex; gap: var(--spacing-md); margin: 0; padding: 0; list-style: none; }
@@ -157,8 +163,8 @@ const tiles = [
     box-sizing: border-box; width: 100%;
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-xs);
     padding: var(--spacing-sm) var(--spacing-md);
-    background: var(--color-bg-card);
-    border: var(--border-width-1) solid var(--color-border);
+    background: var(--color-bg-nav);
+    border: var(--border-width-1) solid var(--slate-200);
     border-radius: var(--rounded-lg);
     text-decoration: none;
     transition: border-color var(--duration-base) var(--ease-default);
@@ -173,7 +179,7 @@ const tiles = [
     display: block; width: 48px; height: 48px; flex-shrink: 0;
     border-radius: var(--rounded-full);
     background: var(--iron-blue-50);
-    box-shadow: inset 0 0 0 0.75px var(--color-border);
+    box-shadow: inset 0 0 0 0.75px var(--slate-200);
   }
   .lf-icon svg { display: block; }
   .lf-glyph { fill: var(--iron-blue-500); }
@@ -185,13 +191,13 @@ const tiles = [
     text-align: center;
     font-size: var(--font-size-nav-sub); font-weight: var(--fw-nav-sub);
     line-height: var(--line-height-nav-sub); letter-spacing: normal;
-    color: var(--color-text-link-menu-alt);
+    color: var(--color-text-on-light-heading);
     transition: color var(--duration-base) var(--ease-default);
   }
 
   .lf-tile:hover,
   .lf-tile:focus-visible,
-  .lf.is-hover .lf-tile { border-color: var(--color-border-strong); }
+  .lf.is-hover .lf-tile { border-color: var(--slate-300); }
   .lf-tile:hover .lf-label,
   .lf-tile:focus-visible .lf-label,
   .lf.is-hover .lf-label { color: var(--color-text-link-menu-alt-hover); }

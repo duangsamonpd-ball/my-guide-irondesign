@@ -955,7 +955,8 @@ toggle, and it covers the number too — the node has no separate switch),
 sits between Contact Us and the language picker: a 16px user-lock glyph and the
 caret, an icon-only FlyoutMenu whose `aria-label` is "Customer HUB Login". It
 opens `LoginFlyout` (`internal/`, from `FlyoutMenu-login` `1245:2088`) — 297
-wide, two tiles, **following the theme** where the PRODUCTS panel does not. The
+wide, two tiles, **one mode** like the PRODUCTS panel (Ball, 2026-09-30: the
+product menu and the flyout menus have no dark mode). The
 panel hangs from the trigger's right edge (`align="end"`) because centred it runs
 off a 1440 screen, and the notch is aimed at the icon either way. Figma names no
 URLs, so pass `ticketHref` / `licenseHref`; both default to `#`. `showLogin={false}`

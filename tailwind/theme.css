@@ -342,7 +342,7 @@
   --color-text-link-hover: var(--iron-pink-500); /* #E01A59 — Hovered / active link state */
   --color-text-link-menu: #FFFFFF;            /* White — links in the dark footer / nav menu bar (Figma: link-menu) */
   --color-text-link-menu-hover: var(--iron-pink-500); /* #E01A59 — brand/primary — hovered menu-bar link */
-  --color-text-link-menu-alt: var(--neutral-900); /* #171717 — menu links on a card or panel that follows the theme (Figma: link-menu-alt) · 17.93:1 on --color-bg-card. NOT for ProductMenu's bar: --color-bg-nav stays white under .dark while this turns white */
+  --color-text-link-menu-alt: var(--neutral-900); /* #171717 — menu links on a card or panel that follows the theme (Figma: link-menu-alt) · 17.93:1 on --color-bg-card. No consumer in code yet: the product menu and flyout menus have ONE mode (Ball, 2026-09-30) and take --color-text-on-light-heading. NOT for ProductMenu's bar: --color-bg-nav stays white under .dark while this turns white */
   --color-text-link-menu-alt-hover: var(--iron-pink-500); /* #E01A59 — brand/primary, both modes (Figma: link-menu-alt-hover) · 4.71:1 on --color-bg-card; 2.49:1 on --color-bg-dark-card, below AA, because Figma binds one pink to both columns */
   --color-text-dark-heading: var(--neutral-100); /* #F5F5F5 — neutral/100 */
   --color-text-dark-heading-alt: var(--iron-orange-500); /* #FDA509 — brand/accent 1 */

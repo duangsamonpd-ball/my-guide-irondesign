@@ -1051,8 +1051,8 @@
 .bg-bg-input-disabled {
   background-color: var(--color-bg-input-disabled);
 }
-.bg-bg-shade {
-  background-color: var(--color-bg-shade);
+.bg-bg-nav {
+  background-color: var(--color-bg-nav);
 }
 .bg-border-strong {
   background-color: var(--color-border-strong);
@@ -1098,6 +1098,9 @@
 }
 .bg-primary {
   background-color: var(--color-primary);
+}
+.bg-slate-100 {
+  background-color: var(--color-slate-100);
 }
 .bg-success {
   background-color: var(--color-success);
@@ -1468,8 +1471,8 @@
 .text-accent-3 {
   color: var(--color-accent-3);
 }
-.text-bg-card {
-  color: var(--color-bg-card);
+.text-bg-nav {
+  color: var(--color-bg-nav);
 }
 .text-danger {
   color: var(--color-danger);
@@ -1533,6 +1536,9 @@
 }
 .text-text-on-dark-heading {
   color: var(--color-text-on-dark-heading);
+}
+.text-text-on-light-body {
+  color: var(--color-text-on-light-body);
 }
 .text-text-on-light-heading {
   color: var(--color-text-on-light-heading);
@@ -1827,9 +1833,9 @@
   border-style: var(--tw-border-style);
   border-width: 1px;
 }
-.after\:border-border::after {
+.after\:border-slate-200::after {
   content: var(--tw-content);
-  border-color: var(--color-border);
+  border-color: var(--color-slate-200);
 }
 .after\:bg-danger::after {
   content: var(--tw-content);
@@ -1871,9 +1877,6 @@
   .hover\:bg-\[var\(--ghost-hover\)\]:hover {
     background-color: var(--ghost-hover);
   }
-  .hover\:bg-bg-shade:hover {
-    background-color: var(--color-bg-shade);
-  }
   .hover\:bg-button-outline-hover:hover {
     background-color: var(--color-button-outline-hover);
   }
@@ -1888,6 +1891,9 @@
   }
   .hover\:bg-primary-hover:hover {
     background-color: var(--color-primary-hover);
+  }
+  .hover\:bg-slate-100:hover {
+    background-color: var(--color-slate-100);
   }
   .hover\:text-on-tertiary-hover:hover {
     color: var(--color-on-tertiary-hover);
@@ -1918,8 +1924,8 @@
 .focus-visible\:border-border-focused:focus-visible {
   border-color: var(--color-border-focused);
 }
-.focus-visible\:bg-bg-shade:focus-visible {
-  background-color: var(--color-bg-shade);
+.focus-visible\:bg-slate-100:focus-visible {
+  background-color: var(--color-slate-100);
 }
 .focus-visible\:shadow-\[var\(--focus-ring-blue\)\]:focus-visible {
   --tw-shadow: var(--focus-ring-blue);
