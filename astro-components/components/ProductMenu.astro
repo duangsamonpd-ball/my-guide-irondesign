@@ -138,26 +138,32 @@ interface SubItem {
 }
 
 interface Props {
+  /** Figma's `Varient` property — `submenu` adds the second tier. */
   variant?: 'default' | 'submenu';
   /** Mark artwork — same keys as Logo.astro's `product`. */
   product?: string;
-  /** Coloured half of the wordmark, e.g. "PDF" in IRONPDF. */
+  /** The coloured half of the wordmark — the "PDF" in IRONPDF. */
   productName?: string;
-  /** Trailing runtime label, e.g. "for .NET". Omit to hide. */
+  /** The runtime label after the wordmark; pass `""` to hide it, since leaving it out falls back to "for .NET". */
   runtime?: string;
+  /** Where the product lockup links to. */
   productHref?: string;
   /** Figma `hasTrailingIcon` — the caret after the product lockup. */
   hasTrailingIcon?: boolean;
+  /** The top-tier links, each `{ label, href?, active?, caret? }` — the caret is on for every item but the active one. */
   items?: MenuItem[];
   /** Sub tier: the current-page chip, drawn boxed. Figma keeps its label the
    *  default colour and turns it brand-pink only on hover. */
   subLead?: SubItem;
+  /** Figma's "Sub Menu Items" slot — the sub tier's links, each `{ label, href? }`. */
   subItems?: SubItem[];
   /** Figma `showMenuItems2` — trailing links at the right end of the sub tier. */
   showMenuItems2?: boolean;
+  /** What `showMenuItems2` shows: the trailing group's links. */
   subItemsTrailing?: SubItem[];
   /**
-   * Which component fills the CTA slot. Figma models this as an INSTANCE-SWAP
+   * Figma's `Instance` swap: which button fills the CTA slot, both 48 tall as
+   * the 72px tier needs. Figma models this as an INSTANCE-SWAP
    * property called `Instance` on `790:4778`, whose preferred list is exactly
    * two: `button-Nuget` and `button` pinned at `231:1411`
    * (`Variant=primary, Size=md`). A closed set of two is a prop here rather
@@ -173,13 +179,21 @@ interface Props {
    * measures both values so a future edit cannot quietly reintroduce it.
    */
   cta?: 'nuget' | 'button';
+  /** The call-to-action's text. */
   ctaLabel?: string;
+  /** Where the call-to-action goes — `#` until you pass one. */
   ctaHref?: string;
+  /** Shows the 36px Search bubble. */
   showSearch?: boolean;
+  /** Shows the 36px Ask AI bubble. */
   showAskAi?: boolean;
+  /** The Search bubble's accessible name — it is icon-only. */
   searchLabel?: string;
+  /** The Ask AI bubble's accessible name — it is icon-only. */
   askAiLabel?: string;
+  /** Where the mark SVGs live; use an absolute path such as `/assets` on nested routes. */
   basePath?: string;
+  /** Extra classes on the outer header. */
   class?: string;
 }
 

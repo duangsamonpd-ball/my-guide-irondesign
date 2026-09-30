@@ -26,10 +26,11 @@ type ElementName =
   | 'print' | 'drawing' | 'webscraper' | 'ppt' | 'securedoc' | 'freetools';
 
 interface Props {
+  /** Picks the family — `lockup` is the mark and wordmark locked together. */
   kind?: 'mark' | 'wordmark' | 'element' | 'lockup';
-  /** Required for kind="mark" (Product) and kind="element" (ElementName). */
+  /** Which product — marks take the short keys (`wd`, `bc`, `prt`, `ws`), elements the full names (`word`, `barcode`, `print`, `webscraper`); required for kind="mark" and kind="element". */
   product?: Product | ElementName;
-  /** kind="wordmark" only. */
+  /** Wordmark only — Iron Software or Iron Suite. */
   brand?: 'iron' | 'suite';
   /** Figma's variant axis, scoped to the kind: wordmark takes
    *  default/ondark/mono/onhero (`mono` and `onhero` are iron-only — suite has
@@ -50,8 +51,8 @@ interface Props {
   variant?: 'default' | 'ondark' | 'mono' | 'onhero' | 'basic' | 'stack';
   /** kind="mark" only — swaps to the black knockout artwork. */
   mono?: boolean;
-  /** kind="mark" / "element". The ladder is the standard icon ladder, and what
-   *  each rung costs in crispness is measured below rather than enforced.
+  /** kind="mark" / "element" — the standard icon ladder, where what each rung
+   *  costs in crispness is measured by `check:logo-grid` rather than enforced.
    *
    *  MEASURED 2026-08-21, because the rule had been stated but never counted;
    *  re-measured and widened to the full ladder 2026-08-24.
@@ -183,11 +184,13 @@ interface Props {
   size?: 16 | 24 | 32 | 48 | 64 | 72 | 96 | 144 | 192;
   /** kind="wordmark" / "lockup" — rendered height in px; width follows the aspect ratio. */
   height?: number;
-  /** Wraps the logo in an <a>. */
+  /** Renders an `<a>` with an `aria-label` instead of a `<span>`. */
   href?: string;
-  /** Overrides the generated alt text. Pass "" for decorative use next to a visible name. */
+  /** Overrides the generated alt text; pass `""` for decorative use next to a visible name. */
   label?: string;
+  /** Where `docs/assets/` was copied to. */
   basePath?: string;
+  /** Extra classes on the root. */
   class?: string;
 }
 

@@ -82,33 +82,35 @@ import { icons } from '../icons';
 import type { Icon } from '../icons';
 
 interface Props {
-  /** Trigger label. With `icon` set it is the button's accessible name instead of visible text. */
+  /** The trigger's text and its only accessible name — with `icon` set it becomes the button's `aria-label` instead. */
   label: string;
   /**
-   * Draws the trigger as this glyph instead of the label text — TopNav's account
-   * trigger, Figma `login-hubspot` `1245:1966`, is a 16px icon and a caret with
-   * no word. The label does not go away: it becomes the button's `aria-label`,
+   * Draws the trigger as this 16px glyph instead of the label, as TopNav's
+   * account trigger does — a `{ viewBox, path }` pair, the shape `icons.ts` uses.
+   * Figma `login-hubspot` `1245:1966` is a 16px icon and a caret with no word.
+   * The label does not go away: it becomes the button's `aria-label`,
    * because an icon-only button with no name is announced as just "button".
    */
   icon?: Icon;
   /**
-   * Opens on hover as well as on click/focus. Off by default: on touch there is
-   * no hover to leave, and the pattern is only ever an enhancement.
+   * Adds hover to click and focus, never replacing them — on touch there is no
+   * hover to leave. Off by default, because the pattern is only ever an
+   * enhancement.
    */
   openOnHover?: boolean;
   /** Render open on first paint — for docs and tests, not for a live nav. */
   open?: boolean;
   /**
-   * Which edge the panel is pinned to. A wide mega-menu under a trigger near the
-   * right of the bar has to hang left or it leaves the viewport; `center` is the
+   * Which edge the panel is pinned to — a wide panel under a trigger near the
+   * right of the bar has to hang left or it leaves the viewport. `center` is the
    * ironsoftware.com arrangement, where the panel is much wider than its trigger.
    */
   align?: 'start' | 'center' | 'end';
   /** Draws the notch pointing up at the trigger. */
   notch?: boolean;
   /**
-   * Drop the panel's own surface — background, border, radius, shadow and the
-   * inner padding — because the content brings its own. `ProductFlyout` does:
+   * Drops the panel's own surface — background, border, radius, shadow and
+   * inner padding — for content that brings its own; the notch stays. `ProductFlyout` does:
    * it is a card in its own right, and stacking the two put a 12px radius and a
    * modal shadow around a 12px radius and a modal shadow.
    *
@@ -116,6 +118,7 @@ interface Props {
    * it points at the trigger, which the content knows nothing about.
    */
   bare?: boolean;
+  /** Merged onto the root, as on every component. */
   class?: string;
 }
 
