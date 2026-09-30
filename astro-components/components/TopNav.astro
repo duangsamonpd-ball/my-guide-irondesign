@@ -126,8 +126,14 @@ interface Props {
    *  canvas (it read "Without bg" until Ball's 2026-09-03 pass), so the two
    *  sides now spell it the same way. */
   variant?: 'default' | 'transparent';
-  /** Declared but never read, so it changes nothing today. Kept until Ball
-   *  rules whether it should name the lockup or be deleted. */
+  /**
+   * The lockup link's accessible name, spoken in place of its visible text.
+   * The wordmark is `<b>IRON</b><span>SOFTWARE</span>` with no space between
+   * the two, so without a name a screen reader announces one word,
+   * "IRONSOFTWARE". The default says the company's name as two words, and a
+   * voice-control user saying "Iron Software" still matches it (WCAG 2.5.3).
+   * Declared for months and never read until Ball's call on 2026-09-30.
+   */
   brandLabel?: string;
   /** Where the Iron Software lockup links to. */
   brandHref?: string;
@@ -181,6 +187,7 @@ interface Props {
 
 const {
   variant = 'default',
+  brandLabel = 'Iron Software',
   brandHref = '/',
   items = [],
   showAddress = true,
@@ -233,7 +240,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
 <div class:list={['tn', `tn--${variant}`, items.length > 0 && 'tn--has-menu', className]}>
   <nav class="tn-inner" aria-label="Corporate">
     <div class="tn-left">
-      <a class="tn-brand" href={brandHref}>
+      <a class="tn-brand" href={brandHref} aria-label={brandLabel || undefined}>
         <svg class="tn-mark" viewBox="0 0 16.0002 13.3333" fill="currentColor" aria-hidden="true">
           <path d="M6.60254 7.74121L5.10417 13.3333H2.41781L3.22152 10.3335L0 10.3338L0.695313 7.7391L6.60254 7.74121Z"/>
           <path d="M14.0353 10.3328H10.8177L10.0169 13.3333H7.33089L8.82927 7.74121L14.7303 7.73812L14.0353 10.3328Z"/>

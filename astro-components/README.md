@@ -949,7 +949,9 @@ Props: `variant` (`default` | `transparent`), `items`
 toggle, and it covers the number too — the node has no separate switch),
 `address`, `phone`, `addressHref`, `phoneHref`, `contact`, `language`,
 `showLanguage`, `showLogin`, `ticketHref`, `licenseHref`, `loginOpen`,
-`brandHref`, `class`.
+`brandHref`, `brandLabel` (the lockup link's accessible name, default
+`'Iron Software'` — the wordmark has no space, so without it a screen reader
+says "IRONSOFTWARE"), `class`.
 
 **The account trigger** (Figma `login-hubspot` `1245:1966`, added 2026-09-30)
 sits between Contact Us and the language picker: a 16px user-lock glyph and the

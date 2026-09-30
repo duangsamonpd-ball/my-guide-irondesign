@@ -1446,7 +1446,8 @@
           "name": "brandLabel",
           "type": "string",
           "required": false,
-          "description": "Declared but never read, so it changes nothing today. Kept until Ball rules whether it should name the lockup or be deleted."
+          "default": "'Iron Software'",
+          "description": "The lockup link's accessible name, spoken in place of its visible text. The wordmark is `<b>IRON</b><span>SOFTWARE</span>` with no space between the two, so without a name a screen reader announces one word, \"IRONSOFTWARE\". The default says the company's name as two words, and a voice-control user saying \"Iron Software\" still matches it (WCAG 2.5.3). Declared for months and never read until Ball's call on 2026-09-30."
         },
         {
           "name": "brandHref",
