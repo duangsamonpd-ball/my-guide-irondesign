@@ -87,6 +87,7 @@
 
 import { icons } from '../icons';
 import FlyoutMenu from '../internal/FlyoutMenu.astro';
+import LoginFlyout from '../internal/LoginFlyout.astro';
 
 interface NavItem {
   label: string;
@@ -148,6 +149,19 @@ interface Props {
   contact?: NavItem;
   language?: NavItem;
   showLanguage?: boolean;
+  /**
+   * The account trigger between Contact Us and the language picker — Figma
+   * `login-hubspot` `1245:1966`, added 2026-09-30 — and the Customer HUB panel it
+   * opens. The node has no property for it, so it is on by default like the
+   * rest of the strip.
+   */
+  showLogin?: boolean;
+  /** Where the login panel's "View your Ticket" tile goes. */
+  ticketHref?: string;
+  /** Where the login panel's "View your License" tile goes. */
+  licenseHref?: string;
+  /** Render the login panel open on first paint. For a docs page or a test, never a live nav. */
+  loginOpen?: boolean;
   class?: string;
 }
 
@@ -163,8 +177,23 @@ const {
   contact = { label: 'Contact Us' },
   language = { label: 'EN' },
   showLanguage = true,
+  showLogin = true,
+  ticketHref = '#',
+  licenseHref = '#',
+  loginOpen = false,
   class: className,
 } = Astro.props;
+
+/* `1245:1967`, the Font Awesome 7 Pro Solid `user-lock` glyph (U+F502) set as
+   text in the node, taken from Figma's own SVG export — which renders the glyph
+   server-side, so this is the drawing and not a guess at it. The export is
+   16x15 from the text node's top edge, and the node sits 1px down inside its
+   16px group, hence the viewBox starting at -1. Single-use, so it stays here
+   rather than in `icons.ts`, as the pin and globe do. */
+const userLock = {
+  viewBox: '0 -1 16 16',
+  path: 'M5.6875 0C7.49219 0 8.96875 1.47656 8.96875 3.28125C8.96875 5.08594 7.49219 6.5625 5.6875 6.5625C3.88281 6.5625 2.40625 5.08594 2.40625 3.28125C2.40625 1.47656 3.88281 0 5.6875 0ZM4.86719 8.09375H6.50781C7.30078 8.09375 8.06641 8.28516 8.75 8.64062V8.75C8.20312 9.24219 7.875 9.95312 7.875 10.7188V13.3438C7.875 13.4805 7.90234 13.6445 7.90234 13.7812H0.820312C0.355469 13.7812 0 13.4258 0 12.9609C0 10.2812 2.1875 8.09375 4.86719 8.09375ZM13.125 8.09375C13.125 7.60156 12.7422 7.21875 12.25 7.21875C11.7578 7.21875 11.375 7.60156 11.375 8.09375V9.40625H13.125V8.09375ZM9.1875 10.7188C9.1875 10.1445 9.54297 9.65234 10.0625 9.48828V8.09375C10.0625 6.89062 11.0469 5.90625 12.25 5.90625C13.4531 5.90625 14.4375 6.89062 14.4375 8.09375V9.48828C14.957 9.65234 15.3125 10.1445 15.3125 10.7188V13.3438C15.3125 14.082 14.7383 14.6562 14 14.6562H10.5C9.78906 14.6562 9.1875 14.082 9.1875 13.3438V10.7188Z',
+};
 
 /* The caret moved to `icons.ts` as `caretDown` on 2026-08-19, so the links here
    and FlyoutMenu's trigger draw the same one. Its viewBox is offset to centre the
@@ -269,7 +298,7 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
            pin and the street line are `Address Block` 1123:2445, the number is
            1123:2433 beside it. They are separate elements and not one run of
            text because they are two destinations — a map and a dialler — and
-           because the number is the half that leaves first below 1349. */
+           because the number is the half that leaves first below 1400. */
         <address class="tn-address">
           <AddressTag class="tn-address-block" href={addressLink || undefined}>
             <svg class="tn-pin" viewBox="0 0 11 15" fill="currentColor" aria-hidden="true"><path d="M0 5.16797C0 2.29688 2.35156 0 5.25 0C8.14844 0 10.5 2.29688 10.5 5.16797C10.5 8.42188 7.21875 12.332 5.85156 13.8086C5.52344 14.1641 4.97656 14.1641 4.64844 13.8086C3.28125 12.332 0 8.42188 0 5.16797ZM5.25 7C6.20703 7 7 6.20703 7 5.25C7 4.29297 6.20703 3.5 5.25 3.5C4.29297 3.5 3.5 4.29297 3.5 5.25C3.5 6.20703 4.29297 7 5.25 7Z"/></svg>
@@ -284,6 +313,15 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
           {contact.label}
           {(contact.caret ?? true) && <svg class="tn-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path}/></svg>}
         </a>
+      )}
+
+      {showLogin && (
+        /* `end`, not `center` like PRODUCTS: the trigger is the second-last thing
+           on the bar, and a 297 panel centred on it runs ~40px off a 1440 screen.
+           The notch is still aimed at the icon — FlyoutMenu measures it. */
+        <FlyoutMenu class="tn-login" label="Customer HUB Login" icon={userLock} align="end" openOnHover notch bare open={loginOpen}>
+          <LoginFlyout ticketHref={ticketHref} licenseHref={licenseHref} />
+        </FlyoutMenu>
       )}
 
       {showLanguage && language && (
@@ -438,6 +476,26 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
        menu inline, address gone                       920.81     924.98
        brand + contact + language + trigger            409.41     414.98
 
+     RE-DERIVED 2026-09-30, when the account trigger arrived (`login-hubspot`,
+     32 wide) with a 16 gap in `.tn-right`. The arm: the same probe with
+     `.tn-login` hidden returned 1346.53 / 1230.14 / 920.81 / 409.41 — the table
+     above, to the hundredth — and an injected 100px margin moved it by exactly
+     100. With the trigger every state is exactly 48 more. The rules are cut
+     above the FLYOUT configuration, not the plain one: a PRODUCTS item that is
+     a FlyoutMenu trigger carries its caret on a 4px gap where `.tn-item` has 0,
+     so that bar needs 4 more — and it is the bar ironsoftware.com ships.
+
+       state                              plain      flyout     rule
+       address + number + menu            1394.53    1398.53    1399.98
+       address, no number                 1278.14    1282.14    1284.98
+       menu inline, address gone           968.81     972.81     974.98
+       brand + contact + login + language
+         + trigger                          457.41     457.41     459.98
+
+     The flyout column is also why this pass had to happen at all: without the
+     login it needed 1350.53 against a rule at 1349.98, 0.55 over, and nothing
+     had ever measured that bar — only the plain one.
+
      Each requirement fell exactly 2 when the globe went from 16 to 14 later the
      same day, and no rule moved: rounding each one up to its rung lands on the
      same four numbers, and every rule still sits ABOVE what it gates, which is
@@ -460,10 +518,10 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      will let it stick out. Overlapping text reads as a rendering fault, not a
      layout one, which is why it survived every gate and every look at this
      component. */
-  @media (max-width: 1349.98px) { .tn-phone { display: none; } }
-  @media (max-width: 1234.98px) { .tn-address { display: none; } }
+  @media (max-width: 1399.98px) { .tn-phone { display: none; } }
+  @media (max-width: 1284.98px) { .tn-address { display: none; } }
 
-  @media (max-width: 924.98px) {
+  @media (max-width: 974.98px) {
     .tn-burger { display: inline-flex; }
     /* Out of the strip and across the full bar. `.tn` is the positioning
        context, so this hangs below a 40px-tall bar whatever the page around it
@@ -501,16 +559,17 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      `--breakpoint-sm` 480 is "Tablet". The number here is the one both live
      sites use, not the one whose label reads closest.
 
-     One consequence worth writing down rather than quietly fixing: 414.98 below
+     One consequence worth writing down rather than quietly fixing: 459.98 below
      is measured on a strip that still counts the trigger, and this rule has
-     taken the trigger away by then. Without it the same strip needs 371.41, so
-     contact and the language picker would survive to 375. Left as it is because
+     taken the trigger away by then. Without it the same strip needs 419.41 (371.41
+     before the login trigger), so contact, the login and the language picker
+     would survive to 420. Left as it is because
      moving a phone-width breakpoint is a design call, not arithmetic. */
   @media (max-width: 767.98px) {
     .tn-menu, .tn-burger { display: none; }
   }
 
-  @media (max-width: 414.98px) {
+  @media (max-width: 459.98px) {
     .tn--has-menu .tn-menu > li.tn-menu-extra { display: flex; }
     .tn--has-menu .tn-right > .tn-item { display: none; }
     .tn--has-menu .tn-lang { display: none; }
@@ -618,6 +677,24 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      carries z-index 20 for its own narrow-width menu, and the panel has to clear
      that as well as the bar itself. */
   .tn [data-part='panel'] { z-index: 30; }
+
+  /* ── The account trigger ──────────────────────────────────────────────────
+     Everything above is written for PRODUCTS, a 1200 panel centred on the page.
+     The login panel is 297 and hangs from its own trigger, so it takes back the
+     three things that rule set gives away: the flyout is the containing block
+     again, the panel sizes to its content, and the offset is FlyoutMenu's own
+     — 12 below a 16px trigger centred in a 40px bar is the bar's bottom edge.
+     `login-hubspot` puts the caret straight after the glyph, gap 0. */
+  .tn .tn-login[data-part='flyout'] { position: relative; }
+  .tn .tn-login [data-part='trigger'] { gap: 0; }
+  .tn .tn-login [data-part='panel'] { top: calc(100% + var(--spacing-sm)); width: auto; max-width: none; }
+
+  /* With the burger's panel to carry them, contact and the language picker move
+     into it below 460 (see the scoped sheet). The login panel cannot ride in a
+     list, so it leaves the strip with them. */
+  @media (max-width: 459.98px) {
+    .tn--has-menu .tn-login { display: none; }
+  }
 
   .tn [data-part='panel'] {
     /* Flush with the bar, as `Preview ideal` has it — the arrow's base meets the

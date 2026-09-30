@@ -285,9 +285,9 @@
         "$description": "Neutral/400 — disabled controls only (light). 2.36:1 — exempt from contrast minimums, and deliberately light so a disabled control reads as inert (5.86:1 away from body text)"
       },
       "support": {
-        "$value": "#45556C",
+        "$value": "#184A73",
         "$type": "color",
-        "$description": "Slate/600 — support headlines, caption titles (light). 6.92:1"
+        "$description": "Iron Blue/800 — support headlines, caption titles, field hints (light). Figma text/default/support; slate/600 #45556C until 2026-09-30. 9.27:1 on surface/card, 8.46:1 on surface/background-shade"
       },
       "danger": {
         "$value": "#A8181D",
@@ -333,6 +333,16 @@
         "$value": "#E01A59",
         "$type": "color",
         "$description": "Iron Pink/500 — brand/primary — hovered menu-bar link (Figma: link-menu-hover)"
+      },
+      "link-menu-alt": {
+        "$value": "#171717",
+        "$type": "color",
+        "$description": "Neutral/900 — menu links on a card or panel surface that follows the theme (Figma: link-menu-alt). NOT for the white product bar: surface/nav stays white in dark mode while this turns white"
+      },
+      "link-menu-alt-hover": {
+        "$value": "#E01A59",
+        "$type": "color",
+        "$description": "Iron Pink/500 — brand/primary — hovered link-menu-alt, both modes (Figma: link-menu-alt-hover). 4.71:1 on surface/card; on surface-dark/card only 2.49:1, below AA — Figma binds one pink to both columns"
       }
     },
     "text-dark": {
@@ -386,6 +396,11 @@
         "$value": "#E95F8B",
         "$type": "color",
         "$description": "Iron Pink/400 — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300)"
+      },
+      "link-menu-alt": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "White — link-menu-alt on a dark card or panel (Figma: link-menu-alt, dark column). Its hover is the same pink in both modes, so it has no dark twin"
       }
     },
     "text-on-dark": {

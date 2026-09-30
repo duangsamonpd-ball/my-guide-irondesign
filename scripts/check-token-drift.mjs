@@ -412,6 +412,8 @@ const COLORS = {
   'text.link-hover': 'color-text-link-hover',
   'text.link-menu': 'color-text-link-menu',
   'text.link-menu-hover': 'color-text-link-menu-hover',
+  'text.link-menu-alt': 'color-text-link-menu-alt',
+  'text.link-menu-alt-hover': 'color-text-link-menu-alt-hover',
 
   'accent.1': 'color-accent-1',
   'accent.2': 'color-accent-2',
@@ -428,6 +430,7 @@ const COLORS = {
   'text-dark.danger': 'color-text-dark-danger',
   'text-dark.link': 'color-text-dark-link',
   'text-dark.link-hover': 'color-text-dark-link-hover',
+  'text-dark.link-menu-alt': 'color-text-dark-link-menu-alt',
   'text-on-dark.heading': 'color-text-on-dark-heading',
   'text-on-dark.body': 'color-text-on-dark-body',
   'text-on-light.heading': 'color-text-on-light-heading',

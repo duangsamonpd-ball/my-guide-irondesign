@@ -272,7 +272,7 @@
   --color-text-muted:           var(--neutral-600); /* #525252 — Captions, hints, field descriptions · 7.13:1 on --color-bg-shade — real text, must meet AA */
   --color-text-placeholder:     #262626B3;          /* neutral/800 at 70% — Input placeholder text. Figma text/default/placeholder keeps the alpha in the variable, so this is a literal 8-digit hex (B3 = round-half-up .70 × 255) and not var() + color-mix(): check:tokens compares the layers as strings. 5.66:1 on --color-bg-input, 5.41:1 on --color-bg-input-hover. Deliberately NOT an alias of muted: a placeholder sits on the field's fill, a hint on the page. */
   --color-text-disabled:        var(--neutral-400); /* #A1A1A1 — Disabled controls ONLY · exempt from contrast minimums; kept light so a disabled control reads as inert (5.86:1 away from body) */
-  --color-text-support:         var(--slate-600);   /* #45556C — Support headlines, caption titles · 6.92:1 on --color-bg-shade */
+  --color-text-support:         var(--iron-blue-800); /* #184A73 — Support headlines, caption titles, field hints (Figma: text/default/support; slate-600 #45556C until 2026-09-30) · 9.27:1 on --color-bg-card, 8.46:1 on --color-bg-shade */
   --color-text-danger:          var(--iron-red-700); /* #A8181D — a field's error message and its icon (Figma: text/default/danger) · 7.46:1 on --color-bg-input. Not --color-danger (#E5242A, 4.55:1): that is the status colour, this is text. */
   --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons (Figma: on action) */
   --color-text-on-action-hover:          var(--iron-pink-500); /* #E01A59 — brand/primary — text on a hovered action */
@@ -284,6 +284,8 @@
   --color-text-link-hover:      var(--iron-pink-500);    /* #E01A59 — Hovered / active link state */
   --color-text-link-menu:       #FFFFFF;                 /* White — links in the dark footer / nav menu bar (Figma: link-menu) */
   --color-text-link-menu-hover: var(--iron-pink-500);    /* #E01A59 — brand/primary — hovered menu-bar link */
+  --color-text-link-menu-alt:       var(--neutral-900); /* #171717 — menu links on a card or panel that follows the theme (Figma: link-menu-alt) · 17.93:1 on --color-bg-card. NOT for ProductMenu's bar: --color-bg-nav stays white under .dark while this turns white */
+  --color-text-link-menu-alt-hover: var(--iron-pink-500); /* #E01A59 — brand/primary, both modes (Figma: link-menu-alt-hover) · 4.71:1 on --color-bg-card; 2.49:1 on --color-bg-dark-card, below AA, because Figma binds one pink to both columns */
 
   /* ── Text / Default — Dark Mode (Figma: text/default dark column) ── */
   --color-text-dark-heading:     var(--neutral-100);  /* #F5F5F5 — neutral/100 */
@@ -296,6 +298,7 @@
   --color-text-dark-danger:      var(--iron-red-300);      /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card, the lowest surface a field sits on */
   --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
   --color-text-dark-link-hover:  var(--iron-pink-400);     /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
+  --color-text-dark-link-menu-alt: #FFFFFF;             /* white — link-menu-alt, dark column · 11.72:1 on --color-bg-dark-card. Its hover is the same pink in both modes, so it has no dark twin */
 
   /* ── Text / On Dark · On Light ────────────────────────────────────────────
      Text whose surface does NOT follow the theme. Pick by how light the
@@ -915,6 +918,7 @@
   --color-text-danger:      var(--color-text-dark-danger);
   --color-text-link:        var(--color-text-dark-link);
   --color-text-link-hover:  var(--color-text-dark-link-hover);
+  --color-text-link-menu-alt: var(--color-text-dark-link-menu-alt);
 
   /* ── Surfaces ── */
   --color-bg-base:     var(--color-bg-dark);

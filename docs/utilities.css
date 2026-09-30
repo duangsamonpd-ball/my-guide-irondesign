@@ -254,7 +254,7 @@
     --color-text-muted: var(--neutral-600);
     --color-text-placeholder: #262626B3;
     --color-text-disabled: var(--neutral-400);
-    --color-text-support: var(--slate-600);
+    --color-text-support: var(--iron-blue-800);
     --color-text-danger: var(--iron-red-700);
     --color-text-on-primary: #FFFFFF;
     --color-text-on-action-hover: var(--iron-pink-500);
@@ -266,6 +266,8 @@
     --color-text-link-hover: var(--iron-pink-500);
     --color-text-link-menu: #FFFFFF;
     --color-text-link-menu-hover: var(--iron-pink-500);
+    --color-text-link-menu-alt: var(--neutral-900);
+    --color-text-link-menu-alt-hover: var(--iron-pink-500);
     --color-text-dark-heading: var(--neutral-100);
     --color-text-dark-heading-alt: var(--iron-orange-500);
     --color-text-dark-body: var(--neutral-200);
@@ -276,6 +278,7 @@
     --color-text-dark-danger: var(--iron-red-300);
     --color-text-dark-link: var(--iron-blue-400);
     --color-text-dark-link-hover: var(--iron-pink-400);
+    --color-text-dark-link-menu-alt: #FFFFFF;
     --color-text-on-dark-heading: #FFFFFF;
     --color-text-on-dark-body: var(--neutral-200);
     --color-text-on-light-heading: var(--neutral-900);
@@ -2458,6 +2461,7 @@
   --color-text-danger: var(--color-text-dark-danger);
   --color-text-link: var(--color-text-dark-link);
   --color-text-link-hover: var(--color-text-dark-link-hover);
+  --color-text-link-menu-alt: var(--color-text-dark-link-menu-alt);
   --color-bg-base: var(--color-bg-dark);
   --color-bg-shade: var(--color-bg-dark-shade);
   --color-bg-card: var(--color-bg-dark-card);

@@ -931,10 +931,10 @@ hamburger takes over where the menu no longer fits inline:
 
 | below | what changes |
 |---|---|
-| **1350** | the phone number goes — the Contact Us link beside it already reaches the same place |
-| **1235** | the address goes — the longest item and the least navigational |
-| **925** | the corporate menu becomes a panel under the bar, opened by the hamburger |
-| **415** | Contact Us and the language picker move into that same panel |
+| **1400** | the phone number goes — the Contact Us link beside it already reaches the same place |
+| **1285** | the address goes — the longest item and the least navigational |
+| **975** | the corporate menu becomes a panel under the bar, opened by the hamburger |
+| **460** | Contact Us and the language picker move into that same panel, and the login icon leaves with them |
 
 Every number is the width the content actually stops fitting at, measured on the
 rendered bar rather than read off Figma, which covers 1440 only. The menu is the
@@ -948,7 +948,18 @@ Props: `variant` (`default` | `transparent`), `items`
 (`{ label, href?, caret? }[]`, caret on by default), `showAddress` (Figma's own
 toggle, and it covers the number too — the node has no separate switch),
 `address`, `phone`, `addressHref`, `phoneHref`, `contact`, `language`,
-`showLanguage`, `brandHref`, `class`.
+`showLanguage`, `showLogin`, `ticketHref`, `licenseHref`, `loginOpen`,
+`brandHref`, `class`.
+
+**The account trigger** (Figma `login-hubspot` `1245:1966`, added 2026-09-30)
+sits between Contact Us and the language picker: a 16px user-lock glyph and the
+caret, an icon-only FlyoutMenu whose `aria-label` is "Customer HUB Login". It
+opens `LoginFlyout` (`internal/`, from `FlyoutMenu-login` `1245:2088`) — 297
+wide, two tiles, **following the theme** where the PRODUCTS panel does not. The
+panel hangs from the trigger's right edge (`align="end"`) because centred it runs
+off a 1440 screen, and the notch is aimed at the icon either way. Figma names no
+URLs, so pass `ticketHref` / `licenseHref`; both default to `#`. `showLogin={false}`
+removes it, and it adds exactly 48px to every breakpoint above.
 
 Like `ProductMenu` it introduced **no new tokens**: `slate/800` →
 `--slate-800`, `text/on-dark/heading` → `--color-text-on-dark-heading`, and

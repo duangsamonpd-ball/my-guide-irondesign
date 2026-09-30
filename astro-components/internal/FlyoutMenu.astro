@@ -79,10 +79,18 @@
  * measuring that component twice under a different name.
  */
 import { icons } from '../icons';
+import type { Icon } from '../icons';
 
 interface Props {
-  /** Trigger label. */
+  /** Trigger label. With `icon` set it is the button's accessible name instead of visible text. */
   label: string;
+  /**
+   * Draws the trigger as this glyph instead of the label text — TopNav's account
+   * trigger, Figma `login-hubspot` `1245:1966`, is a 16px icon and a caret with
+   * no word. The label does not go away: it becomes the button's `aria-label`,
+   * because an icon-only button with no name is announced as just "button".
+   */
+  icon?: Icon;
   /**
    * Opens on hover as well as on click/focus. Off by default: on touch there is
    * no hover to leave, and the pattern is only ever an enhancement.
@@ -113,6 +121,7 @@ interface Props {
 
 const {
   label,
+  icon,
   openOnHover = false,
   open = false,
   align = 'start',
@@ -127,8 +136,10 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
 ---
 
 <div class:list={['fm', { 'is-open': open }, className]} data-part="flyout" data-fm data-fm-hover={openOnHover ? '' : undefined}>
-  <button type="button" class="fm-trigger" data-part="trigger" aria-expanded={open ? 'true' : 'false'} aria-controls={panelId}>
-    <span data-part="label">{label}</span>
+  <button type="button" class="fm-trigger" data-part="trigger" aria-expanded={open ? 'true' : 'false'} aria-controls={panelId} aria-label={icon ? label : undefined}>
+    {icon
+      ? <svg class="fm-icon" data-part="label" viewBox={icon.viewBox} fill="currentColor" aria-hidden="true"><path d={icon.path} /></svg>
+      : <span data-part="label">{label}</span>}
     <svg class="fm-caret" viewBox={icons.caretDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.caretDown.path} /></svg>
   </button>
 
@@ -230,7 +241,14 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
     clip-path: path('M0 10L8.53069 0.665923C9.34217 -0.221975 10.6578 -0.221974 11.4693 0.665924L20 10H0Z');
   }
   .fm-start.fm-notch::before  { left: var(--spacing-lg); }
-  .fm-end.fm-notch::before    { right: var(--spacing-lg); }
+  /* An END panel is aimed too, from its right edge — the script writes
+     `--fm-notch-right` when it opens. The first end-aligned flyout with a notch
+     is TopNav's account trigger, a 32px box whose centre sits 16 from the panel's
+     right edge; the 20 this used to be put the arrow's centre 30 in, pointing at
+     the gap between the icon and its caret. Declared on the panel for the same
+     reason `--fm-notch-x` is, below. */
+  .fm-end.fm-notch { --fm-notch-right: var(--spacing-lg); }
+  .fm-end.fm-notch::before    { right: var(--fm-notch-right); }
   /* A CENTRED panel is not centred on its trigger — that is the whole point of
      `center`, and it is what ironsoftware.com does: the panel is much wider than
      the word that opens it. So the notch cannot sit at the panel's middle. The
@@ -250,6 +268,10 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
      check:vars as a missing theme token. */
   .fm-center.fm-notch { --fm-notch-x: calc(50% - 10px); }
   .fm-center.fm-notch::before { left: var(--fm-notch-x); }
+
+  /* The icon trigger's glyph. 16 square, the caret's box, so the two sit on one
+     line exactly as `login-hubspot` draws them. */
+  .fm-icon { width: 16px; height: 16px; flex-shrink: 0; }
 
   /* Content that is a card in its own right — see the `bare` prop. */
   .fm-panel.is-bare { background: none; border: 0; border-radius: 0; box-shadow: none; min-width: 0; }
@@ -360,7 +382,7 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
   }
 
   /**
-   * Point a centred panel's notch at the trigger that opened it.
+   * Point a centred or end-aligned panel's notch at the trigger that opened it.
    *
    * Every measurement here is deliberately transform-free. The panel animates
    * open with `translate(-50%, -6px) scale(0.98)` -> `scale(1)`, so a
@@ -385,13 +407,22 @@ const panelId = `fm-${Math.random().toString(16).slice(2, 10)}`;
        arrow 217 — between the two, nearer the word. */
     const trigger = fm.querySelector<HTMLElement>('[data-part="label"]')
       ?? fm.querySelector<HTMLElement>('.fm-trigger');
-    if (!panel || !trigger || !panel.classList.contains('fm-center')) return;
+    if (!panel || !trigger || !panel.classList.contains('fm-notch')) return;
+    const isCenter = panel.classList.contains('fm-center');
+    const isEnd = panel.classList.contains('fm-end');
+    if (!isCenter && !isEnd) return;
     const parent = panel.offsetParent as HTMLElement | null;
     if (!parent) return;
     const parentRect = parent.getBoundingClientRect();
     const triggerRect = trigger.getBoundingClientRect();
-    const panelLeft = parentRect.width / 2 - panel.offsetWidth / 2;
     const centre = triggerRect.left - parentRect.left + triggerRect.width / 2;
+    if (isEnd) {
+      /* `right: 0` puts the panel's untransformed right edge on the parent's, so
+         the distance in from that edge is all this needs — no panel width. */
+      panel.style.setProperty('--fm-notch-right', `${parentRect.width - centre - HALF}px`);
+      return;
+    }
+    const panelLeft = parentRect.width / 2 - panel.offsetWidth / 2;
     panel.style.setProperty('--fm-notch-x', `${centre - panelLeft - HALF}px`);
   }
 

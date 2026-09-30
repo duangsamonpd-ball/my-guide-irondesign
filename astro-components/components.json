@@ -1508,6 +1508,34 @@
           "default": "true"
         },
         {
+          "name": "showLogin",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "The account trigger between Contact Us and the language picker — Figma `login-hubspot` `1245:1966`, added 2026-09-30 — and the Customer HUB panel it opens. The node has no property for it, so it is on by default like the rest of the strip."
+        },
+        {
+          "name": "ticketHref",
+          "type": "string",
+          "required": false,
+          "default": "'#'",
+          "description": "Where the login panel's \"View your Ticket\" tile goes."
+        },
+        {
+          "name": "licenseHref",
+          "type": "string",
+          "required": false,
+          "default": "'#'",
+          "description": "Where the login panel's \"View your License\" tile goes."
+        },
+        {
+          "name": "loginOpen",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Render the login panel open on first paint. For a docs page or a test, never a live nav."
+        },
+        {
           "name": "class",
           "type": "string",
           "required": false
@@ -1630,7 +1658,13 @@
           "name": "label",
           "type": "string",
           "required": true,
-          "description": "Trigger label."
+          "description": "Trigger label. With `icon` set it is the button's accessible name instead of visible text."
+        },
+        {
+          "name": "icon",
+          "type": "Icon",
+          "required": false,
+          "description": "Draws the trigger as this glyph instead of the label text — TopNav's account trigger, Figma `login-hubspot` `1245:1966`, is a 16px icon and a caret with no word. The label does not go away: it becomes the button's `aria-label`, because an icon-only button with no name is announced as just \"button\"."
         },
         {
           "name": "openOnHover",
@@ -1699,6 +1733,51 @@
           "type": "string",
           "required": false,
           "description": "Lands on the <li>. The docs page uses it to force the hover illustration — `.demo-row-hover img` and `.demo-row-hover .text-text-dark-support` — since :hover cannot be rendered statically. Footer itself passes nothing."
+        }
+      ]
+    },
+    {
+      "name": "LoginFlyout",
+      "file": "astro-components/internal/LoginFlyout.astro",
+      "docs": null,
+      "interactive": false,
+      "figmaNodes": [
+        "1245:2088",
+        "1245:2054"
+      ],
+      "props": [
+        {
+          "name": "heading",
+          "type": "string",
+          "required": false,
+          "default": "'Customer HUB Login'",
+          "description": "The panel's heading, drawn uppercase. Also the name TopNav gives the trigger that opens it."
+        },
+        {
+          "name": "ticketHref",
+          "type": "string",
+          "required": false,
+          "default": "'#'",
+          "description": "Where \"View your Ticket\" goes. The canvas names no URL, so pass the real Customer HUB address."
+        },
+        {
+          "name": "licenseHref",
+          "type": "string",
+          "required": false,
+          "default": "'#'",
+          "description": "Where \"View your License\" goes. The canvas names no URL, so pass the real Customer HUB address."
+        },
+        {
+          "name": "forceHover",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Force the hover state on both tiles — for the docs page, never a live nav."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
         }
       ]
     },

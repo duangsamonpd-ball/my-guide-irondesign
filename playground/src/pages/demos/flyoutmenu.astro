@@ -13,6 +13,7 @@
 import FlyoutMenu from '@iron-software/astro-components/internal/FlyoutMenu.astro';
 import { TopNav } from '@iron-software/astro-components';
 import ProductFlyout from '@iron-software/astro-components/internal/ProductFlyout.astro';
+import LoginFlyout from '@iron-software/astro-components/internal/LoginFlyout.astro';
 import type { FlyoutCategory } from '@iron-software/astro-components/internal/ProductFlyout.astro';
 
 const groups = [
@@ -118,6 +119,34 @@ const categories: FlyoutCategory[] = [
 
     <div data-demo="product-hover">
       <ProductFlyout categories={categories} suite={{}} forceHover />
+    </div>
+
+    {/* `FlyoutMenu-login`, Figma 1245:2088 — the panel behind TopNav's account
+        trigger, alone at its own 297 so the page shows the node's box. */}
+    <div data-demo="login">
+      <LoginFlyout />
+    </div>
+
+    <div data-demo="login-hover">
+      <LoginFlyout forceHover />
+    </div>
+
+    {/* The bar at 1440 with the login panel open under the account trigger. */}
+    <div data-demo="login-preview">
+      <div class="fmd-stage fmd-stage-login">
+        <TopNav
+          items={[
+            { label: 'Products', href: '#' },
+            { label: 'Enterprise', href: '#' },
+            { label: 'Solutions', href: '#' },
+            { label: 'Resources', href: '#' },
+            { label: 'About US', href: '#' },
+          ]}
+          contact={{ label: 'Contact Us', href: '#' }}
+          language={{ label: 'EN', href: '#' }}
+          loginOpen
+        />
+      </div>
     </div>
 
   </body>
