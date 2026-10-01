@@ -38,6 +38,15 @@ const previewLabels: Record<(typeof intents)[number], string> = {
   neutral: 'Draft',
 };
 
+/* Every combination the "Try it" panel can ask for, rendered by the real
+   component — 6 x 2 x 2 x 2 x 2 = 96. The panel on the docs page only picks
+   which one is visible; it never builds a badge itself, so what it shows is
+   exactly what `<Badge>` renders and check:render keeps it that way. */
+const tryCombos = intents.flatMap((intent) =>
+  (['subtle', 'solid'] as const).flatMap((variant) =>
+    (['md', 'sm'] as const).flatMap((size) =>
+      [false, true].flatMap((pill) => [false, true].map((dot) => ({ intent, variant, size, pill, dot }))))));
+
 const rowStyle = 'display:flex;gap:10px;flex-wrap:wrap;align-items:center;';
 const rowLabelStyle = 'font-size:0.66rem;font-weight:700;color:var(--color-text-muted);width:46px;';
 ---
@@ -89,6 +98,14 @@ const rowLabelStyle = 'font-size:0.66rem;font-weight:700;color:var(--color-text-
         <Badge intent="warning">Squared</Badge>
         <Badge intent="warning" pill>Pill</Badge>
       </div>
+    </div>
+
+    <div data-demo="try">
+      {tryCombos.map((c) => (
+        <span class="try-one" data-try={`${c.intent} ${c.variant} ${c.size} ${c.pill} ${c.dot}`} hidden={!(c.intent === 'neutral' && c.variant === 'subtle' && c.size === 'md' && !c.pill && !c.dot)}>
+          <Badge intent={c.intent} variant={c.variant} size={c.size} pill={c.pill} dot={c.dot}>Badge</Badge>
+        </span>
+      ))}
     </div>
 
     <div data-demo="do">

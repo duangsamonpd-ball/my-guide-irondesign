@@ -247,7 +247,11 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
 .ptable-m { display: inline-block; white-space: nowrap; }
 .ptable-default { color: var(--color-text-heading); white-space: nowrap; }
 .ptable-none { color: var(--color-text-muted); }
+/* "In Figma" — the Figma property a designer sets for this prop. Only tables
+   whose component carries `@figma` tags have the column (build-props-tables). */
+.ptable-figma { color: var(--color-text-body); min-width: 16ch; }
 .ptable-notes { color: var(--color-text-body); min-width: 22ch; }
+.ptable-figma code,
 .ptable-notes code {
   font-family: 'Roboto Mono', monospace; font-size: 0.72rem; white-space: nowrap;
   background: var(--color-bg-shade); color: var(--color-text-heading);
@@ -472,7 +476,7 @@ html.vp-only, html.vp-only body { margin:0; padding:0; background:transparent; o
      rule here loses to the component's `[&_td]:px-md` on source order. */
   .ptable tr { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; padding: 12px 16px; }
   table.ptable td { display: block; padding: 0; }
-  .ptable-type, .ptable-notes { grid-column: 1 / -1; max-width: none; min-width: 0; }
+  .ptable-type, .ptable-figma, .ptable-notes { grid-column: 1 / -1; max-width: none; min-width: 0; }
   .ptable-type { margin-top: 2px; }
   .ptable-notes { margin-top: 6px; }
   /* Pinned, not left to auto-placement: Default comes after Type in the
@@ -486,6 +490,13 @@ html.vp-only, html.vp-only body { margin:0; padding:0; background:transparent; o
     font-weight: 500; color: var(--color-text-muted);
   }
   .ptable-default:has(.ptable-none) { display: none; }
+  /* The Figma cell sits between type and note; it loses its header too, so it
+     says what it is, in the same quiet label the default uses. */
+  .ptable-figma { margin-top: 4px; }
+  .ptable-figma::before {
+    content: 'Figma '; font-family: 'Montserrat', sans-serif; font-size: 0.6875rem;
+    font-weight: 500; color: var(--color-text-muted);
+  }
 }
 @media(max-width:768px) {
   .hamburger { margin-left:auto; display:flex; }

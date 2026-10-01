@@ -41,7 +41,10 @@
  */
 
 interface Props {
-  /** The colour, by meaning: `success`, `warning`, `danger`, `info`, `important`, or `neutral` grey. */
+  /**
+   * The colour, by meaning: `success`, `warning`, `danger`, `info`, `important`, or `neutral` grey.
+   * @figma `intent` — same six values and the same default, `neutral`
+   */
   intent?: 'success' | 'warning' | 'danger' | 'info' | 'important' | 'neutral';
   /**
    * `subtle` is a tinted fill with coloured text; `solid` is a full-colour fill.
@@ -49,13 +52,23 @@ interface Props {
    * until 2026-08-11. Eight components in this library express their variant
    * axis as an enum named `variant` and Badge was the only one spelling one as
    * a boolean — the same reasoning that turned `small` into `size` below.
+   * @figma `variant` — same two values
    */
   variant?: 'subtle' | 'solid';
-  /** Height 24 (`md`) or 20 (`sm`). Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06. */
+  /**
+   * Height 24 (`md`) or 20 (`sm`). Figma `779:3486` ships `size=sm|md`; this took a `small` boolean until 2026-08-06.
+   * @figma `size` — same two values
+   */
   size?: 'sm' | 'md';
-  /** Fully rounded ends instead of the 4px corners Figma draws. */
+  /**
+   * Fully rounded ends instead of the 4px corners.
+   * @figma `pill` — a `false` / `true` variant, so Figma shows it as a toggle
+   */
   pill?: boolean;
-  /** A small leading dot in the label's colour — for a status that is on or live. */
+  /**
+   * A small leading dot in the label's colour — for a status that is on or live.
+   * @figma `Show Dot` — off by default, as in code
+   */
   dot?: boolean;
   /** Extra classes on the badge, after the component's own. */
   class?: string;

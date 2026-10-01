@@ -103,6 +103,18 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   /* The anatomy diagram is drawn larger so its callouts have room — a docs-only
    zoom that used to be an inline style on the badge. */
 .anatomy .demo-zoom { font-size: 15px; padding: 7px 14px; }
+.try { display:grid; gap:20px; padding:24px; }
+.try-controls { display:grid; gap:8px; }
+.try-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.try-k, .try-out dt { width:56px; flex-shrink:0; font-size:0.72rem; font-weight:700; color:var(--color-text-muted); }
+.try-stage { display:flex; align-items:center; justify-content:center; min-height:72px; border-radius:8px; background:var(--color-bg-section); }
+.try-out { display:grid; gap:8px; margin:0; }
+.try-out > div { display:flex; align-items:baseline; gap:12px; }
+.try-out dd { margin:0; min-width:0; overflow-wrap:anywhere; }
+.try .vp-seg { flex-wrap:wrap; min-width:0; }
+.try-out code { white-space:normal; overflow-wrap:anywhere; }
+/* A hook for the panel's script; `:not([hidden])` so it can never undo `hidden`. */
+.try-one:not([hidden]) { display:inline-flex; }
 </style>
 </head>
 <body>
@@ -376,16 +388,500 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect">
+      <h2 class="sect-h">Try it</h2>
+      <div class="sect-sub">Pick the options and the badge changes. Underneath are the two ways to ask for the same badge: the line of code a developer writes, and the properties a designer sets on the Figma instance. Every badge here is rendered by the real component &mdash; the buttons only choose which one you see.</div>
+      <div class="frame try" data-try-root>
+        <div class="try-controls">
+          <div class="try-row"><span class="try-k">intent</span><div class="vp-seg" role="group" aria-label="intent"><button type="button" class="vp-btn" data-prop="intent" data-value="success" aria-pressed="false">success</button><button type="button" class="vp-btn" data-prop="intent" data-value="warning" aria-pressed="false">warning</button><button type="button" class="vp-btn" data-prop="intent" data-value="danger" aria-pressed="false">danger</button><button type="button" class="vp-btn" data-prop="intent" data-value="info" aria-pressed="false">info</button><button type="button" class="vp-btn" data-prop="intent" data-value="important" aria-pressed="false">important</button><button type="button" class="vp-btn" data-prop="intent" data-value="neutral" aria-pressed="true">neutral</button></div></div>
+          <div class="try-row"><span class="try-k">variant</span><div class="vp-seg" role="group" aria-label="variant"><button type="button" class="vp-btn" data-prop="variant" data-value="subtle" aria-pressed="true">subtle</button><button type="button" class="vp-btn" data-prop="variant" data-value="solid" aria-pressed="false">solid</button></div></div>
+          <div class="try-row"><span class="try-k">size</span><div class="vp-seg" role="group" aria-label="size"><button type="button" class="vp-btn" data-prop="size" data-value="md" aria-pressed="true">md</button><button type="button" class="vp-btn" data-prop="size" data-value="sm" aria-pressed="false">sm</button></div></div>
+          <div class="try-row"><span class="try-k">pill</span><div class="vp-seg" role="group" aria-label="pill"><button type="button" class="vp-btn" data-prop="pill" data-value="false" aria-pressed="true">off</button><button type="button" class="vp-btn" data-prop="pill" data-value="true" aria-pressed="false">on</button></div></div>
+          <div class="try-row"><span class="try-k">dot</span><div class="vp-seg" role="group" aria-label="dot"><button type="button" class="vp-btn" data-prop="dot" data-value="false" aria-pressed="true">off</button><button type="button" class="vp-btn" data-prop="dot" data-value="true" aria-pressed="false">on</button></div></div>
+        </div>
+        <div class="try-stage">
+          <!-- demo:try -->
+          <span class="try-one" data-try="success subtle md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success-subtle text-success-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success subtle md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success-subtle text-success-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success subtle md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-success-subtle text-success-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success subtle md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-success-subtle text-success-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success subtle sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-success-subtle text-success-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success subtle sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-success-subtle text-success-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success subtle sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-success-subtle text-success-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success subtle sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-success-subtle text-success-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success solid md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success text-text-on-light-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success solid md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success text-text-on-light-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success solid md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-success text-text-on-light-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success solid md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-success text-text-on-light-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success solid sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-success text-text-on-light-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success solid sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-success text-text-on-light-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success solid sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-success text-text-on-light-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="success solid sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-success text-text-on-light-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning subtle md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-warning-subtle text-warning-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning subtle md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-warning-subtle text-warning-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning subtle md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-warning-subtle text-warning-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning subtle md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-warning-subtle text-warning-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning subtle sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-warning-subtle text-warning-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning subtle sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-warning-subtle text-warning-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning subtle sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-warning-subtle text-warning-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning subtle sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-warning-subtle text-warning-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning solid md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-warning text-text-on-light-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning solid md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-warning text-text-on-light-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning solid md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-warning text-text-on-light-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning solid md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-warning text-text-on-light-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning solid sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-warning text-text-on-light-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning solid sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-warning text-text-on-light-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning solid sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-warning text-text-on-light-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="warning solid sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-warning text-text-on-light-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger subtle md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-danger-subtle text-danger-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger subtle md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-danger-subtle text-danger-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger subtle md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-danger-subtle text-danger-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger subtle md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-danger-subtle text-danger-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger subtle sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-danger-subtle text-danger-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger subtle sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-danger-subtle text-danger-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger subtle sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-danger-subtle text-danger-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger subtle sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-danger-subtle text-danger-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger solid md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-danger text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger solid md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-danger text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger solid md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-danger text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger solid md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-danger text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger solid sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-danger text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger solid sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-danger text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger solid sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-danger text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="danger solid sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-danger text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info subtle md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-info-subtle text-info-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info subtle md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-info-subtle text-info-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info subtle md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-info-subtle text-info-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info subtle md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-info-subtle text-info-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info subtle sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-info-subtle text-info-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info subtle sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-info-subtle text-info-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info subtle sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-info-subtle text-info-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info subtle sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-info-subtle text-info-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info solid md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-info text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info solid md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-info text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info solid md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-info text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info solid md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-info text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info solid sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-info text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info solid sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-info text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info solid sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-info text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="info solid sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-info text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important subtle md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-important-subtle text-important-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important subtle md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-important-subtle text-important-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important subtle md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-important-subtle text-important-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important subtle md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-important-subtle text-important-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important subtle sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-important-subtle text-important-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important subtle sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-important-subtle text-important-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important subtle sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-important-subtle text-important-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important subtle sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-important-subtle text-important-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important solid md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-important text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important solid md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-important text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important solid md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-important text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important solid md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-important text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important solid sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-important text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important solid sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-important text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important solid sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-important text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="important solid sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-important text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral subtle md false false">
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-neutral-subtle text-neutral-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral subtle md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-neutral-subtle text-neutral-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral subtle md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-neutral-subtle text-neutral-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral subtle md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-neutral-subtle text-neutral-strong">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral subtle sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-neutral-subtle text-neutral-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral subtle sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-neutral-subtle text-neutral-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral subtle sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-neutral-subtle text-neutral-strong">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral subtle sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-neutral-subtle text-neutral-strong">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral solid md false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-neutral text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral solid md false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-neutral text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral solid md true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-neutral text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral solid md true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-neutral text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1.5"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral solid sm false false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-neutral text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral solid sm false true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-neutral text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral solid sm true false" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-neutral text-text-on-dark-heading">
+              Badge
+            </span>
+          </span><span class="try-one" data-try="neutral solid sm true true" hidden>
+            <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-full bg-neutral text-text-on-dark-heading">
+              <span class="rounded-full bg-current size-1"></span>
+              Badge
+            </span>
+          </span>
+          <!-- /demo:try -->
+        </div>
+        <dl class="try-out">
+          <div><dt>Code</dt><dd><code data-try-code>&lt;Badge&gt;Badge&lt;/Badge&gt;</code></dd></div>
+          <div><dt>Figma</dt><dd><code data-try-figma>intent=neutral · variant=subtle · size=md · pill=false · Show Dot=Off</code></dd></div>
+        </dl>
+      </div>
+      <script>
+        (function () {
+          var root = document.querySelector('[data-try-root]');
+          if (!root) return;
+          var DEFAULTS = { intent: 'neutral', variant: 'subtle', size: 'md', pill: 'false', dot: 'false' };
+          var state = Object.assign({}, DEFAULTS);
+          function render() {
+            var key = [state.intent, state.variant, state.size, state.pill, state.dot].join(' ');
+            root.querySelectorAll('[data-try]').forEach(function (el) { el.hidden = el.getAttribute('data-try') !== key; });
+            root.querySelectorAll('[data-prop]').forEach(function (b) {
+              b.setAttribute('aria-pressed', String(state[b.getAttribute('data-prop')] === b.getAttribute('data-value')));
+            });
+            var attrs = ['intent', 'variant', 'size'].filter(function (k) { return state[k] !== DEFAULTS[k]; })
+              .map(function (k) { return k + '="' + state[k] + '"'; });
+            if (state.pill === 'true') attrs.push('pill');
+            if (state.dot === 'true') attrs.push('dot');
+            root.querySelector('[data-try-code]').textContent = '<Badge' + (attrs.length ? ' ' + attrs.join(' ') : '') + '>Badge</Badge>';
+            root.querySelector('[data-try-figma]').textContent =
+              'intent=' + state.intent + ' · variant=' + state.variant + ' · size=' + state.size + ' · pill=' + state.pill + ' · Show Dot=' + (state.dot === 'true' ? 'On' : 'Off');
+          }
+          root.addEventListener('click', function (e) {
+            var b = e.target.closest('[data-prop]');
+            if (!b) return;
+            state[b.getAttribute('data-prop')] = b.getAttribute('data-value');
+            render();
+          });
+          render();
+        })();
+      </script>
+    </div>
+
+    <div class="sect">
       <h2 class="sect-h">Props</h2>
       <div class="sect-sub">Read from <code>interface Props</code> in <code>Badge.astro</code>, so it cannot drift from the component.</div>
       <!-- props:Badge -->
-      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
-        <tr><td class="ptable-name">intent</td><td class="ptable-type"><span class="ptable-m">'success'</span> | <span class="ptable-m">'warning'</span> | <span class="ptable-m">'danger'</span> | <span class="ptable-m">'info'</span> | <span class="ptable-m">'important'</span> | <span class="ptable-m">'neutral'</span></td><td class="ptable-default">'neutral'</td><td class="ptable-notes">The colour, by meaning: <code>success</code>, <code>warning</code>, <code>danger</code>, <code>info</code>, <code>important</code>, or <code>neutral</code> grey.</td></tr>
-        <tr><td class="ptable-name">variant</td><td class="ptable-type"><span class="ptable-m">'subtle'</span> | <span class="ptable-m">'solid'</span></td><td class="ptable-default">'subtle'</td><td class="ptable-notes"><code>subtle</code> is a tinted fill with coloured text; <code>solid</code> is a full-colour fill.</td></tr>
-        <tr><td class="ptable-name">size</td><td class="ptable-type"><span class="ptable-m">'sm'</span> | <span class="ptable-m">'md'</span></td><td class="ptable-default">'md'</td><td class="ptable-notes">Height 24 (<code>md</code>) or 20 (<code>sm</code>).</td></tr>
-        <tr><td class="ptable-name">pill</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Fully rounded ends instead of the 4px corners Figma draws.</td></tr>
-        <tr><td class="ptable-name">dot</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">A small leading dot in the label's colour — for a status that is on or live.</td></tr>
-        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the badge, after the component's own.</td></tr>
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>In Figma</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">intent</td><td class="ptable-figma"><code>intent</code> — same six values and the same default, <code>neutral</code></td><td class="ptable-type"><span class="ptable-m">'success'</span> | <span class="ptable-m">'warning'</span> | <span class="ptable-m">'danger'</span> | <span class="ptable-m">'info'</span> | <span class="ptable-m">'important'</span> | <span class="ptable-m">'neutral'</span></td><td class="ptable-default">'neutral'</td><td class="ptable-notes">The colour, by meaning: <code>success</code>, <code>warning</code>, <code>danger</code>, <code>info</code>, <code>important</code>, or <code>neutral</code> grey.</td></tr>
+        <tr><td class="ptable-name">variant</td><td class="ptable-figma"><code>variant</code> — same two values</td><td class="ptable-type"><span class="ptable-m">'subtle'</span> | <span class="ptable-m">'solid'</span></td><td class="ptable-default">'subtle'</td><td class="ptable-notes"><code>subtle</code> is a tinted fill with coloured text; <code>solid</code> is a full-colour fill.</td></tr>
+        <tr><td class="ptable-name">size</td><td class="ptable-figma"><code>size</code> — same two values</td><td class="ptable-type"><span class="ptable-m">'sm'</span> | <span class="ptable-m">'md'</span></td><td class="ptable-default">'md'</td><td class="ptable-notes">Height 24 (<code>md</code>) or 20 (<code>sm</code>).</td></tr>
+        <tr><td class="ptable-name">pill</td><td class="ptable-figma"><code>pill</code> — a <code>false</code> / <code>true</code> variant, so Figma shows it as a toggle</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Fully rounded ends instead of the 4px corners.</td></tr>
+        <tr><td class="ptable-name">dot</td><td class="ptable-figma"><code>Show Dot</code> — off by default, as in code</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">A small leading dot in the label's colour — for a status that is on or live.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the badge, after the component's own.</td></tr>
       </tbody></table></div>
       <!-- /props:Badge -->
     </div>

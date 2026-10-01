@@ -135,20 +135,33 @@ export function shownDefault(d) {
   return esc(v.replace(/\\u([0-9a-fA-F]{4})/g, (_, h) => String.fromCharCode(parseInt(h, 16))));
 }
 
+/**
+ * The "In Figma" column, added 2026-10-01 on Ball's ask that the tables read for
+ * people who are not developers: a designer knows the Figma property, not the
+ * prop. It appears only for a component whose props carry an `@figma` tag, so a
+ * component nobody has mapped yet shows the same four columns as before rather
+ * than a column of blanks that reads as "this has no Figma counterpart". Inside
+ * a mapped component, a prop with no tag says "code only" — which is a claim,
+ * and the reason the tag must be written on every prop that does have one.
+ */
 export function renderTable(component, indent) {
   const pad = (n) => indent + ' '.repeat(n);
+  const mapped = component.props.some((p) => p.figma);
   const rows = component.props.map((p) => {
     const note = [p.required ? '<span class="ptable-req">Required</span>' : '', prose(firstSentence(p.description))]
       .filter(Boolean).join('');
     const dflt = p.default === undefined ? '<span class="ptable-none">—</span>' : shownDefault(p.default);
-    return `${pad(2)}<tr><td class="ptable-name">${esc(p.name)}</td><td class="ptable-type">${renderType(p.type)}</td>`
+    const figma = mapped
+      ? `<td class="ptable-figma">${p.figma ? prose(p.figma) : '<span class="ptable-none">code only</span>'}</td>`
+      : '';
+    return `${pad(2)}<tr><td class="ptable-name">${esc(p.name)}</td>${figma}<td class="ptable-type">${renderType(p.type)}</td>`
       + `<td class="ptable-default">${dflt}</td><td class="ptable-notes">${note}</td></tr>`;
   });
   return [
     /* The same markup build-docs-tables.mjs stamps onto every other docs table,
        written out here in full: if this emitted a placeholder class, the two
        scripts would each call the other's output stale. */
-    `${indent}<div data-ds-table-wrap class="${tableWrap}"><table data-ds-table="ptable" class="${tableClass('sm')} ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>`,
+    `${indent}<div data-ds-table-wrap class="${tableWrap}"><table data-ds-table="ptable" class="${tableClass('sm')} ptable"><thead><tr><th>Prop</th>${mapped ? '<th>In Figma</th>' : ''}<th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>`,
     ...rows,
     `${indent}</tbody></table></div>`,
   ].join('\n');

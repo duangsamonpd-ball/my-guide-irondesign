@@ -143,6 +143,7 @@ function defaults(fm) {
 function parseProps(body, defs) {
   const props = [];
   let doc = null;
+  let figma = null;
   // One pass, line-aware, so a `/** … */` above a prop stays attached to it.
   const lines = body.split('\n');
   let buffer = null;
@@ -157,19 +158,30 @@ function parseProps(body, defs) {
         if (l.includes('*/')) break;
         l = (lines[++i] ?? '').trim();
       }
-      doc = buffer.filter(Boolean).join(' ').replace(/\s+/g, ' ').trim() || null;
+      /* `@figma <text>` names the Figma property this prop answers to. It is
+         pulled out of the description so the Notes column never shows it, and
+         carried as its own field for the props table's "In Figma" column. */
+      figma = null;
+      const kept = [];
+      for (const l of buffer) {
+        const t = l.match(/^@figma\s+(.+)$/);
+        if (t) figma = t[1].trim(); else kept.push(l);
+      }
+      doc = kept.filter(Boolean).join(' ').replace(/\s+/g, ' ').trim() || null;
       continue;
     }
     if (line.startsWith('//')) { doc = line.replace(/^\/\/\s*/, ''); continue; }
 
     const m = line.match(/^([A-Za-z_$][\w$]*)(\??):\s*(.+?);?$/);
-    if (!m) { doc = null; continue; }
+    if (!m) { doc = null; figma = null; continue; }
     const [, name, optional, type] = m;
     const entry = { name, type: type.replace(/;$/, '').trim(), required: optional !== '?' };
     if (defs[name] !== undefined) entry.default = defs[name];
     if (doc) entry.description = doc;
+    if (figma) entry.figma = figma;
     props.push(entry);
     doc = null;
+    figma = null;
   }
   return props;
 }
