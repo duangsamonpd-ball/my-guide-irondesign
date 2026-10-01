@@ -25,7 +25,7 @@
  * `.demo-link-hover-underline` — the two inline styles the Anatomy examples
  * used to carry.
  */
-import { TextLink } from '@iron-software/astro-components';
+import { TextLink, Prose } from '@iron-software/astro-components';
 
 const P = 'font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;';
 /* The External region's third line is deliberately smaller: the arrow is sized
@@ -36,6 +36,9 @@ const modes = [
   { variant: 'plain' as const },
   { variant: 'underline' as const },
 ];
+/* Prose's demo code spans name the docs' mono face — Prose styles links only,
+   and the overflow harness refuses text that falls back to the UA monospace. */
+const codeStyle = "font-family:'Roboto Mono',monospace;font-size:0.875em;";
 ---
 
 <html lang="en">
@@ -64,6 +67,28 @@ const modes = [
         <TextLink href="https://example.com" external>Native vs Remote Engine</TextLink>
         <TextLink href="https://example.com" external class="demo-link-hover">Native vs Remote Engine</TextLink>
       </div>
+    </div>
+
+    {/* Prose — Markdown/CMS links. Moved here from its own page on 2026-10-01
+        (Ball): it is how links look inside content you do not write, so it is
+        documented beside the link it imitates. The anchors are PLAIN <a> on
+        purpose: that is what a Markdown renderer hands you. */}
+    <div data-demo="prose">
+      <Prose>
+        <p style="margin:0;max-width:640px;font-size:1rem;line-height:1.75;color:var(--color-text-body);">
+          Style elements on hover, focus and more using <a href="#">pseudo-classes</a>, like
+          <code style={codeStyle}>:hover</code> and <code style={codeStyle}>:focus</code>. Read the
+          <a href="#">IronPDF docs</a> for the full list, or start from the <a href="#">HTML to PDF tutorial</a>.
+        </p>
+      </Prose>
+    </div>
+
+    <div data-demo="prose-dark">
+      <Prose dark>
+        <p style="margin:0;max-width:640px;font-size:1rem;line-height:1.75;color:var(--color-text-dark-body);">
+          On a dark band the links move to the dark tokens &mdash; see the <a href="#">release notes</a> for what changed.
+        </p>
+      </Prose>
     </div>
 
     {modes.map((m) => (

@@ -145,6 +145,36 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .arrow-grid { display:grid; grid-template-columns:auto auto; gap:14px 56px; align-items:center; font-size:1rem; background:#fff; padding:20px 28px; border-radius:12px; border:1px solid #E2E8F0; }
 .arrow-lbl { font-size:0.66rem; font-weight:700; color:#62748E; }
 .tlink.demo-link-hover-underline { text-decoration-color: var(--color-border-selected); text-decoration-thickness: var(--border-width-1-5); }
+.ds-prose :where(a) {
+  color: var(--color-text-body);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+  text-decoration-thickness: var(--border-width-1);
+  text-underline-offset: 21.5%;
+  transition: text-decoration-color var(--duration-fast), text-decoration-thickness var(--duration-fast);
+}
+.ds-prose :where(a:hover) {
+  text-decoration-color: var(--color-border-selected);
+  text-decoration-thickness: var(--border-width-1-5);
+}
+.ds-prose :where(a:focus-visible) {
+  outline: var(--border-width-2) solid var(--color-border-selected);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.ds-prose.dark :where(a) {
+  color: var(--color-text-dark-body);
+  text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent);
+}
+.ds-prose.dark :where(a:hover) { text-decoration-color: var(--color-border-dark-alt); }
+.ds-prose.dark :where(a:focus-visible) { outline-color: var(--color-border-dark-alt); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-prose :where(a) { transition-duration: 1ms; }
+}
+.props-h { font-size:1rem; font-weight:800; margin:28px 0 6px; }
+.prose-code { margin:14px 0 0; padding:16px 20px; border-radius:12px; background:#0A0A0A; color:#E5E5E5; font-family:'Roboto Mono',monospace; font-size:0.8rem; line-height:1.6; overflow-x:auto; }
 </style>
 </head>
 <body>
@@ -171,7 +201,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <a href="07-components.html" class="sidebar-link"><i class="sidebar-icon">🧩</i>Overview</a>
       <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
       <a href="component-textlink.html" class="sidebar-link active"><i class="sidebar-icon">🔗</i>Text Link</a>
-      <a href="component-prose.html" class="sidebar-link"><i class="sidebar-icon">📄</i>Prose</a>
       <a href="component-checkbox.html" class="sidebar-link"><i class="sidebar-icon">☑️</i>Checkbox</a>
       <a href="component-input.html" class="sidebar-link"><i class="sidebar-icon">⌨️</i>Input</a>
       <a href="component-textarea.html" class="sidebar-link"><i class="sidebar-icon">📝</i>Textarea</a>
@@ -207,7 +236,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </nav>
       <h1>Text Link</h1>
       <p class="lead">Two variants for two contexts: <b>Plain</b> for general/marketing pages — coloured text, no underline. <b>Underline</b> for long-form content (blog, news) — neutral text, a separate underline that thickens and darkens on hover.</p>
-      <div class="meta-chips"><span class="chip">2 variants</span><span class="chip">2 modes</span><span class="chip new">Token-driven</span></div>
+      <div class="meta-chips"><span class="chip">2 variants</span><span class="chip">2 modes</span><span class="chip">+ Prose for Markdown</span><span class="chip new">Token-driven</span></div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Preview</h2>
@@ -219,8 +248,8 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
-    <div class="sect"><h2 class="sect-h">Variants</h2>
-      <div class="sect-sub">Pick by context, not by preference — a whole page of underlined links reads as dense; a whole page of colour-only links loses the underline's scan-ability in long copy.</div>
+    <div class="sect"><h2 class="sect-h">Plain or Underline</h2>
+      <div class="sect-sub">Pick by where the link sits, not by taste. <b>Plain</b> is for a link that stands on its own &mdash; a card footer, a &ldquo;see all&rdquo;, a source line. <b>Underline</b> is for a link inside a sentence, where colour alone would not mark it.</div>
       <div class="variant-cols">
 
         <div class="variant-col">
@@ -248,8 +277,32 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
-    <div class="sect"><h2 class="sect-h">Modes</h2>
-      <div class="sect-sub">Both variants have a dark-background pairing (code blocks, dark sections) using the dark-mode tokens — currently the same colours as light mode, kept separate for when dark mode diverges.</div>
+    <div class="sect"><h2 class="sect-h">Icons: arrow &amp; external</h2>
+      <div class="sect-sub"><b>Plain links only.</b> <code>arrow</code> adds a trailing &rarr; for a standalone link that leads on within the site; <code>external</code> adds &nearr; for one that leaves it, and also opens a new tab and tells a screen reader so. On hover and keyboard focus the icon eases a quarter-em along its own direction &mdash; a <code>transform</code>, so the link never changes width &mdash; and stays still under <code>prefers-reduced-motion</code>. An <code>underline</code> link draws no icon: it sits inside a sentence, where an icon breaks the line the reader is following.</div>
+      <div class="canvas">
+        <!-- demo:arrow -->
+        <div class="arrow-grid">
+          <span class="arrow-lbl">Default</span>
+          <span class="arrow-lbl">Hover · focus</span>
+          <a href="#" class="tlink plain">See all products<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
+          <a href="#" class="tlink plain demo-link-hover">See all products<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
+          <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a>
+          <a href="https://example.com" class="tlink plain demo-link-hover" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a>
+        </div>
+        <!-- /demo:arrow -->
+      </div>
+      <div class="sect-sub" style="margin-top:14px;">External links in a sentence: the plain one carries the &nearr;, the underline one does not, and the last is a caption-sized run &mdash; the icon is sized in <code>em</code>, so it follows the text.</div>
+      <div class="canvas col" style="max-width:520px;margin:0 auto;">
+        <!-- demo:external -->
+        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Read the <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a> comparison.</p>
+        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Read the <a href="https://example.com" class="tlink underline" target="_blank" rel="noopener">Native vs Remote Engine<span class="ext-label"> (opens in a new tab)</span></a> comparison.</p>
+        <p style="font-size:0.78rem;color:var(--color-text-support);line-height:1.7;">Also in a caption-sized run: <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Learn more<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a></p>
+        <!-- /demo:external -->
+      </div>
+    </div>
+
+    <div class="sect"><h2 class="sect-h">Dark backgrounds</h2>
+      <div class="sect-sub">Add <code>dark</code> on a dark band. Both variants move to their dark tokens: a lighter blue and pink for Plain, body text for Underline.</div>
       <div class="variant-cols">
 
         <div class="variant-col">
@@ -287,31 +340,36 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
-    <div class="sect"><h2 class="sect-h">External links</h2>
-      <div class="sect-sub"><code>external</code> adds <code>target="_blank" rel="noopener"</code> and a trailing north-east arrow. The arrow is an <b>icon, not a <code>↗</code> character</b> — Montserrat has no glyph at U+2197, so a character would change size with the reader's machine. It is sized in <code>em</code>, so it tracks whatever run the link sits in, and carries <code>aria-hidden</code> so it adds nothing to the link's accessible name. The arrow is drawn on <code>plain</code> only: an <code>underline</code> link sits inside a sentence, where an icon breaks the line the reader is following &mdash; it still opens a new tab and still tells a screen reader so.</div>
-      <div class="canvas col" style="max-width:520px;margin:0 auto;">
-        <!-- demo:external -->
-        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Read the <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a> comparison.</p>
-        <p style="font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;">Read the <a href="https://example.com" class="tlink underline" target="_blank" rel="noopener">Native vs Remote Engine<span class="ext-label"> (opens in a new tab)</span></a> comparison.</p>
-        <p style="font-size:0.78rem;color:var(--color-text-support);line-height:1.7;">Also in a caption-sized run: <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Learn more<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a></p>
-        <!-- /demo:external -->
-      </div>
-    </div>
-
-    <div class="sect"><h2 class="sect-h">Arrow</h2>
-      <div class="sect-sub"><code>arrow</code> adds a trailing &rarr; for a link that stands on its own and leads on within the site &mdash; &ldquo;See all products&rdquo;, &ldquo;Learn more&rdquo;. On hover and on keyboard focus it nudges right by <code>0.25em</code>; the <code>external</code> &nearr; nudges along its own diagonal. Both are a <code>transform</code>, so the link never changes width and nothing beside it moves, and both stay still under <code>prefers-reduced-motion</code>. Keep it off links inside a sentence: an arrow that moves in running text pulls the eye off the words. Figma: the <code>arrow</code> property on the <code>TextLink</code> set, prototyped with Smart Animate.</div>
+    <div class="sect" id="prose"><h2 class="sect-h">Links in Markdown &amp; CMS content</h2>
+      <div class="sect-sub">A Markdown post or CMS page writes its own <code>&lt;a&gt;</code> tags, so there is no Text Link to put there &mdash; and Text Link&rsquo;s styles cannot reach a link it did not render. Left bare, those links come out in the browser&rsquo;s blue, purple once visited. Wrap the content in <b><code>&lt;Prose&gt;</code></b> and every link inside gets the <b>Underline</b> look, value for value. In Figma the same thing is the <code>Typography/link-underline</code> text style applied to the words.</div>
       <div class="canvas">
-        <!-- demo:arrow -->
-        <div class="arrow-grid">
-          <span class="arrow-lbl">Default</span>
-          <span class="arrow-lbl">Hover · focus</span>
-          <a href="#" class="tlink plain">See all products<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
-          <a href="#" class="tlink plain demo-link-hover">See all products<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
-          <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a>
-          <a href="https://example.com" class="tlink plain demo-link-hover" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a>
+        <!-- demo:prose -->
+        <div class="ds-prose">
+          <p style="margin:0;max-width:640px;font-size:1rem;line-height:1.75;color:var(--color-text-body);">
+            Style elements on hover, focus and more using <a href="#">pseudo-classes</a>, like
+            <code style="font-family:'Roboto Mono',monospace;font-size:0.875em;">:hover</code> and <code style="font-family:'Roboto Mono',monospace;font-size:0.875em;">:focus</code>. Read the
+            <a href="#">IronPDF docs</a> for the full list, or start from the <a href="#">HTML to PDF tutorial</a>.
+          </p>
         </div>
-        <!-- /demo:arrow -->
+        <!-- /demo:prose -->
       </div>
+      <div class="sect-sub" style="margin-top:14px;"><code>&lt;Prose dark&gt;</code> on a dark band. Prose styles links and nothing else &mdash; headings, lists and code keep the page&rsquo;s own styles for now.</div>
+      <div class="canvas dark">
+        <!-- demo:prose-dark -->
+        <div class="ds-prose dark">
+          <p style="margin:0;max-width:640px;font-size:1rem;line-height:1.75;color:var(--color-text-dark-body);">
+            On a dark band the links move to the dark tokens &mdash; see the <a href="#">release notes</a> for what changed.
+          </p>
+        </div>
+        <!-- /demo:prose-dark -->
+      </div>
+<pre class="prose-code">---
+import { Prose } from '@iron-software/astro-components';
+const { Content } = await render(post);
+---
+&lt;Prose&gt;
+  &lt;Content /&gt;
+&lt;/Prose&gt;</pre>
     </div>
 
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
@@ -382,6 +440,14 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="ptable-name">class</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;a&gt;</code>, after the component's own.</td></tr>
       </tbody></table></div>
       <!-- /props:TextLink -->
+      <h3 class="props-h">Prose</h3>
+      <div class="sect-sub">The wrapper for Markdown and CMS content above.</div>
+      <!-- props:Prose -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">dark</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Use the dark-surface colours — body text on a dark band, the underline in its dark token.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the wrapper.</td></tr>
+      </tbody></table></div>
+      <!-- /props:Prose -->
     </div>
 
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>

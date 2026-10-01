@@ -127,7 +127,6 @@ const countries = [
 const cards: Record<string, { kind?: 'wide' | 'band' }> = {
   'component-button.html': {},
   'component-textlink.html': {},
-  'component-prose.html': {},
   'component-checkbox.html': {},
   'component-input.html': {},
   'component-textarea.html': {},
@@ -162,6 +161,13 @@ const OFF_PAGE = [
     icon: '📦',
     label: 'NuGet Button',
     desc: 'The NuGet download CTA — the mark, the label and a caret on one line, with the install count beneath.',
+  },
+  {
+    component: 'Prose',
+    href: 'component-textlink.html#prose',
+    icon: '📄',
+    label: 'Prose',
+    desc: 'A wrapper for Markdown and CMS content — the links inside get the Text Link underline look.',
   },
 ] as const;
 
@@ -222,11 +228,6 @@ const entries = [
                   <p class="gprose">Save 80% with the <TextLink href="#">Iron Suite</TextLink></p>
                   <p class="gprose">Read the <TextLink href="#" variant="underline" external>engine comparison</TextLink></p>
                 </div>
-              )}
-              {c.href === 'component-prose.html' && (
-                <Prose>
-                  <p class="gprose">Markdown links, styled: see the <a href="#">HTML to PDF tutorial</a></p>
-                </Prose>
               )}
               {c.href === 'component-checkbox.html' && (
                 <div class="gstack">
@@ -301,6 +302,11 @@ const entries = [
               {c.href === 'component-footerbar.html' && <FooterBar />}
               {c.label === 'NuGet Button' && (
                 <NugetButton subtext="Total download 19,002,577" />
+              )}
+              {c.label === 'Prose' && (
+                <Prose>
+                  <p class="gprose">Markdown links, styled: see the <a href="#">HTML to PDF tutorial</a></p>
+                </Prose>
               )}
               {c.href === 'component-tooltip.html' && (
                 <Tooltip title="Per-seat licensing" body="Counts unique developers, not machines.">

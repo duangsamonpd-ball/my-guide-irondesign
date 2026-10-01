@@ -309,6 +309,10 @@ const { Content } = await render(post);
 </Prose>
 ```
 
+**Documented on the Text Link page** (`docs/component-textlink.html#prose`,
+"Links in Markdown & CMS content") — it is how links look inside content you do
+not write, so it sits beside the link it imitates (Ball, 2026-10-01).
+
 **Links only, for now** (Ball, 2026-10-01). Headings, lists and code inside the
 content keep whatever the page gives them; a full article typography ramp waits
 for a real article page to measure against. The class is `ds-prose`, not

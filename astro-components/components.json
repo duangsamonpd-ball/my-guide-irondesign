@@ -1030,7 +1030,7 @@
     {
       "name": "Prose",
       "file": "astro-components/components/Prose.astro",
-      "docs": "docs/component-prose.html",
+      "docs": null,
       "interactive": false,
       "figmaNodes": [],
       "props": [
