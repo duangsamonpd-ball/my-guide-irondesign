@@ -69,7 +69,7 @@ The proof that the tokens compose into a real product page: [`docs/homepage.html
 
 ## 🧬 Astro components
 
-20 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — use them instead of copy-pasting markup out of the docs. **12 of them are styled with Tailwind utility classes and need either Tailwind (pointed at this package's sources) or the pre-compiled `@iron-software/design-system/utilities.css`** — see [the package README's Setup section](astro-components/README.md#setup), which is gated so it cannot go stale.
+21 components are ported as real `.astro` files in [`astro-components/`](astro-components/) — use them instead of copy-pasting markup out of the docs. **12 of them are styled with Tailwind utility classes and need either Tailwind (pointed at this package's sources) or the pre-compiled `@iron-software/design-system/utilities.css`** — see [the package README's Setup section](astro-components/README.md#setup), which is gated so it cannot go stale.
 
 | Component | Notes |
 |---|---|
@@ -454,7 +454,7 @@ GitHub Pages serves the `docs/` folder on every push to `main` → **https://dua
 
 ### Social card (og:image)
 
-`scripts/build-seo.mjs` writes the `<!-- seo:* -->` block into all 32 pages —
+`scripts/build-seo.mjs` writes the `<!-- seo:* -->` block into all 33 pages —
 canonical, Open Graph, Twitter card and JSON-LD. One thing is missing on purpose:
 **`OG_IMAGE` is `null`, so no `og:image` is emitted.**
 
@@ -485,7 +485,7 @@ Two things worth knowing before drawing it. It is rendered around 400–500px wi
 in a chat list, so thin or small type disappears; and some clients crop the
 edges, so nothing load-bearing should sit against them.
 
-The constant is a single value, so **one card covers all 32 pages**. Per-page
+The constant is a single value, so **one card covers all 33 pages**. Per-page
 cards would need each page to carry its own field — worth doing only if the one
 card turns out not to be enough.
 

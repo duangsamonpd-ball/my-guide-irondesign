@@ -34,6 +34,7 @@ export { default as Logo } from './components/Logo.astro';
 export { default as Notice } from './components/Notice.astro';
 export { default as NugetButton } from './components/NugetButton.astro';
 export { default as ProductMenu } from './components/ProductMenu.astro';
+export { default as Prose } from './components/Prose.astro';
 export { default as Radio } from './components/Radio.astro';
 export { default as Select } from './components/Select.astro';
 export { default as Table } from './components/Table.astro';

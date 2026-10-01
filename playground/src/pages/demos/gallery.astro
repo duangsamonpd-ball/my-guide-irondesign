@@ -45,7 +45,7 @@ import { dirname, join } from 'node:path';
 import { NAV } from '../../../../scripts/lib/nav.mjs';
 import {
   Badge, Button, Checkbox, FileUpload, Footer, FooterBar, FormCard,
-  Input, Logo, Notice, ProductMenu, Radio, Select, Table, Textarea, TextLink, Tooltip,
+  Input, Logo, Notice, ProductMenu, Prose, Radio, Select, Table, Textarea, TextLink, Tooltip,
   NugetButton, TopNav, TrialKeyCard,
 } from '@iron-software/astro-components';
 
@@ -127,6 +127,7 @@ const countries = [
 const cards: Record<string, { kind?: 'wide' | 'band' }> = {
   'component-button.html': {},
   'component-textlink.html': {},
+  'component-prose.html': {},
   'component-checkbox.html': {},
   'component-input.html': {},
   'component-textarea.html': {},
@@ -221,6 +222,11 @@ const entries = [
                   <p class="gprose">Save 80% with the <TextLink href="#">Iron Suite</TextLink></p>
                   <p class="gprose">Read the <TextLink href="#" variant="underline" external>engine comparison</TextLink></p>
                 </div>
+              )}
+              {c.href === 'component-prose.html' && (
+                <Prose>
+                  <p class="gprose">Markdown links, styled: see the <a href="#">HTML to PDF tutorial</a></p>
+                </Prose>
               )}
               {c.href === 'component-checkbox.html' && (
                 <div class="gstack">

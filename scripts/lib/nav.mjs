@@ -26,6 +26,7 @@ export const NAV = [
   { href: '07-components.html', icon: '🧩', label: 'Overview' },
   { href: 'component-button.html', icon: '🔘', label: 'Button' },
   { href: 'component-textlink.html', icon: '🔗', label: 'Text Link' },
+  { href: 'component-prose.html', icon: '📄', label: 'Prose' },
   { href: 'component-checkbox.html', icon: '☑️', label: 'Checkbox' },
   { href: 'component-input.html', icon: '⌨️', label: 'Input' },
   { href: 'component-textarea.html', icon: '📝', label: 'Textarea' },

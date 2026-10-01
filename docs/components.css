@@ -10,7 +10,7 @@
  * claim one selector, or if any selector starts with a bare tag — Astro
  * scoping makes both harmless in the component and neither is harmless here.
  *
- * 9 components with a <style> block.
+ * 10 components with a <style> block.
  */
 
 /* ── FileUpload ──────────────────────────────────────────────────
@@ -335,6 +335,36 @@
   .pm-drop-label .pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
   @media (max-width: 433.98px) {
     .pm:not(.pm--fit) .pm-right > a.pm-cta-swap { padding-inline: var(--spacing-xs); }
+  }
+
+/* ── Prose ───────────────────────────────────────────────────────
+   astro-components/components/Prose.astro */
+.ds-prose :where(a) {
+    color: var(--color-text-body);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+    text-decoration-thickness: var(--border-width-1);
+    text-underline-offset: 21.5%;
+    transition: text-decoration-color var(--duration-fast), text-decoration-thickness var(--duration-fast);
+  }
+  .ds-prose :where(a:hover) {
+    text-decoration-color: var(--color-border-selected);
+    text-decoration-thickness: var(--border-width-1-5);
+  }
+  .ds-prose :where(a:focus-visible) {
+    outline: var(--border-width-2) solid var(--color-border-selected);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .ds-prose.dark :where(a) {
+    color: var(--color-text-dark-body);
+    text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent);
+  }
+  .ds-prose.dark :where(a:hover) { text-decoration-color: var(--color-border-dark-alt); }
+  .ds-prose.dark :where(a:focus-visible) { outline-color: var(--color-border-dark-alt); }
+  @media (prefers-reduced-motion: reduce) {
+    .ds-prose :where(a) { transition-duration: 1ms; }
   }
 
 /* ── TextLink ────────────────────────────────────────────────────

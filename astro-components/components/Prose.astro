@@ -1,0 +1,87 @@
+---
+/**
+ * Prose — a wrapper for long-form content you do not write the markup for:
+ * a rendered Markdown post (`<Content />`), CMS HTML, release notes.
+ *
+ * ## Why it exists
+ *
+ * `TextLink` styles a link by being the link. Markdown writes its own `<a>`, so
+ * there is nothing to swap in, and `TextLink`'s rules are scoped to the markup
+ * IT renders — they cannot reach an anchor a Markdown renderer produced. So a
+ * post rendered bare gets the browser's links: blue, a solid underline, purple
+ * once visited. Ball, 2026-10-01, asked for this after looking at how
+ * tailwindcss.com's docs do it (the `prose` class of `@tailwindcss/typography`).
+ *
+ * ## Links only, for now — Ball's call, 2026-10-01
+ *
+ * It styles `a` and nothing else. Headings, lists and code inside a post keep
+ * whatever the page gives them. The wider version — a full typography ramp for
+ * articles — waits until a real article page exists to measure it against;
+ * `ironpdf-blog` has posts but no page that renders one yet.
+ *
+ * ## The link is `TextLink variant="underline"`, value for value
+ *
+ * Body-coloured text at 600, a 1px underline in `--color-border-selected` at
+ * 50%, `21.5%` offset; on hover the line goes to 100% and 1.5px. Focus gets the
+ * same 2px ring 3px out. In Figma that is `Typography/link-underline` for a link
+ * inside a paragraph, and the `underline` variants of the `TextLink` set
+ * (`1272:54`) for the states. **If TextLink's underline changes, this changes
+ * with it** — the two are separate stylesheets because one is a component and
+ * the other styles markup it does not own.
+ *
+ * ## Why `is:global`, and why `:where()`
+ *
+ * Global because the anchors are slotted content: Astro scopes a component's CSS
+ * by stamping the elements the component renders, and slotted markup belongs to
+ * the caller. Every selector still starts at `.ds-prose`, so nothing leaks.
+ *
+ * `:where(a)` holds the specificity at one class. A consumer can override a link
+ * inside a post with any single class, and a real `<TextLink>` placed inside the
+ * wrapper keeps its own look — its two-class rules outrank this one.
+ *
+ * The class is `ds-prose`, not `prose`, so a site that also runs
+ * `@tailwindcss/typography` does not get two stylesheets fighting over one name.
+ */
+
+interface Props {
+  /** Use the dark-surface colours — body text on a dark band, the underline in its dark token. */
+  dark?: boolean;
+  /** Extra classes on the wrapper. */
+  class?: string;
+}
+
+const { dark = false, class: className } = Astro.props;
+---
+
+<div class:list={['ds-prose', { dark }, className]}><slot /></div>
+
+<style is:global>
+  .ds-prose :where(a) {
+    color: var(--color-text-body);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+    text-decoration-thickness: var(--border-width-1);
+    text-underline-offset: 21.5%;
+    transition: text-decoration-color var(--duration-fast), text-decoration-thickness var(--duration-fast);
+  }
+  .ds-prose :where(a:hover) {
+    text-decoration-color: var(--color-border-selected);
+    text-decoration-thickness: var(--border-width-1-5);
+  }
+  .ds-prose :where(a:focus-visible) {
+    outline: var(--border-width-2) solid var(--color-border-selected);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .ds-prose.dark :where(a) {
+    color: var(--color-text-dark-body);
+    text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent);
+  }
+  .ds-prose.dark :where(a:hover) { text-decoration-color: var(--color-border-dark-alt); }
+  .ds-prose.dark :where(a:focus-visible) { outline-color: var(--color-border-dark-alt); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ds-prose :where(a) { transition-duration: 1ms; }
+  }
+</style>

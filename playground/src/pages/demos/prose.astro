@@ -1,0 +1,39 @@
+---
+/**
+ * Demo source for docs/component-prose.html.
+ *
+ * The anchors below are PLAIN `<a>` elements on purpose — that is what a
+ * Markdown renderer hands you, and it is the case Prose exists for. Using
+ * `<TextLink>` here would demonstrate the component that already works.
+ */
+import { Prose } from '@iron-software/astro-components';
+
+/* The demo's code spans name the docs' mono face. Prose styles links only, so
+   nothing else would give them one, and the overflow harness rightly refuses a
+   page whose text falls back to the browser's default monospace. */
+const codeStyle = "font-family:'Roboto Mono',monospace;font-size:0.875em;";
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Prose>
+        <p style="margin:0;max-width:640px;font-size:1rem;line-height:1.75;color:var(--color-text-body);">
+          Style elements on hover, focus and more using <a href="#">pseudo-classes</a>, like
+          <code style={codeStyle}>:hover</code>, <code style={codeStyle}>:focus</code> and <code style={codeStyle}>:first-child</code>. Read the
+          <a href="#">IronPDF docs</a> for the full list, or start from the
+          <a href="#">HTML to PDF tutorial</a>.
+        </p>
+      </Prose>
+    </div>
+
+    <div data-demo="dark">
+      <Prose dark>
+        <p style="margin:0;max-width:640px;font-size:1rem;line-height:1.75;color:var(--color-text-dark-body);">
+          On a dark band the text and its links move to the dark tokens together &mdash; see the
+          <a href="#">release notes</a> for what changed.
+        </p>
+      </Prose>
+    </div>
+  </body>
+</html>

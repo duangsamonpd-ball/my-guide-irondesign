@@ -290,6 +290,35 @@ confirmed present in the built markup). The only reliable fix is
 `white-space: nowrap` around the last word *and* the icon, which a `<slot>`
 cannot reach into.
 
+### `Prose.astro`
+
+A wrapper for long-form content you do not write the markup for — a rendered
+Markdown post, CMS HTML, release notes. Markdown writes its own `<a>`, and
+`TextLink`'s styles are scoped to the markup it renders, so a bare post gets the
+browser's links. Inside `Prose` they get the `TextLink variant="underline"`
+values: body text at 600, a 1px underline in `--color-border-selected` at 50%,
+`21.5%` offset, going to 100% and 1.5px on hover, and the same focus ring.
+
+```astro
+---
+import { Prose } from '@iron-software/astro-components';
+const { Content } = await render(post);
+---
+<Prose>
+  <Content />
+</Prose>
+```
+
+**Links only, for now** (Ball, 2026-10-01). Headings, lists and code inside the
+content keep whatever the page gives them; a full article typography ramp waits
+for a real article page to measure against. The class is `ds-prose`, not
+`prose`, so it cannot collide with `@tailwindcss/typography`. Its rules sit at
+one class of specificity (`:where(a)`), so any single class overrides a link and
+a real `<TextLink>` inside keeps its own look. If `TextLink`'s underline values
+change, change these with them — they are two stylesheets for one look.
+
+Props: `dark` (the dark-surface colours), `class`.
+
 ### `Input.astro`
 
 > **Needs Tailwind.** This component has no `<style>` of its own — every value
@@ -1049,7 +1078,7 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 8 of 20 components take a required
+  destructure rather than the interface. Only 8 of 21 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
   `Tooltip.body`, and the card components' labels.
@@ -1156,9 +1185,9 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 20 components ported
+## 21 components ported
 
-Button, NugetButton, TextLink, Input, Textarea, FileUpload, Select, Checkbox,
+Button, NugetButton, TextLink, Prose, Input, Textarea, FileUpload, Select, Checkbox,
 Radio, Badge, Notice, Table, Tooltip, FlyoutMenu, Product Footer, FooterBar, FormCard,
 TrialKeyCard, Logo, TopNav and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
 two-bar site header, and `Footer` + `FooterBar` the full two-band site footer. If
