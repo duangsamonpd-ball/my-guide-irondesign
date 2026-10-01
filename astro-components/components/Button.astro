@@ -19,9 +19,15 @@
  * declared rather than emergent.
  */
 interface Props {
-  /** The fill: `primary` pink, `secondary` blue, `tertiary` black, `outline` white with a border, `ondark` translucent white for dark surfaces, `ghost` none until hover. */
+  /**
+   * The fill: `primary` pink, `secondary` blue, `tertiary` black, `outline` white with a border, `ondark` translucent white for dark surfaces, `ghost` none until hover.
+   * @figma `Variant` — same six values, same default
+   */
   variant?: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ondark' | 'ghost';
-  /** Height 56 / 48 / 36px, with padding and type stepping down to match. */
+  /**
+   * Height 56 / 48 / 36px, with padding and type stepping down to match.
+   * @figma `Size` — same three values, same default
+   */
   size?: 'lg' | 'md' | 'sm';
   /**
    * Let a long label wrap instead of leaving the box. Off by default: a button
@@ -39,7 +45,10 @@ interface Props {
    * the same place and loses identically.
    */
   wrap?: boolean;
-  /** Dims it to 50% and blocks clicks — on a link as `aria-disabled="true"`, since `<a>` has no `disabled`. */
+  /**
+   * Dims it to 50% and blocks clicks — on a link as `aria-disabled="true"`, since `<a>` has no `disabled`.
+   * @figma `State=disabled` — Figma's other states, `hover` and `focus`, are the browser's, not props
+   */
   disabled?: boolean;
   /** The native type, `button` rather than HTML's `submit` so a button in a form does not submit it by accident; ignored when `href` is set. */
   type?: 'button' | 'submit' | 'reset';

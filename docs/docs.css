@@ -503,3 +503,23 @@ html.vp-only, html.vp-only body { margin:0; padding:0; background:transparent; o
   .sidebar.open { transform:translatex(0); }
   .variant-cols { grid-template-columns:1fr; }
 }
+
+/* ── "Try it" panel — driven by try-panel.js, one config per page ───────────
+   Every example in it is pre-rendered by the real component; the script only
+   picks which is visible. Lives here, not per page, because every component
+   that gets a panel uses the same chrome. */
+.try { display:grid; gap:20px; padding:24px; }
+.try-controls { display:grid; gap:8px; }
+.try-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.try-k, .try-out dt { width:96px; flex-shrink:0; font-size:0.72rem; font-weight:700; color:var(--color-text-muted); }
+.try-stage { display:flex; align-items:center; justify-content:center; min-height:96px; border-radius:8px; background:var(--color-bg-section); }
+/* For a value that only reads on a dark surface — Button's `ondark`. A fixed
+   dark band, not a theme token, because the example needs it in either theme. */
+.try-stage[data-stage="dark"] { background:var(--color-bg-footer); }
+.try-out { display:grid; gap:8px; margin:0; }
+.try-out > div { display:flex; align-items:baseline; gap:12px; }
+.try-out dd { margin:0; min-width:0; overflow-wrap:anywhere; }
+.try .vp-seg { flex-wrap:wrap; min-width:0; }
+.try-out code { white-space:normal; overflow-wrap:anywhere; }
+/* The pre-rendered examples' wrapper. `:not([hidden])` so it can never undo `hidden`. */
+.try-one:not([hidden]) { display:inline-flex; }

@@ -103,18 +103,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   /* The anatomy diagram is drawn larger so its callouts have room — a docs-only
    zoom that used to be an inline style on the badge. */
 .anatomy .demo-zoom { font-size: 15px; padding: 7px 14px; }
-.try { display:grid; gap:20px; padding:24px; }
-.try-controls { display:grid; gap:8px; }
-.try-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-.try-k, .try-out dt { width:56px; flex-shrink:0; font-size:0.72rem; font-weight:700; color:var(--color-text-muted); }
-.try-stage { display:flex; align-items:center; justify-content:center; min-height:72px; border-radius:8px; background:var(--color-bg-section); }
-.try-out { display:grid; gap:8px; margin:0; }
-.try-out > div { display:flex; align-items:baseline; gap:12px; }
-.try-out dd { margin:0; min-width:0; overflow-wrap:anywhere; }
-.try .vp-seg { flex-wrap:wrap; min-width:0; }
-.try-out code { white-space:normal; overflow-wrap:anywhere; }
-/* A hook for the panel's script; `:not([hidden])` so it can never undo `hidden`. */
-.try-one:not([hidden]) { display:inline-flex; }
 </style>
 </head>
 <body>
@@ -393,13 +381,16 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <h2 class="sect-h">Try it</h2>
       <div class="sect-sub">Pick the options and the badge changes. Underneath are the two ways to ask for the same badge: the line of code a developer writes, and the properties a designer sets on the Figma instance. Every badge here is rendered by the real component &mdash; the buttons only choose which one you see.</div>
       <div class="frame try" data-try-root>
-        <div class="try-controls">
-          <div class="try-row"><span class="try-k">intent</span><div class="vp-seg" role="group" aria-label="intent"><button type="button" class="vp-btn" data-prop="intent" data-value="success" aria-pressed="false">success</button><button type="button" class="vp-btn" data-prop="intent" data-value="warning" aria-pressed="false">warning</button><button type="button" class="vp-btn" data-prop="intent" data-value="danger" aria-pressed="false">danger</button><button type="button" class="vp-btn" data-prop="intent" data-value="info" aria-pressed="false">info</button><button type="button" class="vp-btn" data-prop="intent" data-value="important" aria-pressed="false">important</button><button type="button" class="vp-btn" data-prop="intent" data-value="neutral" aria-pressed="true">neutral</button></div></div>
-          <div class="try-row"><span class="try-k">variant</span><div class="vp-seg" role="group" aria-label="variant"><button type="button" class="vp-btn" data-prop="variant" data-value="subtle" aria-pressed="true">subtle</button><button type="button" class="vp-btn" data-prop="variant" data-value="solid" aria-pressed="false">solid</button></div></div>
-          <div class="try-row"><span class="try-k">size</span><div class="vp-seg" role="group" aria-label="size"><button type="button" class="vp-btn" data-prop="size" data-value="md" aria-pressed="true">md</button><button type="button" class="vp-btn" data-prop="size" data-value="sm" aria-pressed="false">sm</button></div></div>
-          <div class="try-row"><span class="try-k">pill</span><div class="vp-seg" role="group" aria-label="pill"><button type="button" class="vp-btn" data-prop="pill" data-value="false" aria-pressed="true">off</button><button type="button" class="vp-btn" data-prop="pill" data-value="true" aria-pressed="false">on</button></div></div>
-          <div class="try-row"><span class="try-k">dot</span><div class="vp-seg" role="group" aria-label="dot"><button type="button" class="vp-btn" data-prop="dot" data-value="false" aria-pressed="true">off</button><button type="button" class="vp-btn" data-prop="dot" data-value="true" aria-pressed="false">on</button></div></div>
-        </div>
+        <script type="application/json" data-try-config>
+{ "component": "Badge", "label": "Badge", "props": [
+  { "name": "intent", "kind": "enum", "values": ["success","warning","danger","info","important","neutral"], "default": "neutral", "figma": "intent" },
+  { "name": "variant", "kind": "enum", "values": ["subtle","solid"], "default": "subtle", "figma": "variant" },
+  { "name": "size", "kind": "enum", "values": ["md","sm"], "default": "md", "figma": "size" },
+  { "name": "pill", "kind": "bool", "values": ["false","true"], "default": "false", "figma": "pill" },
+  { "name": "dot", "kind": "bool", "values": ["false","true"], "default": "false", "figma": "Show Dot", "figmaValues": { "false": "Off", "true": "On" } }
+] }
+        </script>
+        <div class="try-controls" data-try-controls></div>
         <div class="try-stage">
           <!-- demo:try -->
           <span class="try-one" data-try="success subtle md false false" hidden>
@@ -842,35 +833,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div><dt>Figma</dt><dd><code data-try-figma>intent=neutral · variant=subtle · size=md · pill=false · Show Dot=Off</code></dd></div>
         </dl>
       </div>
-      <script>
-        (function () {
-          var root = document.querySelector('[data-try-root]');
-          if (!root) return;
-          var DEFAULTS = { intent: 'neutral', variant: 'subtle', size: 'md', pill: 'false', dot: 'false' };
-          var state = Object.assign({}, DEFAULTS);
-          function render() {
-            var key = [state.intent, state.variant, state.size, state.pill, state.dot].join(' ');
-            root.querySelectorAll('[data-try]').forEach(function (el) { el.hidden = el.getAttribute('data-try') !== key; });
-            root.querySelectorAll('[data-prop]').forEach(function (b) {
-              b.setAttribute('aria-pressed', String(state[b.getAttribute('data-prop')] === b.getAttribute('data-value')));
-            });
-            var attrs = ['intent', 'variant', 'size'].filter(function (k) { return state[k] !== DEFAULTS[k]; })
-              .map(function (k) { return k + '="' + state[k] + '"'; });
-            if (state.pill === 'true') attrs.push('pill');
-            if (state.dot === 'true') attrs.push('dot');
-            root.querySelector('[data-try-code]').textContent = '<Badge' + (attrs.length ? ' ' + attrs.join(' ') : '') + '>Badge</Badge>';
-            root.querySelector('[data-try-figma]').textContent =
-              'intent=' + state.intent + ' · variant=' + state.variant + ' · size=' + state.size + ' · pill=' + state.pill + ' · Show Dot=' + (state.dot === 'true' ? 'On' : 'Off');
-          }
-          root.addEventListener('click', function (e) {
-            var b = e.target.closest('[data-prop]');
-            if (!b) return;
-            state[b.getAttribute('data-prop')] = b.getAttribute('data-value');
-            render();
-          });
-          render();
-        })();
-      </script>
+      <script src="try-panel.js"></script>
     </div>
 
     <div class="sect">

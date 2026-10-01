@@ -74,14 +74,16 @@
           "type": "'primary' | 'secondary' | 'tertiary' | 'outline' | 'ondark' | 'ghost'",
           "required": false,
           "default": "'primary'",
-          "description": "The fill: `primary` pink, `secondary` blue, `tertiary` black, `outline` white with a border, `ondark` translucent white for dark surfaces, `ghost` none until hover."
+          "description": "The fill: `primary` pink, `secondary` blue, `tertiary` black, `outline` white with a border, `ondark` translucent white for dark surfaces, `ghost` none until hover.",
+          "figma": "`Variant` — same six values, same default"
         },
         {
           "name": "size",
           "type": "'lg' | 'md' | 'sm'",
           "required": false,
           "default": "'md'",
-          "description": "Height 56 / 48 / 36px, with padding and type stepping down to match."
+          "description": "Height 56 / 48 / 36px, with padding and type stepping down to match.",
+          "figma": "`Size` — same three values, same default"
         },
         {
           "name": "wrap",
@@ -95,7 +97,8 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Dims it to 50% and blocks clicks — on a link as `aria-disabled=\"true\"`, since `<a>` has no `disabled`."
+          "description": "Dims it to 50% and blocks clicks — on a link as `aria-disabled=\"true\"`, since `<a>` has no `disabled`.",
+          "figma": "`State=disabled` — Figma's other states, `hover` and `focus`, are the browser's, not props"
         },
         {
           "name": "type",
