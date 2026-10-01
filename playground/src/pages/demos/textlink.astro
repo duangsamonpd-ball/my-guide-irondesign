@@ -51,6 +51,21 @@ const modes = [
       <p style={P_SM}>Also in a caption-sized run: <TextLink href="https://example.com" external>Learn more</TextLink></p>
     </div>
 
+    {/* Ball's idea frame `1264:3744`: a standalone link with a trailing → that
+        nudges right, and the ↗ nudging along its diagonal. The second column
+        is the hover state held still with the docs-only `demo-link-hover`
+        class — hover cannot be rendered statically. */}
+    <div data-demo="arrow">
+      <div class="arrow-grid">
+        <span class="arrow-lbl">Default</span>
+        <span class="arrow-lbl">Hover · focus</span>
+        <TextLink href="#" arrow>See all products</TextLink>
+        <TextLink href="#" arrow class="demo-link-hover">See all products</TextLink>
+        <TextLink href="https://example.com" external>Native vs Remote Engine</TextLink>
+        <TextLink href="https://example.com" external class="demo-link-hover">Native vs Remote Engine</TextLink>
+      </div>
+    </div>
+
     {modes.map((m) => (
       <div data-demo={`modes-${m.variant}`}>
         <div class="mode-cell">

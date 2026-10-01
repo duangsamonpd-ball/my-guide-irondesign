@@ -109,7 +109,16 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tlink.underline.dark { color: var(--color-text-dark-body); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
 .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
 .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
-.tlink .ext-icon { width: 0.55em; height: 0.55em; margin-left: 0.46em; }
+.tlink .arrow-icon,
+.tlink .ext-icon {
+    width: 0.875em; height: 0.875em; margin-left: 0.25em; vertical-align: -0.09em;
+    transition: transform var(--duration-base) var(--ease-default);
+  }
+.tlink:hover .arrow-icon, .tlink:focus-visible .arrow-icon { transform: translateX(0.25em); }
+.tlink:hover .ext-icon, .tlink:focus-visible .ext-icon { transform: translate(0.15em, -0.15em); }
+@media (prefers-reduced-motion: reduce) {
+    .tlink .arrow-icon, .tlink .ext-icon { transition: none; }
+  }
 .tlink .ext-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .tlink-row { display:flex; align-items:center; gap:8px; font-size:0.95rem; color:var(--color-text-heading); }
 .tlink-row .dot { width:4px; height:4px; border-radius:50%; background:var(--color-text-heading); flex-shrink:0; }
@@ -129,6 +138,12 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
    rendered in the RESTING blue instead of the hover pink. The inline styles
    these replace never had to win that fight. Match the weight. */
 .tlink.demo-link-hover { color: var(--color-text-link-hover); }
+.tlink.demo-link-hover .arrow-icon { transform: translateX(0.25em); }
+.tlink.demo-link-hover .ext-icon { transform: translate(0.15em, -0.15em); }
+/* A white panel, not the canvas's dot grid: the audit reads the painted pixels
+   under each run, and a dot under the hover pink took 4.71:1 down to 4.15. */
+.arrow-grid { display:grid; grid-template-columns:auto auto; gap:14px 56px; align-items:center; font-size:1rem; background:#fff; padding:20px 28px; border-radius:12px; border:1px solid #E2E8F0; }
+.arrow-lbl { font-size:0.66rem; font-weight:700; color:#62748E; }
 .tlink.demo-link-hover-underline { text-decoration-color: var(--color-border-selected); text-decoration-thickness: var(--border-width-1-5); }
 </style>
 </head>
@@ -283,6 +298,22 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
+    <div class="sect"><h2 class="sect-h">Arrow</h2>
+      <div class="sect-sub"><code>arrow</code> adds a trailing &rarr; for a link that stands on its own and leads on within the site &mdash; &ldquo;See all products&rdquo;, &ldquo;Learn more&rdquo;. On hover and on keyboard focus it nudges right by <code>0.25em</code>; the <code>external</code> &nearr; nudges along its own diagonal. Both are a <code>transform</code>, so the link never changes width and nothing beside it moves, and both stay still under <code>prefers-reduced-motion</code>. Keep it off links inside a sentence: an arrow that moves in running text pulls the eye off the words. Figma: the <code>arrow</code> property on the <code>TextLink</code> set, prototyped with Smart Animate.</div>
+      <div class="canvas">
+        <!-- demo:arrow -->
+        <div class="arrow-grid">
+          <span class="arrow-lbl">Default</span>
+          <span class="arrow-lbl">Hover · focus</span>
+          <a href="#" class="tlink plain">See all products<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
+          <a href="#" class="tlink plain demo-link-hover">See all products<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
+          <a href="https://example.com" class="tlink plain" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a>
+          <a href="https://example.com" class="tlink plain demo-link-hover" target="_blank" rel="noopener">Native vs Remote Engine<svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg><span class="ext-label"> (opens in a new tab)</span></a>
+        </div>
+        <!-- /demo:arrow -->
+      </div>
+    </div>
+
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
       <div class="sect-sub">The parts of each variant and the token each is bound to.</div>
       <div class="variant-cols">
@@ -341,13 +372,14 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <h2 class="sect-h">Props</h2>
       <div class="sect-sub">Read from <code>interface Props</code> in <code>TextLink.astro</code>, so it cannot drift from the component.</div>
       <!-- props:TextLink -->
-      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
-        <tr><td class="ptable-name">href</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>Where the link goes.</td></tr>
-        <tr><td class="ptable-name">variant</td><td class="ptable-type"><span class="ptable-m">'plain'</span> | <span class="ptable-m">'underline'</span></td><td class="ptable-default">'plain'</td><td class="ptable-notes"><code>plain</code> is link-coloured text for general pages; <code>underline</code> is body-coloured text with a soft underline for long-form reading.</td></tr>
-        <tr><td class="ptable-name">dark</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">The colours for a dark background.</td></tr>
-        <tr><td class="ptable-name">external</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Opens in a new tab (<code>target="_blank"</code>, <code>rel="noopener"</code>), adds a north-east arrow, and tells a screen reader it will.</td></tr>
-        <tr><td class="ptable-name">newTabLabel</td><td class="ptable-type">string</td><td class="ptable-default">'(opens in a new tab)'</td><td class="ptable-notes">What a screen reader hears after an <code>external</code> link's text — change it for a page in another language.</td></tr>
-        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;a&gt;</code>, after the component's own.</td></tr>
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>In Figma</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">href</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>Where the link goes.</td></tr>
+        <tr><td class="ptable-name">variant</td><td class="ptable-figma"><code>variant</code> on the <code>TextLink</code> set — same two values, same default</td><td class="ptable-type"><span class="ptable-m">'plain'</span> | <span class="ptable-m">'underline'</span></td><td class="ptable-default">'plain'</td><td class="ptable-notes"><code>plain</code> is link-coloured text for general pages; <code>underline</code> is body-coloured text with a soft underline for long-form reading.</td></tr>
+        <tr><td class="ptable-name">dark</td><td class="ptable-figma"><code>dark</code> — the same Figma variables in their Dark Purple mode</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">The colours for a dark background.</td></tr>
+        <tr><td class="ptable-name">external</td><td class="ptable-figma"><code>external</code> — the ↗ only; the new tab and the spoken label are code's</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Opens in a new tab (<code>target="_blank"</code>, <code>rel="noopener"</code>), adds a north-east arrow, and tells a screen reader it will.</td></tr>
+        <tr><td class="ptable-name">arrow</td><td class="ptable-figma"><code>arrow</code> — prototyped with Smart Animate on hover</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">A trailing → for a standalone link that leads on within the site — "Learn more", "See all products".</td></tr>
+        <tr><td class="ptable-name">newTabLabel</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default">'(opens in a new tab)'</td><td class="ptable-notes">What a screen reader hears after an <code>external</code> link's text — change it for a page in another language.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;a&gt;</code>, after the component's own.</td></tr>
       </tbody></table></div>
       <!-- /props:TextLink -->
     </div>

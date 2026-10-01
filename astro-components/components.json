@@ -1279,21 +1279,32 @@
           "type": "'plain' | 'underline'",
           "required": false,
           "default": "'plain'",
-          "description": "`plain` is link-coloured text for general pages; `underline` is body-coloured text with a soft underline for long-form reading."
+          "description": "`plain` is link-coloured text for general pages; `underline` is body-coloured text with a soft underline for long-form reading.",
+          "figma": "`variant` on the `TextLink` set — same two values, same default"
         },
         {
           "name": "dark",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "The colours for a dark background."
+          "description": "The colours for a dark background.",
+          "figma": "`dark` — the same Figma variables in their Dark Purple mode"
         },
         {
           "name": "external",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Opens in a new tab (`target=\"_blank\"`, `rel=\"noopener\"`), adds a north-east arrow, and tells a screen reader it will."
+          "description": "Opens in a new tab (`target=\"_blank\"`, `rel=\"noopener\"`), adds a north-east arrow, and tells a screen reader it will.",
+          "figma": "`external` — the ↗ only; the new tab and the spoken label are code's"
+        },
+        {
+          "name": "arrow",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "A trailing → for a standalone link that leads on within the site — \"Learn more\", \"See all products\". It nudges right on hover and focus. Meant for a link that stands on its own, not one inside a sentence, where a moving icon pulls the eye off the text. `external` wins if both are set: the ↗ already says where the link goes.",
+          "figma": "`arrow` — prototyped with Smart Animate on hover"
         },
         {
           "name": "newTabLabel",

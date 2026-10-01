@@ -13,19 +13,37 @@ import { icons } from '../icons';
 interface Props {
   /** Where the link goes. */
   href: string;
-  /** `plain` is link-coloured text for general pages; `underline` is body-coloured text with a soft underline for long-form reading. */
+  /**
+   * `plain` is link-coloured text for general pages; `underline` is body-coloured text with a soft underline for long-form reading.
+   * @figma `variant` on the `TextLink` set — same two values, same default
+   */
   variant?: 'plain' | 'underline';
-  /** The colours for a dark background. */
+  /**
+   * The colours for a dark background.
+   * @figma `dark` — the same Figma variables in their Dark Purple mode
+   */
   dark?: boolean;
-  /** Opens in a new tab (`target="_blank"`, `rel="noopener"`), adds a north-east arrow, and tells a screen reader it will. */
+  /**
+   * Opens in a new tab (`target="_blank"`, `rel="noopener"`), adds a north-east arrow, and tells a screen reader it will.
+   * @figma `external` — the ↗ only; the new tab and the spoken label are code's
+   */
   external?: boolean;
+  /**
+   * A trailing → for a standalone link that leads on within the site — "Learn
+   * more", "See all products". It nudges right on hover and focus. Meant for a
+   * link that stands on its own, not one inside a sentence, where a moving icon
+   * pulls the eye off the text. `external` wins if both are set: the ↗ already
+   * says where the link goes.
+   * @figma `arrow` — prototyped with Smart Animate on hover
+   */
+  arrow?: boolean;
   /** What a screen reader hears after an `external` link's text — change it for a page in another language. */
   newTabLabel?: string;
   /** Extra classes on the `<a>`, after the component's own. */
   class?: string;
 }
 
-const { href, variant = 'plain', dark = false, external = false, newTabLabel = '(opens in a new tab)', class: className } = Astro.props;
+const { href, variant = 'plain', dark = false, external = false, arrow = false, newTabLabel = '(opens in a new tab)', class: className } = Astro.props;
 
 const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
 
@@ -64,7 +82,7 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
  */
 ---
 
-<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}><slot />{external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
+<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}><slot />{arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
 
 <style>
   .tlink {
@@ -103,12 +121,32 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
   .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
   .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
 
-  /* Sized in em, because TextLink sets no font-size and inherits the run it sits
-     in. 0.55em puts 8.7px of ink against Montserrat 600's measured 8.66px
-     x-height at 16px, so the arrow reads level with the lowercase at any size.
-     0.46em of margin is the 3px + a 4.42px whitespace space the markup used to
-     render between them, held at the size it shipped at rather than re-spaced. */
-  .tlink .ext-icon { width: 0.55em; height: 0.55em; margin-left: 0.46em; }
+  /* THE TWO ICONS SHARE ONE BOX, from Ball's idea frame (`1264:3744`,
+     2026-10-01): a 14px box 4px after the text, Font Awesome SOLID by his call.
+     Both are em so they follow the run the link inherits — 0.875em and 0.25em
+     at 16px. The ↗ was 0.55em with 0.46em of margin until then, sized to the
+     x-height; it grew to match the → so a page using both does not show two
+     sizes of arrow.
+
+     `vertical-align: -0.09em` centres the box on the capitals, which is where
+     the frame centres it: an inline <svg> sits ON the baseline, so a 0.875em
+     box would ride 0.0875em above the cap-height middle (0.35em) without it.
+
+     THE NUDGE IS A TRANSFORM, never the margin. The frame draws hover as gap
+     4 -> 8; in a browser that would widen the link by 4px and shove whatever
+     follows it on the line. A transform moves the paint and leaves layout
+     alone. → goes right; ↗ goes along its own diagonal. On focus too, so a
+     keyboard user gets the same cue, and not at all under reduced motion. */
+  .tlink .arrow-icon,
+  .tlink .ext-icon {
+    width: 0.875em; height: 0.875em; margin-left: 0.25em; vertical-align: -0.09em;
+    transition: transform var(--duration-base) var(--ease-default);
+  }
+  .tlink:hover .arrow-icon, .tlink:focus-visible .arrow-icon { transform: translateX(0.25em); }
+  .tlink:hover .ext-icon, .tlink:focus-visible .ext-icon { transform: translate(0.15em, -0.15em); }
+  @media (prefers-reduced-motion: reduce) {
+    .tlink .arrow-icon, .tlink .ext-icon { transition: none; }
+  }
 
   /* The arrow is aria-hidden, so on its own it told only a sighted reader that
      the link leaves the tab — a screen-reader user heard a plain link and was
