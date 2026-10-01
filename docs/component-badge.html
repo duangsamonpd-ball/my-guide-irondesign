@@ -321,33 +321,35 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
-    <div class="sect"><h2 class="sect-h">With dot · sizes · shape</h2>
-      <div class="sect-sub">A leading status dot, two sizes, and a pill variant for a softer look.</div>
-      <div class="canvas left" style="gap:24px;">
+    <div class="sect"><h2 class="sect-h">Sizes, dot &amp; shape</h2>
+      <div class="sect-sub">Two heights &mdash; <code>md</code> (24) and <code>sm</code> (20). The dot marks a status that is on or live, and is off by default. <code>pill</code> rounds the ends fully; corners are <code>rounded-sm</code> otherwise. Figma has the same three, as <code>size</code>, <code>Show Dot</code> and <code>pill</code>.</div>
+      <div class="canvas left" style="gap:16px;flex-direction:column;align-items:flex-start;">
         <!-- demo:variants -->
-        <div style="display:flex;gap:10px;align-items:center;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:0.66rem;font-weight:700;color:var(--color-text-muted);width:46px;">Size</span>
+          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success-subtle text-success-strong">
+            md · 24
+          </span>
+          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-success-subtle text-success-strong">
+            sm · 20
+          </span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:0.66rem;font-weight:700;color:var(--color-text-muted);width:46px;">Dot</span>
+          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success-subtle text-success-strong">
+            Dot off
+          </span>
           <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success-subtle text-success-strong">
             <span class="rounded-full bg-current size-1.5"></span>
-            Online
-          </span>
-          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-neutral-subtle text-neutral-strong">
-            <span class="rounded-full bg-current size-1.5"></span>
-            Offline
+            Dot on
           </span>
         </div>
-        <div style="display:flex;gap:10px;align-items:center;">
-          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-info-subtle text-info-strong">
-            Default
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:0.66rem;font-weight:700;color:var(--color-text-muted);width:46px;">Shape</span>
+          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-success-subtle text-success-strong">
+            Rounded
           </span>
-          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge-sm leading-badge-sm tracking-badge-sm rounded-sm bg-info-subtle text-info-strong">
-            Small
-          </span>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center;">
-          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-sm bg-warning-subtle text-warning-strong">
-            Squared
-          </span>
-          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-warning-subtle text-warning-strong">
+          <span class="inline-flex items-center gap-micro font-sans font-bold whitespace-nowrap px-xs py-micro text-badge leading-badge tracking-badge rounded-full bg-success-subtle text-success-strong">
             Pill
           </span>
         </div>

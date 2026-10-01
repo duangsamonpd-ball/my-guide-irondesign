@@ -144,8 +144,9 @@ const type = size === 'sm'
   ? 'text-badge-sm leading-badge-sm tracking-badge-sm'
   : 'text-badge leading-badge tracking-badge';
 
-/* Figma node 776-899 uses --rounded-sm on every badge, not a pill; `pill` opts
-   back into the old default. */
+/* `rounded-sm` by default, `rounded-full` with `pill`. Figma node 776:899 drew every badge at
+   rounded-sm until 2026-10-01, when the set gained a `pill=false|true` axis
+   (`779:3486`) to match this prop, with `rounded-full` bound on the true side. */
 const shape = pill ? 'rounded-full' : 'rounded-sm';
 
 /* The dot is 6px / 4px. This theme defines only NAMED --spacing-* (micro, xs,

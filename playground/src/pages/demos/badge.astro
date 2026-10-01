@@ -85,18 +85,23 @@ const rowLabelStyle = 'font-size:0.66rem;font-weight:700;color:var(--color-text-
       ))}
     </div>
 
+    {/* The same three rows, labels and order as Figma's "Sizes, dot & shape"
+        section on the Badge doc frame (`1265:153`), so the two docs read alike. */}
     <div data-demo="variants">
-      <div style="display:flex;gap:10px;align-items:center;">
-        <Badge intent="success" dot>Online</Badge>
-        <Badge intent="neutral" dot>Offline</Badge>
+      <div style={rowStyle}>
+        <span style={rowLabelStyle}>Size</span>
+        <Badge intent="success">md · 24</Badge>
+        <Badge intent="success" size="sm">sm · 20</Badge>
       </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <Badge intent="info">Default</Badge>
-        <Badge intent="info" size="sm">Small</Badge>
+      <div style={rowStyle}>
+        <span style={rowLabelStyle}>Dot</span>
+        <Badge intent="success">Dot off</Badge>
+        <Badge intent="success" dot>Dot on</Badge>
       </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <Badge intent="warning">Squared</Badge>
-        <Badge intent="warning" pill>Pill</Badge>
+      <div style={rowStyle}>
+        <span style={rowLabelStyle}>Shape</span>
+        <Badge intent="success">Rounded</Badge>
+        <Badge intent="success" pill>Pill</Badge>
       </div>
     </div>
 
