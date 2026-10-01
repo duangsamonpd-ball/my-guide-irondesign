@@ -25,7 +25,10 @@ interface Props {
   dark?: boolean;
   /**
    * Opens in a new tab (`target="_blank"`, `rel="noopener"`), adds a north-east arrow, and tells a screen reader it will.
-   * @figma `external` — the ↗ only; the new tab and the spoken label are code's
+   * The arrow is `plain` only: an `underline` link sits inside a sentence, and an
+   * icon there breaks the line a reader is following (Ball, 2026-10-01). It still
+   * opens a new tab and still says so to a screen reader.
+   * @figma `external` — the ↗ only, and on `plain` only; the new tab and the spoken label are code's
    */
   external?: boolean;
   /**
@@ -33,8 +36,8 @@ interface Props {
    * more", "See all products". It nudges right on hover and focus. Meant for a
    * link that stands on its own, not one inside a sentence, where a moving icon
    * pulls the eye off the text. `external` wins if both are set: the ↗ already
-   * says where the link goes.
-   * @figma `arrow` — prototyped with Smart Animate on hover
+   * says where the link goes. `plain` only, for the same reason as the ↗.
+   * @figma `arrow` — on `plain` only, prototyped with Smart Animate on hover
    */
   arrow?: boolean;
   /** What a screen reader hears after an `external` link's text — change it for a page in another language. */
@@ -46,6 +49,11 @@ interface Props {
 const { href, variant = 'plain', dark = false, external = false, arrow = false, newTabLabel = '(opens in a new tab)', class: className } = Astro.props;
 
 const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
+
+/* Icons are a `plain` thing. `underline` is the in-sentence link — the same look
+   Prose gives Markdown links, which carry no icon either — so it draws neither
+   the ↗ nor the →. `external` keeps its behaviour and its spoken label. */
+const showIcons = variant === 'plain';
 
 /*
  * THE EXTERNAL MARKER IS AN ICON, NOT A "↗" CHARACTER — this was the last
@@ -82,7 +90,7 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
  */
 ---
 
-<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}><slot />{arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
+<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}><slot />{showIcons && arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{showIcons && external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
 
 <style>
   .tlink {

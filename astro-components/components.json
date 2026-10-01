@@ -1295,16 +1295,16 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Opens in a new tab (`target=\"_blank\"`, `rel=\"noopener\"`), adds a north-east arrow, and tells a screen reader it will.",
-          "figma": "`external` — the ↗ only; the new tab and the spoken label are code's"
+          "description": "Opens in a new tab (`target=\"_blank\"`, `rel=\"noopener\"`), adds a north-east arrow, and tells a screen reader it will. The arrow is `plain` only: an `underline` link sits inside a sentence, and an icon there breaks the line a reader is following (Ball, 2026-10-01). It still opens a new tab and still says so to a screen reader.",
+          "figma": "`external` — the ↗ only, and on `plain` only; the new tab and the spoken label are code's"
         },
         {
           "name": "arrow",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "A trailing → for a standalone link that leads on within the site — \"Learn more\", \"See all products\". It nudges right on hover and focus. Meant for a link that stands on its own, not one inside a sentence, where a moving icon pulls the eye off the text. `external` wins if both are set: the ↗ already says where the link goes.",
-          "figma": "`arrow` — prototyped with Smart Animate on hover"
+          "description": "A trailing → for a standalone link that leads on within the site — \"Learn more\", \"See all products\". It nudges right on hover and focus. Meant for a link that stands on its own, not one inside a sentence, where a moving icon pulls the eye off the text. `external` wins if both are set: the ↗ already says where the link goes. `plain` only, for the same reason as the ↗.",
+          "figma": "`arrow` — on `plain` only, prototyped with Smart Animate on hover"
         },
         {
           "name": "newTabLabel",
