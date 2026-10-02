@@ -17,7 +17,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, basename } from 'node:path';
+import { dirname, join, basename, relative } from 'node:path';
 
 import { componentSources } from './lib/sources.mjs';
 import { px } from './lib/dimension.mjs';
@@ -28,7 +28,8 @@ const ROOT = join(dirname(SELF), '..');
 
 /**
  * The self-test plants a fault on the REAL files, in a child process, through
- * this one channel. Nothing else reads the three data files directly.
+ * this one channel. Nothing else reads the three data files — or a component's
+ * source — directly.
  *
  * A PLANT THAT DOES NOT LAND THROWS. A fault injection that silently matched
  * nothing would make every self-test row pass while proving nothing at all —
@@ -620,7 +621,7 @@ const blankComments = (src) =>
    empty when it was closed (all three internal components measured clean, with
    comments stripped), which is the cheapest possible moment to close one. */
 for (const source of componentSources()) {
-  const src = blankComments(readFileSync(source.file, 'utf8'));
+  const src = blankComments(readSource(relative(ROOT, source.file)));
   src.split('\n').forEach((line, i) => {
     for (const [raw] of line.matchAll(RAW_COLOUR)) {
       checks++;
@@ -650,7 +651,8 @@ if (warnings.length) {
 /**
  * Per CLAUDE.md: a check that cannot fail on the machine that wrote it is not a
  * check. Each fault below is planted on the REAL token files, one at a time, in
- * a child process, and the gate must name `h1-hero` — not merely exit non-zero,
+ * a child process, and the gate must name the token it broke — `h1-hero` for the
+ * fluid rows, the row's own string for the rest — not merely exit non-zero,
  * which a crashing script also does.
  *
  * The two CONTROL rows are the point of the exercise. Before 2026-09-01 this
@@ -684,28 +686,28 @@ if (SELF_TEST) {
   const FAULTS = [
     /* The arm. Without this row every row below could be passing because the
        token is not reached at all rather than because the comparison works. */
-    ['ARM — a plain px disagreement', css('40px'), true],
+    ['ARM — a plain px disagreement', css('40px'), 'fail'],
 
-    ['FLUID — disagreeing clamps', [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(64px, 9vw, 96px)')], true],
-    ['FLUID — only the slope differs', [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(32px, 6vw, 48px)')], true],
+    ['FLUID — disagreeing clamps', [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(64px, 9vw, 96px)')], 'fail'],
+    ['FLUID — only the slope differs', [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(32px, 6vw, 48px)')], 'fail'],
     ['FLUID — identical clamps (control, must stay clean)',
-      [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(32px, 5vw, 48px)')], false],
+      [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(32px, 5vw, 48px)')], 'clean'],
     ['FLUID — same value, rem vs px (control, must stay clean)',
-      [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(2rem, 5vw, 3rem)')], false],
+      [...w3c('clamp(32px, 5vw, 48px)'), ...css('clamp(2rem, 5vw, 3rem)')], 'clean'],
 
     /* THE SHAPE ACTUALLY SHIPPING. A fluid middle term is a SUM of a rem and a
        vw, not a single length, and the first attempt at this gate could not read
        one — it refused the very values it had been repaired to compare, which is
        the right failure but still a failure. */
     ['SUM — a real fluid middle term, written twice (control)',
-      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 1.8143rem + 0.7619vw, 40px)')], false],
+      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 1.8143rem + 0.7619vw, 40px)')], 'clean'],
     ['SUM — the same term with its addends swapped (control)',
-      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 0.7619vw + 29.0288px, 40px)')], false],
+      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 0.7619vw + 29.0288px, 40px)')], 'clean'],
     ['SUM — only the slope of the middle term differs',
-      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 1.8143rem + 0.9000vw, 40px)')], true],
+      [...w3c('clamp(32px, 1.8143rem + 0.7619vw, 40px)'), ...css('clamp(32px, 1.8143rem + 0.9000vw, 40px)')], 'fail'],
 
-    ['MIXED — fluid in w3c, fixed in the layers', w3c('clamp(32px, 5vw, 48px)'), true],
-    ['MIXED — fixed in w3c, fluid in the layers', css('clamp(32px, 5vw, 48px)'), true],
+    ['MIXED — fluid in w3c, fixed in the layers', w3c('clamp(32px, 5vw, 48px)'), 'fail'],
+    ['MIXED — fixed in w3c, fluid in the layers', css('clamp(32px, 5vw, 48px)'), 'fail'],
 
     /* The general rule, not the clamp special case: a shape no normaliser here
        reads must be an error rather than a silent agreement.
@@ -715,18 +717,96 @@ if (SELF_TEST) {
        before the guard existed — that row proves nothing about it. The guard is
        reached only when BOTH sides are unread, which is `null !== null`, false,
        and is exactly the shape the clamp arrived in. */
-    ['SHAPE — unreadable on one side', css('calc(3rem + 1px)'), true],
+    ['SHAPE — unreadable on one side', css('calc(3rem + 1px)'), 'fail'],
     ['SHAPE — unreadable on BOTH sides (the `null !== null` case)',
-      [...w3c('calc(3rem + 1px)'), ...css('calc(3rem + 2px)')], true],
+      [...w3c('calc(3rem + 1px)'), ...css('calc(3rem + 2px)')], 'fail'],
     /* `parseFloat` discarded any unit it did not know, so this pair — 48vw
        against the w3c's 48px — used to compare EQUAL. */
-    ['UNIT — a unit that used to be discarded', css('48vw'), true],
+    ['UNIT — a unit that used to be discarded', css('48vw'), 'fail'],
+
+    /* ── every other family, and every other branch ──────────────────────────
+       Every row above plants a fault on ONE token, so a family whose wiring broke
+       — a mapping table typo, a normaliser swapped, a branch that stopped
+       running — stayed green as long as h1-hero's font size worked. These rows
+       give each comparison its own fault, and each names the string the report
+       must carry, since "exit 1" alone is also what a crash looks like. */
+
+    /* colour, through `hex` and through a var() chain */
+    ['COLOR — a semantic token set to a different hex',
+      [['tailwind/tokens.css', '--color-success:          var(--iron-green-500);', '--color-success:          #63C1A1;']],
+      'fail', 'semantic.success'],
+    ['COLOR — hex case only (control)',
+      [['tailwind/tokens.css', '--color-success:          var(--iron-green-500);', '--color-success:          #63c1a0;']],
+      'clean', 'semantic.success'],
+    /* The semantic line is untouched; only the primitive it points at moves. A
+       resolver that stopped at the first var() would read both sides as unequal
+       strings forever, or — worse — as equal ones. */
+    ['CHAIN — the primitive under a var() moves',
+      [['tailwind/theme.css', '--iron-green-500: #63C1A0;', '--iron-green-500: #63C1A1;']],
+      'fail', 'semantic.success'],
+    ['MISSING — a token absent from one layer',
+      [['tailwind/theme.css', '--color-success: var(--iron-green-500);', '--color-success-renamed: var(--iron-green-500);']],
+      'fail', 'missing from tailwind/theme.css — expected `--color-success`'],
+    /* The `.dark` block re-points light names at dark values. If the parser read
+       past it, this line would overwrite the light definition and report drift. */
+    ['DARK — an override inside `.dark` is not a definition (control)',
+      [['tailwind/tokens.css', '.dark {\n', '.dark {\n  --color-success: #000000;\n']],
+      'clean', 'semantic.success'],
+
+    /* shadow, through `shadow` */
+    ['SHADOW — one alpha channel moves',
+      [['tailwind/tokens.css', '0 0 12px 0 rgba(15, 23, 43, 0.12);', '0 0 12px 0 rgba(15, 23, 43, 0.13);']],
+      'fail', '`--shadow-card` = '],
+    ['SHADOW — `0` vs `0px` and spacing only (control)',
+      [['tailwind/tokens.css', '0 0 12px 0 rgba(15, 23, 43, 0.12);', '0px 0px 12px 0px rgba(15,23,43,0.12);']],
+      'clean', '`--shadow-card` = '],
+
+    /* the families compared by name rather than through w3c */
+    ['BREAKPOINT — the layers disagree',
+      [['tailwind/theme.css', '--breakpoint-md: 768px;', '--breakpoint-md: 769px;']],
+      'fail', 'breakpoint-md'],
+    ['BREAKPOINT — missing from theme.css',
+      [['tailwind/theme.css', '--breakpoint-md: 768px;', '--breakpoint-mid: 768px;']],
+      'fail', 'tokens.css has `--breakpoint-md` but theme.css does not'],
+    ['NAMESPACE — a weight role that never reaches `--font-weight-*`',
+      [['tailwind/theme.css', '--font-weight-btn-lg: 700;', '--font-weight-btn-large: 700;']],
+      'fail', '`font-btn-lg` is not a utility'],
+    ['GENERATED — theme.css without its header',
+      [['tailwind/theme.css', ' * Iron Software Design System — Tailwind v4 theme', ' * hand-edited']],
+      'fail', 'file header is missing'],
+
+    /* warnings: exit 0, but the report must still say it */
+    ['EXTRA — a layer invents a token the source never declared',
+      [['tailwind/theme.css', '--radius-md: 6px;', '--radius-md: 6px;\n  --radius-pill: 999px;']],
+      'warn', '`--radius-pill` in tailwind/theme.css is not in tokens.w3c.json'],
+    ['UNMAPPED — a w3c colour with no row in COLORS',
+      [['tokens/tokens.w3c.json', '"semantic": {', '"semantic": {\n      "zz-unmapped": { "$value": "#000000", "$type": "color" },']],
+      'warn', 'semantic.zz-unmapped'],
+
+    /* components — the raw-colour scan, one row per shape it claims to catch */
+    ...[
+      ['6-digit hex', 'color: #FF0000;', '#FF0000'],
+      ['8-digit hex — the alpha form that once slipped past `\\b`', 'color: #FF000080;', '#FF000080'],
+      ['rgba()', 'color: rgba(255, 0, 0, 0.5);', 'rgba(255, 0, 0, 0.5)'],
+      ['hsl()', 'color: hsl(0 100% 50%);', 'hsl(0 100% 50%)'],
+    ].map(([shape, decl, raw]) => [`COMPONENT — ${shape}`,
+      [['astro-components/components/Notice.astro', '</style>', `  .zz { ${decl} }\n</style>`]],
+      'fail', `hardcoded ${raw}`]),
+    ['COMPONENT — a hex inside a comment (control)',
+      [['astro-components/components/Notice.astro', '</style>', '  /* was #FF0000 */\n</style>']],
+      'clean', 'hardcoded #FF0000'],
+    ['COMPONENT — color-mix() over a token (control)',
+      [['astro-components/components/Notice.astro', '</style>',
+        '  .zz { color: color-mix(in srgb, var(--color-primary) 50%, transparent); }\n</style>']],
+      'clean', 'Notice.astro:'],
   ];
 
   let failed = 0;
   console.log(`\n  \x1b[1mself-test\x1b[0m — the live tree reports 0 drifts (${checks} tokens)\n`);
 
-  for (const [name, patches, shouldFail] of FAULTS) {
+  /* `see` is the string the report must carry for a 'fail' or 'warn' row, and
+     must NOT carry for a 'clean' one. The h1-hero rows above leave it out. */
+  for (const [name, patches, expect, see = 'h1-hero'] of FAULTS) {
     let status = 0;
     let out = '';
     try {
@@ -743,13 +823,19 @@ if (SELF_TEST) {
     /* A plant that matched nothing crashes readSource. That also exits 1, and
        would otherwise be read as the fault being caught. */
     const landed = !out.includes('planted fault did not land');
-    const named = out.includes('h1-hero');
-    const ok = landed && (shouldFail ? status !== 0 && named : status === 0 && !named);
+    const named = out.includes(see);
+    const ok = landed && (
+      expect === 'fail' ? status !== 0 && named
+        : expect === 'warn' ? status === 0 && named
+          : status === 0 && !named);
 
     if (!ok) failed++;
     const mark = ok ? '\x1b[32m✔\x1b[0m' : '\x1b[31m✖\x1b[0m';
-    const verdict = !landed ? 'PLANT DID NOT LAND' : status === 0 ? 'clean' : named ? 'named h1-hero' : `exit ${status}, did not name it`;
+    const verdict = !landed ? 'PLANT DID NOT LAND'
+      : status === 0 ? (named ? 'warned' : 'clean')
+        : named ? 'named it' : `exit ${status}, did not name it`;
     console.log(`    ${mark} ${name.padEnd(52)} ${verdict}`);
+    if (!ok && landed) console.log(`        expected ${expect}, looking for: ${see}`);
   }
 
   if (failed) {
