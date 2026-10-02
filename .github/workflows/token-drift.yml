@@ -23,6 +23,13 @@ jobs:
       - name: Check theme.css is regenerated
         run: node scripts/build-theme.mjs --check
 
+      # The self-test runs first, as every other gate's does. It was added to
+      # `check:tokens` on 2026-09-01 and never to this file, so CI ran the gate
+      # without ever asking whether it could fail — 32 rows that only ran on a
+      # laptop. Each plants a fault on the real files and must see it named.
+      - name: Check the token drift checker can fail
+        run: node scripts/check-token-drift.mjs --self-test
+
       # No dependencies to install — the checker is plain Node.
       - name: Check for token drift
         run: node scripts/check-token-drift.mjs
