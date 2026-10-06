@@ -306,7 +306,7 @@
     --color-bg-dark-input-hover: var(--iron-violet-850);
     --color-bg-dark-input-disabled: var(--iron-violet-900);
     --color-bg-dark-section: var(--iron-violet-900);
-    --color-bg-dark-section-alt: #372647;
+    --color-bg-dark-section-alt: var(--iron-purple-900);
     --color-border: var(--slate-200);
     --color-border-strong: var(--slate-300);
     --color-border-alt: var(--iron-blue-500);

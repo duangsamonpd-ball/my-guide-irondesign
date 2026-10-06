@@ -532,12 +532,12 @@
       "section": {
         "$value": "#391C39",
         "$type": "color",
-        "$description": "Iron Violet/950 — neutral section band (dark). Same value as surface-dark/background-shade; different role."
+        "$description": "Iron Violet/900 — neutral section band (dark), one rung above the page. Same value as surface-dark/card-alt; different role."
       },
       "section-alt": {
-        "$value": "#372647",
+        "$value": "#211933",
         "$type": "color",
-        "$description": "Brand-tinted section band (dark) — brand/secondary at 8% over Iron Violet/950. Off-ramp on purpose: the violet ramp's three usable surface rungs (800/900/950) are all taken, so the pair keeps its meaning by hue rather than by lightness, exactly as it does in light mode. 8% is where it sits equidistant from both neighbours (1.089 against each)."
+        "$description": "Iron Purple/900 — brand-tinted section band (dark). Crosses to the purple ramp because no violet rung is a tint, so the pair keeps its meaning by hue, as it does in light mode. The darker of the pair: 1.118:1 below surface-dark/section and 1.061:1 off the page. Was #372647 (brand/secondary 8% over Iron Violet/900) until 2026-10-06, briefly Iron Purple/800."
       },
       "input": {
         "$value": "#260F27",
