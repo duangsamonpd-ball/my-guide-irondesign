@@ -1148,7 +1148,17 @@ if (freeTools) {
       // so the label travels into the space the divider gave up and nothing
       // leaves the menu's box. Moving the whole <li> put its unpainted divider
       // 3.5px outside the <ul> at 390, and `overflow` said so.
+      //
+      // The shift is capped at the room the row-end label actually has. The
+      // Free tools trigger keeps 8px of padding and pulls it back out with a
+      // negative margin, so it already reaches 8px into its own gap; the full
+      // half-step pushed it 1.5px past its <li> at 320 and 640, which
+      // page-experiments' layout check measured. Capped, nothing leaves the
+      // <li> and that one row sits at most 1.5px off centre.
       const mark = () => {
+        // Measure untranslated: a shift left over from the last pass would
+        // otherwise be read back as room the label does not have.
+        for (const li of items) li.style.removeProperty('--fb-row-shift');
         let row: HTMLElement[] = [];
         items.forEach((li, i) => {
           row.push(li);
@@ -1157,13 +1167,13 @@ if (freeTools) {
           const ends = !next || next.getBoundingClientRect().top >= li.getBoundingClientRect().bottom;
           div?.toggleAttribute('data-row-end', ends && !!next);
           if (!ends) return;
-          const shift = div && next
+          const label = li.querySelector<HTMLElement>(':scope > .fb-menu-link');
+          const half = div && next
             ? (div.getBoundingClientRect().width + parseFloat(getComputedStyle(li).columnGap || '0')) / 2
             : 0;
-          for (const r of row) {
-            if (shift) r.style.setProperty('--fb-row-shift', `${shift}px`);
-            else r.style.removeProperty('--fb-row-shift');
-          }
+          const room = label ? li.getBoundingClientRect().right - label.getBoundingClientRect().right : 0;
+          const shift = Math.max(0, Math.min(half, room));
+          if (shift) for (const r of row) r.style.setProperty('--fb-row-shift', `${shift}px`);
           row = [];
         });
       };
