@@ -40,6 +40,21 @@ export function rootBlock(css) {
   return css.slice(start, end);
 }
 
+/**
+ * The RESPONSIVE block — the only rules in tokens.css that change a token with
+ * the viewport — copied into theme.css as written. It must sit after `.dark`:
+ * every token parser here stops at `.dark`, which is what keeps an override in
+ * a media query from being read as the token's definition. A block above it
+ * would be, so that is a build error rather than a quiet wrong value.
+ */
+export function responsiveBlock(css) {
+  const at = css.search(/^\/\* ═+\n {3}RESPONSIVE\n/m);
+  if (at === -1) throw new Error('tokens.css has no RESPONSIVE block');
+  const dark = css.search(/^\.dark\s*\{/m);
+  if (dark === -1 || at < dark) throw new Error('tokens.css: the RESPONSIVE block must come after `.dark`');
+  return css.slice(at).trimEnd();
+}
+
 /** @type {{name: string, value: string, comment: string}[]} */
 const tokens = [];
 for (const line of rootBlock(readFileSync(SRC, 'utf8')).split('\n')) {
@@ -246,6 +261,11 @@ ${section(5, 'DARK THEME — a swap at the semantic layer, nothing else changes'
 .dark {
 ${darks.join('\n')}
 }
+
+
+${section(6, 'RESPONSIVE — copied from tokens.css as written')}
+
+${responsiveBlock(readFileSync(SRC, 'utf8'))}
 `;
 
 const DOCS_TOKENS = join(ROOT, 'docs/tokens.css');

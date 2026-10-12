@@ -301,6 +301,53 @@ for (const [k, v] of entries(W3C.sizing)) {
   compare({ family: 'sizing', token: k, expected: v.$value, names: name, normalise: px });
 }
 
+// layout — Figma's `viewport` collection. Figma has MODES; CSS has one token
+// per mode plus an unsuffixed one the RESPONSIVE block re-points. So two
+// questions: does each mode hold the w3c value, and does each media rule point
+// the unsuffixed name at the right mode at the right width. The second is the
+// one a value comparison cannot see — every mode token could be correct while
+// Tablet's rule read the Desktop one.
+const LAYOUT_MODES = ['desktop', 'tablet', 'mobile'];
+/* Which breakpoint switches to which mode. A media condition cannot read a
+   custom property, so the widths are literals in the CSS; tying them to the
+   breakpoint tokens here is what stops the two drifting apart. */
+const LAYOUT_SWITCH = { 'breakpoint-md': 'tablet', 'breakpoint-xl': 'desktop' };
+const layoutKeys = Object.keys(W3C.layout ?? {}).filter((k) => !k.startsWith('_'));
+for (const k of layoutKeys) {
+  for (const m of LAYOUT_MODES) {
+    const v = W3C.layout[k][m];
+    if (v?.$value === undefined) { checks++; err('layout', `${k}.${m}`, 'mode missing from tokens.w3c.json'); continue; }
+    compare({ family: 'layout', token: `${k}.${m}`, expected: v.$value, names: `layout-${k}-${m}`, normalise: px });
+  }
+}
+for (const layer of LAYERS) {
+  const tail = readSource(layer.file).split(/^\.dark\s*\{/m)[1] ?? '';
+  const rules = new Map();
+  for (const [, width, body] of tail.matchAll(/@media \(min-width: ([\d.]+px)\) \{\s*:root \{([^}]*)\}/g)) {
+    rules.set(width, new Map([...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(([, n, v]) => [n, v.trim()])));
+  }
+  const widths = Object.fromEntries(Object.keys(LAYOUT_SWITCH).map((bp) => [bp, resolve(TOKENS, bp)]));
+  for (const width of rules.keys()) {
+    if (!Object.values(widths).includes(width)) {
+      err('layout', width, `${layer.file}: \`@media (min-width: ${width})\` is not --${Object.keys(LAYOUT_SWITCH).join(' or --')} (${Object.values(widths).join(', ')})`);
+    }
+  }
+  for (const k of layoutKeys) {
+    checks++;
+    const name = `layout-${k}`;
+    const base = layer.vars.get(name);
+    if (base !== `var(--layout-${k}-mobile)`) {
+      err('layout', name, `${layer.file}: \`--${name}\` starts at ${base ?? 'nothing'} — expected var(--layout-${k}-mobile)`);
+    }
+    for (const [bp, mode] of Object.entries(LAYOUT_SWITCH)) {
+      const got = rules.get(widths[bp])?.get(name);
+      if (got !== `var(--layout-${k}-${mode})`) {
+        err('layout', name, `${layer.file}: at ${widths[bp]} (--${bp}) \`--${name}\` = ${got ?? 'nothing'} — expected var(--layout-${k}-${mode})`);
+      }
+    }
+  }
+}
+
 // typography — font sizes (`--font-size-*` / `--text-*`) and weights
 for (const [k, v] of entries(W3C.typography?.size)) {
   compare({
@@ -768,6 +815,18 @@ if (SELF_TEST) {
     ['BREAKPOINT — missing from theme.css',
       [['tailwind/theme.css', '--breakpoint-md: 768px;', '--breakpoint-mid: 768px;']],
       'fail', 'tokens.css has `--breakpoint-md` but theme.css does not'],
+    ['LAYOUT — a mode token moves',
+      [['tailwind/tokens.css', '--layout-gutter-tablet:       var(--spacing-md);', '--layout-gutter-tablet:       var(--spacing-lg);']],
+      'fail', 'gutter.tablet'],
+    ['LAYOUT — a media rule points at the wrong mode',
+      [['tailwind/theme.css', '--layout-margin:      var(--layout-margin-tablet);', '--layout-margin:      var(--layout-margin-desktop);']],
+      'fail', 'at 768px (--breakpoint-md) `--layout-margin` = var(--layout-margin-desktop)'],
+    ['LAYOUT — a breakpoint moves and its media rule does not',
+      [['tailwind/tokens.css', '--breakpoint-xl:  1280px;', '--breakpoint-xl:  1200px;']],
+      'fail', '`@media (min-width: 1280px)` is not'],
+    ['LAYOUT — an override inside the RESPONSIVE block is not a definition (control)',
+      [['tailwind/tokens.css', '@media (min-width: 1280px) {\n  :root {\n', '@media (min-width: 1280px) {\n  :root {\n    --layout-gutter-mobile: 999px;\n']],
+      'clean', 'gutter.mobile'],
     ['NAMESPACE — a weight role that never reaches `--font-weight-*`',
       [['tailwind/theme.css', '--font-weight-btn-lg: 700;', '--font-weight-btn-large: 700;']],
       'fail', '`font-btn-lg` is not a utility'],

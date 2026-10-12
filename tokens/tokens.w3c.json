@@ -1207,6 +1207,68 @@
       "$type": "dimension"
     }
   },
+  "layout": {
+    "_source": "Figma `viewport` collection (Desktop · Tablet · Mobile modes), agreed 2026-10-12. CSS has no modes: each mode is its own token, and the unsuffixed --layout-* is re-pointed by the RESPONSIVE block in tokens.css (Tablet from 768, Desktop from 1280).",
+    "margin": {
+      "desktop": {
+        "$value": 80,
+        "$type": "dimension",
+        "$description": "Page side margin; leaves the 1280 content column inside 1440"
+      },
+      "tablet": {
+        "$value": 24,
+        "$type": "dimension"
+      },
+      "mobile": {
+        "$value": 16,
+        "$type": "dimension"
+      }
+    },
+    "gutter": {
+      "desktop": {
+        "$value": 24,
+        "$type": "dimension",
+        "$description": "Grid column gutter"
+      },
+      "tablet": {
+        "$value": 16,
+        "$type": "dimension"
+      },
+      "mobile": {
+        "$value": 16,
+        "$type": "dimension"
+      }
+    },
+    "columns": {
+      "desktop": {
+        "$value": 12,
+        "$type": "number"
+      },
+      "tablet": {
+        "$value": 8,
+        "$type": "number"
+      },
+      "mobile": {
+        "$value": 4,
+        "$type": "number"
+      }
+    },
+    "section-gap": {
+      "desktop": {
+        "$value": 120,
+        "$type": "dimension",
+        "$description": "Vertical space between page sections"
+      },
+      "tablet": {
+        "$value": 80,
+        "$type": "dimension"
+      },
+      "mobile": {
+        "$value": 64,
+        "$type": "dimension"
+      }
+    }
+  },
   "typography": {
     "_source": "Iron Software Typography System — Montserrat (content + UI text)",
     "accent": {

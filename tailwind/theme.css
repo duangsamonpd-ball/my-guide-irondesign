@@ -888,6 +888,22 @@
   --duration-fast: 150ms;                     /* Control state — hover, focus, checked. The house default. */
   --duration-base: 200ms;                     /* Noticeable but not narrated — colour and opacity on larger surfaces */
   --duration-slow: 300ms;                     /* Disclosure — anything that changes the height of the page */
+  --layout-margin-desktop: var(--spacing-hero); /* 80px — page side margin */
+  --layout-margin-tablet: var(--spacing-xl);  /* 24px */
+  --layout-margin-mobile: var(--spacing-md);  /* 16px */
+  --layout-gutter-desktop: var(--spacing-xl); /* 24px — column gutter */
+  --layout-gutter-tablet: var(--spacing-md);  /* 16px */
+  --layout-gutter-mobile: var(--spacing-md);  /* 16px */
+  --layout-columns-desktop: 12;               /* grid columns */
+  --layout-columns-tablet: 8;
+  --layout-columns-mobile: 4;
+  --layout-section-gap-desktop: var(--spacing-section); /* 120px — between page sections */
+  --layout-section-gap-tablet: var(--spacing-hero); /* 80px */
+  --layout-section-gap-mobile: var(--spacing-4xl); /* 64px */
+  --layout-margin: var(--layout-margin-mobile);
+  --layout-gutter: var(--layout-gutter-mobile);
+  --layout-columns: var(--layout-columns-mobile);
+  --layout-section-gap: var(--layout-section-gap-mobile);
 }
 
 
@@ -940,4 +956,40 @@
   --color-border-input: var(--color-border-dark-input); /* #BA84B1 — iron-violet/400 · 3.92:1 on --color-bg-dark-card, the lowest of page/hover/card/disabled/section-alt; /500 fails on three of the five */
   --color-border-input-disabled: var(--color-border-dark-input-disabled); /* #522950 — iron-violet/800 · exempt */
   --color-border-input-danger: var(--color-border-dark-input-danger); /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. RESPONSIVE — copied from tokens.css as written
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   The only place a token changes with the viewport. Each rule re-points an
+   unsuffixed --layout-* name at one of its fixed modes from section 12.
+
+   The widths are written out because a custom property in a media query
+   condition never matches: 768 is --breakpoint-md and 1280 is --breakpoint-xl,
+   and check:tokens asserts both, so moving a breakpoint without moving these
+   fails rather than silently splitting the two. This block sits after `.dark`
+   on purpose — the token parsers stop there, so an override here is never read
+   as a definition. build:theme copies it into theme.css verbatim.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 768px) {
+  :root {
+    --layout-margin:      var(--layout-margin-tablet);
+    --layout-gutter:      var(--layout-gutter-tablet);
+    --layout-columns:     var(--layout-columns-tablet);
+    --layout-section-gap: var(--layout-section-gap-tablet);
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --layout-margin:      var(--layout-margin-desktop);
+    --layout-gutter:      var(--layout-gutter-desktop);
+    --layout-columns:     var(--layout-columns-desktop);
+    --layout-section-gap: var(--layout-section-gap-desktop);
+  }
 }

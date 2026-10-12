@@ -906,6 +906,46 @@
   --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1); /* Fast out, long settle — expanding panels */
 
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     12. LAYOUT  — page grid per viewport, Figma's `viewport` collection
+     ═══════════════════════════════════════════════════════════════════════════
+
+     Figma holds these as one variable with three MODES (Desktop · Tablet ·
+     Mobile), set on a frame. CSS has no modes, so each mode is a fixed token
+     here and the unsuffixed name is the one to read: it starts at Mobile and is
+     re-pointed by the RESPONSIVE block at the end of this file — Tablet from
+     --breakpoint-md, Desktop from --breakpoint-xl. A consumer writes
+     `padding-inline: var(--layout-margin)` and gets all three.
+
+     The values are Ball's agreed proposal of 2026-10-12, not measured off a
+     shipped page. Tablet 24 and Mobile 16 are what footer-md and footer-sm
+     already use; Desktop 80 leaves --size-container-content (1280) inside the
+     1440 canvas. Every one is an existing --spacing-* step.
+
+     The h1 rungs Figma's `viewport` collection also holds are NOT here: in code
+     they are the clamp() on --font-size-5xl / -6xl, which Figma samples at each
+     frame width. */
+
+  --layout-margin-desktop:      var(--spacing-hero);     /* 80px — page side margin */
+  --layout-margin-tablet:       var(--spacing-xl);       /* 24px */
+  --layout-margin-mobile:       var(--spacing-md);       /* 16px */
+  --layout-gutter-desktop:      var(--spacing-xl);       /* 24px — column gutter */
+  --layout-gutter-tablet:       var(--spacing-md);       /* 16px */
+  --layout-gutter-mobile:       var(--spacing-md);       /* 16px */
+  --layout-columns-desktop:     12;                      /* grid columns */
+  --layout-columns-tablet:      8;
+  --layout-columns-mobile:      4;
+  --layout-section-gap-desktop: var(--spacing-section);  /* 120px — between page sections */
+  --layout-section-gap-tablet:  var(--spacing-hero);     /* 80px */
+  --layout-section-gap-mobile:  var(--spacing-4xl);      /* 64px */
+
+  /* The ones to read. Mobile first; see RESPONSIVE below. */
+  --layout-margin:      var(--layout-margin-mobile);
+  --layout-gutter:      var(--layout-gutter-mobile);
+  --layout-columns:     var(--layout-columns-mobile);
+  --layout-section-gap: var(--layout-section-gap-mobile);
+
 }
 
 
@@ -970,4 +1010,36 @@
   --color-important-strong: var(--color-important-strong-dark);
   --color-neutral-subtle:   var(--color-neutral-subtle-dark);
   --color-neutral-strong:   var(--color-neutral-strong-dark);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   The only place a token changes with the viewport. Each rule re-points an
+   unsuffixed --layout-* name at one of its fixed modes from section 12.
+
+   The widths are written out because a custom property in a media query
+   condition never matches: 768 is --breakpoint-md and 1280 is --breakpoint-xl,
+   and check:tokens asserts both, so moving a breakpoint without moving these
+   fails rather than silently splitting the two. This block sits after `.dark`
+   on purpose — the token parsers stop there, so an override here is never read
+   as a definition. build:theme copies it into theme.css verbatim.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 768px) {
+  :root {
+    --layout-margin:      var(--layout-margin-tablet);
+    --layout-gutter:      var(--layout-gutter-tablet);
+    --layout-columns:     var(--layout-columns-tablet);
+    --layout-section-gap: var(--layout-section-gap-tablet);
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --layout-margin:      var(--layout-margin-desktop);
+    --layout-gutter:      var(--layout-gutter-desktop);
+    --layout-columns:     var(--layout-columns-desktop);
+    --layout-section-gap: var(--layout-section-gap-desktop);
+  }
 }
