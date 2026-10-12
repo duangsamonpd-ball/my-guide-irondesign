@@ -42,10 +42,11 @@
     --color-neutral-900: var(--neutral-900);
     --color-neutral-950: var(--neutral-950);
     --spacing: 0.25rem;
-    --breakpoint-sm: 480px;
+    --breakpoint-sm: 640px;
     --breakpoint-md: 768px;
     --breakpoint-lg: 1024px;
-    --breakpoint-xl: 1440px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
     --text-xs: 12px;
     --text-xs--line-height: var(--leading-4);
     --text-sm: 14px;
@@ -459,7 +460,6 @@
     --shadow-focus-danger: 0 0 0 3px rgba(168, 24, 29, 0.25);
     --shadow-tooltip: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
     --blur-none: 0px;
-    --breakpoint-xs: 320px;
     --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
     --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
     --color-primary-50: var(--iron-pink-50);

@@ -576,9 +576,9 @@ const menuId = `tnmenu-${Math.random().toString(16).slice(2, 10)}`;
      at 375. Contact and the language picker ride inside `.tn-menu` at this width
      (see `.tn-menu-extra`), so they leave with it.
 
-     `--breakpoint-md` is 768 and is labelled "Tablet Large" in tokens.css;
-     `--breakpoint-sm` 480 is "Tablet". The number here is the one both live
-     sites use, not the one whose label reads closest.
+     It happens to equal `--breakpoint-md` (768, Tailwind's own), but that is
+     not why it is here: the number is the one both live sites use, and it would
+     stay 768 if the scale moved.
 
      One consequence worth writing down rather than quietly fixing: 459.98 below
      is measured on a strip that still counts the trigger, and this rule has

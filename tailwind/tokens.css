@@ -865,14 +865,29 @@
 
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     10. BREAKPOINTS  (reference only — use in media queries or JS)
-     ═══════════════════════════════════════════════════════════════════════════ */
+     10. BREAKPOINTS  — Tailwind's own five, and Figma's `breakpoint` collection
+     ═══════════════════════════════════════════════════════════════════════════
 
-  --breakpoint-xs: 320px;   /* Mobile */
-  --breakpoint-sm: 480px;   /* Tablet */
-  --breakpoint-md: 768px;   /* Tablet Large */
-  --breakpoint-lg: 1024px;  /* Desktop */
-  --breakpoint-xl: 1440px;  /* Desktop XL */
+     NOT reference only, which is what this heading said until 2026-10-12. These
+     sit in theme.css's `@theme`, and there `--breakpoint-*` IS the responsive
+     variant: while this read sm 480 / xl 1440 / xs 320, a consumer's `sm:` fired
+     at 480 and `xl:` at 1440, against what anyone who writes Tailwind expects.
+     The old five came with the initial commit and had no recorded source; Figma's
+     `breakpoint` collection has always held exactly Tailwind's defaults, so the
+     two now say the same numbers. Nothing used `xs:`/`sm:`/`xl:` when they moved.
+
+     1440 is still the CANVAS — every Figma frame, the fluid h1 clamps' top, the
+     widest width each harness sweeps. It stopped being a breakpoint, not a width.
+
+     A component's own `@media` is MEASURED from its content, never rounded onto
+     these (see TopNav, FooterBar), and is written as a literal because a custom
+     property in a media query condition never matches. */
+
+  --breakpoint-sm:  640px;   /* Large phone, small tablet */
+  --breakpoint-md:  768px;   /* Tablet portrait */
+  --breakpoint-lg:  1024px;  /* Tablet landscape, small laptop */
+  --breakpoint-xl:  1280px;  /* Desktop */
+  --breakpoint-2xl: 1536px;  /* Wide desktop */
 
 
   /* ═══════════════════════════════════════════════════════════════════════════

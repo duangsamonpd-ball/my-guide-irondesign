@@ -589,11 +589,11 @@
   --blur-xl: 12px;                            /* Figma 24 */
   --blur-2xl: 20px;                           /* Figma 40 */
   --blur-3xl: 32px;                           /* Figma 64 */
-  --breakpoint-xs: 320px;                     /* Mobile */
-  --breakpoint-sm: 480px;                     /* Tablet */
-  --breakpoint-md: 768px;                     /* Tablet Large */
-  --breakpoint-lg: 1024px;                    /* Desktop */
-  --breakpoint-xl: 1440px;                    /* Desktop XL */
+  --breakpoint-sm: 640px;                     /* Large phone, small tablet */
+  --breakpoint-md: 768px;                     /* Tablet portrait */
+  --breakpoint-lg: 1024px;                    /* Tablet landscape, small laptop */
+  --breakpoint-xl: 1280px;                    /* Desktop */
+  --breakpoint-2xl: 1536px;                   /* Wide desktop */
   --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1); /* Fast out, long settle — expanding panels */
   --color-primary-50: var(--iron-pink-50);
