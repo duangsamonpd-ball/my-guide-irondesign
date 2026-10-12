@@ -59,8 +59,8 @@
     --text-xl--line-height: var(--leading-7);
     --text-2xl: 24px;
     --text-2xl--line-height: var(--leading-8);
-    --text-3xl: 30px;
-    --text-3xl--line-height: var(--leading-9);
+    --text-3xl: clamp(26px, 1.5321rem + 0.3810vw, 30px);
+    --text-3xl--line-height: var(--leading-ratio-title);
     --text-4xl: 36px;
     --text-4xl--line-height: var(--leading-10);
     --text-5xl: clamp(32px, 1.8143rem + 0.7619vw, 40px);
@@ -397,7 +397,7 @@
     --leading-ratio-title: 1.2;
     --leading-h1-hero: 1;
     --leading-h1: var(--leading-ratio-title);
-    --leading-h2: var(--leading-9);
+    --leading-h2: var(--leading-ratio-title);
     --leading-h3: var(--leading-8);
     --leading-h4: var(--leading-7);
     --leading-title-lg: var(--leading-7);
@@ -1307,10 +1307,6 @@
 .leading-7 {
   --tw-leading: var(--leading-7);
   line-height: var(--leading-7);
-}
-.leading-9 {
-  --tw-leading: var(--leading-9);
-  line-height: var(--leading-9);
 }
 .leading-\[0\] {
   --tw-leading: 0;

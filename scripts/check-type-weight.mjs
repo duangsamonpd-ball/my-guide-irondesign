@@ -285,8 +285,10 @@ if (SELF_TEST) {
        size, naming no role. A SIZE IS NOT A CLAIM. */
     rows.push(['a size that merely matches a role is not claimed',
       probe(M, 'text-2xs leading-3 font-semibold tracking-[0.3px]').length === 0]);
+    /* h3, not h2: a fluid role leaves this model (see `steps` above — h1 and
+       h1-hero always have), and h2 went fluid on 2026-10-12. */
     rows.push(['two role names in one list are reported',
-      probe(M, 'text-h4 tracking-h2').some((f) => f.kind === 'two roles')]);
+      probe(M, 'text-h4 tracking-h3').some((f) => f.kind === 'two roles')]);
     /* Plumbing: the sweep has to be pointed at files that exist, or it reports a
        clean tree because it read nothing. */
     rows.push(['the source sweep finds components', sourceFiles().length > 10]);

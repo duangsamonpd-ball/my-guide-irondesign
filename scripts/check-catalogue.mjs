@@ -678,9 +678,10 @@ if (SELF_TEST) {
     ['component/anatomy tags', 'docs/component-radio.html', /(<b>--size-box<\/b> \()[\d.]+px\)/, '$199px)'],
     /* The typography page stated every value correctly on the day its token
        names were added; this proves the parser would notice if one moved. It
-       used to plant on the 48px Size cell, which was h1-hero's and is a range
-       now — the plant stopped landing and the self-test said so. */
-    ['typography/type rows', 'docs/02-typography.html', /(<tr><td>Size<\/td><td>)30px/, '$199px'],
+       used to plant on the 48px Size cell, which was h1-hero's, then on h2's
+       30px; each is a range now (2026-09-01, 2026-10-12) — the plant stopped
+       landing and the self-test said so. h3's 24px is fixed. */
+    ['typography/type rows', 'docs/02-typography.html', /(<tr><td>Size<\/td><td>)24px/, '$199px'],
     /* The FLUID half, and the reason it needs its own row: this parser used to
        read the first number out of a two-ended cell and compare it against
        parseFloat of a clamp, i.e. NaN, then skip. Corrupting the TOP of the

@@ -88,7 +88,7 @@
  *   select h2
  *   at     1440
  *   height 36
- *   why    leading-9 --line-height-h2; the node drew this one 30 until Ball
+ *   why    leading-[1.2] --line-height-h2; the node drew this one 30 until Ball
  *
  * @figma-size lead
  *   node   346:438
@@ -262,7 +262,7 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
       <div class="flex flex-col gap-3xl pt-hero">
         <div class="flex flex-col gap-md">
           {variant === 'suite' ? (
-            /* `leading-9` 36 is `--line-height-h2`, and Ball ruled on 2026-08-24
+            /* `leading-[1.2]` is `--line-height-h2` (36 at 30), and Ball ruled on 2026-08-24
                that the Suite heading takes it like every other h2 — the node had
                drawn this one text at 30 while the Default variant's was 36, the
                one place the two variants disagreed with each other. Both are 36
@@ -276,7 +276,7 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
                against the node's 32. At `w-[32px]` the glyph lands 32 x 26.67 and
                centres to the same y as Figma's padded box: (36-26.67)/2 = 4.67,
                and 2 + 2.67 = 4.67. `gap-xs` 8 is the node's 40 - 32. */
-            <Heading class="font-bold text-3xl leading-9 flex items-center gap-xs m-0">
+            <Heading class="font-bold text-3xl leading-[1.2] flex items-center gap-xs m-0">
               <img class="w-[32px] h-auto block" src={src(suiteLogoImgSrc)} alt="" />
               <span><span class="text-text-on-dark-heading font-bold">IRON</span><span class="text-primary font-normal">SUITE</span></span>
             </Heading>

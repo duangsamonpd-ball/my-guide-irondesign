@@ -488,16 +488,19 @@
   --font-size-lg:   18px;
   --font-size-xl:   20px;
   --font-size-2xl:  24px;
-  --font-size-3xl:  30px;
+  --font-size-3xl:  clamp(26px, 1.5321rem + 0.3810vw, 30px);  /* h2 26→30, fluid from 2026-10-12 */
   --font-size-4xl:  36px;
-  /* THE TWO FLUID STEPS. Each clamp runs from the value at the 390 frame to the
-     value at the 1440 frame, so its MAXIMUM is exactly what this step has always
-     been and the desktop canvas the system was drawn against does not move. Only
-     h1 resolves 5xl and only h1-hero resolves 6xl — no other role and no
-     component wears either — so the range reaches exactly the two levels it was
-     measured for. Nothing between the endpoints is invented; it is interpolated
-     between the two frames we have. NOT FROM FIGMA: the design file has no fluid
-     primitive and its `font` collection has one mode. See tokens.w3c.json. */
+  /* THE THREE FLUID STEPS — 3xl above, 5xl and 6xl here. Each clamp runs from
+     the value at the 390 frame to the value at the 1440 frame, so its MAXIMUM is
+     exactly what this step has always been and the desktop canvas the system was
+     drawn against does not move. Only h1 resolves 5xl and only h1-hero resolves
+     6xl, and no component wears either. 3xl is h2's (fluid from 2026-10-12), and
+     Footer's two headings wear it too — they are <h2>s, and Ball ruled on
+     2026-08-24 they match every other h2. Nothing between the endpoints is
+     invented; it is interpolated between the two frames. Figma has no fluid
+     primitive: its `viewport` collection holds each role SAMPLED at the Desktop,
+     Tablet and Mobile frames (type/h1-size, type/h2-size, …), which this clamp
+     produces at those widths. See tokens.w3c.json. */
   --font-size-5xl:  clamp(32px, 1.8143rem + 0.7619vw, 40px);  /* h1 32→40 */
   --font-size-6xl:  clamp(36px, 1.9714rem + 1.1429vw, 48px);  /* h1-hero 36→48 */
   --font-size-7xl:  64px;  /* Figma size/7xl — was 60 until 2026-08-06 */
@@ -554,7 +557,7 @@
   --font-size-lg--line-height:   var(--leading-7);   /* 28px — body-lg · title-lg 18/28 */
   --font-size-xl--line-height:   var(--leading-7);   /* 28px — h4 20/28 */
   --font-size-2xl--line-height:  var(--leading-8);   /* 32px — h3 24/32 */
-  --font-size-3xl--line-height:  var(--leading-9);   /* 36px — h2 30/36 */
+  --font-size-3xl--line-height:  var(--leading-ratio-title);  /* 1.2 — h2: 36px at 30, 31.2 at 26 */
   --font-size-4xl--line-height:  var(--leading-10);  /* 40px — no role uses 4xl */
   --font-size-5xl--line-height:  var(--leading-ratio-title);  /* 1.2 — h1: 48px at 40, 38.4 at 32 */
   --font-size-6xl--line-height:  1;  /* 48px at 48, 36px at 36 — h1-hero's pair */
@@ -565,7 +568,7 @@
   /* ── Font sizes — content scale (semantic → primitive) ── */
   --font-size-h1-hero:  var(--font-size-6xl);   /* 48px — hero modifier on H1, homepage only */
   --font-size-h1:       var(--font-size-5xl);   /* 40px — page title, 1 per page */
-  --font-size-h2:       var(--font-size-3xl);   /* 30px — section heading */
+  --font-size-h2:       var(--font-size-3xl);   /* 26→30px — section heading */
   --font-size-h3:       var(--font-size-2xl);   /* 24px — card / feature title */
   --font-size-h4:       var(--font-size-xl);    /* 20px — card title (split from body-lg by weight) */
   --font-size-title-lg: var(--font-size-lg);    /* 18px — section intro title */
@@ -619,7 +622,7 @@
      of both. They are deliberately not Tailwind's `tight`/`snug` either: those
      names carry Tailwind's own values, and quietly redefining one would reach a
      consumer as a silent change to a class they already use. */
-  --leading-ratio-title: 1.2;   /* 40/48 at the top of h1's range, unchanged */
+  --leading-ratio-title: 1.2;   /* h1 40/48 and h2 30/36 at the top of their ranges, unchanged */
 
   /* THE HERO is 1, the single-line ratio, and that is Ball's ruling (2026-09-15)
      to follow `Typography/h1-hero`, which binds `leading/12` = 48 at 48.
@@ -633,7 +636,7 @@
   /* ── Line heights (semantic → leading primitive) ── */
   --line-height-h1-hero:  1;   /* 48px at 48, 36px at 36 — Figma leading/12 at the 1440 frame */
   --line-height-h1:       var(--leading-ratio-title);  /* 48px at 40 — unchanged at 1440 */
-  --line-height-h2:       var(--leading-9);   /* 36px */
+  --line-height-h2:       var(--leading-ratio-title);  /* 36px at 30 — unchanged at 1440 */
   --line-height-h3:       var(--leading-8);   /* 32px */
   --line-height-h4:       var(--leading-7);   /* 28px */
   --line-height-title-lg: var(--leading-7);   /* 28px */

@@ -343,35 +343,37 @@ if (SELF_TEST) {
       ['theme', /\n[^\n]*--text-base--line-height:[^\n]*/, ''],
       ['utilities', /--text-base--line-height: var\(--leading-7\);/, '--text-base--line-height: calc(1.5 / 1);'],
     ], 'text-base'],
-    /* h2's pair rewritten from its px rung to the RATIO rung that computes to
-       the same 36px at 30px. Same value, different text, and it must NOT fire:
-       this is the control proving ROLE compares computed values rather than
-       strings. It used to plant `1` on the 48px step — that stopped arming the
-       day h1-hero went fluid and its pair became `1` in the live theme, and the
-       self-test said so rather than passing a vacuous row. */
-    ['ROLE — h2\u2019s pair as a ratio rung, same computed value (control)', [['theme',
-      /--text-3xl--line-height: var\(--leading-9\);/, '--text-3xl--line-height: var(--leading-ratio-title);']], null],
+    /* h3's pair rewritten from the ladder rung to h3's own role rung, which
+       computes to the same 32px at 24px. Same value, different text, and it
+       must NOT fire: this is the control proving ROLE compares computed values
+       rather than strings. It used to plant `1` on the 48px step, then the ratio
+       rung on h2's 30px step — each stopped arming the day its level went fluid
+       (h1-hero 2026-09-01, h2 2026-10-12), and the self-test said so rather than
+       passing a vacuous row. */
+    ['ROLE — h3\u2019s pair via its role rung, same computed value (control)', [['theme',
+      /--text-2xl--line-height: var\(--leading-8\);/, '--text-2xl--line-height: var(--leading-h3);']], null],
     ['COMPILED — utilities.css compiled before the pair', [['utilities',
       /--text-5xl--line-height:[^;]*;/, '']], 'text-5xl'],
 
     /* The 2026-09-01 pass. Planting this clamp on the UNFIXED gate moved the
        success line from "14 numeric type steps … all 10 that a role uses" to
        "13 … all 9" and exited 0 — the step left the check and the count was the
-       only tell. These three rows are what makes that state impossible. */
+       only tell. These three rows are what makes that state impossible. They
+       plant on h3's step, 2xl, since h2's 3xl went fluid for real on 2026-10-12. */
     ['FLUID — a fluid step against a fixed leading', [['theme',
-      /--text-3xl: 30px;/, '--text-3xl: clamp(24px, 3vw, 30px);']], 'text-3xl'],
+      /--text-2xl: 24px;/, '--text-2xl: clamp(20px, 3vw, 24px);']], 'text-2xl'],
     /* The control, and the thing it demonstrates is the authoring: a ratio
        leading follows the size for free, so the step, its pair AND the role's
        own rung all become `1` and the ramp stays checkable at both ends. A fix
        that merely refused fluid values would fail this row. */
     ['FLUID — fluid step, ratio leading throughout (control)', [
-      ['theme', /--text-3xl: 30px;/, '--text-3xl: clamp(24px, 3vw, 30px);'],
-      ['theme', /--text-3xl--line-height: var\(--leading-9\);/, '--text-3xl--line-height: var(--leading-ratio-title);'],
-      ['theme', /--leading-h2: var\(--leading-9\);/, '--leading-h2: var(--leading-ratio-title);'],
+      ['theme', /--text-2xl: 24px;/, '--text-2xl: clamp(20px, 3vw, 24px);'],
+      ['theme', /--text-2xl--line-height: var\(--leading-8\);/, '--text-2xl--line-height: var(--leading-ratio-title);'],
+      ['theme', /--leading-h3: var\(--leading-8\);/, '--leading-h3: var(--leading-ratio-title);'],
     ], null],
     /* A literal the gate cannot read must be NAMED, not quietly not-a-step. */
     ['UNREAD — a step in a unit this gate does not read', [['theme',
-      /--text-3xl: 30px;/, '--text-3xl: 1.875rem;']], 'text-3xl'],
+      /--text-2xl: 24px;/, '--text-2xl: 1.5rem;']], 'text-2xl'],
   ];
 
   let armed = 0;

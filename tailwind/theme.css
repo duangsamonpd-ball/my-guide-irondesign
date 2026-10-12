@@ -443,7 +443,7 @@
   --text-lg: 18px;
   --text-xl: 20px;
   --text-2xl: 24px;
-  --text-3xl: 30px;
+  --text-3xl: clamp(26px, 1.5321rem + 0.3810vw, 30px); /* h2 26→30, fluid from 2026-10-12 */
   --text-4xl: 36px;
   --text-5xl: clamp(32px, 1.8143rem + 0.7619vw, 40px); /* h1 32→40 */
   --text-6xl: clamp(36px, 1.9714rem + 1.1429vw, 48px); /* h1-hero 36→48 */
@@ -457,7 +457,7 @@
   --text-lg--line-height: var(--leading-7);   /* 28px — body-lg · title-lg 18/28 */
   --text-xl--line-height: var(--leading-7);   /* 28px — h4 20/28 */
   --text-2xl--line-height: var(--leading-8);  /* 32px — h3 24/32 */
-  --text-3xl--line-height: var(--leading-9);  /* 36px — h2 30/36 */
+  --text-3xl--line-height: var(--leading-ratio-title); /* 1.2 — h2: 36px at 30, 31.2 at 26 */
   --text-4xl--line-height: var(--leading-10); /* 40px — no role uses 4xl */
   --text-5xl--line-height: var(--leading-ratio-title); /* 1.2 — h1: 48px at 40, 38.4 at 32 */
   --text-6xl--line-height: 1;                 /* 48px at 48, 36px at 36 — h1-hero's pair */
@@ -466,7 +466,7 @@
   --text-9xl--line-height: 1;                 /* 96px — display, no role */
   --text-h1-hero: var(--text-6xl);            /* 48px — hero modifier on H1, homepage only */
   --text-h1: var(--text-5xl);                 /* 40px — page title, 1 per page */
-  --text-h2: var(--text-3xl);                 /* 30px — section heading */
+  --text-h2: var(--text-3xl);                 /* 26→30px — section heading */
   --text-h3: var(--text-2xl);                 /* 24px — card / feature title */
   --text-h4: var(--text-xl);                  /* 20px — card title (split from body-lg by weight) */
   --text-title-lg: var(--text-lg);            /* 18px — section intro title */
@@ -502,10 +502,10 @@
   --leading-18: 72px;
   --leading-24: 96px;
   --leading-32: 128px;
-  --leading-ratio-title: 1.2;                 /* 40/48 at the top of h1's range, unchanged */
+  --leading-ratio-title: 1.2;                 /* h1 40/48 and h2 30/36 at the top of their ranges, unchanged */
   --leading-h1-hero: 1;                       /* 48px at 48, 36px at 36 — Figma leading/12 at the 1440 frame */
   --leading-h1: var(--leading-ratio-title);   /* 48px at 40 — unchanged at 1440 */
-  --leading-h2: var(--leading-9);             /* 36px */
+  --leading-h2: var(--leading-ratio-title);   /* 36px at 30 — unchanged at 1440 */
   --leading-h3: var(--leading-8);             /* 32px */
   --leading-h4: var(--leading-7);             /* 28px */
   --leading-title-lg: var(--leading-7);       /* 28px */

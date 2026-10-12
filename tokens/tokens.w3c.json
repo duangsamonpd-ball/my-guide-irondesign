@@ -1351,8 +1351,9 @@
         "$type": "dimension"
       },
       "3xl": {
-        "$value": "30px",
-        "$type": "dimension"
+        "$value": "clamp(26px, 1.5321rem + 0.3810vw, 30px)",
+        "$type": "dimension",
+        "$description": " FLUID from 2026-10-12 — this step moves with h2, the role that resolves it; see that role for the range. Footer's two headings wear it too, and they are <h2>s that Ball ruled on 2026-08-24 should match every other h2."
       },
       "4xl": {
         "$value": "36px",
@@ -1463,12 +1464,12 @@
         "$type": "typography",
         "$value": {
           "fontFamily": "{typography.font-family.body}",
-          "fontSize": "30px",
+          "fontSize": "clamp(26px, 1.5321rem + 0.3810vw, 30px)",
           "fontWeight": 800,
-          "lineHeight": "36px",
+          "lineHeight": "1.2",
           "letterSpacing": "-0.4px"
         },
-        "$description": "Major section headings within a page. Used every time a new top-level content block begins. Often paired with an Overline above."
+        "$description": "Major section headings within a page. Used every time a new top-level content block begins. Often paired with an Overline above. FLUID from 2026-10-12 (Ball): 26px at the 390 frame to 30px at the 1440 frame, the same 390→1440 range as h1. At 390 a fixed 30 left h1 (32) only 2px above it; 26 restores a step between the page title and a section. The MAXIMUM is the 30 this level has always had, so 1440 does not move. line-height is the RATIO 1.2, which is the 36px h2 has always had at 30 and 31.2 at 26. Figma holds the sampled rungs in the `viewport` collection as type/h2-size and type/h2-leading."
       },
       "h3": {
         "$type": "typography",

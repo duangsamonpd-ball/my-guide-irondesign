@@ -164,7 +164,7 @@ if (SELF_TEST) {
     ['CANNOT WRAP — the truncation put back',
       [/(<div style="font-size:clamp\(36px[^"]*?letter-spacing:0px;)/, '$1 overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'], 'h1-hero'],
     ['WEIGHT — h2 dropped to semibold',
-      [/(<div style="font-size:1\.875rem; )font-weight:800;/, '$1font-weight:600;'], 'h2'],
+      [/(<div style="font-size:clamp\(26px[^"]*?; )font-weight:800;/, '$1font-weight:600;'], 'h2'],
     ['SIZE — h3 drawn a step small',
       [/(<div style="font-size:)1\.5rem(; font-weight:700; line-height:32px)/, '$11.25rem$2'], 'h3'],
     ['LINE-HEIGHT — h4 off the ladder',
