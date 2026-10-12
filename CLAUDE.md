@@ -28,7 +28,7 @@ npm run check && git commit …
 
 `npm run preview <page>` renders the docs in a real browser (needs Chrome),
 `node scripts/state-diff.mjs <page> --ref HEAD` compares interactive states pixel
-for pixel, `npm run overflow` sweeps every component across nine widths for
+for pixel, `npm run overflow` sweeps every component across the widths in its `DEFAULT_WIDTHS` for
 anything that leaves its box, and `npm run wide` sweeps the two widths ABOVE the
 canvas for anything that keeps growing, and `npm run figma-size` measures every
 band a component has DECLARED against the Figma node it comes from. All five

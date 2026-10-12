@@ -154,7 +154,10 @@ function breakpointEdges(name) {
 
 /* ── 1. arguments ─────────────────────────────────────────────────────────── */
 
-const DEFAULT_WIDTHS = [320, 375, 414, 768, 900, 1024, 1152, 1280, 1440];
+/* 390 is the mobile Figma frame (2026-10-12) and the bottom of the fluid h1
+   clamps' range, so it is the one phone width a design is drawn at; 375 stays
+   for the frames already drawn there (FooterBar's footer-sm). */
+const DEFAULT_WIDTHS = [320, 375, 390, 414, 768, 900, 1024, 1152, 1280, 1440];
 
 function fail(msg) {
   console.error(red(`\n✖  ${msg}\n`));
@@ -730,7 +733,7 @@ server.close();
 /* ── 5. report ────────────────────────────────────────────────────────────── */
 
 /* One row per distinct element, carrying every width it fails at. The same
-   element at nine widths is one problem, not nine. */
+   element at every width is one problem, not one per width. */
 const grouped = new Map();
 for (const f of findings) {
   const id = `${f.page}|${f.demo}|${f.key}|${f.parent}`;

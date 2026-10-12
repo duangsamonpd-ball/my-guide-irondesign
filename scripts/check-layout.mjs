@@ -129,14 +129,19 @@ const KNOWN = new Map([
 /* ── 1. arguments ─────────────────────────────────────────────────────────── */
 
 /**
- * Four widths, not the overflow sweep's nine. That sweep is hunting a breakpoint
- * set below the width its content needs, which is a narrow-end bug and needs the
- * resolution. These four faults were all at desktop width in hand-written tables
- * and card grids, so this samples both ends and the two the docs CSS actually
- * has breakpoints at. Nine widths × 31 pages would triple the runtime of the
- * `render` job to look twice at the same table.
+ * Fewer widths than the overflow sweep. That sweep is hunting a breakpoint set
+ * below the width its content needs, which is a narrow-end bug and needs the
+ * resolution. The faults this exists for were all at desktop width in
+ * hand-written tables and card grids, so this samples both ends and the two the
+ * docs CSS actually has breakpoints at. The overflow sweep's full list × every
+ * docs page would triple the runtime of the `render` job to look twice at the
+ * same table.
+ *
+ * 390 joined on 2026-10-12: it is the mobile Figma frame and the bottom of the
+ * fluid h1 clamps' range, so a page drawn at 390 is checked at 390. 375 stays,
+ * for the frames already drawn there.
  */
-const DEFAULT_WIDTHS = [375, 768, 1280, 1440];
+const DEFAULT_WIDTHS = [375, 390, 768, 1280, 1440];
 
 const argv = process.argv.slice(2);
 const SELF_TEST = argv.includes('--self-test');
@@ -996,8 +1001,8 @@ try {
       if (perPage.length) {
         hits.push([file, perPage]);
         console.log(`\n  ${red('✖')} ${bold(file)}`);
-        /* Collapsed by element: the same broken card reports at all four widths
-           and printing it four times buries the second fault below the fold. */
+        /* Collapsed by element: the same broken card reports at every width
+           and printing it once per width buries the second fault below the fold. */
         const byKey = new Map();
         for (const f of perPage) {
           const g = byKey.get(f.group) ?? { ...f, widths: [] };

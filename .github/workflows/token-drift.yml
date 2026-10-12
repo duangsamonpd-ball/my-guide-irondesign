@@ -302,7 +302,7 @@ jobs:
       - name: Check the overflow classifier can fail
         run: node scripts/check-overflow.mjs --self-test
 
-      # 19 components × 9 widths. Each page arms itself first — a token must
+      # Every component × check-overflow.mjs DEFAULT_WIDTHS. Each page arms itself first — a token must
       # resolve, Montserrat must load, and an injected unfittable element must be
       # SEEN and then stop being seen when removed. An unarmed page exits 1
       # rather than reporting a pass it did not earn.
@@ -317,7 +317,7 @@ jobs:
       - name: Check the layout detectors can fail
         run: node scripts/check-layout.mjs --self-test
 
-      # 31 docs pages × 4 widths. This is the gate that did not exist on
+      # Every docs page × check-layout.mjs DEFAULT_WIDTHS. This is the gate that did not exist on
       # 2026-08-14, when Ball opened four pages and found four faults with every
       # other gate green. The reason none of them could see it is structural:
       # the overflow sweep only looks inside [data-demo] on component pages, and
