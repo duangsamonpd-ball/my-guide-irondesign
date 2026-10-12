@@ -631,7 +631,7 @@ Ships its own `<script>` for the disclosure — scoped per-instance, safe with m
 
 **The Free tools panel has no md or sm frame** — all three of its variants live on `footer-lg` — so instead of inventing two fixed layouts it fits itself to any width, with no breakpoint-specific number in it. The groups stack, and inside each one Figma's editorial column breaks stay intact as grid items while `auto-fill` decides how many sit per row: 4 at 768, 2 at 375, 1 at 320. Note that the `auto-fill` floor and the column gap spend the same pixels (`n × floor + (n−1) × gap ≤ width`), so raising one costs the other a column.
 
-The docs page previews all of this in a **resizable frame** — drag the handle or use the 375/768/1024 presets, and the readout names which of the three layouts you are looking at. It has to be an `<iframe>`: these layouts key off the viewport, and `.frame-scroll` pins every ordinary demo on the page to 1440. The frame loads the same page again at `?frame=<region>`, so nothing is duplicated to make it work. Deviations from the design file — including two the design side agreed to fix — are listed on that page too.
+The docs page previews all of this in a **resizable frame** — drag the handle or use the 390/768/1024 presets, and the readout names which of the three layouts you are looking at. It has to be an `<iframe>`: these layouts key off the viewport, and `.frame-scroll` pins every ordinary demo on the page to 1440. The frame loads the same page again at `?frame=<region>`, so nothing is duplicated to make it work. Deviations from the design file — including two the design side agreed to fix — are listed on that page too.
 
 ### `FormCard.astro`
 

@@ -129,11 +129,15 @@
  *    in the Free tier and Free Solid 7.3.1 matches the nine icons already in
  *    ../icons byte for byte, so they are inlined the same way — no Pro licence,
  *    no new dependency. Checked 2026-08-03.
- *  · At md and sm the menu wraps, and Figma's own wrap is a flat list: at 768
- *    a divider is left dangling at the end of row 1, at 375 one leads row 3.
- *    Here a divider is always grouped with the label it precedes, so it never
- *    strands at a row end — 375 matches Figma exactly and 768 differs by that
- *    one divider. It is a wrap artifact on Figma's side, not a decision.
+ *  · At md and sm the menu wraps, and Figma's own wrap is a flat list
+ *    (label, divider, label, …), so every wrapped row ends on a divider: one at
+ *    the end of row 1 at 768, one at the end of rows 1 and 2 at 390. Here each
+ *    divider is grouped with the label it FOLLOWS, in Figma's order, so every
+ *    item lands where Figma draws it — and the script below hides the paint of
+ *    any divider that ends a row. Ball's ruling 2026-10-12: no dangling divider
+ *    at all. Until 2026-10-12 a divider was grouped with the label it preceded
+ *    instead, which only moved the stray one to the START of the next row and
+ *    put every item on it 13px off Figma at 390 (Academy 32 against 18).
  *  · The divider between Free Tools and Webinars shows while the panel is
  *    CLOSED and hides while it is open — **Ball's third ruling on it**: "draw
  *    it" (2026-08-02), "never draw it" (2026-08-10), then this. It ran ahead of
@@ -279,7 +283,7 @@ const {
     { name: 'Capterra', logo: 'logo-capterra.svg', stars: 'stars-capterra.svg', starsHover: 'stars-capterra-hover.svg', score: '5', outOf: '/5' },
   ],
   /* The spaces inside the phone number are non-breaking on purpose. This is
-     one line at 1440 and 768, but at 375 it wraps, and left to itself the
+     one line at 1440 and 768, but at sm it wraps, and left to itself the
      browser breaks at the widest space that fits — which lands mid-number,
      "+1 (312)" over "252-3088". Holding the number together moves the break to
      the space before it, which is where Figma puts it (879:541 is two lines,
@@ -375,9 +379,9 @@ const items: Link[] = [...menu];
 /* The divider after Free Tools shows while the panel is CLOSED and hides while
    it is open — Ball's ruling 2026-08-10, his third on this one line: "draw it"
    (08-02), then "never draw it" (08-10), then this. It is the item AFTER Free
-   Tools that owns the divider, because a divider renders as the first child of
-   each <li>. With no Webinars to sit before, Free Tools lands last and there is
-   nothing after it to mark.
+   Tools ITSELF that owns the divider, because a divider renders as the last
+   child of each <li> but the last. With no Webinars to sit before, Free Tools
+   lands last, carries no divider, and there is nothing to mark.
 
    Figma agrees, as of 2026-08-10: `880:774` (Freetools, panel CLOSED) is drawn,
    `880:936` (Freetools-open) is hidden, and `880:557` (Default) is moot because
@@ -396,7 +400,7 @@ if (freeTools) {
     href: freeToolsHref,
     caret: true,
   });
-  toolsDivider = seat + 1;
+  toolsDivider = seat;
 }
 ---
 
@@ -405,7 +409,6 @@ if (freeTools) {
     <ul class="fb-menu">
       {items.map((item, i) => (
         <li>
-          {i > 0 && <span class:list={['fb-div', { 'fb-div-tools': i === toolsDivider }]} aria-hidden="true"></span>}
           {item.caret && hasPanel ? (
             <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded={toolsOpen ? 'true' : 'false'} aria-controls={panelId}>
               {item.label}
@@ -419,6 +422,7 @@ if (freeTools) {
               )}
             </a>
           )}
+          {i < items.length - 1 && <span class:list={['fb-div', { 'fb-div-tools': i === toolsDivider }]} aria-hidden="true"></span>}
         </li>
       ))}
     </ul>
@@ -558,11 +562,13 @@ if (freeTools) {
      with the item beside it (About Us ends at 257.5, News starts at 256.5).
      Without this the row is 14px wider than the design. */
   .fb-menu li:not(:first-child) { margin-left: -1px; }
-  .fb-menu .fb-div { margin-right: -1px; }
+  .fb-menu .fb-div { margin-left: -1px; }
   /* Each <li> is a flex container so the divider and the label share one
      baseline — a block <li> would put the inline label on a font strut instead,
      the same 1.4px drift TopNav hit. */
-  .fb-menu li { display: flex; align-items: center; }
+  .fb-menu li { --fb-row-shift: 0px; display: flex; align-items: center; translate: var(--fb-row-shift); }
+  .fb-menu li:has(> .fb-div[data-row-end]) { translate: none; }
+  .fb-menu li:has(> .fb-div[data-row-end]) > .fb-menu-link { translate: var(--fb-row-shift); }
   .fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color var(--duration-base); }
   /* The menu palette comes in a pair — link-menu resting, link-menu-hover on
      hover. Same as TopNav's .tn-item. Dimming with opacity instead would drop
@@ -580,6 +586,13 @@ if (freeTools) {
      is on a 12px flex gap, where display:none would take 13px out of a wrapping
      menu and move the wrap. Hiding the paint keeps every band identical. */
   .fb-tools-open .fb-div-tools { visibility: hidden; }
+  /* A divider that ends a wrapped row — set by the script below. `visibility`
+     for the same reason as the rule above, and here it is load-bearing rather
+     than tidy: collapsing the divider would narrow its row, the next label
+     could then fit on it, the divider would no longer end a row and would come
+     back — a layout that flips every time it is measured. Hiding only the
+     paint leaves the wrap exactly where it was. */
+  .fb-menu .fb-div[data-row-end] { visibility: hidden; }
 
   /* ── band 1b: the Free tools panel ───────────────────────────────────────
      Figma's `Free tool open` variant (880:915, section 880:1078). The trigger
@@ -769,12 +782,17 @@ if (freeTools) {
   .fb-social { display: flex; opacity: var(--opacity-60); }
   .fb-social img { width: 16px; height: 16px; display: block; }
   .fb-social:hover { opacity: 1; }
-  .fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; }
+  /* Gap 8 and a Medium label, both bound in Figma (`spacing-xs`, `weight/medium`)
+     in every frame. The code had 4 and Regular from its first commit — 121 wide
+     where all four frames draw 127 — and the note above saying the frames read
+     127x20 never asked what the code rendered. The label is the 14/20/500 label
+     role exactly, so it wears that role rather than three primitives. */
+  .fb-slack { display: flex; align-items: center; gap: var(--spacing-xs); text-decoration: none; }
   /* 16px, not the 24 the component's own frame reports — the *instance* placed
      in this variant is 16, in a 20px-tall row. The Free tools variant places a
      24px one instead; the two variants disagree in Figma. */
   .fb-slack img { width: 16px; height: 16px; display: block; }
-  .fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-dark-body); white-space: nowrap; transition: color var(--duration-base); }
+  .fb-slack span { font-size: var(--font-size-label); font-weight: var(--fw-label); line-height: var(--line-height-label); letter-spacing: var(--letter-spacing-label); color: var(--color-text-on-dark-body); white-space: nowrap; transition: color var(--duration-base); }
   /* This used to be `opacity: var(--opacity-hover-footer)` — 0.8 — so hovering
      the row made it FAINTER, the opposite of every other hover in this bar.
      Figma puts Join Slack outside the socials' opacity group, so there is no
@@ -848,7 +866,7 @@ if (freeTools) {
 
   /* ── responsive ───────────────────────────────────────────────────────────
      Figma draws three frames: footer-lg (877:2953), footer-md (879:649, at
-     768) and footer-sm (879:650, at 375). They land on the project's own
+     768) and footer-sm (879:650, at 390 since 2026-10-12; 375 before). They land on the project's own
      breakpoint scale — --breakpoint-md is 768 and --breakpoint-lg is 1024 — so
      the lg layout holds down to 1024, footer-md covers 768 to 1023 and
      footer-sm everything below. 1024 is also where the lg layout genuinely
@@ -964,7 +982,7 @@ if (freeTools) {
     .fb-menu { gap: var(--spacing-sm); align-content: center; }
     .fb-menu li { gap: var(--spacing-sm); }
     .fb-menu li:not(:first-child) { margin-left: 0; }
-    .fb-menu .fb-div { margin-right: 0; }
+    .fb-menu .fb-div { margin-left: 0; }
     .fb-menu-link { padding: 0; }
     /* At padding 0 the open Free-tools tab would paint tight against its
        label, so the trigger keeps 8 of its own and pulls it back out of the
@@ -1057,7 +1075,7 @@ if (freeTools) {
     .fb-brand { align-items: center; }
     .fb-connect { align-items: center; }
     /* The one width where the address is allowed to break. At 1440 and at 768
-       it is a single nowrap line; at 375 Figma gives it the full 343 and it
+       it is a single nowrap line; at 390 Figma gives it the full 358 and it
        falls onto two, breaking after USA on its own. */
     .fb-address { white-space: normal; text-align: center; }
 
@@ -1112,6 +1130,51 @@ if (freeTools) {
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => initFooterTools());
-  document.addEventListener('astro:page-load', () => initFooterTools());
+  // A divider that ends a wrapped row separates a label from nothing. Where the
+  // row ends is a fact of the rendered width, the font and the Free tools
+  // trigger's open padding, so it is read off the boxes rather than predicted
+  // from a breakpoint — and re-read whenever any item changes size. Marking
+  // only changes paint (see `[data-row-end]`), so the observer cannot feed
+  // itself. Without the script the menu falls back to Figma's own drawing.
+  function initFooterWrap(root: ParentNode = document) {
+    root.querySelectorAll<HTMLElement>('.fb-menu:not([data-fb-wrap])').forEach((menu) => {
+      menu.dataset.fbWrap = '1';
+      const items = Array.from(menu.children) as HTMLElement[];
+      // A hidden divider still takes its gap and its pixel, so its row sits
+      // half of that left of centre. Each item on the row is moved back by
+      // `translate`, which never touches layout — moving it with a margin would
+      // narrow the row and could pull the next label up onto it. On the item
+      // that ends the row only the LABEL moves: the hidden divider stays put,
+      // so the label travels into the space the divider gave up and nothing
+      // leaves the menu's box. Moving the whole <li> put its unpainted divider
+      // 3.5px outside the <ul> at 390, and `overflow` said so.
+      const mark = () => {
+        let row: HTMLElement[] = [];
+        items.forEach((li, i) => {
+          row.push(li);
+          const div = li.querySelector<HTMLElement>(':scope > .fb-div');
+          const next = items[i + 1];
+          const ends = !next || next.getBoundingClientRect().top >= li.getBoundingClientRect().bottom;
+          div?.toggleAttribute('data-row-end', ends && !!next);
+          if (!ends) return;
+          const shift = div && next
+            ? (div.getBoundingClientRect().width + parseFloat(getComputedStyle(li).columnGap || '0')) / 2
+            : 0;
+          for (const r of row) {
+            if (shift) r.style.setProperty('--fb-row-shift', `${shift}px`);
+            else r.style.removeProperty('--fb-row-shift');
+          }
+          row = [];
+        });
+      };
+      const ro = new ResizeObserver(mark);
+      ro.observe(menu);
+      items.forEach((li) => ro.observe(li));
+      document.fonts?.ready.then(mark);
+    });
+  }
+
+  const init = () => { initFooterTools(); initFooterWrap(); };
+  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('astro:page-load', init);
 </script>

@@ -103,13 +103,16 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-menu-bar { background: var(--color-bg-footer-alt); display: flex; justify-content: center; padding: var(--spacing-xs) var(--spacing-xl) 0; }
 .fb-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; width: 100%; max-width: 1176px; }
 .fb-menu li:not(:first-child) { margin-left: -1px; }
-.fb-menu .fb-div { margin-right: -1px; }
-.fb-menu li { display: flex; align-items: center; }
+.fb-menu .fb-div { margin-left: -1px; }
+.fb-menu li { --fb-row-shift: 0px; display: flex; align-items: center; translate: var(--fb-row-shift); }
+.fb-menu li:has(> .fb-div[data-row-end]) { translate: none; }
+.fb-menu li:has(> .fb-div[data-row-end]) > .fb-menu-link { translate: var(--fb-row-shift); }
 .fb-menu-link { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-md); font-size: var(--font-size-btn); font-weight: var(--fw-btn); line-height: var(--leading-4); letter-spacing: var(--letter-spacing-btn); color: var(--color-text-link-menu); text-decoration: none; white-space: nowrap; transition: color var(--duration-base); }
 .fb-menu-link:hover { color: var(--color-text-link-menu-hover); }
 .fb-caret { width: 12.25px; height: 7px; flex-shrink: 0; }
 .fb-div { width: 1px; height: var(--leading-4); flex-shrink: 0; background: var(--transparent-white-20); }
 .fb-tools-open .fb-div-tools { visibility: hidden; }
+.fb-menu .fb-div[data-row-end] { visibility: hidden; }
 /* ── band 1b: the Free tools panel ───────────────────────────────────────
    Figma's `Free tool open` variant (880:915, section 880:1078). The trigger
    becomes a tab joined to the panel below it, so the two are styled together.
@@ -195,9 +198,9 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 .fb-social { display: flex; opacity: var(--opacity-60); }
 .fb-social img { width: 16px; height: 16px; display: block; }
 .fb-social:hover { opacity: 1; }
-.fb-slack { display: flex; align-items: center; gap: var(--spacing-micro); text-decoration: none; }
+.fb-slack { display: flex; align-items: center; gap: var(--spacing-xs); text-decoration: none; }
 .fb-slack img { width: 16px; height: 16px; display: block; }
-.fb-slack span { font-size: var(--font-size-sm); line-height: var(--leading-5); color: var(--color-text-on-dark-body); white-space: nowrap; transition: color var(--duration-base); }
+.fb-slack span { font-size: var(--font-size-label); font-weight: var(--fw-label); line-height: var(--line-height-label); letter-spacing: var(--letter-spacing-label); color: var(--color-text-on-dark-body); white-space: nowrap; transition: color var(--duration-base); }
 .fb-slack:hover span { color: var(--color-text-on-dark-heading); }
 .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
 .fb-info-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--size-container-max); }
@@ -241,7 +244,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
   .fb-menu { gap: var(--spacing-sm); align-content: center; }
   .fb-menu li { gap: var(--spacing-sm); }
   .fb-menu li:not(:first-child) { margin-left: 0; }
-  .fb-menu .fb-div { margin-right: 0; }
+  .fb-menu .fb-div { margin-left: 0; }
   .fb-menu-link { padding: 0; }
   .fb-tools-trigger { padding: 0 var(--spacing-xs); margin: 0 calc(var(--spacing-xs) * -1); }
   .fb-mid-inner {
@@ -356,7 +359,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
       </nav>
       <h1>Footer Bar</h1>
       <p class="lead">The site footer bar: company menu, review badges, brand and address, socials, partner logos and the legal line. It sits <b>below</b> <a href="component-footer.html">Product Footer</a> — the two stack, they do not replace each other.</p>
-      <div class="meta-chips"><span class="chip">3 of 3 variants</span><span class="chip">3 bands</span><span class="chip">1440 · 768 · 375</span><span class="chip" style="background:#171717;color:#E5E5E5;">◆ Dark only</span><span class="chip new">Figma 877:2953</span></div>
+      <div class="meta-chips"><span class="chip">3 of 3 variants</span><span class="chip">3 bands</span><span class="chip">1440 · 768 · 390</span><span class="chip" style="background:#171717;color:#E5E5E5;">◆ Dark only</span><span class="chip new">Figma 877:2953</span></div>
     </div>
 
     <div class="sect">
@@ -371,38 +374,38 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                 <a class="fb-menu-link" href="#">
                   About Us
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   News
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Customers
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Careers
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Academy
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Webinars
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Customer HUB Login
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Contact Us
                 </a>
@@ -480,7 +483,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
             </div>
           </div>
         </footer>
-        <script type="module">function e(e=document){e.querySelectorAll(`.fb:not([data-fb-init])`).forEach(e=>{let t=e.querySelector(`.fb-tools-trigger`),n=e.querySelector(`.fb-tools`);if(!t||!n)return;e.dataset.fbInit=`1`;let r=r=>{e.classList.toggle(`fb-tools-open`,r),t.setAttribute(`aria-expanded`,String(r)),r?n.removeAttribute(`inert`):n.setAttribute(`inert`,``)},i=n=>{e.classList.contains(`fb-tools-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`fb-tools-open`))),n.querySelector(`.fb-tools-close`)?.addEventListener(`click`,()=>i(!0)),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)})})}document.addEventListener(`DOMContentLoaded`,()=>e()),document.addEventListener(`astro:page-load`,()=>e());</script>
+        <script type="module">function e(e=document){e.querySelectorAll(`.fb:not([data-fb-init])`).forEach(e=>{let t=e.querySelector(`.fb-tools-trigger`),n=e.querySelector(`.fb-tools`);if(!t||!n)return;e.dataset.fbInit=`1`;let r=r=>{e.classList.toggle(`fb-tools-open`,r),t.setAttribute(`aria-expanded`,String(r)),r?n.removeAttribute(`inert`):n.setAttribute(`inert`,``)},i=n=>{e.classList.contains(`fb-tools-open`)&&(r(!1),n&&t.focus())};t.addEventListener(`click`,()=>r(!e.classList.contains(`fb-tools-open`))),n.querySelector(`.fb-tools-close`)?.addEventListener(`click`,()=>i(!0)),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&i(!0)})})}function t(e=document){e.querySelectorAll(`.fb-menu:not([data-fb-wrap])`).forEach(e=>{e.dataset.fbWrap=`1`;let t=Array.from(e.children),n=()=>{let e=[];t.forEach((n,r)=>{e.push(n);let i=n.querySelector(`:scope > .fb-div`),a=t[r+1],o=!a||a.getBoundingClientRect().top>=n.getBoundingClientRect().bottom;if(i?.toggleAttribute(`data-row-end`,o&&!!a),!o)return;let s=i&&a?(i.getBoundingClientRect().width+parseFloat(getComputedStyle(n).columnGap||`0`))/2:0;for(let t of e)s?t.style.setProperty(`--fb-row-shift`,`${s}px`):t.style.removeProperty(`--fb-row-shift`);e=[]})},r=new ResizeObserver(n);r.observe(e),t.forEach(e=>r.observe(e)),document.fonts?.ready.then(n)})}var n=()=>{e(),t()};document.addEventListener(`DOMContentLoaded`,n),document.addEventListener(`astro:page-load`,n);</script>
         <!-- /demo:default -->
       </div></div>
     </div>
@@ -497,44 +500,44 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                 <a class="fb-menu-link" href="#">
                   About Us
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   News
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Customers
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Careers
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Academy
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded="false" aria-controls="fbtools-demo-1">
                   Free tools
                   <svg class="fb-caret" viewBox="1 5.125 12.25 7" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
                 </button>
-              </li><li>
                 <span class="fb-div fb-div-tools" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Webinars
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Customer HUB Login
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Contact Us
                 </a>
@@ -681,44 +684,44 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                 <a class="fb-menu-link" href="#">
                   About Us
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   News
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Customers
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Careers
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Academy
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <button type="button" class="fb-menu-link fb-tools-trigger" aria-expanded="true" aria-controls="fbtools-demo-1">
                   Free tools
                   <svg class="fb-caret" viewBox="1 5.125 12.25 7" fill="currentColor" aria-hidden="true"><path d="M6.49609 11.8789L1.24609 6.62891C0.917969 6.27344 0.917969 5.72656 1.24609 5.37109C1.60156 5.04297 2.14844 5.04297 2.50391 5.37109L7.125 10.0195L11.7461 5.37109C12.1016 5.04297 12.6484 5.04297 13.0039 5.37109C13.332 5.72656 13.332 6.27344 13.0039 6.62891L7.75391 11.8789C7.39844 12.207 6.85156 12.207 6.49609 11.8789Z"></path></svg>
                 </button>
-              </li><li>
                 <span class="fb-div fb-div-tools" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Webinars
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Customer HUB Login
                 </a>
-              </li><li>
                 <span class="fb-div" aria-hidden="true"></span>
+              </li><li>
                 <a class="fb-menu-link" href="#">
                   Contact Us
                 </a>
@@ -856,7 +859,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
 
     <div class="sect">
       <h2 class="sect-h">Responsive</h2>
-      <div class="sect-sub">Figma draws <code>footer-md</code> (768) and <code>footer-sm</code> (375) as separate symbols. They are mapped onto this project&rsquo;s own breakpoints &mdash; <code>--breakpoint-lg</code> 1024 and <code>--breakpoint-md</code> 768 &mdash; so the wide layout holds down to 1024, md covers 768&ndash;1023 and sm everything below. Those numbers are written out in the <code>@media</code> conditions rather than read from the tokens, because <b>a custom property in a media query condition never matches</b>.</div>
+      <div class="sect-sub">Figma draws <code>footer-md</code> (768) and <code>footer-sm</code> (390) as separate symbols. They are mapped onto this project&rsquo;s own breakpoints &mdash; <code>--breakpoint-lg</code> 1024 and <code>--breakpoint-md</code> 768 &mdash; so the wide layout holds down to 1024, md covers 768&ndash;1023 and sm everything below. Those numbers are written out in the <code>@media</code> conditions rather than read from the tokens, because <b>a custom property in a media query condition never matches</b>.</div>
       <div class="sect-sub" style="margin-top:14px;">Each preview below is an <code>&lt;iframe&gt;</code> loading this same page at <code>?frame=</code>, because an iframe is the only thing on a page with a viewport of its own &mdash; the demo frames above are pinned to 1440 and will never show these. Nothing is duplicated to make them work.</div>
       <div class="vp">
         <div class="vp-bar">
@@ -865,7 +868,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
             <button type="button" class="vp-btn" data-region="toolsopen" aria-pressed="false">Free tools open</button>
           </div>
           <div class="vp-seg" role="group" aria-label="Preview width">
-            <button type="button" class="vp-btn" data-w="375" aria-pressed="false">375</button>
+            <button type="button" class="vp-btn" data-w="390" aria-pressed="false">390</button>
             <button type="button" class="vp-btn" data-w="768" aria-pressed="true">768</button>
             <button type="button" class="vp-btn" data-w="1024" aria-pressed="false">1024</button>
             <button type="button" class="vp-btn" data-w="1440" aria-pressed="false">1440</button>
@@ -879,7 +882,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
           </div>
         </div>
       </div>
-      <div class="sect-sub" style="margin-top:14px;">Drag the handle, or use the presets &mdash; the readout names the layout you are looking at, and the frame reports its own height back so nothing is a guessed number. The handle takes arrow keys too (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is worth having: dragging to find the exact pixel where a layout flips is how you check a breakpoint landed where you meant it to. The menu drops its per-item padding for a flat 12px gap and wraps &mdash; two rows at 768, three at 375, matching Figma&rsquo;s wrap points exactly. The Free tools panel has no frame to match: its groups stack, and inside each one the design&rsquo;s editorial column breaks stay intact while <code>auto-fill</code> decides how many sit per row &mdash; 4 at 768, 2 at 375, 1 at 320.</div>
+      <div class="sect-sub" style="margin-top:14px;">Drag the handle, or use the presets &mdash; the readout names the layout you are looking at, and the frame reports its own height back so nothing is a guessed number. The handle takes arrow keys too (&plusmn;16, or &plusmn;1 with <kbd>Shift</kbd>), which is worth having: dragging to find the exact pixel where a layout flips is how you check a breakpoint landed where you meant it to. The menu drops its per-item padding for a flat 12px gap and wraps &mdash; two rows at 768, three at 390, matching Figma&rsquo;s wrap points exactly. A divider that ends a row is hidden, so no row trails a separator into nothing; the space it takes stays, which is what keeps the wrap where Figma puts it. The Free tools panel has no frame to match: its groups stack, and inside each one the design&rsquo;s editorial column breaks stay intact while <code>auto-fill</code> decides how many sit per row &mdash; 4 at 768, 2 at 390, 1 at 320.</div>
     </div>
 
     <div class="sect">
