@@ -79,6 +79,37 @@
  *   count  9
  *   why    the frame gives all nine one height, and eight agreeing hid the ninth
  *
+ * @figma-size menu-md
+ *   node   877:4082
+ *   frame  footer-md
+ *   page   component-footerbar.html
+ *   region freetools
+ *   select .fb-menu
+ *   at     768
+ *   height 44
+ *   why    was 46 — the trigger's 1px block border, with no padding below 1024 to pay it from
+ *
+ * @figma-size menu-sm
+ *   node   879:500
+ *   frame  footer-sm
+ *   page   component-footerbar.html
+ *   region freetools
+ *   select .fb-menu
+ *   at     390
+ *   height 72
+ *   why    was 74 — the same 2px; this frame wraps the menu into rows
+ *
+ * @figma-size menu-item-sm
+ *   node   879:500
+ *   frame  footer-sm
+ *   page   component-footerbar.html
+ *   region freetools
+ *   select .fb-menu-link
+ *   at     390
+ *   height 16
+ *   count  9
+ *   why    the frame draws eight links at 16 and no trigger; the ninth is held to them
+ *
  * Deviations from the Figma node, all deliberate:
  *  · ~~Gotham on eight text nodes, Light Gray as a style, and a 6px lockup gap~~
  *    — **all closed on the design side 2026-08-10.** The eight review scores are
@@ -986,8 +1017,16 @@ if (freeTools) {
     .fb-menu-link { padding: 0; }
     /* At padding 0 the open Free-tools tab would paint tight against its
        label, so the trigger keeps 8 of its own and pulls it back out of the
-       layout — the item still sits on the same 12 grid as its neighbours. */
-    .fb-tools-trigger { padding: 0 var(--spacing-xs); margin: 0 calc(var(--spacing-xs) * -1); }
+       layout — the item still sits on the same 12 grid as its neighbours.
+
+       The block border goes too. Above 1024 the 1px transparent border is paid
+       for out of padding-block; here there is no padding to pay it from, so it
+       made the trigger 18 against its neighbours' 16 and every menu row 2px
+       taller than footer-md (44) and footer-sm (72) draw it — 46 and 74. The
+       open tab's top edge is an inset shadow instead, which paints without
+       taking layout; the bottom edge was transparent anyway. */
+    .fb-tools-trigger { padding: 0 var(--spacing-xs); margin: 0 calc(var(--spacing-xs) * -1); border-block-width: 0; }
+    .fb.fb-tools-open .fb-tools-trigger { box-shadow: inset 0 var(--border-width-1) 0 var(--transparent-white-10); }
 
     /* Reviews take a centred row of their own and the brand lockup and the
        socials share the one below. A grid rather than a wrap because those two

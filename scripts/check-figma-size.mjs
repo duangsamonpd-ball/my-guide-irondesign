@@ -185,6 +185,19 @@ export function parseDecls(src, file) {
  */
 const IN_PAGE = `
 window.regionEls = function (name) {
+  /* Frame mode: preview-frame.js has already replaced <body> with one <div>
+     holding a CLONE of the region, comments excluded — so the pair below is
+     gone and that div's children are the region. If any demo comment survives,
+     the trim did not happen and the page is still the full pinned one. */
+  if (document.documentElement.classList.contains('vp-only')) {
+    const w = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT);
+    for (let n = w.nextNode(); n; n = w.nextNode()) {
+      const c = n.data.trim();
+      if (c.startsWith('demo:') || c.startsWith('/demo:')) return null;
+    }
+    const only = document.body.children.length === 1 ? document.body.firstElementChild : null;
+    return only ? [...only.children] : null;
+  }
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT);
   let open = null;
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
@@ -334,23 +347,54 @@ console.log(
   `\n${C.b}Figma size${C.x} ${C.dim}${wanted.length} declared band(s) · ${new Set(wanted.map((d) => d.component)).size} of ${files.length} components declare${C.x}\n`,
 );
 
-/* One page load per page × width, and the declarations sorted into it. */
+/* BELOW THE CANVAS A BAND IS MEASURED IN ITS OWN VIEWPORT, or not at all.
+   Every docs demo is pinned 1440 wide by docs.css, while its media queries
+   read the window. Loaded plainly at 390, FooterBar rendered 1440 wide under
+   its below-1024 rules — one 16px menu row, a state no reader ever sees — and
+   a declaration of 72 for footer-sm went red against it while a 16px item
+   height went green for the wrong reason (2026-10-12). `?frame=<region>`
+   (docs/preview-frame.js) is the page's own way to give a region a viewport,
+   so a band below 1440 loads that way, and a page with no frame mode is an
+   error rather than a reading. At 1440 the pin and the window agree. */
+const CANVAS = 1440;
+const urlFor = (page, width, region) => (Number(width) === CANVAS ? page : `${page}?frame=${encodeURIComponent(region)}`);
+
+/* One page load per page × width (× region below the canvas), and the
+   declarations sorted into it. */
 const byLoad = new Map();
 for (const d of wanted) {
-  const key = `${d.page}@${d.at}`;
+  const key = d.at === CANVAS ? `${d.page}@${d.at}@` : `${d.page}@${d.at}@${d.region}`;
   if (!byLoad.has(key)) byLoad.set(key, []);
   byLoad.get(key).push(d);
 }
 
 for (const [key, group] of SELF_TEST ? [] : byLoad) {
-  const [page, width] = key.split('@');
+  const [page, width, region] = key.split('@');
   const tab = await context.newPage();
   /* Before the navigation, so `pick` exists in the page rather than being
      evaluated as an expression — which is what a bare function declaration
      handed to `evaluate` becomes. */
   await tab.addInitScript({ content: IN_PAGE });
   await tab.setViewportSize({ width: Number(width), height: 1200 });
-  await tab.goto(`${origin}/${page}`, { waitUntil: 'networkidle' });
+  await tab.goto(`${origin}/${urlFor(page, width, region)}`, { waitUntil: 'networkidle' });
+
+  /* Arm 0, below the canvas only: the region really is in a viewport of its
+     own. `vp-only` is the class preview-frame.js sets in frame mode; without
+     it the demo is still pinned at 1440 and every number is from a layout
+     that does not exist. */
+  if (region) {
+    const own = await tab.evaluate(() => document.documentElement.classList.contains('vp-only'));
+    if (!own) {
+      failed = true;
+      for (const d of group) console.log(
+        `  ${C.r}✖${C.x} ${d.component} ${C.b}${d.name}${C.x} ${C.dim}${d.where}${C.x}\n` +
+        `      docs/${page} has no ?frame= mode, so demo:${region} cannot be rendered ${width} wide — ` +
+        `the page pins it at ${CANVAS}. Load docs/preview-frame.js on that page, or declare at ${CANVAS}.`,
+      );
+      await tab.close();
+      continue;
+    }
+  }
 
   /* Arms 1 and 2, once per load. Nothing below them is a reading. */
   const styled = await tab.evaluate(armStyled);
@@ -470,7 +514,7 @@ if (SELF_TEST) {
     const tab = await context.newPage();
     await tab.addInitScript({ content: IN_PAGE });
     await tab.setViewportSize({ width: probe.at, height: 1200 });
-    await tab.goto(`${origin}/${probe.page}`, { waitUntil: 'networkidle' });
+    await tab.goto(`${origin}/${urlFor(probe.page, probe.at, probe.region)}`, { waitUntil: 'networkidle' });
     const hs = await tab.evaluate(([r, s]) => heights(pick(r, s).hits), [probe.region, probe.select]);
     await tab.close();
     const rowsFor = (h) => hs.filter((x) => Math.abs(x - h) > 0.5).length;
