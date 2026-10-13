@@ -147,6 +147,24 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
   margin-bottom: 18px;
   max-width: 70ch;
 }
+/* A link in a page's lead or a section intro wears the TextLink underline look —
+   heading text over a solid brand-blue line, 1px → 2px on hover — the same values
+   as `.tlink.underline` and `<Prose>`. These were the browser's own links:
+   rgb(0,0,238) at weight 400, purple once visited, on 9 links across 4 pages,
+   and an inline `style="color:#2693EC;text-decoration:none"` on 5 more — a
+   colour-only link inside grey text, which WCAG 1.4.1 does not allow.
+   `:not([class])` keeps it to plain prose links: a component dropped into an
+   intro (a `.tlink`, a `.btn`) keeps its own look. */
+:where(.lead, .sect-sub) a:not([class]) {
+  color: var(--color-text-heading);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-selected);
+  text-decoration-thickness: var(--border-width-1);
+  text-underline-offset: 21.5%;
+}
+:where(.lead, .sect-sub) a:not([class]):hover { text-decoration-thickness: var(--border-width-2); }
+:where(.lead, .sect-sub) a:not([class]):focus-visible { outline: var(--border-width-2) solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
 .cell .lbl { font-size:0.68rem; font-weight:700; color:#62748E; }
 /* #A1A1A1 until 2026-08-12: 2.58:1 on white and 2.28:1 on the canvas grid, at
    9.92px, which is 49 failing text runs across five pages — the single largest
