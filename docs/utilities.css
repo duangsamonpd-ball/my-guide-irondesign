@@ -278,7 +278,7 @@
     --color-text-dark-support: var(--iron-violet-300);
     --color-text-dark-danger: var(--iron-red-300);
     --color-text-dark-link: var(--iron-blue-400);
-    --color-text-dark-link-hover: var(--iron-pink-400);
+    --color-text-dark-link-hover: var(--iron-pink-300);
     --color-text-dark-link-menu-alt: #FFFFFF;
     --color-text-on-dark-heading: #FFFFFF;
     --color-text-on-dark-body: var(--neutral-200);

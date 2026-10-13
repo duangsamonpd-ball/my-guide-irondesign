@@ -393,9 +393,9 @@
         "$description": "Iron Blue/400 — lighter than light mode; dark surfaces need a lighter hue. 5.19:1"
       },
       "link-hover": {
-        "$value": "#E95F8B",
+        "$value": "#F08DAC",
         "$type": "color",
-        "$description": "Iron Pink/400 — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300)"
+        "$description": "Iron Pink/300 — hovered / active link on dark surfaces. 5.08:1 on surface/card (dark), 5.79 on background-shade, 7.72 on the dark page. Back to /300 on 2026-10-13: /400 #E95F8B failed AA on the dark card (3.61) and shade (4.12)"
       },
       "link-menu-alt": {
         "$value": "#FFFFFF",

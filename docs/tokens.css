@@ -297,7 +297,7 @@
   --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
   --color-text-dark-danger:      var(--iron-red-300);      /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card, the lowest surface a field sits on */
   --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
-  --color-text-dark-link-hover:  var(--iron-pink-400);     /* #E95F8B — hovered / active link on dark surfaces (Figma dark, updated from iron-pink/300) */
+  --color-text-dark-link-hover:  var(--iron-pink-300);     /* #F08DAC — hovered / active link on dark surfaces · 5.08:1 on --color-bg-dark-card, 5.79 on -shade, 7.72 on --color-bg-dark. Back to /300 on 2026-10-13 (Ball): /400 #E95F8B failed AA on the card (3.61) and shade (4.12) */
   --color-text-dark-link-menu-alt: #FFFFFF;             /* white — link-menu-alt, dark column · 11.72:1 on --color-bg-dark-card. Its hover is the same pink in both modes, so it has no dark twin */
 
   /* ── Text / On Dark · On Light ────────────────────────────────────────────
