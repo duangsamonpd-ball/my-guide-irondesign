@@ -1240,7 +1240,10 @@
       "file": "astro-components/components/Table.astro",
       "docs": "docs/component-table.html",
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "1219:2",
+        "1219:98"
+      ],
       "props": [
         {
           "name": "size",

@@ -1,5 +1,12 @@
 ---
 /**
+ * ── Why this component declares no `figma-size` band ──────────────────────
+ *
+ * It has no box of its own. `.ds-prose` is a plain wrapper around markup the
+ * caller wrote, and what it styles is `<a>` — an inline element whose height is
+ * the line box of the paragraph around it. Same reason as TextLink, whose look
+ * it carries; `check:prose-parity` is what holds the two together.
+ *
  * Prose — a wrapper for long-form content you do not write the markup for:
  * a rendered Markdown post (`<Content />`), CMS HTML, release notes.
  *

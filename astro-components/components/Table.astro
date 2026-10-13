@@ -4,11 +4,37 @@
  * `<tr>`, `<th>` and `<td>` yourself and the component styles them; any cell
  * can hold any other component (a Badge, a TextLink, a Button).
  *
- * Modelled on Flowbite's default table, Ball's reference 2026-09-18. There is
- * no Figma node yet: every value is a system token picked to match the
- * reference, and the list is in the README section so a drawing can be checked
- * against it when there is one. The class strings live in `../table.ts`,
- * because the docs tables wear the same ones — see that file for why.
+ * Modelled on Flowbite's default table, Ball's reference 2026-09-18. Every
+ * value is a system token picked to match the reference. Figma's `Table` set
+ * (`1219:154`, page ` ↳ Table`) was drawn FROM this component on 2026-09-24, so
+ * the bands below hold the two to each other rather than one to a mock-up. The
+ * class strings live in `../table.ts`, because the docs tables wear the same
+ * ones — see that file for why.
+ *
+ * Measured on the scroll box, not a row: `check:figma-size` proves its aim by
+ * injecting padding into the box it is about to read, and a <tr> takes none.
+ * The box total is the rows plus the 1px border top and bottom, so a row that
+ * grows moves it.
+ *
+ * @figma-size md
+ *   node   1219:2
+ *   frame  Table
+ *   page   component-table.html
+ *   region preview
+ *   select [data-part="scroller"]
+ *   at     1440
+ *   height 205
+ *   why    header 45 + rows 53 / 53 / 52 (each row owns its 1px divider, the last none) + 2px of border
+ *
+ * @figma-size sm
+ *   node   1219:98
+ *   frame  Table
+ *   page   component-table.html
+ *   region size-sm
+ *   select [data-part="scroller"]
+ *   at     1440
+ *   height 173
+ *   why    header 37 + rows 45 / 45 / 44 + 2px of border
  *
  * Use `<th scope="row">` for the cell that names its row (the first column in
  * the reference): it takes the heading colour and medium weight, and a screen
