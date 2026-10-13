@@ -138,6 +138,14 @@ jobs:
       - name: Check component ↔ docs CSS parity
         run: node scripts/check-component-parity.mjs
 
+      # Prose and TextLink variant="underline" are two stylesheets for one look;
+      # this folds both per state and fails on any difference. Zero-dep.
+      - name: Check the Prose ↔ TextLink parity checker can fail
+        run: node scripts/check-prose-parity.mjs --self-test
+
+      - name: A Prose link looks exactly like TextLink underline
+        run: node scripts/check-prose-parity.mjs
+
       # The barrel, both exports maps and the package README are hand-kept — a
       # missing export otherwise only fails inside a consuming app, never here,
       # and a component missing from the README fails nowhere at all.
