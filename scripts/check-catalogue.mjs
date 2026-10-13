@@ -160,8 +160,12 @@ const PARSERS = [
     page: 'docs/08-semantic-guide.html',
     floor: 25,
     run(page, src) {
+      // Each cell is matched inside its own </td>: a row the pattern cannot read
+      // must drop out and fail the floor, not borrow the next row's swatch. An
+      // 8-digit hex is a token that carries its alpha (placeholder, support);
+      // its ramp label names the opaque 6-digit colour underneath.
       const re =
-        /<tr>\s*<td><span class="role-badge"[^>]*>([^<]+)<\/span><\/td>\s*<td class="td-light">.*?>(#[0-9A-Fa-f]{6})\s*<span[^>]*>([^<]*)<\/span>.*?<\/td>\s*<td class="td-dark">.*?>(#[0-9A-Fa-f]{6})\s*<span[^>]*>([^<]*)<\/span>.*?<\/td>\s*<td><span class="token-pill css"[^>]*>(--[a-z0-9-]+)<\/span><\/td>/gs;
+        /<tr>\s*<td><span class="role-badge"[^>]*>([^<]+)<\/span><\/td>\s*<td class="td-light">(?:(?!<\/td>).)*?>(#[0-9A-Fa-f]{6}(?:[0-9A-Fa-f]{2})?)\s*<span[^>]*>([^<]*)<\/span>(?:(?!<\/td>).)*?<\/td>\s*<td class="td-dark">(?:(?!<\/td>).)*?>(#[0-9A-Fa-f]{6}(?:[0-9A-Fa-f]{2})?)\s*<span[^>]*>([^<]*)<\/span>(?:(?!<\/td>).)*?<\/td>\s*<td><span class="token-pill css"[^>]*>(--[a-z0-9-]+)<\/span><\/td>/gs;
       let n = 0;
       for (const m of src.matchAll(re)) {
         const [, role, lHex, lRamp, dHex, dRamp, token] = m;
@@ -173,11 +177,11 @@ const PARSERS = [
           [lRamp, lHex, 'light'],
           [dRamp, dHex, 'dark'],
         ]) {
-          const key = rampVar(ramp);
+          const key = rampVar(ramp.split("·")[0]);
           if (!key) continue;
           const v = resolve(key, 'light');
           if (v === null) record(page, this.name, `${at}: cites ramp \`${ramp.trim()}\` (${mode}), which is not a token`);
-          else if (v !== hex.toUpperCase())
+          else if (v !== hex.slice(0, 7).toUpperCase())
             record(page, this.name, `${at}: labels ${hex.toUpperCase()} as \`${ramp.trim()}\` (${mode}), but that ramp is ${v}`);
         }
         n++;

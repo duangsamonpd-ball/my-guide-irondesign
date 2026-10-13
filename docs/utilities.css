@@ -255,7 +255,7 @@
     --color-text-muted: var(--neutral-600);
     --color-text-placeholder: #262626B3;
     --color-text-disabled: var(--neutral-400);
-    --color-text-support: var(--iron-blue-800);
+    --color-text-support: #1D629BE6;
     --color-text-danger: var(--iron-red-700);
     --color-text-on-primary: #FFFFFF;
     --color-text-on-action-hover: var(--iron-pink-500);

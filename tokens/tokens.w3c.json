@@ -285,9 +285,9 @@
         "$description": "Neutral/400 — disabled controls only (light). 2.36:1 — exempt from contrast minimums, and deliberately light so a disabled control reads as inert (5.86:1 away from body text)"
       },
       "support": {
-        "$value": "#184A73",
+        "$value": "#1D629BE6",
         "$type": "color",
-        "$description": "Iron Blue/800 — support headlines, caption titles, field hints (light). Figma text/default/support; slate/600 #45556C until 2026-09-30. 9.27:1 on surface/card, 8.46:1 on surface/background-shade"
+        "$description": "Iron Blue/700 at 90% — support headlines, caption titles, field hints (light). Figma text/default/support, alpha in the variable (E6 = round-half-up 0.90 × 255). Composited: 5.17:1 on surface/card, 4.97:1 on surface/section, 4.78:1 on surface/background-shade. 70% was asked for and fails AA (3.35:1). Iron Blue/800 until 2026-10-13, slate/600 #45556C until 2026-09-30."
       },
       "danger": {
         "$value": "#A8181D",
