@@ -344,17 +344,16 @@
 /* ── Prose ───────────────────────────────────────────────────────
    astro-components/components/Prose.astro */
 .ds-prose :where(a) {
-    color: var(--color-text-body);
+    color: var(--color-text-heading);
     font-weight: 600;
     text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+    text-decoration-color: var(--color-border-selected);
     text-decoration-thickness: var(--border-width-1);
     text-underline-offset: 21.5%;
-    transition: text-decoration-color var(--duration-fast), text-decoration-thickness var(--duration-fast);
+    transition: text-decoration-thickness var(--duration-fast);
   }
   .ds-prose :where(a:hover) {
-    text-decoration-color: var(--color-border-selected);
-    text-decoration-thickness: var(--border-width-1-5);
+    text-decoration-thickness: var(--border-width-2);
   }
   .ds-prose :where(a:focus-visible) {
     outline: var(--border-width-2) solid var(--color-border-selected);
@@ -362,10 +361,9 @@
     border-radius: 2px;
   }
   .ds-prose.dark :where(a) {
-    color: var(--color-text-dark-body);
-    text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent);
+    color: var(--color-text-dark-heading);
+    text-decoration-color: var(--color-border-dark-alt);
   }
-  .ds-prose.dark :where(a:hover) { text-decoration-color: var(--color-border-dark-alt); }
   .ds-prose.dark :where(a:focus-visible) { outline-color: var(--color-border-dark-alt); }
   @media (prefers-reduced-motion: reduce) {
     .ds-prose :where(a) { transition-duration: 1ms; }
@@ -384,14 +382,13 @@
   .tlink.plain.dark:hover { color: var(--color-text-dark-link-hover); }
   .tlink.plain.dark:focus-visible { outline-color: var(--color-text-dark-link); }
   .tlink.underline {
-    color: var(--color-text-body);
-    text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+    color: var(--color-text-heading);
+    text-decoration: underline; text-decoration-color: var(--color-border-selected);
     text-decoration-thickness: var(--border-width-1); text-underline-offset: 21.5%;
   }
-  .tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: var(--border-width-1-5); }
+  .tlink.underline:hover { text-decoration-thickness: var(--border-width-2); }
   .tlink.underline:focus-visible { outline: var(--border-width-2) solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
-  .tlink.underline.dark { color: var(--color-text-dark-body); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
-  .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
+  .tlink.underline.dark { color: var(--color-text-dark-heading); text-decoration-color: var(--color-border-dark-alt); }
   .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
   .tlink .arrow-icon,
   .tlink .ext-icon {

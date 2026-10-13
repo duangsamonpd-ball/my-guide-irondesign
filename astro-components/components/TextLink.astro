@@ -14,7 +14,7 @@ interface Props {
   /** Where the link goes. */
   href: string;
   /**
-   * `plain` is link-coloured text for general pages; `underline` is body-coloured text with a soft underline for long-form reading.
+   * `plain` is link-coloured text for general pages; `underline` is heading-coloured text over a solid brand-blue underline for long-form reading.
    * @figma `variant` on the `TextLink` set — same two values, same default
    */
   variant?: 'plain' | 'underline';
@@ -106,8 +106,12 @@ const showIcons = variant === 'plain';
   .tlink.plain.dark:hover { color: var(--color-text-dark-link-hover); }
   .tlink.plain.dark:focus-visible { outline-color: var(--color-text-dark-link); }
 
-  /* underline — long-form content (blog, news): neutral text, a separate
-     underline that goes 50% → 100% opacity AND thickens on hover (Tailwind-style).
+  /* underline — long-form content (blog, news): heading-coloured text over a
+     solid brand-blue underline that only THICKENS on hover, 1px → 2px. This is
+     the tailwindcss.com docs link (`.prose a`, read off the live page 2026-10-13:
+     semibold, heading colour, sky-400 underline at full strength, 1px → 2px on
+     hover, 3px offset at 14px). Ball, 2026-10-13, reversing 2026-08-18's body
+     text, 50% line and 1.5px hover.
 
      THE OFFSET IS A PERCENTAGE and the thickness is not, which looks inconsistent
      until you ask what each one has to agree with. Thickness lands on tokens that
@@ -119,14 +123,13 @@ const showIcons = variant === 'plain';
      font size, so the two agree at every size this component is dropped into —
      and it is dropped into several, since it sets no font-size of its own. */
   .tlink.underline {
-    color: var(--color-text-body);
-    text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+    color: var(--color-text-heading);
+    text-decoration: underline; text-decoration-color: var(--color-border-selected);
     text-decoration-thickness: var(--border-width-1); text-underline-offset: 21.5%;
   }
-  .tlink.underline:hover { text-decoration-color: var(--color-border-selected); text-decoration-thickness: var(--border-width-1-5); }
+  .tlink.underline:hover { text-decoration-thickness: var(--border-width-2); }
   .tlink.underline:focus-visible { outline: var(--border-width-2) solid var(--color-border-selected); outline-offset: 3px; border-radius: 2px; }
-  .tlink.underline.dark { color: var(--color-text-dark-body); text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent); }
-  .tlink.underline.dark:hover { text-decoration-color: var(--color-border-dark-alt); }
+  .tlink.underline.dark { color: var(--color-text-dark-heading); text-decoration-color: var(--color-border-dark-alt); }
   .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
 
   /* THE TWO ICONS SHARE ONE BOX, from Ball's idea frame (`1264:3744`,

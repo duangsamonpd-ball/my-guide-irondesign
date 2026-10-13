@@ -21,8 +21,9 @@
  *
  * ## The link is `TextLink variant="underline"`, value for value
  *
- * Body-coloured text at 600, a 1px underline in `--color-border-selected` at
- * 50%, `21.5%` offset; on hover the line goes to 100% and 1.5px. Focus gets the
+ * Heading-coloured text at 600, a solid 1px underline in `--color-border-selected`,
+ * `21.5%` offset; on hover the line thickens to 2px and nothing else moves — the
+ * tailwindcss.com docs link, by Ball's call 2026-10-13. Focus gets the
  * same 2px ring 3px out. In Figma that is `Typography/link-underline` for a link
  * inside a paragraph, and the `underline` variants of the `TextLink` set
  * (`1272:54`) for the states. **If TextLink's underline changes, this changes
@@ -44,7 +45,7 @@
  */
 
 interface Props {
-  /** Use the dark-surface colours — body text on a dark band, the underline in its dark token. */
+  /** Use the dark-surface colours — heading text on a dark band, the underline in its dark token. */
   dark?: boolean;
   /** Extra classes on the wrapper. */
   class?: string;
@@ -57,17 +58,16 @@ const { dark = false, class: className } = Astro.props;
 
 <style is:global>
   .ds-prose :where(a) {
-    color: var(--color-text-body);
+    color: var(--color-text-heading);
     font-weight: 600;
     text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent);
+    text-decoration-color: var(--color-border-selected);
     text-decoration-thickness: var(--border-width-1);
     text-underline-offset: 21.5%;
-    transition: text-decoration-color var(--duration-fast), text-decoration-thickness var(--duration-fast);
+    transition: text-decoration-thickness var(--duration-fast);
   }
   .ds-prose :where(a:hover) {
-    text-decoration-color: var(--color-border-selected);
-    text-decoration-thickness: var(--border-width-1-5);
+    text-decoration-thickness: var(--border-width-2);
   }
   .ds-prose :where(a:focus-visible) {
     outline: var(--border-width-2) solid var(--color-border-selected);
@@ -75,10 +75,9 @@ const { dark = false, class: className } = Astro.props;
     border-radius: 2px;
   }
   .ds-prose.dark :where(a) {
-    color: var(--color-text-dark-body);
-    text-decoration-color: color-mix(in srgb, var(--color-border-dark-alt) 50%, transparent);
+    color: var(--color-text-dark-heading);
+    text-decoration-color: var(--color-border-dark-alt);
   }
-  .ds-prose.dark :where(a:hover) { text-decoration-color: var(--color-border-dark-alt); }
   .ds-prose.dark :where(a:focus-visible) { outline-color: var(--color-border-dark-alt); }
 
   @media (prefers-reduced-motion: reduce) {

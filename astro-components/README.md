@@ -254,7 +254,7 @@ Two variants for two contexts:
 <!-- plain — general / marketing pages: coloured text, no underline -->
 <p>Save 80% on all 10 products with the new <TextLink href="/iron-suite">Iron Suite</TextLink></p>
 
-<!-- underline — long-form content (blog, news): neutral text, underline thickens + darkens on hover -->
+<!-- underline — long-form content (blog, news): heading text, solid underline that thickens on hover -->
 <p>Save 80% on all 10 products with the new <TextLink href="/iron-suite" variant="underline">Iron Suite</TextLink></p>
 
 <TextLink href="/docs" variant="underline" dark>Create Blank PDF</TextLink>
@@ -264,7 +264,7 @@ Two variants for two contexts:
 Props: `href` (required), `variant` (`plain` | `underline`, default `plain`), `dark` (use on dark backgrounds — code blocks, dark sections), `external` (adds `target="_blank" rel="noopener"`, a trailing north-east arrow icon, and a visually-hidden " (opens in a new tab)" for screen readers), `newTabLabel` (replaces that text, e.g. for another language), `arrow` (a trailing → that nudges right on hover and focus, for a standalone link; `external` wins if both are set), `class`. Both icons are `plain` only — an `underline` link sits in a sentence, so it draws no icon; `external` there still opens a new tab and still says so to a screen reader. Figma's `TextLink` set also has `size` (`md` | `sm`, 14/20 for captions); there is no prop for it because the component takes the size of the surrounding text and sizes its icons in `em`. The slot is the link text.
 
 - **`plain`** — `--color-text-link` / hover `--color-text-link-hover`, no underline. For general and marketing pages where a whole paragraph of underlines would read as dense.
-- **`underline`** — text stays `--color-text-heading` throughout; a separate `--color-border-selected`-coloured underline goes from 50% opacity/1px thick (default) to 100% opacity/2px thick (hover) — implemented with `text-decoration-color: color-mix(in srgb, var(--color-border-selected) 50%, transparent)` rather than a separate absolutely-positioned line (which is how the Figma source models it); real `text-decoration` reflows correctly with text wrapping, a manual line does not.
+- **`underline`** — text stays `--color-text-heading` throughout; a solid `--color-border-selected` underline goes from 1px (default) to 2px (hover) and changes nothing else — the tailwindcss.com docs link, by Ball's call 2026-10-13. Implemented with `text-decoration` rather than a separate absolutely-positioned line (which is how the Figma source models it); real `text-decoration` reflows correctly with text wrapping, a manual line does not.
 
 `dark` swaps each variant's light-mode tokens for the matching dark-mode ones — currently identical values, kept separate for when dark mode diverges from light.
 
@@ -296,8 +296,8 @@ A wrapper for long-form content you do not write the markup for — a rendered
 Markdown post, CMS HTML, release notes. Markdown writes its own `<a>`, and
 `TextLink`'s styles are scoped to the markup it renders, so a bare post gets the
 browser's links. Inside `Prose` they get the `TextLink variant="underline"`
-values: body text at 600, a 1px underline in `--color-border-selected` at 50%,
-`21.5%` offset, going to 100% and 1.5px on hover, and the same focus ring.
+values: heading text at 600, a solid 1px underline in `--color-border-selected`,
+`21.5%` offset, thickening to 2px on hover, and the same focus ring.
 
 ```astro
 ---
