@@ -29,6 +29,9 @@
  * (`1272:54`) for the states. **If TextLink's underline changes, this changes
  * with it** — the two are separate stylesheets because one is a component and
  * the other styles markup it does not own.
+ * `check:prose-parity` holds them together: it folds each file's rules for all
+ * six states (light/dark × rest/hover/focus) and fails on any difference in the
+ * look, so editing one side alone is a red build, not a quiet drift.
  *
  * ## Why `is:global`, and why `:where()`
  *
