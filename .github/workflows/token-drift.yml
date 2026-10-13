@@ -146,6 +146,48 @@ jobs:
       - name: A Prose link looks exactly like TextLink underline
         run: node scripts/check-prose-parity.mjs
 
+      # The five below were in `npm run check` for weeks without running here —
+      # found 2026-10-13. All import only node:* (two read astro-components/
+      # table.ts, which Node 24 strips natively), so they belong in this job.
+      - name: Check the type-specimen checker can fail
+        run: node scripts/check-type-specimens.mjs --self-test
+
+      - name: Every type specimen matches the token its table names
+        run: node scripts/check-type-specimens.mjs
+
+      - name: Check the props-table generator can fail
+        run: node scripts/build-props-tables.mjs --self-test
+
+      - name: Generated props tables are current with the manifest
+        run: node scripts/build-props-tables.mjs --check
+
+      - name: Check the docs-table generator can fail
+        run: node scripts/build-docs-tables.mjs --self-test
+
+      - name: Every docs table wears the Table component's classes
+        run: node scripts/build-docs-tables.mjs --check
+
+      - name: Check the props-table checker can fail
+        run: node scripts/check-props-table.mjs --self-test
+
+      - name: Every Prop / Type / Default table matches the manifest
+        run: node scripts/check-props-table.mjs
+
+      - name: Check the components.css generator can fail
+        run: node scripts/build-component-css.mjs --self-test
+
+      - name: docs/components.css is current with the component styles
+        run: node scripts/build-component-css.mjs --check
+
+      # CI lists gates one by one, so a gate added to package.json alone ran only
+      # on laptops — six did. This fails when `npm run check` and this file
+      # disagree, which is the only way the list above stays complete.
+      - name: Check the CI-coverage checker can fail
+        run: node scripts/check-ci-coverage.mjs --self-test
+
+      - name: Every gate in npm run check also runs here
+        run: node scripts/check-ci-coverage.mjs
+
       # The barrel, both exports maps and the package README are hand-kept — a
       # missing export otherwise only fails inside a consuming app, never here,
       # and a component missing from the README fails nowhere at all.
