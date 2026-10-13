@@ -1867,11 +1867,17 @@
   .hover\:border-\[var\(--ondark-border-hover\)\]:hover {
     border-color: var(--ondark-border-hover);
   }
+  .hover\:border-border-focused:hover {
+    border-color: var(--color-border-focused);
+  }
   .hover\:border-border-strong:hover {
     border-color: var(--color-border-strong);
   }
   .hover\:bg-\[var\(--ghost-hover\)\]:hover {
     background-color: var(--ghost-hover);
+  }
+  .hover\:bg-\[var\(--ondark-tint-hover\)\]:hover {
+    background-color: var(--ondark-tint-hover);
   }
   .hover\:bg-button-outline-hover:hover {
     background-color: var(--color-button-outline-hover);
@@ -1917,8 +1923,14 @@
 .focus-visible\:rounded-sm:focus-visible {
   border-radius: var(--radius-sm);
 }
+.focus-visible\:border-\[var\(--ondark-border-hover\)\]:focus-visible {
+  border-color: var(--ondark-border-hover);
+}
 .focus-visible\:border-border-focused:focus-visible {
   border-color: var(--color-border-focused);
+}
+.focus-visible\:bg-\[var\(--ondark-tint-hover\)\]:focus-visible {
+  background-color: var(--ondark-tint-hover);
 }
 .focus-visible\:bg-slate-100:focus-visible {
   background-color: var(--color-slate-100);
@@ -2385,6 +2397,7 @@
   --focus-ring-white: 0 0 0 3px rgba(255, 255, 255, 0.25);
   --ghost-hover: var(--transparent-black-5);
   --ondark-tint: var(--transparent-white-5);
+  --ondark-tint-hover: var(--transparent-white-20);
   --ondark-border: var(--transparent-white-30);
   --ondark-border-hover: var(--transparent-white-40);
   --scrim-rail-from: #000000;

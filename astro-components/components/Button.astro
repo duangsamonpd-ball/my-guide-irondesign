@@ -142,15 +142,20 @@ const VARIANT = {
   /* black → pink */
   tertiary:
     'bg-button-tertiary text-primary-on border-transparent hover:bg-button-primary focus-visible:shadow-[var(--focus-ring-white)]',
+  /* hover: the border turns brand blue and the label stays blue (Ball, 2026-10-13;
+     it was border-strong grey with a pink label) */
   outline:
-    'bg-button-outline text-on-tertiary border-border hover:bg-button-outline-hover hover:border-border-strong ' +
-    'hover:text-on-tertiary-hover focus-visible:shadow-[var(--focus-ring-blue)]',
+    'bg-button-outline text-on-tertiary border-border hover:bg-button-outline-hover hover:border-border-focused ' +
+    'focus-visible:shadow-[var(--focus-ring-blue)]',
   /* The border override this used to carry was compensating for a wrong default;
      the default border is transparent already. Figma draws no ring on ondark
-     focus — the ring is kept deliberately, for a visible focus state. */
+     focus — the ring is kept deliberately, for a visible focus state. Hover and
+     focus brighten the glass (fill /5 → /20, border /30 → /40) and the label
+     stays white — Ball, 2026-10-13, retiring the pink hover label. */
   ondark:
     'bg-[var(--ondark-tint)] text-primary-on border-[var(--ondark-border)] backdrop-blur-xs ' +
-    'hover:text-on-tertiary-hover hover:border-[var(--ondark-border-hover)] ' +
+    'hover:bg-[var(--ondark-tint-hover)] hover:border-[var(--ondark-border-hover)] ' +
+    'focus-visible:bg-[var(--ondark-tint-hover)] focus-visible:border-[var(--ondark-border-hover)] ' +
     'focus-visible:shadow-[var(--focus-ring-blue)]',
   ghost:
     'bg-transparent text-on-tertiary border-transparent hover:bg-[var(--ghost-hover)] hover:text-on-tertiary-hover ' +

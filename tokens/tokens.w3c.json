@@ -656,7 +656,7 @@
       "white-20": {
         "$value": "#FFFFFF33",
         "$type": "color",
-        "$description": "transparent/white/20"
+        "$description": "transparent/white/20 — Button ondark fill, hover and focus"
       },
       "white-30": {
         "$value": "#FFFFFF4D",

@@ -786,6 +786,7 @@
      against Figma's 5% without any gate noticing. */
   --ghost-hover:         var(--transparent-black-5);  /* Button ghost hover fill */
   --ondark-tint:         var(--transparent-white-5);  /* Button ondark base fill */
+  --ondark-tint-hover:   var(--transparent-white-20); /* Button ondark fill, hover and focus (Figma, Ball 2026-10-13) */
   --ondark-border:       var(--transparent-white-30); /* Button ondark border */
   --ondark-border-hover: var(--transparent-white-40); /* Button ondark border, hover */
 
