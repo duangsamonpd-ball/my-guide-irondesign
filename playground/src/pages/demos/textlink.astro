@@ -26,6 +26,7 @@
  * used to carry.
  */
 import { TextLink, Prose } from '@iron-software/astro-components';
+import { icons } from '@iron-software/astro-components/icons';
 
 const P = 'font-size:0.95rem;color:var(--color-text-heading);line-height:1.7;';
 /* The External region's third line is deliberately smaller: the arrow is sized
@@ -67,6 +68,22 @@ const codeStyle = "font-family:'Roboto Mono',monospace;font-size:0.875em;";
         <TextLink href="https://example.com" external>Native vs Remote Engine</TextLink>
         <TextLink href="https://example.com" external class="demo-link-hover">Native vs Remote Engine</TextLink>
       </div>
+    </div>
+
+    {/* The leading icon is the `icon` SLOT — any <svg> or icon component. These
+        use two of the package's own icons; an <svg> without a `fill` takes the
+        link's colour, so it turns pink with the text on hover. The last line is
+        a caption-sized run: the box is 1em, so it shrinks with the text. */}
+    <div data-demo="lead-icon">
+      <div class="arrow-grid">
+        <span class="arrow-lbl">Default</span>
+        <span class="arrow-lbl">Hover · focus</span>
+        <TextLink href="#"><svg slot="icon" viewBox={icons.circleInfo.viewBox}><path d={icons.circleInfo.path} /></svg>Read the setup guide</TextLink>
+        <TextLink href="#" class="demo-link-hover"><svg slot="icon" viewBox={icons.circleInfo.viewBox}><path d={icons.circleInfo.path} /></svg>Read the setup guide</TextLink>
+        <TextLink href="#" arrow><svg slot="icon" viewBox={icons.key.viewBox}><path d={icons.key.path} /></svg>Get a free trial key</TextLink>
+        <TextLink href="#" arrow class="demo-link-hover"><svg slot="icon" viewBox={icons.key.viewBox}><path d={icons.key.path} /></svg>Get a free trial key</TextLink>
+      </div>
+      <p style={P_SM}>In a caption-sized run: <TextLink href="#"><svg slot="icon" viewBox={icons.circleInfo.viewBox}><path d={icons.circleInfo.path} /></svg>Release notes</TextLink></p>
     </div>
 
     {/* Prose — Markdown/CMS links. Moved here from its own page on 2026-10-01

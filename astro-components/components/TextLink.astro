@@ -55,6 +55,14 @@ const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
    the ↗ nor the →. `external` keeps its behaviour and its spoken label. */
 const showIcons = variant === 'plain';
 
+/* The leading icon is a SLOT, not a name, on purpose (Ball, 2026-10-13: "flexible
+   for future changes"). Figma's `icon` + `Icon name` type a Font Awesome 7 Pro
+   name as a ligature, and that font cannot ship to a browser from here — so a
+   `name` prop would tie the component to whichever icon set this package
+   happens to bundle. Any <svg> or icon component goes in the slot instead; its
+   presence is Figma's `icon` switch. */
+const hasIcon = Astro.slots.has('icon');
+
 /*
  * THE EXTERNAL MARKER IS AN ICON, NOT A "↗" CHARACTER — this was the last
  * component in the library still setting one in type. Montserrat carries U+2191
@@ -90,7 +98,7 @@ const showIcons = variant === 'plain';
  */
 ---
 
-<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}><slot />{showIcons && arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{showIcons && external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
+<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}>{showIcons && hasIcon && <span class="lead-icon" aria-hidden="true"><slot name="icon" /></span>}<slot />{showIcons && arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{showIcons && external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
 
 <style>
   .tlink {
@@ -153,6 +161,13 @@ const showIcons = variant === 'plain';
     width: 0.875em; height: 0.875em; margin-left: 0.25em; vertical-align: -0.09em;
     transition: transform var(--duration-base) var(--ease-default);
   }
+  /* Leading icon: a 1em box (16px at md, 14px at sm, as Figma sizes it with the
+     text), 0.25em before the text — the same em gap as the arrow and ↗, so 4px at
+     16 and 3.5 at 14 (Ball, 2026-10-13: no `size` prop — the link takes the size
+     of its sentence) — and centred on the line box as Figma's auto layout does. */
+  .tlink .lead-icon {
+    display: inline-block; width: 1em; height: 1em; margin-right: 0.25em; vertical-align: -0.15em;
+  }
   .tlink:hover .arrow-icon, .tlink:focus-visible .arrow-icon { transform: translateX(0.25em); }
   .tlink:hover .ext-icon, .tlink:focus-visible .ext-icon { transform: translate(0.15em, -0.15em); }
   @media (prefers-reduced-motion: reduce) {
@@ -172,4 +187,14 @@ const showIcons = variant === 'plain';
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
   }
+</style>
+
+<style is:global>
+  /* The leading icon's <svg> is the CALLER's markup, which Astro's scoping never
+     stamps, so it is sized here — every selector rooted at .tlink, `is:global`
+     rather than `:global()` (house rule: check:parity carries rules verbatim).
+     `:not([fill])` paints an unpainted icon in the link's colour, so it turns pink
+     on hover with the text, and leaves a deliberately coloured one alone. */
+  .tlink .lead-icon > svg, .tlink .lead-icon > img { display: block; width: 100%; height: 100%; }
+  .tlink .lead-icon > svg:not([fill]) { fill: currentColor; }
 </style>
