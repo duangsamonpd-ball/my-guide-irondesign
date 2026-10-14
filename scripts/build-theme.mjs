@@ -115,6 +115,47 @@ function route(name) {
   return { kind: 'plain' };
 }
 
+/* ── role companions — `text-h2` alone is the whole role (#5) ─────────────── */
+
+/**
+ * Tailwind v4 emits `text-<x>` as font-size plus three companions, each behind
+ * the matching `--tw-*` so an explicit utility still wins:
+ *
+ *   line-height:    var(--tw-leading,     var(--text-<x>--line-height))
+ *   letter-spacing: var(--tw-tracking,    var(--text-<x>--letter-spacing))
+ *   font-weight:    var(--tw-font-weight, var(--text-<x>--font-weight))
+ *
+ * The numeric RAMP has carried its line-height pair since 2026-08-18. The ROLES
+ * did not: `--text-h2: var(--text-3xl)` aliased the size and nothing else, so
+ * `text-h2` emitted font-size alone and every consumer restated the role by
+ * hand — page-experiments counted 105 complete `text-h2 leading-h2 font-h2
+ * tracking-h2` stacks across five pages, and 31 partial ones where a slip and a
+ * deliberate override read the same.
+ *
+ * DERIVED, not written into tokens.css: a role is a `--font-size-*` whose value
+ * is another `--font-size-*`, and each companion is emitted only where the
+ * role's own `--line-height-*`, `--letter-spacing-*` or `--fw-*` exists, pointing
+ * at it. Ninety hand-written lines would be a copy of the role table in the one
+ * file whose job is to be that table. Theme-only, because tokens.css is also the
+ * plain-CSS entry point and a companion means nothing outside Tailwind.
+ *
+ * Nothing that spells the stack out today changes: the explicit utility sets
+ * the `--tw-*` variable and wins whatever order the rules come out in.
+ */
+const COMPANIONS = [
+  ['line-height', 'line-height', 'leading'],
+  ['letter-spacing', 'letter-spacing', 'tracking'],
+  ['font-weight', 'fw', 'font-weight'],
+];
+function roleCompanions(t) {
+  if (!t.name.startsWith('font-size-') || t.name.includes('--')) return [];
+  if (!/^var\(--font-size-[\w-]+\)$/.test(t.value)) return [];
+  const role = t.name.slice('font-size-'.length);
+  return COMPANIONS
+    .filter(([, src]) => byName.has(`${src}-${role}`))
+    .map(([prop, , ns]) => `  --text-${role}--${prop}: var(--${ns}-${role});`);
+}
+
 /* ── dark mode — map each dark token onto the light token it replaces ─────── */
 
 const DARK_PREFIX = [
@@ -179,6 +220,7 @@ for (const t of tokens) {
     });
     themed.push(withComment(`  --${r.themeName}: ${value};`, t.comment));
     aliases.push(`  --${t.name}: var(--${r.themeName});`);
+    themed.push(...roleCompanions(t));
   } else {
     plain.push(withComment(`  --${t.name}: ${t.value};`, t.comment));
   }

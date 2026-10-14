@@ -357,30 +357,97 @@
     --text-2xs: 10px;
     --text-2xs--line-height: var(--leading-3);
     --text-h1-hero: var(--text-6xl);
+    --text-h1-hero--line-height: var(--leading-h1-hero);
+    --text-h1-hero--letter-spacing: var(--tracking-h1-hero);
+    --text-h1-hero--font-weight: var(--font-weight-h1-hero);
     --text-h1: var(--text-5xl);
+    --text-h1--line-height: var(--leading-h1);
+    --text-h1--letter-spacing: var(--tracking-h1);
+    --text-h1--font-weight: var(--font-weight-h1);
     --text-h2: var(--text-3xl);
+    --text-h2--line-height: var(--leading-h2);
+    --text-h2--letter-spacing: var(--tracking-h2);
+    --text-h2--font-weight: var(--font-weight-h2);
     --text-h3: var(--text-2xl);
+    --text-h3--line-height: var(--leading-h3);
+    --text-h3--letter-spacing: var(--tracking-h3);
+    --text-h3--font-weight: var(--font-weight-h3);
     --text-h4: var(--text-xl);
+    --text-h4--line-height: var(--leading-h4);
+    --text-h4--letter-spacing: var(--tracking-h4);
+    --text-h4--font-weight: var(--font-weight-h4);
     --text-title-lg: var(--text-lg);
+    --text-title-lg--line-height: var(--leading-title-lg);
+    --text-title-lg--font-weight: var(--font-weight-title-lg);
     --text-body-lg: var(--text-lg);
+    --text-body-lg--line-height: var(--leading-body-lg);
+    --text-body-lg--font-weight: var(--font-weight-body-lg);
     --text-quote: var(--text-lg);
+    --text-quote--line-height: var(--leading-quote);
+    --text-quote--font-weight: var(--font-weight-quote);
     --text-body-title: var(--text-base);
+    --text-body-title--line-height: var(--leading-body-title);
+    --text-body-title--letter-spacing: var(--tracking-body-title);
+    --text-body-title--font-weight: var(--font-weight-body-title);
     --text-body: var(--text-base);
+    --text-body--line-height: var(--leading-body);
+    --text-body--font-weight: var(--font-weight-body);
     --text-caption: var(--text-sm);
+    --text-caption--line-height: var(--leading-caption);
+    --text-caption--font-weight: var(--font-weight-caption);
     --text-caption-sm: var(--text-xs);
+    --text-caption-sm--line-height: var(--leading-caption-sm);
+    --text-caption-sm--letter-spacing: var(--tracking-caption-sm);
+    --text-caption-sm--font-weight: var(--font-weight-caption-sm);
     --text-label: var(--text-sm);
+    --text-label--line-height: var(--leading-label);
+    --text-label--letter-spacing: var(--tracking-label);
+    --text-label--font-weight: var(--font-weight-label);
     --text-label-lg: var(--text-base);
+    --text-label-lg--line-height: var(--leading-label-lg);
+    --text-label-lg--letter-spacing: var(--tracking-label-lg);
+    --text-label-lg--font-weight: var(--font-weight-label-lg);
     --text-overline: var(--text-sm);
+    --text-overline--line-height: var(--leading-overline);
+    --text-overline--letter-spacing: var(--tracking-overline);
+    --text-overline--font-weight: var(--font-weight-overline);
     --text-code: var(--text-sm);
+    --text-code--line-height: var(--leading-code);
+    --text-code--font-weight: var(--font-weight-code);
     --text-btn-lg: var(--text-base);
+    --text-btn-lg--line-height: var(--leading-btn-lg);
+    --text-btn-lg--letter-spacing: var(--tracking-btn-lg);
+    --text-btn-lg--font-weight: var(--font-weight-btn-lg);
     --text-btn: var(--text-sm);
+    --text-btn--line-height: var(--leading-btn);
+    --text-btn--letter-spacing: var(--tracking-btn);
+    --text-btn--font-weight: var(--font-weight-btn);
     --text-review: var(--text-sm);
+    --text-review--line-height: var(--leading-review);
+    --text-review--letter-spacing: var(--tracking-review);
+    --text-review--font-weight: var(--font-weight-review);
     --text-btn-sm: var(--text-xs);
+    --text-btn-sm--line-height: var(--leading-btn-sm);
+    --text-btn-sm--letter-spacing: var(--tracking-btn-sm);
+    --text-btn-sm--font-weight: var(--font-weight-btn-sm);
     --text-nav: var(--text-base);
+    --text-nav--line-height: var(--leading-nav);
+    --text-nav--font-weight: var(--font-weight-nav);
     --text-nav-sub: var(--text-sm);
+    --text-nav-sub--line-height: var(--leading-nav-sub);
+    --text-nav-sub--font-weight: var(--font-weight-nav-sub);
     --text-nav-label: var(--text-xs);
+    --text-nav-label--line-height: var(--leading-nav-label);
+    --text-nav-label--letter-spacing: var(--tracking-nav-label);
+    --text-nav-label--font-weight: var(--font-weight-nav-label);
     --text-badge: var(--text-xs);
+    --text-badge--line-height: var(--leading-badge);
+    --text-badge--letter-spacing: var(--tracking-badge);
+    --text-badge--font-weight: var(--font-weight-badge);
     --text-badge-sm: var(--text-2xs);
+    --text-badge-sm--line-height: var(--leading-badge-sm);
+    --text-badge-sm--letter-spacing: var(--tracking-badge-sm);
+    --text-badge-sm--font-weight: var(--font-weight-badge-sm);
     --leading-3: 12px;
     --leading-4: 16px;
     --leading-5: 20px;
@@ -1225,6 +1292,81 @@
 .font-sans {
   font-family: var(--font-sans);
 }
+.text-badge {
+  font-size: var(--text-badge);
+  line-height: var(--tw-leading, var(--text-badge--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-badge--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-badge--font-weight));
+}
+.text-badge-sm {
+  font-size: var(--text-badge-sm);
+  line-height: var(--tw-leading, var(--text-badge-sm--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-badge-sm--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-badge-sm--font-weight));
+}
+.text-btn {
+  font-size: var(--text-btn);
+  line-height: var(--tw-leading, var(--text-btn--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-btn--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-btn--font-weight));
+}
+.text-btn-lg {
+  font-size: var(--text-btn-lg);
+  line-height: var(--tw-leading, var(--text-btn-lg--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-btn-lg--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-btn-lg--font-weight));
+}
+.text-btn-sm {
+  font-size: var(--text-btn-sm);
+  line-height: var(--tw-leading, var(--text-btn-sm--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-btn-sm--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-btn-sm--font-weight));
+}
+.text-caption-sm {
+  font-size: var(--text-caption-sm);
+  line-height: var(--tw-leading, var(--text-caption-sm--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-caption-sm--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-caption-sm--font-weight));
+}
+.text-h4 {
+  font-size: var(--text-h4);
+  line-height: var(--tw-leading, var(--text-h4--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-h4--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-h4--font-weight));
+}
+.text-label {
+  font-size: var(--text-label);
+  line-height: var(--tw-leading, var(--text-label--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-label--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-label--font-weight));
+}
+.text-label-lg {
+  font-size: var(--text-label-lg);
+  line-height: var(--tw-leading, var(--text-label-lg--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-label-lg--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-label-lg--font-weight));
+}
+.text-overline {
+  font-size: var(--text-overline);
+  line-height: var(--tw-leading, var(--text-overline--line-height));
+  letter-spacing: var(--tw-tracking, var(--text-overline--letter-spacing));
+  font-weight: var(--tw-font-weight, var(--text-overline--font-weight));
+}
+.text-body {
+  font-size: var(--text-body);
+  line-height: var(--tw-leading, var(--text-body--line-height));
+  font-weight: var(--tw-font-weight, var(--text-body--font-weight));
+}
+.text-caption {
+  font-size: var(--text-caption);
+  line-height: var(--tw-leading, var(--text-caption--line-height));
+  font-weight: var(--tw-font-weight, var(--text-caption--font-weight));
+}
+.text-title-lg {
+  font-size: var(--text-title-lg);
+  line-height: var(--tw-leading, var(--text-title-lg--line-height));
+  font-weight: var(--tw-font-weight, var(--text-title-lg--font-weight));
+}
 .text-2xs {
   font-size: var(--text-2xs);
   line-height: var(--tw-leading, var(--text-2xs--line-height));
@@ -1252,45 +1394,6 @@
 .text-xs {
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
-}
-.text-badge {
-  font-size: var(--text-badge);
-}
-.text-badge-sm {
-  font-size: var(--text-badge-sm);
-}
-.text-body {
-  font-size: var(--text-body);
-}
-.text-btn {
-  font-size: var(--text-btn);
-}
-.text-btn-lg {
-  font-size: var(--text-btn-lg);
-}
-.text-btn-sm {
-  font-size: var(--text-btn-sm);
-}
-.text-caption {
-  font-size: var(--text-caption);
-}
-.text-caption-sm {
-  font-size: var(--text-caption-sm);
-}
-.text-h4 {
-  font-size: var(--text-h4);
-}
-.text-label {
-  font-size: var(--text-label);
-}
-.text-label-lg {
-  font-size: var(--text-label-lg);
-}
-.text-overline {
-  font-size: var(--text-overline);
-}
-.text-title-lg {
-  font-size: var(--text-title-lg);
 }
 .leading-3 {
   --tw-leading: var(--leading-3);
@@ -1443,6 +1546,10 @@
 .tracking-caption-sm {
   --tw-tracking: var(--tracking-caption-sm);
   letter-spacing: var(--tracking-caption-sm);
+}
+.tracking-h4 {
+  --tw-tracking: var(--tracking-h4);
+  letter-spacing: var(--tracking-h4);
 }
 .tracking-overline {
   --tw-tracking: var(--tracking-overline);

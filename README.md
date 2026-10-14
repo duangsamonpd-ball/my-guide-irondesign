@@ -132,6 +132,8 @@ There is no `tailwind.config.js`. Tailwind v4 is CSS-first, so the theme *is* a 
 <p  class="text-body-lg">Streamline your .NET development…</p>
 ```
 
+A role's size utility is the whole role: `text-h2` sets h2's size **and** its line-height, letter-spacing and weight, through the companion variables Tailwind v4 reads (`--text-h2--line-height` and the rest, generated from the role's own `--leading-h2`, `--tracking-h2` and `--font-weight-h2`). An explicit `leading-*`, `tracking-*` or `font-*` beside it still wins, whatever order the rules compile in, so `text-h2 leading-h2 font-h2 tracking-h2` renders exactly as before and a deliberate override like `text-caption font-bold` keeps working. One consequence to know: `text-<role>` no longer lets weight or tracking inherit from a parent — write the `font-*` you want on the element itself.
+
 Colour scales stay available (`bg-iron-blue-500`, `bg-primary-100`, …), and opacity modifiers work natively: `bg-primary/50`.
 
 #### Dark mode

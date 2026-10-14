@@ -465,30 +465,97 @@
   --text-8xl--line-height: 1;                 /* 72px — display, no role */
   --text-9xl--line-height: 1;                 /* 96px — display, no role */
   --text-h1-hero: var(--text-6xl);            /* 48px — hero modifier on H1, homepage only */
+  --text-h1-hero--line-height: var(--leading-h1-hero);
+  --text-h1-hero--letter-spacing: var(--tracking-h1-hero);
+  --text-h1-hero--font-weight: var(--font-weight-h1-hero);
   --text-h1: var(--text-5xl);                 /* 40px — page title, 1 per page */
+  --text-h1--line-height: var(--leading-h1);
+  --text-h1--letter-spacing: var(--tracking-h1);
+  --text-h1--font-weight: var(--font-weight-h1);
   --text-h2: var(--text-3xl);                 /* 26→30px — section heading */
+  --text-h2--line-height: var(--leading-h2);
+  --text-h2--letter-spacing: var(--tracking-h2);
+  --text-h2--font-weight: var(--font-weight-h2);
   --text-h3: var(--text-2xl);                 /* 24px — card / feature title */
+  --text-h3--line-height: var(--leading-h3);
+  --text-h3--letter-spacing: var(--tracking-h3);
+  --text-h3--font-weight: var(--font-weight-h3);
   --text-h4: var(--text-xl);                  /* 20px — card title (split from body-lg by weight) */
+  --text-h4--line-height: var(--leading-h4);
+  --text-h4--letter-spacing: var(--tracking-h4);
+  --text-h4--font-weight: var(--font-weight-h4);
   --text-title-lg: var(--text-lg);            /* 18px — section intro title */
+  --text-title-lg--line-height: var(--leading-title-lg);
+  --text-title-lg--font-weight: var(--font-weight-title-lg);
   --text-body-lg: var(--text-lg);             /* 18px — lead / intro paragraph */
+  --text-body-lg--line-height: var(--leading-body-lg);
+  --text-body-lg--font-weight: var(--font-weight-body-lg);
   --text-quote: var(--text-lg);               /* 18px — pull quote / blockquote (italic) */
+  --text-quote--line-height: var(--leading-quote);
+  --text-quote--font-weight: var(--font-weight-quote);
   --text-body-title: var(--text-base);        /* 16px — bold running text */
+  --text-body-title--line-height: var(--leading-body-title);
+  --text-body-title--letter-spacing: var(--tracking-body-title);
+  --text-body-title--font-weight: var(--font-weight-body-title);
   --text-body: var(--text-base);              /* 16px — default running text */
+  --text-body--line-height: var(--leading-body);
+  --text-body--font-weight: var(--font-weight-body);
   --text-caption: var(--text-sm);             /* 14px — supporting text, secondary colour */
+  --text-caption--line-height: var(--leading-caption);
+  --text-caption--font-weight: var(--font-weight-caption);
   --text-caption-sm: var(--text-xs);          /* 12px — tooltip, footer fine print */
+  --text-caption-sm--line-height: var(--leading-caption-sm);
+  --text-caption-sm--letter-spacing: var(--tracking-caption-sm);
+  --text-caption-sm--font-weight: var(--font-weight-caption-sm);
   --text-label: var(--text-sm);               /* 14px — form / UI label */
+  --text-label--line-height: var(--leading-label);
+  --text-label--letter-spacing: var(--tracking-label);
+  --text-label--font-weight: var(--font-weight-label);
   --text-label-lg: var(--text-base);          /* 16px — form / UI label, large */
+  --text-label-lg--line-height: var(--leading-label-lg);
+  --text-label-lg--letter-spacing: var(--tracking-label-lg);
+  --text-label-lg--font-weight: var(--font-weight-label-lg);
   --text-overline: var(--text-sm);            /* 14px — uppercase category label, accent */
+  --text-overline--line-height: var(--leading-overline);
+  --text-overline--letter-spacing: var(--tracking-overline);
+  --text-overline--font-weight: var(--font-weight-overline);
   --text-code: var(--text-sm);                /* 14px — inline & block code, mono */
+  --text-code--line-height: var(--leading-code);
+  --text-code--font-weight: var(--font-weight-code);
   --text-btn-lg: var(--text-base);            /* 16px — hero / primary CTA */
+  --text-btn-lg--line-height: var(--leading-btn-lg);
+  --text-btn-lg--letter-spacing: var(--tracking-btn-lg);
+  --text-btn-lg--font-weight: var(--font-weight-btn-lg);
   --text-btn: var(--text-sm);                 /* 14px — standard button */
+  --text-btn--line-height: var(--leading-btn);
+  --text-btn--letter-spacing: var(--tracking-btn);
+  --text-btn--font-weight: var(--font-weight-btn);
   --text-review: var(--text-sm);              /* 14px — the review score itself */
+  --text-review--line-height: var(--leading-review);
+  --text-review--letter-spacing: var(--tracking-review);
+  --text-review--font-weight: var(--font-weight-review);
   --text-btn-sm: var(--text-xs);              /* 12px — compact / table action */
+  --text-btn-sm--line-height: var(--leading-btn-sm);
+  --text-btn-sm--letter-spacing: var(--tracking-btn-sm);
+  --text-btn-sm--font-weight: var(--font-weight-btn-sm);
   --text-nav: var(--text-base);               /* 16px — main nav link */
+  --text-nav--line-height: var(--leading-nav);
+  --text-nav--font-weight: var(--font-weight-nav);
   --text-nav-sub: var(--text-sm);             /* 14px — dropdown / footer / sidebar */
+  --text-nav-sub--line-height: var(--leading-nav-sub);
+  --text-nav-sub--font-weight: var(--font-weight-nav-sub);
   --text-nav-label: var(--text-xs);           /* 12px — menu / footer group label */
+  --text-nav-label--line-height: var(--leading-nav-label);
+  --text-nav-label--letter-spacing: var(--tracking-nav-label);
+  --text-nav-label--font-weight: var(--font-weight-nav-label);
   --text-badge: var(--text-xs);               /* 12px — status / category badge */
+  --text-badge--line-height: var(--leading-badge);
+  --text-badge--letter-spacing: var(--tracking-badge);
+  --text-badge--font-weight: var(--font-weight-badge);
   --text-badge-sm: var(--text-2xs);           /* 10px — compact badge */
+  --text-badge-sm--line-height: var(--leading-badge-sm);
+  --text-badge-sm--letter-spacing: var(--tracking-badge-sm);
+  --text-badge-sm--font-weight: var(--font-weight-badge-sm);
   --leading-3: 12px;
   --leading-4: 16px;
   --leading-5: 20px;
