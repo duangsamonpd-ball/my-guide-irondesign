@@ -2,18 +2,22 @@
 /**
  * Iron Software Design System — one stylesheet for every component <style>
  *
- * WHY THIS EXISTS. A docs page that shows ONE component carries a copy of that
- * component's CSS inline, and `check:parity` proves the copy matches. That does
- * not scale to a page showing all nineteen: `07-components.html` would have to
- * hand-carry 36KB from eight components, unguarded, which is the drift this
- * repo keeps paying for. So the stylesheet is generated from the components
- * themselves and the page links it.
+ * WHY THIS EXISTS. A docs page that shows ONE component used to carry a copy of
+ * that component's CSS inline, and `check:parity` proved the copy matched. That
+ * did not scale to a page showing all nineteen: `07-components.html` would have
+ * had to hand-carry 36KB from eight components, unguarded, which is the drift
+ * this repo keeps paying for. So the stylesheet is generated from the
+ * components themselves and the page links it.
  *
  *   astro-components/components/*.astro  <style> …  ──▶  docs/components.css
  *   astro-components/internal/*.astro    <style> …
  *
- * The per-page copies are untouched. A single-component page still carries its
- * own rules and parity still governs them; this is for pages that compose many.
+ * SINCE 2026-10-14 IT IS THE ONLY WAY, single-component pages included. The
+ * per-page copies were still being synced by hand — three ProductMenu rules
+ * typed into its page that morning — so all seven pages that carried one now
+ * link this file instead, and `check:parity` refuses a page that copies a
+ * component rule inline. `npm run style-diff` found every element on them
+ * computing identically before and after, at four widths.
  *
  * WHAT MAKES A FLAT FILE SAFE, AND WHY BOTH PROPERTIES ARE CHECKED RATHER THAN
  * BELIEVED. In an Astro component the <style> is SCOPED — every selector is

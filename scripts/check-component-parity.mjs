@@ -2,17 +2,32 @@
 /**
  * Iron Software Design System — component ↔ docs CSS parity check
  *
- * Every `.astro` component ships its CSS in a <style> block, and the matching
- * docs demo page (docs/component-<name>.html) carries the same CSS inline so it
- * renders standalone on GitHub Pages with no build step. Two copies, hand-kept
- * "1:1" — which means they silently drift the moment one side is edited alone.
+ * Every `.astro` component that ships CSS in a <style> block reaches its docs
+ * page (docs/component-<name>.html) through ONE generated stylesheet,
+ * docs/components.css, which build-component-css.mjs writes from those blocks
+ * and `check:components-css` holds current.
  *
- * This asserts every top-level CSS rule in a component's <style> block also
- * appears, unchanged, in its docs page. The docs page may add extra rules for
- * the demo layout (astro ⊆ docs); it may never contradict the component.
+ * UNTIL 2026-10-14 EACH PAGE CARRIED ITS OWN INLINE COPY, hand-kept "1:1", and
+ * this gate asked whether the copy still matched. It did catch drift — and then
+ * someone fixed the drift by hand, every time: the ProductMenu gutter drop that
+ * morning was three rules typed into the page after the component, in the same
+ * session that wrote them. Seven pages carried the copies; TopNav's page carried
+ * its copy AND linked components.css, two sources for one rule. All seven now
+ * link the generated file, and a computed-style diff of every element on them
+ * against the pre-change tree came back identical at 375, 768, 1024 and 1440
+ * (`npm run style-diff`).
  *
- *   astro-components/components/Button.astro   <style> …the source of truth…
- *   docs/component-button.html                 must contain the same rules
+ * So the question changed. For each component with a <style>:
+ *   LINKED   its page links components.css, or it renders unstyled
+ *   CARRIED  components.css contains every one of its rules, unchanged
+ *   NO COPY  its page does NOT re-declare any of them inline — a second copy
+ *            is the thing that drifted, and it would also win on order
+ * The page may still add rules of its own for the demo layout; they come after
+ * the link, so they can override a component rule but never be the only copy.
+ *
+ *   astro-components/components/Tooltip.astro   <style> …the source of truth…
+ *   docs/components.css                          generated, carries it
+ *   docs/component-tooltip.html                  links it, copies nothing
  *
  * Run:  node scripts/check-component-parity.mjs
  * Exit: 0 = in sync · 1 = drift found
@@ -35,6 +50,7 @@ const perFile = [];
 let rulesChecked = 0;
 
 const UTILITIES = join(DOCS, 'utilities.css');
+const BUNDLE = join(DOCS, 'components.css');
 const shellCss = readFileSync(join(DOCS, 'docs.css'), 'utf8');
 
 /* ── CSS extraction ──────────────────────────────────────────────────────── */
@@ -268,6 +284,8 @@ function checkConverted(file, name, docsPath) {
 
 /* ── compare each component against its docs page ────────────────────────── */
 
+const bundleRules = new Set(existsSync(BUNDLE) ? topLevelRules(readFileSync(BUNDLE, 'utf8')).map(normalise) : []);
+
 for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).sort()) {
   const name = basename(file, '.astro').toLowerCase();
   const docsPath = join(DOCS, `component-${name}.html`);
@@ -298,12 +316,16 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).s
   }
   perFile.push({ file, count: astroRules.length });
 
+  const page = readFileSync(docsPath, 'utf8');
+  if (!/<link[^>]+href="components\.css"/.test(page)) {
+    errors.push({ file, name, kind: 'LINKED', selector: 'does not link components.css — its demos render unstyled' });
+  }
   for (const rule of astroRules) {
     rulesChecked++;
-    if (!docsRules.has(normalise(rule))) {
-      const selector = rule.slice(0, rule.indexOf('{')).replace(/\s+/g, ' ').trim();
-      errors.push({ file, name, selector });
-    }
+    const n = normalise(rule);
+    const selector = rule.slice(0, rule.indexOf('{')).replace(/\s+/g, ' ').trim();
+    if (!bundleRules.has(n)) errors.push({ file, name, kind: 'CARRIED', selector: `${selector} { … } is not in docs/components.css` });
+    if (docsRules.has(n)) errors.push({ file, name, kind: 'NO COPY', selector: `${selector} { … } is copied inline on the page` });
   }
 }
 
@@ -379,15 +401,16 @@ if (converted.length && !existsSync(UTILITIES)) {
 }
 
 if (errors.length) {
-  console.log(`\n\x1b[31m✖  ${errors.length} rule${errors.length > 1 ? 's' : ''} in a component <style> are missing or changed in its docs page\x1b[0m`);
+  console.log(`\n\x1b[31m✖  ${errors.length} problem${errors.length > 1 ? 's' : ''} with how a component's <style> reaches its docs page\x1b[0m`);
   const byFile = new Map();
   for (const e of errors) (byFile.get(e.file) ?? byFile.set(e.file, []).get(e.file)).push(e);
   for (const [file, items] of byFile) {
     console.log(`\n  \x1b[1m${file}\x1b[0m  ↔  docs/component-${items[0].name}.html`);
-    for (const { selector } of items) console.log(`    \x1b[31m✖\x1b[0m ${selector} { … }`);
+    for (const { kind, selector } of items) console.log(`    \x1b[31m✖\x1b[0m [${kind}] ${selector}`);
   }
-  console.log(`\n  The <style> block in each .astro is the source of truth. Sync the docs page`);
-  console.log(`  so its inline CSS matches, then this passes.\n`);
+  console.log(`\n  The <style> block in each .astro is the source of truth, and it reaches the`);
+  console.log(`  page through docs/components.css only. Run \`npm run build:components-css\`,`);
+  console.log(`  link it from the page, and delete any copy of the component's rules there.\n`);
   process.exit(1);
 }
 
@@ -396,7 +419,7 @@ if (errors.length) {
    of its CSS is the same failure in slower motion. */
 const smallest = [...perFile].sort((a, b) => a.count - b.count)[0];
 console.log(
-  `\n\x1b[32m✔  Component CSS in sync — ${rulesChecked} rules match across ${perFile.length} components and their docs pages\x1b[0m`,
+  `\n\x1b[32m✔  Component CSS reaches its pages one way — ${rulesChecked} rules from ${perFile.length} components, all in components.css, linked by every page, copied by none\x1b[0m`,
 );
 if (smallest) {
   console.log(`\x1b[90m   fewest is ${smallest.file} at ${smallest.count} rules\x1b[0m`);

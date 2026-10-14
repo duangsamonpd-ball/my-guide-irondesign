@@ -66,9 +66,10 @@
  * ── WHERE IT MEASURES, AND WHY THERE ───────────────────────────────────────
  *
  * `docs/*.html`, the pages this repo ships, not the playground demos. They
- * inline their own copy of the component's CSS and carry the docs font rule, so
+ * link the generated component stylesheet and carry the docs font rule, so
  * there is nothing to inject and no second styling path to get wrong. That the
- * inlined copy still matches source is `check:parity`'s question, not this one.
+ * page gets the component's rules from that file and nowhere else is
+ * `check:parity`'s question, not this one.
  *
  * Needs Chrome, so it stays OUT of `npm run check` and runs in CI's `render`
  * job beside `check:overflow` and `npm run audit`.

@@ -65,6 +65,7 @@
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
   <link rel="stylesheet" href="utilities.css">
+  <link rel="stylesheet" href="components.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -94,17 +95,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .anatomy { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:70px 34px 44px; display:flex; flex-direction:column; align-items:center; gap:26px; }
 .atag b { color:#2E9468; }
 @media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} .canvas {padding:44px 20px;gap:32px;} }
-.tt { position: relative; display: inline-block; }
+
 .tt-trigger { font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:600; color:#45556C; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:8px; padding:9px 16px; cursor:pointer; }
 .tt-trigger-box { display:inline-block; width:72px; height:36px; border:1.5px dashed var(--slate-400); border-radius:6px; background:color-mix(in srgb, var(--slate-400) 8%, transparent); }
-.tt-bubble { position: absolute; width: 200px; display: none; flex-direction: column; z-index: 20; text-align: center; }
-.tt-bubble.has-link { text-align: left; }
 .tt-bubble.force-show, .tt-bubble.js-open { display:flex; }
-.tt-bubble.wide { width: 350px; }
-.tt-bubble.above { bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
-.tt-bubble.below { top: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
-.tt-bubble.right { left: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
-.tt-bubble.left { right: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
 /* The Variants grid is generated, so the forced-open state has to travel as a
    class on the WRAPPER — `class` on Tooltip lands on `.tt`, and `js-open` is a
    bubble class the prop cannot reach.
@@ -122,23 +116,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
    three different heights, and every label landed on a different line. */
 .cell:has(.demo-open) { padding: 24px 16px 18px; }
 .cell:has(.demo-open) .tt { margin-block: auto; }
-.tt-content { background: var(--neutral-800); border-radius: var(--rounded-md); box-shadow: inset 0 0 0 var(--border-width-1) var(--neutral-950), var(--shadow-tooltip); overflow: hidden; display: flex; flex-direction: column; position: relative; z-index: 1; }
-.tt-title { padding: var(--spacing-xs) var(--spacing-md); font-size: var(--font-size-sm); font-weight: var(--fw-btn-sm); color: var(--color-text-on-dark-heading); background: var(--neutral-950); line-height: var(--leading-5); }
-.tt-body { padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md); font-size: var(--font-size-xs); font-weight: 400; color: var(--color-text-on-dark-body); line-height: var(--leading-5); }
-.tt-title.has-icon { display: flex; align-items: center; gap: var(--spacing-xs); }
-.tt-title-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex-shrink: 0; color: var(--color-secondary); }
-.tt-title-icon svg { display: block; width: 16px; height: 16px; }
-.has-link .tt-body { padding-bottom: var(--spacing-sm); }
-.tt-link { display: inline-flex; align-items: center; gap: var(--spacing-micro); font-size: var(--font-size-xs); font-weight: var(--fw-btn-sm); line-height: 1; letter-spacing: var(--letter-spacing-caption-sm); color: var(--color-text-link); text-decoration: none; padding: 0 var(--spacing-md) var(--spacing-md); transition: color var(--duration-fast); }
-.tt-link:hover, .tt-link:focus-visible { color: var(--color-text-link-hover); }
-.tt-link-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex-shrink: 0; }
-.tt-link-icon svg { display: block; width: 12px; height: 12px; }
-.tt-arrow { position: absolute; width: 8.4853px; height: 8.4853px; background: var(--neutral-950); z-index: 0; }
-.tt-arrow.arrow-bottom { left: 50%; bottom: -4.2426px; transform: translateX(-50%) rotate(45deg); border-bottom-right-radius: 2px; }
-.tt-arrow.arrow-top { left: 50%; top: -4.2426px; transform: translateX(-50%) rotate(45deg); border-top-left-radius: 2px; }
-.tt-arrow.arrow-left { top: 50%; left: -4.2426px; transform: translateY(-50%) rotate(45deg); border-bottom-left-radius: 2px; }
-.tt-arrow.arrow-right { top: 50%; right: -4.2426px; transform: translateY(-50%) rotate(45deg); border-top-right-radius: 2px; }
-.tt-bubble.js-open { display: flex; }
   </style>
 </head>
 <body>

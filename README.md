@@ -354,7 +354,7 @@ npm run check          # 29 gates; the only thing that decides is the exit code
 | `check:type-scale` | every `--text-*` step is paired with its `--text-*--line-height`, each pair is a rung of `--leading-*`, and a step a role uses agrees with that role |
 | `check:type-weight` | a class list that *names* a type role agrees with that role on every axis |
 | `check:specimens` | every live type specimen in the typography page matches the token its own table names — and can wrap, so it shows the level rather than a truncation of it |
-| `check:parity` | every CSS rule in a component's `<style>` also appears in its `docs/component-*.html` page |
+| `check:parity` | every CSS rule in a component's `<style>` reaches its `docs/component-*.html` page through the generated `docs/components.css` — the page links it and copies none of the rules inline |
 | `check:prose-parity` | a link inside `<Prose>` resolves to exactly what `<TextLink variant="underline">` does — colour, weight, line, thickness, offset, focus ring — in all six states (light/dark × rest/hover/focus) |
 | `check:ci-coverage` | every gate in `npm run check` also runs in CI — the workflow lists gates one by one, so a gate added to `package.json` alone would only ever run on a laptop |
 | `check:props` | every `<!-- props:* -->` table in the docs is current with the manifest it is generated from |
