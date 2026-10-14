@@ -30,6 +30,17 @@ const sub = { label: 'Submenu', href: '#' };
       <ProductMenu items={items} cta="button" />
     </div>
 
+    {/* A CONSUMER'S strings, not the defaults — iron-suite's exact props, from
+        page-experiments (#4). Every other region uses the component's defaults,
+        and every narrow-width fault this bar has had was right for the defaults
+        and wrong for a consumer: at 320 this one left the bar by 10.16px with
+        all three drops of the day applied. It is here so `npm run overflow`
+        sweeps it, and on the docs page ("Longer names") because build-demos
+        refuses a region without a sentinel there. */}
+    <div data-demo="consumer">
+      <ProductMenu items={items} product="suite" productName="SUITE" runtime="for .NET" hasTrailingIcon={false} ctaLabel="Buy License Today" />
+    </div>
+
     <div data-demo="submenu">
       <ProductMenu
         variant="submenu"

@@ -516,9 +516,9 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
 
   /* ── SHEDDING THE OPTIONAL PIECES ──────────────────────────────────────
      Figma covers 1440px desktop only, so the bar drops what it can spare
-     before it breaks. There are three drops and they happen in this order:
+     before it breaks. There are four drops and they happen in this order:
      the runtime label, then the util bubbles (and the menu starts scrolling),
-     then the CTA's label and the brand's chevron.
+     then the CTA's label and the brand's chevron, then the gutter.
 
      WHICH WIDTH EACH ONE HAPPENS AT IS MEASURED AT RUNTIME, NOT WRITTEN HERE.
      Every number this block used to carry — 1180, 1058, 434 — was measured
@@ -561,8 +561,24 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
 
   .pm-drop-label .pm-brand > .pm-caret { display: none; }
 
+  /* THE FOURTH DROP, the gutter: 24 -> 12 on the bar, and on the panel and the
+     sub tier with it so the three keep one left edge. Added 2026-10-14 for #4.
+     With all three drops above applied the bar still did not fit at 320 in two
+     cases, both measured: iron-suite's `SUITE` + "Buy License Today" left
+     `.pm-bar`'s content box by 10.16px, and the DEFAULT strings with
+     `cta="button"` by 22.72px — that pill already gave up its padding and still
+     shows its label, so nothing inside the bar was left to give. The gutter
+     returns 24, which covers both. Ball's call over shrinking the NuGet pill
+     first: one drop instead of two, and it only ever fires below ~343, so a
+     12px edge on the narrowest phones is the whole cost.
+
+     `npm run overflow` could not see either. It measured against the PADDING
+     box, and both sat inside the bar's 24px padding; it now uses the content
+     box for flex rows, which is how page-experiments' check found it first. */
+  .pm-drop-gutter .pm-bar, .pm-drop-gutter .pm-sub { padding-inline: var(--spacing-sm); }
+
   /* ── THE NO-JS FALLBACK, and the numbers live only here now ─────────────
-     Same three drops at the widths they were measured at for the DEFAULT
+     Same four drops at the widths they were measured at for the DEFAULT
      strings, which is the best a stylesheet can do without measuring. Scoped
      to `:not(.pm--fit)` so the script's answer wins the moment it has one.
      1180: where `IRONPDF for .NET` stops fitting beside the menu.
@@ -636,6 +652,7 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
        `.pm-item.is-active` it lost on specificity and the tab came back inside
        the panel. */
     .pm--submenu .pm-item.is-active { background: none; }
+    .pm-drop-gutter .pm-center { padding-inline: var(--spacing-sm); }
   }
 
   /* THE THIRD DROP's no-JS half. The CTA keeps its pill and both glyphs but
@@ -645,6 +662,15 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
      pill is still "Start for Free" to a screen reader. */
   @media (max-width: 433.98px) {
     .pm:not(.pm--fit) .pm-brand > .pm-caret { display: none; }
+  }
+
+  /* THE FOURTH DROP's no-JS half. 342.98 is the DEFAULT strings with
+     `cta="button"` — measured 2026-10-14 off the fit script, which adds
+     `pm-drop-gutter` at 342 and not at 343. The NuGet pill with the defaults
+     never needs it; a consumer's longer strings may need it at other widths,
+     which is what the script is for. */
+  @media (max-width: 342.98px) {
+    .pm:not(.pm--fit) .pm-bar, .pm:not(.pm--fit) .pm-sub, .pm:not(.pm--fit) .pm-center { padding-inline: var(--spacing-sm); }
   }
 </style>
 
@@ -749,7 +775,7 @@ const menuId = `pmmenu-${Math.random().toString(16).slice(2, 10)}`;
       // alone had had 2, including the DEFAULT strings at 900. So this asks the
       // same question the sweep asks: has anything left the box it is in.
       const bar = pm.querySelector<HTMLElement>('.pm-bar');
-      const DROPS = ['pm-drop-runtime', 'pm-drop-utils', 'pm-drop-label'];
+      const DROPS = ['pm-drop-runtime', 'pm-drop-utils', 'pm-drop-label', 'pm-drop-gutter'];
       const SLACK = 0.5;
 
       const overflows = () => {

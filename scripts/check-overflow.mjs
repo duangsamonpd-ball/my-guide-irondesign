@@ -308,6 +308,9 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
   <div id="abs" class="box" style="position:relative"><div id="abs-child" style="position:absolute;left:400px;width:100px">absolutely placed outside</div></div>
   <div id="tf" class="box"><div id="tf-child" style="transform:translateX(400px);width:100px">moved by a transform</div></div>
   <div id="ok" class="box"><div id="ok-child" style="width:100px">fits</div></div>
+  <div id="frow" class="box" style="display:flex;padding:0 24px"><div id="frow-child" style="flex:none;width:210px">flex item into the padding</div></div>
+  <div id="fhang" class="box" style="display:flex;padding-left:26px"><div id="fhang-child" style="flex:none;margin-left:-26px">flex hang by a negative margin</div></div>
+  <div id="bpad" class="box" style="padding:0 24px"><div id="bpad-child" style="width:210px">block child into the padding</div></div>
 </div>
 </body></html>`;
 
@@ -412,8 +415,20 @@ function overflows() {
          parent's padding on purpose and is not an overflow. */
       const pcs = getComputedStyle(parent);
       const pr = parent.getBoundingClientRect();
-      const left = pr.left + (parseFloat(pcs.borderLeftWidth) || 0);
-      const right = pr.right - (parseFloat(pcs.borderRightWidth) || 0);
+      /* EXCEPT IN A FLEX ROW, where it is the CONTENT box (#4, 2026-10-14).
+         A flex item is placed inside its container's content box and reaches
+         the padding only one way: the line ran out of room. That is not an
+         indent anyone wrote, and with a padding-box boundary it was invisible —
+         ProductMenu's .pm-right sat 10.16px into .pm-bar's 24px padding at 320
+         with a consumer's strings, measured by page-experiments, while this
+         sweep stayed green on the same tree.
+         A NEGATIVE MARGIN on the item is the one way to put it in the padding
+         on purpose — Footer's product icons hang 30px left with ml-[-30px] into
+         a pl-[30px] link — so that much of the padding is given back. */
+      const flexRow = /flex/.test(pcs.display) && !/column/.test(pcs.flexDirection);
+      const into = (pad, margin) => flexRow ? Math.max(0, (parseFloat(pad) || 0) + Math.min(0, parseFloat(margin) || 0)) : 0;
+      const left = pr.left + (parseFloat(pcs.borderLeftWidth) || 0) + into(pcs.paddingLeft, cs.marginLeft);
+      const right = pr.right - (parseFloat(pcs.borderRightWidth) || 0) - into(pcs.paddingRight, cs.marginRight);
       const by = Math.max(r.right - right, left - r.left);
       if (by > 0.5) {
         out.push({
@@ -597,7 +612,11 @@ if (opts['self-test']) {
     ['an absolutely placed child is NOT a finding', !row('absolutely placed')],
     ['a transformed child is NOT a finding', !row('moved by a transform')],
     ['an element that fits is NOT a finding', !row('fits')],
-    ['exactly two findings, no more', found.length === 2],
+    ['a FLEX item pushed into its row\'s padding is found (#4)', !!row('flex item into the padding')],
+    ['…by its excursion past the content box, 10px', Math.abs((row('flex item into the padding')?.by ?? 0) - 10) < 0.5],
+    ['a flex item hung into the padding by a negative margin is NOT a finding', !row('flex hang')],
+    ['a BLOCK child in its parent\'s padding is still NOT a finding', !row('block child into')],
+    ['exactly three findings, no more', found.length === 3],
     ['the 320px overflow measures 120px against a 200px box', Math.abs((row('leaves the box')?.by ?? 0) - 120) < 0.5],
     ['the arming check sees an unfittable widener', armed.ok === true],
     ['…judged on the worst overflow, which a count would have missed here', armed.during > 1000],
