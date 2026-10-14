@@ -43,13 +43,13 @@
  * ACCEPTED entry goes stale, or when a page cannot arm the detector.
  */
 
-import { createServer } from 'node:http';
+import { serveStatic } from './lib/serve.mjs';
 import { readFile } from 'node:fs/promises';
 import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, extname, normalize, basename } from 'node:path';
+import { dirname, join, normalize, basename } from 'node:path';
 
-import { LOCAL_FONT_LINK, serveFonts, installOfflineGuard } from './lib/local-fonts.mjs';
+import { LOCAL_FONT_LINK, installOfflineGuard } from './lib/local-fonts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
@@ -173,12 +173,6 @@ const INJECT =
   '<style>* { margin: 0; padding: 0; box-sizing: border-box; }</style>' +
   "<style>body { font-family: 'Montserrat', sans-serif; }</style>";
 
-const MIME = {
-  '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.json': 'application/json',
-};
 
 /**
  * The fixture behind --self-test. Every row has an answer known before the
@@ -213,42 +207,18 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
 </body></html>`;
 
 async function startServer() {
-  const server = createServer(async (req, res) => {
-    let path;
-    try { path = decodeURIComponent(new URL(req.url, 'http://x').pathname); }
-    catch { res.writeHead(400).end('bad escape in URL'); return; }
-
-    const font = await serveFonts(path);
-    if (font) { res.writeHead(200, { 'content-type': font.type }).end(font.body); return; }
-
-    if (path === '/__self-test.html') {
-      res.writeHead(200, { 'content-type': MIME['.html'] }).end(SELF_TEST_HTML);
-      return;
-    }
-    if (path.startsWith('/demos/')) {
-      try {
-        const html = await readFile(join(DIST, normalize(path)), 'utf8');
-        res.writeHead(200, { 'content-type': MIME['.html'] }).end(html.replace('<body>', `${INJECT}<body>`));
-        return;
-      } catch { /* fall through */ }
-    }
-    /* A generated demo asks for its images the way the COMPONENT does —
-       `assets/logo-g2.svg`, relative to wherever it is mounted. */
-    const asset = path.match(/\/assets\/(.+)$/);
-    const tries = [join(DOCS, normalize(path)), join(DIST, normalize(path))];
-    if (asset) tries.push(join(DOCS, 'assets', asset[1]), join(DIST, 'assets', asset[1]));
-    for (const file of tries) {
-      if (!file.startsWith(DOCS) && !file.startsWith(DIST)) continue;
-      try {
-        const body = await readFile(file);
-        res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' }).end(body);
-        return;
-      } catch { /* next candidate */ }
-    }
-    res.writeHead(404, { 'content-type': 'text/plain' }).end(`not found: ${path}`);
+  /* Same arrangement as check-overflow: `/demos/*` is the playground render
+     with the docs styling injected, everything else is a file from docs/ or
+     the build, and a demo's `assets/x` resolves from either root. */
+  return serveStatic({
+    roots: [DOCS, DIST],
+    fixtures: { '/__self-test.html': SELF_TEST_HTML },
+    handle: async (path) => {
+      if (!path.startsWith('/demos/')) return null;
+      try { return { body: (await readFile(join(DIST, normalize(path)), 'utf8')).replace('<body>', `${INJECT}<body>`) }; }
+      catch { return null; }
+    },
   });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, origin: `http://127.0.0.1:${server.address().port}` };
 }
 
 /* ── 3. the detector, as it runs inside the page ──────────────────────────── */

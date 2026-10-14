@@ -49,13 +49,12 @@
  * different build line and error out against the npm version we pin.
  */
 
-import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { serveStatic } from './lib/serve.mjs';
 import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, extname, basename, normalize } from 'node:path';
+import { dirname, join, basename } from 'node:path';
 
-import { serveFonts, useLocalFonts, installOfflineGuard, fontsAvailable, LOCAL_FONT_HREF } from './lib/local-fonts.mjs';
+import { useLocalFonts, installOfflineGuard, fontsAvailable, LOCAL_FONT_HREF } from './lib/local-fonts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
@@ -524,68 +523,17 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
 <!-- /demo:self-test -->
 </body></html>`;
 
-const MIME = {
-  '.html': 'text/html; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8',
-  '.mjs': 'text/javascript; charset=utf-8',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.webp': 'image/webp',
-  '.woff2': 'font/woff2',
-  '.json': 'application/json',
-};
 
 async function startServer() {
-  const server = createServer(async (req, res) => {
-    // decodeURIComponent, not the raw path: an asset committed with a `%` in
-    // its filename is a broken image in the browser but a real file on disk,
-    // and serving it raw would hide a bug the browser is right about.
-    let path;
-    try {
-      path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-    } catch {
-      res.writeHead(400).end('bad escape in URL');
-      return;
-    }
-
-    const font = await serveFonts(path);
-    if (font) {
-      res.writeHead(200, { 'content-type': font.type }).end(font.body);
-      return;
-    }
-
-    if (path === '/__self-test.html') {
-      res.writeHead(200, { 'content-type': MIME['.html'] }).end(useLocalFonts(SELF_TEST_HTML));
-      return;
-    }
-
-    const tries = [join(DOCS, normalize(path))];
-    const asset = path.match(/\/assets\/(.+)$/);
-    if (asset) tries.push(join(DOCS, 'assets', asset[1]));
-
-    for (const file of tries) {
-      if (!file.startsWith(DOCS)) continue; // no escaping the docs root
-      try {
-        const body = await readFile(file);
-        res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
-        /* The docs pages link Google Fonts as they ship, and that link is what
-           made this harness flaky — a woff2 that never arrives is a page
-           measured in a fallback font, reported as a failed request and nothing
-           else. Swapped for the vendored copy on the way out. Same bytes, same
-           glyphs, no network. The file on disk is untouched: what a reader
-           downloads is a product decision, this is a testing one. */
-        res.end(extname(file) === '.html' ? useLocalFonts(body.toString('utf8')) : body);
-        return;
-      } catch { /* try the next candidate */ }
-    }
-    res.writeHead(404, { 'content-type': 'text/plain' }).end(`not found: ${path}`);
-  });
-
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, origin: `http://127.0.0.1:${server.address().port}` };
+  /* The docs pages link Google Fonts as they ship, and that link is what made
+     this harness flaky — a woff2 that never arrives is a page measured in a
+     fallback font, reported as a failed request and nothing else. serveStatic
+     swaps it for the vendored copy on the way out; the file on disk is
+     untouched, because what a reader downloads is a product decision and this
+     is a testing one. A path that will not decode is a 400: an asset committed
+     with a `%` in its name is broken in the browser, and serving it raw would
+     hide a bug the browser is right about. */
+  return serveStatic({ roots: [DOCS], fixtures: { '/__self-test.html': useLocalFonts(SELF_TEST_HTML) } });
 }
 
 /* ── 3. the probes, as they run inside the page ───────────────────────────── */

@@ -25,7 +25,8 @@
  *
  *   H-SCROLL   the document is wider than the viewport
  *   OVERLAP    two unrelated in-flow boxes paint on top of each other
- *   ESCAPES    a box sticks out of its container's padding box
+ *   ESCAPES    a box sticks out of its container's padding box (its CONTENT box
+ *              across a flex row, where padding is reached only by running out of room)
  *   WORD       a text run cannot fit its box even broken at every space
  *   STRAY      a section header sits outside the page's one content column
  *
@@ -79,13 +80,12 @@
  * asked to.
  */
 
-import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { serveStatic } from './lib/serve.mjs';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, extname, normalize } from 'node:path';
+import { dirname, join } from 'node:path';
 
-import { serveFonts, useLocalFonts, installOfflineGuard, fontsAvailable, LOCAL_FONT_HREF } from './lib/local-fonts.mjs';
+import { useLocalFonts, installOfflineGuard, fontsAvailable, LOCAL_FONT_HREF } from './lib/local-fonts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
@@ -285,7 +285,16 @@ const fixture = ({ overlap = false, escape = false, word = false, hscroll = fals
        on purpose, so neither detector can pass on the other's fault. -->
   <div class="box" id="fault-escape">
     <table id="plant-escape"><tr><td style="width:900px">wide</td></tr></table>
+  </div>
+  <!-- ESCAPES across a flex row: 10px into the row's 24px padding, inside its
+       padding box. Only the content-box rule for flex rows can see it. -->
+  <div style="display:flex;width:200px;padding:0 24px" id="fault-flexpad">
+    <div id="plant-flexpad" style="flex:none;width:210px">flex item into the padding</div>
   </div>` : ''}
+  <!-- The deliberate shape beside it: a negative margin hanging into padding. -->
+  <div style="display:flex;width:200px;padding-left:26px" id="clean-flexhang">
+    <div style="flex:none;margin-left:-26px">hang</div>
+  </div>
   <div class="box" id="clean-box">
     <table><tr><td style="width:200px">fits</td></tr></table>
   </div>
@@ -320,20 +329,6 @@ const SELF_TEST_NOFONT_HTML = fixture({ font: false });
 
 /* ── 4. the server ────────────────────────────────────────────────────────── */
 
-const MIME = {
-  '.html': 'text/html; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.webp': 'image/webp',
-  '.ico': 'image/x-icon',
-  '.woff2': 'font/woff2',
-  '.woff': 'font/woff',
-  '.json': 'application/json; charset=utf-8',
-};
 
 const FIXTURES = {
   '/__self-test.html': () => SELF_TEST_HTML,
@@ -342,37 +337,16 @@ const FIXTURES = {
 };
 
 async function startServer() {
-  const server = createServer(async (req, res) => {
-    let path;
-    try { path = decodeURIComponent(new URL(req.url, 'http://x').pathname); }
-    catch { res.writeHead(400).end('bad escape in URL'); return; }
-
-    const font = await serveFonts(path);
-    if (font) {
-      res.writeHead(200, { 'content-type': font.type }).end(font.body);
-      return;
-    }
-
-    if (FIXTURES[path]) {
-      /* useLocalFonts, not a hand-written link: the fixture has to be served
-         through the same rewrite the docs pages get, or the self-test would be
-         proving something about a page shape that never ships. */
-      res.writeHead(200, { 'content-type': MIME['.html'] }).end(useLocalFonts(FIXTURES[path]()));
-      return;
-    }
-
-    const file = join(DOCS, normalize(path === '/' ? '/index.html' : path));
-    if (!file.startsWith(DOCS)) { res.writeHead(403).end('outside docs/'); return; }
-    try {
-      const body = await readFile(file);
-      res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
-      res.end(extname(file) === '.html' ? useLocalFonts(body.toString('utf8')) : body);
-    } catch {
-      res.writeHead(404, { 'content-type': 'text/plain' }).end(`not found: ${path}`);
-    }
+  /* useLocalFonts on the fixtures, not a hand-written link: they have to be
+     served through the same rewrite the docs pages get, or the self-test would
+     be proving something about a page shape that never ships. No assets/
+     fallback: a docs page asks for its images by their real path, and a
+     missing one should 404 here the way it does on GitHub Pages. */
+  return serveStatic({
+    roots: [DOCS],
+    assets: false,
+    fixtures: Object.fromEntries(Object.entries(FIXTURES).map(([p, f]) => [p, () => useLocalFonts(f())])),
   });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, origin: `http://127.0.0.1:${server.address().port}` };
 }
 
 /* ── 5. the probe, as it runs inside the page ─────────────────────────────── */
@@ -501,8 +475,17 @@ function escapes(candidates) {
     const pcs = getComputedStyle(parent);
     const pr = parent.getBoundingClientRect();
     if (pr.width < 2) continue;
-    const left = pr.left + (parseFloat(pcs.borderLeftWidth) || 0);
-    const right = pr.right - (parseFloat(pcs.borderRightWidth) || 0);
+    /* EXCEPT ACROSS A FLEX ROW, where it is the CONTENT box — the rule
+       check-overflow gained on 2026-10-14 (#4). A flex item reaches its row's
+       padding only by the line running out of room, and ProductMenu's .pm-right
+       sat 10.16px into .pm-bar's padding at 320 while both sweeps stayed green.
+       A negative margin gives back what it hangs into, which is how a
+       deliberate hang is written. */
+    const flexRow = /flex/.test(pcs.display) && !/column/.test(pcs.flexDirection);
+    const ecs = flexRow ? getComputedStyle(el) : null;
+    const into = (pad, margin) => flexRow ? Math.max(0, (parseFloat(pad) || 0) + Math.min(0, parseFloat(margin) || 0)) : 0;
+    const left = pr.left + (parseFloat(pcs.borderLeftWidth) || 0) + into(pcs.paddingLeft, ecs?.marginLeft);
+    const right = pr.right - (parseFloat(pcs.borderRightWidth) || 0) - into(pcs.paddingRight, ecs?.marginRight);
     const top = pr.top + (parseFloat(pcs.borderTopWidth) || 0);
     const bottom = pr.bottom - (parseFloat(pcs.borderBottomWidth) || 0);
 
@@ -892,6 +875,10 @@ async function selfTest(context, origin) {
   rows.push(['overlap: the clean fixture has none', !ck.has('overlap')]);
   rows.push(['escapes: the 900px table in a 300px box is seen', fk.has('escapes')]);
   rows.push(['escapes: the clean fixture has none', !ck.has('escapes')]);
+  rows.push(['escapes: a flex item 10px into its row\'s padding is seen (content box, #4)',
+    faulty.found.some((f) => f.kind === 'escapes' && /plant-flexpad/.test(f.el))]);
+  rows.push(['escapes: a negative-margin hang into a flex row\'s padding is not',
+    !faulty.found.some((f) => f.kind === 'escapes' && /clean-flexhang/.test(f.other ?? ''))]);
   rows.push(['word: the 20-char token in a 90px cell is seen', fk.has('word')]);
   rows.push(['word: the clean fixture has none', !ck.has('word')]);
 

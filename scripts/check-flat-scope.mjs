@@ -42,12 +42,12 @@
  * Needs the playground build and a browser, so it belongs in the render job.
  */
 
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
-import { createServer } from 'node:http';
+import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, extname } from 'node:path';
+import { dirname, join } from 'node:path';
 import { chromium } from 'playwright-core';
-import { serveFonts, installOfflineGuard } from './lib/local-fonts.mjs';
+import { installOfflineGuard } from './lib/local-fonts.mjs';
+import { serveStatic } from './lib/serve.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'playground/dist');
@@ -62,9 +62,6 @@ if (!existsSync(DIST)) {
   console.error(red(`\n✖  ${DIST} does not exist — run the playground build first.\n`));
   process.exit(1);
 }
-
-const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
-               '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2' };
 
 /**
  * The probe. Runs in the page: for every rule whose selector carries a scope
@@ -120,17 +117,10 @@ const PROBE = (plant) => {
   return out.filter((r) => !seen.has(r.selector) && seen.add(r.selector));
 };
 
-const server = createServer(async (req, res) => {
-  const url = decodeURIComponent(req.url.split('?')[0]);
-  const font = await serveFonts(url);
-  if (font) { res.writeHead(200, { 'content-type': font.type }); return res.end(font.body); }
-  const p = join(DIST, url === '/' ? 'index.html' : url);
-  if (!p.startsWith(DIST) || !existsSync(p)) { res.writeHead(404).end(); return; }
-  res.writeHead(200, { 'content-type': MIME[extname(p)] ?? 'application/octet-stream' });
-  res.end(readFileSync(p));
-});
-await new Promise((r) => server.listen(0, r));
-const ORIGIN = `http://127.0.0.1:${server.address().port}`;
+/* The built playground exactly as Astro wrote it — `html: null`, no font
+   rewrite, because what this probe asks about is the CSS Astro emitted and
+   nothing else should be on the page. */
+const { server, origin: ORIGIN } = await serveStatic({ roots: [DIST], assets: false, html: null });
 
 const pages = readdirSync(join(DIST, 'demos')).filter((f) => f.endsWith('.html')).sort();
 const browser = await chromium.launch({ channel: 'chrome' });

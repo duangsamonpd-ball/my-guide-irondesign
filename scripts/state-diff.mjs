@@ -106,14 +106,12 @@
  * Needs Google Chrome. Not in `npm run check` — same reason as preview.mjs.
  */
 
-import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { serveStatic } from './lib/serve.mjs';
 
-import { serveFonts, useLocalFonts } from './lib/local-fonts.mjs';
 import { existsSync, readdirSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, extname } from 'node:path';
+import { dirname, join } from 'node:path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
@@ -166,34 +164,14 @@ function resolvePage(name) {
 
 /* ── a static server per directory ───────────────────────────────────────── */
 
-const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2' };
 
 async function serve(dir) {
-  const server = createServer(async (req, res) => {
-    try {
-      const path = decodeURIComponent(req.url.split('?')[0]);
-      /* Vendored fonts, served locally as of 2026-08-12. This harness has the
-         sharpest stake in it of the three: a face arriving after first paint
-         re-renders every text run, and two contexts landing on opposite sides of
-         that moment measured a Δ27 noise floor across 12% of a box — see the
-         note by document.fonts.ready below. A font that never travels cannot
-         arrive late. */
-      const font = await serveFonts(path);
-      if (font) {
-        res.writeHead(200, { 'content-type': font.type }).end(font.body);
-        return;
-      }
-      const rel = path.replace(/^\//, '') || 'index.html';
-      const body = await readFile(join(dir, rel));
-      res.writeHead(200, { 'content-type': MIME[extname(rel)] ?? 'application/octet-stream' });
-      res.end(extname(rel) === '.html' ? useLocalFonts(body.toString('utf8')) : body);
-    } catch {
-      res.writeHead(404);
-      res.end('not found');
-    }
-  });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, origin: `http://127.0.0.1:${server.address().port}` };
+  /* Vendored fonts, served locally as of 2026-08-12. This harness has the
+     sharpest stake in it: a face arriving after first paint re-renders every
+     text run, and two contexts landing on opposite sides of that moment
+     measured a Δ27 noise floor across 12% of a box — see the note by
+     document.fonts.ready below. A font that never travels cannot arrive late. */
+  return serveStatic({ roots: [dir], assets: false });
 }
 
 /* ── the reference tree ──────────────────────────────────────────────────── */

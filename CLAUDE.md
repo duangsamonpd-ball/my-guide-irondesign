@@ -100,6 +100,13 @@ that said nothing about the code. The fonts are vendored now and served by each
 harness's own server; `installOfflineGuard` aborts anything addressed elsewhere
 and fails the run, so the property is checked rather than believed.
 
+**That server is `scripts/lib/serve.mjs`, and only that one.** There were eight
+hand-written copies until 2026-10-14, and they had drifted — different MIME
+tables, two that did not confine a path to their root. A new harness or a
+one-off probe imports `serveStatic`; it does not copy a `createServer` from a
+neighbour. Fixtures are served exactly as given, because one of them must
+render WITHOUT the font for a refusal case to be reachable.
+
 **The one exception, and it is the CDN you would actually reach for.** This file
 used to end that paragraph with "if you add a CDN link to a docs page, these will
 tell you", which is true of every host but Google Fonts — `useLocalFonts` rewrites

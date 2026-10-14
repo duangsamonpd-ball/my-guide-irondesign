@@ -41,13 +41,13 @@
  * change, nothing compared, or the network was touched · 2 = usage.
  */
 
-import { createServer } from 'node:http';
-import { readFile, readdir, mkdtemp, rm } from 'node:fs/promises';
+import { serveStatic } from './lib/serve.mjs';
+import { readdir, mkdtemp, rm } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, normalize, extname } from 'node:path';
-import { serveFonts, useLocalFonts, installOfflineGuard } from './lib/local-fonts.mjs';
+import { dirname, join } from 'node:path';
+import { useLocalFonts, installOfflineGuard } from './lib/local-fonts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -74,28 +74,12 @@ const only = args.filter((a, i) => !a.startsWith('--') && !['--ref', '--width', 
 
 
 /** Serve one docs tree, fonts from the vendored copy, Google Fonts links rewritten to it. */
-const MIME = {
-  '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml',
-  '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.json': 'application/json',
-};
-
-/** Serve one docs tree, fonts from the vendored copy, Google Fonts links rewritten to it. */
 async function serve(dir, fixtures = {}) {
-  const server = createServer(async (req, res) => {
-    const path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-    const font = await serveFonts(path);
-    if (font) return res.writeHead(200, { 'content-type': font.type }).end(font.body);
-    if (fixtures[path] !== undefined) return res.writeHead(200, { 'content-type': 'text/html' }).end(useLocalFonts(fixtures[path]));
-    try {
-      let body = await readFile(join(dir, normalize(path)));
-      if (path.endsWith('.html')) body = useLocalFonts(body.toString('utf8'));
-      res.writeHead(200, { 'content-type': MIME[extname(path)] ?? 'application/octet-stream' }).end(body);
-    } catch {
-      res.writeHead(404).end();
-    }
+  return serveStatic({
+    roots: [dir],
+    assets: false,
+    fixtures: Object.fromEntries(Object.entries(fixtures).map(([p, f]) => [p, useLocalFonts(f)])),
   });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, origin: `http://127.0.0.1:${server.address().port}`, close: () => server.close() };
 }
 
 /** Every element under <body>: a short label and its full computed style, in document order. */

@@ -79,13 +79,13 @@
  * entry that never fires fails the run, so the list cannot rot.
  */
 
-import { createServer } from 'node:http';
+import { serveStatic } from './lib/serve.mjs';
 import { readFile } from 'node:fs/promises';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, extname, normalize, basename } from 'node:path';
+import { dirname, join, normalize, basename } from 'node:path';
 
-import { LOCAL_FONT_LINK, serveFonts, installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
+import { LOCAL_FONT_LINK, installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
 import { componentSources } from './lib/sources.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -278,12 +278,6 @@ const INJECT =
      pages' own rule; assertFont() below is what stops it silently going away. */
   `<style>body { font-family: ${DOCS_BODY_FONT}; }</style>`;
 
-const MIME = {
-  '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.json': 'application/json',
-};
 
 /**
  * The fixture behind --self-test. Every row has an answer known before the
@@ -315,57 +309,30 @@ const SELF_TEST_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-
 </body></html>`;
 
 async function startServer() {
-  const server = createServer(async (req, res) => {
-    let path;
-    try { path = decodeURIComponent(new URL(req.url, 'http://x').pathname); }
-    catch { res.writeHead(400).end('bad escape in URL'); return; }
+  /* Two spellings of the same fixture. The bare one has no font-family at all,
+     so its text falls to the UA default exactly as the demo pages did before
+     2026-08-12 — that is the state assertFont has to REFUSE. The -font one
+     adds the docs rule and nothing else, and is the state it has to accept.
+     One fixture could only ever show one of the two answers. serveStatic hands
+     fixtures over exactly as given, which is what keeps the bare one bare.
 
-    /* Two spellings of the same fixture. The bare one has no font-family at all,
-       so its text falls to the UA default exactly as the demo pages did before
-       2026-08-12 — that is the state assertFont has to REFUSE. The -font one
-       adds the docs rule and nothing else, and is the state it has to accept.
-       One fixture could only ever show one of the two answers. */
-    const font = await serveFonts(path);
-    if (font) {
-      res.writeHead(200, { 'content-type': font.type }).end(font.body);
-      return;
-    }
-
-    if (path === '/__self-test.html' || path === '/__self-test-font.html') {
-      /* The webfont link comes with it: on a machine with no local Montserrat
-         the family has to arrive over the network or the "accept" case would
-         fail for a reason that has nothing to do with the check. */
-      const html = path === '/__self-test-font.html'
-        ? SELF_TEST_HTML.replace('</head>', `${FONT_LINK}<style>body { font-family: ${DOCS_BODY_FONT}; }</style></head>`)
-        : SELF_TEST_HTML;
-      res.writeHead(200, { 'content-type': MIME['.html'] }).end(html);
-      return;
-    }
-    if (path.startsWith('/demos/')) {
-      try {
-        const html = await readFile(join(DIST, normalize(path)), 'utf8');
-        res.writeHead(200, { 'content-type': MIME['.html'] }).end(html.replace('<body>', `${INJECT}<body>`));
-        return;
-      } catch { /* fall through */ }
-    }
-    /* A generated demo asks for its images the way the COMPONENT does —
-       `assets/logo-g2.svg`, relative to wherever it is mounted — so anything
-       ending in /assets/<file> maps back to whichever root has it. */
-    const asset = path.match(/\/assets\/(.+)$/);
-    const tries = [join(DOCS, normalize(path)), join(DIST, normalize(path))];
-    if (asset) tries.push(join(DOCS, 'assets', asset[1]), join(DIST, 'assets', asset[1]));
-    for (const file of tries) {
-      if (!file.startsWith(DOCS) && !file.startsWith(DIST)) continue;
-      try {
-        const body = await readFile(file);
-        res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' }).end(body);
-        return;
-      } catch { /* next candidate */ }
-    }
-    res.writeHead(404, { 'content-type': 'text/plain' }).end(`not found: ${path}`);
+     `/demos/*` is the one route that is not a file on disk: the playground
+     render with the docs styling injected. A generated demo asks for its
+     images relative to wherever it is mounted, which serveStatic's assets/
+     fallback answers from either root. */
+  return serveStatic({
+    roots: [DOCS, DIST],
+    fixtures: {
+      '/__self-test.html': SELF_TEST_HTML,
+      '/__self-test-font.html': () =>
+        SELF_TEST_HTML.replace('</head>', `${FONT_LINK}<style>body { font-family: ${DOCS_BODY_FONT}; }</style></head>`),
+    },
+    handle: async (path) => {
+      if (!path.startsWith('/demos/')) return null;
+      try { return { body: (await readFile(join(DIST, normalize(path)), 'utf8')).replace('<body>', `${INJECT}<body>`) }; }
+      catch { return null; }
+    },
   });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, origin: `http://127.0.0.1:${server.address().port}` };
 }
 
 /* ── 3. the probe, as it runs inside the page ─────────────────────────────── */

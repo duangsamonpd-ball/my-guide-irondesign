@@ -82,12 +82,11 @@
  * a declaration is malformed, or an arm failed.
  */
 
-import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { serveStatic } from './lib/serve.mjs';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, normalize, extname } from 'node:path';
-import { serveFonts, useLocalFonts, installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
+import { dirname, join } from 'node:path';
+import { installOfflineGuard, fontsAvailable } from './lib/local-fonts.mjs';
 
 import { componentSources } from './lib/sources.mjs';
 
@@ -255,40 +254,11 @@ const armFont = () => {
 
 /* ── 3. the server ────────────────────────────────────────────────────────── */
 
-const MIME = {
-  '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.json': 'application/json',
-};
 
 async function startServer() {
-  const server = createServer(async (req, res) => {
-    let path;
-    try { path = decodeURIComponent(new URL(req.url, 'http://x').pathname); }
-    catch { res.writeHead(400).end('bad escape in URL'); return; }
-
-    const font = await serveFonts(path);
-    if (font) { res.writeHead(200, { 'content-type': font.type }).end(font.body); return; }
-
-    const tries = [join(DOCS, normalize(path))];
-    const asset = path.match(/\/assets\/(.+)$/);
-    if (asset) tries.push(join(DOCS, 'assets', asset[1]));
-    for (const file of tries) {
-      if (!file.startsWith(DOCS)) continue;
-      try {
-        const body = await readFile(file);
-        res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
-        /* Vendored fonts on the way out, same bytes: a woff2 that never arrives
-           is a band measured in a fallback face and reported as nothing at all. */
-        res.end(extname(file) === '.html' ? useLocalFonts(body.toString('utf8')) : body);
-        return;
-      } catch { /* next candidate */ }
-    }
-    res.writeHead(404, { 'content-type': 'text/plain' }).end(`not found: ${path}`);
-  });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, origin: `http://127.0.0.1:${server.address().port}` };
+  /* Vendored fonts on the way out, same bytes: a woff2 that never arrives is a
+     band measured in a fallback face and reported as nothing at all. */
+  return serveStatic({ roots: [DOCS] });
 }
 
 /* ── 4. run ───────────────────────────────────────────────────────────────── */
