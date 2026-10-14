@@ -257,9 +257,22 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
+          cache: npm
 
-      - name: Install Tailwind
-        run: npm i --no-save tailwindcss@4 @tailwindcss/cli@4
+      # From the LOCKFILE, not `npm i tailwindcss@4`. That installed the newest
+      # 4.x on the day it ran while every other build — this repo's, the page
+      # room's, the skills room's — used the locked 4.3.3, and the log never
+      # said which it got (#7). It also made the byte-for-byte utilities check
+      # below a test of Tailwind's release schedule: a new 4.x that reorders one
+      # rule turns it red with nothing changed here. The locked version is also
+      # the `tailwindcss` peer floor both packages advertise, and
+      # check:peer-range holds the two equal — so this job compiles exactly the
+      # version consumers are told is the minimum (#6).
+      - name: Install from the lockfile
+        run: npm ci
+
+      - name: Which Tailwind this job compiles with
+        run: npm ls tailwindcss @tailwindcss/cli
 
       - name: Compile
         run: npx @tailwindcss/cli -i tailwind/theme.css -o /tmp/out.css
