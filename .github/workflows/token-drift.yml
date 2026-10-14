@@ -473,3 +473,8 @@ jobs:
       # Needs no git ref and no playground build; 16s.
       - name: Check the state-diff harness can still see a difference
         run: node scripts/state-diff.mjs --self-test
+
+      # Same reasoning for style-diff, its static sibling (every computed value
+      # of every element at rest, against a ref). Not gated; its self-test is.
+      - name: Check the style-diff harness can still see a difference
+        run: node scripts/style-diff.mjs --self-test

@@ -48,6 +48,7 @@
     "audit": "node scripts/preview.mjs --all",
     "preview:self-test": "node scripts/preview.mjs --self-test",
     "state-diff": "node scripts/state-diff.mjs",
+    "style-diff": "node scripts/style-diff.mjs",
     "overflow": "node scripts/check-overflow.mjs",
     "overflow:self-test": "node scripts/check-overflow.mjs --self-test",
     "wide": "node scripts/check-wide.mjs",

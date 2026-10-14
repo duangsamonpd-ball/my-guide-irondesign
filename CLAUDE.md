@@ -28,10 +28,13 @@ npm run check && git commit …
 
 `npm run preview <page>` renders the docs in a real browser (needs Chrome),
 `node scripts/state-diff.mjs <page> --ref HEAD` compares interactive states pixel
-for pixel, `npm run overflow` sweeps every component across the widths in its `DEFAULT_WIDTHS` for
-anything that leaves its box, and `npm run wide` sweeps the two widths ABOVE the
+for pixel, `npm run style-diff -- --ref HEAD` compares every computed value of every
+element at rest on every docs page — the one to reach for after a token change,
+since `state-diff` reports "nothing was compared" on a page with nothing to hover,
+`npm run overflow` sweeps every component across the widths in its `DEFAULT_WIDTHS`
+for anything that leaves its box, and `npm run wide` sweeps the two widths ABOVE the
 canvas for anything that keeps growing, and `npm run figma-size` measures every
-band a component has DECLARED against the Figma node it comes from. All five
+band a component has DECLARED against the Figma node it comes from. All six
 exit non-zero on failure. None is in `npm run check`, which stays runnable
 anywhere Node runs.
 
