@@ -1135,11 +1135,11 @@
 .p-\[32px\] {
   padding: 32px;
 }
+.p-\[calc\(var\(--spacing-sm\)_-_var\(--border-width-1\)\)\] {
+  padding: calc(var(--spacing-sm) - var(--border-width-1));
+}
 .p-micro {
   padding: var(--spacing-micro);
-}
-.p-sm {
-  padding: var(--spacing-sm);
 }
 .px-2xl {
   padding-inline: var(--spacing-2xl);

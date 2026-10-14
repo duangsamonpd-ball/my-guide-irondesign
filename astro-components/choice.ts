@@ -88,7 +88,16 @@ export const choiceCard = [
      docs pages and wrong the moment a card sits on a shaded band or in dark
      mode, where it would show the section through itself. Found by measuring the
      card against the node rather than by looking at it — 2026-08-06. */
-  'border border-border rounded-lg p-sm bg-bg-card',
+  /* The padding is 12 MINUS the border, because Figma's stroke is INSIDE its
+     12: `340:630` puts the box and label at x/y 12 from the card's outer edge
+     and draws 88, where `border` + `p-sm` drew 1 + 12 + … + 12 + 1 = 90 (Radio
+     Card `451:509`: 68 against 70). An auto height is never border-box, so the
+     border has to come out of the padding. Kept a border rather than an inset
+     outline or shadow so the hover and checked recolours stay on one property,
+     and so forced-colors mode keeps the line — it drops box-shadow. Same
+     arithmetic as FooterBar's `.fb-tools-trigger`. Raised from page-experiments
+     as #8, where six ROI cards made the group 6px taller than the frame. */
+  'border border-border rounded-lg p-[calc(var(--spacing-sm)_-_var(--border-width-1))] bg-bg-card',
   'transition-[border-color,background-color] duration-[var(--duration-fast)]',
   'hover:border-border-strong',
   'has-[:checked]:border-border-selected has-[:checked]:bg-bg-card-alt',
