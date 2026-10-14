@@ -37,6 +37,22 @@
  * installed Astro — each exits 1 with the reason. A checker that quietly passes
  * when it cannot run is worse than no checker, because it reads as good news.
  *
+ * ── TAILWIND, THE SECOND PEER (#6, 2026-10-14) ─────────────────────────────
+ *
+ * Every consumer that runs Tailwind compiles `theme.css` and `@source`s these
+ * components with ITS OWN Tailwind, and neither package said which. The room
+ * that raised it had declared `^4.0.0` and nothing here would have told it.
+ * Both packages now carry `tailwindcss` as an OPTIONAL peer — optional because
+ * the README offers a pre-compiled stylesheet to consumers without Tailwind.
+ *
+ * Its floor is held differently from Astro's, because there is no compiler
+ * table to consult: the floor must EQUAL the version the lockfile resolves,
+ * which is the version CI's `compile` job builds with (`npm ci`, since #7).
+ * So the advertised floor is always the one thing that was actually compiled.
+ * Bump the lockfile without raising the floor and this goes red, because the
+ * floor has stopped being tested; lower it and it goes red for the same
+ * reason. Both packages and the README sentence must agree with it.
+ *
  * Run:  node scripts/check-peer-range.mjs [--self-test]
  * Exit: 0 = the range is true at its floor · 1 = it is not, or cannot be tested
  *
@@ -100,6 +116,60 @@ function readmeFloor() {
   const m = /\*\*Requires Astro (\d+) or newer\.\*\*/.exec(md);
   return m ? Number(m[1]) : null;
 }
+
+const ROOT_PKG = join(ROOT, 'package.json');
+const LOCK = join(ROOT, 'package-lock.json');
+
+/**
+ * The full floor of a Tailwind range, as `x.y.z`. Narrower than `floorMajor`
+ * on purpose: the floor has to be compared with an exact lockfile version, so
+ * a range that does not name all three parts is refused rather than padded.
+ */
+function floorVersion(range) {
+  const m = /^(?:\^|>=|~)?\s*(\d+\.\d+\.\d+)\s*$/.exec(String(range ?? '').trim());
+  return m ? m[1] : null;
+}
+
+/** What `npm ci` installs for `tailwindcss` at the root. */
+function lockedTailwind() {
+  const lock = JSON.parse(readFileSync(LOCK, 'utf8'));
+  return lock.packages?.['node_modules/tailwindcss']?.version ?? null;
+}
+
+/** The README's "**Requires Tailwind x.y.z or newer.**", or null. */
+function readmeTailwindFloor() {
+  const md = readFileSync(join(ROOT, 'README.md'), 'utf8');
+  const m = /\*\*Requires Tailwind (\d+\.\d+\.\d+) or newer\.\*\*/.exec(md);
+  return m ? m[1] : null;
+}
+
+/**
+ * Every way the Tailwind peer can be false, as a list. Empty means: both
+ * packages declare it, both mark it optional, both floors equal the locked
+ * version, and so does the README.
+ */
+function tailwindPeerProblems(pkgs, locked, readme) {
+  const out = [];
+  if (!locked) out.push('package-lock.json resolves no node_modules/tailwindcss — nothing to hold the floor against');
+  for (const [name, pkg] of pkgs) {
+    const range = pkg.peerDependencies?.tailwindcss;
+    if (!range) { out.push(`${name} declares no \`tailwindcss\` peer`); continue; }
+    if (pkg.peerDependenciesMeta?.tailwindcss?.optional !== true)
+      out.push(`${name}: the \`tailwindcss\` peer is not marked optional — consumers of the pre-compiled CSS do not need it`);
+    const floor = floorVersion(range);
+    if (!floor) out.push(`${name}: cannot read an x.y.z floor out of \`tailwindcss: ${range}\``);
+    else if (locked && floor !== locked)
+      out.push(`${name}: floor ${floor} (\`${range}\`) but the lockfile — what CI compiles with — resolves ${locked}`);
+  }
+  if (!readme) out.push('README.md does not say "**Requires Tailwind x.y.z or newer.**"');
+  else if (locked && readme !== locked) out.push(`README.md says Tailwind ${readme}, the lockfile resolves ${locked}`);
+  return out;
+}
+
+const readPkgs = () => [
+  ['package.json', JSON.parse(readFileSync(ROOT_PKG, 'utf8'))],
+  ['astro-components/package.json', JSON.parse(readFileSync(PKG, 'utf8'))],
+];
 
 /** Every component this package publishes. `.astro/` is Astro's types dir, not source. */
 function componentFiles() {
@@ -246,6 +316,38 @@ async function selfTest() {
   rows.push([`an unreadable range yields no floor, and a readable one yields the right floor`,
              unparseable && parseable, `refuse 4/4 · parse 3/3`]);
 
+  // Tailwind. The plumbing row first: the lockfile must name the version that
+  // is really installed here, or "the floor equals the lockfile" is a
+  // comparison between two files and nothing that ran.
+  const locked = lockedTailwind();
+  let installedTw = null;
+  try { installedTw = JSON.parse(readFileSync(join(ROOT, 'node_modules/tailwindcss/package.json'), 'utf8')).version; } catch {}
+  rows.push([`the lockfile's tailwindcss is the one installed`, Boolean(locked) && locked === installedTw,
+             `lock ${locked ?? 'none'} · node_modules ${installedTw ?? 'none'}`]);
+
+  const fv = ['^4.3.3', '>=4.3.3', '4.3.3'].every((r) => floorVersion(r) === '4.3.3')
+          && ['^4', '4.x', '*', '', undefined].every((r) => floorVersion(r) === null);
+  rows.push([`a Tailwind floor is read as x.y.z, and a partial one is refused`, fv, `parse 3/3 · refuse 5/5`]);
+
+  // The detector, against fixtures: a good pair is clean, and each way of
+  // being wrong is named. A detector that only ever saw the real files has
+  // only ever been asked the question whose answer is "fine".
+  const good = { peerDependencies: { tailwindcss: '^4.3.3' }, peerDependenciesMeta: { tailwindcss: { optional: true } } };
+  const cases = [
+    ['correct', [['a', good]], '4.3.3', 0],
+    ['missing peer', [['a', {}]], '4.3.3', 1],
+    ['not optional', [['a', { peerDependencies: { tailwindcss: '^4.3.3' } }]], '4.3.3', 1],
+    ['floor behind the lockfile', [['a', { ...good, peerDependencies: { tailwindcss: '^4.0.0' } }]], '4.3.3', 1],
+    ['README disagrees', [['a', good]], '4.0.0', 1],
+  ];
+  const verdicts = cases.map(([, pkgs, rd, want]) => tailwindPeerProblems(pkgs, '4.3.3', rd).length === want);
+  rows.push([`the Tailwind detector is clean on a good pair and names each fault`, verdicts.every(Boolean),
+             cases.map(([n], i) => `${verdicts[i] ? '✓' : '✗'} ${n}`).join(' · ')]);
+
+  const rtf = readmeTailwindFloor();
+  rows.push([`the README's stated Tailwind floor is findable in its prose`, rtf !== null,
+             rtf === null ? 'no "**Requires Tailwind x.y.z or newer.**" sentence' : `reads ${rtf}`]);
+
   let bad = 0;
   for (const [label, ok, detail] of rows) {
     console.log(`  ${ok ? green('✔') : red('✖')}  ${label}   ${dim(detail)}`);
@@ -265,6 +367,17 @@ if (SELF_TEST) {
 }
 
 // ── the check ────────────────────────────────────────────────────────────────
+
+const twProblems = tailwindPeerProblems(readPkgs(), lockedTailwind(), readmeTailwindFloor());
+if (twProblems.length) {
+  console.error(red(`\n✖  the \`tailwindcss\` peer range is not true\n`));
+  for (const p of twProblems) console.error(`  ${p}`);
+  console.error(`\n  The floor must equal what package-lock.json resolves, because that is the`);
+  console.error(`  only Tailwind CI compiles with. Raise or lower it in BOTH package.json files`);
+  console.error(`  and the README sentence together.\n`);
+  process.exit(1);
+}
+console.log(green(`✔  tailwindcss peer ^${lockedTailwind()} in both packages, optional, = the lockfile and the README`));
 
 const pkg = JSON.parse(readFileSync(PKG, 'utf8'));
 const range = pkg.peerDependencies?.astro;

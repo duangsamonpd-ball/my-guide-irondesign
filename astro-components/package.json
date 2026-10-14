@@ -4,7 +4,13 @@
   "private": true,
   "type": "module",
   "peerDependencies": {
-    "astro": ">=7.0.0"
+    "astro": ">=7.0.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
   },
   "exports": {
     ".": "./index.ts",

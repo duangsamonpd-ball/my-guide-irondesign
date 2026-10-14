@@ -69,6 +69,14 @@
     "build:components-css": "node scripts/build-component-css.mjs",
     "check:components-css": "node scripts/build-component-css.mjs --self-test && node scripts/build-component-css.mjs --check"
   },
+  "peerDependencies": {
+    "tailwindcss": "^4.3.3"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@astrojs/compiler": "^2.13.1",

@@ -117,6 +117,8 @@ Every component's CSS references `tailwind/tokens.css` — import the token file
 
 ### Option 2 — Tailwind v4
 
+**Requires Tailwind 4.3.3 or newer.** Your Tailwind compiles this theme and the components' classes, not ours, so both packages declare it as an optional `peerDependencies` entry (optional because Option 1 needs no Tailwind at all). The floor is the exact version this repo's lockfile installs and CI compiles with; `npm run check:peer-range` fails if the two ever differ, and reads the version out of this sentence too.
+
 There is no `tailwind.config.js`. Tailwind v4 is CSS-first, so the theme *is* a stylesheet — import it instead of `tailwindcss` and everything is registered:
 
 ```css
