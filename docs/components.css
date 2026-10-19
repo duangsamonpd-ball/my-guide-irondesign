@@ -129,10 +129,10 @@
   .fb-social { display: flex; opacity: var(--opacity-60); }
   .fb-social img { width: 16px; height: 16px; display: block; }
   .fb-social:hover { opacity: 1; }
-  .fb-slack { display: flex; align-items: center; gap: var(--spacing-xs); text-decoration: none; }
-  .fb-slack img { width: 16px; height: 16px; display: block; }
-  .fb-slack span { font-size: var(--font-size-label); font-weight: var(--fw-label); line-height: var(--line-height-label); letter-spacing: var(--letter-spacing-label); color: var(--color-text-on-dark-body); white-space: nowrap; transition: color var(--duration-base); }
-  .fb-slack:hover span { color: var(--color-text-on-dark-heading); }
+  .fb-message { display: flex; align-items: center; gap: var(--spacing-sm); }
+  .fb-message-label { font-size: var(--font-size-label); font-weight: var(--fw-label); line-height: var(--line-height-label); letter-spacing: var(--letter-spacing-label); color: var(--color-text-on-dark-body); white-space: nowrap; }
+  .fb-messenger { display: flex; }
+  .fb-messenger img { width: 16px; height: 16px; display: block; }
   .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
   .fb-info-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--size-container-max); }
   .fb-partners { display: flex; align-items: center; gap: var(--spacing-xl); flex: 1 0 0; min-width: 0; }
@@ -165,7 +165,7 @@
     .fb-brand { grid-area: brand; }
     .fb-connect { grid-area: connect; }
   }
-  @media (max-width: 1059.98px) {
+  @media (max-width: 1220.98px) {
     .fb-legal { min-width: auto; }
   }
   @media (max-width: 1023.98px) {

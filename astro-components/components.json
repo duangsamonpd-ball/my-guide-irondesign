@@ -384,7 +384,7 @@
       "interactive": true,
       "figmaNodes": [
         "263:1386",
-        "2373:4247",
+        "880:753",
         "877:4082",
         "879:500",
         "880:1078",
@@ -462,17 +462,18 @@
           "description": "The social icons, each `{ name, icon, href? }`; `name` is the link's accessible name."
         },
         {
-          "name": "slackLabel",
+          "name": "messageLabel",
           "type": "string",
           "required": false,
-          "default": "'Join Iron Slack'",
-          "description": "The Slack link's text."
+          "default": "'Message us on:'",
+          "description": "The text before the messaging icons. Plain text, not a link — each icon is its own."
         },
         {
-          "name": "slackHref",
-          "type": "string",
+          "name": "messengers",
+          "type": "Messenger[]",
           "required": false,
-          "description": "Where the Slack link goes."
+          "default": "[\n    { name: 'Slack', icon: 'icon-slack.svg' },\n    { name: 'WhatsApp', icon: 'icon-whatsapp.svg' },\n  ]",
+          "description": "The messaging channels after the label, each `{ name, icon, href? }`; `name` is the link's accessible name."
         },
         {
           "name": "partners",
@@ -492,7 +493,7 @@
           "name": "legal",
           "type": "Link[]",
           "required": false,
-          "default": "[{ label: 'Terms' }, { label: 'Privacy' }, { label: 'Cookie' }]",
+          "default": "[{ label: 'Terms' }, { label: 'Privacy' }, { label: 'Cookie' }, { label: 'llms.txt' }]",
           "description": "The legal links in the bottom row, with a divider between each."
         },
         {

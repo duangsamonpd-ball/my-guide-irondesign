@@ -4,7 +4,7 @@
  *
  * ── THE GAP ────────────────────────────────────────────────────────────────
  *
- * On 2026-08-25 `FooterBar` rendered 227 where `footer-lg` 2373:4247 draws 224.
+ * On 2026-08-25 `FooterBar` rendered 227 where `footer-lg` 880:753 draws 224.
  * It was two faults, both of them ARITHMETIC THAT HAD BEEN WRITTEN DOWN RATHER
  * THAN ASSERTED: a transparent border reserve that cancels out between siblings
  * in Button and does not here, and a `line-height: var(--leading-5)` sitting
@@ -28,7 +28,7 @@
  * count this prints — rather than silently asserted to be fine.
  *
  *   /* @figma-size menu-bar
- *        node   2373:4247
+ *        node   880:753
  *        frame  footer-lg
  *        page   component-footerbar.html
  *        region freetools
@@ -447,7 +447,7 @@ for (const [key, group] of SELF_TEST ? [] : byLoad) {
 
 if (SELF_TEST) {
   const good = `/* @figma-size menu-bar
- *      node   2373:4247
+ *      node   880:753
  *      frame  footer-lg
  *      page   component-footerbar.html
  *      region freetools
@@ -458,7 +458,7 @@ if (SELF_TEST) {
   const cases = [
     ['CONTROL — a well-formed block parses', parseDecls(good, 'X.astro'), (r) => r.decls.length === 1 && !r.errors.length],
     ['a field the parser does not know', parseDecls(good.replace('frame ', 'framme '), 'X.astro'), (r) => r.errors.length > 0],
-    ['a node id that is not one', parseDecls(good.replace('2373:4247', 'footer-lg'), 'X.astro'), (r) => r.errors.length > 0],
+    ['a node id that is not one', parseDecls(good.replace('880:753', 'footer-lg'), 'X.astro'), (r) => r.errors.length > 0],
     ['a missing required field', parseDecls(good.replace(/^.*height.*$/m, ''), 'X.astro'), (r) => r.errors.length > 0 && r.decls.length === 0],
     ['the same field twice', parseDecls(good.replace(' */', ' *      at     1024\n */'), 'X.astro'), (r) => r.errors.length > 0],
     ['a block with no name', parseDecls(good.replace('@figma-size menu-bar', '@figma-size'), 'X.astro'), (r) => r.errors.length > 0 && r.decls.length === 0],

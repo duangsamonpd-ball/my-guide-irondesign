@@ -281,10 +281,14 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                     <img src="assets/icon-linkedin.svg" alt="" width="16" height="16">
                   </a>
                 </div>
-                <a class="fb-slack" href="#">
-                  <img src="assets/icon-slack.svg" alt="" width="16" height="16">
-                  <span>Join Iron Slack</span>
-                </a>
+                <div class="fb-message">
+                  <span class="fb-message-label">Message us on:</span>
+                  <a class="fb-messenger" href="#" aria-label="Slack">
+                    <img src="assets/icon-slack.svg" alt="" width="16" height="16">
+                  </a><a class="fb-messenger" href="#" aria-label="WhatsApp">
+                    <img src="assets/icon-whatsapp.svg" alt="" width="16" height="16">
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -301,6 +305,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <a class="fb-legal-link" href="#">Privacy</a>
                   <span class="fb-div" aria-hidden="true"></span>
                   <a class="fb-legal-link" href="#">Cookie</a>
+                  <span class="fb-div" aria-hidden="true"></span>
+                  <a class="fb-legal-link" href="#">llms.txt</a>
                 </div>
               </div>
               <div class="fb-donate">
@@ -466,10 +472,14 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                     <img src="assets/icon-linkedin.svg" alt="" width="16" height="16">
                   </a>
                 </div>
-                <a class="fb-slack" href="#">
-                  <img src="assets/icon-slack.svg" alt="" width="16" height="16">
-                  <span>Join Iron Slack</span>
-                </a>
+                <div class="fb-message">
+                  <span class="fb-message-label">Message us on:</span>
+                  <a class="fb-messenger" href="#" aria-label="Slack">
+                    <img src="assets/icon-slack.svg" alt="" width="16" height="16">
+                  </a><a class="fb-messenger" href="#" aria-label="WhatsApp">
+                    <img src="assets/icon-whatsapp.svg" alt="" width="16" height="16">
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -486,6 +496,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <a class="fb-legal-link" href="#">Privacy</a>
                   <span class="fb-div" aria-hidden="true"></span>
                   <a class="fb-legal-link" href="#">Cookie</a>
+                  <span class="fb-div" aria-hidden="true"></span>
+                  <a class="fb-legal-link" href="#">llms.txt</a>
                 </div>
               </div>
               <div class="fb-donate">
@@ -650,10 +662,14 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                     <img src="assets/icon-linkedin.svg" alt="" width="16" height="16">
                   </a>
                 </div>
-                <a class="fb-slack" href="#">
-                  <img src="assets/icon-slack.svg" alt="" width="16" height="16">
-                  <span>Join Iron Slack</span>
-                </a>
+                <div class="fb-message">
+                  <span class="fb-message-label">Message us on:</span>
+                  <a class="fb-messenger" href="#" aria-label="Slack">
+                    <img src="assets/icon-slack.svg" alt="" width="16" height="16">
+                  </a><a class="fb-messenger" href="#" aria-label="WhatsApp">
+                    <img src="assets/icon-whatsapp.svg" alt="" width="16" height="16">
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -670,6 +686,8 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
                   <a class="fb-legal-link" href="#">Privacy</a>
                   <span class="fb-div" aria-hidden="true"></span>
                   <a class="fb-legal-link" href="#">Cookie</a>
+                  <span class="fb-div" aria-hidden="true"></span>
+                  <a class="fb-legal-link" href="#">llms.txt</a>
                 </div>
               </div>
               <div class="fb-donate">
@@ -722,7 +740,7 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
           <tr><td>surface/footer</td><td><code>--color-bg-footer</code></td><td>Legal row fill</td></tr>
           <tr><td>text/default/link-menu</td><td><code>--color-text-link-menu</code></td><td>Menu and legal links</td></tr>
           <tr><td>text/on dark/heading</td><td><code>--color-text-on-dark-heading</code></td><td>Review score</td></tr>
-          <tr><td>text/on dark/body</td><td><code>--color-text-on-dark-body</code></td><td>Address, Slack, copyright, donate</td></tr>
+          <tr><td>text/on dark/body</td><td><code>--color-text-on-dark-body</code></td><td>Address, message label, copyright, donate</td></tr>
           <tr><td>transparent/white/20</td><td><code>--transparent-white-20</code></td><td>Dividers</td></tr>
           <tr><td>transparent/white/10</td><td><code>--transparent-white-10</code></td><td>Review card border</td></tr>
         </tbody>
@@ -744,11 +762,11 @@ body { font-family:'Montserrat',sans-serif; background:#F8FAFC; color:#171717; }
         <tr><td class="ptable-name">reviews</td><td class="ptable-type">Review[]</td><td class="ptable-default"><span class="ptable-none">2 items</span></td><td class="ptable-notes">The review scores — logo, stars and score for each site.</td></tr>
         <tr><td class="ptable-name">address</td><td class="ptable-type">string</td><td class="ptable-default">'205 N. Michigan Ave. Chicago, IL 60611 USA +1 (312) 252-3088'</td><td class="ptable-notes">The postal address and phone number under the logo.</td></tr>
         <tr><td class="ptable-name">socials</td><td class="ptable-type">Social[]</td><td class="ptable-default"><span class="ptable-none">5 items</span></td><td class="ptable-notes">The social icons, each <code>{ name, icon, href? }</code>; <code>name</code> is the link's accessible name.</td></tr>
-        <tr><td class="ptable-name">slackLabel</td><td class="ptable-type">string</td><td class="ptable-default">'Join Iron Slack'</td><td class="ptable-notes">The Slack link's text.</td></tr>
-        <tr><td class="ptable-name">slackHref</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Where the Slack link goes.</td></tr>
+        <tr><td class="ptable-name">messageLabel</td><td class="ptable-type">string</td><td class="ptable-default">'Message us on:'</td><td class="ptable-notes">The text before the messaging icons.</td></tr>
+        <tr><td class="ptable-name">messengers</td><td class="ptable-type">Messenger[]</td><td class="ptable-default"><span class="ptable-none">2 items</span></td><td class="ptable-notes">The messaging channels after the label, each <code>{ name, icon, href? }</code>; <code>name</code> is the link's accessible name.</td></tr>
         <tr><td class="ptable-name">partners</td><td class="ptable-type">Partner[]</td><td class="ptable-default"><span class="ptable-none">3 items</span></td><td class="ptable-notes">The partner logos, each with the width it is drawn at.</td></tr>
         <tr><td class="ptable-name">copyright</td><td class="ptable-type">string</td><td class="ptable-default">'Copyright © Iron Software 2013-2026'</td><td class="ptable-notes">The copyright line in the bottom row.</td></tr>
-        <tr><td class="ptable-name">legal</td><td class="ptable-type">Link[]</td><td class="ptable-default"><span class="ptable-none">3 items</span></td><td class="ptable-notes">The legal links in the bottom row, with a divider between each.</td></tr>
+        <tr><td class="ptable-name">legal</td><td class="ptable-type">Link[]</td><td class="ptable-default"><span class="ptable-none">4 items</span></td><td class="ptable-notes">The legal links in the bottom row, with a divider between each.</td></tr>
         <tr><td class="ptable-name">donateLabel</td><td class="ptable-type">string</td><td class="ptable-default">'Every Iron Suite Donates'</td><td class="ptable-notes">The text beside the 1% for the Planet logo.</td></tr>
         <tr><td class="ptable-name">donateImg</td><td class="ptable-type">string</td><td class="ptable-default">'1% logo - Horizontal.png'</td><td class="ptable-notes">The 1% for the Planet logo's file name, inside <code>basePath</code>.</td></tr>
         <tr><td class="ptable-name">basePath</td><td class="ptable-type">string</td><td class="ptable-default">'assets'</td><td class="ptable-notes">The folder every image and icon is loaded from.</td></tr>

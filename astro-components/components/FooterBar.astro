@@ -29,7 +29,7 @@
  * including the `<button>` whose border reserve was two of the three pixels.
  *
  * @figma-size band
- *   node   2373:4247
+ *   node   880:753
  *   frame  footer-lg
  *   page   component-footerbar.html
  *   region freetools
@@ -39,7 +39,7 @@
  *   why    the whole bar; 56 + 88 + 80, and each of those is declared below
  *
  * @figma-size menu-bar
- *   node   2373:4247
+ *   node   880:753
  *   frame  footer-lg
  *   page   component-footerbar.html
  *   region freetools
@@ -49,7 +49,7 @@
  *   why    was 58 — the trigger's transparent border reserve, which does not
  *
  * @figma-size mid
- *   node   2373:4247
+ *   node   880:753
  *   frame  footer-lg
  *   page   component-footerbar.html
  *   region freetools
@@ -59,7 +59,7 @@
  *   why    was 89 — .fb-outof leading 20 under a comment saying it must be 1
  *
  * @figma-size info
- *   node   2373:4247
+ *   node   880:753
  *   frame  footer-lg
  *   page   component-footerbar.html
  *   region freetools
@@ -69,7 +69,7 @@
  *   why    exact before the fix and after it; declared so it stays that way
  *
  * @figma-size menu-item
- *   node   2373:4247
+ *   node   880:753
  *   frame  footer-lg
  *   page   component-footerbar.html
  *   region freetools
@@ -151,9 +151,14 @@
  *    The two drawings do not otherwise converge and are not meant to: 68x12 here
  *    against 96x16 there is 5.667 versus 6.000, a different drawing rather than
  *    a scale of one.
- *  · ~~The two lg variants disagree about the Slack row~~ — **closed
- *    2026-08-10.** Ball ruled for 16 back in August and the code always used it;
- *    all four frames now read 127x20 around a 16px icon.
+ *  · **The Slack row became "Message us on:" — 2026-10-19, all five frames**
+ *    (`1430:3520` in Default). A plain label, then one 16px icon per channel —
+ *    Slack and WhatsApp — on `spacing-sm` 12, 165x20 where the old row was
+ *    127x20 at gap 8. Same height, so no band moved. Ball's rulings the same
+ *    day: each icon is its own link, with no destination yet; and the row has
+ *    no hover. Both icons are full colour at rest, so the bar's rule — what is
+ *    dimmed comes back on hover — has nothing to bring back, and `885:630`
+ *    draws no hover for the row.
  *  · The Free tools panel's four icons — three headings plus the close button —
  *    are *text* nodes in `Font Awesome 7 Pro: Solid` (U+F021, U+F044, U+F0AD,
  *    U+F00D), not vectors, so nothing can be exported. All four code points are
@@ -222,6 +227,9 @@ interface Social {
   href?: string;
 }
 
+/** A messaging channel in the "Message us on:" row — same shape as a social icon. */
+type Messenger = Social;
+
 interface Partner {
   name: string;
   logo: string;
@@ -278,10 +286,10 @@ interface Props {
   address?: string;
   /** The social icons, each `{ name, icon, href? }`; `name` is the link's accessible name. */
   socials?: Social[];
-  /** The Slack link's text. */
-  slackLabel?: string;
-  /** Where the Slack link goes. */
-  slackHref?: string;
+  /** The text before the messaging icons. Plain text, not a link — each icon is its own. */
+  messageLabel?: string;
+  /** The messaging channels after the label, each `{ name, icon, href? }`; `name` is the link's accessible name. */
+  messengers?: Messenger[];
   /** The partner logos, each with the width it is drawn at. */
   partners?: Partner[];
   /** The copyright line in the bottom row. */
@@ -357,15 +365,18 @@ const {
   ],
   toolsOpen = false,
   closeToolsLabel = 'Close free tools',
-  slackLabel = 'Join Iron Slack',
-  slackHref,
+  messageLabel = 'Message us on:',
+  messengers = [
+    { name: 'Slack', icon: 'icon-slack.svg' },
+    { name: 'WhatsApp', icon: 'icon-whatsapp.svg' },
+  ],
   partners = [
     { name: 'PDF Association Member', logo: 'logo-pdf-association-member.svg', width: 46 },
     { name: 'Microsoft Partner', logo: 'logo-microsoft.svg', width: 92 },
     { name: 'AWS Partner Network', logo: 'logo-aws.svg', width: 86 },
   ],
   copyright = 'Copyright © Iron Software 2013-2026',
-  legal = [{ label: 'Terms' }, { label: 'Privacy' }, { label: 'Cookie' }],
+  legal = [{ label: 'Terms' }, { label: 'Privacy' }, { label: 'Cookie' }, { label: 'llms.txt' }],
   donateLabel = 'Every Iron Suite Donates',
   donateImg = '1% logo - Horizontal.png',
   basePath = 'assets',
@@ -531,10 +542,14 @@ if (freeTools) {
             </a>
           ))}
         </div>
-        <a class="fb-slack" href={slackHref ?? '#'}>
-          <img src={asset('icon-slack.svg')} alt="" width="16" height="16" />
-          <span>{slackLabel}</span>
-        </a>
+        <div class="fb-message">
+          <span class="fb-message-label">{messageLabel}</span>
+          {messengers.map((m) => (
+            <a class="fb-messenger" href={m.href ?? '#'} aria-label={m.name}>
+              <img src={asset(m.icon)} alt="" width="16" height="16" />
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   </div>
@@ -684,7 +699,7 @@ if (freeTools) {
      Button, this one sits in a row of eight <a>s that carry no border at all,
      so the reserve does not cancel out between siblings: it made this item 50
      where the other eight are 48, and the menu bar 58 against footer-lg
-     2373:4247's 56. The compensation therefore belongs on the bordered
+     880:753's 56. The compensation therefore belongs on the bordered
      element, which is the direction Button's own note picks. `padding-block`
      rather than a shorthand so the narrow-band override below, which sets its
      own `padding`, keeps deciding that band by itself.
@@ -813,23 +828,21 @@ if (freeTools) {
   .fb-social { display: flex; opacity: var(--opacity-60); }
   .fb-social img { width: 16px; height: 16px; display: block; }
   .fb-social:hover { opacity: 1; }
-  /* Gap 8 and a Medium label, both bound in Figma (`spacing-xs`, `weight/medium`)
-     in every frame. The code had 4 and Regular from its first commit — 121 wide
-     where all four frames draw 127 — and the note above saying the frames read
-     127x20 never asked what the code rendered. The label is the 14/20/500 label
-     role exactly, so it wears that role rather than three primitives. */
-  .fb-slack { display: flex; align-items: center; gap: var(--spacing-xs); text-decoration: none; }
-  /* 16px, not the 24 the component's own frame reports — the *instance* placed
-     in this variant is 16, in a 20px-tall row. The Free tools variant places a
-     24px one instead; the two variants disagree in Figma. */
-  .fb-slack img { width: 16px; height: 16px; display: block; }
-  .fb-slack span { font-size: var(--font-size-label); font-weight: var(--fw-label); line-height: var(--line-height-label); letter-spacing: var(--letter-spacing-label); color: var(--color-text-on-dark-body); white-space: nowrap; transition: color var(--duration-base); }
-  /* This used to be `opacity: var(--opacity-hover-footer)` — 0.8 — so hovering
-     the row made it FAINTER, the opposite of every other hover in this bar.
-     Figma puts Join Slack outside the socials' opacity group, so there is no
-     dimming to undo here; the label goes from on-dark/body to on-dark/heading
-     instead, which is the same "back to full strength" move in colour terms. */
-  .fb-slack:hover span { color: var(--color-text-on-dark-heading); }
+  /* "Message us on:" then one icon per channel, all on `spacing-sm` 12 —
+     `1430:3520`, 165x20, bound in every frame. The label is the 14/20/500
+     label role exactly, so it wears that role rather than three primitives.
+     It replaced "Join Iron Slack" on 2026-10-19, which was one link on gap 8;
+     the label is plain text now and each icon is its own link.
+
+     No hover, on purpose — Ball's ruling the same day. Slack and WhatsApp are
+     full colour at rest, outside the socials' opacity, so the bar's rule
+     (what is dimmed returns to full strength) has nothing to return, and
+     `885:630` draws no hover for this row. Keyboard focus keeps the browser's
+     ring, like every other link in the bar. */
+  .fb-message { display: flex; align-items: center; gap: var(--spacing-sm); }
+  .fb-message-label { font-size: var(--font-size-label); font-weight: var(--fw-label); line-height: var(--line-height-label); letter-spacing: var(--letter-spacing-label); color: var(--color-text-on-dark-body); white-space: nowrap; }
+  .fb-messenger { display: flex; }
+  .fb-messenger img { width: 16px; height: 16px; display: block; }
 
   /* ── band 3: partners, legal, donate ──────────────────────────────────── */
   .fb-info { background: var(--color-bg-footer); display: flex; align-items: center; justify-content: center; padding: var(--spacing-xl); }
@@ -952,7 +965,7 @@ if (freeTools) {
   /* ── the reviews row only · below 1180 ────────────────────────────────────
      The same band, a different number, because it is different content. The
      middle row — two review cards, the brand lockup, the address, the socials
-     and the Slack line — needs 1180px, and it was squashing rather than
+     and the message line — needs 1180px, and it was squashing rather than
      overflowing: `.fb-reviews` is `flex: 1 0 0; min-width: 0`, so flex takes it
      below its own content instead of letting it stick out, and the second card
      left the group by 77.4px at 1024, 39.4 at 1100 and 1.9 at 1175. Same
@@ -980,10 +993,13 @@ if (freeTools) {
     .fb-connect { grid-area: connect; }
   }
 
-  /* ── the legal row only · below 1060 ──────────────────────────────────────
+  /* ── the legal row only · below 1221 ──────────────────────────────────────
      The third band in this component and the smallest: the copyright line and
      its links left `.fb-legal` by 6.19px at 1024, tapering to 1.02 at 1055 and
-     gone by 1060. Same cause as the row above — `flex: 1 0 0; min-width: 0`
+     gone by 1060. Then llms.txt joined the links on 2026-10-19 — a fourth link
+     and a third divider — and the spill came back at 27.27px from 1060 to
+     1220, gone at 1221 (`npm run overflow`, swept a pixel at a time). Same
+     floor, moved to where the longer row stops fitting. Same cause as the row above — `flex: 1 0 0; min-width: 0`
      lets flex take the group below its own content — but here the fix is only
      to stop that, because there IS room: with the floor restored nothing else
      in the row overflows, at any width in the band. The squash was flex
@@ -993,7 +1009,7 @@ if (freeTools) {
      takes the row from 32px to 68px to buy back six pixels. Tightening the 20px
      gap to 8 clears it too, but that gap is a drawn value and this is not the
      width to argue with it. */
-  @media (max-width: 1059.98px) {
+  @media (max-width: 1220.98px) {
     .fb-legal { min-width: auto; }
   }
 

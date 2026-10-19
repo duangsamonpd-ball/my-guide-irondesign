@@ -610,9 +610,9 @@ Props, all optional — every one has a real default, so `<FooterBar />` renders
 | `reviews` | `{ name, logo, stars, starsHover, score, outOf? }[]` — two artwork files per row, not one plus a CSS filter (see below) |
 | `address`, `copyright` | single strings |
 | `socials` | `{ name, icon, href? }[]` |
-| `slackLabel`, `slackHref` | the Join Iron Slack row |
+| `messageLabel`, `messengers` | the "Message us on:" row — plain label, then `{ name, icon, href? }[]`, each icon its own link (Slack and WhatsApp by default) |
 | `partners` | `{ name, logo, width }[]` — `width` in px, height is fixed at 28 |
-| `legal` | `{ label, href? }[]` — the Terms / Privacy / Cookie line |
+| `legal` | `{ label, href? }[]` — the Terms / Privacy / Cookie / llms.txt line |
 | `donateLabel`, `donateImg` | the 1% for the Planet block |
 | `basePath` | where `docs/assets/` was copied to, default `assets` |
 | `class` | |
