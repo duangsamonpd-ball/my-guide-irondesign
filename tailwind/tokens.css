@@ -919,7 +919,9 @@
      Mobile), set on a frame. CSS has no modes, so each mode is a fixed token
      here and the unsuffixed name is the one to read: it starts at Mobile and is
      re-pointed by the RESPONSIVE block at the end of this file — Tablet from
-     --breakpoint-md, Desktop from --breakpoint-xl. A consumer writes
+     --breakpoint-md, Desktop from --breakpoint-xl. Margin and section gap do
+     not step to Desktop: from 768 they are a clamp() that reaches the Desktop
+     token at the 1440 canvas (2026-10-19, see RESPONSIVE). A consumer writes
      `padding-inline: var(--layout-margin)` and gets all three.
 
      The values are Ball's agreed proposal of 2026-10-12, not measured off a
@@ -1030,20 +1032,32 @@
    as a definition. build:theme copies it into theme.css verbatim.
    ═══════════════════════════════════════════════════════════════════════════════ */
 
+/* Margin and section gap are FLUID from 768 (Ball, 2026-10-19): a clamp from
+   the Tablet token at 768 to the Desktop token at the 1440 canvas, instead of a
+   step at 1280 that was the largest jump on the page — 24 → 80 margin, 80 →
+   120 gap, in one pixel. The ends are the mode tokens themselves, so every
+   Figma frame still reads exactly its mode; only the widths between frames are
+   interpolated, as the fluid type steps are.
+
+   The slope is written as a fraction, not a vw decimal: 56/672 is 80−24 over
+   1440−768, and 40/672 is 120−80 over the same. A decimal cannot be exact here
+   (40/672 does not terminate), and a slope rounded down lands a hair under 80
+   or 120 at 1440. check:tokens evaluates both at 768, 1440 and 1920, so a mode
+   token that moves without its fraction fails rather than drifting.
+
+   Gutter and columns still step at 1280: they change together, with the grid. */
 @media (min-width: 768px) {
   :root {
-    --layout-margin:      var(--layout-margin-tablet);
+    --layout-margin:      clamp(var(--layout-margin-tablet), var(--layout-margin-tablet) + (100vw - 768px) * 56 / 672, var(--layout-margin-desktop));
     --layout-gutter:      var(--layout-gutter-tablet);
     --layout-columns:     var(--layout-columns-tablet);
-    --layout-section-gap: var(--layout-section-gap-tablet);
+    --layout-section-gap: clamp(var(--layout-section-gap-tablet), var(--layout-section-gap-tablet) + (100vw - 768px) * 40 / 672, var(--layout-section-gap-desktop));
   }
 }
 
 @media (min-width: 1280px) {
   :root {
-    --layout-margin:      var(--layout-margin-desktop);
     --layout-gutter:      var(--layout-gutter-desktop);
     --layout-columns:     var(--layout-columns-desktop);
-    --layout-section-gap: var(--layout-section-gap-desktop);
   }
 }

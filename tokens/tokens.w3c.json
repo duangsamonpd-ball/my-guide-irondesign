@@ -1208,8 +1208,12 @@
     }
   },
   "layout": {
-    "_source": "Figma `viewport` collection (Desktop · Tablet · Mobile modes), agreed 2026-10-12. CSS has no modes: each mode is its own token, and the unsuffixed --layout-* is re-pointed by the RESPONSIVE block in tokens.css (Tablet from 768, Desktop from 1280).",
+    "_source": "Figma `viewport` collection (Desktop · Tablet · Mobile modes), agreed 2026-10-12. CSS has no modes: each mode is its own token, and the unsuffixed --layout-* is re-pointed by the RESPONSIVE block in tokens.css (Tablet from 768, Desktop from 1280). A key with `$extensions[\"com.ironsoftware.fluid\"]` does not step at 1280: it is a clamp() from its `from` mode at that mode's breakpoint to its `to` mode at the 1440 canvas (2026-10-19).",
     "margin": {
+      "$extensions": {
+        "com.ironsoftware.fluid": { "from": "tablet", "to": "desktop" }
+      },
+      "$description": "FLUID from 2026-10-19 (Ball): Mobile below 768, then clamp() from Tablet at 768 to Desktop at the 1440 canvas, so every Figma frame still reads its mode token and only the widths between frames are interpolated. Replaces the 24 to 80 step at 1280.",
       "desktop": {
         "$value": 80,
         "$type": "dimension",
@@ -1254,6 +1258,10 @@
       }
     },
     "section-gap": {
+      "$extensions": {
+        "com.ironsoftware.fluid": { "from": "tablet", "to": "desktop" }
+      },
+      "$description": "FLUID from 2026-10-19 (Ball): Mobile below 768, then clamp() from Tablet at 768 to Desktop at the 1440 canvas, so every Figma frame still reads its mode token and only the widths between frames are interpolated. Replaces the 80 to 120 step at 1280.",
       "desktop": {
         "$value": 120,
         "$type": "dimension",

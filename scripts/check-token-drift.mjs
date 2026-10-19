@@ -313,6 +313,59 @@ const LAYOUT_MODES = ['desktop', 'tablet', 'mobile'];
    breakpoint tokens here is what stops the two drifting apart. */
 const LAYOUT_SWITCH = { 'breakpoint-md': 'tablet', 'breakpoint-xl': 'desktop' };
 const layoutKeys = Object.keys(W3C.layout ?? {}).filter((k) => !k.startsWith('_'));
+
+/* FLUID layout tokens — 2026-10-19. A key whose w3c entry carries
+   `$extensions["com.ironsoftware.fluid"] = { from, to }` does not step at the
+   `to` breakpoint: from `from`'s breakpoint it is a clamp() that runs from that
+   mode's value to `to`'s value at the canvas (--size-container-max, 1440), so
+   every Figma frame still reads a mode token and only the widths between
+   frames are interpolated. Same contract as the fluid type steps.
+
+   A string compare cannot hold that, so the clamp is EVALUATED: every var() is
+   resolved in the layer being checked, `100vw` becomes the width asked about,
+   and the arithmetic left must be plain numbers. Anything else is unreadable,
+   which is an error here, never a pass. */
+const FLUID = Object.fromEntries(layoutKeys
+  .map((k) => [k, W3C.layout[k].$extensions?.['com.ironsoftware.fluid']])
+  .filter(([, f]) => f));
+const MODE_WIDTH = Object.fromEntries(Object.entries(LAYOUT_SWITCH).map(([bp, mode]) => [mode, bp]));
+
+function splitArgs(s) {
+  const out = []; let depth = 0; let cur = '';
+  for (const ch of s) {
+    if (ch === '(') depth++;
+    if (ch === ')') depth--;
+    if (ch === ',' && depth === 0) { out.push(cur.trim()); cur = ''; } else cur += ch;
+  }
+  out.push(cur.trim());
+  return out;
+}
+
+/** A layout expression at one viewport width, in px — or null if unreadable. */
+function evalAt(layer, expr, width) {
+  const s = expr.trim();
+  const cl = s.match(/^clamp\(([\s\S]*)\)$/);
+  if (cl) {
+    const args = splitArgs(cl[1]);
+    if (args.length !== 3) return null;
+    const [lo, mid, hi] = args.map((a) => evalAt(layer, a, width));
+    return [lo, mid, hi].includes(null) ? null : Math.max(lo, Math.min(mid, hi));
+  }
+  let bad = false;
+  const flat = s
+    .replace(/^calc\(([\s\S]*)\)$/, '$1')
+    .replace(/var\(--([\w-]+)\)/g, (_, n) => {
+      const v = px(resolve(layer, n));
+      if (v === null || !/^-?[\d.]+$/.test(v)) { bad = true; return '0'; }
+      return `(${v})`;
+    })
+    .replace(/(-?[\d.]+)vw/g, (_, n) => `(${parseFloat(n) * width / 100})`)
+    .replace(/(-?[\d.]+)rem/g, (_, n) => `(${parseFloat(n) * 16})`)
+    .replace(/(-?[\d.]+)px/g, '$1');
+  if (bad || !/^[\d.\s+\-*/()]+$/.test(flat)) return null;
+  const n = Function(`return (${flat});`)();
+  return Number.isFinite(n) ? n : null;
+}
 for (const k of layoutKeys) {
   for (const m of LAYOUT_MODES) {
     const v = W3C.layout[k][m];
@@ -338,6 +391,33 @@ for (const layer of LAYERS) {
     const base = layer.vars.get(name);
     if (base !== `var(--layout-${k}-mobile)`) {
       err('layout', name, `${layer.file}: \`--${name}\` starts at ${base ?? 'nothing'} — expected var(--layout-${k}-mobile)`);
+    }
+    const fluid = FLUID[k];
+    if (fluid) {
+      const fromBp = MODE_WIDTH[fluid.from];
+      const toBp = MODE_WIDTH[fluid.to];
+      const got = rules.get(widths[fromBp])?.get(name);
+      const canvas = parseFloat(px(resolve(layer, 'size-container-max')));
+      const start = parseFloat(widths[fromBp]);
+      const want = (m) => parseFloat(px(resolve(layer, `layout-${k}-${m}`)));
+      const args = got?.match(/^clamp\(([\s\S]*)\)$/) ? splitArgs(got.slice(6, -1)) : [];
+      if (args[0] !== `var(--layout-${k}-${fluid.from})` || args[2] !== `var(--layout-${k}-${fluid.to})`) {
+        err('layout', name, `${layer.file}: at ${widths[fromBp]} (--${fromBp}) \`--${name}\` = ${got ?? 'nothing'} — a fluid token must be clamp(var(--layout-${k}-${fluid.from}), …, var(--layout-${k}-${fluid.to}))`);
+      } else {
+        /* The two frames the clamp must hit exactly, and one width past the
+           canvas where it must hold. Tolerance is float noise, not a band. */
+        for (const [w, m] of [[start, fluid.from], [canvas, fluid.to], [canvas + 480, fluid.to]]) {
+          const at = evalAt(layer, got, w);
+          if (at === null || Math.abs(at - want(m)) > 1e-6) {
+            err('layout', name, `${layer.file}: fluid \`--${name}\` is ${at === null ? 'unreadable' : +at.toFixed(4)} at ${w}px — expected ${want(m)} (${fluid.from === m ? fluid.from : fluid.to})`);
+          }
+        }
+      }
+      const stray = rules.get(widths[toBp])?.get(name);
+      if (stray !== undefined) {
+        err('layout', name, `${layer.file}: fluid \`--${name}\` is re-pointed at ${widths[toBp]} (--${toBp}) to ${stray} — that is the step the clamp replaces`);
+      }
+      continue;
     }
     for (const [bp, mode] of Object.entries(LAYOUT_SWITCH)) {
       const got = rules.get(widths[bp])?.get(name);
@@ -819,8 +899,26 @@ if (SELF_TEST) {
       [['tailwind/tokens.css', '--layout-gutter-tablet:       var(--spacing-md);', '--layout-gutter-tablet:       var(--spacing-lg);']],
       'fail', 'gutter.tablet'],
     ['LAYOUT — a media rule points at the wrong mode',
-      [['tailwind/theme.css', '--layout-margin:      var(--layout-margin-tablet);', '--layout-margin:      var(--layout-margin-desktop);']],
-      'fail', 'at 768px (--breakpoint-md) `--layout-margin` = var(--layout-margin-desktop)'],
+      [['tailwind/theme.css', '--layout-gutter:      var(--layout-gutter-tablet);', '--layout-gutter:      var(--layout-gutter-desktop);']],
+      'fail', 'at 768px (--breakpoint-md) `--layout-gutter` = var(--layout-gutter-desktop)'],
+    /* FLUID — margin and section gap are clamps from 768, evaluated rather than
+       string-matched. One row per way the clamp can be wrong while still
+       looking like a clamp, plus the step it replaced coming back. */
+    ['LAYOUT FLUID — the slope misses the Desktop token at 1440',
+      [['tailwind/tokens.css', '* 56 / 672', '* 56 / 700']],
+      'fail', 'fluid `--layout-margin` is 77.76 at 1440px — expected 80 (desktop)'],
+    ['LAYOUT FLUID — a mode token moves and the fraction does not',
+      [['tailwind/tokens.css', '--layout-section-gap-desktop: var(--spacing-section);', '--layout-section-gap-desktop: var(--spacing-hero);']],
+      'fail', 'section-gap.desktop'],
+    ['LAYOUT FLUID — the 1280 step comes back',
+      [['tailwind/theme.css', '--layout-columns:     var(--layout-columns-desktop);', '--layout-columns:     var(--layout-columns-desktop);\n    --layout-section-gap: var(--layout-section-gap-desktop);']],
+      'fail', 'fluid `--layout-section-gap` is re-pointed at 1280px'],
+    ['LAYOUT FLUID — a clamp whose ends are not the mode tokens',
+      [['tailwind/theme.css', 'clamp(var(--layout-margin-tablet),', 'clamp(24px,']],
+      'fail', 'a fluid token must be clamp(var(--layout-margin-tablet)'],
+    ['LAYOUT FLUID — a middle term this gate cannot read is an error, not a pass',
+      [['tailwind/tokens.css', '* 40 / 672', '* 40 / 672 + 1em']],
+      'fail', 'fluid `--layout-section-gap` is unreadable at 768px'],
     ['LAYOUT — a breakpoint moves and its media rule does not',
       [['tailwind/tokens.css', '--breakpoint-xl:  1280px;', '--breakpoint-xl:  1200px;']],
       'fail', '`@media (min-width: 1280px)` is not'],
