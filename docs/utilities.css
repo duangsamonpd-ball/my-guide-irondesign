@@ -680,8 +680,8 @@
 .mb-xs {
   margin-bottom: var(--spacing-xs);
 }
-.ml-\[-30px\] {
-  margin-left: -30px;
+.ml-\[calc\(-24px-var\(--spacing-micro\)\)\] {
+  margin-left: calc(-24px - var(--spacing-micro));
 }
 .box-border {
   box-sizing: border-box;
@@ -974,9 +974,6 @@
 }
 .gap-3xl {
   gap: var(--spacing-3xl);
-}
-.gap-\[6px\] {
-  gap: 6px;
 }
 .gap-\[8px\] {
   gap: 8px;
@@ -1271,8 +1268,8 @@
 .pl-3xl {
   padding-left: var(--spacing-3xl);
 }
-.pl-\[30px\] {
-  padding-left: 30px;
+.pl-\[calc\(24px\+var\(--spacing-micro\)\)\] {
+  padding-left: calc(24px + var(--spacing-micro));
 }
 .pl-md {
   padding-left: var(--spacing-md);

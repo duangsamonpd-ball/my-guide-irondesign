@@ -119,16 +119,18 @@ const { product: p, logoSrc, class: className } = Astro.props;
     is why the dash has no margin of its own any more. 6 is not a spacing rung,
     same as the 26 and 22 this row already wrote by hand.
 
-    Tried on the scale 2026-10-20 and put back. With the gap and the text
-    container's left padding at 8 (`spacing-xs`), the IronWord row needs
-    568.81px in Chrome against its 567 column, so its description wraps, the
-    row goes 28 → 64 and the band 480 → 516 — check:figma-size caught it on
-    three bands. Figma shapes text ~1% narrower and shows no wrap, which is why
-    the frame looked fine at 8. So 6 stays, raw on purpose, and the component's
-    Figma description now says so. */}
+    On the scale since 2026-10-20 (Ball): the row's gap and the text
+    container's left padding are `spacing-micro` (4) in Figma (`346:2058`,
+    `507:2997`). 8 was tried first and failed: the IronWord row needed 568.81px
+    in Chrome against its 567 column, so its description wrapped and the band
+    went 480 → 516 (check:figma-size caught it; Figma shapes text ~1% narrower
+    and showed no wrap). At 4 it needs 556.81. The padding is written as the
+    mark's own 24 plus the gap, because that is what it is — the mark sits in
+    the padding (the negative margin) so a wrapped description hangs under the
+    name, not under the mark. */}
 <li class:list={[className]}>
-  <a class="group flex items-center flex-wrap leading-7 gap-[6px] pl-[30px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
-    <span class="w-[24px] h-[24px] shrink-0 flex items-center ml-[-30px]"><img class="w-[24px] h-[24px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={logoSrc} alt="" /></span>
+  <a class="group flex items-center flex-wrap leading-7 gap-micro pl-[calc(24px+var(--spacing-micro))] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
+    <span class="w-[24px] h-[24px] shrink-0 flex items-center ml-[calc(-24px-var(--spacing-micro))]"><img class="w-[24px] h-[24px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={logoSrc} alt="" /></span>
     <span class="text-xl leading-[inherit] font-bold tracking-tight text-text-on-dark-heading flex items-baseline">{p.prefix}<span class="font-normal" style={p.accent ? { color: p.accent } : undefined}>{p.suffix}</span></span>
     {/* Ball's ruling 2026-08-24: `support` at rest, `body` on hover — and the
         DASH follows the description rather than the name, which is what he
