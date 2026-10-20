@@ -204,6 +204,10 @@ transform, so the button's width does not change. Use it on a button that takes
 the reader somewhere new, and leave it off Submit, Cancel and other actions. A
 trailing svg you put in the slot yourself still works, but it will not move.
 
+Any other attribute — `data-*`, `aria-*`, `id`, `target`, `name` — is passed
+through to the `<button>` / `<a>`. The ones Button sets itself (`href`, `type`,
+`disabled`, `aria-disabled`) stay Button's.
+
 ### `NugetButton.astro`
 
 > **Needs Tailwind.** This component has no `<style>` of its own — every value

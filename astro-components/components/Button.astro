@@ -74,6 +74,7 @@ const {
   type = 'button',
   href,
   class: className,
+  ...rest
 } = Astro.props;
 
 /**
@@ -224,6 +225,13 @@ const ARROW =
   'group-hover/button:translate-x-[0.1875em] group-focus-visible/button:translate-x-[0.1875em]';
 
 const Tag = href ? 'a' : 'button';
+
+/* Any attribute that is not a prop above — `data-*`, `aria-*`, `id`,
+   `target`, `name`, `form` — reaches the element. It used to be dropped
+   without a word: the homepage's product cards pass `data-product`, which
+   type-checks (Astro accepts a hyphenated attribute on any component) and
+   never reached the DOM. Spread BEFORE the attributes this component owns, so
+   `href` / `type` / `disabled` / `aria-disabled` stay the component's to set. */
 ---
 
 <Tag
@@ -236,6 +244,7 @@ const Tag = href ? 'a' : 'button';
     arrow && 'group/button',
     className,
   ]}
+  {...rest}
   href={href}
   type={href ? undefined : type}
   disabled={href ? undefined : disabled}
