@@ -117,7 +117,15 @@ const { product: p, logoSrc, class: className } = Astro.props;
     Geometry to match: the mark is 24 square at y=2, not 22; the name starts 30
     from the row's left edge, not 26; and the three runs sit on a flat 6, which
     is why the dash has no margin of its own any more. 6 is not a spacing rung,
-    same as the 26 and 22 this row already wrote by hand. */}
+    same as the 26 and 22 this row already wrote by hand.
+
+    Tried on the scale 2026-10-20 and put back. With the gap and the text
+    container's left padding at 8 (`spacing-xs`), the IronWord row needs
+    568.81px in Chrome against its 567 column, so its description wraps, the
+    row goes 28 → 64 and the band 480 → 516 — check:figma-size caught it on
+    three bands. Figma shapes text ~1% narrower and shows no wrap, which is why
+    the frame looked fine at 8. So 6 stays, raw on purpose, and the component's
+    Figma description now says so. */}
 <li class:list={[className]}>
   <a class="group flex items-center flex-wrap leading-7 gap-[6px] pl-[30px] no-underline text-inherit focus-visible:outline-[length:var(--border-width-2)] focus-visible:outline-solid focus-visible:outline-border-focus focus-visible:outline-offset-[2px] focus-visible:rounded-sm" href={p.href ?? '#'}>
     <span class="w-[24px] h-[24px] shrink-0 flex items-center ml-[-30px]"><img class="w-[24px] h-[24px] block opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 group-focus-visible:opacity-100" src={logoSrc} alt="" /></span>
