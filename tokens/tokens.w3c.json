@@ -1211,13 +1211,16 @@
     "_source": "Figma `viewport` collection (Desktop · Tablet · Mobile modes), agreed 2026-10-12. CSS has no modes: each mode is its own token, and the unsuffixed --layout-* is re-pointed by the RESPONSIVE block in tokens.css (Tablet from 768, Desktop from 1280). A key with `$extensions[\"com.ironsoftware.fluid\"]` does not step at 1280: it is a clamp() from its `from` mode at that mode's breakpoint to its `to` mode at the 1440 canvas (2026-10-19).",
     "margin": {
       "$extensions": {
-        "com.ironsoftware.fluid": { "from": "tablet", "to": "desktop" }
+        "com.ironsoftware.fluid": {
+          "from": "tablet",
+          "to": "desktop"
+        }
       },
       "$description": "FLUID from 2026-10-19 (Ball): Mobile below 768, then clamp() from Tablet at 768 to Desktop at the 1440 canvas, so every Figma frame still reads its mode token and only the widths between frames are interpolated. Replaces the 24 to 80 step at 1280.",
       "desktop": {
-        "$value": 80,
+        "$value": 104,
         "$type": "dimension",
-        "$description": "Page side margin; leaves the 1280 content column inside 1440"
+        "$description": "Page edge to content: spacing-hero 80 + spacing-xl 24 (2026-10-19). Every page frame draws a 1280 container at x=80 with 24 padding inside, so content starts at 104; Tablet 24 and Mobile 16 were already measured to the content. Written as that sum in tokens.css; a raw 104 in Figma, which cannot add variables."
       },
       "tablet": {
         "$value": 24,
@@ -1259,7 +1262,10 @@
     },
     "section-gap": {
       "$extensions": {
-        "com.ironsoftware.fluid": { "from": "tablet", "to": "desktop" }
+        "com.ironsoftware.fluid": {
+          "from": "tablet",
+          "to": "desktop"
+        }
       },
       "$description": "FLUID from 2026-10-19 (Ball): Mobile below 768, then clamp() from Tablet at 768 to Desktop at the 1440 canvas, so every Figma frame still reads its mode token and only the widths between frames are interpolated. Replaces the 80 to 120 step at 1280.",
       "desktop": {
@@ -1273,6 +1279,27 @@
       },
       "mobile": {
         "$value": 64,
+        "$type": "dimension"
+      }
+    },
+    "section-padding": {
+      "$extensions": {
+        "com.ironsoftware.fluid": {
+          "from": "tablet",
+          "to": "desktop"
+        }
+      },
+      "$description": "A band's own top/bottom padding (2026-10-19). FLUID: Mobile below 768, then clamp() from Tablet at 768 to Desktop at 1440. 80 is what 21 of 28 bands in the page frames put on top; bands drawn at 64 or 48 on purpose keep their own value. Mobile 48 follows suite-upgrade's hero, which already drops to 48 below 640.",
+      "desktop": {
+        "$value": 80,
+        "$type": "dimension"
+      },
+      "tablet": {
+        "$value": 64,
+        "$type": "dimension"
+      },
+      "mobile": {
+        "$value": 48,
         "$type": "dimension"
       }
     }

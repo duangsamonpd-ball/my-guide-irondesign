@@ -164,7 +164,13 @@ const unreadable = (v) => v === null || (typeof v === 'number' && Number.isNaN(v
  * arrives next that `px`, `num`, `hex` or `shadow` cannot parse comes back as a
  * named error asking for the normaliser to learn it.
  */
-function compare({ family, token, expected, names, normalise, only }) {
+/* `evaluate` — for layout tokens only. A mode token may be written as a SUM of
+   other tokens (`--layout-margin-desktop` is spacing-hero + spacing-xl, 104,
+   because no spacing step is 104 and a new one would be a step with a single
+   user). Such a value is evaluated in the layer it lives in, with the same
+   evaluator the fluid clamps use, and compared as a number. Every other family
+   keeps refusing a calc() it cannot read. */
+function compare({ family, token, expected, names, normalise, only, evaluate = false }) {
   checks++;
   const want = normalise(expected);
 
@@ -178,7 +184,9 @@ function compare({ family, token, expected, names, normalise, only }) {
       continue;
     }
 
-    const got = normalise(raw);
+    const got = evaluate && /\b(calc|var)\(/.test(raw)
+      ? ((v) => (v === null ? null : String(+v.toFixed(4))))(evalAt(layer, raw, 0))
+      : normalise(raw);
     if (unreadable(want) || unreadable(got)) {
       const side = unreadable(want)
         ? `w3c = ${show(expected)}`
@@ -355,8 +363,12 @@ function evalAt(layer, expr, width) {
   const flat = s
     .replace(/^calc\(([\s\S]*)\)$/, '$1')
     .replace(/var\(--([\w-]+)\)/g, (_, n) => {
-      const v = px(resolve(layer, n));
-      if (v === null || !/^-?[\d.]+$/.test(v)) { bad = true; return '0'; }
+      /* A token may itself be a sum (`--layout-margin-desktop`), so a var()
+         that px() cannot read is evaluated in turn rather than refused. */
+      const raw = resolve(layer, n);
+      const direct = raw == null ? null : px(raw);
+      const v = direct !== null && /^-?[\d.]+$/.test(direct) ? +direct : raw == null ? null : evalAt(layer, raw, width);
+      if (v === null) { bad = true; return '0'; }
       return `(${v})`;
     })
     .replace(/(-?[\d.]+)vw/g, (_, n) => `(${parseFloat(n) * width / 100})`)
@@ -370,7 +382,7 @@ for (const k of layoutKeys) {
   for (const m of LAYOUT_MODES) {
     const v = W3C.layout[k][m];
     if (v?.$value === undefined) { checks++; err('layout', `${k}.${m}`, 'mode missing from tokens.w3c.json'); continue; }
-    compare({ family: 'layout', token: `${k}.${m}`, expected: v.$value, names: `layout-${k}-${m}`, normalise: px });
+    compare({ family: 'layout', token: `${k}.${m}`, expected: v.$value, names: `layout-${k}-${m}`, normalise: px, evaluate: true });
   }
 }
 for (const layer of LAYERS) {
@@ -399,7 +411,7 @@ for (const layer of LAYERS) {
       const got = rules.get(widths[fromBp])?.get(name);
       const canvas = parseFloat(px(resolve(layer, 'size-container-max')));
       const start = parseFloat(widths[fromBp]);
-      const want = (m) => parseFloat(px(resolve(layer, `layout-${k}-${m}`)));
+      const want = (m) => evalAt(layer, `var(--layout-${k}-${m})`, 0);
       const args = got?.match(/^clamp\(([\s\S]*)\)$/) ? splitArgs(got.slice(6, -1)) : [];
       if (args[0] !== `var(--layout-${k}-${fluid.from})` || args[2] !== `var(--layout-${k}-${fluid.to})`) {
         err('layout', name, `${layer.file}: at ${widths[fromBp]} (--${fromBp}) \`--${name}\` = ${got ?? 'nothing'} — a fluid token must be clamp(var(--layout-${k}-${fluid.from}), …, var(--layout-${k}-${fluid.to}))`);
@@ -905,8 +917,16 @@ if (SELF_TEST) {
        string-matched. One row per way the clamp can be wrong while still
        looking like a clamp, plus the step it replaced coming back. */
     ['LAYOUT FLUID — the slope misses the Desktop token at 1440',
-      [['tailwind/tokens.css', '* 56 / 672', '* 56 / 700']],
-      'fail', 'fluid `--layout-margin` is 77.76 at 1440px — expected 80 (desktop)'],
+      [['tailwind/tokens.css', '* 80 / 672', '* 80 / 700']],
+      'fail', 'fluid `--layout-margin` is 100.8 at 1440px — expected 104 (desktop)'],
+    /* A mode token written as a sum is evaluated, not string-matched: one term
+       moving must move the comparison. */
+    ['LAYOUT — a mode token written as a sum of tokens, one term moves',
+      [['tailwind/tokens.css', 'calc(var(--spacing-hero) + var(--spacing-xl))', 'calc(var(--spacing-hero) + var(--spacing-lg))']],
+      'fail', 'margin.desktop'],
+    ['LAYOUT — the same sum written the other way round (control)',
+      [['tailwind/tokens.css', 'calc(var(--spacing-hero) + var(--spacing-xl))', 'calc(var(--spacing-xl) + var(--spacing-hero))']],
+      'clean', 'margin.desktop'],
     ['LAYOUT FLUID — a mode token moves and the fraction does not',
       [['tailwind/tokens.css', '--layout-section-gap-desktop: var(--spacing-section);', '--layout-section-gap-desktop: var(--spacing-hero);']],
       'fail', 'section-gap.desktop'],
