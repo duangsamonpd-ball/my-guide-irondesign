@@ -328,14 +328,12 @@ const src = (p: string) => p.split('/').map(encodeURIComponent).join('/');
             changing the justification keeps the design's spread and needs no
             breakpoint — the same reason the grid has none. */}
         <div class="flex items-center justify-between gap-y-md flex-wrap max-w-[567px]">
-          <Button variant="tertiary" size="lg" href="#" wrap class="group">
+          <Button variant="tertiary" size="lg" href="#" wrap arrow>
             Get Full 10 products Suite
-            <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
           </Button>
-          <Button variant="ghost" size="lg" href="#" wrap class="group">
+          <Button variant="ghost" size="lg" href="#" wrap arrow>
             <svg class="h-[1em] w-auto shrink-0" viewBox={icons.key.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.key.path}/></svg>
             Start Free Trial
-            <svg class="h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path}/></svg>
           </Button>
         </div>
       </div>

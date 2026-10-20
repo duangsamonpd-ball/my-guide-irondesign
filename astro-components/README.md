@@ -182,10 +182,11 @@ import Button from '.../astro-components/components/Button.astro';
 <Button variant="primary" size="md">Get started</Button>
 <Button variant="outline" size="sm" href="/pricing">Outline link</Button>
 <Button variant="ghost" disabled>Disabled</Button>
+<Button variant="tertiary" size="lg" href="/suite" arrow>Get the Suite</Button>
 ```
 
 Props: `variant` (`primary` | `secondary` | `tertiary` | `outline` | `ondark` | `ghost`, default `primary`),
-`size` (`lg` | `md` | `sm`, default `md`), `wrap`, `disabled`, `type`, `href` (renders an `<a>` instead of `<button>`), `class`.
+`size` (`lg` | `md` | `sm`, default `md`), `wrap`, `arrow`, `disabled`, `type`, `href` (renders an `<a>` instead of `<button>`), `class`.
 
 `wrap` lets a long label break onto a second line instead of leaving the button.
 It is off by default — one line reads better, and most labels are short. Reach
@@ -196,6 +197,12 @@ height for the same value as a minimum, so the pill grows rather than clipping
 the second line. It has to be this prop and not a `whitespace-normal` you pass
 through `class`: both are one class deep, so the winner is decided by their
 order in the compiled stylesheet, and `nowrap` is emitted after `normal`.
+
+`arrow` adds a trailing → that moves 0.1875em forward on hover AND on keyboard
+focus (3px at `lg`), and jumps instead of gliding under reduced motion. It is a
+transform, so the button's width does not change. Use it on a button that takes
+the reader somewhere new, and leave it off Submit, Cancel and other actions. A
+trailing svg you put in the slot yourself still works, but it will not move.
 
 ### `NugetButton.astro`
 

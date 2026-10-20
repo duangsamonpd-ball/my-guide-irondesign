@@ -62,8 +62,8 @@ const variants = [
 /* Every combination the "Try it" panel can ask for, rendered by the real
    component: 6 variants x 3 sizes x disabled x leading icon x trailing icon =
    144. The key is the values in try-panel config order. The icons are slot
-   content, the way a consumer adds them — Figma's `Has Leading icon` /
-   `Has Trailing icon` have no prop to map to. */
+   content, the way a consumer adds them; Figma's `Has Leading icon` has no
+   prop to map to, and `Has Trailing icon` is the `arrow` prop. */
 const tryVariants = ['primary', 'secondary', 'tertiary', 'outline', 'ondark', 'ghost'] as const;
 const trySizes = ['lg', 'md', 'sm'] as const;
 const tryCombos = tryVariants.flatMap((variant) => trySizes.flatMap((size) =>
@@ -76,7 +76,7 @@ const iconStyle = 'width:1em;height:1em;flex-shrink:0';
     <div data-demo="preview">
       <Button size="lg">Download Free Trial</Button>
       <Button size="lg" variant="outline">Learn more</Button>
-      <Button size="lg" variant="ghost">Docs<svg style="width:1em;height:1em;flex-shrink:0" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg></Button>
+      <Button size="lg" variant="ghost" arrow>Docs</Button>
     </div>
 
     <div data-demo="variants">
@@ -130,10 +130,9 @@ const iconStyle = 'width:1em;height:1em;flex-shrink:0';
     <div data-demo="try">
       {tryCombos.map((c) => (
         <span class="try-one" data-try={`${c.variant} ${c.size} ${c.disabled} ${c.lead} ${c.trail}`} hidden={!(c.variant === 'primary' && c.size === 'md' && !c.disabled && !c.lead && !c.trail)}>
-          <Button variant={c.variant} size={c.size} disabled={c.disabled}>
+          <Button variant={c.variant} size={c.size} disabled={c.disabled} arrow={c.trail}>
             {c.lead && <svg style={iconStyle} viewBox={icons.arrowDown.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowDown.path} /></svg>}
             Explore Iron Suite
-            {c.trail && <svg style={iconStyle} viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}
           </Button>
         </span>
       ))}

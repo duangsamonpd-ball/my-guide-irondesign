@@ -1,4 +1,6 @@
 ---
+import { icons } from '../icons';
+
 /**
  * ── Why this component declares no `figma-size` band ──────────────────────
  *
@@ -46,6 +48,11 @@ interface Props {
    */
   wrap?: boolean;
   /**
+   * A trailing → that nudges forward on hover and keyboard focus — for a button that takes the reader onward, not for Submit or Cancel.
+   * @figma `Has Trailing icon` — the `Arrow icon` layer; Figma draws the rest position only
+   */
+  arrow?: boolean;
+  /**
    * Dims it to 50% and blocks clicks — on a link as `aria-disabled="true"`, since `<a>` has no `disabled`.
    * @figma `State=disabled` — Figma's other states, `hover` and `focus`, are the browser's, not props
    */
@@ -62,6 +69,7 @@ const {
   variant = 'primary',
   size = 'md',
   wrap = false,
+  arrow = false,
   disabled = false,
   type = 'button',
   href,
@@ -196,6 +204,25 @@ const BASE =
   'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none ' +
   'aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none';
 
+/* The arrow and its nudge (Ball, 2026-10-20). It was hand-wired in Footer and
+   FormCard as `group` + `group-hover:translate-x-[3px]`, which moved for a mouse
+   but not for a keyboard, and moved under reduced motion too. TextLink's arrow
+   already did both right; this is the same rule for a button:
+
+   - A TRANSFORM, never margin or gap — it moves the paint and leaves the box,
+     so the pill does not grow and the label does not shift.
+   - 0.1875em, so `lg` (16px) stays the 3px Footer shipped, and `md` / `sm`
+     move 2.625 / 2.25 in proportion instead of the same 3px on a smaller arrow.
+   - On `:focus-visible` as well as `:hover`.
+   - Under reduced motion it still moves, as a cut — the cue stays, the travel goes.
+
+   The group is NAMED so a consumer's own `group` around the button cannot
+   drive it. A disabled button never gets here: `pointer-events-none` ends
+   the hover before it starts. */
+const ARROW =
+  'h-[1em] w-auto shrink-0 transition-transform duration-[var(--duration-base)] ease-default motion-reduce:transition-none ' +
+  'group-hover/button:translate-x-[0.1875em] group-focus-visible/button:translate-x-[0.1875em]';
+
 const Tag = href ? 'a' : 'button';
 ---
 
@@ -206,6 +233,7 @@ const Tag = href ? 'a' : 'button';
     wrap ? WRAP_HEIGHT[size] : HEIGHT[size],
     SIZE[size],
     VARIANT[variant],
+    arrow && 'group/button',
     className,
   ]}
   href={href}
@@ -214,5 +242,6 @@ const Tag = href ? 'a' : 'button';
   aria-disabled={href && disabled ? 'true' : undefined}
 >
   <slot />
+  {arrow && <svg class={ARROW} viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}
 </Tag>
 

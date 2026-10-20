@@ -1786,6 +1786,10 @@
   .group-hover\:opacity-100:is(:where(.group):hover *) {
     opacity: 100%;
   }
+  .group-hover\/button\:translate-x-\[0\.1875em\]:is(:where(.group\/button):hover *) {
+    --tw-translate-x: 0.1875em;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
   .group-hover\/rail\:bg-button-primary-hover:is(:where(.group\/rail):hover *) {
     background-color: var(--color-button-primary-hover);
   }
@@ -1798,6 +1802,10 @@
 }
 .group-focus-visible\:opacity-100:is(:where(.group):focus-visible *) {
   opacity: 100%;
+}
+.group-focus-visible\/button\:translate-x-\[0\.1875em\]:is(:where(.group\/button):focus-visible *) {
+  --tw-translate-x: 0.1875em;
+  translate: var(--tw-translate-x) var(--tw-translate-y);
 }
 .group-has-\[\:checked\]\:scale-100:is(:where(.group):has(:is(:checked)) *) {
   --tw-scale-x: 100%;
@@ -2127,6 +2135,11 @@
 }
 .aria-disabled\:opacity-50[aria-disabled="true"] {
   opacity: 50%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-reduce\:transition-none {
+    transition-property: none;
+  }
 }
 @media (width < 1247.98px) {
   .max-\[1247\.98px\]\:\[grid-template-columns\:repeat\(2\,minmax\(0\,1fr\)\)\] {
