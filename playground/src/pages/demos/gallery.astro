@@ -200,6 +200,11 @@ if (uncovered.length || cardless.length) {
   );
 }
 
+/** Cards for components outside `components/` — documented, but internal. */
+const internalCards = navComponents
+  .filter((n: any) => !onDisk.some((name) => name.toLowerCase() === n.href.replace(/^component-|\.html$/g, '').toLowerCase()))
+  .map((n: any) => n.label);
+
 const entries = [
   ...navComponents.map((n: any) => ({ ...n, ...cards[n.href], desc: lead(n.href) })),
   ...OFF_PAGE.map((o) => ({ href: o.href, icon: o.icon, label: o.label, desc: o.desc, kind: undefined })),
@@ -210,8 +215,12 @@ const entries = [
   <body>
     <div data-demo="gallery">
       {/* Generated, not typed. The page carried "19 components" by hand and was
-          wrong the moment NugetButton landed. */}
-      <div class="gal-count">{entries.length} components</div>
+          wrong the moment NugetButton landed. Then it counted CARDS, which
+          include FlyoutMenu — internal, not exported by name, and left out of
+          the manifest's count on purpose — so it said 22 where the library has
+          21. The number is the public components; the internal cards are named
+          beside it rather than folded in. */}
+      <div class="gal-count">{onDisk.length} components{internalCards.length > 0 && `, plus ${internalCards.join(', ')} (internal)`}</div>
       <div class="gal">
         {entries.map((c: any) => (
           <article class:list={['gcard', c.kind && `gcard-${c.kind}`]}>

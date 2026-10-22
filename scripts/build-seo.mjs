@@ -83,9 +83,17 @@ function clamp(s, max = 158) {
  * homepage.html is a full marketing-page mock, so scraping either returns its
  * navigation. These are the only hand-written descriptions.
  */
+/* The count is the manifest's, not typed: this string said "all 19 components"
+   for two components after it stopped being true, and it is the sentence search
+   results and link previews show. `count` is the public components — the
+   internal ones are not something a reader can use. */
+const COMPONENTS = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../astro-components/components.json'), 'utf8'),
+).count;
+
 const OVERRIDES = {
   'index.html':
-    'The visual token reference for Iron Software — colour, typography, spacing, borders, shadow and all 19 components, plus a semantic token guide for developers.',
+    `The visual token reference for Iron Software — colour, typography, spacing, borders, shadow and all ${COMPONENTS} components, plus a semantic token guide for developers.`,
   'homepage.html':
     'A complete marketing page assembled only from design-system components and tokens — the reference for how the pieces compose at full page scale.',
 };

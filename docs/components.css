@@ -397,7 +397,7 @@
   .tlink.underline.dark:focus-visible { outline-color: var(--color-border-dark-alt); }
   .tlink .arrow-icon,
   .tlink .ext-icon {
-    width: 0.875em; height: 0.875em; margin-left: 0.25em; vertical-align: -0.09em;
+    display: inline-block; width: 0.875em; height: 0.875em; margin-left: 0.25em; vertical-align: -0.09em;
     transition: transform var(--duration-base) var(--ease-default);
   }
   .tlink .lead-icon {

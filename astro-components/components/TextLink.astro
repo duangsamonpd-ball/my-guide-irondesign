@@ -147,6 +147,11 @@ const hasIcon = Astro.slots.has('icon');
      x-height; it grew to match the → so a page using both does not show two
      sizes of arrow.
 
+     `display: inline-block` is stated, not inherited: Tailwind's preflight makes
+     every `svg` a block, and on a consumer's page that dropped the icon onto the
+     line after the label — each link 30 tall instead of 16 (page-experiments
+     #10, 2026-10-22). Our docs load no preflight, so nothing here showed it.
+
      `vertical-align: -0.09em` centres the box on the capitals, which is where
      the frame centres it: an inline <svg> sits ON the baseline, so a 0.875em
      box would ride 0.0875em above the cap-height middle (0.35em) without it.
@@ -158,7 +163,7 @@ const hasIcon = Astro.slots.has('icon');
      keyboard user gets the same cue, and not at all under reduced motion. */
   .tlink .arrow-icon,
   .tlink .ext-icon {
-    width: 0.875em; height: 0.875em; margin-left: 0.25em; vertical-align: -0.09em;
+    display: inline-block; width: 0.875em; height: 0.875em; margin-left: 0.25em; vertical-align: -0.09em;
     transition: transform var(--duration-base) var(--ease-default);
   }
   /* Leading icon: a 1em box (16px at md, 14px at sm, as Figma sizes it with the

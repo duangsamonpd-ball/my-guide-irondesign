@@ -581,7 +581,13 @@ const PARSERS = [
    */
   {
     name: 'readme/counted claims',
-    pages: ['README.md', 'astro-components/README.md'],
+    /* The two docs pages are here because they were the ones that drifted:
+       `docs/index.html`'s SEO description said "all 19 components" — typed into
+       build-seo.mjs, so the one line search results and link previews show sat
+       outside this gate — while the gallery counted 22 by including the
+       internal FlyoutMenu. Both now derive the number; this keeps them doing it
+       (page-experiments #9, 2026-10-22). */
+    pages: ['README.md', 'astro-components/README.md', 'docs/index.html', 'docs/07-components.html'],
     floor: 4,
     run(page, src) {
       const derived = {
