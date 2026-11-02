@@ -1331,6 +1331,13 @@
           "figma": "`arrow` — on `plain` only, prototyped with Smart Animate on hover"
         },
         {
+          "name": "size",
+          "type": "'md' | 'sm'",
+          "required": false,
+          "description": "Sets the link's own type size for a link that stands on its own: `md` is 16/28, `sm` is 14/20. Leave it unset for a link inside a sentence, which takes the size of the text around it. Unset is the default, so the 2026-10-13 ruling (\"the link takes the size of its sentence\") still holds for every in-sentence link. A standalone link — \"Start free trial\", \"Read the case study\" — has no sentence to inherit from, and the room was writing `text-body leading-7` or `text-btn leading-5` beside it on each page instead (Ball, 2026-10-22: two sizes, md and sm).",
+          "figma": "`size` on the `TextLink` set — md = `size/base` + `leading/7`, sm = `size/sm` + `leading/5`"
+        },
+        {
           "name": "newTabLabel",
           "type": "string",
           "required": false,

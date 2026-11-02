@@ -380,6 +380,8 @@
     font-weight: 600;
     transition: color var(--duration-fast), text-decoration-color var(--duration-fast), text-decoration-thickness var(--duration-fast);
   }
+  .tlink.size-md { font-size: var(--font-size-base); line-height: var(--leading-7); }
+  .tlink.size-sm { font-size: var(--font-size-sm); line-height: var(--leading-5); }
   .tlink.plain { color: var(--color-text-link); text-decoration: none; }
   .tlink.plain:hover { color: var(--color-text-link-hover); }
   .tlink.plain:focus-visible { outline: var(--border-width-2) solid var(--color-text-link); outline-offset: 3px; border-radius: 2px; }

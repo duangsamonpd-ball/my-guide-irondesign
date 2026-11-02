@@ -245,6 +245,20 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
+    <div class="sect"><h2 class="sect-h">Sizes</h2>
+      <div class="sect-sub"><b>For a link that stands on its own.</b> <code>size="md"</code> is 16/28 and <code>size="sm"</code> is 14/20, the two sizes Figma draws. Leave <code>size</code> off for a link inside a sentence: it then sets no size and takes the size of the text around it.</div>
+      <div class="canvas">
+        <!-- demo:sizes -->
+        <div class="arrow-grid">
+          <span class="arrow-lbl">size="md" · 16/28</span>
+          <span class="arrow-lbl">size="sm" · 14/20</span>
+          <a href="#" class="tlink plain size-md">Start free trial<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
+          <a href="#" class="tlink plain size-sm">Start free trial<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
+        </div>
+        <!-- /demo:sizes -->
+      </div>
+    </div>
+
     <div class="sect"><h2 class="sect-h">Icons: arrow &amp; external</h2>
       <div class="sect-sub"><b>Plain links only.</b> <code>arrow</code> adds a trailing &rarr; for a standalone link that leads on within the site; <code>external</code> adds &nearr; for one that leaves it, and also opens a new tab and tells a screen reader so. On hover and keyboard focus the icon eases a quarter-em along its own direction &mdash; a <code>transform</code>, so the link never changes width &mdash; and stays still under <code>prefers-reduced-motion</code>. An <code>underline</code> link draws no icon: it sits inside a sentence, where an icon breaks the line the reader is following. <b>Figma also has a leading icon</b> &mdash; <code>icon</code> turns it on and <code>Icon name</code> takes any Font Awesome icon name (<code>comment</code>, <code>house</code>, <code>file-pdf</code>&hellip;), in the link&rsquo;s colour and size, 4px before the text. In code it is the <code>icon</code> <b>slot</b>, not a name: put any <code>&lt;svg&gt;</code> or icon component in it &mdash; <code>&lt;svg slot="icon" &hellip;&gt;</code> &mdash; and an <code>&lt;svg&gt;</code> with no <code>fill</code> takes the link&rsquo;s colour. A slot rather than a name, so the component is not tied to whichever icon set this package bundles; Figma types a Font Awesome 7 Pro name, a font that cannot ship to a browser from here.</div>
       <div class="canvas">
@@ -423,6 +437,7 @@ const { Content } = await render(post);
         <tr><td class="ptable-name">white</td><td class="ptable-figma">the <code>text/default/link-menu</code> variable (#FFF) on the instance; hover is code's dark-link-hover, not link-menu-hover's pink-500, which is meant for the near-black nav bar</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">White text for a standalone link on a dark band — "Start free trial" under a card on a dark section — where <code>dark</code>'s blue would read as a second accent.</td></tr>
         <tr><td class="ptable-name">external</td><td class="ptable-figma"><code>external</code> — the ↗ only, and on <code>plain</code> only; the new tab and the spoken label are code's</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Opens in a new tab (<code>target="_blank"</code>, <code>rel="noopener"</code>), adds a north-east arrow, and tells a screen reader it will.</td></tr>
         <tr><td class="ptable-name">arrow</td><td class="ptable-figma"><code>arrow</code> — on <code>plain</code> only, prototyped with Smart Animate on hover</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">A trailing → for a standalone link that leads on within the site — "Learn more", "See all products".</td></tr>
+        <tr><td class="ptable-name">size</td><td class="ptable-figma"><code>size</code> on the <code>TextLink</code> set — md = <code>size/base</code> + <code>leading/7</code>, sm = <code>size/sm</code> + <code>leading/5</code></td><td class="ptable-type"><span class="ptable-m">'md'</span> | <span class="ptable-m">'sm'</span></td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Sets the link's own type size for a link that stands on its own: <code>md</code> is 16/28, <code>sm</code> is 14/20.</td></tr>
         <tr><td class="ptable-name">newTabLabel</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default">'(opens in a new tab)'</td><td class="ptable-notes">What a screen reader hears after an <code>external</code> link's text — change it for a page in another language.</td></tr>
         <tr><td class="ptable-name">class</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;a&gt;</code>, after the component's own.</td></tr>
       </tbody></table></div>
