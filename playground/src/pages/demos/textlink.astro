@@ -118,6 +118,12 @@ const codeStyle = "font-family:'Roboto Mono',monospace;font-size:0.875em;";
           <TextLink href="#" variant={m.variant} dark>Create Blank PDF</TextLink>
           <div class="mode-lbl" style="color:#90A1B9;">Dark</div>
         </div>
+        {m.variant === 'plain' && (
+          <div class="mode-cell dark" style="grid-column:1 / -1;">
+            <TextLink href="#" variant={m.variant} dark white arrow>Start free trial</TextLink>
+            <div class="mode-lbl" style="color:#90A1B9;">Dark · white</div>
+          </div>
+        )}
       </div>
     ))}
 

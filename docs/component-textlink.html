@@ -284,7 +284,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
 
     <div class="sect"><h2 class="sect-h">Dark backgrounds</h2>
-      <div class="sect-sub">Add <code>dark</code> on a dark band. Both variants move to their dark tokens: a lighter blue and pink for Plain, body text for Underline.</div>
+      <div class="sect-sub">Add <code>dark</code> on a dark band. Both variants move to their dark tokens: a lighter blue and pink for Plain, body text for Underline. For a standalone Plain link that should read white, such as a trial link under a card, add <code>white</code> as well. Hover and focus stay the same as <code>dark</code>.</div>
       <div class="variant-cols">
 
         <div class="variant-col">
@@ -298,6 +298,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <div class="mode-cell dark">
               <a href="#" class="tlink plain dark">Create Blank PDF</a>
               <div class="mode-lbl" style="color:#90A1B9;">Dark</div>
+            </div>
+            <div class="mode-cell dark" style="grid-column:1 / -1;">
+              <a href="#" class="tlink plain dark white">Start free trial<svg class="arrow-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></a>
+              <div class="mode-lbl" style="color:#90A1B9;">Dark · white</div>
             </div>
             <!-- /demo:modes-plain -->
           </div>
@@ -416,6 +420,7 @@ const { Content } = await render(post);
         <tr><td class="ptable-name">href</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>Where the link goes.</td></tr>
         <tr><td class="ptable-name">variant</td><td class="ptable-figma"><code>variant</code> on the <code>TextLink</code> set — same two values, same default</td><td class="ptable-type"><span class="ptable-m">'plain'</span> | <span class="ptable-m">'underline'</span></td><td class="ptable-default">'plain'</td><td class="ptable-notes"><code>plain</code> is link-coloured text for general pages; <code>underline</code> is heading-coloured text over a solid brand-blue underline for long-form reading.</td></tr>
         <tr><td class="ptable-name">dark</td><td class="ptable-figma"><code>dark</code> — the same Figma variables in their Dark Purple mode</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">The colours for a dark background.</td></tr>
+        <tr><td class="ptable-name">white</td><td class="ptable-figma">the <code>text/default/link-menu</code> variable (#FFF) on the instance; hover is code's dark-link-hover, not link-menu-hover's pink-500, which is meant for the near-black nav bar</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">White text for a standalone link on a dark band — "Start free trial" under a card on a dark section — where <code>dark</code>'s blue would read as a second accent.</td></tr>
         <tr><td class="ptable-name">external</td><td class="ptable-figma"><code>external</code> — the ↗ only, and on <code>plain</code> only; the new tab and the spoken label are code's</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Opens in a new tab (<code>target="_blank"</code>, <code>rel="noopener"</code>), adds a north-east arrow, and tells a screen reader it will.</td></tr>
         <tr><td class="ptable-name">arrow</td><td class="ptable-figma"><code>arrow</code> — on <code>plain</code> only, prototyped with Smart Animate on hover</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">A trailing → for a standalone link that leads on within the site — "Learn more", "See all products".</td></tr>
         <tr><td class="ptable-name">newTabLabel</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default">'(opens in a new tab)'</td><td class="ptable-notes">What a screen reader hears after an <code>external</code> link's text — change it for a page in another language.</td></tr>

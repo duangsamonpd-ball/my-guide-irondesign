@@ -1307,6 +1307,14 @@
           "figma": "`dark` — the same Figma variables in their Dark Purple mode"
         },
         {
+          "name": "white",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "White text for a standalone link on a dark band — \"Start free trial\" under a card on a dark section — where `dark`'s blue would read as a second accent. Hover and focus behave as `dark`. `plain` only: `underline` on a dark band is already heading-coloured. Separate from `dark` rather than replacing it (Ball, 2026-11-02): a blue link inside dark body text still needs to look like a link.",
+          "figma": "the `text/default/link-menu` variable (#FFF) on the instance; hover is code's dark-link-hover, not link-menu-hover's pink-500, which is meant for the near-black nav bar"
+        },
+        {
           "name": "external",
           "type": "boolean",
           "required": false,

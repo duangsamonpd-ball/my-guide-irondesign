@@ -386,6 +386,9 @@
   .tlink.plain.dark { color: var(--color-text-dark-link); }
   .tlink.plain.dark:hover { color: var(--color-text-dark-link-hover); }
   .tlink.plain.dark:focus-visible { outline-color: var(--color-text-dark-link); }
+  .tlink.plain.white { color: var(--color-text-link-menu); }
+  .tlink.plain.white:hover { color: var(--color-text-dark-link-hover); }
+  .tlink.plain.white:focus-visible { outline-color: var(--color-text-link-menu); }
   .tlink.underline {
     color: var(--color-text-heading);
     text-decoration: underline; text-decoration-color: var(--color-border-selected);

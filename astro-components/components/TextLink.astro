@@ -24,6 +24,14 @@ interface Props {
    */
   dark?: boolean;
   /**
+   * White text for a standalone link on a dark band — "Start free trial" under a card on a dark section — where `dark`'s blue would read as a second accent. Hover and focus behave as `dark`.
+   * `plain` only: `underline` on a dark band is already heading-coloured.
+   * Separate from `dark` rather than replacing it (Ball, 2026-11-02): a blue
+   * link inside dark body text still needs to look like a link.
+   * @figma the `text/default/link-menu` variable (#FFF) on the instance; hover is code's dark-link-hover, not link-menu-hover's pink-500, which is meant for the near-black nav bar
+   */
+  white?: boolean;
+  /**
    * Opens in a new tab (`target="_blank"`, `rel="noopener"`), adds a north-east arrow, and tells a screen reader it will.
    * The arrow is `plain` only: an `underline` link sits inside a sentence, and an
    * icon there breaks the line a reader is following (Ball, 2026-10-01). It still
@@ -46,7 +54,7 @@ interface Props {
   class?: string;
 }
 
-const { href, variant = 'plain', dark = false, external = false, arrow = false, newTabLabel = '(opens in a new tab)', class: className } = Astro.props;
+const { href, variant = 'plain', dark = false, white = false, external = false, arrow = false, newTabLabel = '(opens in a new tab)', class: className } = Astro.props;
 
 const externalProps = external ? { target: '_blank', rel: 'noopener' } : {};
 
@@ -98,7 +106,7 @@ const hasIcon = Astro.slots.has('icon');
  */
 ---
 
-<a href={href} class:list={['tlink', variant, { dark }, className]} {...externalProps}>{showIcons && hasIcon && <span class="lead-icon" aria-hidden="true"><slot name="icon" /></span>}<slot />{showIcons && arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{showIcons && external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
+<a href={href} class:list={['tlink', variant, { dark, white }, className]} {...externalProps}>{showIcons && hasIcon && <span class="lead-icon" aria-hidden="true"><slot name="icon" /></span>}<slot />{showIcons && arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{showIcons && external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
 
 <style>
   .tlink {
@@ -113,6 +121,11 @@ const hasIcon = Astro.slots.has('icon');
   .tlink.plain.dark { color: var(--color-text-dark-link); }
   .tlink.plain.dark:hover { color: var(--color-text-dark-link-hover); }
   .tlink.plain.dark:focus-visible { outline-color: var(--color-text-dark-link); }
+  /* white — after `dark` on purpose: same specificity, so order decides, and a
+     link written `dark white` must come out white. */
+  .tlink.plain.white { color: var(--color-text-link-menu); }
+  .tlink.plain.white:hover { color: var(--color-text-dark-link-hover); }
+  .tlink.plain.white:focus-visible { outline-color: var(--color-text-link-menu); }
 
   /* underline — long-form content (blog, news): heading-coloured text over a
      solid brand-blue underline that only THICKENS on hover, 1px → 2px. This is
