@@ -116,7 +116,7 @@ const hasIcon = Astro.slots.has('icon');
  */
 ---
 
-<a href={href} class:list={['tlink', variant, size && `size-${size}`, { dark, white }, className]} {...externalProps}>{showIcons && hasIcon && <span class="lead-icon" aria-hidden="true"><slot name="icon" /></span>}<slot />{showIcons && arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{showIcons && external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
+<a href={href} class:list={['tlink', variant, size && `tlink--${size}`, { dark, white }, className]} {...externalProps}>{showIcons && hasIcon && <span class="lead-icon" aria-hidden="true"><slot name="icon" /></span>}<slot />{showIcons && arrow && !external && <svg class="arrow-icon" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>}{showIcons && external && <svg class="ext-icon" viewBox="-64 -64 640 640" fill="currentColor" aria-hidden="true"><path transform="rotate(-45 256 256)" d={icons.arrowRight.path} /></svg>}{external && <span class="ext-label"> {newTabLabel}</span>}</a>
 
 <style>
   .tlink {
@@ -125,9 +125,12 @@ const hasIcon = Astro.slots.has('icon');
   }
 
   /* plain — general/marketing pages: coloured text, no underline */
-  /* Only when asked for: no `size` sets nothing, so the link inherits. */
-  .tlink.size-md { font-size: var(--font-size-base); line-height: var(--leading-7); }
-  .tlink.size-sm { font-size: var(--font-size-sm); line-height: var(--leading-5); }
+  /* Only when asked for: no `size` sets nothing, so the link inherits.
+     `tlink--md`, not `size-md`: `size-md` is a Tailwind utility (width and
+     height = --spacing-md), and a consumer's Tailwind compiles it from this
+     markup. In page-experiments it squashed every sized link to 16x16. */
+  .tlink.tlink--md { font-size: var(--font-size-base); line-height: var(--leading-7); }
+  .tlink.tlink--sm { font-size: var(--font-size-sm); line-height: var(--leading-5); }
   .tlink.plain { color: var(--color-text-link); text-decoration: none; }
   .tlink.plain:hover { color: var(--color-text-link-hover); }
   .tlink.plain:focus-visible { outline: var(--border-width-2) solid var(--color-text-link); outline-offset: 3px; border-radius: 2px; }
