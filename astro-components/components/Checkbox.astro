@@ -81,8 +81,9 @@ interface Props {
    * needs markup — a consent line with a link in it — pass it as the default
    * slot instead, which wins over this prop.
    * A link inside the label follows the link when clicked and does not tick the
-   * box (the HTML label rule for interactive content); every other part of the
-   * row still ticks it. The whole slot, link text included, is the checkbox's
+   * box (the HTML label rule for interactive content) — but only a link WITH an
+   * href: an <a> without one is not interactive, so clicking it ticks the box
+   * like the rest of the row. Every other part of the row ticks it. The whole slot, link text included, is the checkbox's
    * accessible name.
    */
   label?: string;
