@@ -158,19 +158,19 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     <div class="sect"><h2 class="sect-h">Preview</h2>
       <div class="canvas col" style="max-width:600px;margin:0 auto;">
         <!-- demo:preview -->
-        <form class="bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px]" aria-labelledby="fc-demo-1">
+        <form class="bg-bg-base rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[440px] border border-border" aria-labelledby="fc-demo-1">
           <div class="flex items-center gap-[16px]">
             <span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary
             bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)]
             border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]">
             <svg class="size-[26px]" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-277.5c0-17-6.7-33.3-18.7-45.3L258.7 18.7C246.7 6.7 230.5 0 213.5 0L64 0zM325.5 176L232 176c-13.3 0-24-10.7-24-24L208 58.5 325.5 176zM64 384l0-64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 416c-17.7 0-32-14.3-32-32zM88 64l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24S74.7 64 88 64zm0 96l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"></path></svg>
           </span>
-          <div>
+          <div class="flex flex-1 flex-col gap-[8px]">
             <h3 class="font-sans text-h4 font-h4 leading-h4 tracking-h4 text-text-heading m-0" id="fc-demo-1">Request Your Discounted Quote</h3>
-            <p class="font-sans text-caption leading-caption text-text-support mt-[4px] mb-0 mx-0">Tell us what you&#39;re migrating from and we&#39;ll do the rest.</p>
+            <p class="font-sans text-sm font-medium leading-[21px] text-text-support m-0">Tell us what you&#39;re migrating from and we&#39;ll do the rest.</p>
           </div>
         </div>
-        <div class="flex flex-col gap-[20px]">
+        <div class="flex flex-col gap-[16px]">
           <div class="flex flex-col gap-xs w-full">
             <label class="text-label font-label text-text-heading leading-label" for="full-name">
               Full name<span class="text-danger"> *</span>
@@ -189,22 +189,61 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           </div>
         </div>
         <div class="flex flex-col gap-[12px]">
-          <button type="submit" class="group w-full h-[var(--size-btn-lg)] border-0 rounded-full bg-primary text-primary-on
-          font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px]
-          transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">
-          Get Your Migration Quote
-          <svg class="size-[16px] shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
-        </button>
-        <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support list-none m-0 p-0">
-          <li class="flex items-center gap-[12px]"><span>No obligation to proceed</span></li>
-          <li class="flex items-center gap-[12px]">
-            <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>
-            <span>Response within 1 business day</span>
-          </li>
-        </ul>
+          <button type="submit" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta w-full">
+            Get Your Migration Quote
+          </button>
+          <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support list-none m-0 p-0">
+            <li class="flex items-center gap-[12px]"><span>No obligation to proceed</span></li>
+            <li class="flex items-center gap-[12px]">
+              <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>
+              <span>Response within 1 business day</span>
+            </li>
+          </ul>
         </div>
         </form>
         <!-- /demo:preview -->
+      </div>
+    </div>
+
+    <div class="sect"><h2 class="sect-h">Elevated, without an icon</h2>
+      <div class="sect-sub"><code>variant="elevated"</code> drops the border for <b>--shadow-modal</b>, for a card that floats over a hero or an image. <code>icon</code> is optional; without it the title stands on its own. This is Figma 2787:10701, the card FormCard's design follows.</div>
+      <div class="canvas" style="padding:40px;">
+        <!-- demo:elevated -->
+        <form class="bg-bg-base rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[440px] shadow-[var(--shadow-modal)]" aria-labelledby="fc-demo-1">
+          <div class="flex items-center gap-[16px]">
+            <div class="flex flex-1 flex-col gap-[8px]">
+              <h2 class="font-sans text-h4 font-h4 leading-h4 tracking-h4 text-text-heading m-0" id="fc-demo-1">Activate your Iron Suite Upgrade</h2>
+              <p class="font-sans text-sm font-medium leading-[21px] text-text-support m-0">Enter the email you bought your license with.</p>
+            </div>
+          </div>
+          <div class="flex flex-col gap-[16px]">
+            <div class="flex flex-col gap-xs w-full">
+              <label class="text-label font-label text-text-heading leading-label" for="elevated-email">
+                Email
+              </label>
+              <div class="relative flex items-center">
+                <input id="elevated-email" name="elevated-email" type="email" autocomplete="email" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" placeholder="you@example.com">
+              </div>
+            </div>
+            <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="elevated-consent">
+              <input class="absolute w-px h-px opacity-0 pointer-events-none" id="elevated-consent" name="elevated-consent" type="checkbox">
+              <span class="shrink-0 inline-flex items-center justify-center bg-bg-input border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-sm)] rounded-sm border-border-input group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+                <svg class="size-[11.2px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+              <span class="flex flex-col gap-micro">
+                <span class="text-label-lg font-label-lg text-text-body leading-label-lg">I agree to the Iron Suite Upgrade terms and conditions.</span>
+              </span>
+            </label>
+          </div>
+          <div class="flex flex-col gap-[12px]">
+            <button type="submit" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta w-full">
+              Confirm
+            </button>
+          </div>
+        </form>
+        <!-- /demo:elevated -->
       </div>
     </div>
 
@@ -221,19 +260,19 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect-sub">The parts of the card and the token each is bound to.</div>
       <div class="anatomy" style="align-items:stretch;max-width:600px;margin:0 auto;">
         <!-- demo:anatomy -->
-        <form class="bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px] demo-wide" aria-labelledby="fc-demo-1">
+        <form class="bg-bg-base rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[440px] border border-border demo-wide" aria-labelledby="fc-demo-1">
           <div class="flex items-center gap-[16px]">
             <span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary
             bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)]
             border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]">
             <svg class="size-[26px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"></path></svg>
           </span>
-          <div>
+          <div class="flex flex-1 flex-col gap-[8px]">
             <h3 class="font-sans text-h4 font-h4 leading-h4 tracking-h4 text-text-heading m-0" id="fc-demo-1">Card title</h3>
-            <p class="font-sans text-caption leading-caption text-text-support mt-[4px] mb-0 mx-0">Optional subtitle.</p>
+            <p class="font-sans text-sm font-medium leading-[21px] text-text-support m-0">Optional subtitle.</p>
           </div>
         </div>
-        <div class="flex flex-col gap-[20px]">
+        <div class="flex flex-col gap-[16px]">
           <div class="flex flex-col gap-xs w-full">
             <label class="text-label font-label text-text-heading leading-label" for="anatomy-slot">
               Slotted field
@@ -244,28 +283,25 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           </div>
         </div>
         <div class="flex flex-col gap-[12px]">
-          <button type="submit" class="group w-full h-[var(--size-btn-lg)] border-0 rounded-full bg-primary text-primary-on
-          font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px]
-          transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">
-          Submit label
-          <svg class="size-[16px] shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
-        </button>
-        <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support list-none m-0 p-0">
-          <li class="flex items-center gap-[12px]"><span>Note left</span></li>
-          <li class="flex items-center gap-[12px]">
-            <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>
-            <span>Note right</span>
-          </li>
-        </ul>
+          <button type="submit" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta w-full">
+            Submit label
+          </button>
+          <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support list-none m-0 p-0">
+            <li class="flex items-center gap-[12px]"><span>Note left</span></li>
+            <li class="flex items-center gap-[12px]">
+              <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>
+              <span>Note right</span>
+            </li>
+          </ul>
         </div>
         </form>
         <!-- /demo:anatomy -->
       <div class="anatomy-tags">
-          <span class="atag">frame → <b>--rounded-2xl</b> + <b>--color-border</b></span>
+          <span class="atag">frame → <b>--rounded-2xl</b> + <b>--color-border</b> (or <b>--shadow-modal</b>, elevated)</span>
           <span class="atag">icon halo → <b>--rounded-lg</b> + <b>--color-secondary</b></span>
           <span class="atag">title → <b>--color-text-heading</b></span>
           <span class="atag">subtitle → <b>--color-text-support</b></span>
-          <span class="atag">submit → <b>--size-btn-lg</b> + <b>--color-primary</b></span>
+          <span class="atag">submit → the DS Button, md: <b>--size-btn-md</b> + <b>--color-primary</b></span>
           <span class="atag">submit radius → <b>--rounded-full</b></span>
           <span class="atag">note dot → <b>--color-border-strong</b></span>
         </div>
@@ -281,7 +317,8 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="prop">Icon tint</td><td class="token">--color-secondary</td><td class="val"><span class="sw" style="background:#2693EC"></span>#2693EC</td></tr>
         <tr><td class="prop">Title</td><td class="token">--color-text-heading</td><td class="val"><span class="sw" style="background:#171717"></span>#171717</td></tr>
         <tr><td class="prop">Subtitle / notes</td><td class="token">--color-text-support</td><td class="val"><span class="sw" style="background:#1D629BE6"></span>#1D629B · 90%</td></tr>
-        <tr><td class="prop">Submit height</td><td class="token">--size-btn-lg</td><td class="val">56px</td></tr>
+        <tr><td class="prop">Card shadow · elevated</td><td class="token">--shadow-modal</td><td class="val">0 8px 24px slate-900 · 32%</td></tr>
+        <tr><td class="prop">Submit height</td><td class="token">--size-btn-md</td><td class="val">48px</td></tr>
         <tr><td class="prop">Submit fill</td><td class="token">--color-primary</td><td class="val"><span class="sw" style="background:#E01A59"></span>#E01A59</td></tr>
         <tr><td class="prop">Submit fill · hover</td><td class="token">--color-primary-hover</td><td class="val"><span class="sw" style="background:#BA174B"></span>#BA174B</td></tr>
         <tr><td class="prop">Submit radius</td><td class="token">--rounded-full</td><td class="val">9999px</td></tr>
@@ -293,17 +330,19 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <h2 class="sect-h">Props</h2>
       <div class="sect-sub">Read from <code>interface Props</code> in <code>FormCard.astro</code>, so it cannot drift from the component.</div>
       <!-- props:FormCard -->
-      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
-        <tr><td class="ptable-name">icon</td><td class="ptable-type"><span class="ptable-m">'quote'</span> | <span class="ptable-m">'key'</span> | <span class="ptable-m">'check'</span></td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The icon in the tinted square beside the title.</td></tr>
-        <tr><td class="ptable-name">title</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The card's heading; it also names the form for assistive tech.</td></tr>
-        <tr><td class="ptable-name">subtitle</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A short line under the title.</td></tr>
-        <tr><td class="ptable-name">submitLabel</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The text on the full-width submit button.</td></tr>
-        <tr><td class="ptable-name">noteLeft</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Small print under the button, such as "No obligation to proceed".</td></tr>
-        <tr><td class="ptable-name">noteRight</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A second note beside the first, with a dot between them when both are set.</td></tr>
-        <tr><td class="ptable-name">headingLevel</td><td class="ptable-type"><span class="ptable-m">2</span> | <span class="ptable-m">3</span> | <span class="ptable-m">4</span> | <span class="ptable-m">5</span></td><td class="ptable-default">3</td><td class="ptable-notes">Heading level for the card title.</td></tr>
-        <tr><td class="ptable-name">action</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Where the form posts.</td></tr>
-        <tr><td class="ptable-name">method</td><td class="ptable-type"><span class="ptable-m">'get'</span> | <span class="ptable-m">'post'</span></td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">How the form sends — omitted means the browser's default, <code>get</code>.</td></tr>
-        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;form&gt;</code>, after the component's own.</td></tr>
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>In Figma</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">icon</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type"><span class="ptable-m">'quote'</span> | <span class="ptable-m">'key'</span> | <span class="ptable-m">'check'</span></td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The icon in the tinted square beside the title.</td></tr>
+        <tr><td class="ptable-name">variant</td><td class="ptable-figma">2787:10701 is <code>elevated</code> — no stroke, <code>shadow/modal</code></td><td class="ptable-type"><span class="ptable-m">'bordered'</span> | <span class="ptable-m">'elevated'</span></td><td class="ptable-default">'bordered'</td><td class="ptable-notes"><code>bordered</code> is a 1px border for a card on the page's own surface; <code>elevated</code> drops the border for the <code>shadow/modal</code> shadow, for a card that floats over a hero or an image.</td></tr>
+        <tr><td class="ptable-name">title</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The card's heading; it also names the form for assistive tech.</td></tr>
+        <tr><td class="ptable-name">subtitle</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A short line under the title.</td></tr>
+        <tr><td class="ptable-name">submitLabel</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The text on the full-width submit button.</td></tr>
+        <tr><td class="ptable-name">noteLeft</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Small print under the button, such as "No obligation to proceed".</td></tr>
+        <tr><td class="ptable-name">noteRight</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A second note beside the first, with a dot between them when both are set.</td></tr>
+        <tr><td class="ptable-name">headingLevel</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type"><span class="ptable-m">2</span> | <span class="ptable-m">3</span> | <span class="ptable-m">4</span> | <span class="ptable-m">5</span></td><td class="ptable-default">3</td><td class="ptable-notes">Heading level for the card title.</td></tr>
+        <tr><td class="ptable-name">action</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Where the form posts.</td></tr>
+        <tr><td class="ptable-name">method</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type"><span class="ptable-m">'get'</span> | <span class="ptable-m">'post'</span></td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">How the form sends — omitted means the browser's default, <code>get</code>.</td></tr>
+        <tr><td class="ptable-name">id</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The form's id, for a script that finds it or a button outside it (<code>form="…"</code>).</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the <code>&lt;form&gt;</code>, after the component's own.</td></tr>
       </tbody></table></div>
       <!-- /props:FormCard -->
     </div>
@@ -338,9 +377,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 
     <div class="sect"><h2 class="sect-h">Guidelines</h2>
       <div class="dd">
-        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="flex items-center gap-[16px]"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span><div ><h3 class="font-sans text-h4 font-h4 leading-h4 text-text-heading m-0">Start Free Trial</h3><p class="font-sans text-caption leading-caption text-text-support mt-[4px] mb-0 mx-0">One clear ask per card.</p></div></div></div>
+        <div class="card do"><div class="top">✓ Do</div><div class="body"><div class="flex items-center gap-[16px]"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 512 512" fill="currentColor"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg></span><div class="flex flex-1 flex-col gap-[8px]"><h3 class="font-sans text-h4 font-h4 leading-h4 text-text-heading m-0">Start Free Trial</h3><p class="font-sans text-sm font-medium leading-[21px] text-text-support m-0">One clear ask per card.</p></div></div></div>
           <ul><li>Keep one primary action per card — a single submit.</li><li>Use the subtitle to set expectations, notes to reduce friction.</li><li>Match the icon to the intent: <b>quote</b>, <b>key</b> or <b>check</b>.</li></ul></div>
-        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="flex items-center gap-[16px]"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span><div ><h3 class="font-sans text-h4 font-h4 leading-h4 text-text-heading m-0">Sign up · Log in · Learn more</h3><p class="font-sans text-caption leading-caption text-text-support mt-[4px] mb-0 mx-0">Too many competing asks.</p></div></div></div>
+        <div class="card dont"><div class="top">✗ Don't</div><div class="body"><div class="flex items-center gap-[16px]"><span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)] border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"><svg class="size-[26px]" viewBox="0 0 448 512" fill="currentColor"><path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"/></svg></span><div class="flex flex-1 flex-col gap-[8px]"><h3 class="font-sans text-h4 font-h4 leading-h4 text-text-heading m-0">Sign up · Log in · Learn more</h3><p class="font-sans text-sm font-medium leading-[21px] text-text-support m-0">Too many competing asks.</p></div></div></div>
           <ul><li>Don't stack multiple submits or CTAs in one card.</li><li>Don't hard-code the pink submit fill — use <b>--color-primary</b>.</li><li>Don't drop the visible labels on the slotted fields.</li></ul></div>
       </div>
     </div>

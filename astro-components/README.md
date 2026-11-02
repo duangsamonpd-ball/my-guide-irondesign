@@ -650,7 +650,7 @@ The docs page previews all of this in a **resizable frame** — drag the handle 
 > **Needs Tailwind.** This component has no `<style>` of its own — every value
 > comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
 
-Generic wrapper for icon+title form cards (the "Request a Quote" / "Tell us what you're migrating from" pattern) — compose it with `Input` / `Select` / `Textarea` / `FileUpload` / a plain `<button>` submit as children:
+Generic wrapper for form cards (the "Request a Quote" / "Activate your upgrade" pattern) — compose it with `Input` / `Select` / `Textarea` / `FileUpload` / `Checkbox` as children; the card draws its own submit, the DS `Button` (primary, md):
 
 ```astro
 <FormCard
@@ -670,7 +670,9 @@ Generic wrapper for icon+title form cards (the "Request a Quote" / "Tell us what
 </FormCard>
 ```
 
-Props: `icon` (`'quote' | 'key' | 'check'`), `title`, `subtitle`, `submitLabel`, `noteLeft`, `noteRight`, `headingLevel` (`2`–`5`, default `3`), `action`, `method` (`get` | `post`), `class`. Fields go in the default slot.
+Props: `icon` (`'quote' | 'key' | 'check'`, optional — leave it off for a title on its own), `variant` (`bordered` | `elevated`, default `bordered`: `elevated` drops the border for `--shadow-modal`, for a card over a hero), `title`, `subtitle`, `submitLabel`, `noteLeft`, `noteRight`, `headingLevel` (`2`–`5`, default `3`), `action`, `method` (`get` | `post`), `id`, `class`. Fields go in the default slot.
+
+**Its design is Figma 2787:10701** (suite-upgrade's card, Ball 2026-11-02) — the only form card drawn: 440 wide, 32 padding, 24 between title block, fields and submit, 16 between fields, a 14/21 medium subtitle 8 under the title, and the md `Button` as the submit.
 
 **The card's root is the `<form>` — do not wrap it in one.** It used to be a `<div>` holding a `type="submit"` button with no form anywhere, so the submit did nothing on its own and this README told you to add the `<form>` yourself; nesting one now would be invalid HTML. Omit `action` to post to the current URL. The form is named by its own title via `aria-labelledby`, and the title's level is a prop — it was a hard-coded `<h3>`, which broke the page outline anywhere the card did not happen to sit under an `<h2>`.
 

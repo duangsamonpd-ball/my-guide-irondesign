@@ -1,19 +1,40 @@
 ---
 /**
- * ── Why this component declares no `figma-size` band ──────────────────────
+ * ── Its design reference is 2787:10701 (Ball, 2026-11-02) ─────────────────
  *
- * No node found on 2026-08-28: nothing in the published library, no page of its
- * own, and neither catch-all page (`Other element`, `Test`) holds one. That is
- * what was checked — not every frame on every canvas. The fields INSIDE it are
- * covered — Input, Select and Textarea each declare their 96/72/150 — so what is
- * unheld here is the card's own frame.
+ * There is still no FormCard component in Figma. The one form card drawn in the
+ * file is suite-upgrade's "Activate your Iron Suite Upgrade" (2787:10701,
+ * 440 x 385), and Ball ruled that FormCard follows it. It differed in seven places.
+ * Two were asked for (an optional icon; a shadow instead of the border). Five
+ * were not, and without them no page could swap to this card without leaving
+ * its frame:
+ *   - width 440, was 540;
+ *   - subtitle 14 MEDIUM on a 21px line, 8 under the title, was caption 14/20
+ *     regular 4 under. No type role carries 21, so it is written here;
+ *   - 16 between fields, was 20;
+ *   - the submit is the DS Button, primary md: 48 tall, 14/600, no arrow. It was
+ *     hand-drawn here at 56, 16/700, with a → of its own, so it followed Button
+ *     only by luck.
+ * Padding 32 and the 24 between the three blocks already matched.
+ *
+ * ── Why it declares no `figma-size` band ──────────────────────────────────
+ *
+ * The frame is a PAGE's card, not a component node: its height is whatever its
+ * fields make it, and the fields inside are covered (Input, Select and Textarea
+ * each declare their 96/72/150).
  */
 // quote / key / check are shared with the other card components — see ../icons.
 import { icons } from '../icons';
+import Button from './Button.astro';
 
 interface Props {
-  /** The icon in the tinted square beside the title. */
-  icon: 'quote' | 'key' | 'check';
+  /** The icon in the tinted square beside the title. Leave it off for a title on its own, as 2787:10701 draws it. */
+  icon?: 'quote' | 'key' | 'check';
+  /**
+   * `bordered` is a 1px border for a card on the page's own surface; `elevated` drops the border for the `shadow/modal` shadow, for a card that floats over a hero or an image.
+   * @figma 2787:10701 is `elevated` — no stroke, `shadow/modal`
+   */
+  variant?: 'bordered' | 'elevated';
   /** The card's heading; it also names the form for assistive tech. */
   title: string;
   /** A short line under the title. */
@@ -34,12 +55,15 @@ interface Props {
   action?: string;
   /** How the form sends — omitted means the browser's default, `get`. */
   method?: 'get' | 'post';
+  /** The form's id, for a script that finds it or a button outside it (`form="…"`). */
+  id?: string;
   /** Extra classes on the `<form>`, after the component's own. */
   class?: string;
 }
 
 const {
   icon,
+  variant = 'bordered',
   title,
   subtitle,
   submitLabel,
@@ -48,6 +72,7 @@ const {
   headingLevel = 3,
   action,
   method,
+  id,
   class: className,
 } = Astro.props;
 
@@ -62,44 +87,35 @@ const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
 
 <form
   class:list={[
-    'bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px]',
+    'bg-bg-base rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[440px]',
+    variant === 'elevated' ? 'shadow-[var(--shadow-modal)]' : 'border border-border',
     className,
   ]}
+  id={id}
   action={action}
   method={method}
   aria-labelledby={titleId}
 >
   <div class="flex items-center gap-[16px]">
-    <span
-      class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary
-             bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)]
-             border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"
-    >
-      <svg class="size-[26px]" viewBox={icons[icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[icon].path} /></svg>
-    </span>
-    <div>
+    {icon && (
+      <span
+        class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary
+               bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)]
+               border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]"
+      >
+        <svg class="size-[26px]" viewBox={icons[icon].viewBox} fill="currentColor" aria-hidden="true"><path d={icons[icon].path} /></svg>
+      </span>
+    )}
+    <div class="flex flex-1 flex-col gap-[8px]">
       <Heading class="font-sans text-h4 font-h4 leading-h4 tracking-h4 text-text-heading m-0" id={titleId}>{title}</Heading>
-      {subtitle && <p class="font-sans text-caption leading-caption text-text-support mt-[4px] mb-0 mx-0">{subtitle}</p>}
+      {subtitle && <p class="font-sans text-sm font-medium leading-[21px] text-text-support m-0">{subtitle}</p>}
     </div>
   </div>
-  <div class="flex flex-col gap-[20px]">
+  <div class="flex flex-col gap-[16px]">
     <slot />
   </div>
   <div class="flex flex-col gap-[12px]">
-    <button
-      type="submit"
-      class="group w-full h-[var(--size-btn-lg)] border-0 rounded-full bg-primary text-primary-on
-             font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px]
-             transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover"
-    >
-      {submitLabel}
-      {/* An icon, not a "→". This is the component the trap was FOUND on: the
-          character has no Montserrat glyph, so it falls through --font-sans and
-          its box goes 16.00px to 14.78px. Fixed everywhere else first; this was
-          the last one still carrying it. 16px is the em box the character had
-          at --font-size-btn-lg, so the button's width does not move. */}
-      <svg class="size-[16px] shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox={icons.arrowRight.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.arrowRight.path} /></svg>
-    </button>
+    <Button type="submit" variant="primary" size="md" class="w-full">{submitLabel}</Button>
     {(noteLeft || noteRight) && (
       <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support list-none m-0 p-0">
         {noteLeft && <li class="flex items-center gap-[12px]"><span>{noteLeft}</span></li>}
@@ -113,4 +129,3 @@ const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
     )}
   </div>
 </form>
-

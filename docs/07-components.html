@@ -904,18 +904,18 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
         </div>
       </article><article class="gcard gcard-wide">
         <div class="gcard-stage">
-          <form class="bg-bg-base border border-border rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[540px]" aria-labelledby="fc-demo-1">
+          <form class="bg-bg-base rounded-2xl p-[32px] flex flex-col gap-[24px] max-w-[440px] border border-border" aria-labelledby="fc-demo-1">
             <div class="flex items-center gap-[16px]">
               <span class="size-[64px] shrink-0 rounded-lg flex items-center justify-center text-secondary
               bg-[color-mix(in_srgb,var(--color-secondary)_6%,transparent)]
               border border-[color-mix(in_srgb,var(--color-secondary)_10%,transparent)]">
               <svg class="size-[26px]" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-277.5c0-17-6.7-33.3-18.7-45.3L258.7 18.7C246.7 6.7 230.5 0 213.5 0L64 0zM325.5 176L232 176c-13.3 0-24-10.7-24-24L208 58.5 325.5 176zM64 384l0-64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 416c-17.7 0-32-14.3-32-32zM88 64l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24S74.7 64 88 64zm0 96l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"></path></svg>
             </span>
-            <div>
+            <div class="flex flex-1 flex-col gap-[8px]">
               <h3 class="font-sans text-h4 font-h4 leading-h4 tracking-h4 text-text-heading m-0" id="fc-demo-1"></h3>
             </div>
           </div>
-          <div class="flex flex-col gap-[20px]">
+          <div class="flex flex-col gap-[16px]">
             <div class="flex flex-col gap-xs w-full">
               <label class="text-label font-label text-text-heading leading-label" for="gal-fc-email">
                 Work email<span class="text-danger"> *</span>
@@ -926,26 +926,23 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
             </div>
           </div>
           <div class="flex flex-col gap-[12px]">
-            <button type="submit" class="group w-full h-[var(--size-btn-lg)] border-0 rounded-full bg-primary text-primary-on
-            font-sans text-btn-lg font-btn-lg leading-btn-lg cursor-pointer inline-flex items-center justify-center gap-[8px]
-            transition-[background-color] duration-[var(--duration-fast)] hover:bg-primary-hover">
-            Send request
-            <svg class="size-[16px] shrink-0 transition-transform duration-[var(--duration-base)] group-hover:translate-x-[3px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg>
-          </button>
-          <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support list-none m-0 p-0">
-            <li class="flex items-center gap-[12px]"><span>No credit card</span></li>
-            <li class="flex items-center gap-[12px]">
-              <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>
-              <span>Reply within one business day</span>
-            </li>
-          </ul>
-        </div>
-      </form>
-    </div>
-    <div class="gcard-meta">
-      <a class="gcard-name" href="component-formcard.html"><i class="gcard-icon">🗂️</i>Form Card</a>
-      <p class="gcard-desc">A composed wrapper for icon + title lead-capture forms — the &quot;Request a Quote&quot; / &quot;Tell us what you&#39;re migrating from&quot; pattern.</p>
-    </div>
+            <button type="submit" class="cursor-pointer inline-flex items-center justify-center font-sans no-underline border-[length:var(--border-width-2)] border-solid outline-none rounded-full transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-fast)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none whitespace-nowrap h-[var(--size-btn-md)] px-xl gap-xs text-btn font-btn leading-btn tracking-[0] bg-button-primary text-primary-on border-transparent hover:bg-button-primary-hover focus-visible:shadow-focus-magenta w-full">
+              Send request
+            </button>
+            <ul class="flex items-center justify-center gap-[12px] text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-support list-none m-0 p-0">
+              <li class="flex items-center gap-[12px]"><span>No credit card</span></li>
+              <li class="flex items-center gap-[12px]">
+                <span class="w-[3px] h-[3px] rounded-full bg-border-strong shrink-0" aria-hidden="true"></span>
+                <span>Reply within one business day</span>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+      <div class="gcard-meta">
+        <a class="gcard-name" href="component-formcard.html"><i class="gcard-icon">🗂️</i>Form Card</a>
+        <p class="gcard-desc">A composed wrapper for icon + title lead-capture forms — the &quot;Request a Quote&quot; / &quot;Tell us what you&#39;re migrating from&quot; pattern.</p>
+      </div>
     </article><article class="gcard gcard-wide">
       <div class="gcard-stage">
         <form class="bg-bg-base border border-border rounded-2xl py-[40px] px-[32px] flex flex-col items-center gap-[20px] max-w-[420px] text-center" aria-labelledby="tc-demo-1-title">

@@ -10,7 +10,7 @@
  * no `id`, so nothing tied the two together for a screen reader. Each Input is
  * given a `name` so the id it derives is stable across builds.
  */
-import { FormCard, Input } from '@iron-software/astro-components';
+import { FormCard, Input, Checkbox } from '@iron-software/astro-components';
 ---
 
 <html lang="en">
@@ -26,6 +26,21 @@ import { FormCard, Input } from '@iron-software/astro-components';
       >
         <Input label="Full name" name="full-name" placeholder="Jane Cooper" required />
         <Input label="Work email" name="work-email" type="email" placeholder="you@example.com" required />
+      </FormCard>
+    </div>
+    {/* `elevated`, no icon — Figma 2787:10701, the card this component now
+        follows. The light square behind it is the docs page's, so the shadow
+        has something to fall on. */}
+    <div data-demo="elevated">
+      <FormCard
+        variant="elevated"
+        headingLevel={2}
+        title="Activate your Iron Suite Upgrade"
+        subtitle="Enter the email you bought your license with."
+        submitLabel="Confirm"
+      >
+        <Input label="Email" name="elevated-email" type="email" autocomplete="email" placeholder="you@example.com" />
+        <Checkbox name="elevated-consent" size="sm" label="I agree to the Iron Suite Upgrade terms and conditions." />
       </FormCard>
     </div>
     {/* The card at full width for the diagram; `.anatomy .demo-wide` on the page

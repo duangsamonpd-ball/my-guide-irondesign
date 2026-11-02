@@ -662,20 +662,11 @@
 .m-0 {
   margin: 0px;
 }
-.mx-0 {
-  margin-inline: 0px;
-}
 .mx-auto {
   margin-inline: auto;
 }
-.mt-\[4px\] {
-  margin-top: 4px;
-}
 .mt-xs {
   margin-top: var(--spacing-xs);
-}
-.mb-0 {
-  margin-bottom: 0px;
 }
 .mb-xs {
   margin-bottom: var(--spacing-xs);
@@ -871,8 +862,8 @@
 .max-w-\[420px\] {
   max-width: 420px;
 }
-.max-w-\[540px\] {
-  max-width: 540px;
+.max-w-\[440px\] {
+  max-width: 440px;
 }
 .max-w-\[567px\] {
   max-width: 567px;
@@ -1413,6 +1404,10 @@
   --tw-leading: 1.2;
   line-height: 1.2;
 }
+.leading-\[21px\] {
+  --tw-leading: 21px;
+  line-height: 21px;
+}
 .leading-\[inherit\] {
   --tw-leading: inherit;
   line-height: inherit;
@@ -1670,6 +1665,10 @@
 .mix-blend-multiply {
   mix-blend-mode: multiply;
 }
+.shadow-\[var\(--shadow-modal\)\] {
+  --tw-shadow: var(--shadow-modal);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
 .shadow-float {
   --tw-shadow: 0 2px 16px 0 var(--tw-shadow-color, rgba(15, 23, 43, 0.20));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -1773,10 +1772,6 @@
   opacity: 0.7;
 }
 @media (hover: hover) {
-  .group-hover\:translate-x-\[3px\]:is(:where(.group):hover *) {
-    --tw-translate-x: 3px;
-    translate: var(--tw-translate-x) var(--tw-translate-y);
-  }
   .group-hover\:text-text-dark-body:is(:where(.group):hover *) {
     color: var(--color-text-dark-body);
   }

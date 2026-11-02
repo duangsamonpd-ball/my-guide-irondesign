@@ -543,8 +543,16 @@
         {
           "name": "icon",
           "type": "'quote' | 'key' | 'check'",
-          "required": true,
-          "description": "The icon in the tinted square beside the title."
+          "required": false,
+          "description": "The icon in the tinted square beside the title. Leave it off for a title on its own, as 2787:10701 draws it."
+        },
+        {
+          "name": "variant",
+          "type": "'bordered' | 'elevated'",
+          "required": false,
+          "default": "'bordered'",
+          "description": "`bordered` is a 1px border for a card on the page's own surface; `elevated` drops the border for the `shadow/modal` shadow, for a card that floats over a hero or an image.",
+          "figma": "2787:10701 is `elevated` — no stroke, `shadow/modal`"
         },
         {
           "name": "title",
@@ -594,6 +602,12 @@
           "type": "'get' | 'post'",
           "required": false,
           "description": "How the form sends — omitted means the browser's default, `get`."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "The form's id, for a script that finds it or a button outside it (`form=\"…\"`)."
         },
         {
           "name": "class",
