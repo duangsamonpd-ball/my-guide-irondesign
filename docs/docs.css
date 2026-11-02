@@ -396,6 +396,12 @@ header.mast p  { font-size: 0.8rem; color: #737373; margin-top: 2px; }
   padding: 24px;
 }
 .section-label:first-child { margin-top: 0; }
+/* The width of the Input / Textarea Figma frames (912:1819, 914:2486). Since
+   2026-11-02 a field sets no width of its own — the caller decides — so the
+   demos that draw those frames say 340 here. A docs-only class, because
+   build-utilities scans only the components and a `max-w-[340px]` written in a
+   demo would never be compiled. */
+.demo-field { max-width: 340px; }
 .demo-caption { font-size: 0.7rem; color: #A1A1A1; margin-top: 10px; text-align: center; }
 .scale-bar-section {
       background: white; border: 1px solid #E2E8F0; border-radius: 16px;

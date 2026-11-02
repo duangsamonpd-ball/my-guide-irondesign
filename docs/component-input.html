@@ -165,7 +165,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     <div class="sect"><h2 class="sect-h">Preview</h2>
       <div class="canvas col" style="max-width:420px;margin:0 auto;">
         <!-- demo:preview -->
-        <div class="flex flex-col gap-xs w-full max-w-[340px]">
+        <div class="flex flex-col gap-xs w-full demo-field">
           <label class="text-label font-label text-text-heading leading-label" for="email-address">
             Email address
           </label>
@@ -183,28 +183,28 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="spec-grid">
         <!-- demo:states -->
         <div class="cell">
-          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+          <div class="flex flex-col gap-xs w-full demo-field">
             <div class="relative flex items-center">
               <input id="st-default" name="st-default" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" placeholder="Placeholder">
             </div>
           </div>
           <div class="lbl">Default</div>
         </div><div class="cell">
-          <div class="flex flex-col gap-xs w-full max-w-[340px] demo-focus">
+          <div class="flex flex-col gap-xs w-full demo-field demo-focus">
             <div class="relative flex items-center">
               <input id="st-focus" name="st-focus" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" value="Focused">
             </div>
           </div>
           <div class="lbl">Focus<small>secondary ring</small></div>
         </div><div class="cell">
-          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+          <div class="flex flex-col gap-xs w-full demo-field">
             <div class="relative flex items-center">
               <input id="st-filled" name="st-filled" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" value="Jane Cooper">
             </div>
           </div>
           <div class="lbl">Filled</div>
         </div><div class="cell">
-          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+          <div class="flex flex-col gap-xs w-full demo-field">
             <div class="relative flex items-center">
               <input id="st-error" name="st-error" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input-danger focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" value="not-an-email" aria-invalid="true" aria-describedby="st-error-desc">
             </div>
@@ -212,7 +212,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           </div>
           <div class="lbl">Error<small>danger border</small></div>
         </div><div class="cell">
-          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+          <div class="flex flex-col gap-xs w-full demo-field">
             <div class="relative flex items-center">
               <input id="st-disabled" name="st-disabled" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" value="Disabled" disabled>
             </div>
@@ -227,7 +227,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect-sub">Label, required marker, and error message — combine as needed.</div>
       <div class="canvas col" style="max-width:420px;margin:0 auto;">
         <!-- demo:compositions -->
-        <div class="flex flex-col gap-xs w-full max-w-[340px]">
+        <div class="flex flex-col gap-xs w-full demo-field">
           <label class="text-label font-label text-text-heading leading-label" for="full-name">
             Full name<span class="text-danger"> *</span>
           </label>
@@ -235,7 +235,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <input id="full-name" name="full-name" type="text" autocomplete="name" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" placeholder="Jane Cooper" required>
           </div>
         </div>
-        <div class="flex flex-col gap-xs w-full max-w-[340px]">
+        <div class="flex flex-col gap-xs w-full demo-field">
           <label class="text-label font-label text-text-heading leading-label" for="password">
             Password
           </label>
@@ -252,7 +252,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="sect-sub">The parts of a field and the token each is bound to.</div>
       <div class="anatomy" style="align-items:stretch;max-width:420px;margin:0 auto;">
         <!-- demo:anatomy -->
-        <div class="flex flex-col gap-xs w-full max-w-[340px]">
+        <div class="flex flex-col gap-xs w-full demo-field">
           <label class="text-label font-label text-text-heading leading-label" for="anatomy-email">
             Email address
           </label>
@@ -336,7 +336,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="dd">
         <div class="card do"><div class="top">✓ Do</div><div class="body">
           <!-- demo:do -->
-          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+          <div class="flex flex-col gap-xs w-full demo-field">
             <label class="text-label font-label text-text-heading leading-label" for="do-email">
               Email
             </label>
@@ -349,7 +349,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <ul><li>Always pair the input with a <b>visible label</b>.</li><li>Use the hint for format help, the error for what went wrong.</li><li>Show the error state only after the user leaves the field.</li></ul></div>
         <div class="card dont"><div class="top">✗ Don't</div><div class="body">
           <!-- demo:dont -->
-          <div class="flex flex-col gap-xs w-full max-w-[340px]">
+          <div class="flex flex-col gap-xs w-full demo-field">
             <div class="relative flex items-center">
               <input id="dont-email" name="dont-email" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]" placeholder="Email">
             </div>

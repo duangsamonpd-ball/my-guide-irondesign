@@ -34,7 +34,7 @@ const states = [
 <html lang="en">
   <body>
     <div data-demo="preview">
-      <Textarea
+      <Textarea class="demo-field"
         label="Message"
         name="message"
         placeholder="Type your message here…"
@@ -45,22 +45,22 @@ const states = [
     <div data-demo="states">
       {states.map((s) => (
         <div class="cell">
-          <Textarea {...s.props} />
+          <Textarea {...s.props} class={['demo-field', s.props.class].filter(Boolean).join(' ')} />
           <div class="lbl">{s.lbl}{s.note && <small>{s.note}</small>}</div>
         </div>
       ))}
     </div>
 
     <div data-demo="anatomy">
-      <Textarea label="Message" name="anatomy-message" placeholder="Type your message here…" hint="Helper text." />
+      <Textarea class="demo-field" label="Message" name="anatomy-message" placeholder="Type your message here…" hint="Helper text." />
     </div>
 
     <div data-demo="do">
-      <Textarea label="Message" name="do-message" placeholder="Type your message here…" />
+      <Textarea class="demo-field" label="Message" name="do-message" placeholder="Type your message here…" />
     </div>
 
     <div data-demo="dont">
-      <Textarea name="dont-message" placeholder="Message" />
+      <Textarea class="demo-field" name="dont-message" placeholder="Message" />
     </div>
   </body>
 </html>

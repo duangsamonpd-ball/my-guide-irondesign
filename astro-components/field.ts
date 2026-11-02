@@ -30,7 +30,13 @@
  */
 
 /** The `<div>` around label, control and message. */
-export const fieldShell = 'flex flex-col gap-xs w-full max-w-[340px]';
+/* NO max-width since 2026-11-02 (page-experiments #10): `max-w-[340px]` was the
+   width of the Input component's own Figma frame (912:1819), not a property of
+   a field, so every wider layout had to undo it — suite-upgrade with
+   `max-w-none!` at 376, FormCard with `[&>*]:max-w-none` on its slot. Select
+   never had it. The width is the caller's now: the docs demos pass
+   `class="max-w-[340px]"` to draw the frame they are measured against. */
+export const fieldShell = 'flex flex-col gap-xs w-full';
 
 /** Figma binds Typography/Label text — Montserrat Medium, size/sm, leading/5. */
 export const fieldLabel = 'text-label font-label text-text-heading leading-label';

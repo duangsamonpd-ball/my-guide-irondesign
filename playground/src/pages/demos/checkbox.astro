@@ -12,7 +12,7 @@
  * the hand-written markup had no id at all, and so no `for` tying a label to its
  * control.
  */
-import { Checkbox } from '@iron-software/astro-components';
+import { Checkbox, TextLink } from '@iron-software/astro-components';
 
 const TERMS = 'By clicking this checkbox, you agree to the terms and conditions.';
 /* the small uppercase captions the Layouts column already carried */
@@ -48,6 +48,12 @@ const states = [
 
       <div style={`${CAP}margin-top:8px;`}>With description</div>
       <Checkbox name="lay-desc" label="Accept terms and conditions" description={TERMS} checked />
+
+      {/* The default SLOT, for a label that needs markup — here a consent line
+          with a link in it (page-experiments #10). Clicking the link follows it;
+          clicking anywhere else on the row ticks the box. */}
+      <div style={`${CAP}margin-top:8px;`}>With a link</div>
+      <Checkbox name="lay-link">I agree to the <TextLink href="#" variant="underline">terms and conditions</TextLink>.</Checkbox>
 
       <div style={`${CAP}margin-top:8px;`}>Card</div>
       <Checkbox name="lay-card" label="Accept terms and conditions" description={TERMS} card />

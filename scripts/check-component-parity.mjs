@@ -343,13 +343,19 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).s
  * markup uses a class that ONLY docs/utilities.css declares, the page has to
  * link it.
  */
+/* Classes docs.css declares. Comments are stripped FIRST: a comment there names
+   "a `.tlink`, a `.btn`" in prose, and read raw that excused both from the
+   blocks below — the components.css check went green on a page rendering
+   TextLink in the browser's default blue until this was fixed (2026-11-02). */
+const shellClasses = [...stripComments(shellCss).matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => m[1].replace(/\\(.)/g, '$1'));
+
 const utilityOnly = existsSync(UTILITIES)
   ? new Set(
       [...readFileSync(UTILITIES, 'utf8').matchAll(/^\s*\.((?:[\w-]|\\.)+)/gm)]
         .map((m) => m[1].replace(/\\(.)/g, '$1')),
     )
   : new Set();
-for (const n of [...shellCss.matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => m[1].replace(/\\(.)/g, '$1'))) {
+for (const n of shellClasses) {
   utilityOnly.delete(n);
 }
 
@@ -369,6 +375,49 @@ if (unlinked.length) {
   }
   console.log(`\n  A page picks these up by composing a converted component, not only by`);
   console.log(`  being one. Add <link rel="stylesheet" href="utilities.css"> to it.\n`);
+  process.exit(1);
+}
+
+/* ── every page that HOSTS a styled component must link components.css ───── */
+
+/**
+ * The LINKED check above asks it of a component's OWN page only. A component
+ * with a <style> also turns up on pages that compose it: on 2026-11-02 the
+ * Checkbox page gained a demo with a TextLink in its label, and Checkbox's page
+ * had never linked components.css because Checkbox has no <style>. The link
+ * rendered in the browser's default blue, rgb(0,0,238), with every gate green.
+ *
+ * The same question as the utilities block above, asked of the other sheet: if
+ * the markup wears a class that ONLY docs/components.css declares, the page has
+ * to link it.
+ */
+const componentOnly = existsSync(BUNDLE)
+  ? new Set(
+      [...stripComments(readFileSync(BUNDLE, 'utf8')).matchAll(/\.((?:[\w-]|\\.)+)/g)]
+        .map((m) => m[1].replace(/\\(.)/g, '$1')),
+    )
+  : new Set();
+for (const n of shellClasses) {
+  componentOnly.delete(n);
+}
+for (const n of utilityOnly) componentOnly.delete(n);
+
+const unhosted = [];
+for (const file of readdirSync(DOCS).filter((f) => f.endsWith('.html'))) {
+  const page = readFileSync(join(DOCS, file), 'utf8');
+  if (/<link[^>]+href="components\.css"/.test(page)) continue;
+  const own = new Set([...styleBlocks(page).matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => m[1].replace(/\\(.)/g, '$1')));
+  const wears = [...classesInMarkup(page)].filter((c) => componentOnly.has(c) && !own.has(c));
+  if (wears.length) unhosted.push({ file, wears });
+}
+
+if (unhosted.length) {
+  console.log(`\n\x1b[31m✖  ${unhosted.length} docs page(s) host a styled component without linking components.css\x1b[0m`);
+  for (const { file, wears } of unhosted) {
+    console.log(`    \x1b[31m✖\x1b[0m docs/${file} — ${wears.length} class(es), e.g. ${wears.slice(0, 4).join(', ')}`);
+  }
+  console.log(`\n  A page picks these up by composing a styled component, not only by being`);
+  console.log(`  its page. Add <link rel="stylesheet" href="components.css"> to it.\n`);
   process.exit(1);
 }
 

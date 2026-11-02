@@ -82,14 +82,7 @@ const titleId = `fc-${Math.random().toString(16).slice(2, 10)}`;
       {subtitle && <p class="font-sans text-caption leading-caption text-text-support mt-[4px] mb-0 mx-0">{subtitle}</p>}
     </div>
   </div>
-  {/*
-    `.fc-fields :global(.field) { max-width: none }` reached into slotted markup
-    to unpin the 340px cap Input and Textarea set on themselves. A class list
-    cannot reach into a slot, and after the conversion there is no `.field`
-    class left to aim at either — so the same override is written as an
-    arbitrary variant on the direct children, which is what that selector meant.
-  */}
-  <div class="flex flex-col gap-[20px] [&>*]:max-w-none">
+  <div class="flex flex-col gap-[20px]">
     <slot />
   </div>
   <div class="flex flex-col gap-[12px]">

@@ -65,6 +65,7 @@
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="docs.css">
   <link rel="stylesheet" href="utilities.css">
+  <link rel="stylesheet" href="components.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
 :root {
@@ -283,7 +284,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <!-- ── Layouts ── -->
       <div class="sect">
         <h2 class="sect-h">Layouts</h2>
-        <div class="sect-sub">Same control, three compositions — label only, with description, or as a selectable card.</div>
+        <div class="sect-sub">Same control, four compositions: label only, with a description, with a link in the label, or as a selectable card. For a label that needs markup, such as a link, pass it as the default slot instead of <code>label</code>.</div>
         <div class="canvas col">
         <!-- demo:layouts -->
         <div style="font-size:0.66rem;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.08em;">Basic</div>
@@ -309,6 +310,18 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <span class="flex flex-col gap-micro">
             <span class="text-label-lg font-label-lg text-text-body leading-label-lg">Accept terms and conditions</span>
             <span class="text-caption text-text-muted leading-caption max-w-[360px]">By clicking this checkbox, you agree to the terms and conditions.</span>
+          </span>
+        </label>
+        <div style="font-size:0.66rem;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">With a link</div>
+        <label class="group inline-flex items-start gap-xs select-none cursor-pointer" for="lay-link">
+          <input class="absolute w-px h-px opacity-0 pointer-events-none" id="lay-link" name="lay-link" type="checkbox">
+          <span class="shrink-0 inline-flex items-center justify-center bg-bg-input border transition-[background-color,border-color,border-width,box-shadow] duration-[var(--duration-fast)] group-has-[:focus-visible]:shadow-focus-blue size-[var(--size-box-md)] rounded-md border-border-input group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary">
+            <svg class="size-[14px] text-primary-on opacity-0 scale-50 transition-[opacity,transform] duration-[var(--duration-fast)] group-has-[:checked]:opacity-100 group-has-[:checked]:scale-100" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="flex flex-col gap-micro">
+            <span class="text-label-lg font-label-lg text-text-body leading-label-lg">I agree to the <a href="#" class="tlink underline">terms and conditions</a>.</span>
           </span>
         </label>
         <div style="font-size:0.66rem;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">Card</div>
@@ -401,14 +414,14 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <!-- props:Checkbox -->
         <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
           <tr><td class="ptable-name">label</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The text beside the control; the whole row is clickable.</td></tr>
-          <tr><td class="ptable-name">description</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A second, muted line under the label; shown only with <code>label</code>.</td></tr>
+          <tr><td class="ptable-name">description</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">A second, muted line under the label; shown only with a label (prop or slot).</td></tr>
           <tr><td class="ptable-name">id</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The input's id; falls back to <code>name</code>, then to a generated one.</td></tr>
           <tr><td class="ptable-name">name</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The form field name — also the id when <code>id</code> is not given.</td></tr>
           <tr><td class="ptable-name">size</td><td class="ptable-type"><span class="ptable-m">'sm'</span> | <span class="ptable-m">'md'</span> | <span class="ptable-m">'lg'</span></td><td class="ptable-default">'md'</td><td class="ptable-notes">Control size: 16 / 20 / 24px for <code>sm</code> / <code>md</code> / <code>lg</code>.</td></tr>
           <tr><td class="ptable-name">checked</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Starts checked.</td></tr>
           <tr><td class="ptable-name">invalid</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Error state: a danger edge (and fill once checked) plus <code>aria-invalid</code>; pair it with <code>errorMessage</code> so the error is not colour alone.</td></tr>
           <tr><td class="ptable-name">errorMessage</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The message under the label while <code>invalid</code> is set, with a warning icon, read out with the checkbox.</td></tr>
-          <tr><td class="ptable-name">ariaLabel</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Names the checkbox for assistive tech when there is no visible <code>label</code> — without either it has no name at all.</td></tr>
+          <tr><td class="ptable-name">ariaLabel</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Names the checkbox for assistive tech when there is no visible label (prop or slot) — without one of them it has no name at all.</td></tr>
           <tr><td class="ptable-name">disabled</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables it and dims the whole row to 50%.</td></tr>
           <tr><td class="ptable-name">card</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Wraps the row in a bordered card that takes the selected outline and tint when chosen.</td></tr>
           <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the row (or card), after the component's own.</td></tr>
@@ -429,6 +442,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 &lt;<span class="c-tag">Checkbox</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Accept terms&quot;</span> <span class="c-attr">description</span>=<span class="c-str">&quot;By clicking, you agree.&quot;</span> checked /&gt;
 &lt;<span class="c-tag">Checkbox</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Required&quot;</span> invalid /&gt;
 &lt;<span class="c-tag">Checkbox</span> <span class="c-attr">label</span>=<span class="c-str">&quot;Accept terms&quot;</span> <span class="c-attr">description</span>=<span class="c-str">&quot;Whole card is the target.&quot;</span> card /&gt;
+&lt;<span class="c-tag">Checkbox</span> <span class="c-attr">name</span>=<span class="c-str">&quot;consent&quot;</span>&gt;I agree to the &lt;<span class="c-tag">TextLink</span> <span class="c-attr">href</span>=<span class="c-str">&quot;/terms&quot;</span> <span class="c-attr">variant</span>=<span class="c-str">&quot;underline&quot;</span>&gt;terms&lt;/<span class="c-tag">TextLink</span>&gt;.&lt;/<span class="c-tag">Checkbox</span>&gt;
           <!-- /code:astro -->
 </pre>
         </div>

@@ -345,7 +345,7 @@ Props: `dark` (the dark-surface colours), `class`.
 ```
 
 Props: `label`, `id`, `name`, `type` (default `text`), `autocomplete`, `placeholder`, `value`, `hint`,
-`error`, `errorMessage`, `disabled`, `required`, `class`. Pass `autocomplete` on any field
+`error`, `errorMessage`, `disabled`, `required`, `class`. The field fills its container and sets no maximum width; set the width you want with `class` or a wrapper (the Figma frame is 340). Pass `autocomplete` on any field
 that collects personal data (`email`, `name`, `tel`, `current-password` …) — it is what lets
 the browser fill it, and WCAG 1.3.5 asks for it. The field also points `aria-describedby`
 at its hint or error and sets `aria-invalid` when `error`.
@@ -361,7 +361,7 @@ at its hint or error and sets `aria-invalid` when `error`.
 ```
 
 Props: `label`, `id`, `name`, `placeholder`, `value`, `rows` (default `3`), `hint`,
-`error`, `errorMessage`, `disabled`, `required`, `class`. Shares Input's field/label/hint/error tokens — the two always feel like one family.
+`error`, `errorMessage`, `disabled`, `required`, `class`. Like Input, it fills its container and the width is the caller's. Shares Input's field/label/hint/error tokens — the two always feel like one family.
 
 ### `FileUpload.astro`
 
@@ -423,9 +423,10 @@ The selected-option checkmark is an inline **Font Awesome Free Solid** `check` S
 <Checkbox label="Accept terms" description="By clicking, you agree." checked />
 <Checkbox label="Required" invalid />
 <Checkbox label="Accept terms" description="Whole card is the target." card />
+<Checkbox name="consent">I agree to the <TextLink href="/terms" variant="underline">terms</TextLink>.</Checkbox>
 ```
 
-Props: `label`, `description`, `id`, `name`, `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger edge + `aria-invalid`), `errorMessage` (icon + message under the label while `invalid`, so the error is not colour alone), `ariaLabel` (names it when there is no visible `label`), `disabled`, `card` (renders the whole-card selectable layout), `class`.
+Props: `label` (or the default **slot**, for a label that needs markup such as a link; the slot wins, and clicking the link follows it rather than ticking the box), `description`, `id`, `name`, `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger edge + `aria-invalid`), `errorMessage` (icon + message under the label while `invalid`, so the error is not colour alone), `ariaLabel` (names it when there is no visible `label`), `disabled`, `card` (renders the whole-card selectable layout), `class`.
 
 ### `Radio.astro`
 

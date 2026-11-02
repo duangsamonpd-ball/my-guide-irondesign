@@ -76,9 +76,17 @@ import { fieldError, fieldErrorIcon } from '../field';
 import { icons } from '../icons';
 
 interface Props {
-  /** The text beside the control; the whole row is clickable. */
+  /**
+   * The text beside the control; the whole row is clickable. For a label that
+   * needs markup — a consent line with a link in it — pass it as the default
+   * slot instead, which wins over this prop.
+   * A link inside the label follows the link when clicked and does not tick the
+   * box (the HTML label rule for interactive content); every other part of the
+   * row still ticks it. The whole slot, link text included, is the checkbox's
+   * accessible name.
+   */
   label?: string;
-  /** A second, muted line under the label; shown only with `label`. */
+  /** A second, muted line under the label; shown only with a label (prop or slot). */
   description?: string;
   /** The input's id; falls back to `name`, then to a generated one. */
   id?: string;
@@ -92,7 +100,7 @@ interface Props {
   invalid?: boolean;
   /** The message under the label while `invalid` is set, with a warning icon, read out with the checkbox. */
   errorMessage?: string;
-  /** Names the checkbox for assistive tech when there is no visible `label` — without either it has no name at all. */
+  /** Names the checkbox for assistive tech when there is no visible label (prop or slot) — without one of them it has no name at all. */
   ariaLabel?: string;
   /** Disables it and dims the whole row to 50%. */
   disabled?: boolean;
@@ -119,6 +127,14 @@ const {
 
 const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
 
+/* The label is a SLOT as well as a prop (page-experiments #10, 2026-11-02): a
+   string cannot hold a link, so suite-upgrade's consent line ("…Upgrade terms
+   and conditions.") rendered the box alone with `ariaLabel` and put a second
+   <label for> beside it. The slot renders inside the same span the prop does,
+   so it takes the same type and the same id for aria-labelledby. */
+const hasSlot = Astro.slots.has('default');
+const hasLabel = hasSlot || !!label;
+
 /* The error message sits in the text column, under the label, so it lines up
    with the text it is about and the component keeps one root. But everything
    inside a <label> becomes the input's accessible name, so while a message is
@@ -130,8 +146,8 @@ const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
    sees only the red edge — WCAG 1.4.1 asks for more than colour, which is what
    `errorMessage` is for. */
 const errId = invalid && errorMessage ? `${inputId}-err` : undefined;
-const labelId = errId && label ? `${inputId}-label` : undefined;
-const descTextId = errId && label && description ? `${inputId}-desc` : undefined;
+const labelId = errId && hasLabel ? `${inputId}-label` : undefined;
+const descTextId = errId && hasLabel && description ? `${inputId}-desc` : undefined;
 const describedBy = [descTextId, errId].filter(Boolean).join(' ') || undefined;
 
 /* Figma ships the tick at 0.7 x the box — 14 at MD, confirmed against `329:108`,
@@ -151,7 +167,7 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
   <input
     class={choiceInput} id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled}
     aria-invalid={invalid ? 'true' : undefined}
-    aria-label={label ? undefined : ariaLabel}
+    aria-label={hasLabel ? undefined : ariaLabel}
     aria-labelledby={labelId}
     aria-describedby={describedBy}
   />
@@ -190,10 +206,10 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
       <path d="M2 6.2 4.6 8.8 10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   </span>
-  {(label || errId) && (
+  {(hasLabel || errId) && (
     <span class={choiceText}>
-      {label && <span id={labelId} class={choiceLabel}>{label}</span>}
-      {label && description && <span id={descTextId} class={choiceDesc}>{description}</span>}
+      {hasLabel && <span id={labelId} class={choiceLabel}>{hasSlot ? <slot /> : label}</span>}
+      {hasLabel && description && <span id={descTextId} class={choiceDesc}>{description}</span>}
       {errId && (
         <span id={errId} class={fieldError}><svg class={fieldErrorIcon} viewBox={icons.circleExclamation.viewBox} fill="currentColor" aria-hidden="true"><path d={icons.circleExclamation.path} /></svg>{errorMessage}</span>
       )}
