@@ -158,6 +158,12 @@ the start.
 - **Never hardcode a colour** in a component — hex, `rgb()`, `hsl()`. Use a
   semantic token, or `color-mix()` over one so it follows into dark mode.
   `check:tokens` enforces this.
+- **A component's own class must not be a Tailwind utility name.** Name a
+  modifier `<block>--<mod>` (`tlink--md`), never a bare word. Every consumer's
+  Tailwind scans the component file and emits the utility onto the element;
+  this repo's Tailwind emits none for itself, so no docs page can show the
+  damage. TextLink's `size-md` squashed every sized link in the consuming room
+  while every gate here was green. `check:class-collisions` enforces it.
 - **Overriding a `--text-*` size without its `--text-*--line-height` leaves
   Tailwind supplying the other half.** `text-<step>` emits font-size AND
   line-height, and the second reads `var(--text-<step>--line-height)` — from

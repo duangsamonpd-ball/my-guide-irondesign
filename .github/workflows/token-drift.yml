@@ -287,6 +287,17 @@ jobs:
       - name: Check compiled utilities are regenerated
         run: node scripts/build-utilities.mjs --check
 
+      # A class a component styles must not also be a Tailwind utility: every
+      # consumer's Tailwind scans the component file and emits the utility onto
+      # it. TextLink's `size-md` (c61a75e) shipped that way and squashed the
+      # room's links; nothing here could see it, because this repo's Tailwind
+      # emits no utilities for itself. Needs the CLI, so it lives in this job.
+      - name: Check the class-collision detector can fail
+        run: node scripts/check-class-collisions.mjs --self-test
+
+      - name: No class a component owns is also a Tailwind utility
+        run: node scripts/check-class-collisions.mjs
+
   # The only job that needs a real install: it renders the components with Astro
   # and asserts the docs demo markup still matches. CSS parity above cannot see
   # a DOM change — this is the gate that can.

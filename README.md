@@ -336,7 +336,7 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 `tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check          # 29 gates; the only thing that decides is the exit code
+npm run check          # 30 gates; the only thing that decides is the exit code
 ```
 
 **The list below is a summary — `npm run check` in `package.json` is the list.** Read the exit code, never the output: a gate that *crashes* prints a stack trace with no failure marker, so grepping the log for one reports success on the worst failure there is.
@@ -345,6 +345,7 @@ npm run check          # 29 gates; the only thing that decides is the exit code
 |---|---|
 | `check:theme` | `theme.css` has been regenerated from `tokens.css` |
 | `check:utilities` | `docs/utilities.css` still carries every class the converted components wear — and it goes stale on a *token* edit too, with no new class anywhere |
+| `check:class-collisions` | no class a component styles or sets from its script is also a Tailwind utility — a consumer's Tailwind scans the component and would emit that utility onto it, which this repo's own docs can never show (TextLink's `size-md` shipped that way) |
 | `check:tokens` | every token agrees across `tokens.w3c.json`, `tokens.css` and `theme.css` — and no component hardcodes a hex where a semantic token exists |
 | `check:alt-text` | every `<img>` a component ships either describes itself or is explicitly decorative |
 | `check:logo-fills` | the brand artwork is painted in colours this system still uses |
@@ -373,7 +374,7 @@ npm run check          # 29 gates; the only thing that decides is the exit code
 | `check:code` | the `astro` samples in the docs pages match the ones in `astro-components/README.md` |
 | `check:render` | the demo **markup** in the docs pages still matches what the components actually render |
 
-Most are plain Node with no dependencies. Two are not: `check:vars` compiles `theme.css` with the real Tailwind v4 CLI first, because a `var()` that resolves in the source can still be missing after compilation; and `check:render` builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
+Most are plain Node with no dependencies. Three are not: `check:vars` compiles `theme.css` with the real Tailwind v4 CLI first, because a `var()` that resolves in the source can still be missing after compilation; `check:class-collisions` asks the same CLI, compiling the theme as a consumer imports it, which component classes it would turn into utilities; and `check:render` builds the [playground](playground/README.md) with Astro to render the components for real, which is the only way to see a DOM change — `check:parity` compares CSS and is blind to markup.
 
 Four more gates run in CI rather than here, because each needs a build: `check:types` (`astro check`), `check:peer-range` (compiles every component against the oldest Astro the `peerDependencies` range advertises), `check:prose-classes` (compiles this package the way a *consumer* does, and refuses a rule that carries a relative `url()` or that does not parse) and `check:flat-scope` (asks the rendered tree what each rule reaches once Astro's scoping is stripped).
 
