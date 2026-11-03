@@ -88,6 +88,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
 .gcard-hint { margin: 8px 0 0; font-size: 0.68rem; line-height: 1.6; color: var(--color-text-muted); }
 .gstack { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; width: 100%; max-width: 320px; }
 .gstack-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+.gvt-wrap { width: 100%; max-width: 280px; border-radius: 12px; background: var(--iron-violet-950); padding: 16px; }
+.gvt-box { aspect-ratio: 3/2; }
+.gvt-art { position: absolute; inset: 0; display: block; background: linear-gradient(-60.945deg, var(--iron-violet-800) 0%, var(--iron-violet-950) 43.5%, var(--iron-violet-600) 99.6%); }
 .gprose { margin: 0; font-size: 0.85rem; line-height: 1.7; color: var(--color-text-body); }
 .gflyout { padding: 20px 24px; font-size: 0.8rem; color: var(--color-text-support); }
 .gcard-stage .field-wrap, .gcard-stage .sel-wrap { width: 100%; max-width: 320px; }
@@ -176,6 +179,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
       <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
       <a href="component-formcard.html" class="sidebar-link"><i class="sidebar-icon">🗂️</i>Form Card</a>
       <a href="component-trialkeycard.html" class="sidebar-link"><i class="sidebar-icon">🔑</i>Trial Key Card</a>
+      <a href="component-videothumbnail.html" class="sidebar-link"><i class="sidebar-icon">▶️</i>Video Thumbnail</a>
       <div class="sidebar-category">Reference</div>
       <a href="08-semantic-guide.html" class="sidebar-link"><i class="sidebar-icon">🗺️</i>Semantic Guide</a>
       <!-- /shell:nav -->
@@ -192,7 +196,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
 
   <div class="gal-wrap">
     <!-- demo:gallery -->
-    <div class="gal-count">21 components, plus Flyout Menu (internal)</div>
+    <div class="gal-count">22 components, plus Flyout Menu (internal)</div>
     <div class="gal">
       <article class="gcard">
         <div class="gcard-stage">
@@ -970,6 +974,24 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
       <div class="gcard-meta">
         <a class="gcard-name" href="component-trialkeycard.html"><i class="gcard-icon">🔑</i>Trial Key Card</a>
         <p class="gcard-desc">The centered, single-field &quot;instant capture&quot; card — one email input, one submit, no label row.</p>
+      </div>
+    </article><article class="gcard">
+      <div class="gcard-stage">
+        <div class="gvt-wrap">
+          <button type="button" class="group/vt relative block w-full cursor-pointer overflow-clip rounded-lg border-[1.5px] border-solid border-[var(--transparent-white-50)] p-0 transition-colors duration-[var(--duration-base)] ease-default hover:border-white focus-visible:border-white gvt-box">
+            <span class="sr-only">Play the video: What is Iron Suite?</span>
+            <span class="absolute inset-0 block transition-transform duration-[var(--duration-slow)] ease-default motion-safe:group-hover/vt:scale-[1.03] motion-safe:group-focus-visible/vt:scale-[1.03] [&amp;&gt;img]:absolute [&amp;&gt;img]:inset-0 [&amp;&gt;img]:size-full [&amp;&gt;img]:max-w-none [&amp;&gt;img]:object-cover" data-part="media" aria-hidden="true">
+              <span class="gvt-art"></span>
+            </span>
+            <span class="absolute top-1/2 left-1/2 block aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[var(--shadow-modal)] transition-transform duration-[var(--duration-fast)] motion-safe:group-hover/vt:scale-110 motion-safe:group-focus-visible/vt:scale-110" style="width:16.22%" data-part="play" aria-hidden="true">
+              <svg class="absolute top-1/2 left-1/2 h-[38.55%] w-[32.29%] translate-x-[-39.2%] translate-y-[-51.6%] text-white" viewBox="0 0 23.7252 26.988" fill="currentColor" focusable="false"><path d="M23.1574 12.5344L1.80511 0.165012C1.62526 0.0608266 1.41938 0.00393794 1.20864 0.000197185C0.997907 -0.00354356 0.789924 0.045999 0.606087 0.143729C0.42225 0.241459 0.269199 0.383847 0.162675 0.556247C0.0561506 0.728647 9.49356e-08 0.924836 0 1.12463V25.8633C9.49356e-08 26.0631 0.0561506 26.2593 0.162675 26.4317C0.269199 26.6041 0.42225 26.7465 0.606087 26.8442C0.789924 26.942 0.997907 26.9915 1.20864 26.9878C1.41938 26.984 1.62526 26.9271 1.80511 26.8229L23.1574 14.4536C23.3308 14.3531 23.4741 14.2121 23.5735 14.0441C23.6729 13.8761 23.7252 13.6866 23.7252 13.494C23.7252 13.3013 23.6729 13.1119 23.5735 12.9439C23.4741 12.7758 23.3308 12.6348 23.1574 12.5344Z"></path></svg>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="gcard-meta">
+        <a class="gcard-name" href="component-videothumbnail.html"><i class="gcard-icon">▶️</i>Video Thumbnail</a>
+        <p class="gcard-desc">A video&#39;s thumbnail as one control: the whole picture is the button, with a pink play disc centred on it.</p>
       </div>
     </article><article class="gcard">
       <div class="gcard-stage">

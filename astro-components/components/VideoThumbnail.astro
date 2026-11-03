@@ -1,0 +1,88 @@
+---
+/**
+ * A video's thumbnail as one control: the whole picture is the button, with a
+ * play disc centred on it. What the button opens is the caller's — it carries
+ * `data-*` through, and it plays nothing on its own.
+ *
+ * ── Where it came from (Ball, 2026-11-02) ─────────────────────────────────
+ *
+ * page-experiments had hand-built this three times — the homepage hero, the
+ * Iron Suite hero and section-whyiron-pdf — with three edges, two play glyphs and
+ * three hovers. Ball's ruling on which wins:
+ *   - EDGE from the homepage (Figma 744:917): a 1.5px stroke of white at 50%,
+ *     --rounded-lg, white on hover and focus;
+ *   - PLAY from Why IronPDF (Figma 2872:11434): a --color-primary disc under
+ *     --shadow-modal with a white triangle, painted from tokens rather than
+ *     shipped as an exported file;
+ *   - HOVER from Why IronPDF: the picture leans in to 1.03, the disc to 1.1,
+ *     the edge goes white. Focus does the same, so a keyboard user sees what a
+ *     mouse user sees, and both scales stop under reduced motion.
+ *   - SIZE stays each page's: the box is the caller's `class`, the disc is
+ *     `playSize`.
+ *
+ * ── Why the picture is a slot ─────────────────────────────────────────────
+ *
+ * The three copies paint their pictures three ways: a plain <img>, Astro's
+ * <Image> with `widths`, and a transparent PNG over a gradient span. A `src`
+ * prop would pick one of them for every page. The slot sits in a layer that
+ * fills the box and is what leans in on hover, so whatever is put there moves as
+ * one. An <img> placed straight in the slot is made to fill the box and crop to
+ * it (`object-cover`) by the layer itself; anything else fills it the caller's
+ * way.
+ *
+ * ── Why it declares no `figma-size` band ──────────────────────────────────
+ *
+ * It has no size of its own: every Figma instance of it is a different box
+ * (476x269, 248x140, 395x263), set by the page it sits on.
+ */
+
+interface Props {
+  /** What a screen reader hears for the button, such as "Play the video: What is Iron Suite?". The picture itself is decoration. */
+  label: string;
+  /**
+   * The play disc's width as a percentage of the box's inner width, so it scales with the box.
+   * Default 16.22 is Why IronPDF's 64px disc on its 395px card. A percentage on
+   * an absolutely placed element resolves against the PADDING box, which the
+   * 1.5px border makes 3px narrower than the box: the homepage's 58.887px disc
+   * on a 476px card is 58.887 / 473 = 12.4497.
+   * @figma the `Play` group's width over its thumbnail frame's
+   */
+  playSize?: number;
+  /** Extra classes on the `<button>`, after the component's own — its size and position, which are the page's. */
+  class?: string;
+}
+
+const { label, playSize = 16.22, class: className, ...rest } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={[
+    'group/vt relative block w-full cursor-pointer overflow-clip rounded-lg border-[1.5px] border-solid border-[var(--transparent-white-50)] p-0 transition-colors duration-[var(--duration-base)] ease-default hover:border-white focus-visible:border-white',
+    className,
+  ]}
+  {...rest}
+>
+  <span class="sr-only">{label}</span>
+  <span
+    class="absolute inset-0 block transition-transform duration-[var(--duration-slow)] ease-default motion-safe:group-hover/vt:scale-[1.03] motion-safe:group-focus-visible/vt:scale-[1.03] [&>img]:absolute [&>img]:inset-0 [&>img]:size-full [&>img]:max-w-none [&>img]:object-cover"
+    data-part="media"
+    aria-hidden="true"
+  ><slot /></span>
+  {/* The triangle's box sits 2.24px right of the disc's centre and 0.39px above
+      it in 2872:11434 — 10.8% and 1.6% of its own size — and the translate is
+      exactly that, so it is optically centred the way the frame draws it. */}
+  <span
+    class="absolute top-1/2 left-1/2 block aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[var(--shadow-modal)] transition-transform duration-[var(--duration-fast)] motion-safe:group-hover/vt:scale-110 motion-safe:group-focus-visible/vt:scale-110"
+    style={`width:${playSize}%`}
+    data-part="play"
+    aria-hidden="true"
+  >
+    <svg
+      class="absolute top-1/2 left-1/2 h-[38.55%] w-[32.29%] translate-x-[-39.2%] translate-y-[-51.6%] text-white"
+      viewBox="0 0 23.7252 26.988"
+      fill="currentColor"
+      focusable="false"
+    ><path d="M23.1574 12.5344L1.80511 0.165012C1.62526 0.0608266 1.41938 0.00393794 1.20864 0.000197185C0.997907 -0.00354356 0.789924 0.045999 0.606087 0.143729C0.42225 0.241459 0.269199 0.383847 0.162675 0.556247C0.0561506 0.728647 9.49356e-08 0.924836 0 1.12463V25.8633C9.49356e-08 26.0631 0.0561506 26.2593 0.162675 26.4317C0.269199 26.6041 0.42225 26.7465 0.606087 26.8442C0.789924 26.942 0.997907 26.9915 1.20864 26.9878C1.41938 26.984 1.62526 26.9271 1.80511 26.8229L23.1574 14.4536C23.3308 14.3531 23.4741 14.2121 23.5735 14.0441C23.6729 13.8761 23.7252 13.6866 23.7252 13.494C23.7252 13.3013 23.6729 13.1119 23.5735 12.9439C23.4741 12.7758 23.3308 12.6348 23.1574 12.5344Z" /></svg>
+  </span>
+</button>

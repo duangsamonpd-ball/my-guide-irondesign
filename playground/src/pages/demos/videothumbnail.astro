@@ -1,0 +1,46 @@
+---
+/**
+ * Demo source for docs/component-videothumbnail.html.
+ *
+ * The boxes are docs CSS (`.vt-box-*`), not `aspect-*` classes: a caller's
+ * class is compiled by the caller's Tailwind, and this repo compiles only what
+ * the components emit.
+ *
+ * The picture is a gradient span rather than an image file: the docs ship no
+ * video artwork, and a slot's job is to take whatever the page has. Three
+ * iron-violet primitives, the family the homepage's backdrop (Figma 2336:2498)
+ * is drawn in.
+ */
+import { VideoThumbnail } from '@iron-software/astro-components';
+
+const backdrop = 'background:linear-gradient(-60.945deg, var(--iron-violet-800) 0%, var(--iron-violet-950) 43.5%, var(--iron-violet-600) 99.6%);';
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <div class="demo-vt">
+        <VideoThumbnail label="Play the video: What is Iron Suite?" class="vt-box-3x2" data-video="demo">
+          <span class="absolute inset-0 block" style={backdrop}></span>
+        </VideoThumbnail>
+      </div>
+    </div>
+
+    <div data-demo="sizes">
+      <div class="demo-vt-row">
+        <div class="demo-vt demo-vt-476">
+          <VideoThumbnail label="Play the video: 476 wide" playSize={12.4497} class="vt-box-476">
+            <span class="absolute inset-0 block" style={backdrop}></span>
+          </VideoThumbnail>
+          <div class="lbl">476 × 270 · playSize 12.4497<small>the homepage hero</small></div>
+        </div>
+        <div class="demo-vt demo-vt-248">
+          <VideoThumbnail label="Play the video: 248 wide" playSize={19.592} class="vt-box-248">
+            <span class="absolute inset-0 block" style={backdrop}></span>
+          </VideoThumbnail>
+          <div class="lbl">248 × 140 · playSize 19.592<small>the Iron Suite hero</small></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

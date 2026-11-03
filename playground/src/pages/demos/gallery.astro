@@ -46,7 +46,7 @@ import { NAV } from '../../../../scripts/lib/nav.mjs';
 import {
   Badge, Button, Checkbox, FileUpload, Footer, FooterBar, FormCard,
   Input, Logo, Notice, ProductMenu, Prose, Radio, Select, Table, Textarea, TextLink, Tooltip,
-  NugetButton, TopNav, TrialKeyCard,
+  NugetButton, TopNav, TrialKeyCard, VideoThumbnail,
 } from '@iron-software/astro-components';
 
 const DOCS = join(dirname(fileURLToPath(import.meta.url)), '../../../../docs');
@@ -145,6 +145,7 @@ const cards: Record<string, { kind?: 'wide' | 'band' }> = {
   'component-tooltip.html': {},
   'component-formcard.html': { kind: 'wide' },
   'component-trialkeycard.html': { kind: 'wide' },
+  'component-videothumbnail.html': {},
 };
 
 /**
@@ -343,6 +344,14 @@ const entries = [
                   submitIcon="key"
                   footerNotes={['Free for development', 'Trial key in 60 seconds', 'No credit card']}
                 />
+              )}
+              {c.href === 'component-videothumbnail.html' && (
+                /* Drawn for a dark surface, so the card gives it one. */
+                <div class="gvt-wrap">
+                  <VideoThumbnail label="Play the video: What is Iron Suite?" class="gvt-box">
+                    <span class="gvt-art"></span>
+                  </VideoThumbnail>
+                </div>
               )}
             </div>
             <div class="gcard-meta">

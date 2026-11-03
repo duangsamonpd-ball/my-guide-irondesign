@@ -44,6 +44,7 @@ export const NAV = [
   { href: 'component-tooltip.html', icon: '💬', label: 'Tooltip' },
   { href: 'component-formcard.html', icon: '🗂️', label: 'Form Card' },
   { href: 'component-trialkeycard.html', icon: '🔑', label: 'Trial Key Card' },
+  { href: 'component-videothumbnail.html', icon: '▶️', label: 'Video Thumbnail' },
   { category: 'Reference' },
   { href: '08-semantic-guide.html', icon: '🗺️', label: 'Semantic Guide' },
 ];

@@ -37,8 +37,8 @@ this package right now, and they do not have the same requirements:
 
 | | Styled by | You need |
 |---|---|---|
-| **Converted** (12 of 20) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
-| **Not yet converted** (8 of 20) | their own scoped `<style>` | the tokens, nothing else |
+| **Converted** (11 of 22) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
+| **Not yet converted** (11 of 22) | their own scoped `<style>` | the tokens, nothing else |
 
 Every converted component's section below carries a **Needs Tailwind** note, and
 `npm run check:exports` fails if one is missing or stale — the list above is not
@@ -706,6 +706,27 @@ Both `icon` and `submitIcon` resolve to inline Font Awesome SVGs the same way as
 
 The `footerNotes` row is a `<ul>`, and each dot separator sits **inside** the item it precedes rather than between items — the row wraps, and a separator that is its own flex child gets stranded at the end of a line. Same convention as the `FooterBar` menu dividers. This is the one visible change in the semantic pass: where the row wraps, the dot now travels to the next line with its label instead of dangling at the end of the previous one.
 
+### `VideoThumbnail.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
+A video's thumbnail as one control: the whole picture is a `<button>`, with a pink play disc centred on it. The picture goes in the default slot, and an `<img>` placed there directly is made to fill the box and crop to it. The box's size and position are the page's, through `class`: give it a width and an aspect ratio (`aspect-[476/270]` in Tailwind), never a fixed height, so the picture is not re-cropped at other widths.
+
+```astro
+<VideoThumbnail
+  label="Play the video: What is Iron Suite?"
+  playSize={12.4497}
+  data-video="what-is-iron-suite"
+>
+  <img src={thumbnail} alt="" />
+</VideoThumbnail>
+```
+
+Props: `label` (required — what a screen reader hears; the picture is decoration), `playSize` (the disc's width as a percentage of the box's inner width, default `16.22`), `class`. Any other attribute, such as `data-video`, reaches the `<button>`; it plays nothing on its own.
+
+The edge is a 1.5px stroke of white at 50% (`--transparent-white-50`) on `--rounded-lg`. The disc is `--color-primary` under `--shadow-modal`. On hover and keyboard focus the edge goes white, the picture leans in to 1.03 and the disc to 1.1; the two scales stop under reduced motion. Ball's ruling of 2026-11-02 picked each part from one of the three hand-built copies it replaces: the homepage's edge, Why IronPDF's disc and hover. The slot can hold any picture, an `<img>`, an `<Image>` or several layers, and it all leans in together.
+
 ### `Logo.astro`
 
 > **Needs Tailwind.** This component has no `<style>` of its own — every value
@@ -1096,10 +1117,10 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 8 of 21 components take a required
+  destructure rather than the interface. Only 9 of 22 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
-  `Tooltip.body`, and the card components' labels.
+  `Tooltip.body`, `VideoThumbnail.label`, and the card components' labels.
 - **A required prop must be un-defaultable.** `TrialKeyCard` requires five, which
   is the most in the library — it renders blank or throws without them.
   `footerNotes` is required for exactly this reason: it is read with `.length`.
@@ -1203,11 +1224,11 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 21 components ported
+## 22 components ported
 
 Button, NugetButton, TextLink, Prose, Input, Textarea, FileUpload, Select, Checkbox,
 Radio, Badge, Notice, Table, Tooltip, FlyoutMenu, Product Footer, FooterBar, FormCard,
-TrialKeyCard, Logo, TopNav and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
+TrialKeyCard, VideoThumbnail, Logo, TopNav and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
 two-bar site header, and `Footer` + `FooterBar` the full two-band site footer. If
 the design system docs (`docs/component-*.html`) gain a new
 variant or pattern, check it here too — the docs' own Code-tab samples have

@@ -43,5 +43,6 @@ export { default as Textarea } from './components/Textarea.astro';
 export { default as Tooltip } from './components/Tooltip.astro';
 export { default as TopNav } from './components/TopNav.astro';
 export { default as TrialKeyCard } from './components/TrialKeyCard.astro';
+export { default as VideoThumbnail } from './components/VideoThumbnail.astro';
 
 export { icons, type Icon, type IconName } from './icons';
