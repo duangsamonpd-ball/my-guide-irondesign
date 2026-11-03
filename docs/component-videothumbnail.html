@@ -86,6 +86,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .demo-vt-248 { max-width:248px; }
 .demo-vt .lbl { margin-top:12px; font-size:0.72rem; font-weight:700; color:#62748E; display:flex; flex-direction:column; gap:2px; }
 .demo-vt .lbl small { font-weight:500; }
+.vt-canvas .demo-vt .lbl { color:var(--color-text-dark-support); }
 .vt-box-3x2 { aspect-ratio:3/2; }
 .vt-box-476 { aspect-ratio:476/270; }
 .vt-box-248 { aspect-ratio:248/140; }
@@ -160,7 +161,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="vt-canvas">
         <!-- demo:preview -->
         <div class="demo-vt">
-          <button type="button" class="group/vt relative block w-full cursor-pointer overflow-clip rounded-lg border-[1.5px] border-solid border-[var(--transparent-white-50)] p-0 transition-colors duration-[var(--duration-base)] ease-default hover:border-white focus-visible:border-white vt-box-3x2" data-video="demo">
+          <button type="button" class="group/vt relative block w-full cursor-pointer [font:inherit] overflow-clip rounded-lg border-[1.5px] border-solid border-[var(--transparent-white-50)] p-0 transition-colors duration-[var(--duration-base)] ease-default hover:border-white focus-visible:border-white vt-box-3x2" data-video="demo">
             <span class="sr-only">Play the video: What is Iron Suite?</span>
             <span class="absolute inset-0 block transition-transform duration-[var(--duration-slow)] ease-default motion-safe:group-hover/vt:scale-[1.03] motion-safe:group-focus-visible/vt:scale-[1.03] [&amp;&gt;img]:absolute [&amp;&gt;img]:inset-0 [&amp;&gt;img]:size-full [&amp;&gt;img]:max-w-none [&amp;&gt;img]:object-cover" data-part="media" aria-hidden="true">
               <span class="absolute inset-0 block" style="background:linear-gradient(-60.945deg, var(--iron-violet-800) 0%, var(--iron-violet-950) 43.5%, var(--iron-violet-600) 99.6%);"></span>
@@ -180,7 +181,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <!-- demo:sizes -->
         <div class="demo-vt-row">
           <div class="demo-vt demo-vt-476">
-            <button type="button" class="group/vt relative block w-full cursor-pointer overflow-clip rounded-lg border-[1.5px] border-solid border-[var(--transparent-white-50)] p-0 transition-colors duration-[var(--duration-base)] ease-default hover:border-white focus-visible:border-white vt-box-476">
+            <button type="button" class="group/vt relative block w-full cursor-pointer [font:inherit] overflow-clip rounded-lg border-[1.5px] border-solid border-[var(--transparent-white-50)] p-0 transition-colors duration-[var(--duration-base)] ease-default hover:border-white focus-visible:border-white vt-box-476">
               <span class="sr-only">Play the video: 476 wide</span>
               <span class="absolute inset-0 block transition-transform duration-[var(--duration-slow)] ease-default motion-safe:group-hover/vt:scale-[1.03] motion-safe:group-focus-visible/vt:scale-[1.03] [&amp;&gt;img]:absolute [&amp;&gt;img]:inset-0 [&amp;&gt;img]:size-full [&amp;&gt;img]:max-w-none [&amp;&gt;img]:object-cover" data-part="media" aria-hidden="true">
                 <span class="absolute inset-0 block" style="background:linear-gradient(-60.945deg, var(--iron-violet-800) 0%, var(--iron-violet-950) 43.5%, var(--iron-violet-600) 99.6%);"></span>
@@ -192,7 +193,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
             <div class="lbl">476 × 270 · playSize 12.4497<small>the homepage hero</small></div>
           </div>
           <div class="demo-vt demo-vt-248">
-            <button type="button" class="group/vt relative block w-full cursor-pointer overflow-clip rounded-lg border-[1.5px] border-solid border-[var(--transparent-white-50)] p-0 transition-colors duration-[var(--duration-base)] ease-default hover:border-white focus-visible:border-white vt-box-248">
+            <button type="button" class="group/vt relative block w-full cursor-pointer [font:inherit] overflow-clip rounded-lg border-[1.5px] border-solid border-[var(--transparent-white-50)] p-0 transition-colors duration-[var(--duration-base)] ease-default hover:border-white focus-visible:border-white vt-box-248">
               <span class="sr-only">Play the video: 248 wide</span>
               <span class="absolute inset-0 block transition-transform duration-[var(--duration-slow)] ease-default motion-safe:group-hover/vt:scale-[1.03] motion-safe:group-focus-visible/vt:scale-[1.03] [&amp;&gt;img]:absolute [&amp;&gt;img]:inset-0 [&amp;&gt;img]:size-full [&amp;&gt;img]:max-w-none [&amp;&gt;img]:object-cover" data-part="media" aria-hidden="true">
                 <span class="absolute inset-0 block" style="background:linear-gradient(-60.945deg, var(--iron-violet-800) 0%, var(--iron-violet-950) 43.5%, var(--iron-violet-600) 99.6%);"></span>
