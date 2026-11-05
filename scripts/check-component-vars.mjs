@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
 
 import { componentSources, SHARED_MODULES } from './lib/sources.mjs';
+import { emittedClasses } from './lib/utility-classes.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const compiledPath = process.argv[2];
@@ -47,10 +48,10 @@ const used = new Map();
  * it does not recognise. `bg-sucess-subtle` is not an error anywhere in the
  * toolchain — it is simply a badge with no background, discovered by eye.
  */
-const utilities = new Set(
-  [...readFileSync(join(ROOT, 'docs/utilities.css'), 'utf8').matchAll(/^\s*\.((?:[\w-]|\\.)+)/gm)]
-    .map((m) => m[1].replace(/\\(.)/g, '$1')),
-);
+/* Read by scripts/lib/utility-classes.mjs, not by a line-start regex: that
+   regex lost every group-* variant when Tailwind 4.3.4 moved the class inside
+   `:is(...)`, and this check reported 13 of them missing while they were there. */
+const utilities = emittedClasses(readFileSync(join(ROOT, 'docs/utilities.css'), 'utf8'));
 
 /** @type {{file: string, vars: number, classes: number}[]} */
 const perFile = [];

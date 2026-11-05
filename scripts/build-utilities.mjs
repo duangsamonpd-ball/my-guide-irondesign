@@ -29,6 +29,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { internalSources, SHARED_MODULES } from './lib/sources.mjs';
+import { emittedClasses } from './lib/utility-classes.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const THEME = join(ROOT, 'tailwind/theme.css');
@@ -240,8 +241,7 @@ const out = HEADER + readFileSync(compiledPath, 'utf8');
  * above. Counting them by indentation is how this reported 0 for a stylesheet
  * that had 47 of them, right after they stopped being nested in `@layer`.
  */
-const utilities = [...out.matchAll(/^\s*\.([a-zA-Z][^\s,{:]*)/gm)].map((m) => m[1]);
-const distinct = new Set(utilities).size;
+const distinct = emittedClasses(out).size;
 
 /* ── docs pages must not shadow a utility name ────────────────────────────── */
 

@@ -38,6 +38,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, basename } from 'node:path';
+import { emittedClasses } from './lib/utility-classes.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const COMPONENTS = join(ROOT, 'astro-components/components');
@@ -350,10 +351,7 @@ for (const file of readdirSync(COMPONENTS).filter((f) => f.endsWith('.astro')).s
 const shellClasses = [...stripComments(shellCss).matchAll(/\.((?:[\w-]|\\.)+)/g)].map((m) => m[1].replace(/\\(.)/g, '$1'));
 
 const utilityOnly = existsSync(UTILITIES)
-  ? new Set(
-      [...readFileSync(UTILITIES, 'utf8').matchAll(/^\s*\.((?:[\w-]|\\.)+)/gm)]
-        .map((m) => m[1].replace(/\\(.)/g, '$1')),
-    )
+  ? emittedClasses(readFileSync(UTILITIES, 'utf8')) // see lib/utility-classes.mjs — a line-start regex went blind to 36 group-* classes on Tailwind 4.3.4 and stayed green
   : new Set();
 for (const n of shellClasses) {
   utilityOnly.delete(n);
