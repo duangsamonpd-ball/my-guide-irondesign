@@ -12,7 +12,7 @@
  * Running Tailwind yourself? You do not need this file — import
  * @iron-software/design-system/theme.css and compile your own.
  */
-/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.3.4 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -932,7 +932,7 @@
   scale: var(--tw-scale-x) var(--tw-scale-y);
 }
 .transform {
-  transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+  transform: var(--tw-rotate-x, ) var(--tw-rotate-y, ) var(--tw-rotate-z, ) var(--tw-skew-x, ) var(--tw-skew-y, );
 }
 .cursor-not-allowed {
   cursor: not-allowed;
@@ -1721,12 +1721,12 @@
 }
 .blur {
   --tw-blur: blur(8px);
-  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
 }
 .backdrop-blur-xs {
   --tw-backdrop-blur: blur(var(--blur-xs));
-  -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
-  backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
+  backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
 }
 .transition-\[background-color\,border-color\,border-width\,box-shadow\] {
   transition-property: background-color,border-color,border-width,box-shadow;
@@ -1810,94 +1810,94 @@
 .\[font\:inherit\] {
   font: inherit;
 }
-.group-focus-within\/rail\:bg-button-primary-hover:is(:where(.group\/rail):focus-within *) {
+:is(:where(.group\/rail):focus-within .group-focus-within\/rail\:bg-button-primary-hover) {
   background-color: var(--color-button-primary-hover);
 }
-.group-focus-within\/rail\:opacity-\[0\.7\]:is(:where(.group\/rail):focus-within *) {
+:is(:where(.group\/rail):focus-within .group-focus-within\/rail\:opacity-\[0\.7\]) {
   opacity: 0.7;
 }
 @media (hover: hover) {
-  .group-hover\:text-text-dark-body:is(:where(.group):hover *) {
+  :is(:where(.group):hover .group-hover\:text-text-dark-body) {
     color: var(--color-text-dark-body);
   }
-  .group-hover\:opacity-100:is(:where(.group):hover *) {
+  :is(:where(.group):hover .group-hover\:opacity-100) {
     opacity: 100%;
   }
-  .group-hover\/button\:translate-x-\[0\.1875em\]:is(:where(.group\/button):hover *) {
+  :is(:where(.group\/button):hover .group-hover\/button\:translate-x-\[0\.1875em\]) {
     --tw-translate-x: 0.1875em;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
-  .group-hover\/rail\:bg-button-primary-hover:is(:where(.group\/rail):hover *) {
+  :is(:where(.group\/rail):hover .group-hover\/rail\:bg-button-primary-hover) {
     background-color: var(--color-button-primary-hover);
   }
-  .group-hover\/rail\:opacity-\[0\.7\]:is(:where(.group\/rail):hover *) {
+  :is(:where(.group\/rail):hover .group-hover\/rail\:opacity-\[0\.7\]) {
     opacity: 0.7;
   }
 }
-.group-focus-visible\:text-text-dark-body:is(:where(.group):focus-visible *) {
+:is(:where(.group):focus-visible .group-focus-visible\:text-text-dark-body) {
   color: var(--color-text-dark-body);
 }
-.group-focus-visible\:opacity-100:is(:where(.group):focus-visible *) {
+:is(:where(.group):focus-visible .group-focus-visible\:opacity-100) {
   opacity: 100%;
 }
-.group-focus-visible\/button\:translate-x-\[0\.1875em\]:is(:where(.group\/button):focus-visible *) {
+:is(:where(.group\/button):focus-visible .group-focus-visible\/button\:translate-x-\[0\.1875em\]) {
   --tw-translate-x: 0.1875em;
   translate: var(--tw-translate-x) var(--tw-translate-y);
 }
-.group-has-\[\:checked\]\:scale-100:is(:where(.group):has(:is(:checked)) *) {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:scale-100) {
   --tw-scale-x: 100%;
   --tw-scale-y: 100%;
   --tw-scale-z: 100%;
   scale: var(--tw-scale-x) var(--tw-scale-y);
 }
-.group-has-\[\:checked\]\:border-2:is(:where(.group):has(:is(:checked)) *) {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:border-2) {
   border-style: var(--tw-border-style);
   border-width: 2px;
 }
-.group-has-\[\:checked\]\:border-border-selected:is(:where(.group):has(:is(:checked)) *) {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:border-border-selected) {
   border-color: var(--color-border-selected);
 }
-.group-has-\[\:checked\]\:border-danger:is(:where(.group):has(:is(:checked)) *) {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:border-danger) {
   border-color: var(--color-danger);
 }
-.group-has-\[\:checked\]\:border-secondary:is(:where(.group):has(:is(:checked)) *) {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:border-secondary) {
   border-color: var(--color-secondary);
 }
-.group-has-\[\:checked\]\:bg-danger:is(:where(.group):has(:is(:checked)) *) {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:bg-danger) {
   background-color: var(--color-danger);
 }
-.group-has-\[\:checked\]\:bg-secondary:is(:where(.group):has(:is(:checked)) *) {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:bg-secondary) {
   background-color: var(--color-secondary);
 }
-.group-has-\[\:checked\]\:opacity-100:is(:where(.group):has(:is(:checked)) *) {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:opacity-100) {
   opacity: 100%;
 }
-.group-has-\[\:focus-visible\]\:shadow-focus-blue:is(:where(.group):has(:is(:focus-visible)) *) {
+:is(:where(.group):has(:is(:focus-visible)) .group-has-\[\:focus-visible\]\:shadow-focus-blue) {
   --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(38, 147, 236, 0.25));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
-.group-\[\.is-hover\]\/rail\:bg-button-primary-hover:is(:where(.group\/rail):is(.is-hover) *) {
+:is(:where(.group\/rail):is(.is-hover) .group-\[\.is-hover\]\/rail\:bg-button-primary-hover) {
   background-color: var(--color-button-primary-hover);
 }
-.group-\[\.is-hover\]\/rail\:opacity-\[0\.7\]:is(:where(.group\/rail):is(.is-hover) *) {
+:is(:where(.group\/rail):is(.is-hover) .group-\[\.is-hover\]\/rail\:opacity-\[0\.7\]) {
   opacity: 0.7;
 }
-.group-\[\.open\]\:flex:is(:where(.group):is(.open) *) {
+:is(:where(.group):is(.open) .group-\[\.open\]\:flex) {
   display: flex;
 }
-.group-\[\.open\]\:rotate-180:is(:where(.group):is(.open) *) {
+:is(:where(.group):is(.open) .group-\[\.open\]\:rotate-180) {
   rotate: 180deg;
 }
-.group-\[\.open\]\:border-border-focus:is(:where(.group):is(.open) *) {
+:is(:where(.group):is(.open) .group-\[\.open\]\:border-border-focus) {
   border-color: var(--color-border-focus);
 }
-.group-\[\.open\]\:\[box-shadow\:inset_0_0_0_1px_var\(--color-border-focus\)\,var\(--shadow-focus-blue\)\]:is(:where(.group):is(.open) *) {
+:is(:where(.group):is(.open) .group-\[\.open\]\:\[box-shadow\:inset_0_0_0_1px_var\(--color-border-focus\)\,var\(--shadow-focus-blue\)\]) {
   box-shadow: inset 0 0 0 1px var(--color-border-focus),var(--shadow-focus-blue);
 }
-.group-\[\.open\]\:\[box-shadow\:inset_0_0_0_1px_var\(--color-border-input-danger\)\,var\(--shadow-focus-danger\)\]:is(:where(.group):is(.open) *) {
+:is(:where(.group):is(.open) .group-\[\.open\]\:\[box-shadow\:inset_0_0_0_1px_var\(--color-border-input-danger\)\,var\(--shadow-focus-danger\)\]) {
   box-shadow: inset 0 0 0 1px var(--color-border-input-danger),var(--shadow-focus-danger);
 }
-.group-\[\.selected\]\/opt\:opacity-100:is(:where(.group\/opt):is(.selected) *) {
+:is(:where(.group\/opt):is(.selected) .group-\[\.selected\]\/opt\:opacity-100) {
   opacity: 100%;
 }
 .placeholder\:text-text-placeholder::placeholder {
@@ -2005,7 +2005,7 @@
   --tw-content: "";
   content: var(--tw-content);
 }
-.group-has-\[\:checked\]\:after\:scale-100:is(:where(.group):has(:is(:checked)) *)::after {
+:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:after\:scale-100)::after {
   content: var(--tw-content);
   --tw-scale-x: 100%;
   --tw-scale-y: 100%;
@@ -2055,7 +2055,7 @@
   .hover\:opacity-85:hover {
     opacity: 85%;
   }
-  .group-\[\:not\(\.open\)\]\:hover\:bg-bg-input-hover:is(:where(.group):is(:not(.open)) *):hover {
+  :is(:where(.group):is(:not(.open)) .group-\[\:not\(\.open\)\]\:hover\:bg-bg-input-hover):hover {
     background-color: var(--color-bg-input-hover);
   }
 }
@@ -2129,13 +2129,13 @@
   --tw-outline-style: solid;
   outline-style: solid;
 }
-.group-\[\:not\(\.open\)\]\:focus-visible\:border-border-focus:is(:where(.group):is(:not(.open)) *):focus-visible {
+:is(:where(.group):is(:not(.open)) .group-\[\:not\(\.open\)\]\:focus-visible\:border-border-focus):focus-visible {
   border-color: var(--color-border-focus);
 }
-.group-\[\:not\(\.open\)\]\:focus-visible\:\[box-shadow\:inset_0_0_0_1px_var\(--color-border-focus\)\,var\(--shadow-focus-blue\)\]:is(:where(.group):is(:not(.open)) *):focus-visible {
+:is(:where(.group):is(:not(.open)) .group-\[\:not\(\.open\)\]\:focus-visible\:\[box-shadow\:inset_0_0_0_1px_var\(--color-border-focus\)\,var\(--shadow-focus-blue\)\]):focus-visible {
   box-shadow: inset 0 0 0 1px var(--color-border-focus),var(--shadow-focus-blue);
 }
-.group-\[\:not\(\.open\)\]\:focus-visible\:\[box-shadow\:inset_0_0_0_1px_var\(--color-border-input-danger\)\,var\(--shadow-focus-danger\)\]:is(:where(.group):is(:not(.open)) *):focus-visible {
+:is(:where(.group):is(:not(.open)) .group-\[\:not\(\.open\)\]\:focus-visible\:\[box-shadow\:inset_0_0_0_1px_var\(--color-border-input-danger\)\,var\(--shadow-focus-danger\)\]):focus-visible {
   box-shadow: inset 0 0 0 1px var(--color-border-input-danger),var(--shadow-focus-danger);
 }
 @media (hover: hover) {
@@ -2181,23 +2181,23 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   @media (hover: hover) {
-    .motion-safe\:group-hover\/vt\:scale-110:is(:where(.group\/vt):hover *) {
+    :is(:where(.group\/vt):hover .motion-safe\:group-hover\/vt\:scale-110) {
       --tw-scale-x: 110%;
       --tw-scale-y: 110%;
       --tw-scale-z: 110%;
       scale: var(--tw-scale-x) var(--tw-scale-y);
     }
-    .motion-safe\:group-hover\/vt\:scale-\[1\.03\]:is(:where(.group\/vt):hover *) {
+    :is(:where(.group\/vt):hover .motion-safe\:group-hover\/vt\:scale-\[1\.03\]) {
       scale: 1.03;
     }
   }
-  .motion-safe\:group-focus-visible\/vt\:scale-110:is(:where(.group\/vt):focus-visible *) {
+  :is(:where(.group\/vt):focus-visible .motion-safe\:group-focus-visible\/vt\:scale-110) {
     --tw-scale-x: 110%;
     --tw-scale-y: 110%;
     --tw-scale-z: 110%;
     scale: var(--tw-scale-x) var(--tw-scale-y);
   }
-  .motion-safe\:group-focus-visible\/vt\:scale-\[1\.03\]:is(:where(.group\/vt):focus-visible *) {
+  :is(:where(.group\/vt):focus-visible .motion-safe\:group-focus-visible\/vt\:scale-\[1\.03\]) {
     scale: 1.03;
   }
 }
@@ -2965,7 +2965,7 @@
   inherits: false;
 }
 @layer properties {
-  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: block))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
       --tw-translate-x: 0;
       --tw-translate-y: 0;
