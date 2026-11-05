@@ -55,8 +55,8 @@ it just did not stop where its neighbours did. Widening the overflow sweep would
 not have found it, so do not reach for that instead.
 
 **CI does have a browser** — this file said otherwise until 2026-08-12 and it was
-never true. `ubuntu-latest` ships Google Chrome, and all three harnesses launch
-`channel: 'chrome'`, which is that install. `overflow` and `npm run audit`
+never true. `ubuntu-latest` ships Google Chrome, and every browser harness
+launches `channel: 'chrome'`, which is that install. `overflow` and `npm run audit`
 (`preview.mjs --all`) both run there now, in the `render` job, because that job
 already pays for `npm ci` and the playground build the sweep reads. `state-diff`
 does not, and the reason is not the browser: it compares against a git ref.
