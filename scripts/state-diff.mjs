@@ -26,6 +26,7 @@
  *   --calib-passes <n>  noise-floor passes to take the worst of, default 3
  *   --confirm <n>     fresh-load re-measurements a difference must survive, default 2
  *   --json            machine-readable output
+ *   --explain         name every candidate that did not reproduce, and what it read
  *
  * FIVE THINGS IT HAS TO DO THAT THE OBVIOUS VERSION GETS WRONG. Every one of
  * them produced a wrong answer by hand first, on Checkbox, in the order listed:
@@ -74,10 +75,9 @@
  *
  *     STILL OPEN: `click` is slow — it needs a fresh load per probe, and with
  *     full-page shots a calibration pass over Checkbox takes minutes — and its
- *     measured floor is Δ140, far above the other three. A clean tree does come
- *     back clean, but no injected click-state change has been caught on
- *     repeated runs yet, so click is not evidence. Use `--calib-passes 1` to
- *     make it bearable while that is being worked out.
+ *     measured floor is high (Δ140 on Checkbox, Δ255/3.6% on FlyoutMenu).
+ *     click is NOT EVIDENCE OF BEHAVIOUR — measured, see note 8. Use
+ *     `--calib-passes 1` to make it bearable.
  *
  *  7. A DIFFERENCE HAS TO REPRODUCE, and NOTHING COMPARED IS NOT A PASS
  *     (both 2026-08-12). The floor in 5 bounds the variance calibration
@@ -103,10 +103,46 @@
  *     in its demo regions; that is a true fact about Badge and a refusal to
  *     answer, not a clean bill of health. Use `npm run preview` for those.
  *
+ *  8. IT NEVER LEAVES THE MACHINE, AND IT DOES NOT CLAIM TO SEE BEHAVIOUR
+ *     (2026-11-05, found by the monthly audit).
+ *
+ *     It was online. No harness here may touch the network, and this was the
+ *     one without `installOfflineGuard`: clicking the TextLink demos
+ *     (`href="https://example.com"`) made 122 requests per run and raced a
+ *     navigation against the shot — one run died with a TimeoutError on a page
+ *     that was not ours. Every page is guarded now, a link that would leave the
+ *     document has its default cancelled (its own handlers still run), and any
+ *     request that tries to leave fails the run naming the host. Two self-test
+ *     rows, each proven to fail with its half removed.
+ *
+ *     And pixels cannot see a menu that stops opening. With FlyoutMenu's open
+ *     call deleted from the tree this printed "231 element states identical":
+ *     the floor that page calibrates sits at Δ255 across 3.6%, because the
+ *     panel notch is positioned from layout and lands 83px or 75px by timing.
+ *     A reaction channel (compare what each click changed in the DOM, per side)
+ *     was built and CAUGHT the planted break — but on the untouched tree it also
+ *     reported a false difference that reproduced on every confirmation, because
+ *     the FlyoutMenu demos hold several hover-enabled, already-open flyouts and
+ *     a click's outcome there depends on pointer path and scroll. It was taken
+ *     out rather than shipped red. The attempt is kept in the monthly-audit
+ *     memory; the next design should drive activation from the keyboard, which
+ *     has no pointer to race.
+ *
+ *     UNTIL THEN, for a change to a component's SCRIPT, prove behaviour with a
+ *     DOM-state differential instead: click each control on the ref page and the
+ *     tree page (fresh load each, offline guard on), compare class / aria-* /
+ *     inert / hidden / open / style with px normalised, and trust it only after
+ *     ref-vs-ref reads 0 and a planted break reads ≥1. That is how `b1d868b`
+ *     (astro 7.1.6 → 7.4.5, which re-minified every menu script) was proven.
+ *
+ *     `--explain` prints every candidate that did not reproduce, because a
+ *     harness that silently discards findings is its own hazard.
+ *
  * Needs Google Chrome. Not in `npm run check` — same reason as preview.mjs.
  */
 
 import { serveStatic } from './lib/serve.mjs';
+import { installOfflineGuard } from './lib/local-fonts.mjs';
 
 import { existsSync, readdirSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -234,12 +270,43 @@ function demoTargets() {
 
 /* ── browser ─────────────────────────────────────────────────────────────── */
 
+/**
+ * Every page this harness opens is offline — see note 8. Each guard's list is
+ * kept so the run can FAIL on anything that tried to leave, rather than trust
+ * that nothing did; the TextLink demos clicked through to example.com 122 times
+ * per run before this.
+ */
+const GUARDS = [];
+const escaped = () => GUARDS.flat();
+/** `--explain`: what this run chose not to report, so the choice can be read. */
+const EXPLAIN = [];
+
 let chromium;
 try { ({ chromium } = await import('playwright-core')); } catch { fail('playwright-core is not installed — run `npm install`'); }
 
 async function openPage(browser, origin, page) {
   const p = await browser.newPage();
+  p.__escapes = await installOfflineGuard(p.context(), origin);
+  GUARDS.push(p.__escapes);
   await p.setViewportSize({ width: opts.width, height: 1000 });
+  /**
+   * A `click` on a real link must not leave the page under test. Without this
+   * the TextLink demos (`href="https://example.com"`) started a navigation on
+   * every click probe, and the post-click shot raced it — one run died with a
+   * TimeoutError on a page that was not ours. Registered on window in the
+   * bubble phase, so the component's own handlers on the link still run first
+   * and see an ordinary event; only the browser's default navigation is
+   * cancelled, and only when it would change the document. In-page `#` links
+   * are left alone, since moving within the page is behaviour worth measuring.
+   */
+  await p.addInitScript(() => {
+    window.addEventListener('click', (e) => {
+      const a = e.target instanceof Element ? e.target.closest('a[href]') : null;
+      if (!a) return;
+      const u = new URL(a.href, location.href);
+      if (u.origin + u.pathname + u.search !== location.origin + location.pathname + location.search) e.preventDefault();
+    });
+  });
   /**
    * See note 1 at the top. This has to be an init script, not a style added
    * after load: a transition can be running before the first evaluate lands.
@@ -551,7 +618,7 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
     const d = await measure(p1, p2, t, state);
     if (d === 'skip') return 'skip';
     if (!isReal(d, state)) return 'same';
-    if (!(await reproduces(t, state))) { unconfirmed++; return 'same'; }
+    if (!(await reproduces(t, state))) { unconfirmed++; if (opts.explain) EXPLAIN.push([state, t.path, `${d.differing}px, max Δ${d.maxDelta}`]); return 'same'; }
     return { ...t, state, ...d, seen: CONFIRM + 1 };
   };
 
@@ -618,13 +685,13 @@ function verdictFor(compared, findings) {
 
 async function selfTest(browser, cmp) {
   const dir = join(TMP, 'state-diff-selftest');
-  const mk = (file, css) => writeFileSync(join(dir, file), `<!doctype html><html><head><style>
+  const mk = (file, css, demo = '<div><button class="btn">Press</button></div>') => writeFileSync(join(dir, file), `<!doctype html><html><head><style>
     body { margin: 0; padding: 20px; background: #fff; font: 14px monospace; }
     .btn { display: inline-block; padding: 8px 16px; border: 2px solid #888; border-radius: 6px; background: #eee; }
     ${css}
   </style></head><body>
     <!-- demo:probe -->
-    <div><button class="btn">Press</button></div>
+    ${demo}
     <!-- /demo:probe -->
   </body></html>`);
   rmSync(dir, { recursive: true, force: true });
@@ -702,6 +769,37 @@ async function selfTest(browser, cmp) {
     const pass = seen === 3;
     console.log(`  ${pass ? green('✔') : red('✖')}  a real difference reproduces on every fresh load ${dim(`(${seen}/3)`)}`);
     if (!pass) failed++;
+  }
+
+  /**
+   * The network — note 8. Two rows, because the property has two halves and
+   * one of them cannot fail on a machine with a fast connection: (1) clicking a
+   * link to another host leaves the page where it was and asks the network for
+   * nothing; (2) the guard is really installed — an external <img> is caught by
+   * it. Row 2 is the plumbing check: without it, row 1 also passes with no guard
+   * at all, as long as the navigation happened to be cancelled.
+   */
+  {
+    mk('a.html', '', '<div><a class="btn" href="https://example.com/">Away</a></div>');
+    const { origin, server } = await serve(dir);
+    const p = await openPage(browser, origin, 'a.html');
+    const path = (await p.evaluate(() => window.__targets))[0].path;
+    await applyState(p, path, 'click');
+    await p.waitForTimeout(300);
+    const stayed = p.url() === `${origin}/a.html`;
+    const asked = p.__escapes.length;
+    await p.close();
+    const pass = stayed && asked === 0;
+    console.log(`  ${pass ? green('✔') : red('✖')}  clicking an off-site link stays on the page and asks the network for nothing ${dim(`(url ${stayed ? 'unchanged' : 'CHANGED'}, ${asked} request(s) out)`)}`);
+    if (!pass) failed++;
+
+    mk('b.html', '', '<div><img alt="" src="https://example.com/x.png"><button class="btn">Press</button></div>');
+    const q = await openPage(browser, origin, 'b.html');
+    const caught = q.__escapes.length;
+    await q.close(); server.close();
+    const pass2 = caught > 0;
+    console.log(`  ${pass2 ? green('✔') : red('✖')}  the offline guard is installed: an off-site image is aborted ${dim(`(${caught} caught)`)}`);
+    if (!pass2) failed++;
   }
 
   rmSync(dir, { recursive: true, force: true });
@@ -783,6 +881,11 @@ for (const page of pages) {
     if (!targetCount) console.log(dim('     by a screenshot — use `npm run preview` — not by this harness.'));
     continue;
   }
+  if (opts.explain) {
+    for (const [st, path, what] of EXPLAIN.splice(0)) {
+      console.log(dim(`  did not reproduce  ${st.padEnd(5)} ${what}  ${path.split(' > ').slice(-3).join(' > ')}`));
+    }
+  }
   if (!findings.length) {
     console.log(green(`  ✔  ${compared} element states identical`) + dim(` (${skipped} not applicable)`)
       + (unconfirmed ? dim(`, ${unconfirmed} candidate(s) did not reproduce`) : ''));
@@ -819,6 +922,18 @@ await cmp.close();
 await browser.close();
 rmSync(WORKTREE, { recursive: true, force: true });
 try { execFileSync('git', ['worktree', 'prune'], { cwd: ROOT, stdio: 'pipe' }); } catch { /* fine */ }
+
+/* A run that reached for the network asked for something this machine does not
+   own. The guard aborted it, so the shot was of our page, but the attempt is a
+   hole in what this harness controls, and it fails the run naming the host. */
+const leaks = escaped();
+if (leaks.length) {
+  bad++;
+  const hosts = new Map();
+  for (const u of leaks) { const h = (() => { try { return new URL(u).host; } catch { return u; } })(); hosts.set(h, (hosts.get(h) ?? 0) + 1); }
+  console.log(red(`\n✖  ${leaks.length} request(s) tried to leave the machine and were aborted:`));
+  for (const [h, n] of hosts) console.log(dim(`     ${h} ×${n}`));
+}
 
 if (opts.json) console.log(JSON.stringify(report, null, 2));
 console.log();
