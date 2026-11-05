@@ -59,6 +59,8 @@
     "layout": "node scripts/check-layout.mjs",
     "layout:self-test": "node scripts/check-layout.mjs --self-test",
     "state-diff:self-test": "node scripts/state-diff.mjs --self-test",
+    "audit:monthly": "node scripts/audit-monthly.mjs",
+    "audit:monthly:self-test": "node scripts/audit-monthly.mjs --self-test",
     "build:code": "node scripts/build-code-samples.mjs",
     "build:props": "node scripts/build-props-tables.mjs",
     "build:tables": "node scripts/build-docs-tables.mjs",

@@ -26,6 +26,16 @@ Chain it, so a failure cannot be walked past:
 npm run check && git commit …
 ```
 
+**Once a month, `npm run audit:monthly`.** The gates ask whether a commit broke
+something; nothing else asks what has decayed while every commit was green. The
+first pass, by hand, found `wide` red for a component's whole life, a critical
+advisory in the lockfile, `node_modules` on a different astro than the lock, a
+harness sending 122 requests off the machine, and a PR six weeks unreviewed. The
+script runs every non-gated harness (self-test first), the deps, the skills room's
+radar — a year ahead as well — the skill wiring, and both repos' issues, PRs and
+CI; it compares itself with the previous pass in `.audit/`. Its rows are decided by
+exit code, and an instrument that did not answer is reported as such, never as ok.
+
 `npm run preview <page>` renders the docs in a real browser (needs Chrome),
 `node scripts/state-diff.mjs <page> --ref HEAD` compares interactive states pixel
 for pixel, `npm run style-diff -- --ref HEAD` compares every computed value of every

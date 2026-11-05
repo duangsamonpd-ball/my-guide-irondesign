@@ -16,3 +16,6 @@ playground/.astro/
 # `astro check` writes its generated ambient types here. Disposable: it is
 # regenerated on every run, and nothing reads it but the checker.
 astro-components/.astro/
+
+# audit:monthly — this machine's record of each pass, compared run to run.
+.audit/
