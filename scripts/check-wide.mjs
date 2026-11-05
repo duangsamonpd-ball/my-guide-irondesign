@@ -117,6 +117,24 @@ const ACCEPTED = new Map([
       'demo sits in a full-width docs cell, so above 1440 it grows with the viewport (2558px at ' +
       '2560). Accepted 2026-09-18, the day the component shipped.',
   ],
+  [
+    'videothumbnail|span.absolute',
+    'VideoThumbnail is `w-full` and ships no width of its own — Ball\'s ruling 2026-11-05, option ' +
+      '(b): the page decides how wide a thumbnail is, the same call as Table and Select. This is ' +
+      'its image layer (`absolute inset-0`), which is exactly as wide as the button around it, so ' +
+      'in a full-width demo cell it reached 2558px at 2560. Found by the first monthly audit — ' +
+      '`wide` is not in CI, so it had been red since the component shipped in b890288. ' +
+      'The key is wider than it should be: VideoThumbnail is fully converted, so the element\'s first ' +
+      'class is the utility `absolute`, not a semantic name, and this entry would also excuse any ' +
+      'other absolutely positioned span on this page. Measured 2026-11-05 at 2560 on the playground ' +
+      'pages this sweep reads: every `span.absolute` there is inside a VideoThumbnail button — 9 of 9 ' +
+      'on demos/videothumbnail.html, 2 of 2 on demos/gallery.html.',
+  ],
+  [
+    'gallery|span.absolute',
+    'VideoThumbnail\'s image layer on the gallery page — same ruling as the entry above ' +
+      '(Ball, 2026-11-05, option (b): the page decides the width).',
+  ],
 ]);
 
 /* ── 1. arguments ─────────────────────────────────────────────────────────── */
