@@ -251,6 +251,43 @@ for (const name of components) {
   }
 }
 
+/* ── 8b: the summary counts agree with the per-section notes ──────────────── */
+
+/**
+ * Check 8 gates each section, but both READMEs ALSO state the split as a
+ * number — and nothing read the number. It said "11 of 22" for both halves
+ * while 14 sections carried the note: Input, Textarea and Table had converted
+ * (found by the 2026-11-05 monthly audit). A reader who trusts the count runs
+ * Input without Tailwind. Same definition as check 8, so the two cannot
+ * disagree: no <style> block → converted.
+ */
+const converted = components.filter((name) => {
+  const src = readFileSync(join(PKG_DIR, 'components', `${name}.astro`), 'utf8');
+  return !/<style[^>]*>[\s\S]*\S[\s\S]*<\/style>/i.test(src);
+}).length;
+const total = components.length;
+const rootReadme = readFileSync(join(ROOT, 'README.md'), 'utf8');
+const COUNT_CLAIMS = [
+  ['astro-components/README.md', readme, /\*\*Converted\*\* \((\d+) of (\d+)\)/, converted],
+  ['astro-components/README.md', readme, /\*\*Not yet converted\*\* \((\d+) of (\d+)\)/, total - converted],
+  ['README.md', rootReadme, /(\d+) of them are styled with Tailwind utility classes/, converted],
+];
+for (const [where, text, re, want] of COUNT_CLAIMS) {
+  const m = text.match(re);
+  if (!m) {
+    errors.push({ where, what: `the converted-count sentence is gone (looked for ${re})`, fix: 'restore it, or remove it from COUNT_CLAIMS in this script' });
+    continue;
+  }
+  const [got, of] = [Number(m[1]), m[2] === undefined ? total : Number(m[2])];
+  if (got !== want || of !== total) {
+    errors.push({
+      where,
+      what: `says ${bold(`${got} of ${of}`)}, but ${want} of ${total} components ${want === converted ? 'ship no <style> (converted)' : 'still ship their own <style>'}`,
+      fix: `write ${want} of ${total}`,
+    });
+  }
+}
+
 /* ── 9: a specifier the README tells people to import has to be importable ── */
 
 /**

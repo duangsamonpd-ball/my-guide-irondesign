@@ -37,8 +37,8 @@ this package right now, and they do not have the same requirements:
 
 | | Styled by | You need |
 |---|---|---|
-| **Converted** (11 of 22) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
-| **Not yet converted** (11 of 22) | their own scoped `<style>` | the tokens, nothing else |
+| **Converted** (14 of 22) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
+| **Not yet converted** (8 of 22) | their own scoped `<style>` | the tokens, nothing else |
 
 Every converted component's section below carries a **Needs Tailwind** note, and
 `npm run check:exports` fails if one is missing or stale — the list above is not
