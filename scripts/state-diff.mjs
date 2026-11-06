@@ -37,6 +37,17 @@
  *     other, and an opacity of 0.888 against 1 — 59 "differences", every one of
  *     them a stopwatch reading rather than a style.
  *
+ *     AND FROM ITS FIRST COMMIT (`4bcfbf0`, 2026-08-05) IT DID NOT. The style was appended to
+ *     `document.documentElement` from an init script, which is not the element
+ *     the parser keeps, so it never reached a page — found 2026-11-05 when
+ *     FooterBar's Free-tools click measured a page height of 4641, 4667 or
+ *     4687 two frames later and 4739 every time after 1.5s, with 8
+ *     CSSTransitions running. Every hover, focus and click it had shot raced
+ *     whatever the component animated. It is now checked twice: `motionIsOff`
+ *     fails the run if the style is absent or a 1s transition does not compute
+ *     to 0s, and a self-test row clicks a 2s height transition and demands the
+ *     end height two frames later (it read 26px of 200 with the old injection).
+ *
  *  2. STATE IS DRIVEN BY REAL INPUT, never by setting a property. Chrome does
  *     not always re-evaluate `:has()` when `input.checked` is assigned by
  *     script, so a `group-has-[:checked]` rule that works perfectly for a user
@@ -284,6 +295,24 @@ const EXPLAIN = [];
 let chromium;
 try { ({ chromium } = await import('playwright-core')); } catch { fail('playwright-core is not installed — run `npm install`'); }
 
+/**
+ * The plumbing half of "transitions are off": the style is in the page AND the
+ * browser applies it — a probe element given a 1s transition computes 0s. The
+ * render half is a self-test row. Two rows because a check on the render alone
+ * passes on any page that happens to have nothing animating.
+ */
+async function motionIsOff(p) {
+  return p.evaluate(() => {
+    if (!document.getElementById('__state-diff-motion-off')) return false;
+    const probe = document.createElement('div');
+    probe.style.transition = 'opacity 1s';
+    document.body.appendChild(probe);
+    const dur = getComputedStyle(probe).transitionDuration;
+    probe.remove();
+    return dur === '0s';
+  });
+}
+
 async function openPage(browser, origin, page) {
   const p = await browser.newPage();
   p.__escapes = await installOfflineGuard(p.context(), origin);
@@ -311,12 +340,34 @@ async function openPage(browser, origin, page) {
    * See note 1 at the top. This has to be an init script, not a style added
    * after load: a transition can be running before the first evaluate lands.
    */
+  /*
+   * Until 2026-11-05 this appended the style to `document.documentElement` and
+   * stopped. At init-script time that element is not the one the parser keeps,
+   * so the style was never in the page: measured on component-footerbar.html,
+   * `.fb-tools` still read `transition-duration: 0.3s` and a click started 8
+   * CSSTransitions. Every state this harness has ever shot was shot with
+   * transitions running — and a click on FooterBar's Free-tools trigger gave a
+   * page height of 4641, 4667 or 4687 two frames later, 4739 every time after
+   * 1.5s. So the style is (re)inserted whenever the document can hold it, and
+   * `motionIsOff` below checks it is really there before anything is measured.
+   */
   await p.addInitScript(() => {
-    const st = document.createElement('style');
-    st.textContent = '*, *::before, *::after { transition: none !important; animation: none !important; }';
-    document.documentElement.appendChild(st);
+    const css = '*, *::before, *::after { transition: none !important; animation: none !important; }';
+    const ensure = () => {
+      if (document.getElementById('__state-diff-motion-off')) return;
+      const host = document.head ?? document.documentElement;
+      if (!host) return;
+      const st = document.createElement('style');
+      st.id = '__state-diff-motion-off';
+      st.textContent = css;
+      host.appendChild(st);
+    };
+    ensure();
+    document.addEventListener('readystatechange', ensure);
+    document.addEventListener('DOMContentLoaded', ensure);
   });
   await p.goto(`${origin}/${page}`, { waitUntil: 'networkidle' });
+  if (!(await motionIsOff(p))) fail(`transitions are still on in ${page} — the motion-off style did not land, so every shot would race an animation`);
   /**
    * `networkidle` is not enough. The pages link Montserrat from Google Fonts,
    * and a face that arrives after the first paint re-renders every text run.
@@ -768,6 +819,28 @@ async function selfTest(browser, cmp) {
     server.close();
     const pass = seen === 3;
     console.log(`  ${pass ? green('✔') : red('✖')}  a real difference reproduces on every fresh load ${dim(`(${seen}/3)`)}`);
+    if (!pass) failed++;
+  }
+
+  /**
+   * Transitions off — the render half (openPage fails the run on the plumbing
+   * half). A box with a 2s height transition is clicked open; two frames later
+   * it must already be at its end height. Before 2026-11-05 the motion-off style
+   * never reached the page and this read ~20px of the 200: every shot of every
+   * state had been racing whatever the component animated.
+   */
+  {
+    mk('a.html', '.box { height: 20px; overflow: hidden; background: #ccc; transition: height 2s linear; } .box.big { height: 200px; }',
+      '<div><button class="btn" onclick="document.querySelector(\'.box\').classList.toggle(\'big\')">Grow</button><div class="box"></div></div>');
+    const { origin, server } = await serve(dir);
+    const p = await openPage(browser, origin, 'a.html');
+    const path = (await p.evaluate(() => window.__targets))[0].path;
+    await applyState(p, path, 'click');
+    await p.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+    const h = await p.evaluate(() => Math.round(document.querySelector('.box').getBoundingClientRect().height));
+    await p.close(); server.close();
+    const pass = h === 200;
+    console.log(`  ${pass ? green('✔') : red('✖')}  transitions are off: a 2s height transition is at its end two frames after the click ${dim(`(${h}px of 200)`)}`);
     if (!pass) failed++;
   }
 
