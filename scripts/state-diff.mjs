@@ -26,7 +26,7 @@
  *   --calib-passes <n>  noise-floor passes to take the worst of, default 3
  *   --confirm <n>     fresh-load re-measurements a difference must survive, default 2
  *   --json            machine-readable output
- *   --explain         name every candidate that did not reproduce, and what it read
+ *   --explain         name every reaction set aside and every candidate that did not reproduce
  *
  * FIVE THINGS IT HAS TO DO THAT THE OBVIOUS VERSION GETS WRONG. Every one of
  * them produced a wrong answer by hand first, on Checkbox, in the order listed:
@@ -86,8 +86,8 @@
  *
  *     STILL OPEN: `click` is slow — it needs a fresh load per probe, and with
  *     full-page shots a calibration pass over Checkbox takes minutes — and its
- *     measured floor is high (Δ140 on Checkbox, Δ255/3.6% on FlyoutMenu).
- *     click is NOT EVIDENCE OF BEHAVIOUR — measured, see note 8. Use
+ *     measured PIXEL floor is high (Δ140 on Checkbox, Δ255/3.6% on FlyoutMenu).
+ *     On pixels alone click was not evidence; note 8 is what made it so. Use
  *     `--calib-passes 1` to make it bearable.
  *
  *  7. A DIFFERENCE HAS TO REPRODUCE, and NOTHING COMPARED IS NOT A PASS
@@ -114,40 +114,46 @@
  *     in its demo regions; that is a true fact about Badge and a refusal to
  *     answer, not a clean bill of health. Use `npm run preview` for those.
  *
- *  8. IT NEVER LEAVES THE MACHINE, AND IT DOES NOT CLAIM TO SEE BEHAVIOUR
- *     (2026-11-05, found by the monthly audit).
+ *  8. IT COMPARES WHAT AN INTERACTION DID, AND IT NEVER LEAVES THE MACHINE
+ *     (2026-11-05, found by the monthly audit). Two holes, both measured:
  *
- *     It was online. No harness here may touch the network, and this was the
- *     one without `installOfflineGuard`: clicking the TextLink demos
+ *     Pixels could not see behaviour. With FlyoutMenu's open call deleted from
+ *     the tree, this harness printed "231 element states identical": the floor
+ *     that page calibrates sits at Δ255 across 3.6%, because the panel's notch
+ *     is positioned from layout and lands 83px or 75px depending on timing, and
+ *     a menu that no longer opens hides under that. So every probe now also
+ *     records, per side, what the interaction changed in the demo regions —
+ *     ARIA states, inert / hidden / open / disabled, checkedness, form value,
+ *     whether each element renders, which holds focus — and compares the two
+ *     REACTIONS (before→after on each side, never the raw DOM, so a conversion
+ *     that renames every class is not a finding). Calibration asks the same
+ *     question of two loads of the reference; a probe whose reaction is not
+ *     stable there is excused from it, and the run prints how many were.
+ *
+ *     It was first written 2026-11-05 and held back: on the UNTOUCHED
+ *     FlyoutMenu page it reported a difference that reproduced 3 times out of 3.
+ *     The cause was note 1 — transitions had never been off, so a reaction read
+ *     two frames after a hover caught each panel at a different point of its
+ *     animation. With transitions really off (2026-11-06): two clean runs on
+ *     the untouched page, 235 states identical, 0 false findings, 1 hover probe
+ *     excused as unstable on the reference (was 5–6), click floor Δ255/3.6% →
+ *     Δ54/0.0%; and with `pointerenter`'s open call removed from the page it
+ *     reported exactly 1 difference — "hover preview button reacted differently
+ *     on 20 element(s)": HEAD's panel opened, the tree's did not.
+ *
+ *     And it was online. No harness here may touch the network, and this was
+ *     the one without `installOfflineGuard`: clicking the TextLink demos
  *     (`href="https://example.com"`) made 122 requests per run and raced a
  *     navigation against the shot — one run died with a TimeoutError on a page
  *     that was not ours. Every page is guarded now, a link that would leave the
  *     document has its default cancelled (its own handlers still run), and any
- *     request that tries to leave fails the run naming the host. Two self-test
- *     rows, each proven to fail with its half removed.
+ *     request that tries to leave fails the run naming the host.
  *
- *     And pixels cannot see a menu that stops opening. With FlyoutMenu's open
- *     call deleted from the tree this printed "231 element states identical":
- *     the floor that page calibrates sits at Δ255 across 3.6%, because the
- *     panel notch is positioned from layout and lands 83px or 75px by timing.
- *     A reaction channel (compare what each click changed in the DOM, per side)
- *     was built and CAUGHT the planted break — but on the untouched tree it also
- *     reported a false difference that reproduced on every confirmation, because
- *     the FlyoutMenu demos hold several hover-enabled, already-open flyouts and
- *     a click's outcome there depends on pointer path and scroll. It was taken
- *     out rather than shipped red. The attempt is kept in the monthly-audit
- *     memory; the next design should drive activation from the keyboard, which
- *     has no pointer to race.
- *
- *     UNTIL THEN, for a change to a component's SCRIPT, prove behaviour with a
- *     DOM-state differential instead: click each control on the ref page and the
- *     tree page (fresh load each, offline guard on), compare class / aria-* /
- *     inert / hidden / open / style with px normalised, and trust it only after
- *     ref-vs-ref reads 0 and a planted break reads ≥1. That is how `b1d868b`
- *     (astro 7.1.6 → 7.4.5, which re-minified every menu script) was proven.
- *
- *     `--explain` prints every candidate that did not reproduce, because a
- *     harness that silently discards findings is its own hazard.
+ *     The self-test carries a row for each, and each was proven to fail with its
+ *     fix removed: a reaction-only change with pixels asserted identical, its
+ *     refusal twin, an off-site link that must not move the page, and an
+ *     off-site <img> the guard must catch — that last one is the plumbing row,
+ *     without which the link row would also pass with no guard at all.
  *
  * Needs Google Chrome. Not in `npm run check` — same reason as preview.mjs.
  */
@@ -279,18 +285,100 @@ function demoTargets() {
   return out;
 }`;
 
+/**
+ * What an interaction DID, as data rather than pixels — see note 8. One entry
+ * per element inside the demo regions, keyed by the same structural path the
+ * targets use. Classes are deliberately absent: a conversion renames them, and
+ * this compares behaviour across a conversion. What is kept is what a user or
+ * assistive technology can observe: the ARIA states, inert / hidden / open /
+ * disabled, checkedness and form value, whether the element renders at all, and
+ * whether it holds focus.
+ */
+const IN_PAGE_DOM = `
+function domState() {
+  const ATTRS = ['aria-expanded', 'aria-selected', 'aria-checked', 'aria-pressed', 'aria-hidden', 'aria-current', 'inert', 'hidden', 'open', 'disabled'];
+  const out = {};
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT);
+  const regions = [];
+  while (w.nextNode()) {
+    const t = w.currentNode.nodeValue.trim();
+    if (t.startsWith('demo:')) regions.push(w.currentNode);
+  }
+  for (const start of regions) {
+    const name = start.nodeValue.trim().slice(5);
+    for (let n = start.nextSibling; n && !(n.nodeType === 8 && n.nodeValue.trim() === '/demo:' + name); n = n.nextSibling) {
+      if (n.nodeType !== 1) continue;
+      for (const el of [n, ...n.querySelectorAll('*')]) {
+        const form = el.matches('input, select, textarea');
+        out[pathOf(el)] = ATTRS.map((a) => el.getAttribute(a) ?? '').concat([
+          el.checkVisibility({ opacityProperty: true, visibilityProperty: true }) ? 'shown' : 'not-shown',
+          form && 'checked' in el ? 'checked=' + el.checked : '',
+          form ? 'value=' + el.value : '',
+          el === document.activeElement ? 'focused' : '',
+        ]).join('|');
+      }
+    }
+  }
+  return out;
+}`;
+
+/** before → after for one side: `{ path: "old → new" }`, only what moved. */
+function domDelta(before, after) {
+  const out = {};
+  for (const k of new Set([...Object.keys(before), ...Object.keys(after)])) {
+    if (before[k] !== after[k]) out[k] = `${before[k] ?? '∅'} → ${after[k] ?? '∅'}`;
+  }
+  return out;
+}
+
+/** Paths where the two sides' reactions disagree. Empty when they behaved alike. */
+function reactionMismatch(d1, d2) {
+  const out = [];
+  for (const k of new Set([...Object.keys(d1), ...Object.keys(d2)])) {
+    if (d1[k] !== d2[k]) out.push({ path: k, a: d1[k] ?? 'unchanged', b: d2[k] ?? 'unchanged' });
+  }
+  return out;
+}
+
+const domOf = (p) => p.evaluate(() => domState());
+
+/**
+ * The DOM once it has stopped moving. A component may finish its reaction on a
+ * timer — FlyoutMenu closes 150ms after the pointer leaves — and a read that
+ * lands either side of that is a coin flip: on 2026-11-05 the same trigger on
+ * the same reference tree read `shown` on one load and `not-shown` on the next,
+ * which excused exactly the triggers a planted break lived in. So read until two
+ * reads 100ms apart agree, at least 200ms after starting and at most 2s. No
+ * component's constant is written here; quiet is observed, not assumed.
+ */
+async function settledDom(p) {
+  const t0 = Date.now();
+  let prev = JSON.stringify(await domOf(p));
+  for (;;) {
+    await p.waitForTimeout(100);
+    const cur = JSON.stringify(await domOf(p));
+    if (cur === prev && Date.now() - t0 >= 200) return JSON.parse(cur);
+    if (Date.now() - t0 > 2000) return JSON.parse(cur);
+    prev = cur;
+  }
+}
+
+/** The reaction to read after a state: for `click`, the one captured while the
+    pointer was still on the element (see applyState), else the settled DOM. */
+const reactionOf = (p, state) => (state === 'click' && p.__afterClick ? p.__afterClick : settledDom(p));
+
 /* ── browser ─────────────────────────────────────────────────────────────── */
 
 /**
  * Every page this harness opens is offline — see note 8. Each guard's list is
  * kept so the run can FAIL on anything that tried to leave, rather than trust
- * that nothing did; the TextLink demos clicked through to example.com 122 times
+ * that nothing did; the TextLink demo clicked through to example.com 122 times
  * per run before this.
  */
 const GUARDS = [];
-const escaped = () => GUARDS.flat();
 /** `--explain`: what this run chose not to report, so the choice can be read. */
 const EXPLAIN = [];
+const escaped = () => GUARDS.flat();
 
 let chromium;
 try { ({ chromium } = await import('playwright-core')); } catch { fail('playwright-core is not installed — run `npm install`'); }
@@ -377,7 +465,7 @@ async function openPage(browser, origin, page) {
    * Waiting on document.fonts makes both sides render the same text.
    */
   await p.evaluate(() => document.fonts.ready);
-  await p.addScriptTag({ content: `${IN_PAGE_PATH}\n${IN_PAGE_TARGETS}\nwindow.__targets = demoTargets();` });
+  await p.addScriptTag({ content: `${IN_PAGE_PATH}\n${IN_PAGE_TARGETS}\n${IN_PAGE_DOM}\nwindow.__targets = demoTargets();` });
   return p;
 }
 
@@ -441,6 +529,13 @@ async function applyState(p, path, state) {
     } catch {
       return false;
     }
+    /**
+     * The REACTION is read here, before the pointer leaves — see note 8. What a
+     * user gets from a click is what is on screen while they are still on the
+     * control; moving away first measured whether a hover menu's close timer
+     * had fired yet. Settled, because a click can start its own timers too.
+     */
+    p.__afterClick = await settledDom(p);
     /* Move the pointer away so the shot is the post-click state, not a hover. */
     await p.mouse.move(0, 0);
     return true;
@@ -566,6 +661,11 @@ async function calibrate(browser, cmp, refDocs, page) {
   const [p1, p2] = [await openPage(browser, A.origin, page), await openPage(browser, A2.origin, page)];
   const targets = await p1.evaluate(() => window.__targets);
   const per = new Map(); let n = 0;
+  /** `state|path` pairs whose DOM reaction differed between two loads of the
+      SAME tree. The reaction is exact data, so there is no Δ to raise — such a
+      probe is simply not asked the DOM question in the comparison, and the run
+      says how many were set aside. */
+  const domUnstable = new Set();
   for (const t of targets) {
     for (const state of STATES) {
       /**
@@ -581,7 +681,13 @@ async function calibrate(browser, cmp, refDocs, page) {
       } else {
         for (const p of [p1, p2]) { await p.evaluate(() => document.activeElement?.blur()); await p.mouse.move(0, 0); }
       }
+      const pre = [await settledDom(a), await settledDom(b)];
       const ok = (await applyState(a, t.path, state)) && (await applyState(b, t.path, state));
+      if (ok) {
+        const post = [await reactionOf(a, state), await reactionOf(b, state)];
+        const mm = reactionMismatch(domDelta(pre[0], post[0]), domDelta(pre[1], post[1]));
+        if (mm.length) { domUnstable.add(`${state}|${t.path}`); if (opts.explain) EXPLAIN.push(['unstable', state, t.path, mm[0]]); }
+      }
       const [s1, s2] = ok ? [await shot(a, t.path), await shot(b, t.path)] : [null, null];
       if (fresh) { await fresh[0].close(); await fresh[1].close(); }
       if (!ok || !s1 || !s2) continue;
@@ -596,7 +702,7 @@ async function calibrate(browser, cmp, refDocs, page) {
   }
   await p1.close(); await p2.close(); A.server.close(); A2.server.close();
   for (const st of STATES) if (!per.has(st)) per.set(st, { maxDelta: 0, maxPct: 0, worst: null });
-  return { per, probes: n };
+  return { per, probes: n, domUnstable };
 }
 
 async function comparePage(browser, cmp, refDocs, page, floor) {
@@ -607,9 +713,11 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
       single pixel gets through on antialiasing alone. */
   const isReal = (d, state) => {
     if (d.sizeMismatch) return true;
+    if (d.dom?.length) return true;
     const f = floor.per.get(state) ?? { maxDelta: 0, maxPct: 0 };
     return d.maxDelta > f.maxDelta && d.pct > f.maxPct;
   };
+  let domSetAside = 0;
 
   const pa = await openPage(browser, A.origin, page);
   const targets = await pa.evaluate(() => window.__targets);
@@ -627,13 +735,27 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
   const cheap = STATES.filter((s) => !MUTATING.has(s));
   const costly = STATES.filter((s) => MUTATING.has(s));
 
+  /**
+   * Pixels AND reaction — see note 8. The pixel comparison is unchanged; the
+   * reaction is what the interaction did to the DOM on each side, compared as
+   * data. It is the half that sees a menu which no longer opens: pixels did not,
+   * because the floor this page self-calibrates can sit at Δ255 across several
+   * percent of the page, and a closed panel hides under that.
+   */
   const measure = async (p1, p2, t, state) => {
+    const pre = [await settledDom(p1), await settledDom(p2)];
     const ok1 = await applyState(p1, t.path, state);
     const ok2 = await applyState(p2, t.path, state);
     if (!ok1 || !ok2) return 'skip';
+    const post = [await reactionOf(p1, state), await reactionOf(p2, state)];
+    const asked = !floor.domUnstable?.has(`${state}|${t.path}`);
+    const dom = asked ? reactionMismatch(domDelta(pre[0], post[0]), domDelta(pre[1], post[1])) : [];
     const [s1, s2] = [await shot(p1, t.path), await shot(p2, t.path)];
     if (!s1 || !s2) return 'skip';
-    return cmp.diff(s1, s2);
+    const d = await cmp.diff(s1, s2);
+    if (!asked) d.domSetAside = true;
+    if (dom.length) d.dom = dom;
+    return d;
   };
 
   /**
@@ -668,8 +790,9 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
   const probe = async (p1, p2, t, state) => {
     const d = await measure(p1, p2, t, state);
     if (d === 'skip') return 'skip';
+    if (d.domSetAside) domSetAside++;
     if (!isReal(d, state)) return 'same';
-    if (!(await reproduces(t, state))) { unconfirmed++; if (opts.explain) EXPLAIN.push([state, t.path, `${d.differing}px, max Δ${d.maxDelta}`]); return 'same'; }
+    if (!(await reproduces(t, state))) { unconfirmed++; if (opts.explain) EXPLAIN.push(['unconfirmed', state, t.path, d.dom?.[0] ?? { pixels: `${d.differing}px Δ${d.maxDelta}` }]); return 'same'; }
     return { ...t, state, ...d, seen: CONFIRM + 1 };
   };
 
@@ -691,7 +814,7 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
           if (findings.length >= opts.max) {
             await p1.close(); await p2.close();
             A.server.close(); B.server.close();
-            return { findings, compared, skipped, unconfirmed, targetCount, truncated: true };
+            return { findings, compared, skipped, unconfirmed, domSetAside, targetCount, truncated: true };
           }
         }
       }
@@ -710,13 +833,13 @@ async function comparePage(browser, cmp, refDocs, page, floor) {
         findings.push(r);
         if (findings.length >= opts.max) {
           A.server.close(); B.server.close();
-          return { findings, compared, skipped, unconfirmed, targetCount, truncated: true };
+          return { findings, compared, skipped, unconfirmed, domSetAside, targetCount, truncated: true };
         }
       }
     }
   }
   A.server.close(); B.server.close();
-  return { findings, compared, skipped, unconfirmed, targetCount, truncated: false };
+  return { findings, compared, skipped, unconfirmed, domSetAside, targetCount, truncated: false };
 }
 
 /**
@@ -736,7 +859,7 @@ function verdictFor(compared, findings) {
 
 async function selfTest(browser, cmp) {
   const dir = join(TMP, 'state-diff-selftest');
-  const mk = (file, css, demo = '<div><button class="btn">Press</button></div>') => writeFileSync(join(dir, file), `<!doctype html><html><head><style>
+  const mk = (file, css, demo = '<div><button class="btn">Press</button></div>', script = '') => writeFileSync(join(dir, file), `<!doctype html><html><head><style>
     body { margin: 0; padding: 20px; background: #fff; font: 14px monospace; }
     .btn { display: inline-block; padding: 8px 16px; border: 2px solid #888; border-radius: 6px; background: #eee; }
     ${css}
@@ -744,6 +867,7 @@ async function selfTest(browser, cmp) {
     <!-- demo:probe -->
     ${demo}
     <!-- /demo:probe -->
+    <script>${script}</script>
   </body></html>`);
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
@@ -823,6 +947,40 @@ async function selfTest(browser, cmp) {
   }
 
   /**
+   * The reaction channel — note 8. A disclosure whose script stops toggling
+   * `aria-expanded` and the panel paints NOTHING different (the panel stays
+   * hidden both ways; only the state a screen reader hears moves), so the
+   * pixel half is asserted identical on the broken pair: if this row passes,
+   * it passed on the reaction alone. The refusal row beside it gives the same
+   * script to both sides and must find nothing.
+   */
+  {
+    const demo = '<div><button class="btn" aria-expanded="false">Menu</button></div>';
+    const works = "document.querySelector('.btn').addEventListener('click', (e) => e.currentTarget.setAttribute('aria-expanded', 'true'));";
+    const broken = "document.querySelector('.btn').addEventListener('click', () => {});";
+    for (const [name, bScript, want] of [
+      ['a reaction-only difference is caught with identical pixels', broken, 'caught'],
+      ['identical reactions report nothing', works, 'clean'],
+    ]) {
+      mk('a.html', '', demo, works);
+      mk('b.html', '', demo, bScript);
+      const { origin, server } = await serve(dir);
+      const [p1, p2] = [await openPage(browser, origin, 'a.html'), await openPage(browser, origin, 'b.html')];
+      const path = (await p1.evaluate(() => window.__targets))[0].path;
+      const pre = [await settledDom(p1), await settledDom(p2)];
+      const ok = (await applyState(p1, path, 'click')) && (await applyState(p2, path, 'click'));
+      const post = [await reactionOf(p1, 'click'), await reactionOf(p2, 'click')];
+      const mismatch = ok ? reactionMismatch(domDelta(pre[0], post[0]), domDelta(pre[1], post[1])) : [];
+      const pixels = ok ? (await cmp.diff(await shot(p1, path), await shot(p2, path))).differing : -1;
+      await p1.close(); await p2.close(); server.close();
+      const got = mismatch.length ? 'caught' : 'clean';
+      const pass = ok && got === want && pixels === 0;
+      console.log(`  ${pass ? green('✔') : red('✖')}  ${name} ${dim(`(${mismatch.length} element(s) reacted differently, ${pixels} px differed)`)}`);
+      if (!pass) failed++;
+    }
+  }
+
+  /**
    * Transitions off — the render half (openPage fails the run on the plumbing
    * half). A box with a 2s height transition is clicked open; two frames later
    * it must already be at its end height. Before 2026-11-05 the motion-off style
@@ -845,12 +1003,12 @@ async function selfTest(browser, cmp) {
   }
 
   /**
-   * The network — note 8. Two rows, because the property has two halves and
-   * one of them cannot fail on a machine with a fast connection: (1) clicking a
-   * link to another host leaves the page where it was and asks the network for
-   * nothing; (2) the guard is really installed — an external <img> is caught by
-   * it. Row 2 is the plumbing check: without it, row 1 also passes with no guard
-   * at all, as long as the navigation happened to be cancelled.
+   * The network. Two rows, because the property has two halves and one of them
+   * cannot fail on a machine with a fast connection: (1) clicking a link to
+   * another host leaves the page where it was and asks the network for nothing;
+   * (2) the guard is really installed — an external <img> is caught by it. Row 2
+   * is the plumbing check: without it, row 1 also passes if the guard is gone and
+   * the navigation merely happened to be cancelled.
    */
   {
     mk('a.html', '', '<div><a class="btn" href="https://example.com/">Away</a></div>');
@@ -928,13 +1086,14 @@ for (const page of pages) {
       });
     }
     floor.probes += f2.probes;
+    for (const k of f2.domUnstable) floor.domUnstable.add(k);
   }
   const floorLine = [...floor.per.entries()]
     .map(([st, f]) => `${st} Δ${f.maxDelta}/${f.maxPct.toFixed(1)}%`)
     .join('  ');
   console.log(dim(`  noise floor from ${floor.probes} self-comparisons — ${floorLine}`));
   if (floor.worst) console.log(dim(`  worst self-comparison: ${floor.worst.state} on ${floor.worst.path.split(" > ").slice(-2).join(" > ")}`));
-  const { findings, compared, skipped, unconfirmed, targetCount, truncated } = await comparePage(browser, cmp, refDocs, page, floor);
+  const { findings, compared, skipped, unconfirmed, domSetAside, targetCount, truncated } = await comparePage(browser, cmp, refDocs, page, floor);
   report.push({ page, findings, compared, skipped, unconfirmed });
   /**
    * "0 element states identical" is not a pass — it is the harness saying it
@@ -954,14 +1113,19 @@ for (const page of pages) {
     if (!targetCount) console.log(dim('     by a screenshot — use `npm run preview` — not by this harness.'));
     continue;
   }
+  /* Printed, not hidden: a probe excused from the DOM question is a probe whose
+     behaviour this run did not check, and a count of zero is the claim that
+     every reaction was. */
   if (opts.explain) {
-    for (const [st, path, what] of EXPLAIN.splice(0)) {
-      console.log(dim(`  did not reproduce  ${st.padEnd(5)} ${what}  ${path.split(' > ').slice(-3).join(' > ')}`));
+    for (const [kind, st, path, m] of EXPLAIN.splice(0)) {
+      console.log(dim(`  ${kind.padEnd(11)} ${st.padEnd(5)} ${path.split(' > ').slice(-3).join(' > ')}`));
+      console.log(dim(`              ${m.path ? `${m.path.split(' > ').slice(-2).join(' > ')}: ${m.a}  ≠  ${m.b}` : m.pixels}`));
     }
   }
+  const aside = domSetAside ? dim(`, ${domSetAside} reaction(s) not compared — unstable on the reference itself`) : '';
   if (!findings.length) {
-    console.log(green(`  ✔  ${compared} element states identical`) + dim(` (${skipped} not applicable)`)
-      + (unconfirmed ? dim(`, ${unconfirmed} candidate(s) did not reproduce`) : ''));
+    console.log(green(`  ✔  ${compared} element states identical, pixels and reaction`) + dim(` (${skipped} not applicable)`)
+      + (unconfirmed ? dim(`, ${unconfirmed} candidate(s) did not reproduce`) : '') + aside);
     continue;
   }
   bad++;
@@ -974,7 +1138,9 @@ for (const page of pages) {
    */
   const seen = new Map();
   for (const f of findings) {
-    const key = [f.state, f.differing, f.maxDelta, f.sizeMismatch ?? ""].join("|");
+    /* A reaction finding is about ONE element, so it is never collapsed into a
+       page-level pixel reading that happens to share its numbers. */
+    const key = f.dom ? `dom|${f.state}|${f.path}` : [f.state, f.differing, f.maxDelta, f.sizeMismatch ?? ""].join("|");
     const cur = seen.get(key);
     if (cur) cur.also++;
     else seen.set(key, { ...f, also: 0 });
@@ -984,9 +1150,16 @@ for (const page of pages) {
   for (const f of shown) {
     const where = f.sizeMismatch
       ? `size ${f.sizeMismatch}`
-      : `${f.differing} px (${f.pct.toFixed(2)}%), max Δ${f.maxDelta}, at ${f.box.x},${f.box.y} ${f.box.w}x${f.box.h}`;
+      : f.dom
+        ? `reacted differently on ${f.dom.length} element(s)` + (f.differing ? `; pixels ${f.differing} px, max Δ${f.maxDelta}` : '; pixels identical')
+        : `${f.differing} px (${f.pct.toFixed(2)}%), max Δ${f.maxDelta}, at ${f.box.x},${f.box.y} ${f.box.w}x${f.box.h}`;
     console.log(`     ${f.state.padEnd(6)} ${dim(f.region)} ${f.tag}  ${where}`);
     console.log(dim(`            ${f.path}${f.also ? ` (and ${f.also} more element(s) in this state)` : ""}`));
+    for (const m of (f.dom ?? []).slice(0, 4)) {
+      console.log(dim(`              ${m.path.split(' > ').slice(-2).join(' > ')}`));
+      console.log(dim(`                ${opts.ref}: ${m.a}`));
+      console.log(dim(`                tree: ${m.b}`));
+    }
   }
   if (truncated) console.log(dim(`     … stopped at --max ${opts.max}`));
 }
@@ -996,9 +1169,9 @@ await browser.close();
 rmSync(WORKTREE, { recursive: true, force: true });
 try { execFileSync('git', ['worktree', 'prune'], { cwd: ROOT, stdio: 'pipe' }); } catch { /* fine */ }
 
-/* A run that reached for the network asked for something this machine does not
-   own. The guard aborted it, so the shot was of our page, but the attempt is a
-   hole in what this harness controls, and it fails the run naming the host. */
+/* A run that reached the network measured something this machine does not
+   own. The guard aborted it, so the shot was of our page — but the attempt is
+   a hole in what this harness controls, and it fails the run naming the host. */
 const leaks = escaped();
 if (leaks.length) {
   bad++;
