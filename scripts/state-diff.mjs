@@ -1064,7 +1064,7 @@ if (!existsSync(refDocs)) fail(`the worktree for "${opts.ref}" has no docs/ dire
 
 let bad = 0;
 const report = [];
-for (const page of pages) {
+async function runPage(page) {
   console.log(`\n${bold(page)} ${dim(`— working tree vs ${opts.ref}`)}`);
   /**
    * Calibrate more than once and keep the worst. One pass is an estimate with
@@ -1111,7 +1111,7 @@ for (const page of pages) {
       : '     its demo regions contain no interactive element (a, button, input, select,'));
     if (!targetCount) console.log(dim('     textarea, summary, label, [tabindex]). A component with no states is settled'));
     if (!targetCount) console.log(dim('     by a screenshot — use `npm run preview` — not by this harness.'));
-    continue;
+    return;
   }
   /* Printed, not hidden: a probe excused from the DOM question is a probe whose
      behaviour this run did not check, and a count of zero is the claim that
@@ -1126,7 +1126,7 @@ for (const page of pages) {
   if (!findings.length) {
     console.log(green(`  ✔  ${compared} element states identical, pixels and reaction`) + dim(` (${skipped} not applicable)`)
       + (unconfirmed ? dim(`, ${unconfirmed} candidate(s) did not reproduce`) : '') + aside);
-    continue;
+    return;
   }
   bad++;
   /**
@@ -1164,8 +1164,31 @@ for (const page of pages) {
   if (truncated) console.log(dim(`     … stopped at --max ${opts.max}`));
 }
 
-await cmp.close();
-await browser.close();
+/**
+ * One page that throws must not take the run down with it. Until 2026-11-06 an
+ * exception anywhere in a page — twice a screenshot TimeoutError, both times the
+ * Mac asleep — ended the process with a stack trace: no row for the page, no
+ * row for the pages after it, the reference worktree left behind, and an exit
+ * code that came from Node rather than from this harness. It is reported as an
+ * ERROR, never as a verdict: the page was not compared, so it neither passed nor
+ * differed, and the run fails.
+ */
+for (const page of pages) {
+  try {
+    await runPage(page);
+  } catch (err) {
+    bad++;
+    EXPLAIN.splice(0);
+    const first = String(err?.message ?? err).split('\n')[0];
+    report.push({ page, error: `${err?.name ?? 'Error'}: ${first}` });
+    console.log(red(`  ✖  error — this page was NOT compared`) + dim(` (${err?.name ?? 'Error'}: ${first})`));
+    if (err?.name === 'TimeoutError') console.log(dim('     A browser timeout here has so far always been the machine asleep, not the code —\n     check `pmset -g log | grep -E "Sleep|Wake"` for the run\'s window before debugging.'));
+  }
+}
+
+/* Guarded for the same reason: after an error the browser may be the thing that
+   died, and a throw here would skip removing the reference worktree. */
+try { await cmp.close(); await browser.close(); } catch { /* reported above */ }
 rmSync(WORKTREE, { recursive: true, force: true });
 try { execFileSync('git', ['worktree', 'prune'], { cwd: ROOT, stdio: 'pipe' }); } catch { /* fine */ }
 
