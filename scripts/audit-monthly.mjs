@@ -112,19 +112,42 @@ export function auditFindings(json) {
   }));
 }
 
-/** `npm outdated --json` → in-range updates (findings) and new majors (notes). Empty output means nothing outdated. */
+/**
+ * `npm outdated --json` → in-range updates (findings) and new majors (notes).
+ * Empty output means nothing outdated. A package several workspaces depend on
+ * comes back once PER DEPENDENT (astro: astro-components and playground, one
+ * install) — so rows are keyed by id and listed once; 2026-11-06 printed astro
+ * twice under the same id.
+ */
 export function outdatedRows(json) {
   const j = json.trim() ? JSON.parse(json) : {};
-  const out = [];
+  const out = new Map();
   for (const [name, v0] of Object.entries(j)) {
     for (const v of Array.isArray(v0) ? v0 : [v0]) {
       if (!v.current) continue;
-      if (v.wanted && v.wanted !== v.current) out.push({ status: 'finding', id: `deps:in-range:${name}`, label: `${name} ${v.current} → ${v.wanted} is in range and not taken` });
+      if (v.wanted && v.wanted !== v.current) out.set(`deps:in-range:${name}`, { status: 'finding', id: `deps:in-range:${name}`, name, wanted: v.wanted, label: `${name} ${v.current} → ${v.wanted} is in range and not taken` });
       const maj = (s) => +String(s).split('.')[0];
-      if (v.latest && maj(v.latest) > maj(v.current)) out.push({ status: 'note', id: `deps:major:${name}`, label: `${name} ${v.current} — major ${v.latest} exists (a decision, not a defect)` });
+      if (v.latest && maj(v.latest) > maj(v.current)) out.set(`deps:major:${name}`, { status: 'note', id: `deps:major:${name}`, label: `${name} ${v.current} — major ${v.latest} exists (a decision, not a defect)` });
     }
   }
-  return out;
+  return [...out.values()];
+}
+
+/**
+ * A release younger than this is reported, not recommended. On 2026-11-06 the
+ * pass flagged astro 7.4.7 and playwright-core 1.65.0 about six hours after
+ * they were published — and a day-old release is where a .0 bug or a
+ * hijacked publish lives. The jsdom 31 deferral of 2026-11-05 was this rule
+ * applied by hand; it is written down here so it is applied the same way twice.
+ */
+export const MIN_AGE_DAYS = 7;
+export function tooNew(publishedIso, now) {
+  if (!publishedIso) return null;
+  const ageDays = (now - new Date(publishedIso)) / 864e5;
+  if (!(ageDays >= 0)) return null;
+  return ageDays < MIN_AGE_DAYS
+    ? { ageDays, revisit: new Date(new Date(publishedIso).getTime() + MIN_AGE_DAYS * 864e5).toISOString().slice(0, 10) }
+    : null;
 }
 
 /** Direct dependencies whose installed version is not the one the lockfile pins. */
@@ -170,6 +193,12 @@ if (process.argv.includes('--self-test')) {
   let threw = false; try { auditFindings('{"error":{"code":"ENOTFOUND"}}'); } catch { threw = true; }
   expect('npm audit failing to reach the registry is NOT read as clean', threw, true);
 
+  const twice = outdatedRows(JSON.stringify({ astro: [{ current: '7.4.5', wanted: '7.4.7', latest: '7.4.7', dependent: 'astro-components' }, { current: '7.4.5', wanted: '7.4.7', latest: '7.4.7', dependent: 'playground' }] }));
+  expect('a package two workspaces depend on is one row, not two (astro, 2026-11-06)', twice.length, 1);
+  const now = new Date('2026-11-06T03:00:00Z');
+  expect('a release 7 hours old is too new to recommend', !!tooNew('2026-11-05T20:00:00Z', now), true);
+  expect('a release 8 days old is not', tooNew('2026-10-29T00:00:00Z', now), null);
+  expect('the revisit date is publish + 7 days', tooNew('2026-11-05T20:00:00Z', now)?.revisit, '2026-11-12');
   const od = outdatedRows(JSON.stringify({ tailwindcss: { current: '4.3.3', wanted: '4.3.4', latest: '4.3.4' }, typescript: { current: '6.0.3', wanted: '6.0.3', latest: '7.0.2' } }));
   expect('an in-range update is a finding', od.filter((r) => r.status === 'finding').length, 1);
   expect('a new major is a note, not a finding', od.filter((r) => r.status === 'note').length, 1);
@@ -228,7 +257,16 @@ console.log('\ndeps');
   try {
     const rs = outdatedRows(o.out.includes('{') ? o.out.slice(o.out.indexOf('{')) : '');
     if (!rs.some((r) => r.status === 'finding')) row('deps', 'deps:in-range', 'ok', 'every in-range update is taken');
-    for (const r of rs) row('deps', r.id, r.status, r.label);
+    for (const r of rs) {
+      if (r.status !== 'finding') { row('deps', r.id, r.status, r.label); continue; }
+      const t = run('npm', ['view', `${r.name}@${r.wanted}`, 'time', '--json'], { timeoutMs: 60_000 });
+      let published = null;
+      try { published = JSON.parse(t.out)[r.wanted]; } catch {}
+      if (!published) { row('deps', r.id, 'finding', r.label, 'publish date unknown — check its age by hand before taking it'); continue; }
+      const young = tooNew(published, started);
+      if (young) row('deps', `deps:too-new:${r.name}`, 'note', `${r.label} — but ${r.wanted} is ${Math.round(young.ageDays * 24)}h old; take it from ${young.revisit}`);
+      else row('deps', r.id, 'finding', r.label);
+    }
   } catch (e) { row('deps', 'deps:outdated', 'error', 'npm outdated did not answer', `${e.message} — ${tail(o.out)}`); }
 
   const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
