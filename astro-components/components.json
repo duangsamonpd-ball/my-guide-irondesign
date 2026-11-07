@@ -168,6 +168,19 @@
           "description": "The form field name — also the id when `id` is not given."
         },
         {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "What the form submits for this box when it is ticked; without one the browser sends `on`."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Must be ticked before the form submits — the browser's own validation. No `*` is drawn: the Figma set has none, and a consent line says so in words."
+        },
+        {
           "name": "size",
           "type": "'sm' | 'md' | 'lg'",
           "required": false,
@@ -1125,6 +1138,13 @@
           "type": "string",
           "required": true,
           "description": "The value this radio submits when it is the one chosen."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "A choice in this group must be made before the form submits — the browser's own validation. Set it on one radio of the group and the whole group is required (the HTML rule); setting it on every one is harmless."
         },
         {
           "name": "size",

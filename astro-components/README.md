@@ -426,7 +426,7 @@ The selected-option checkmark is an inline **Font Awesome Free Solid** `check` S
 <Checkbox name="consent">I agree to the <TextLink href="/terms" variant="underline">terms</TextLink>.</Checkbox>
 ```
 
-Props: `label` (or the default **slot**, for a label that needs markup such as a link; the slot wins, and clicking the link follows it rather than ticking the box), `description`, `id`, `name`, `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger edge + `aria-invalid`), `errorMessage` (icon + message under the label while `invalid`, so the error is not colour alone), `ariaLabel` (names it when there is no visible `label`), `disabled`, `card` (renders the whole-card selectable layout), `class`.
+Props: `label` (or the default **slot**, for a label that needs markup such as a link; the slot wins, and clicking the link follows it rather than ticking the box), `description`, `id`, `name`, `value` (what a ticked box submits; default `on`), `required` (native validation, no `*`), `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger edge + `aria-invalid`; a script can set the attribute instead), `errorMessage` (icon + message under the label while `invalid`, so the error is not colour alone), `ariaLabel` (names it when there is no visible `label`), `disabled`, `card` (renders the whole-card selectable layout), `class`. Any other attribute (`data-*`, `aria-*`, `form`) goes onto the `<input>`.
 
 ### `Radio.astro`
 
@@ -439,7 +439,7 @@ Props: `label` (or the default **slot**, for a label that needs markup such as a
 <Radio name="bill" value="monthly" label="Monthly" card checked />
 ```
 
-Props: `name` (required — groups radios), `value` (required), `label`, `description`, `id`, `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger ring + `aria-invalid`; put the message on the group's `<fieldset>`), `ariaLabel` (names it when there is no visible `label`), `ariaDescribedby` (id of the group's error message), `disabled`, `card`, `class`.
+Props: `name` (required — groups radios), `value` (required), `label`, `description`, `id`, `required` (one radio makes the group required), `size` (`sm` | `md` | `lg`, default `md`), `checked`, `invalid` (danger ring + `aria-invalid`, which a script can set instead; put the message on the group's `<fieldset>`), `ariaLabel` (names it when there is no visible `label`), `ariaDescribedby` (id of the group's error message), `disabled`, `card`, `class`. Any other attribute (`data-*`, `aria-*`, `form`) goes onto the `<input>`.
 
 ### `Badge.astro`
 

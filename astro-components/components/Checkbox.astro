@@ -70,7 +70,7 @@
 
 import {
   choiceRow, choiceInput, choiceControl, choiceSize, choiceText,
-  choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled,
+  choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled, inputAttrs,
 } from '../choice';
 import { fieldError, fieldErrorIcon } from '../field';
 import { icons } from '../icons';
@@ -97,6 +97,10 @@ interface Props {
   id?: string;
   /** The form field name — also the id when `id` is not given. */
   name?: string;
+  /** What the form submits for this box when it is ticked; without one the browser sends `on`. */
+  value?: string;
+  /** Must be ticked before the form submits — the browser's own validation. No `*` is drawn: the Figma set has none, and a consent line says so in words. */
+  required?: boolean;
   /**
    * Control size: 16 / 20 / 24px for `sm` / `md` / `lg`.
    * @figma `Size` — same three values, same default
@@ -145,7 +149,10 @@ const {
   ariaLabel,
   disabled = false,
   card = false,
+  value,
+  required = false,
   class: className,
+  ...rest
 } = Astro.props;
 
 const inputId = id ?? name ?? `cbx-${Math.random().toString(36).slice(2, 9)}`;
@@ -187,12 +194,19 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
   class:list={[choiceRow, disabled ? choiceDisabled : choiceEnabled, card && choiceCard, className]}
   for={inputId}
 >
+  {/* Any attribute that is not a prop — `data-*`, `aria-*`, `form` — lands on the
+      <input>, the element a form script reads, and never over the component's
+      own (see inputAttrs in choice.ts). The ROI calculator carried its per-option
+      numbers as JSON on a wrapper and looked them up by id because there was
+      nowhere to put a `data-hours` (page-experiments, Calculator.astro). */}
   <input
-    class={`peer ${choiceInput}`} id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled}
-    aria-invalid={invalid ? 'true' : undefined}
-    aria-label={hasLabel ? undefined : ariaLabel}
-    aria-labelledby={labelId}
-    aria-describedby={describedBy}
+    {...inputAttrs(rest, {
+      class: `peer ${choiceInput}`, id: inputId, name, value, type: 'checkbox', checked, disabled, required,
+      'aria-invalid': invalid ? 'true' : undefined,
+      'aria-label': hasLabel ? undefined : ariaLabel,
+      'aria-labelledby': labelId,
+      'aria-describedby': describedBy,
+    })}
   />
   <span
     class:list={[

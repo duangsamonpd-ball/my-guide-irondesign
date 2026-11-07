@@ -55,7 +55,7 @@
  */
 import {
   choiceRow, choiceInput, choiceControl, choiceSize, choiceText,
-  choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled,
+  choiceLabel, choiceDesc, choiceCard, choiceDisabled, choiceEnabled, inputAttrs,
 } from '../choice';
 
 interface Props {
@@ -75,6 +75,8 @@ interface Props {
   name: string;
   /** The value this radio submits when it is the one chosen. */
   value: string;
+  /** A choice in this group must be made before the form submits — the browser's own validation. Set it on one radio of the group and the whole group is required (the HTML rule); setting it on every one is harmless. */
+  required?: boolean;
   /**
    * Control size: 16 / 20 / 24px for `sm` / `md` / `lg`.
    * @figma `Size` — same three values, same default
@@ -124,7 +126,9 @@ const {
   ariaDescribedby,
   disabled = false,
   card = false,
+  required = false,
   class: className,
+  ...rest
 } = Astro.props;
 
 const inputId = id ?? `${name}-${value}`;
@@ -145,11 +149,15 @@ const DOT = { sm: 'after:size-[6px]', md: 'after:size-[8px]', lg: 'after:size-[1
       <fieldset> with a <legend> — is where the message belongs, and
       `ariaDescribedby` points each radio at it so it is read with each one.
       Figma draws that group as `Radio group` `1228:44`. */}
+  {/* Attributes that are not props land on the <input>, never over the
+      component's own — see inputAttrs in choice.ts. */}
   <input
-    class={`peer ${choiceInput}`} id={inputId} name={name} value={value} type="radio" checked={checked} disabled={disabled}
-    aria-invalid={invalid ? 'true' : undefined}
-    aria-label={label ? undefined : ariaLabel}
-    aria-describedby={ariaDescribedby}
+    {...inputAttrs(rest, {
+      class: `peer ${choiceInput}`, id: inputId, name, value, type: 'radio', checked, disabled, required,
+      'aria-invalid': invalid ? 'true' : undefined,
+      'aria-label': label ? undefined : ariaLabel,
+      'aria-describedby': ariaDescribedby,
+    })}
   />
   {/* The dot is a pseudo-element, as it was in the CSS — there is nothing for it
       to mark up, and an empty <span> inside the ring would be a lie about the

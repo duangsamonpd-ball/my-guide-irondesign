@@ -105,3 +105,31 @@ export const choiceCard = [
 
 export const choiceDisabled = 'cursor-not-allowed opacity-50';
 export const choiceEnabled = 'cursor-pointer';
+
+/**
+ * The attributes for the hidden <input>: whatever the caller passed that is not
+ * a prop (`data-*`, `aria-*`, `form`), with the component's own laid OVER it.
+ *
+ * One object, not `{...rest}` beside written-out attributes. Astro renders a
+ * duplicated attribute twice and the HTML parser keeps the FIRST, so a spread
+ * placed before `type="checkbox"` let `type="radio"` through and turned a
+ * Checkbox into a radio — measured on a built page, 2026-11-07; placed after, it
+ * would be a duplicate attribute in every page that used it. An own value that
+ * is `undefined` is dropped first, so the caller's `aria-describedby` still
+ * reaches the input when the component has none of its own to set.
+ *
+ * `aria-describedby` is the one attribute that is JOINED rather than replaced: it
+ * is a list, and a Checkbox showing its error message used to drop the page's
+ * own hint id in favour of the message's — so a reader heard one or the other.
+ */
+export const inputAttrs = (rest: Record<string, unknown>, own: Record<string, unknown>) => {
+  const merged: Record<string, unknown> = {
+    ...rest,
+    ...Object.fromEntries(Object.entries(own).filter(([, v]) => v !== undefined)),
+  };
+  const ids = [own['aria-describedby'], rest['aria-describedby']]
+    .flatMap((v) => (typeof v === 'string' ? v.split(/\s+/) : []))
+    .filter(Boolean);
+  merged['aria-describedby'] = ids.length ? [...new Set(ids)].join(' ') : undefined;
+  return merged;
+};
