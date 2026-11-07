@@ -77,29 +77,41 @@ export const fieldControl = [
 ].join(' ');
 
 /**
- * Border and focus ring, written as two whole branches rather than layered.
+ * Border and focus ring. The invalid half is keyed to the element's own
+ * `aria-invalid`, not chosen at render time, so a form script that sets or
+ * clears that ONE attribute gets the whole look — page-experiments'
+ * suite-upgrade kept an inert errored `<Input>` in a <template> only to copy
+ * these classes onto the live field. The `error` prop still sets the attribute.
  *
  * The rules these replace were decided by SPECIFICITY, not order: `.input.error`
  * and `.input:hover` were equal with error later in the file, so an errored
  * field never took the hover border and its focus ring was always the
- * danger-coloured one. As two sets of equal-weight utilities that would have
- * come down to whichever Tailwind emitted last, which is not a thing to rely on.
- */
-/*
+ * danger-coloured one. It is still specificity, never emission order, read off
+ * the compiled utilities.css:
+ *
+ *   border-border-input                      0,1,0  rest
+ *   focus:… (blue)                           0,2,0
+ *   aria-invalid:enabled:border-…-danger     0,3,0  beats rest, and stands
+ *                                                   aside when disabled so
+ *                                                   fieldControl's disabled:
+ *                                                   border (0,2,0) wins, as
+ *                                                   it did over the old branch
+ *   aria-invalid:focus:… (danger)            0,3,0  beats the blue focus
+ *
  * Focus is 2px in Figma (`912:1834`, `1152:2649`), drawn as an INSIDE stroke that
  * is not part of layout. A 2px CSS border would take a pixel off every side of
  * the content box and move the text on focus, so the border stays 1px and the
  * second pixel is an inset shadow in the same colour, stacked under the ring.
  */
-export const fieldBorder = (error: boolean): string =>
-  error
-    ? 'border-border-input-danger focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]'
-    /* `border-focus`, not `secondary`. Figma binds `border/focused` on the field
-       nodes (Input `912:1819`, Select's open state `911:1706`), and the ring
-       beside it was already on the right token — only the border was borrowing
-       the brand blue. Same value, and the same in dark; what changes is that a
-       focus colour can now move without moving the brand. */
-    : 'border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]';
+export const fieldBorder = [
+  /* `border-focus`, not `secondary`. Figma binds `border/focused` on the field
+     nodes (Input `912:1819`, Select's open state `911:1706`), and the ring
+     beside it was already on the right token — only the border was borrowing
+     the brand blue. Same value, and the same in dark; what changes is that a
+     focus colour can now move without moving the brand. */
+  'border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]',
+  'aria-invalid:enabled:border-border-input-danger aria-invalid:focus:border-border-input-danger aria-invalid:focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]',
+].join(' ');
 
 /**
  * A stable id for the label's `for`. Prefers what the caller gave, falls back to

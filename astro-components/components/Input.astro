@@ -53,7 +53,7 @@ interface Props {
   value?: string;
   /** Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set. */
   hint?: string;
-  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. */
+  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the `<input>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props. */
   error?: boolean;
   /** The message under an errored field, with a warning icon; shown only while `error` is set. */
   errorMessage?: string;
@@ -106,7 +106,7 @@ const descId = (error && errorMessage) || hint ? `${inputId}-desc` : undefined;
       name={name}
       type={type}
       autocomplete={autocomplete}
-      class:list={['h-[var(--size-input)] px-sm', fieldControl, fieldBorder(error)]}
+      class:list={['h-[var(--size-input)] px-sm', fieldControl, fieldBorder]}
       placeholder={placeholder}
       value={value}
       disabled={disabled}

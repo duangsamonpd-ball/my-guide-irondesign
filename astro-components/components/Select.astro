@@ -55,7 +55,7 @@ interface Props {
   placeholder?: string;
   /** The form field name, carried by a hidden native `<select>` so the choice submits with the form. */
   name?: string;
-  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. */
+  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the trigger `<button>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props. */
   error?: boolean;
   /** The message under an errored field, with a warning icon; shown only while `error` is set. */
   errorMessage?: string;
@@ -173,9 +173,13 @@ const descId = error && errorMessage ? `${uid}-err` : hint ? `${uid}-hint` : und
          `focus-visible:` would have been (0,2,0) and lost to hover. */
       disabled
         ? 'border-border-input-disabled'
-        : error
-          ? 'border-border-input-danger group-[:not(.open)]:focus-visible:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)] group-[.open]:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]'
-          : 'border-border-input group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] group-[.open]:border-border-focus group-[.open]:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)]',
+        : 'border-border-input group-[:not(.open)]:focus-visible:border-border-focus group-[:not(.open)]:focus-visible:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] group-[.open]:border-border-focus group-[.open]:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] ' +
+          /* Invalid follows the trigger's own `aria-invalid`, as in field.ts, so
+             a script sets one attribute ON THIS BUTTON. Each rule is the blue one
+             above with `aria-invalid:` in front — one attribute heavier, so it
+             wins in every state without relying on emission order (rest 0,2,0
+             over 0,1,0; focus-visible 0,4,0 over 0,3,0; open 0,3,0 over 0,2,0). */
+          'aria-invalid:border-border-input-danger aria-invalid:group-[:not(.open)]:focus-visible:border-border-input-danger aria-invalid:group-[:not(.open)]:focus-visible:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)] aria-invalid:group-[.open]:border-border-input-danger aria-invalid:group-[.open]:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]',
     ]}
     disabled={disabled}
     aria-haspopup="listbox"

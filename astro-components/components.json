@@ -688,7 +688,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`."
+          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the `<input>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props."
         },
         {
           "name": "errorMessage",
@@ -1233,7 +1233,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`."
+          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the trigger `<button>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props."
         },
         {
           "name": "errorMessage",
@@ -1438,7 +1438,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`."
+          "description": "Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the `<textarea>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props."
         },
         {
           "name": "errorMessage",

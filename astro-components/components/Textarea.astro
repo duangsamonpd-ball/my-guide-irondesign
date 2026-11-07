@@ -39,7 +39,7 @@ interface Props {
   rows?: number;
   /** Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set. */
   hint?: string;
-  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. */
+  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the `<textarea>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props. */
   error?: boolean;
   /** The message under an errored field, with a warning icon; shown only while `error` is set. */
   errorMessage?: string;
@@ -97,7 +97,7 @@ const sizing = rows === undefined ? 'h-[98px]' : '';
     id={textareaId}
     name={name}
     rows={rows}
-    class:list={['min-h-[86px] px-sm py-xs resize-y disabled:resize-none', sizing, fieldControl, fieldBorder(error)]}
+    class:list={['min-h-[86px] px-sm py-xs resize-y disabled:resize-none', sizing, fieldControl, fieldBorder]}
     placeholder={placeholder}
     disabled={disabled}
     required={required}
