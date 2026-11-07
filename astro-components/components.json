@@ -188,7 +188,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone.",
+          "description": "Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone. A form script can set or clear the input's `aria-invalid` instead — the look follows that attribute, not the prop.",
           "figma": "`Variant=Invalid` (and `Invalid+Checked`)"
         },
         {
@@ -1147,7 +1147,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio.",
+          "description": "Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio. A form script can set or clear the input's `aria-invalid` instead — the look follows that attribute, not the prop.",
           "figma": "`Variant=Invalid` (and `Invalid+Checked`)"
         },
         {

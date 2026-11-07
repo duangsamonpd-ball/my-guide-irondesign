@@ -1857,14 +1857,8 @@
 :is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:border-border-selected) {
   border-color: var(--color-border-selected);
 }
-:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:border-danger) {
-  border-color: var(--color-danger);
-}
 :is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:border-secondary) {
   border-color: var(--color-secondary);
-}
-:is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:bg-danger) {
-  background-color: var(--color-danger);
 }
 :is(:where(.group):has(:is(:checked)) .group-has-\[\:checked\]\:bg-secondary) {
   background-color: var(--color-secondary);
@@ -1899,6 +1893,22 @@
 }
 :is(:where(.group\/opt):is(.selected) .group-\[\.selected\]\/opt\:opacity-100) {
   opacity: 100%;
+}
+:is(:where(.peer)[aria-invalid="true"] ~ .peer-aria-invalid\:border-border-input-danger) {
+  border-color: var(--color-border-input-danger);
+}
+:is(:where(.peer):checked ~ :is(:where(.peer)[aria-invalid="true"] ~ .peer-aria-invalid\:peer-checked\:border)) {
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+}
+:is(:where(.peer):checked ~ :is(:where(.peer)[aria-invalid="true"] ~ .peer-aria-invalid\:peer-checked\:border-border-input-danger)) {
+  border-color: var(--color-border-input-danger);
+}
+:is(:where(.peer):checked ~ :is(:where(.peer)[aria-invalid="true"] ~ .peer-aria-invalid\:peer-checked\:border-danger)) {
+  border-color: var(--color-danger);
+}
+:is(:where(.peer):checked ~ :is(:where(.peer)[aria-invalid="true"] ~ .peer-aria-invalid\:peer-checked\:bg-danger)) {
+  background-color: var(--color-danger);
 }
 .placeholder\:text-text-placeholder::placeholder {
   color: var(--color-text-placeholder);
@@ -1982,10 +1992,6 @@
   content: var(--tw-content);
   border-color: var(--color-slate-200);
 }
-.after\:bg-danger::after {
-  content: var(--tw-content);
-  background-color: var(--color-danger);
-}
 .after\:bg-secondary::after {
   content: var(--tw-content);
   background-color: var(--color-secondary);
@@ -2011,6 +2017,10 @@
   --tw-scale-y: 100%;
   --tw-scale-z: 100%;
   scale: var(--tw-scale-x) var(--tw-scale-y);
+}
+:is(:where(.peer)[aria-invalid="true"] ~ .peer-aria-invalid\:after\:bg-danger)::after {
+  content: var(--tw-content);
+  background-color: var(--color-danger);
 }
 @media (hover: hover) {
   .hover\:border-\[var\(--ondark-border-hover\)\]:hover {

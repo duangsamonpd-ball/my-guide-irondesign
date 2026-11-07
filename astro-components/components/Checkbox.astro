@@ -108,7 +108,7 @@ interface Props {
    */
   checked?: boolean;
   /**
-   * Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone.
+   * Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone. A form script can set or clear the input's `aria-invalid` instead — the look follows that attribute, not the prop.
    * @figma `Variant=Invalid` (and `Invalid+Checked`)
    */
   invalid?: boolean;
@@ -188,7 +188,7 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
   for={inputId}
 >
   <input
-    class={choiceInput} id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled}
+    class={`peer ${choiceInput}`} id={inputId} name={name} type="checkbox" checked={checked} disabled={disabled}
     aria-invalid={invalid ? 'true' : undefined}
     aria-label={hasLabel ? undefined : ariaLabel}
     aria-labelledby={labelId}
@@ -212,9 +212,17 @@ const RADIUS = { sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-md' } as const
          box keeps the status red fill: Figma draws no checked+invalid state, and
          the white tick holds 4.55:1 on it in both modes, where input-danger's
          dark value would put white at 2:1. */
-      invalid
-        ? 'border-border-input-danger group-has-[:checked]:bg-danger group-has-[:checked]:border-danger'
-        : 'border-border-input group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary',
+      'border-border-input group-has-[:checked]:bg-secondary group-has-[:checked]:border-secondary',
+      /* Invalid is read off the input's own `aria-invalid`, not chosen here at
+         render time, so a form script that sets or clears that ONE attribute gets
+         the whole look — page-experiments' suite-upgrade kept an inert
+         `<Checkbox invalid>` in a <template> only to copy its classes onto the
+         live box. `peer`, not `group-has`: Tailwind compiles group-has to ANY
+         `.group` ancestor, so an invalid Input elsewhere inside an outer `.group`
+         would have reddened this box; a peer is this input and nothing else.
+         Checked + invalid is the compound, one class heavier than the checked
+         rule it overrides. */
+      'peer-aria-invalid:border-border-input-danger peer-aria-invalid:peer-checked:bg-danger peer-aria-invalid:peer-checked:border-danger',
     ]}
   >
     <svg

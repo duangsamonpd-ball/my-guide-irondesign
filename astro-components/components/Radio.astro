@@ -86,7 +86,7 @@ interface Props {
    */
   checked?: boolean;
   /**
-   * Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio.
+   * Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio. A form script can set or clear the input's `aria-invalid` instead — the look follows that attribute, not the prop.
    * @figma `Variant=Invalid` (and `Invalid+Checked`)
    */
   invalid?: boolean;
@@ -146,7 +146,7 @@ const DOT = { sm: 'after:size-[6px]', md: 'after:size-[8px]', lg: 'after:size-[1
       `ariaDescribedby` points each radio at it so it is read with each one.
       Figma draws that group as `Radio group` `1228:44`. */}
   <input
-    class={choiceInput} id={inputId} name={name} value={value} type="radio" checked={checked} disabled={disabled}
+    class={`peer ${choiceInput}`} id={inputId} name={name} value={value} type="radio" checked={checked} disabled={disabled}
     aria-invalid={invalid ? 'true' : undefined}
     aria-label={label ? undefined : ariaLabel}
     aria-describedby={ariaDescribedby}
@@ -165,9 +165,11 @@ const DOT = { sm: 'after:size-[6px]', md: 'after:size-[8px]', lg: 'after:size-[1
          `border/input` (was `border/strong`, 1.49:1), invalid is
          `border/input-danger`, and the selected ring binds `border/selected` —
          the same #2693EC as the dot, named for its role. */
-      invalid
-        ? 'border-border-input-danger after:bg-danger'
-        : 'border-border-input after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-border-selected',
+      'border-border-input after:bg-secondary group-has-[:checked]:border-2 group-has-[:checked]:border-border-selected',
+      /* Read off the input's `aria-invalid`, as in Checkbox — see the note there
+         for why `peer`. An invalid ring stays 1px when selected, which is what
+         the render-time branch drew; the compound restores it over `border-2`. */
+      'peer-aria-invalid:border-border-input-danger peer-aria-invalid:after:bg-danger peer-aria-invalid:peer-checked:border peer-aria-invalid:peer-checked:border-border-input-danger',
     ]}
   ></span>
   {label && (
