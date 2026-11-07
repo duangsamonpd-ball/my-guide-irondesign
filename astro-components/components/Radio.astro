@@ -59,9 +59,15 @@ import {
 } from '../choice';
 
 interface Props {
-  /** The text beside the control; the whole row is clickable. */
+  /**
+   * The text beside the control; the whole row is clickable.
+   * @figma `Label Text`
+   */
   label?: string;
-  /** A second, muted line under the label; shown only with `label`. */
+  /**
+   * A second, muted line under the label; shown only with `label`.
+   * @figma `Text description`, with `Show description` as its switch — on by default in Figma; here the line shows whenever the prop is set
+   */
   description?: string;
   /** The input's id; defaults to `${name}-${value}`. */
   id?: string;
@@ -69,19 +75,37 @@ interface Props {
   name: string;
   /** The value this radio submits when it is the one chosen. */
   value: string;
-  /** Control size: 16 / 20 / 24px for `sm` / `md` / `lg`. */
+  /**
+   * Control size: 16 / 20 / 24px for `sm` / `md` / `lg`.
+   * @figma `Size` — same three values, same default
+   */
   size?: 'sm' | 'md' | 'lg';
-  /** Starts selected. */
+  /**
+   * Starts selected.
+   * @figma `Variant=Checked` (and `Invalid+Checked`) — Figma folds checked and invalid into one axis; code keeps them as two
+   */
   checked?: boolean;
-  /** Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio. */
+  /**
+   * Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio.
+   * @figma `Variant=Invalid` (and `Invalid+Checked`)
+   */
   invalid?: boolean;
   /** Names the radio for assistive tech when there is no visible `label` — without either it has no name at all. */
   ariaLabel?: string;
-  /** Id of the group's error message, so it is read out with this radio. Give every radio in an invalid group the same id. */
+  /**
+   * Id of the group's error message, so it is read out with this radio. Give every radio in an invalid group the same id.
+   * @figma points at the `Radio group` set's `Error message` — Figma also draws the message on the group, not on a radio
+   */
   ariaDescribedby?: string;
-  /** Disables it and dims the whole row to 50%. */
+  /**
+   * Disables it and dims the whole row to 50%.
+   * @figma `Disabled` — a `false` / `true` variant, so Figma shows it as a toggle
+   */
   disabled?: boolean;
-  /** Wraps the row in a bordered card that takes the selected outline and tint when chosen. */
+  /**
+   * Wraps the row in a bordered card that takes the selected outline and tint when chosen.
+   * @figma the separate `Radio Card` set — `Default` / `Checked` × `Disabled`, with no invalid state and no size axis
+   */
   card?: boolean;
   /** Extra classes on the row (or card), after the component's own. */
   class?: string;

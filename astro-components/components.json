@@ -145,13 +145,15 @@
           "name": "label",
           "type": "string",
           "required": false,
-          "description": "The text beside the control; the whole row is clickable. For a label that needs markup — a consent line with a link in it — pass it as the default slot instead, which wins over this prop. A link inside the label follows the link when clicked and does not tick the box (the HTML label rule for interactive content) — but only a link WITH an href: an <a> without one is not interactive, so clicking it ticks the box like the rest of the row. Every other part of the row ticks it. The whole slot, link text included, is the checkbox's accessible name."
+          "description": "The text beside the control; the whole row is clickable. For a label that needs markup — a consent line with a link in it — pass it as the default slot instead, which wins over this prop. A link inside the label follows the link when clicked and does not tick the box (the HTML label rule for interactive content) — but only a link WITH an href: an <a> without one is not interactive, so clicking it ticks the box like the rest of the row. Every other part of the row ticks it. The whole slot, link text included, is the checkbox's accessible name.",
+          "figma": "`Label Text`"
         },
         {
           "name": "description",
           "type": "string",
           "required": false,
-          "description": "A second, muted line under the label; shown only with a label (prop or slot)."
+          "description": "A second, muted line under the label; shown only with a label (prop or slot).",
+          "figma": "`Text description`, with `Show description` as its switch — on by default in Figma; here the line shows whenever the prop is set"
         },
         {
           "name": "id",
@@ -170,27 +172,31 @@
           "type": "'sm' | 'md' | 'lg'",
           "required": false,
           "default": "'md'",
-          "description": "Control size: 16 / 20 / 24px for `sm` / `md` / `lg`."
+          "description": "Control size: 16 / 20 / 24px for `sm` / `md` / `lg`.",
+          "figma": "`Size` — same three values, same default"
         },
         {
           "name": "checked",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Starts checked."
+          "description": "Starts checked.",
+          "figma": "`Variant=Checked` (and `Invalid+Checked`) — Figma folds checked and invalid into one axis; code keeps them as two"
         },
         {
           "name": "invalid",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone."
+          "description": "Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone.",
+          "figma": "`Variant=Invalid` (and `Invalid+Checked`)"
         },
         {
           "name": "errorMessage",
           "type": "string",
           "required": false,
-          "description": "The message under the label while `invalid` is set, with a warning icon, read out with the checkbox."
+          "description": "The message under the label while `invalid` is set, with a warning icon, read out with the checkbox.",
+          "figma": "`Error message`"
         },
         {
           "name": "ariaLabel",
@@ -203,14 +209,16 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Disables it and dims the whole row to 50%."
+          "description": "Disables it and dims the whole row to 50%.",
+          "figma": "`Disabled` — a `false` / `true` variant, so Figma shows it as a toggle"
         },
         {
           "name": "card",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Wraps the row in a bordered card that takes the selected outline and tint when chosen."
+          "description": "Wraps the row in a bordered card that takes the selected outline and tint when chosen.",
+          "figma": "the separate `Checkbox Card` set — `Default` / `Checked` × `Disabled`, with no invalid state and no size axis"
         },
         {
           "name": "class",
@@ -1090,13 +1098,15 @@
           "name": "label",
           "type": "string",
           "required": false,
-          "description": "The text beside the control; the whole row is clickable."
+          "description": "The text beside the control; the whole row is clickable.",
+          "figma": "`Label Text`"
         },
         {
           "name": "description",
           "type": "string",
           "required": false,
-          "description": "A second, muted line under the label; shown only with `label`."
+          "description": "A second, muted line under the label; shown only with `label`.",
+          "figma": "`Text description`, with `Show description` as its switch — on by default in Figma; here the line shows whenever the prop is set"
         },
         {
           "name": "id",
@@ -1121,21 +1131,24 @@
           "type": "'sm' | 'md' | 'lg'",
           "required": false,
           "default": "'md'",
-          "description": "Control size: 16 / 20 / 24px for `sm` / `md` / `lg`."
+          "description": "Control size: 16 / 20 / 24px for `sm` / `md` / `lg`.",
+          "figma": "`Size` — same three values, same default"
         },
         {
           "name": "checked",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Starts selected."
+          "description": "Starts selected.",
+          "figma": "`Variant=Checked` (and `Invalid+Checked`) — Figma folds checked and invalid into one axis; code keeps them as two"
         },
         {
           "name": "invalid",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio."
+          "description": "Error state: a danger ring and dot plus `aria-invalid`; put the message on the group, since the error is about the choice, not one radio.",
+          "figma": "`Variant=Invalid` (and `Invalid+Checked`)"
         },
         {
           "name": "ariaLabel",
@@ -1147,21 +1160,24 @@
           "name": "ariaDescribedby",
           "type": "string",
           "required": false,
-          "description": "Id of the group's error message, so it is read out with this radio. Give every radio in an invalid group the same id."
+          "description": "Id of the group's error message, so it is read out with this radio. Give every radio in an invalid group the same id.",
+          "figma": "points at the `Radio group` set's `Error message` — Figma also draws the message on the group, not on a radio"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Disables it and dims the whole row to 50%."
+          "description": "Disables it and dims the whole row to 50%.",
+          "figma": "`Disabled` — a `false` / `true` variant, so Figma shows it as a toggle"
         },
         {
           "name": "card",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Wraps the row in a bordered card that takes the selected outline and tint when chosen."
+          "description": "Wraps the row in a bordered card that takes the selected outline and tint when chosen.",
+          "figma": "the separate `Radio Card` set — `Default` / `Checked` × `Disabled`, with no invalid state and no size axis"
         },
         {
           "name": "class",

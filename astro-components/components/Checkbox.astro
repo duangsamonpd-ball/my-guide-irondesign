@@ -85,27 +85,49 @@ interface Props {
    * href: an <a> without one is not interactive, so clicking it ticks the box
    * like the rest of the row. Every other part of the row ticks it. The whole slot, link text included, is the checkbox's
    * accessible name.
+   * @figma `Label Text`
    */
   label?: string;
-  /** A second, muted line under the label; shown only with a label (prop or slot). */
+  /**
+   * A second, muted line under the label; shown only with a label (prop or slot).
+   * @figma `Text description`, with `Show description` as its switch — on by default in Figma; here the line shows whenever the prop is set
+   */
   description?: string;
   /** The input's id; falls back to `name`, then to a generated one. */
   id?: string;
   /** The form field name — also the id when `id` is not given. */
   name?: string;
-  /** Control size: 16 / 20 / 24px for `sm` / `md` / `lg`. */
+  /**
+   * Control size: 16 / 20 / 24px for `sm` / `md` / `lg`.
+   * @figma `Size` — same three values, same default
+   */
   size?: 'sm' | 'md' | 'lg';
-  /** Starts checked. */
+  /**
+   * Starts checked.
+   * @figma `Variant=Checked` (and `Invalid+Checked`) — Figma folds checked and invalid into one axis; code keeps them as two
+   */
   checked?: boolean;
-  /** Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone. */
+  /**
+   * Error state: a danger edge (and fill once checked) plus `aria-invalid`; pair it with `errorMessage` so the error is not colour alone.
+   * @figma `Variant=Invalid` (and `Invalid+Checked`)
+   */
   invalid?: boolean;
-  /** The message under the label while `invalid` is set, with a warning icon, read out with the checkbox. */
+  /**
+   * The message under the label while `invalid` is set, with a warning icon, read out with the checkbox.
+   * @figma `Error message`
+   */
   errorMessage?: string;
   /** Names the checkbox for assistive tech when there is no visible label (prop or slot) — without one of them it has no name at all. */
   ariaLabel?: string;
-  /** Disables it and dims the whole row to 50%. */
+  /**
+   * Disables it and dims the whole row to 50%.
+   * @figma `Disabled` — a `false` / `true` variant, so Figma shows it as a toggle
+   */
   disabled?: boolean;
-  /** Wraps the row in a bordered card that takes the selected outline and tint when chosen. */
+  /**
+   * Wraps the row in a bordered card that takes the selected outline and tint when chosen.
+   * @figma the separate `Checkbox Card` set — `Default` / `Checked` × `Disabled`, with no invalid state and no size axis
+   */
   card?: boolean;
   /** Extra classes on the row (or card), after the component's own. */
   class?: string;
