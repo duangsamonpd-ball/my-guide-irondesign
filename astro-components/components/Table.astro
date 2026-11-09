@@ -47,7 +47,10 @@
 import { tableWrap, tableClass } from '../table';
 
 interface Props {
-  /** Cell padding — `md` is the reference's 24 across and 16 down; `sm` is 16 by 12 for dense reference tables. */
+  /**
+   * Cell padding — `md` is the reference's 24 across and 16 down; `sm` is 16 by 12 for dense reference tables.
+   * @figma `size` on both `Table` and `Table cell` — same two values, same default
+   */
   size?: 'md' | 'sm';
   /** Names the table for assistive tech when no visible heading does. */
   label?: string;

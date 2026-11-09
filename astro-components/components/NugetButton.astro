@@ -40,20 +40,34 @@
  * measures height only.
  */
 interface Props {
-  /** `lg` 56px (16/700 label) · `md` 48px (14/600). Figma draws only these two. */
+  /**
+   * `lg` 56px (16/700 label) · `md` 48px (14/600). Figma draws only these two.
+   * @figma `Size` — same two values, same default
+   */
   size?: 'lg' | 'md';
+  /**
+   * The button's text.
+   * @figma `Button Text` — same default
+   */
   label?: string;
   /**
-   * The install count under the label. Figma carries a `hasDownloadCount`
+   * The install count under the label. Figma carries a `Has download count`
    * boolean beside the string; here the string's presence IS the switch, since
    * unlike TextLink's `external` the layer being toggled has content of its own
    * and there is nothing to show without it.
+   * @figma `Button subtext`, with `Has download count` as its switch — on by default in Figma; here the line shows whenever the prop is set
    */
   subtext?: string;
-  /** The trailing caret. Figma's `hasTrailingIcon`, and a real axis: it is off
-   *  wherever the button does not open anything. */
+  /** The trailing caret. Figma's `Has trailing icon`, and a real axis: it is off
+   *  wherever the button does not open anything.
+   * @figma `Has trailing icon` — on by default in both
+   */
   trailingIcon?: boolean;
   href?: string;
+  /**
+   * Disables the button and dims it to 50%; with `href`, the link gets `aria-disabled` and stops taking clicks instead.
+   * @figma `State=disabled` — Figma's State axis also draws hover and focus, which here are the browser's own states
+   */
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   class?: string;

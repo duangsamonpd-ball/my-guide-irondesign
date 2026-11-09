@@ -886,26 +886,31 @@
           "type": "'lg' | 'md'",
           "required": false,
           "default": "'lg'",
-          "description": "`lg` 56px (16/700 label) · `md` 48px (14/600). Figma draws only these two."
+          "description": "`lg` 56px (16/700 label) · `md` 48px (14/600). Figma draws only these two.",
+          "figma": "`Size` — same two values, same default"
         },
         {
           "name": "label",
           "type": "string",
           "required": false,
-          "default": "'Free NuGet Download'"
+          "default": "'Free NuGet Download'",
+          "description": "The button's text.",
+          "figma": "`Button Text` — same default"
         },
         {
           "name": "subtext",
           "type": "string",
           "required": false,
-          "description": "The install count under the label. Figma carries a `hasDownloadCount` boolean beside the string; here the string's presence IS the switch, since unlike TextLink's `external` the layer being toggled has content of its own and there is nothing to show without it."
+          "description": "The install count under the label. Figma carries a `Has download count` boolean beside the string; here the string's presence IS the switch, since unlike TextLink's `external` the layer being toggled has content of its own and there is nothing to show without it.",
+          "figma": "`Button subtext`, with `Has download count` as its switch — on by default in Figma; here the line shows whenever the prop is set"
         },
         {
           "name": "trailingIcon",
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "The trailing caret. Figma's `hasTrailingIcon`, and a real axis: it is off wherever the button does not open anything."
+          "description": "The trailing caret. Figma's `Has trailing icon`, and a real axis: it is off wherever the button does not open anything.",
+          "figma": "`Has trailing icon` — on by default in both"
         },
         {
           "name": "href",
@@ -916,7 +921,9 @@
           "name": "disabled",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Disables the button and dims it to 50%; with `href`, the link gets `aria-disabled` and stops taking clicks instead.",
+          "figma": "`State=disabled` — Figma's State axis also draws hover and focus, which here are the browser's own states"
         },
         {
           "name": "type",
@@ -1340,7 +1347,8 @@
           "type": "'md' | 'sm'",
           "required": false,
           "default": "'md'",
-          "description": "Cell padding — `md` is the reference's 24 across and 16 down; `sm` is 16 by 12 for dense reference tables."
+          "description": "Cell padding — `md` is the reference's 24 across and 16 down; `sm` is 16 by 12 for dense reference tables.",
+          "figma": "`size` on both `Table` and `Table cell` — same two values, same default"
         },
         {
           "name": "label",
