@@ -124,7 +124,9 @@ interface NavItem {
 interface Props {
   /** Figma's `variant`, with the same two names. The second variant was renamed `Transparent` on the
    *  canvas (it read "Without bg" until Ball's 2026-09-03 pass), so the two
-   *  sides now spell it the same way. */
+   *  sides now spell it the same way.
+   * @figma `Variant` — `Default` / `Transparent`, same default
+   */
   variant?: 'default' | 'transparent';
   /**
    * The lockup link's accessible name, spoken in place of its visible text.
@@ -142,7 +144,9 @@ interface Props {
    *  into a panel trigger fed by the slot of that name. */
   items?: NavItem[];
   /** Figma's `showAddress` toggle. Covers the phone number too — `231:1571`
-   *  holds both, and the node has no separate switch for the number. */
+   *  holds both, and the node has no separate switch for the number.
+   * @figma `Show Address` — on by default in both, and covers the phone number too
+   */
   showAddress?: boolean;
   /** The office address, linked to a map derived from this string so the two cannot disagree. */
   address?: string;
@@ -166,13 +170,17 @@ interface Props {
   contact?: NavItem;
   /** The locale link, drawn after the globe icon. */
   language?: NavItem;
-  /** Shows the globe and locale group. */
+  /**
+   * Shows the globe and locale group.
+   * @figma `Show Language` — on by default in both
+   */
   showLanguage?: boolean;
   /**
    * The account icon between Contact Us and the language picker, and the
    * Customer HUB panel it opens. Figma `login-hubspot` `1245:1966`, added
-   * 2026-09-30; the node has no property for it, so it is on by default like
-   * the rest of the strip.
+   * 2026-09-30, and on by default like the rest of the strip — as `Show Login`
+   * is in Figma since 2026-10-01 (login off = 48px shorter, as here).
+   * @figma `Show Login` — on by default in both
    */
   showLogin?: boolean;
   /** Where the login panel's "View your Ticket" tile goes. */

@@ -3,7 +3,7 @@
  * ProductMenu — the full-width product header from Figma node 790:4778
  * ("Product menu", canvas 231:1473 " ↳ Navigation menu").
  *
- * Two variants, matching Figma's `Varient` property:
+ * Two variants, matching Figma's `Variant` property (`Default` / `Submenu`):
  *   default  — one 72px tier: product lockup · menu · search/AI · CTA
  *   submenu  — adds a second 65px tier of sub-navigation chips
  *
@@ -138,7 +138,10 @@ interface SubItem {
 }
 
 interface Props {
-  /** Figma's `Varient` property — `submenu` adds the second tier. */
+  /**
+   * `submenu` adds the second tier.
+   * @figma `Variant` — `Default` / `Submenu`, same default
+   */
   variant?: 'default' | 'submenu';
   /** Mark artwork — same keys as Logo.astro's `product`. */
   product?: string;
@@ -148,25 +151,39 @@ interface Props {
   runtime?: string;
   /** Where the product lockup links to. */
   productHref?: string;
-  /** Figma `hasTrailingIcon` — the caret after the product lockup. */
+  /**
+   * The caret after the product lockup.
+   * @figma `Has trailing icon` — on by default in both
+   */
   hasTrailingIcon?: boolean;
-  /** The top-tier links, each `{ label, href?, active?, caret? }` — the caret is on for every item but the active one. */
+  /**
+   * The top-tier links, each `{ label, href?, active?, caret? }` — the caret is on for every item but the active one.
+   * @figma the `Menu` slot
+   */
   items?: MenuItem[];
   /** Sub tier: the current-page chip, drawn boxed. Figma keeps its label the
    *  default colour and turns it brand-pink only on hover. */
   subLead?: SubItem;
-  /** Figma's "Sub Menu Items" slot — the sub tier's links, each `{ label, href? }`. */
+  /**
+   * The sub tier's links, each `{ label, href? }`.
+   * @figma the `Sub Menu Items` slot
+   */
   subItems?: SubItem[];
-  /** Figma `showMenuItems2` — trailing links at the right end of the sub tier. */
+  /**
+   * Trailing links at the right end of the sub tier.
+   * @figma `Show Menu Items 2` — off by default in both
+   */
   showMenuItems2?: boolean;
   /** What `showMenuItems2` shows: the trailing group's links. */
   subItemsTrailing?: SubItem[];
   /**
    * Figma's `Instance` swap: which button fills the CTA slot, both 48 tall as
    * the 72px tier needs. Figma models this as an INSTANCE-SWAP
-   * property called `Instance` on `790:4778`, whose preferred list is exactly
-   * two: `button-Nuget` and `button` pinned at `231:1411`
-   * (`Variant=primary, Size=md`). A closed set of two is a prop here rather
+   * property called `Instance` on `790:4778`, default `button-Nuget`, whose
+   * preferred list is exactly two. It was `button-Nuget` and `button` pinned at
+   * `231:1411` (`Variant=primary, Size=md`); read 2026-11-09 it is the two whole
+   * SETS, `277:372` and `231:1406`, so Figma's picker now offers `button` at lg
+   * too — the constraint below is held here, not there. A closed set of two is a prop here rather
    * than a slot — it is an enum on the canvas, this repo does not spell a
    * variant axis as a boolean or an open hole, and a prop is the only one of
    * the two that `check:props-table` and the manifest can see.
@@ -174,18 +191,25 @@ interface Props {
    * BOTH VALUES ARE 48 TALL AND THAT IS THE WHOLE CONSTRAINT. `314:205` is
    * 368 x 48.0004 inside a 72 tier — 12 + 48 + 12 — so the swap is safe only at
    * `size=md`. `button` at lg is 56 and would make the tier 80; that is why the
-   * preferred instance is pinned to a VARIANT and not to the `231:1406` set,
+   * preferred instance was pinned to a VARIANT and not to the `231:1406` set,
    * and why `size` is fixed here rather than exposed. The `cta` band below
    * measures both values so a future edit cannot quietly reintroduce it.
+   * @figma `Instance` — an instance swap whose default is `button-Nuget`, which is `nuget` here
    */
   cta?: 'nuget' | 'button';
   /** The call-to-action's text. */
   ctaLabel?: string;
   /** Where the call-to-action goes — `#` until you pass one. */
   ctaHref?: string;
-  /** Shows the 36px Search bubble. */
+  /**
+   * Shows the 36px Search bubble.
+   * @figma `Show Search` — on by default in both
+   */
   showSearch?: boolean;
-  /** Shows the 36px Ask AI bubble. */
+  /**
+   * Shows the 36px Ask AI bubble.
+   * @figma `Show Ask AI` — on by default in both
+   */
   showAskAi?: boolean;
   /** The Search bubble's accessible name — it is icon-only. */
   searchLabel?: string;

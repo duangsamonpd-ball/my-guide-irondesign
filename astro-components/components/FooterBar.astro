@@ -262,8 +262,9 @@ interface Props {
   /**
    * Shows the Free Tools item in the menu, before Webinars.
    *
-   * Figma's `Property 1=Free tools version` — the item exists in the Default
-   * variant too but is hidden there.
+   * Figma's `Variant=Freetools` — the item exists in the Default variant too
+   * but is hidden there.
+   * @figma `Variant=Freetools` (and `Freetools-open`) — Figma's one axis is `Default` / `Freetools` / `Freetools-open`
    */
   freeTools?: boolean;
   /** The Free Tools item's text. */
@@ -273,10 +274,14 @@ interface Props {
   /**
    * The panel the Free Tools item opens: groups of links, each with a title, an icon and its columns.
    *
-   * Figma's `Property 1=Free tool open`. Pass `[]` for a plain link instead.
+   * Figma's `Variant=Freetools-open`. Pass `[]` for a plain link instead.
+   * @figma what `Variant=Freetools-open` draws in its panel
    */
   toolGroups?: ToolGroup[];
-  /** Render the panel already open. Off by default; the trigger owns it after that. */
+  /**
+   * Render the panel already open. Off by default; the trigger owns it after that.
+   * @figma `Variant=Freetools-open`
+   */
   toolsOpen?: boolean;
   /** Accessible name for the panel's close button, which shows only an icon. */
   closeToolsLabel?: string;

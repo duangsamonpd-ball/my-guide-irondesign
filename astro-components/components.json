@@ -342,13 +342,15 @@
           "type": "'suite' | 'default'",
           "required": false,
           "default": "'default'",
-          "description": "`suite` is the full-brand headline for the homepage or a generic page; `default` names the current product as a cross-sell."
+          "description": "`suite` is the full-brand headline for the homepage or a generic page; `default` names the current product as a cross-sell.",
+          "figma": "`Variant` — `Default` / `Suite`, same default"
         },
         {
           "name": "productName",
           "type": "string",
           "required": false,
-          "description": "The product the `default` headline names, such as \"IronPDF\" — required for that variant."
+          "description": "The product the `default` headline names, such as \"IronPDF\" — required for that variant.",
+          "figma": "`Product name`"
         },
         {
           "name": "products",
@@ -433,7 +435,8 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Shows the Free Tools item in the menu, before Webinars. Figma's `Property 1=Free tools version` — the item exists in the Default variant too but is hidden there."
+          "description": "Shows the Free Tools item in the menu, before Webinars. Figma's `Variant=Freetools` — the item exists in the Default variant too but is hidden there.",
+          "figma": "`Variant=Freetools` (and `Freetools-open`) — Figma's one axis is `Default` / `Freetools` / `Freetools-open`"
         },
         {
           "name": "freeToolsLabel",
@@ -453,14 +456,16 @@
           "type": "ToolGroup[]",
           "required": false,
           "default": "[\n    {\n      title: 'PDF Converters',\n      icon: 'arrowsRotate',\n      columns: [\n        [{ label: 'PDF to JPG' }, { label: 'URL to PDF' }],\n        [{ label: 'HTML to PDF' }, { label: 'PDF to PNG' }],\n        [{ label: 'Tiff to PDF' }, { label: 'SVG to PDF' }],\n        [{ label: 'JPG to PDF' }, { label: 'Docx to PDF' }],\n        [{ label: 'Text to PDF' }],\n      ],\n    },\n    {\n      title: 'PDF Editors',\n      icon: 'penToSquare',\n      columns: [\n        [{ label: 'Password Protect PDF' }, { label: 'Flatten PDF Form' }],\n        [{ label: 'Merge PDF' }, { label: 'Compress PDF' }],\n      ],\n    },\n    { title: 'Others', icon: 'wrench', columns: [[{ label: 'JSON to C#' }]] },\n  ]",
-          "description": "The panel the Free Tools item opens: groups of links, each with a title, an icon and its columns. Figma's `Property 1=Free tool open`. Pass `[]` for a plain link instead."
+          "description": "The panel the Free Tools item opens: groups of links, each with a title, an icon and its columns. Figma's `Variant=Freetools-open`. Pass `[]` for a plain link instead.",
+          "figma": "what `Variant=Freetools-open` draws in its panel"
         },
         {
           "name": "toolsOpen",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Render the panel already open. Off by default; the trigger owns it after that."
+          "description": "Render the panel already open. Off by default; the trigger owns it after that.",
+          "figma": "`Variant=Freetools-open`"
         },
         {
           "name": "closeToolsLabel",
@@ -946,7 +951,8 @@
           "type": "'default' | 'submenu'",
           "required": false,
           "default": "'default'",
-          "description": "Figma's `Varient` property — `submenu` adds the second tier."
+          "description": "`submenu` adds the second tier.",
+          "figma": "`Variant` — `Default` / `Submenu`, same default"
         },
         {
           "name": "product",
@@ -981,14 +987,16 @@
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "Figma `hasTrailingIcon` — the caret after the product lockup."
+          "description": "The caret after the product lockup.",
+          "figma": "`Has trailing icon` — on by default in both"
         },
         {
           "name": "items",
           "type": "MenuItem[]",
           "required": false,
           "default": "[]",
-          "description": "The top-tier links, each `{ label, href?, active?, caret? }` — the caret is on for every item but the active one."
+          "description": "The top-tier links, each `{ label, href?, active?, caret? }` — the caret is on for every item but the active one.",
+          "figma": "the `Menu` slot"
         },
         {
           "name": "subLead",
@@ -1001,14 +1009,16 @@
           "type": "SubItem[]",
           "required": false,
           "default": "[]",
-          "description": "Figma's \"Sub Menu Items\" slot — the sub tier's links, each `{ label, href? }`."
+          "description": "The sub tier's links, each `{ label, href? }`.",
+          "figma": "the `Sub Menu Items` slot"
         },
         {
           "name": "showMenuItems2",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Figma `showMenuItems2` — trailing links at the right end of the sub tier."
+          "description": "Trailing links at the right end of the sub tier.",
+          "figma": "`Show Menu Items 2` — off by default in both"
         },
         {
           "name": "subItemsTrailing",
@@ -1022,7 +1032,8 @@
           "type": "'nuget' | 'button'",
           "required": false,
           "default": "'nuget'",
-          "description": "Figma's `Instance` swap: which button fills the CTA slot, both 48 tall as the 72px tier needs. Figma models this as an INSTANCE-SWAP property called `Instance` on `790:4778`, whose preferred list is exactly two: `button-Nuget` and `button` pinned at `231:1411` (`Variant=primary, Size=md`). A closed set of two is a prop here rather than a slot — it is an enum on the canvas, this repo does not spell a variant axis as a boolean or an open hole, and a prop is the only one of the two that `check:props-table` and the manifest can see. BOTH VALUES ARE 48 TALL AND THAT IS THE WHOLE CONSTRAINT. `314:205` is 368 x 48.0004 inside a 72 tier — 12 + 48 + 12 — so the swap is safe only at `size=md`. `button` at lg is 56 and would make the tier 80; that is why the preferred instance is pinned to a VARIANT and not to the `231:1406` set, and why `size` is fixed here rather than exposed. The `cta` band below measures both values so a future edit cannot quietly reintroduce it."
+          "description": "Figma's `Instance` swap: which button fills the CTA slot, both 48 tall as the 72px tier needs. Figma models this as an INSTANCE-SWAP property called `Instance` on `790:4778`, default `button-Nuget`, whose preferred list is exactly two. It was `button-Nuget` and `button` pinned at `231:1411` (`Variant=primary, Size=md`); read 2026-11-09 it is the two whole SETS, `277:372` and `231:1406`, so Figma's picker now offers `button` at lg too — the constraint below is held here, not there. A closed set of two is a prop here rather than a slot — it is an enum on the canvas, this repo does not spell a variant axis as a boolean or an open hole, and a prop is the only one of the two that `check:props-table` and the manifest can see. BOTH VALUES ARE 48 TALL AND THAT IS THE WHOLE CONSTRAINT. `314:205` is 368 x 48.0004 inside a 72 tier — 12 + 48 + 12 — so the swap is safe only at `size=md`. `button` at lg is 56 and would make the tier 80; that is why the preferred instance was pinned to a VARIANT and not to the `231:1406` set, and why `size` is fixed here rather than exposed. The `cta` band below measures both values so a future edit cannot quietly reintroduce it.",
+          "figma": "`Instance` — an instance swap whose default is `button-Nuget`, which is `nuget` here"
         },
         {
           "name": "ctaLabel",
@@ -1043,14 +1054,16 @@
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "Shows the 36px Search bubble."
+          "description": "Shows the 36px Search bubble.",
+          "figma": "`Show Search` — on by default in both"
         },
         {
           "name": "showAskAi",
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "Shows the 36px Ask AI bubble."
+          "description": "Shows the 36px Ask AI bubble.",
+          "figma": "`Show Ask AI` — on by default in both"
         },
         {
           "name": "searchLabel",
@@ -1527,25 +1540,29 @@
           "type": "'default' | 'action'",
           "required": false,
           "default": "'default'",
-          "description": "`default` centres the text; `action` left-aligns it and allows a title icon and a link. Figma's `Variant`. `action` left-aligns the bubble and opens the title's icon slot; `default` centres everything. A tooltip carrying a link is `action` whether or not you say so — Figma draws no centred tooltip with a link, and that inference is what the component did before the prop existed."
+          "description": "`default` centres the text; `action` left-aligns it and allows a title icon and a link. Figma's `Variant`. `action` left-aligns the bubble and opens the title's icon slot; `default` centres everything. A tooltip carrying a link is `action` whether or not you say so — Figma draws no centred tooltip with a link, and that inference is what the component did before the prop existed.",
+          "figma": "`Variant` — `Default` / `Action`, same default"
         },
         {
           "name": "title",
           "type": "string",
           "required": false,
-          "description": "An optional bold first line in the bubble."
+          "description": "An optional bold first line in the bubble.",
+          "figma": "`Text Title`, with `Show Title` as its switch — on by default in Figma; here the line shows whenever the prop is set"
         },
         {
           "name": "icon",
           "type": "IconName",
           "required": false,
-          "description": "Leading glyph in the title, by name from `../icons`. Figma draws `buildings`; any icon in the set works. Needs a `title` to sit in, and is ignored on the `default` variant, which Figma draws without one."
+          "description": "Leading glyph in the title, by name from `../icons`. Figma draws `buildings`; any icon in the set works. Needs a `title` to sit in, and is ignored on the `default` variant, which Figma draws without one.",
+          "figma": "`Leading icon`, with `Show leading icon` as its switch — Figma's is a glyph typed into a text layer; here it is a name from the icon set"
         },
         {
           "name": "body",
           "type": "string",
           "required": true,
-          "description": "The tooltip text."
+          "description": "The tooltip text.",
+          "figma": "`Text body` — Figma also has `Show Body`; here the text is required"
         },
         {
           "name": "linkHref",
@@ -1557,14 +1574,16 @@
           "name": "linkText",
           "type": "string",
           "required": false,
-          "description": "The link's words, with a trailing arrow; needs `linkHref`."
+          "description": "The link's words, with a trailing arrow; needs `linkHref`.",
+          "figma": "`Text link`, with `Show link` as its switch — on by default in Figma; here the link shows when both `linkText` and `linkHref` are set"
         },
         {
           "name": "placement",
           "type": "'above' | 'below' | 'left' | 'right'",
           "required": false,
           "default": "'above'",
-          "description": "Which side of the trigger the bubble opens on."
+          "description": "Which side of the trigger the bubble opens on.",
+          "figma": "`placement` — same four values, same default"
         },
         {
           "name": "wide",
@@ -1601,7 +1620,8 @@
           "type": "'default' | 'transparent'",
           "required": false,
           "default": "'default'",
-          "description": "Figma's `variant`, with the same two names. The second variant was renamed `Transparent` on the canvas (it read \"Without bg\" until Ball's 2026-09-03 pass), so the two sides now spell it the same way."
+          "description": "Figma's `variant`, with the same two names. The second variant was renamed `Transparent` on the canvas (it read \"Without bg\" until Ball's 2026-09-03 pass), so the two sides now spell it the same way.",
+          "figma": "`Variant` — `Default` / `Transparent`, same default"
         },
         {
           "name": "brandLabel",
@@ -1629,7 +1649,8 @@
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "Figma's `showAddress` toggle. Covers the phone number too — `231:1571` holds both, and the node has no separate switch for the number."
+          "description": "Figma's `showAddress` toggle. Covers the phone number too — `231:1571` holds both, and the node has no separate switch for the number.",
+          "figma": "`Show Address` — on by default in both, and covers the phone number too"
         },
         {
           "name": "address",
@@ -1676,14 +1697,16 @@
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "Shows the globe and locale group."
+          "description": "Shows the globe and locale group.",
+          "figma": "`Show Language` — on by default in both"
         },
         {
           "name": "showLogin",
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "The account icon between Contact Us and the language picker, and the Customer HUB panel it opens. Figma `login-hubspot` `1245:1966`, added 2026-09-30; the node has no property for it, so it is on by default like the rest of the strip."
+          "description": "The account icon between Contact Us and the language picker, and the Customer HUB panel it opens. Figma `login-hubspot` `1245:1966`, added 2026-09-30, and on by default like the rest of the strip — as `Show Login` is in Figma since 2026-10-01 (login off = 48px shorter, as here).",
+          "figma": "`Show Login` — on by default in both"
         },
         {
           "name": "ticketHref",

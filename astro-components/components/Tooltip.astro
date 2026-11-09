@@ -58,21 +58,37 @@ interface Props {
    *  Figma's `Variant`. `action` left-aligns the bubble and opens the title's
    *  icon slot; `default` centres everything. A tooltip carrying a link is
    *  `action` whether or not you say so — Figma draws no centred tooltip with a
-   *  link, and that inference is what the component did before the prop existed. */
+   *  link, and that inference is what the component did before the prop existed.
+   * @figma `Variant` — `Default` / `Action`, same default
+   */
   variant?: 'default' | 'action';
-  /** An optional bold first line in the bubble. */
+  /**
+   * An optional bold first line in the bubble.
+   * @figma `Text Title`, with `Show Title` as its switch — on by default in Figma; here the line shows whenever the prop is set
+   */
   title?: string;
   /** Leading glyph in the title, by name from `../icons`. Figma draws
    *  `buildings`; any icon in the set works. Needs a `title` to sit in, and is
-   *  ignored on the `default` variant, which Figma draws without one. */
+   *  ignored on the `default` variant, which Figma draws without one.
+   * @figma `Leading icon`, with `Show leading icon` as its switch — Figma's is a glyph typed into a text layer; here it is a name from the icon set
+   */
   icon?: IconName;
-  /** The tooltip text. */
+  /**
+   * The tooltip text.
+   * @figma `Text body` — Figma also has `Show Body`; here the text is required
+   */
   body: string;
   /** Where the bubble's link goes; the link shows only with `linkText` too, and makes the tooltip `action`. */
   linkHref?: string;
-  /** The link's words, with a trailing arrow; needs `linkHref`. */
+  /**
+   * The link's words, with a trailing arrow; needs `linkHref`.
+   * @figma `Text link`, with `Show link` as its switch — on by default in Figma; here the link shows when both `linkText` and `linkHref` are set
+   */
   linkText?: string;
-  /** Which side of the trigger the bubble opens on. */
+  /**
+   * Which side of the trigger the bubble opens on.
+   * @figma `placement` — same four values, same default
+   */
   placement?: 'above' | 'below' | 'left' | 'right';
   /** Widens the bubble to a fixed 350px for long copy. Was `maxWidth` until
    *  2026-08-06 — a boolean named like a length, setting `width`, not `max-width`. */

@@ -134,9 +134,15 @@ interface Product {
 }
 
 interface Props {
-  /** `suite` is the full-brand headline for the homepage or a generic page; `default` names the current product as a cross-sell. */
+  /**
+   * `suite` is the full-brand headline for the homepage or a generic page; `default` names the current product as a cross-sell.
+   * @figma `Variant` — `Default` / `Suite`, same default
+   */
   variant?: 'suite' | 'default';
-  /** The product the `default` headline names, such as "IronPDF" — required for that variant. */
+  /**
+   * The product the `default` headline names, such as "IronPDF" — required for that variant.
+   * @figma `Product name`
+   */
   productName?: string;
   /** The rows of the product list: `prefix`, `suffix` and `desc`, plus an optional `accent` colour for the suffix and an `href`. */
   products: Product[];
