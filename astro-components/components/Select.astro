@@ -45,27 +45,54 @@ interface Option {
 }
 
 interface Props {
-  /** The visible label; the trigger is named by it for assistive tech. */
+  /**
+   * The visible label; the trigger is named by it for assistive tech.
+   * @figma `Label`, with `Show label` as its switch — on by default in Figma; here the label shows whenever the prop is set
+   */
   label?: string;
-  /** The choices, each `{ value, label }`. */
+  /**
+   * The choices, each `{ value, label }`.
+   * @figma no property — the menu is drawn once, as the separate `Open state` frame beside the set
+   */
   options: Option[];
-  /** The `value` of the option selected at first; omit it to show `placeholder`. */
+  /**
+   * The `value` of the option selected at first; omit it to show `placeholder`.
+   * @figma `Text field` as `State=Filled` draws it — the chosen option's label
+   */
   value?: string;
-  /** Text shown until an option is picked. */
+  /**
+   * Text shown until an option is picked.
+   * @figma `Text field` as `State=Default` draws it — Figma has one text for placeholder and the chosen label, and the State says which it is
+   */
   placeholder?: string;
   /** The form field name, carried by a hidden native `<select>` so the choice submits with the form. */
   name?: string;
-  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the trigger `<button>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props. */
+  /**
+   * Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the trigger `<button>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props.
+   * @figma `State=Error` (and `Error+Focus`) — Figma folds it into the one State axis with Hover, Focus and Filled, which here are the browser's own states
+   */
   error?: boolean;
-  /** The message under an errored field, with a warning icon; shown only while `error` is set. */
+  /**
+   * The message under an errored field, with a warning icon; shown only while `error` is set.
+   * @figma `Error message`
+   */
   errorMessage?: string;
-  /** Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set. */
+  /**
+   * Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set.
+   * @figma `Hint`, with `Show hint` as its switch; in `State=Error` the row shows `Error message` instead, as here
+   */
   hint?: string;
-  /** Disables the trigger and the hidden `<select>`, and greys it out. */
+  /**
+   * Disables the trigger and the hidden `<select>`, and greys it out.
+   * @figma `State=Disabled`
+   */
   disabled?: boolean;
   /** Marks the field required — native form validation, `aria-required`, and a `*` after the label. */
   required?: boolean;
-  /** Label size: `md` is the 14px form label, `sm` the 12px caption for dense rows. */
+  /**
+   * Label size: `md` is the 14px form label, `sm` the 12px caption for dense rows.
+   * @figma `labelSize` — same two values, same default
+   */
   labelSize?: 'sm' | 'md';
   /** Extra classes on the wrapper that holds label, trigger and menu. */
   class?: string;

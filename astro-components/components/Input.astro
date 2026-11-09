@@ -29,7 +29,10 @@ import { fieldShell, fieldLabel, fieldRequiredMark, fieldControl, fieldBorder, f
 import { icons } from '../icons';
 
 interface Props {
-  /** The visible label, tied to the field by `for` and `id`. */
+  /**
+   * The visible label, tied to the field by `for` and `id`.
+   * @figma `Label`, with `Show label` as its switch — on by default in Figma; here the label shows whenever the prop is set
+   */
   label?: string;
   /** The field's id; falls back to `name`, then to a generated one. */
   id?: string;
@@ -47,17 +50,35 @@ interface Props {
    *  … (WCAG 1.3.5). A string because Astro types it as one; the token list is
    *  the HTML spec's. Omit it and the browser decides. */
   autocomplete?: string;
-  /** Text shown while the field is empty; not a substitute for `label`. */
+  /**
+   * Text shown while the field is empty; not a substitute for `label`.
+   * @figma `Text field` as `State=Default` draws it, with `Show text field` as its switch — Figma has one text for placeholder and value, and the State says which it is
+   */
   placeholder?: string;
-  /** The initial value. */
+  /**
+   * The initial value.
+   * @figma `Text field` as `State=Filled` draws it
+   */
   value?: string;
-  /** Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set. */
+  /**
+   * Helper text under the field, read out with it; replaced by `errorMessage` while `error` is set.
+   * @figma `Hint`, with `Show hint` as its switch; in `State=Error` the row shows `Error message` instead, as here
+   */
   hint?: string;
-  /** Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the `<input>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props. */
+  /**
+   * Error state: danger border and `aria-invalid`, with `errorMessage` shown in place of `hint`. A form script can set or clear the `<input>`'s `aria-invalid` instead — the border follows that attribute; the message is still rendered only from these props.
+   * @figma `State=Error` (and `Error+Focus`) — Figma folds it into the one State axis with Hover, Focus and Filled, which here are the browser's own states
+   */
   error?: boolean;
-  /** The message under an errored field, with a warning icon; shown only while `error` is set. */
+  /**
+   * The message under an errored field, with a warning icon; shown only while `error` is set.
+   * @figma `Error message`
+   */
   errorMessage?: string;
-  /** Disables the field and greys it out. */
+  /**
+   * Disables the field and greys it out.
+   * @figma `State=Disabled`
+   */
   disabled?: boolean;
   /** Marks the field required — native form validation, and a `*` after the label. */
   required?: boolean;
