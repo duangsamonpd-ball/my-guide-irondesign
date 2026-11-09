@@ -128,6 +128,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
    `disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none`
    and the cell now uses the real prop. The hover fill was an inline style. */
 .demo-hover-primary { background: var(--color-primary-hover); }
+.props-h { font-size:1rem; font-weight:800; margin:28px 0 6px; }
 </style>
 </head>
 <body>
@@ -324,7 +325,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <!-- ── NuGet Download CTA ── -->
       <div class="sect">
         <h2 class="sect-h">NuGet Download <span class="chip new" style="margin-left:4px;">special</span></h2>
-        <div class="sect-sub">The NuGet download CTA — the mark, the label and a caret on one line, with the install count beneath. Its own component, <b>NugetButton</b>, not a Button variant: Figma keeps it as a separate frame beside the button set.</div>
+        <div class="sect-sub">The NuGet download CTA — the mark, the label and a caret on one line, with the install count beneath. Its own component, <b>NugetButton</b>, not a Button variant: Figma keeps it as its own set, <code>button-Nuget</code>, beside the button set. Its props are under <a href="#props">Props</a>, after Button's.</div>
         <div class="canvas">
           <!-- demo:nuget -->
           <button type="button" class="cursor-pointer inline-flex flex-col items-center justify-center font-sans no-underline overflow-hidden border-0 outline-none rounded-full bg-button-primary text-primary-on hover:bg-button-primary-hover focus-visible:shadow-focus-magenta transition-[background-color,box-shadow] duration-[var(--duration-fast)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none h-[var(--size-btn-lg)] px-2xl py-xs gap-micro">
@@ -1136,7 +1137,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <script src="try-panel.js"></script>
       </div>
 
-      <div class="sect">
+      <div class="sect" id="props">
         <h2 class="sect-h">Props</h2>
         <div class="sect-sub">Read from <code>interface Props</code> in <code>Button.astro</code>, so it cannot drift from the component.</div>
         <!-- props:Button -->
@@ -1151,6 +1152,20 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <tr><td class="ptable-name">class</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes, applied after the component's own.</td></tr>
         </tbody></table></div>
         <!-- /props:Button -->
+        <h3 class="props-h">NugetButton</h3>
+        <div class="sect-sub">The NuGet download CTA above.</div>
+        <!-- props:NugetButton -->
+        <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>In Figma</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+          <tr><td class="ptable-name">size</td><td class="ptable-figma"><code>Size</code> — same two values, same default</td><td class="ptable-type"><span class="ptable-m">'lg'</span> | <span class="ptable-m">'md'</span></td><td class="ptable-default">'lg'</td><td class="ptable-notes"><code>lg</code> 56px (16/700 label) · <code>md</code> 48px (14/600).</td></tr>
+          <tr><td class="ptable-name">label</td><td class="ptable-figma"><code>Button Text</code> — same default</td><td class="ptable-type">string</td><td class="ptable-default">'Free NuGet Download'</td><td class="ptable-notes">The button's text.</td></tr>
+          <tr><td class="ptable-name">subtext</td><td class="ptable-figma"><code>Button subtext</code>, with <code>Has download count</code> as its switch — on by default in Figma; here the line shows whenever the prop is set</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The install count under the label.</td></tr>
+          <tr><td class="ptable-name">trailingIcon</td><td class="ptable-figma"><code>Has trailing icon</code> — on by default in both</td><td class="ptable-type">boolean</td><td class="ptable-default">true</td><td class="ptable-notes">The trailing caret.</td></tr>
+          <tr><td class="ptable-name">href</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"></td></tr>
+          <tr><td class="ptable-name">disabled</td><td class="ptable-figma"><code>State=disabled</code> — Figma's State axis also draws hover and focus, which here are the browser's own states</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables the button and dims it to 50%; with <code>href</code>, the link gets <code>aria-disabled</code> and stops taking clicks instead.</td></tr>
+          <tr><td class="ptable-name">type</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type"><span class="ptable-m">'button'</span> | <span class="ptable-m">'submit'</span> | <span class="ptable-m">'reset'</span></td><td class="ptable-default">'button'</td><td class="ptable-notes"></td></tr>
+          <tr><td class="ptable-name">class</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"></td></tr>
+        </tbody></table></div>
+        <!-- /props:NugetButton -->
       </div>
 
       <!-- ── Code ── -->
