@@ -879,7 +879,11 @@
       "file": "astro-components/components/NugetButton.astro",
       "docs": null,
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "277:331",
+        "790:1477",
+        "790:2393"
+      ],
       "props": [
         {
           "name": "size",

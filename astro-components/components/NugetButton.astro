@@ -28,16 +28,51 @@
  *   count       opacity .9, where the node binds `opacity-75`
  *   size        no `md` at all — the node draws 48px as well as 56px
  *
- * ── Why this component declares no `figma-size` band ──────────────────────
+ * ── Its `figma-size` bands are WIDTHS, never heights ──────────────────────
  *
- * Same as Button: the height is `--size-btn-lg` or `--size-btn-md`, a literal,
+ * Same as Button for height: it is `--size-btn-lg` or `--size-btn-md`, a literal,
  * so a rendered-band gate can only refuse it — and the two names are spelled out
  * here for the same reason they are there, that a `lg|md` shorthand in a comment
  * is a class candidate to the scanner. `277:372`'s 56 and 48 are held by
  * `check:theme`.
- * The number on this component that a band COULD hold is its width — 187 on
- * `790:2393`, the arithmetic that explained a 3px shortfall — and `figma-size`
- * measures height only.
+ * The number a band CAN hold is the width, and it is the one that has been
+ * wrong: 183.64 against `790:2393`'s 187, the caret's 3px. The pill hugs its
+ * content, so its width is padding + mark + gaps + caret box + TEXT, and every
+ * part but the text is a token; these bands are what says the sum still lands.
+ * `figma-size` measures width since 2026-11-09 for exactly this.
+ *
+ * @figma-size lg
+ *   node   277:331
+ *   frame  button-Nuget
+ *   page   component-button.html
+ *   region nuget-sizes
+ *   select button:first-of-type
+ *   at     1440
+ *   width  302
+ *   within 1.5
+ *   why    label 185.05 where Figma rounds the run to 186; the whole 0.95 is text
+ *
+ * @figma-size md
+ *   node   790:1477
+ *   frame  button-Nuget
+ *   page   component-button.html
+ *   region nuget-sizes
+ *   select button:last-of-type
+ *   at     1440
+ *   width  252
+ *   within 1
+ *   why    label 159.92 where Figma rounds the run to 160; slack for the runner's glyphs
+ *
+ * @figma-size in-menu
+ *   node   790:2393
+ *   frame  Product menu
+ *   page   component-productmenu.html
+ *   region default
+ *   select .pm-right > a
+ *   at     1440
+ *   width  187
+ *   within 1
+ *   why    "Start for Free" 94.64 where Figma rounds the run to 95; the 3px caret fault still fails
  */
 interface Props {
   /**

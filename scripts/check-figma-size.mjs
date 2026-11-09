@@ -35,9 +35,22 @@
  *        select .fb-menu-bar
  *        at     1440
  *        height 56
- *        why    ...                                          (optional)
+ *        width  1360                                         (optional)
+ *        within 1                                            (optional, default 0.5)
+ *        why    ...                                          (optional, but within needs it)
  *        count  9                                            (optional, default 1)
  *   *\/
+ *
+ * `height` or `width`, or both — at least one. WIDTH ARRIVED 2026-11-09 for
+ * NugetButton, whose height is a literal token (so a height band can only be
+ * refused by arm 3 below) while its width is the number that has actually been
+ * wrong: 183.64 against `790:2393`'s 187, the caret's 3px. A pill that hugs its
+ * label is as wide as its TEXT, and Figma reports a text run's width rounded to
+ * a whole pixel — "Free NuGet Download" is 186 on the canvas and ~185 in the
+ * browser — so a width band may need more than the default 0.5. `within` widens
+ * the tolerance for that declaration, and is refused without a `why` saying
+ * where the slack comes from, and refused at 3 or more: 3px is the fault this
+ * gate was built for, and a tolerance that admits it is not a check.
  *
  * A declaration that cannot be parsed is an ERROR, never a skip. The failure
  * mode this repo has hit twice is a checker going blind in a region and
@@ -107,10 +120,14 @@ const KEYS = {
   select: /^\S.*$/,
   at: /^\d{2,4}$/,
   height: /^\d+(\.\d+)?$/,
+  width: /^\d+(\.\d+)?$/,
+  within: /^\d+(\.\d+)?$/,
   count: /^\d+$/,
   why: /^\S.*$/,
 };
-const REQUIRED = ['node', 'frame', 'page', 'region', 'select', 'at', 'height'];
+const REQUIRED = ['node', 'frame', 'page', 'region', 'select', 'at'];
+/** The fault this gate was built for. A tolerance that admits it checks nothing. */
+const FAULT = 3;
 
 /**
  * Line-oriented on purpose. A regex spanning the whole block is the kind of
@@ -158,8 +175,17 @@ export function parseDecls(src, file) {
     if (!closed) errors.push(`${where}  the block never ends`);
 
     const missing = REQUIRED.filter((k) => !(k in fields));
+    if (!('height' in fields) && !('width' in fields)) missing.push('height or width');
     if (missing.length) {
       errors.push(`${where}  missing ${missing.join(', ')}`);
+      continue;
+    }
+    if ('within' in fields && !('why' in fields)) {
+      errors.push(`${where}  \`within ${fields.within}\` needs a \`why\` — say where the slack comes from`);
+      continue;
+    }
+    if (Number(fields.within) >= FAULT) {
+      errors.push(`${where}  \`within ${fields.within}\` admits the ${FAULT}px fault this gate exists for`);
       continue;
     }
     decls.push({
@@ -168,7 +194,9 @@ export function parseDecls(src, file) {
       component: file.replace(/\.astro$/, ''),
       ...fields,
       at: Number(fields.at),
-      height: Number(fields.height),
+      height: 'height' in fields ? Number(fields.height) : undefined,
+      width: 'width' in fields ? Number(fields.width) : undefined,
+      within: 'within' in fields ? Number(fields.within) : 0.5,
       count: fields.count ? Number(fields.count) : 1,
     });
   }
@@ -222,6 +250,22 @@ window.pick = function (region, select) {
   return { hits: [...new Set(hits)] };
 };
 window.heights = function (els) { return els.map((el) => +el.getBoundingClientRect().height.toFixed(2)); };
+window.widths = function (els) { return els.map((el) => +el.getBoundingClientRect().width.toFixed(2)); };
+/* One axis: what the box reads, and what it reads with 10px of that axis's own
+   padding injected and taken away again. */
+window.armAxis = function (region, select, axis) {
+  const els = pick(region, select).hits;
+  const read = axis === 'width' ? widths : heights;
+  const prop = axis === 'width' ? 'padding-inline-start' : 'padding-block-start';
+  const before = read(els);
+  for (const el of els) {
+    const cs = getComputedStyle(el);
+    el.style.setProperty(prop, 'calc(' + cs.getPropertyValue(prop) + ' + 10px)', 'important');
+  }
+  const during = read(els);
+  for (const el of els) el.style.removeProperty(prop);
+  return { before, during, after: read(els) };
+};
 `;
 
 /** Styled, and prove it: an unresolved var() reads as a browser default. */
@@ -397,47 +441,34 @@ for (const [key, group] of SELF_TEST ? [] : byLoad) {
       continue;
     }
 
-    /* Arm 3, per declaration and on the element itself. */
-    const armed = await tab.evaluate(
-      ([region, select]) => {
-        const els = pick(region, select).hits;
-        const before = heights(els);
-        for (const el of els) {
-          const cs = getComputedStyle(el);
-          el.dataset.figmaSizeArm = cs.paddingBlockStart;
-          el.style.setProperty('padding-block-start', `calc(${cs.paddingBlockStart} + 10px)`, 'important');
-        }
-        const during = heights(els);
-        for (const el of els) {
-          el.style.removeProperty('padding-block-start');
-          delete el.dataset.figmaSizeArm;
-        }
-        return { before, during, after: heights(els) };
-      },
-      [d.region, d.select],
-    );
-    const moved = armed.before.every((h, i) => Math.abs(armed.during[i] - h - 10) < 0.05);
-    const back = armed.before.every((h, i) => Math.abs(armed.after[i] - h) < 0.05);
-    if (!moved || !back) {
-      failed = true;
-      console.log(
-        `  ${C.r}✖${C.x} ${d.component} ${C.b}${d.name}${C.x} ${C.dim}${d.where}${C.x}\n` +
-        `      the probe is not pointed at the box: 10px of padding moved it ${JSON.stringify(armed.before)} → ${JSON.stringify(armed.during)} → ${JSON.stringify(armed.after)}`,
-      );
-      continue;
-    }
+    /* Arm 3, per declaration, per declared axis, on the element itself. */
+    for (const axis of ['height', 'width']) {
+      if (d[axis] === undefined) continue;
+      const armed = await tab.evaluate(([region, select, axis]) => armAxis(region, select, axis), [d.region, d.select, axis]);
+      const moved = armed.before.every((v, i) => Math.abs(armed.during[i] - v - 10) < 0.05);
+      const back = armed.before.every((v, i) => Math.abs(armed.after[i] - v) < 0.05);
+      if (!moved || !back) {
+        failed = true;
+        console.log(
+          `  ${C.r}✖${C.x} ${d.component} ${C.b}${d.name}${C.x} ${C.dim}${d.where}${C.x}\n` +
+          `      the probe is not pointed at the box: 10px of ${axis === 'width' ? 'inline' : 'block'} padding moved its ${axis} ${JSON.stringify(armed.before)} → ${JSON.stringify(armed.during)} → ${JSON.stringify(armed.after)}`,
+        );
+        continue;
+      }
 
-    const off = armed.before.filter((h) => Math.abs(h - d.height) > 0.5);
-    if (off.length) {
-      failed = true;
-      console.log(
-        `  ${C.r}✖${C.x} ${d.component} ${C.b}${d.name}${C.x} ${C.dim}${d.where}${C.x}\n` +
-        `      ${d.frame} ${d.node} draws ${C.b}${d.height}${C.x}, \`${d.select}\` renders ${C.b}${armed.before.join(', ')}${C.x} at ${width}px`,
-      );
-    } else {
-      console.log(
-        `  ${C.g}✓${C.x} ${d.component.padEnd(12)} ${d.name.padEnd(12)} ${C.dim}${armed.before.join(', ')} = ${d.frame} ${d.node} · ${d.count > 1 ? d.count + ' elements · ' : ''}armed +10${C.x}`,
-      );
+      const off = armed.before.filter((v) => Math.abs(v - d[axis]) > d.within);
+      const tol = d.within === 0.5 ? '' : ` ±${d.within}`;
+      if (off.length) {
+        failed = true;
+        console.log(
+          `  ${C.r}✖${C.x} ${d.component} ${C.b}${d.name}${C.x} ${C.dim}${d.where}${C.x}\n` +
+          `      ${d.frame} ${d.node} draws ${axis} ${C.b}${d[axis]}${C.x}${tol}, \`${d.select}\` renders ${C.b}${armed.before.join(', ')}${C.x} at ${width}px`,
+        );
+      } else {
+        console.log(
+          `  ${C.g}✓${C.x} ${d.component.padEnd(12)} ${d.name.padEnd(12)} ${C.dim}${axis === 'width' ? 'w ' : ''}${armed.before.join(', ')} = ${d.frame} ${d.node}${tol} · ${d.count > 1 ? d.count + ' elements · ' : ''}armed +10${C.x}`,
+        );
+      }
     }
   }
   await tab.close();
@@ -464,6 +495,12 @@ if (SELF_TEST) {
     ['a block with no name', parseDecls(good.replace('@figma-size menu-bar', '@figma-size'), 'X.astro'), (r) => r.errors.length > 0 && r.decls.length === 0],
     ['a file with no declarations at all', parseDecls('const x = 1;\n', 'X.astro'), (r) => !r.decls.length && !r.errors.length],
     ['CONTROL — count defaults to 1', parseDecls(good, 'X.astro'), (r) => r.decls[0]?.count === 1],
+    ['CONTROL — a width alone is a band', parseDecls(good.replace('height 56', 'width  187'), 'X.astro'), (r) => r.decls.length === 1 && r.decls[0].width === 187 && r.decls[0].height === undefined],
+    ['neither height nor width', parseDecls(good.replace(/^.*height.*$/m, ' *      count  1'), 'X.astro'), (r) => r.errors.length > 0 && r.decls.length === 0],
+    ['CONTROL — within with a why', parseDecls(good.replace(' */', ' *      within 1.5\n *      why    text rounds to a whole px\n */'), 'X.astro'), (r) => r.decls[0]?.within === 1.5],
+    ['within with no why', parseDecls(good.replace(' */', ' *      within 1\n */'), 'X.astro'), (r) => r.errors.length > 0 && r.decls.length === 0],
+    [`within ${FAULT}, which admits the fault`, parseDecls(good.replace(' */', ` *      within ${FAULT}\n *      why    slack\n */`), 'X.astro'), (r) => r.errors.length > 0 && r.decls.length === 0],
+    ['CONTROL — within defaults to 0.5', parseDecls(good, 'X.astro'), (r) => r.decls[0]?.within === 0.5],
   ];
   console.log(`\n${C.b}Self-test — the parser${C.x} ${C.dim}(no browser; these fail anywhere)${C.x}`);
   for (const [label, got, want] of cases) {
@@ -477,25 +514,31 @@ if (SELF_TEST) {
      the declared height moved 3px — the size of the fault this gate exists for.
      A gate that has never been seen to fail is not known to be able to. */
   console.log(`\n${C.b}Self-test — a wrong number on the real page${C.x}`);
-  const probe = wanted[0];
-  if (!probe) {
-    console.log(`  ${C.r}✖${C.x} nothing declares, so there is nothing to prove this against`);
-    failed = true;
-  } else {
+  /* Once per axis, on the first declaration that has it, at THAT declaration's
+     own tolerance — the widest one in use is the one that most needs to be
+     seen refusing a ${FAULT}px fault. */
+  for (const axis of ['height', 'width']) {
+    const withAxis = wanted.filter((d) => d[axis] !== undefined);
+    const probe = withAxis.sort((a, b) => b.within - a.within)[0];
+    if (!probe) {
+      console.log(`  ${C.r}✖${C.x} nothing declares a ${axis}, so there is nothing to prove that axis against`);
+      failed = true;
+      continue;
+    }
     const tab = await context.newPage();
     await tab.addInitScript({ content: IN_PAGE });
     await tab.setViewportSize({ width: probe.at, height: 1200 });
     await tab.goto(`${origin}/${urlFor(probe.page, probe.at, probe.region)}`, { waitUntil: 'networkidle' });
-    const hs = await tab.evaluate(([r, s]) => heights(pick(r, s).hits), [probe.region, probe.select]);
+    const vs = await tab.evaluate(([r, s, axis]) => (axis === 'width' ? widths : heights)(pick(r, s).hits), [probe.region, probe.select, axis]);
     await tab.close();
-    const rowsFor = (h) => hs.filter((x) => Math.abs(x - h) > 0.5).length;
-    const control = rowsFor(probe.height);
-    const injected = rowsFor(probe.height + 3);
-    const pass = control === 0 && injected === hs.length;
+    const rowsFor = (v) => vs.filter((x) => Math.abs(x - v) > probe.within).length;
+    const control = rowsFor(probe[axis]);
+    const injected = rowsFor(probe[axis] + FAULT);
+    const pass = vs.length > 0 && control === 0 && injected === vs.length;
     if (!pass) failed = true;
     console.log(
-      `  ${pass ? `${C.g}✓${C.x}` : `${C.r}✖${C.x}`} ${probe.component} ${probe.name} measures ${hs.join(', ')}: ` +
-      `declared ${probe.height} → ${control} off, declared ${probe.height + 3} → ${injected} off ${C.dim}(of ${hs.length})${C.x}`,
+      `  ${pass ? `${C.g}✓${C.x}` : `${C.r}✖${C.x}`} ${probe.component} ${probe.name} ${axis} measures ${vs.join(', ')} ±${probe.within}: ` +
+      `declared ${probe[axis]} → ${control} off, declared ${probe[axis] + FAULT} → ${injected} off ${C.dim}(of ${vs.length})${C.x}`,
     );
   }
 }
