@@ -913,7 +913,7 @@ if (SELF_TEST) {
     ['LAYOUT — a media rule points at the wrong mode',
       [['tailwind/theme.css', '--layout-gutter:      var(--layout-gutter-tablet);', '--layout-gutter:      var(--layout-gutter-desktop);']],
       'fail', 'at 768px (--breakpoint-md) `--layout-gutter` = var(--layout-gutter-desktop)'],
-    /* FLUID — margin and section gap are clamps from 768, evaluated rather than
+    /* FLUID — margin and section padding are clamps from 768, evaluated rather than
        string-matched. One row per way the clamp can be wrong while still
        looking like a clamp, plus the step it replaced coming back. */
     ['LAYOUT FLUID — the slope misses the Desktop token at 1440',
@@ -928,17 +928,17 @@ if (SELF_TEST) {
       [['tailwind/tokens.css', 'calc(var(--spacing-hero) + var(--spacing-xl))', 'calc(var(--spacing-xl) + var(--spacing-hero))']],
       'clean', 'margin.desktop'],
     ['LAYOUT FLUID — a mode token moves and the fraction does not',
-      [['tailwind/tokens.css', '--layout-section-gap-desktop: var(--spacing-section);', '--layout-section-gap-desktop: var(--spacing-hero);']],
-      'fail', 'section-gap.desktop'],
+      [['tailwind/tokens.css', '--layout-section-padding-desktop: var(--spacing-hero);', '--layout-section-padding-desktop: var(--spacing-4xl);']],
+      'fail', 'section-padding.desktop'],
     ['LAYOUT FLUID — the 1280 step comes back',
-      [['tailwind/theme.css', '--layout-columns:     var(--layout-columns-desktop);', '--layout-columns:     var(--layout-columns-desktop);\n    --layout-section-gap: var(--layout-section-gap-desktop);']],
-      'fail', 'fluid `--layout-section-gap` is re-pointed at 1280px'],
+      [['tailwind/theme.css', '--layout-columns:     var(--layout-columns-desktop);', '--layout-columns:     var(--layout-columns-desktop);\n    --layout-section-padding: var(--layout-section-padding-desktop);']],
+      'fail', 'fluid `--layout-section-padding` is re-pointed at 1280px'],
     ['LAYOUT FLUID — a clamp whose ends are not the mode tokens',
       [['tailwind/theme.css', 'clamp(var(--layout-margin-tablet),', 'clamp(24px,']],
       'fail', 'a fluid token must be clamp(var(--layout-margin-tablet)'],
     ['LAYOUT FLUID — a middle term this gate cannot read is an error, not a pass',
-      [['tailwind/tokens.css', '* 40 / 672', '* 40 / 672 + 1em']],
-      'fail', 'fluid `--layout-section-gap` is unreadable at 768px'],
+      [['tailwind/tokens.css', '* 16 / 672', '* 16 / 672 + 1em']],
+      'fail', 'fluid `--layout-section-padding` is unreadable at 768px'],
     ['LAYOUT — a breakpoint moves and its media rule does not',
       [['tailwind/tokens.css', '--breakpoint-xl:  1280px;', '--breakpoint-xl:  1200px;']],
       'fail', '`@media (min-width: 1280px)` is not'],

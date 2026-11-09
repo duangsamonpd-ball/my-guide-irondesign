@@ -2676,16 +2676,12 @@
   --layout-columns-desktop: 12;
   --layout-columns-tablet: 8;
   --layout-columns-mobile: 4;
-  --layout-section-gap-desktop: var(--spacing-section);
-  --layout-section-gap-tablet: var(--spacing-hero);
-  --layout-section-gap-mobile: var(--spacing-4xl);
   --layout-section-padding-desktop: var(--spacing-hero);
   --layout-section-padding-tablet: var(--spacing-4xl);
   --layout-section-padding-mobile: var(--spacing-3xl);
   --layout-margin: var(--layout-margin-mobile);
   --layout-gutter: var(--layout-gutter-mobile);
   --layout-columns: var(--layout-columns-mobile);
-  --layout-section-gap: var(--layout-section-gap-mobile);
   --layout-section-padding: var(--layout-section-padding-mobile);
 }
 .dark {
@@ -2737,7 +2733,6 @@
     --layout-margin: clamp(var(--layout-margin-tablet), var(--layout-margin-tablet) + (100vw - 768px) * 80 / 672, var(--layout-margin-desktop));
     --layout-gutter: var(--layout-gutter-tablet);
     --layout-columns: var(--layout-columns-tablet);
-    --layout-section-gap: clamp(var(--layout-section-gap-tablet), var(--layout-section-gap-tablet) + (100vw - 768px) * 40 / 672, var(--layout-section-gap-desktop));
     --layout-section-padding: clamp(var(--layout-section-padding-tablet), var(--layout-section-padding-tablet) + (100vw - 768px) * 16 / 672, var(--layout-section-padding-desktop));
   }
 }

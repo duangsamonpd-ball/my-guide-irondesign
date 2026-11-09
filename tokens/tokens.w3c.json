@@ -1260,28 +1260,6 @@
         "$type": "number"
       }
     },
-    "section-gap": {
-      "$extensions": {
-        "com.ironsoftware.fluid": {
-          "from": "tablet",
-          "to": "desktop"
-        }
-      },
-      "$description": "FLUID from 2026-10-19 (Ball): Mobile below 768, then clamp() from Tablet at 768 to Desktop at the 1440 canvas, so every Figma frame still reads its mode token and only the widths between frames are interpolated. Replaces the 80 to 120 step at 1280.",
-      "desktop": {
-        "$value": 120,
-        "$type": "dimension",
-        "$description": "Vertical space between page sections"
-      },
-      "tablet": {
-        "$value": 80,
-        "$type": "dimension"
-      },
-      "mobile": {
-        "$value": 64,
-        "$type": "dimension"
-      }
-    },
     "section-padding": {
       "$extensions": {
         "com.ironsoftware.fluid": {
