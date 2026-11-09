@@ -181,9 +181,11 @@ interface Props {
    * the 72px tier needs. Figma models this as an INSTANCE-SWAP
    * property called `Instance` on `790:4778`, default `button-Nuget`, whose
    * preferred list is exactly two. It was `button-Nuget` and `button` pinned at
-   * `231:1411` (`Variant=primary, Size=md`); read 2026-11-09 it is the two whole
-   * SETS, `277:372` and `231:1406`, so Figma's picker now offers `button` at lg
-   * too — the constraint below is held here, not there. A closed set of two is a prop here rather
+   * `231:1411` (`Variant=primary, Size=md`). On 2026-11-09 it was found as the
+   * two whole SETS, `277:372` and `231:1406`, and was pinned back the same day.
+   * The pin only chooses what the picker lists: a swapped instance still shows
+   * its set's `Size`, so lg stays one click away in Figma and the constraint
+   * below is really held here. A closed set of two is a prop here rather
    * than a slot — it is an enum on the canvas, this repo does not spell a
    * variant axis as a boolean or an open hole, and a prop is the only one of
    * the two that `check:props-table` and the manifest can see.
