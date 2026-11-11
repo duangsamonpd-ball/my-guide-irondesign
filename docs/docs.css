@@ -547,3 +547,19 @@ html.vp-only, html.vp-only body { margin:0; padding:0; background:transparent; o
 .try-out code { white-space:normal; overflow-wrap:anywhere; }
 /* The pre-rendered examples' wrapper. `:not([hidden])` so it can never undo `hidden`. */
 .try-one:not([hidden]) { display:inline-flex; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Foundation pages, 2026-11-11. Spacing, Borders, Opacity and Shadows moved
+   onto the component pages' shape (crumb · h1 · lead · chips · sect), and each
+   shows its tokens in context in the same card. One copy here — the per-page
+   copies are how the docs drifted the first time.
+   ══════════════════════════════════════════════════════════════════════════ */
+.use-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; }
+.use-card { border:1px solid var(--color-border); border-radius:12px; background:var(--color-bg-card); overflow:hidden; display:flex; flex-direction:column; }
+.use-card .stage { flex:1; padding:24px; background:#FCFCFD; display:flex; flex-direction:column; justify-content:center; gap:12px; }
+.use-card .cap { padding:10px 16px; border-top:1px solid var(--color-border); font-size:0.72rem; color:#62748E; }
+.use-card .cap code { font-size:0.68rem; }
+/* A scale table's live sample — drawn BY the token in its row, never a copy of its value. */
+.tok td.sample { min-width:96px; }
+/* A table and a row of cards in one section are two blocks, not one. */
+[data-ds-table-wrap] + .use-grid, .use-grid + [data-ds-table-wrap] { margin-top:16px; }

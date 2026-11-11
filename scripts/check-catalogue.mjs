@@ -150,6 +150,46 @@ function swatchCards(name, cls, floor) {
 }
 
 /**
+ * A foundation page's scale table (2026-11-11): one row per token, its value
+ * stated, and a sample drawn by `<prop>: var(<token>)`. Three things are held
+ * to tokens.css, the first two per row and the third across the table:
+ *
+ *   · the stated value is the token's value;
+ *   · the sample is drawn by THIS row's token — a picture borrowed from the
+ *     next step is a picture that lies, which is what the old borders scale
+ *     guarded by comparing a typed `height: 4px` to its label;
+ *   · every token of the family has a row. This is the half that mattered on
+ *     2026-08-14, when the width scale listed 1, 2, 4 and 8 and tokens.css
+ *     declared five: nothing on the page was wrong, `--border-width-1-5` was
+ *     simply absent. Read from tokens.css, never listed here — a hand-written
+ *     list would be updated by the same person who forgot the page.
+ */
+function scaleRows(name, page, prefix, sampleCls, floor) {
+  const esc = prefix.replace(/[-]/g, '\\-');
+  return {
+    name, page, floor,
+    run(pg, src) {
+      const want = new Map();
+      for (const m of SCOPE.light.matchAll(new RegExp(`^\\s*(${esc}[\\w-]+):\\s*([^;]+?)\\s*;`, 'gm'))) want.set(m[1], m[2]);
+      if (!want.size) { record(pg, name, `tokens.css declares no ${prefix}* at all — the parser has nothing to check against`); return 0; }
+      const row = new RegExp(`<td class="token">(${esc}[\\w-]+)<\\/td><td class="val">([^<]+)<\\/td><td class="sample"><span class="${sampleCls}" style="[a-z-]+:var\\((--[\\w-]+)\\)"><\\/span><\\/td>`, 'g');
+      let n = 0;
+      const seen = new Set();
+      for (const [, token, stated, drawn] of src.matchAll(row)) {
+        n++;
+        seen.add(token);
+        const real = want.get(token);
+        if (!real) { record(pg, name, `row names \`${token}\`, which tokens.css does not declare`); continue; }
+        if (stated.trim() !== real) record(pg, name, `${token}: says ${stated.trim()} — tokens.css has ${real}`);
+        if (drawn !== token) record(pg, name, `${token}: sample is drawn with \`${drawn}\``);
+      }
+      for (const token of want.keys()) if (!seen.has(token)) record(pg, name, `${token} is declared in tokens.css but has no row`);
+      return n;
+    },
+  };
+}
+
+/**
  * Each entry: a name, the floor it must clear, and a function that walks one
  * page's source. Floors are set below the counts observed when this was written
  * so ordinary editing does not trip them, while deleting a whole shape does.
@@ -368,27 +408,33 @@ const PARSERS = [
     page: 'docs/05-opacity.html',
     floor: 12,
     run(page, src) {
-      /* The ramps were a narrow table until 2026-08-14 and are now rows in the
-         same card the opacity scale uses, so the swatch is a `.ramp-fill`
-         rather than a `<span>` in a `<td>`. If this regex is ever left behind
-         by another restyle it matches nothing, and `floor` below is what turns
-         that silence into a failure rather than a clean page. */
-      const re = /<div class="scale-bar-label">(transparent-[a-z]+-\d+)<\/div>\s*<div class="scale-bar-track ramp-track"><div class="ramp-fill" style="background:(#[0-9A-Fa-f]{8});"><\/div><\/div>\s*<div class="ramp-hex">(#[0-9A-Fa-f]{8})<\/div>/g;
+      /* One row per alpha step since 2026-11-11, when the page moved onto the
+         component pages' table: white and black side by side, each swatch drawn
+         by `background: var(<token>)` beside the token's name, and one cell
+         stating both hexes. Before that the ramps were `.ramp-fill` rows in a
+         card, and before THAT a narrow table — the third shape this parser has
+         read. If the markup moves again this matches nothing, and `floor` is
+         what turns that silence into a failure rather than a clean page.
+
+         With the swatch now a var() and not a typed hex, "does the swatch
+         paint the right colour" became "does the swatch name its own row's
+         token" — a row whose picture is borrowed from the next step is the
+         same lie in a new form. */
+      const re = /<td><span class="ramp-c"><span class="rs rs-w"><i style="background:var\((--transparent-white-\d+)\)"><\/i><\/span><code>(--transparent-white-\d+)<\/code><\/span><\/td><td><span class="ramp-c"><span class="rs"><i style="background:var\((--transparent-black-\d+)\)"><\/i><\/span><code>(--transparent-black-\d+)<\/code><\/span><\/td><td class="val">(#[0-9A-Fa-f]{8}) · (#[0-9A-Fa-f]{8})<\/td>/g;
       let n = 0;
       const seen = new Set();
-      for (const m of src.matchAll(re)) {
-        const [, label, swatch, stated] = m;
-        const token = `--${label}`;
-        const want = (raw(token) ?? '').toUpperCase();
-        n++;
-        seen.add(token);
-        if (!want) { record(page, this.name, `names \`${token}\`, which tokens.css does not declare`); continue; }
-        if (stated.toUpperCase() !== want) record(page, this.name, `${token}: says ${stated.toUpperCase()} — tokens.css has ${want}`);
-        if (swatch.toUpperCase() !== want) record(page, this.name, `${token}: swatch paints ${swatch.toUpperCase()} — tokens.css has ${want}`);
+      for (const [, wDrawn, wName, bDrawn, bName, wStated, bStated] of src.matchAll(re)) {
+        for (const [drawn, token, stated] of [[wDrawn, wName, wStated], [bDrawn, bName, bStated]]) {
+          n++;
+          seen.add(token);
+          const want = (raw(token) ?? '').toUpperCase();
+          if (!want) { record(page, this.name, `names \`${token}\`, which tokens.css does not declare`); continue; }
+          if (stated.toUpperCase() !== want) record(page, this.name, `${token}: says ${stated.toUpperCase()} — tokens.css has ${want}`);
+          if (drawn !== token) record(page, this.name, `${token}: swatch is drawn with \`${drawn}\``);
+        }
       }
-      /* Completeness, the same half the borders parser gained on the same day
-         and for the same reason: a ramp that is missing a step is a page that
-         is right about everything it shows. */
+      /* Completeness: a ramp that is missing a step is a page that is right
+         about everything it shows. */
       for (const m of SCOPE.light.matchAll(/^\s*(--transparent-[\w-]+):/gm)) {
         if (!seen.has(m[1])) record(page, this.name, `${m[1]} is declared in tokens.css but has no row in the ramps`);
       }
@@ -412,58 +458,10 @@ const PARSERS = [
    * added to tokens.css and not documented here now fails, which is the
    * direction that was previously unguarded.
    */
-  {
-    name: 'borders/width catalogue',
-    page: 'docs/04-borders.html',
-    floor: 10,
-    run(page, src) {
-      /* The set to be complete against, read from tokens.css rather than
-         listed here. A hand-written list would need updating by the same person
-         who forgot to update the page. */
-      const want = new Map();
-      for (const m of SCOPE.light.matchAll(/^\s*(--border-width-[\w-]+):\s*([^;]+?)\s*;/gm)) {
-        want.set(m[1], m[2]);
-      }
-      if (!want.size) {
-        record(page, this.name, 'tokens.css declares no --border-width-* at all — the parser has nothing to check against');
-        return 0;
-      }
-
-      let n = 0;
-      const seenCards = new Set(), seenScale = new Set();
-
-      /* The cards: `--border-width-1-5` beside a stated value of `1.5px`. */
-      const cards = /<div class="width-value">([^<]+)<\/div>\s*<div class="width-token">(--border-width-[\w-]+)<\/div>/g;
-      for (const [, stated, token] of src.matchAll(cards)) {
-        n++;
-        seenCards.add(token);
-        const real = want.get(token);
-        if (!real) { record(page, this.name, `card names \`${token}\`, which tokens.css does not declare`); continue; }
-        if (stated.trim() !== real) record(page, this.name, `${token}: card says ${stated.trim()} — tokens.css has ${real}`);
-      }
-
-      /* The scale bars. The bar's own `height` is checked too, not just the
-         label beside it: the bar IS the documentation here, and a row that says
-         4px over a 2px rule is a picture that lies. */
-      const scale = /<div class="scale-bar-label">(border-width-[\w-]+)<\/div>[\s\S]{0,400}?height:\s*([\d.]+)px[\s\S]{0,400}?<div class="scale-bar-px">([^<]+)<\/div>/g;
-      for (const [, label, drawn, stated] of src.matchAll(scale)) {
-        n++;
-        const token = `--${label}`;
-        seenScale.add(token);
-        const real = want.get(token);
-        if (!real) { record(page, this.name, `scale row names \`${token}\`, which tokens.css does not declare`); continue; }
-        if (stated.trim() !== real) record(page, this.name, `${token}: scale says ${stated.trim()} — tokens.css has ${real}`);
-        if (`${drawn}px` !== real) record(page, this.name, `${token}: scale bar is drawn ${drawn}px — tokens.css has ${real}`);
-      }
-
-      /* The half that would have caught Ball's report. */
-      for (const token of want.keys()) {
-        if (!seenCards.has(token)) record(page, this.name, `${token} is declared in tokens.css but has no width card`);
-        if (!seenScale.has(token)) record(page, this.name, `${token} is declared in tokens.css but has no row in the visual scale`);
-      }
-      return n;
-    },
-  },
+  scaleRows('borders/width catalogue', 'docs/04-borders.html', '--border-width-', 'bw', 5),
+  /* The radii had no parser at all until 2026-11-11: the old cards typed
+     `border-radius:6px` beside `--rounded-md`, and nothing compared the two. */
+  scaleRows('borders/radius catalogue', 'docs/04-borders.html', '--rounded-', 'rd', 10),
   /**
    * The typography page. Every `.type-row` states a size, a line height, a
    * weight and a tracking, and now names the tokens they come from — until
@@ -698,17 +696,19 @@ if (SELF_TEST) {
        range while leaving the bottom correct is the case that was invisible. */
     ['typography/type rows (a fluid row\u2019s far end)', 'docs/02-typography.html',
       /(<tr><td>Size<\/td><td>36px \u2192 )48px/, '$199px'],
-    ['opacity/transparency ramps', 'docs/05-opacity.html', /(<div class="ramp-fill" style="background:)#FFFFFF80/, '$1#FFFFFFBB'],
-    /* Two entries, because this parser has two halves that fail in opposite
-       directions and one plant can only arm one of them. The DELETION is the
-       important one: it recreates the exact regression Ball reported, a scale
-       that is entirely correct about the four rows it has and silent about the
-       fifth. A parser armed only by a corrupted value would have gone on
-       passing that page forever. */
-    ['borders/width catalogue (a row is deleted)', 'docs/04-borders.html',
-      /<div class="scale-bar-row">\s*<div class="scale-bar-label">border-width-1-5<\/div>[\s\S]*?<div class="scale-bar-px">[^<]*<\/div>\s*<\/div>/, ''],
-    ['borders/width catalogue (a value is wrong)', 'docs/04-borders.html',
-      /(<div class="width-token">--border-width-1-5<\/div>)/, '<div class="width-value">99px</div>$1'],
+    /* Three per table, one for each thing a row is held to: the stated value,
+       the token its sample is drawn with, and the row being there at all. The
+       deletion recreates the regression Ball reported on 2026-08-14 — a scale
+       right about every row it has and silent about the one it lacks. */
+    ['opacity/transparency ramps (a value is wrong)', 'docs/05-opacity.html', /#FFFFFF80 · /, '#FFFFFFBB · '],
+    ['opacity/transparency ramps (a swatch is borrowed)', 'docs/05-opacity.html', /background:var\(--transparent-white-50\)/, 'background:var(--transparent-white-40)'],
+    ['opacity/transparency ramps (a row is deleted)', 'docs/05-opacity.html', /<tr><td class="prop">50%<\/td>[\s\S]*?<\/tr>/, ''],
+    ['borders/width catalogue (a value is wrong)', 'docs/04-borders.html', /(<td class="token">--border-width-1-5<\/td><td class="val">)1\.5px/, '$199px'],
+    ['borders/width catalogue (a sample is borrowed)', 'docs/04-borders.html', /(<span class="bw" style=")height:var\(--border-width-4\)/, '$1height:var(--border-width-2)'],
+    ['borders/width catalogue (a row is deleted)', 'docs/04-borders.html', /<tr><td class="prop">1-5<\/td>[\s\S]*?<\/tr>/, ''],
+    ['borders/radius catalogue (a value is wrong)', 'docs/04-borders.html', /(<td class="token">--rounded-md<\/td><td class="val">)6px/, '$199px'],
+    ['borders/radius catalogue (a sample is borrowed)', 'docs/04-borders.html', /(<span class="rd" style=")border-radius:var\(--rounded-xl\)/, '$1border-radius:var(--rounded-lg)'],
+    ['borders/radius catalogue (a row is deleted)', 'docs/04-borders.html', /<tr><td class="prop">md<\/td>[\s\S]*?<\/tr>/, ''],
   ];
 
   let armed = 0;
