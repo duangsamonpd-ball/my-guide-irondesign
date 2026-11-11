@@ -205,7 +205,11 @@
       var startRegion = root.querySelector('.vp-btn[data-region][aria-pressed="true"]')
         || root.querySelector('.vp-btn[data-region]');
       setWidth(startBtn ? parseInt(startBtn.dataset.w, 10) : 768);
+      /* A preview with ONE region has no variant buttons to name it, so the
+         frame names it itself (`data-region`). Without this it never loaded:
+         Spacing's layout band was the first preview with nothing to switch. */
       if (startRegion) show(startRegion.dataset.region);
+      else if (frame.dataset.region) show(frame.dataset.region);
     });
   }
 })();
