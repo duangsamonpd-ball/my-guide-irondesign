@@ -33,6 +33,7 @@ export { default as Input } from './components/Input.astro';
 export { default as Logo } from './components/Logo.astro';
 export { default as Notice } from './components/Notice.astro';
 export { default as NugetButton } from './components/NugetButton.astro';
+export { default as PasswordChecklist } from './components/PasswordChecklist.astro';
 export { default as ProductMenu } from './components/ProductMenu.astro';
 export { default as Prose } from './components/Prose.astro';
 export { default as Radio } from './components/Radio.astro';
@@ -46,3 +47,12 @@ export { default as TrialKeyCard } from './components/TrialKeyCard.astro';
 export { default as VideoThumbnail } from './components/VideoThumbnail.astro';
 
 export { icons, type Icon, type IconName } from './icons';
+export {
+  checkPassword,
+  passwordSummary,
+  passwordTypes,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MIN_TYPES,
+  type PasswordResult,
+  type PasswordType,
+} from './password';

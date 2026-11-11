@@ -203,7 +203,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: var(--
     <div class="sect-sub">Each card is the component itself, not a picture of it. Hover a card and follow its name to the full page.</div>
   <div class="gal-wrap">
     <!-- demo:gallery -->
-    <div class="gal-count">22 components, plus Flyout Menu (internal)</div>
+    <div class="gal-count">23 components, plus Flyout Menu (internal)</div>
     <div class="gal">
       <article class="gcard">
         <div class="gcard-stage">
@@ -1028,6 +1028,72 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: var(--
       <div class="gcard-meta">
         <a class="gcard-name" href="component-button.html"><i class="gcard-icon">📦</i>NuGet Button</a>
         <p class="gcard-desc">The NuGet download CTA — the mark, the label and a caret on one line, with the install count beneath.</p>
+      </div>
+    </article><article class="gcard">
+      <div class="gcard-stage">
+        <div class="gstack">
+          <div class="text-text-support text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm" data-password-checklist data-for="gal-pw" data-min-length="12" data-min-types="3">
+            <ul id="gal-pw-rules" class="flex flex-col gap-xs">
+              <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="length" data-state="pending">
+                <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                  <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                  <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                  <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                </span>
+                <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                  At least 12 characters
+                  <span class="font-semibold tabular-nums" aria-hidden="true" data-count>11 / 12</span>
+                  <span class="sr-only" data-sr>, not met</span>
+                </span>
+              </li>
+              <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="types" data-state="met">
+                <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                  <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                  <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                  <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                </span>
+                <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                  At least 3 of the following
+                  <span class="font-semibold tabular-nums" aria-hidden="true" data-count>3 of 3</span>
+                  <span class="sr-only" data-sr>, met</span>
+                </span>
+                <ul class="col-start-2 mt-micro grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-x-sm gap-y-micro">
+                  <li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="lower" data-state="met">
+                    <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                      <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                      <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                    </span>
+                    <span class="group-data-[state=met]/type:text-success-strong">Lowercase letter<span class="sr-only" data-sr>, included</span></span>
+                  </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="upper" data-state="met">
+                    <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                      <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                      <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                    </span>
+                    <span class="group-data-[state=met]/type:text-success-strong">Uppercase letter<span class="sr-only" data-sr>, included</span></span>
+                  </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="number" data-state="met">
+                    <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                      <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                      <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                    </span>
+                    <span class="group-data-[state=met]/type:text-success-strong">Number<span class="sr-only" data-sr>, included</span></span>
+                  </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="special" data-state="pending">
+                    <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                      <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                      <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                    </span>
+                    <span class="group-data-[state=met]/type:text-success-strong">Special character<span class="sr-only" data-sr>, not included</span></span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <p class="sr-only" aria-live="polite" data-live></p>
+          </div>
+          <script type="module">var e=[{id:`lower`,label:`Lowercase letter`,test:/[a-z]/},{id:`upper`,label:`Uppercase letter`,test:/[A-Z]/},{id:`number`,label:`Number`,test:/[0-9]/},{id:`special`,label:`Special character`,test:/[!-\/:-@[-`{-~]/}];function t(t,n=12,r=3){let i=[...t].length,a=e.map(e=>({id:e.id,label:e.label,ok:e.test.test(t)})),o=a.filter(e=>e.ok).length,s=i>=n,c=o>=r;return{length:i,lengthOk:s,types:a,have:o,typesOk:c,ok:s&&c}}function n(e,t,n){if(e.ok)return`Password meets all requirements.`;let r=[];if(!e.lengthOk){let n=t-e.length;r.push(`${n} more character${n===1?``:`s`}`)}if(!e.typesOk){let t=n-e.have;r.push(`${t} more character type${t===1?``:`s`}`)}return`Password needs ${r.join(` and `)}.`}function r(e=document){e.querySelectorAll(`[data-password-checklist]:not([data-pc-init])`).forEach(e=>{let r=document.getElementById(e.dataset.for??``);if(!r)return;e.dataset.pcInit=`1`;let i=Number(e.dataset.minLength),a=Number(e.dataset.minTypes),o=e.querySelector(`[data-live]`),s=e.hasAttribute(`data-touched`),c=!1,l=(t,n,r)=>{let i=e.querySelector(`[data-rule="${t}"]`);i&&(i.dataset.state=n?`met`:s?`fail`:`pending`,i.querySelector(`[data-count]`).textContent=r,i.querySelector(`:scope > span > [data-sr]`).textContent=n?`, met`:`, not met`)},u=()=>{let u=t(r.value,i,a);l(`length`,u.lengthOk,`${Math.min(u.length,99)} / ${i}`),l(`types`,u.typesOk,`${Math.min(u.have,a)} of ${a}`);for(let t of u.types){let n=e.querySelector(`[data-type="${t.id}"]`);n&&(n.dataset.state=t.ok?`met`:`pending`,n.querySelector(`[data-sr]`).textContent=t.ok?`, included`:`, not included`)}return r.setCustomValidity(u.ok||!r.value?``:n(u,i,a)),s&&!u.ok?r.setAttribute(`aria-invalid`,`true`):r.removeAttribute(`aria-invalid`),u.ok&&!c&&o&&(o.textContent=n(u,i,a)),c=u.ok,u},d=()=>{s=!0;let e=u();o&&(o.textContent=n(e,i,a))};r.addEventListener(`input`,u),r.addEventListener(`blur`,()=>{r.value&&d()}),r.addEventListener(`invalid`,d),r.form?.addEventListener(`submit`,d),u()})}document.addEventListener(`DOMContentLoaded`,()=>r()),document.addEventListener(`astro:page-load`,()=>r());</script>
+        </div>
+      </div>
+      <div class="gcard-meta">
+        <a class="gcard-name" href="component-input.html#password-checklist"><i class="gcard-icon">🔐</i>Password Checklist</a>
+        <p class="gcard-desc">The password rule under a password Input, ticking off while the user types — red only after they leave the field.</p>
       </div>
     </article><article class="gcard">
       <div class="gcard-stage">

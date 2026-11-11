@@ -663,11 +663,17 @@
 .z-\[5\] {
   z-index: 5;
 }
+.col-start-2 {
+  grid-column-start: 2;
+}
 .m-0 {
   margin: 0px;
 }
 .mx-auto {
   margin-inline: auto;
+}
+.mt-micro {
+  margin-top: var(--spacing-micro);
 }
 .mt-xs {
   margin-top: var(--spacing-xs);
@@ -952,6 +958,15 @@
 .\[grid-template-columns\:repeat\(3\,minmax\(0\,1fr\)\)\] {
   grid-template-columns: repeat(3,minmax(0,1fr));
 }
+.grid-cols-\[12px_1fr\] {
+  grid-template-columns: 12px 1fr;
+}
+.grid-cols-\[16px_1fr\] {
+  grid-template-columns: 16px 1fr;
+}
+.grid-cols-\[repeat\(auto-fit\,minmax\(140px\,1fr\)\)\] {
+  grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+}
 .grid-cols-\[repeat\(auto-fit\,minmax\(min\(635px\,100\%\)\,1fr\)\)\] {
   grid-template-columns: repeat(auto-fit,minmax(min(635px, 100%),1fr));
 }
@@ -960,6 +975,9 @@
 }
 .flex-wrap {
   flex-wrap: wrap;
+}
+.place-items-center {
+  place-items: center;
 }
 .items-baseline {
   align-items: baseline;
@@ -1021,11 +1039,23 @@
 .gap-x-\[2px\] {
   column-gap: 2px;
 }
+.gap-x-micro {
+  column-gap: var(--spacing-micro);
+}
+.gap-x-sm {
+  column-gap: var(--spacing-sm);
+}
+.gap-x-xs {
+  column-gap: var(--spacing-xs);
+}
 .gap-y-\[32px\] {
   row-gap: 32px;
 }
 .gap-y-md {
   row-gap: var(--spacing-md);
+}
+.gap-y-micro {
+  row-gap: var(--spacing-micro);
 }
 .overflow-clip {
   overflow: clip;
@@ -1679,6 +1709,10 @@
 .uppercase {
   text-transform: uppercase;
 }
+.tabular-nums {
+  --tw-numeric-spacing: tabular-nums;
+  font-variant-numeric: var(--tw-ordinal, ) var(--tw-slashed-zero, ) var(--tw-numeric-figure, ) var(--tw-numeric-spacing, ) var(--tw-numeric-fraction, );
+}
 .no-underline {
   text-decoration-line: none;
 }
@@ -1866,6 +1900,33 @@
 :is(:where(.group):has(:is(:focus-visible)) .group-has-\[\:focus-visible\]\:shadow-focus-blue) {
   --tw-shadow: 0 0 0 3px var(--tw-shadow-color, rgba(38, 147, 236, 0.25));
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+:is(:where(.group\/rule)[data-state="fail"] .group-data-\[state\=fail\]\/rule\:block) {
+  display: block;
+}
+:is(:where(.group\/rule)[data-state="fail"] .group-data-\[state\=fail\]\/rule\:hidden) {
+  display: none;
+}
+:is(:where(.group\/rule)[data-state="fail"] .group-data-\[state\=fail\]\/rule\:text-text-danger) {
+  color: var(--color-text-danger);
+}
+:is(:where(.group\/rule)[data-state="met"] .group-data-\[state\=met\]\/rule\:block) {
+  display: block;
+}
+:is(:where(.group\/rule)[data-state="met"] .group-data-\[state\=met\]\/rule\:hidden) {
+  display: none;
+}
+:is(:where(.group\/rule)[data-state="met"] .group-data-\[state\=met\]\/rule\:text-success-strong) {
+  color: var(--color-success-strong);
+}
+:is(:where(.group\/type)[data-state="met"] .group-data-\[state\=met\]\/type\:block) {
+  display: block;
+}
+:is(:where(.group\/type)[data-state="met"] .group-data-\[state\=met\]\/type\:hidden) {
+  display: none;
+}
+:is(:where(.group\/type)[data-state="met"] .group-data-\[state\=met\]\/type\:text-success-strong) {
+  color: var(--color-success-strong);
 }
 :is(:where(.group\/rail):is(.is-hover) .group-\[\.is-hover\]\/rail\:bg-button-primary-hover) {
   background-color: var(--color-button-primary-hover);
@@ -2809,6 +2870,26 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-ordinal {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-slashed-zero {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-figure {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-spacing {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-fraction {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-shadow {
   syntax: "*";
   inherits: false;
@@ -2999,6 +3080,11 @@
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-tracking: initial;
+      --tw-ordinal: initial;
+      --tw-slashed-zero: initial;
+      --tw-numeric-figure: initial;
+      --tw-numeric-spacing: initial;
+      --tw-numeric-fraction: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;

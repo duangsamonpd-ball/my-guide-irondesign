@@ -46,7 +46,7 @@ import { NAV } from '../../../../scripts/lib/nav.mjs';
 import {
   Badge, Button, Checkbox, FileUpload, Footer, FooterBar, FormCard,
   Input, Logo, Notice, ProductMenu, Prose, Radio, Select, Table, Textarea, TextLink, Tooltip,
-  NugetButton, TopNav, TrialKeyCard, VideoThumbnail,
+  NugetButton, PasswordChecklist, TopNav, TrialKeyCard, VideoThumbnail,
 } from '@iron-software/astro-components';
 
 const DOCS = join(dirname(fileURLToPath(import.meta.url)), '../../../../docs');
@@ -162,6 +162,13 @@ const OFF_PAGE = [
     icon: '📦',
     label: 'NuGet Button',
     desc: 'The NuGet download CTA — the mark, the label and a caret on one line, with the install count beneath.',
+  },
+  {
+    component: 'PasswordChecklist',
+    href: 'component-input.html#password-checklist',
+    icon: '🔐',
+    label: 'Password Checklist',
+    desc: 'The password rule under a password Input, ticking off while the user types — red only after they leave the field.',
   },
   {
     component: 'Prose',
@@ -312,6 +319,11 @@ const entries = [
               {c.href === 'component-footerbar.html' && <FooterBar />}
               {c.label === 'NuGet Button' && (
                 <NugetButton subtext="Total download 19,002,577" />
+              )}
+              {c.label === 'Password Checklist' && (
+                <div class="gstack">
+                  <PasswordChecklist for="gal-pw" value="IronPdf2026" />
+                </div>
               )}
               {c.label === 'Prose' && (
                 <Prose>

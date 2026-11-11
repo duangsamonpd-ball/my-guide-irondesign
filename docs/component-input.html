@@ -80,6 +80,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .canvas { border:1px solid #E2E8F0; border-radius:14px; background:#fff; padding:40px; display:flex; gap:24px; align-items:center; justify-content:center; flex-wrap:wrap; background-image:radial-gradient(#EEF1F5 1px,transparent 1px); background-size:16px 16px; }
 .canvas.col { flex-direction:column; align-items:stretch; gap:20px; }
 .spec-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px; }
+.props-h { font-size:1rem; font-weight:800; margin:28px 0 6px; }
 .cell { border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:20px; display:flex; flex-direction:column; gap:12px; }
 .tok td { vertical-align:top; overflow-wrap:normal; }
 .tok td.prop { color:#62748E; width:170px; }
@@ -243,10 +244,364 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
           <div class="relative flex items-center">
             <input id="password" name="password" type="password" autocomplete="current-password" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] aria-invalid:enabled:border-border-input-danger aria-invalid:focus:border-border-input-danger aria-invalid:focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" value="123" aria-invalid="true" aria-describedby="password-desc">
           </div>
-          <span id="password-desc" class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger flex items-center gap-micro"><svg class="size-[12px] shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"></path></svg>Must be at least 8 characters.</span>
+          <span id="password-desc" class="text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm text-text-danger flex items-center gap-micro"><svg class="size-[12px] shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-192a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.6 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"></path></svg>Must be at least 12 characters.</span>
         </div>
         <!-- /demo:compositions -->
       </div>
+    </div>
+
+    <div class="sect" id="password-checklist"><h2 class="sect-h">Password checklist</h2>
+      <div class="sect-sub"><code>PasswordChecklist</code> sits under a password Input and fills in while the user types: at least 12 characters, and at least 3 of the 4 character types. Nothing turns red until the user leaves the field or submits. Try it.</div>
+      <div class="canvas col" style="max-width:420px;margin:0 auto;">
+        <!-- demo:password -->
+        <div class="demo-field flex flex-col gap-xs">
+          <div class="flex flex-col gap-xs w-full">
+            <label class="text-label font-label text-text-heading leading-label" for="pw-live">
+              Password<span class="text-danger"> *</span>
+            </label>
+            <div class="relative flex items-center">
+              <input id="pw-live" name="password" type="password" autocomplete="new-password" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] aria-invalid:enabled:border-border-input-danger aria-invalid:focus:border-border-input-danger aria-invalid:focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" placeholder="Create a password" required aria-describedby="pw-live-rules">
+            </div>
+          </div>
+          <div class="text-text-support text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm" data-password-checklist data-for="pw-live" data-min-length="12" data-min-types="3">
+            <ul id="pw-live-rules" class="flex flex-col gap-xs">
+              <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="length" data-state="pending">
+                <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                  <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                  <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                  <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                </span>
+                <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                  At least 12 characters
+                  <span class="font-semibold tabular-nums" aria-hidden="true" data-count>0 / 12</span>
+                  <span class="sr-only" data-sr>, not met</span>
+                </span>
+              </li>
+              <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="types" data-state="pending">
+                <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                  <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                  <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                  <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                </span>
+                <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                  At least 3 of the following
+                  <span class="font-semibold tabular-nums" aria-hidden="true" data-count>0 of 3</span>
+                  <span class="sr-only" data-sr>, not met</span>
+                </span>
+                <ul class="col-start-2 mt-micro grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-x-sm gap-y-micro">
+                  <li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="lower" data-state="pending">
+                    <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                      <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                      <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                    </span>
+                    <span class="group-data-[state=met]/type:text-success-strong">Lowercase letter<span class="sr-only" data-sr>, not included</span></span>
+                  </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="upper" data-state="pending">
+                    <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                      <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                      <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                    </span>
+                    <span class="group-data-[state=met]/type:text-success-strong">Uppercase letter<span class="sr-only" data-sr>, not included</span></span>
+                  </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="number" data-state="pending">
+                    <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                      <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                      <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                    </span>
+                    <span class="group-data-[state=met]/type:text-success-strong">Number<span class="sr-only" data-sr>, not included</span></span>
+                  </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="special" data-state="pending">
+                    <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                      <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                      <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                    </span>
+                    <span class="group-data-[state=met]/type:text-success-strong">Special character<span class="sr-only" data-sr>, not included</span></span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <p class="sr-only" aria-live="polite" data-live></p>
+          </div>
+          <script type="module">var e=[{id:`lower`,label:`Lowercase letter`,test:/[a-z]/},{id:`upper`,label:`Uppercase letter`,test:/[A-Z]/},{id:`number`,label:`Number`,test:/[0-9]/},{id:`special`,label:`Special character`,test:/[!-\/:-@[-`{-~]/}];function t(t,n=12,r=3){let i=[...t].length,a=e.map(e=>({id:e.id,label:e.label,ok:e.test.test(t)})),o=a.filter(e=>e.ok).length,s=i>=n,c=o>=r;return{length:i,lengthOk:s,types:a,have:o,typesOk:c,ok:s&&c}}function n(e,t,n){if(e.ok)return`Password meets all requirements.`;let r=[];if(!e.lengthOk){let n=t-e.length;r.push(`${n} more character${n===1?``:`s`}`)}if(!e.typesOk){let t=n-e.have;r.push(`${t} more character type${t===1?``:`s`}`)}return`Password needs ${r.join(` and `)}.`}function r(e=document){e.querySelectorAll(`[data-password-checklist]:not([data-pc-init])`).forEach(e=>{let r=document.getElementById(e.dataset.for??``);if(!r)return;e.dataset.pcInit=`1`;let i=Number(e.dataset.minLength),a=Number(e.dataset.minTypes),o=e.querySelector(`[data-live]`),s=e.hasAttribute(`data-touched`),c=!1,l=(t,n,r)=>{let i=e.querySelector(`[data-rule="${t}"]`);i&&(i.dataset.state=n?`met`:s?`fail`:`pending`,i.querySelector(`[data-count]`).textContent=r,i.querySelector(`:scope > span > [data-sr]`).textContent=n?`, met`:`, not met`)},u=()=>{let u=t(r.value,i,a);l(`length`,u.lengthOk,`${Math.min(u.length,99)} / ${i}`),l(`types`,u.typesOk,`${Math.min(u.have,a)} of ${a}`);for(let t of u.types){let n=e.querySelector(`[data-type="${t.id}"]`);n&&(n.dataset.state=t.ok?`met`:`pending`,n.querySelector(`[data-sr]`).textContent=t.ok?`, included`:`, not included`)}return r.setCustomValidity(u.ok||!r.value?``:n(u,i,a)),s&&!u.ok?r.setAttribute(`aria-invalid`,`true`):r.removeAttribute(`aria-invalid`),u.ok&&!c&&o&&(o.textContent=n(u,i,a)),c=u.ok,u},d=()=>{s=!0;let e=u();o&&(o.textContent=n(e,i,a))};r.addEventListener(`input`,u),r.addEventListener(`blur`,()=>{r.value&&d()}),r.addEventListener(`invalid`,d),r.form?.addEventListener(`submit`,d),u()})}document.addEventListener(`DOMContentLoaded`,()=>r()),document.addEventListener(`astro:page-load`,()=>r());</script>
+        </div>
+        <!-- /demo:password -->
+      </div>
+      <div class="sect-sub" style="margin-top:14px;">The four states, each the same component with a value in it. A space or a Thai letter is allowed but is none of the four types, and the length counts characters, so an emoji is one.</div>
+      <div class="spec-grid">
+        <!-- demo:password-states -->
+        <div class="cell">
+          <div class="demo-field flex flex-col gap-xs">
+            <div class="flex flex-col gap-xs w-full">
+              <label class="text-label font-label text-text-heading leading-label" for="pw-empty">
+                Password
+              </label>
+              <div class="relative flex items-center">
+                <input id="pw-empty" name="pw-empty" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] aria-invalid:enabled:border-border-input-danger aria-invalid:focus:border-border-input-danger aria-invalid:focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" placeholder="Create a password" value aria-describedby="pw-empty-rules">
+              </div>
+            </div>
+            <div class="text-text-support text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm" data-password-checklist data-for="pw-empty" data-min-length="12" data-min-types="3">
+              <ul id="pw-empty-rules" class="flex flex-col gap-xs">
+                <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="length" data-state="pending">
+                  <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                    <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                    <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                    <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                  </span>
+                  <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                    At least 12 characters
+                    <span class="font-semibold tabular-nums" aria-hidden="true" data-count>0 / 12</span>
+                    <span class="sr-only" data-sr>, not met</span>
+                  </span>
+                </li>
+                <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="types" data-state="pending">
+                  <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                    <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                    <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                    <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                  </span>
+                  <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                    At least 3 of the following
+                    <span class="font-semibold tabular-nums" aria-hidden="true" data-count>0 of 3</span>
+                    <span class="sr-only" data-sr>, not met</span>
+                  </span>
+                  <ul class="col-start-2 mt-micro grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-x-sm gap-y-micro">
+                    <li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="lower" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Lowercase letter<span class="sr-only" data-sr>, not included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="upper" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Uppercase letter<span class="sr-only" data-sr>, not included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="number" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Number<span class="sr-only" data-sr>, not included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="special" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Special character<span class="sr-only" data-sr>, not included</span></span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="sr-only" aria-live="polite" data-live></p>
+            </div>
+          </div>
+          <div class="lbl">Empty<small>the rule, before typing</small></div>
+        </div><div class="cell">
+          <div class="demo-field flex flex-col gap-xs">
+            <div class="flex flex-col gap-xs w-full">
+              <label class="text-label font-label text-text-heading leading-label" for="pw-typing">
+                Password
+              </label>
+              <div class="relative flex items-center">
+                <input id="pw-typing" name="pw-typing" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] aria-invalid:enabled:border-border-input-danger aria-invalid:focus:border-border-input-danger aria-invalid:focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" placeholder="Create a password" value="ironpdf" aria-describedby="pw-typing-rules">
+              </div>
+            </div>
+            <div class="text-text-support text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm" data-password-checklist data-for="pw-typing" data-min-length="12" data-min-types="3">
+              <ul id="pw-typing-rules" class="flex flex-col gap-xs">
+                <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="length" data-state="pending">
+                  <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                    <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                    <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                    <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                  </span>
+                  <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                    At least 12 characters
+                    <span class="font-semibold tabular-nums" aria-hidden="true" data-count>7 / 12</span>
+                    <span class="sr-only" data-sr>, not met</span>
+                  </span>
+                </li>
+                <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="types" data-state="pending">
+                  <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                    <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                    <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                    <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                  </span>
+                  <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                    At least 3 of the following
+                    <span class="font-semibold tabular-nums" aria-hidden="true" data-count>1 of 3</span>
+                    <span class="sr-only" data-sr>, not met</span>
+                  </span>
+                  <ul class="col-start-2 mt-micro grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-x-sm gap-y-micro">
+                    <li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="lower" data-state="met">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Lowercase letter<span class="sr-only" data-sr>, included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="upper" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Uppercase letter<span class="sr-only" data-sr>, not included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="number" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Number<span class="sr-only" data-sr>, not included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="special" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Special character<span class="sr-only" data-sr>, not included</span></span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="sr-only" aria-live="polite" data-live></p>
+            </div>
+          </div>
+          <div class="lbl">Typing<small>nothing red yet</small></div>
+        </div><div class="cell">
+          <div class="demo-field flex flex-col gap-xs">
+            <div class="flex flex-col gap-xs w-full">
+              <label class="text-label font-label text-text-heading leading-label" for="pw-short">
+                Password
+              </label>
+              <div class="relative flex items-center">
+                <input id="pw-short" name="pw-short" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] aria-invalid:enabled:border-border-input-danger aria-invalid:focus:border-border-input-danger aria-invalid:focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" placeholder="Create a password" value="IronPdf2026" aria-describedby="pw-short-rules">
+              </div>
+            </div>
+            <div class="text-text-support text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm" data-password-checklist data-for="pw-short" data-min-length="12" data-min-types="3" data-touched>
+              <ul id="pw-short-rules" class="flex flex-col gap-xs">
+                <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="length" data-state="fail">
+                  <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                    <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                    <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                    <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                  </span>
+                  <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                    At least 12 characters
+                    <span class="font-semibold tabular-nums" aria-hidden="true" data-count>11 / 12</span>
+                    <span class="sr-only" data-sr>, not met</span>
+                  </span>
+                </li>
+                <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="types" data-state="met">
+                  <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                    <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                    <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                    <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                  </span>
+                  <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                    At least 3 of the following
+                    <span class="font-semibold tabular-nums" aria-hidden="true" data-count>3 of 3</span>
+                    <span class="sr-only" data-sr>, met</span>
+                  </span>
+                  <ul class="col-start-2 mt-micro grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-x-sm gap-y-micro">
+                    <li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="lower" data-state="met">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Lowercase letter<span class="sr-only" data-sr>, included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="upper" data-state="met">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Uppercase letter<span class="sr-only" data-sr>, included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="number" data-state="met">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Number<span class="sr-only" data-sr>, included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="special" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Special character<span class="sr-only" data-sr>, not included</span></span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="sr-only" aria-live="polite" data-live></p>
+            </div>
+          </div>
+          <div class="lbl">Left the field<small>11 characters: only length fails</small></div>
+        </div><div class="cell">
+          <div class="demo-field flex flex-col gap-xs">
+            <div class="flex flex-col gap-xs w-full">
+              <label class="text-label font-label text-text-heading leading-label" for="pw-met">
+                Password
+              </label>
+              <div class="relative flex items-center">
+                <input id="pw-met" name="pw-met" type="text" class="h-[var(--size-input)] px-sm w-full rounded-md font-sans text-body leading-body text-text-body bg-bg-input border outline-none enabled:hover:bg-bg-input-hover transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] placeholder:text-text-placeholder disabled:bg-bg-input-disabled disabled:border-border-input-disabled disabled:text-text-disabled disabled:cursor-not-allowed border-border-input focus:border-border-focus focus:[box-shadow:inset_0_0_0_1px_var(--color-border-focus),var(--shadow-focus-blue)] aria-invalid:enabled:border-border-input-danger aria-invalid:focus:border-border-input-danger aria-invalid:focus:[box-shadow:inset_0_0_0_1px_var(--color-border-input-danger),var(--shadow-focus-danger)]" placeholder="Create a password" value="IronPdfs2026" aria-describedby="pw-met-rules">
+              </div>
+            </div>
+            <div class="text-text-support text-caption-sm font-caption-sm leading-caption-sm tracking-caption-sm" data-password-checklist data-for="pw-met" data-min-length="12" data-min-types="3" data-touched>
+              <ul id="pw-met-rules" class="flex flex-col gap-xs">
+                <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="length" data-state="met">
+                  <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                    <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                    <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                    <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                  </span>
+                  <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                    At least 12 characters
+                    <span class="font-semibold tabular-nums" aria-hidden="true" data-count>12 / 12</span>
+                    <span class="sr-only" data-sr>, met</span>
+                  </span>
+                </li>
+                <li class="group/rule grid grid-cols-[16px_1fr] gap-x-micro items-start" data-rule="types" data-state="met">
+                  <span class="grid size-[16px] place-items-center group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger" aria-hidden="true">
+                    <svg class="size-[14px] group-data-[state=met]/rule:hidden group-data-[state=fail]/rule:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"></circle></svg>
+                    <svg class="hidden size-[14px] group-data-[state=met]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.28-8.72a.75.75 0 0 0-1.06-1.06L7 8.44 5.78 7.22a.75.75 0 0 0-1.06 1.06l1.75 1.75c.3.3.77.3 1.06 0l3.75-3.75Z"></path></svg>
+                    <svg class="hidden size-[14px] group-data-[state=fail]/rule:block" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
+                  </span>
+                  <span class="flex flex-wrap items-baseline gap-x-xs group-data-[state=met]/rule:text-success-strong group-data-[state=fail]/rule:text-text-danger">
+                    At least 3 of the following
+                    <span class="font-semibold tabular-nums" aria-hidden="true" data-count>3 of 3</span>
+                    <span class="sr-only" data-sr>, met</span>
+                  </span>
+                  <ul class="col-start-2 mt-micro grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-x-sm gap-y-micro">
+                    <li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="lower" data-state="met">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Lowercase letter<span class="sr-only" data-sr>, included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="upper" data-state="met">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Uppercase letter<span class="sr-only" data-sr>, included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="number" data-state="met">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Number<span class="sr-only" data-sr>, included</span></span>
+                    </li><li class="group/type grid grid-cols-[12px_1fr] gap-x-micro items-start" data-type="special" data-state="pending">
+                      <span class="grid h-[16px] w-[12px] place-items-center group-data-[state=met]/type:text-success-strong" aria-hidden="true">
+                        <svg class="size-[12px] group-data-[state=met]/type:hidden" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"></circle></svg>
+                        <svg class="hidden size-[12px] group-data-[state=met]/type:block" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.25 5 8.75l4.5-5"></path></svg>
+                      </span>
+                      <span class="group-data-[state=met]/type:text-success-strong">Special character<span class="sr-only" data-sr>, not included</span></span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="sr-only" aria-live="polite" data-live></p>
+            </div>
+          </div>
+          <div class="lbl">All met<small>no special character, and none needed</small></div>
+        </div>
+        <!-- /demo:password-states -->
+      </div>
+      <div class="sect-sub" style="margin-top:14px;">Tie the two together both ways: <code>for</code> names the input, and the Input's <code>describedby</code> names the list, so a screen reader reads the rule with the field. The rule itself is <code>checkPassword()</code> in <code>password.ts</code>, exported for a form's own submit handler or server code to use, so the checklist and the backend cannot disagree.</div>
     </div>
 
     <div class="sect"><h2 class="sect-h">Anatomy</h2>
@@ -313,9 +668,23 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td class="ptable-name">errorMessage</td><td class="ptable-figma"><code>Error message</code></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">The message under an errored field, with a warning icon; shown only while <code>error</code> is set.</td></tr>
         <tr><td class="ptable-name">disabled</td><td class="ptable-figma"><code>State=Disabled</code></td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Disables the field and greys it out.</td></tr>
         <tr><td class="ptable-name">required</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Marks the field required — native form validation, and a <code>*</code> after the label.</td></tr>
+        <tr><td class="ptable-name">describedby</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Ids of more elements that describe the field, such as a <code>PasswordChecklist</code>, read after the hint or error.</td></tr>
         <tr><td class="ptable-name">class</td><td class="ptable-figma"><span class="ptable-none">code only</span></td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the wrapper that holds label, field and message.</td></tr>
       </tbody></table></div>
       <!-- /props:Input -->
+      <h3 class="props-h">PasswordChecklist</h3>
+      <div class="sect-sub">The checklist in <a href="#password-checklist">Password checklist</a> above.</div>
+      <!-- props:PasswordChecklist -->
+      <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="ptable-name">for</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes"><span class="ptable-req">Required</span>The <code>id</code> of the password <code>&lt;input&gt;</code> this list checks.</td></tr>
+        <tr><td class="ptable-name">id</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">This list's id, for the input's <code>describedby</code>.</td></tr>
+        <tr><td class="ptable-name">minLength</td><td class="ptable-type">number</td><td class="ptable-default">PASSWORD_MIN_LENGTH</td><td class="ptable-notes">Minimum length, counted in characters (code points), not UTF-16 units.</td></tr>
+        <tr><td class="ptable-name">minTypes</td><td class="ptable-type">number</td><td class="ptable-default">PASSWORD_MIN_TYPES</td><td class="ptable-notes">How many of the four character types must be present.</td></tr>
+        <tr><td class="ptable-name">value</td><td class="ptable-type">string</td><td class="ptable-default">''</td><td class="ptable-notes">The value to render the list against on the server, e.g.</td></tr>
+        <tr><td class="ptable-name">touched</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Start in the checked state, where unmet items are red — for a form re-rendered after a failed submit.</td></tr>
+        <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the wrapper.</td></tr>
+      </tbody></table></div>
+      <!-- /props:PasswordChecklist -->
     </div>
 
     <div class="sect sect-code"><h2 class="sect-h">Code</h2>

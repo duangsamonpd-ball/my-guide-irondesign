@@ -24,7 +24,7 @@
  * for — documented but impossible to produce. Dropped 2026-07-31 rather than
  * grown into a feature.
  */
-import { Input } from '@iron-software/astro-components';
+import { Input, PasswordChecklist } from '@iron-software/astro-components';
 
 const states = [
   { props: { name: 'st-default', placeholder: 'Placeholder' }, lbl: 'Default' },
@@ -32,6 +32,16 @@ const states = [
   { props: { name: 'st-filled', value: 'Jane Cooper' }, lbl: 'Filled' },
   { props: { name: 'st-error', value: 'not-an-email', error: true, errorMessage: 'Enter a valid email.' }, lbl: 'Error', note: 'danger border' },
   { props: { name: 'st-disabled', value: 'Disabled', disabled: true }, lbl: 'Disabled' },
+];
+
+/* The four states of the password checklist. Rendered as visible text, not
+   `type="password"`, because the value IS the thing each cell explains. They are
+   live too: type in one and it re-checks. */
+const pwStates = [
+  { id: 'pw-empty', value: '', touched: false, lbl: 'Empty', note: 'the rule, before typing' },
+  { id: 'pw-typing', value: 'ironpdf', touched: false, lbl: 'Typing', note: 'nothing red yet' },
+  { id: 'pw-short', value: 'IronPdf2026', touched: true, lbl: 'Left the field', note: '11 characters: only length fails' },
+  { id: 'pw-met', value: 'IronPdfs2026', touched: true, lbl: 'All met', note: 'no special character, and none needed' },
 ];
 ---
 
@@ -66,8 +76,27 @@ const states = [
         autocomplete="current-password"
         value="123"
         error
-        errorMessage="Must be at least 8 characters."
+        errorMessage="Must be at least 12 characters."
       />
+    </div>
+
+    <div data-demo="password">
+      <div class="demo-field flex flex-col gap-xs">
+        <Input label="Password" id="pw-live" name="password" type="password" autocomplete="new-password" required placeholder="Create a password" describedby="pw-live-rules" />
+        <PasswordChecklist for="pw-live" />
+      </div>
+    </div>
+
+    <div data-demo="password-states">
+      {pwStates.map((s) => (
+        <div class="cell">
+          <div class="demo-field flex flex-col gap-xs">
+            <Input label="Password" id={s.id} name={s.id} placeholder="Create a password" value={s.value} describedby={`${s.id}-rules`} />
+            <PasswordChecklist for={s.id} value={s.value} touched={s.touched} />
+          </div>
+          <div class="lbl">{s.lbl}<small>{s.note}</small></div>
+        </div>
+      ))}
     </div>
 
     <div data-demo="anatomy">

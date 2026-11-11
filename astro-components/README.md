@@ -37,8 +37,8 @@ this package right now, and they do not have the same requirements:
 
 | | Styled by | You need |
 |---|---|---|
-| **Converted** (14 of 22) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
-| **Not yet converted** (8 of 22) | their own scoped `<style>` | the tokens, nothing else |
+| **Converted** (15 of 23) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
+| **Not yet converted** (8 of 23) | their own scoped `<style>` | the tokens, nothing else |
 
 Every converted component's section below carries a **Needs Tailwind** note, and
 `npm run check:exports` fails if one is missing or stale — the list above is not
@@ -345,10 +345,32 @@ Props: `dark` (the dark-surface colours), `class`.
 ```
 
 Props: `label`, `id`, `name`, `type` (default `text`), `autocomplete`, `placeholder`, `value`, `hint`,
-`error`, `errorMessage`, `disabled`, `required`, `class`. The field fills its container and sets no maximum width; set the width you want with `class` or a wrapper (the Figma frame is 340). Pass `autocomplete` on any field
+`error`, `errorMessage`, `disabled`, `required`, `describedby`, `class`. The field fills its container and sets no maximum width; set the width you want with `class` or a wrapper (the Figma frame is 340). Pass `autocomplete` on any field
 that collects personal data (`email`, `name`, `tel`, `current-password` …) — it is what lets
 the browser fill it, and WCAG 1.3.5 asks for it. The field also points `aria-describedby`
-at its hint or error and sets `aria-invalid` when `error`.
+at its hint or error and sets `aria-invalid` when `error`. `describedby` adds more ids after
+those, which is how a `PasswordChecklist` below the field gets read with it.
+
+### `PasswordChecklist.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
+```astro
+<Input id="pw" label="Password" type="password" autocomplete="new-password" required describedby="pw-rules" />
+<PasswordChecklist for="pw" />
+```
+
+Props: `for` (the input's id, required), `id` (default `<for>-rules`), `minLength` (default `12`),
+`minTypes` (default `3`), `value`, `touched`, `class`. The password rule as a checklist under a
+password Input: at least 12 characters, and at least 3 of lowercase, uppercase, number and special
+character. It ticks off while the user types and turns an unmet item red only after the field is
+left or the form submitted; `touched` starts it there for a form re-rendered after a failed submit.
+It also sets the input's `setCustomValidity` and `aria-invalid`, so native validation and the field's
+danger border follow it. The rule is `checkPassword()` in `password.ts`, exported from the package
+(`@iron-software/astro-components/password`), so a submit handler or server code can use the same
+function: length counts characters (code points), and "special" is ASCII punctuation only. Documented
+on the Input page, section *Password checklist*.
 
 ### `Textarea.astro`
 
@@ -1117,10 +1139,10 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 9 of 22 components take a required
+  destructure rather than the interface. Only 10 of 23 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
-  `Tooltip.body`, `VideoThumbnail.label`, and the card components' labels.
+  `Tooltip.body`, `VideoThumbnail.label`, `PasswordChecklist.for`, and the card components' labels.
 - **A required prop must be un-defaultable.** `TrialKeyCard` requires five, which
   is the most in the library — it renders blank or throws without them.
   `footerNotes` is required for exactly this reason: it is read with `.length`.
@@ -1224,9 +1246,9 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 22 components ported
+## 23 components ported
 
-Button, NugetButton, TextLink, Prose, Input, Textarea, FileUpload, Select, Checkbox,
+Button, NugetButton, TextLink, Prose, Input, PasswordChecklist, Textarea, FileUpload, Select, Checkbox,
 Radio, Badge, Notice, Table, Tooltip, FlyoutMenu, Product Footer, FooterBar, FormCard,
 TrialKeyCard, VideoThumbnail, Logo, TopNav and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
 two-bar site header, and `Footer` + `FooterBar` the full two-band site footer. If

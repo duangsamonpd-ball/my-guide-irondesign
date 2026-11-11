@@ -17,6 +17,7 @@
     "./components/*": "./components/*",
     "./internal/*": "./internal/*",
     "./icons": "./icons.ts",
+    "./password": "./password.ts",
     "./components.json": "./components.json",
     "./package.json": "./package.json"
   }
