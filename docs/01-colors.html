@@ -154,7 +154,12 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     }
 @media (max-width: 640px) {
       
-      .swatch { min-width: 60px; }
+      /* The content's own width, not a number: 60px was below the 66 a hex code
+         needs (44 + padding + border), hidden while the page gutter was 40 and
+         exposed when it became the shared 20 — five columns of 63.8 instead of
+         four. max-content holds on any machine's monospace, which is what
+         check-layout on the runner measures. */
+      .swatch { min-width: max-content; }
       .swatch-color { height: 60px; }
     }
 
