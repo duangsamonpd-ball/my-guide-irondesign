@@ -204,13 +204,6 @@ const KNOWN = new Map([
    * the anti-rot rule can see each of them.
    */
   [
-    '#2693EC on #F1F5F9',
-    'The "N components" count on the Components overview, 11.2px/700, over --color-bg-shade. 2.96:1 — ' +
-      'the exact figure tokens.css already records against --color-text-link. Not a link and not ' +
-      'underlined, but it restates the heading immediately above it, so it is never the only way to ' +
-      "read the number. Ball's standing ruling, 2026-08-03.",
-  ],
-  [
     '#2693EC on #FAFBFC',
     'TextLink in a mode cell on its own docs page, 16px/600. 3.13:1. It is a LINK and it is ' +
       "underlined, which is the mitigation the ruling names. Ball's standing ruling, 2026-08-03.",

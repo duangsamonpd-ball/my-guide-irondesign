@@ -38,7 +38,7 @@ The single reference for every design decision at Iron Software — colors, typo
 
 | Foundation | Page | At a glance |
 |---|---|---|
-| 🎨 **Color Palette** | [`01-colors.html`](docs/01-colors.html) | 10 palettes × 11 shades = **110 raw colors** + The Shade Scale guide |
+| 🎨 **Color Scale** | [`01-colors.html`](docs/01-colors.html) | 10 palettes × 11 shades = **110 raw colors** + The Shade Scale guide |
 | 🎯 **Semantic Colors** | [`semantic-colors.html`](docs/semantic-colors.html) | Role-based tokens — Brand, Text, Surface, Border, Feedback (light + dark) |
 | 🔤 **Typography** | [`02-typography.html`](docs/02-typography.html) | Montserrat + Roboto Mono · content scale + UI scale |
 | 📐 **Spacing** | [`03-spacing.html`](docs/03-spacing.html) | Named spacing scale (4px → 120px) |
@@ -240,7 +240,7 @@ iron-design-system/
 ├── docs/                      # GitHub Pages site (the visual documentation)
 │   ├── index.html             #   Landing page (links every guide + demo)
 │   ├── homepage.html          #   🏠 Full homepage demo — built 100% from tokens
-│   ├── 01-colors.html         #   🎨 Color Palette + Shade Scale
+│   ├── 01-colors.html         #   🎨 Color Scale + Shade Scale
 │   ├── semantic-colors.html   #   🎯 Semantic Colors
 │   ├── 02-typography.html     #   🔤 Typography
 │   ├── 03-spacing.html …      #   📐 Spacing, Borders, Opacity, Shadows

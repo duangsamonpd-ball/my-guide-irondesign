@@ -52,14 +52,13 @@
        still carries its own copy, which check:parity governs. -->
   <link rel="stylesheet" href="components.css">
   <style>
-body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade); color: var(--color-text-heading); }
+body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: var(--color-text-heading); }
 .content { padding: 0 0 60px; max-width: 1200px; margin: 0 auto; }
-.page-title { padding: 40px 40px 28px; border-bottom: var(--border-width-1) solid var(--color-border-subtle); }
-.page-title h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.page-title .lead { font-size: 0.95rem; color: var(--color-text-support); line-height: 1.6; max-width: 680px; }
-.page-title .count { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-link); }
-.gal-wrap { padding: 32px 40px 0; }
-.gal-count { margin: 0 0 18px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-link); }
+.page-title { padding: 40px 40px 28px; }
+.page-title h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+.page-title .lead { font-size: 0.95rem; color: var(--color-text-support); line-height: 1.6; max-width: 640px; }
+.chip { font-size: 0.66rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: #F1F5F9; color: #62748E; }
+.gal-count { margin: 0 0 18px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-support); }
 .gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; align-items: start; }
 /* NOT `overflow: hidden`. Select's menu and Tooltip's bubble are absolutely
    positioned and have to leave the card; clipping them showed half a listbox
@@ -94,7 +93,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
 .gprose { margin: 0; font-size: 0.85rem; line-height: 1.7; color: var(--color-text-body); }
 .gflyout { padding: 20px 24px; font-size: 0.8rem; color: var(--color-text-support); }
 .gcard-stage .field-wrap, .gcard-stage .sel-wrap { width: 100%; max-width: 320px; }
-.gal-note { margin: 28px 40px 0; padding: 16px 20px; border-left: 3px solid var(--color-border-selected); background: var(--color-bg-card); border-radius: 0 var(--rounded-lg) var(--rounded-lg) 0; font-size: 0.78rem; line-height: 1.7; color: var(--color-text-support); }
+.gal-note { margin: 28px 0 0; padding: 16px 20px; border-left: 3px solid var(--color-border-selected); background: var(--color-bg-card); border-radius: 0 var(--rounded-lg) var(--rounded-lg) 0; font-size: 0.78rem; line-height: 1.7; color: var(--color-text-support); }
 .gal-note b { color: var(--color-text-heading); }
 .sidebar-link {
       display: flex;
@@ -123,11 +122,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
       }
     }
 @media (max-width: 640px) {
-      .page-title { padding: 24px 16px 20px; }
-      .page-title h1 { font-size: 1.4rem; }
-      .gal-wrap { padding: 24px 16px 0; }
+      .page-title { padding: 24px 20px 18px; }
+      .page-title h1 { font-size: 1.5rem; }
       .gal { grid-template-columns: 1fr; gap: 16px; }
-      .gal-note { margin: 24px 16px 0; }
+      .gal-note { margin-top: 24px; }
     }
   </style>
 </head>
@@ -150,13 +148,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
       <a href="index.html" class="sidebar-link"><i class="sidebar-icon">🏠</i>Home</a>
       <div class="sidebar-category">Foundations</div>
       <a href="logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
-      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Palette</a>
+      <a href="01-colors.html" class="sidebar-link"><i class="sidebar-icon">🎨</i>Color Scale</a>
       <a href="semantic-colors.html" class="sidebar-link"><i class="sidebar-icon">🎯</i>Semantic Colors</a>
       <a href="02-typography.html" class="sidebar-link"><i class="sidebar-icon">🔤</i>Typography</a>
       <a href="03-spacing.html" class="sidebar-link"><i class="sidebar-icon">📐</i>Spacing</a>
       <a href="04-borders.html" class="sidebar-link"><i class="sidebar-icon">▭</i>Borders</a>
       <a href="05-opacity.html" class="sidebar-link"><i class="sidebar-icon">🔆</i>Opacity</a>
-      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadow</a>
+      <a href="06-shadows.html" class="sidebar-link"><i class="sidebar-icon">🌑</i>Shadows</a>
       <div class="sidebar-category">Components</div>
       <a href="07-components.html" class="sidebar-link active"><i class="sidebar-icon">🧩</i>Overview</a>
       <a href="component-button.html" class="sidebar-link"><i class="sidebar-icon">🔘</i>Button</a>
@@ -190,10 +188,19 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
 <div class="main-content">
 <div class="content">
   <div class="page-title">
-    <h1>🧩 Components</h1>
+    <nav class="crumb" aria-label="Breadcrumb">
+      <ol>
+      <li>Components</li>
+      <li>Overview</li>
+      </ol>
+    </nav>
+    <h1>Components</h1>
     <p class="lead">Every component in the library, rendered live from the real thing. Open one for its variants, anatomy, tokens and code.</p>
+    <div class="meta-chips"><span class="chip">Live from source</span><span class="chip new">Token-driven</span></div>
   </div>
 
+  <div class="sect"><h2 class="sect-h">Gallery</h2>
+    <div class="sect-sub">Each card is the component itself, not a picture of it. Hover a card and follow its name to the full page.</div>
   <div class="gal-wrap">
     <!-- demo:gallery -->
     <div class="gal-count">22 components, plus Flyout Menu (internal)</div>
@@ -1038,9 +1045,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--color-bg-shade);
   </div>
 
   <p class="gal-note"><b>No spec tables here, on purpose.</b> Every card links to a page that carries its own Token Reference, read from the component. This page used to restate those numbers and had drifted off all of them — the heights, three deleted radius tokens, a retired focus colour and a Button variant that never existed.</p>
+  </div>
 
-</div>
 <footer class="docfoot">Iron Software Design System &nbsp;·&nbsp; Components &nbsp;·&nbsp; 2025</footer>
+</div>
   </div><!-- /main-content -->
 </div><!-- /layout -->
 
