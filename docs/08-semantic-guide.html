@@ -48,14 +48,23 @@
   <link rel="stylesheet" href="docs.css">
   <link rel="stylesheet" href="utilities.css">
   <style>
-body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; line-height: 1.6; }
-.content { padding: 40px; max-width: 1200px; margin: 0 auto; }
-.section-label {
-      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: #A1A1A1;
-      margin: 56px 0 20px; padding-bottom: 8px;
-      border-bottom: 2px solid #E2E8F0;
-    }
+body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
+.sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+@media (max-width:768px){ .sidebar {position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} }
+.content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+.page-title { padding:40px 40px 28px; }
+.page-title h1 { font-size:2rem; font-weight: 800; letter-spacing:-0.5px; margin-bottom:8px; }
+.page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
+.page-title .lead + .lead { margin-top:12px; }
+.chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
+@media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} }
+/* This page set line-height 1.6 on <body>, so everything in it was written to
+   that rhythm. Kept for the content, not for the shared title and headings. */
+.content > .sect > :not(.sect-h) { line-height: 1.6; }
+
+
+
+
 .concept-row {
       display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px;
     }
@@ -168,7 +177,7 @@ pre {
       border-radius: 16px; padding: 32px 36px;
       margin-bottom: 40px;
     }
-.ref-card h2 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 20px; }
+.ref-card h3 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 20px; }
 .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .ref-item { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 8px; background: rgba(255,255,255,0.05); }
 .ref-dot { width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
@@ -176,53 +185,15 @@ pre {
 .ref-name { font-size: 0.72rem; font-weight: 700; color: white; }
 .ref-token { font-size: 0.6rem; color: #62748E; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 640px) {
-      header { padding: 12px 20px; }
+      
       .concept-row { grid-template-columns: 1fr; }
       .tab-bar { flex-wrap: wrap; gap: 4px; }
     }
-.sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 18px 8px 15px;
-      font-size: 0.81rem;
-      font-weight: 500;
-      color: #62748E;
-      text-decoration: none;
-      border-left: 3px solid transparent;
-      transition: color 0.14s, background 0.14s, border-color 0.14s;
-      margin: 1px 8px 1px 0;
-      border-radius: 0 8px 8px 0;
-    }
-@media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        top: 0; left: 0;
-        height: 100vh;
-        transform: translateX(-100%);
-        transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 60;
-        box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
-        width: 264px;
-      }
-    }
-.page-title {
-      padding: 36px 40px 28px;
-      border-bottom: 1px solid #F1F5F9;
-    }
-.page-title h1 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #171717;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
-    }
-@media (max-width: 640px) {
-      .page-title { padding: 24px 16px 20px; }
-      .page-title h1 { font-size: 1.2rem; }
-    }
+
+
+
+
+
   </style>
 </head>
 <body>
@@ -284,13 +255,20 @@ pre {
 <div class="main-content">
 <div class="content">
   <div class="page-title">
-    <h1>🗺️ Semantic Guide</h1>
-    <p>How to use semantic tokens in code. Maps role-based token names to their base values — the developer handoff reference for the whole team.</p>
-  </div>
+      <nav class="crumb" aria-label="Breadcrumb">
+        <ol>
+        <li>Foundations</li>
+        <li>Semantic Guide</li>
+        </ol>
+      </nav>
+      <h1>Semantic Guide</h1>
+      <p class="lead">How to use semantic tokens in code. Maps role-based token names to their base values — the developer handoff reference for the whole team.</p>
+      <div class="meta-chips"><span class="chip">Light + dark</span><span class="chip">Role → base value</span><span class="chip new">Token-driven</span></div>
+    </div>
 
 
   <!-- ── WHAT IS A SEMANTIC TOKEN ──────────────────────────────────────────── -->
-  <div class="section-label">What is a semantic token?</div>
+  <div class="sect"><h2 class="sect-h">What is a semantic token?</h2>
 
   <div class="concept-row">
     <div class="concept-card bad">
@@ -310,7 +288,10 @@ pre {
   </div>
 
   <!-- ── FULL MAPPING TABLE ────────────────────────────────────────────────── -->
-  <div class="section-label">Complete Semantic Mapping</div>
+  </div>
+
+
+  <div class="sect"><h2 class="sect-h">Complete Semantic Mapping</h2>
 
   <!-- Brand -->
   <p style="font-size:0.8rem;font-weight:700;color:#62748E;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">Brand & Interactive</p>
@@ -836,7 +817,10 @@ pre {
   </table></div>
 
   <!-- ── CODE EXAMPLES ─────────────────────────────────────────────────────── -->
-  <div class="section-label">Code Examples</div>
+  </div>
+
+
+  <div class="sect"><h2 class="sect-h">Code Examples</h2>
 
   <div class="code-section">
 
@@ -1044,7 +1028,10 @@ pre {
   </div><!-- /code-section -->
 
   <!-- ── DO / DON'T ─────────────────────────────────────────────────────────── -->
-  <div class="section-label">Rules — Do's &amp; Don'ts</div>
+  </div>
+
+
+  <div class="sect"><h2 class="sect-h">Rules — Do's &amp; Don'ts</h2>
 
   <div class="rules-grid">
 
@@ -1115,11 +1102,14 @@ color: #3A86FF;</code>
   </div>
 
   <!-- ── QUICK REFERENCE ───────────────────────────────────────────────────── -->
-  <div class="section-label">Quick Reference Card</div>
+  </div>
+
+
+  <div class="sect"><h2 class="sect-h">Quick Reference Card</h2>
   <p style="font-size:0.82rem;color:#62748E;margin-bottom:20px;">Click any token to copy it to clipboard.</p>
 
   <div class="ref-card">
-    <h2>Iron Software — Semantic Color Tokens</h2>
+    <h3>Iron Software — Semantic Color Tokens</h3>
     <div class="ref-grid">
       <div class="ref-item" onclick="copyText('var(--color-primary)')" style="cursor:pointer;" title="Click to copy">
         <div class="ref-dot" style="background:#E01A59;"></div>
@@ -1209,7 +1199,10 @@ color: #3A86FF;</code>
   </div>
 
   <!-- ── FILE LOCATIONS ────────────────────────────────────────────────────── -->
-  <div class="section-label">Where to find the token files</div>
+  </div>
+
+
+  <div class="sect"><h2 class="sect-h">Where to find the token files</h2>
 
   <!-- GitHub CTA banner -->
   <div style="background:linear-gradient(135deg,#171717 0%,#1D293D 100%); border-radius:14px; padding:28px 32px; margin-bottom:24px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
@@ -1282,6 +1275,7 @@ color: #3A86FF;</code>
         </tr>
       </tbody>
     </table>
+  </div>
   </div>
 
 </div>

@@ -48,13 +48,24 @@
   <link rel="stylesheet" href="docs.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
-.content { padding: 40px; max-width: 1200px; margin: 0 auto; }
+.sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+@media (max-width:768px){ .sidebar {position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} }
+.content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+.page-title { padding:40px 40px 28px; }
+.page-title h1 { font-size:2rem; font-weight: 800; letter-spacing:-0.5px; margin-bottom:8px; }
+.page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
+.page-title .lead + .lead { margin-top:12px; }
+.chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
+@media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} }
+
+
+
 .palette { margin-bottom: 48px; }
 .palette-header {
       display: flex; align-items: center; gap: 12px;
       margin-bottom: 16px;
     }
-.palette-header h2 { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.palette-header h3 { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
 .palette-header .base-chip {
       padding: 2px 10px; border-radius: 20px;
       font-size: 0.65rem; font-weight: 700;
@@ -92,15 +103,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .swatch-info .hex { font-size: 0.65rem; color: #737373; font-family: monospace; }
 .swatch.base .swatch-info { background: var(--iron-blue-50); }
 .swatch.base .step { color: #2693EC; }
-.section-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: #A1A1A1;
-      margin: 40px 0 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #E2E8F0;
-    }
+
 .shade-intro { margin-bottom: 32px; }
-.shade-intro h2 {
+.shade-intro h3 {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.25rem; font-weight: 800; line-height: 1.05;
       letter-spacing: -0.02em; color: #171717; margin-bottom: 6px;
@@ -139,7 +144,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     }
 @media (max-width: 600px) {
       .shade-grid { grid-template-columns: 1fr; }
-      .shade-intro h2 { font-size: 1.6rem; }
+      .shade-intro h3 { font-size: 1.6rem; }
     }
 .sem-card {
       border-radius: 12px; overflow: hidden;
@@ -148,53 +153,15 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
     }
 @media (max-width: 640px) {
-      header { padding: 12px 20px; }
+      
       .swatch { min-width: 60px; }
       .swatch-color { height: 60px; }
     }
-.sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 18px 8px 15px;
-      font-size: 0.81rem;
-      font-weight: 500;
-      color: #62748E;
-      text-decoration: none;
-      border-left: 3px solid transparent;
-      transition: color 0.14s, background 0.14s, border-color 0.14s;
-      margin: 1px 8px 1px 0;
-      border-radius: 0 8px 8px 0;
-    }
-@media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        top: 0; left: 0;
-        height: 100vh;
-        transform: translateX(-100%);
-        transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 60;
-        box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
-        width: 264px;
-      }
-    }
-.page-title {
-      padding: 36px 40px 28px;
-      border-bottom: 1px solid #F1F5F9;
-    }
-.page-title h1 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #171717;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
-    }
-@media (max-width: 640px) {
-      .page-title { padding: 24px 16px 20px; }
-      .page-title h1 { font-size: 1.2rem; }
-    }
+
+
+
+
+
   </style>
 </head>
 <body>
@@ -256,17 +223,24 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 <div class="main-content">
 <div class="content">
   <div class="page-title">
-    <h1>🎨 Color Scale</h1>
-    <p>All 10 brand palettes with every shade from 50 to 950. Click any swatch to copy its hex code. The <strong>highlighted step</strong> is the BASE color used by default.</p>
-  </div>
+      <nav class="crumb" aria-label="Breadcrumb">
+        <ol>
+        <li>Foundations</li>
+        <li>Color Scale</li>
+        </ol>
+      </nav>
+      <h1>Color Scale</h1>
+      <p class="lead">All 10 brand palettes with every shade from 50 to 950. Click any swatch to copy its hex code. The <strong>highlighted step</strong> is the BASE color used by default.</p>
+      <div class="meta-chips"><span class="chip">10 palettes</span><span class="chip">50 → 950</span><span class="chip">Click to copy</span><span class="chip new">Token-driven</span></div>
+    </div>
 
 
-  <div class="section-label">Brand Palettes</div>
+  <div class="sect"><h2 class="sect-h">Brand Palettes</h2>
 
   <!-- Iron Pink -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Iron Pink</h2>
+      <h3>Iron Pink</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#E01A59;">Primary · CTA · Marketing</span>
     </div>
@@ -288,7 +262,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <!-- Iron Blue -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Iron Blue</h2>
+      <h3>Iron Blue</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#2693EC;">Secondary · CTA · Links</span>
     </div>
@@ -310,7 +284,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <!-- Iron Orange -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Iron Orange</h2>
+      <h3>Iron Orange</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#FDA509; color:#333;">Accent Warning · Caution</span>
     </div>
@@ -332,7 +306,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <!-- Iron Green -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Iron Green</h2>
+      <h3>Iron Green</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#63C1A0;">Accent Success · Positive</span>
     </div>
@@ -354,7 +328,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <!-- Iron Sky -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Iron Sky</h2>
+      <h3>Iron Sky</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#89D3DF; color:#333;">Accent Info</span>
     </div>
@@ -376,7 +350,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <!-- Iron Purple -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Iron Purple</h2>
+      <h3>Iron Purple</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#563B99;">Brand Accent</span>
     </div>
@@ -398,7 +372,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <!-- Iron Violet -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Iron Violet</h2>
+      <h3>Iron Violet</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#9D4F90;">Brand Accent</span>
     </div>
@@ -421,7 +395,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <!-- Iron Red -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Iron Red</h2>
+      <h3>Iron Red</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#E5242A;">Danger · Error · Destructive</span>
     </div>
@@ -439,13 +413,15 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       <div class="swatch" onclick="copy('#3D080A','iron-red-950')"><div class="swatch-color" style="background:#3D080A;"><span class="step-label">950</span></div><div class="swatch-info"><div class="step">950</div><div class="hex">#3D080A</div></div></div>
     </div>
   </div>
+  </div>
 
-  <div class="section-label">Utility Palettes</div>
+
+  <div class="sect"><h2 class="sect-h">Utility Palettes</h2>
 
   <!-- Slate -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Slate</h2>
+      <h3>Slate</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#62748E;">UI Surfaces · Borders</span>
     </div>
@@ -467,7 +443,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <!-- Neutral -->
   <div class="palette">
     <div class="palette-header">
-      <h2>Neutral</h2>
+      <h3>Neutral</h3>
       <span class="base-chip">BASE 500</span>
       <span class="role-tag" style="background:#737373;">Text · Icons · Gray</span>
     </div>
@@ -487,10 +463,13 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <!-- ══ THE SHADE SCALE ══════════════════════════════════════════════════ -->
-  <div class="section-label">The Shade Scale</div>
+  </div>
+
+
+  <div class="sect"><h2 class="sect-h">The Shade Scale</h2>
 
   <div class="shade-intro">
-    <h2>The Shade Scale</h2>
+    <h3>The Shade Scale</h3>
     <p>What each number means and when to use it</p>
   </div>
 
@@ -560,6 +539,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
+  </div>
   </div>
 
 </div>

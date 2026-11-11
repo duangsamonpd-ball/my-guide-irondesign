@@ -48,46 +48,30 @@
   <link rel="stylesheet" href="docs.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
-.content { padding: 40px; max-width: 1200px; margin: 0 auto; }
+.sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+@media (max-width:768px){ .sidebar {position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} }
+.content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+.page-title { padding:40px 40px 28px; }
+.page-title h1 { font-size:2rem; font-weight: 800; letter-spacing:-0.5px; margin-bottom:8px; }
+.page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
+.page-title .lead + .lead { margin-top:12px; }
+.chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
+@media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} }
+
+
+
 .sem-card {
       border-radius: 12px; overflow: hidden;
       display: flex; flex-direction: column;
       border: 1px solid #E2E8F0;
       cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
     }
-.page-title {
-      padding: 36px 40px 28px;
-      border-bottom: 1px solid #F1F5F9;
-    }
-.page-title h1 {
-      font-size: 1.6rem; font-weight: 800; color: #171717;
-      display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
-    }
-@media (max-width: 640px) {
-      header { padding: 12px 20px; }
-      .page-title { padding: 24px 16px 20px; }
-      .page-title h1 { font-size: 1.2rem; }
-    }
-.sidebar-link {
-      display: flex; align-items: center; gap: 10px;
-      padding: 8px 18px 8px 15px; font-size: 0.81rem; font-weight: 500;
-      color: #62748E; text-decoration: none;
-      border-left: 3px solid transparent;
-      transition: color 0.14s, background 0.14s, border-color 0.14s;
-      margin: 1px 8px 1px 0; border-radius: 0 8px 8px 0;
-    }
-@media (max-width: 768px) {
-      .sidebar {
-        position: fixed; top: 0; left: 0; height: 100vh;
-        transform: translateX(-100%);
-        transition: transform 0.26s cubic-bezier(0.4,0,0.2,1);
-        z-index: 60; box-shadow: 4px 0 32px rgba(15,23,43,0.15); width: 264px;
-      }
-    }
-.gh-count { font-size:0.6rem; font-weight:800; color:var(--slate-400); background:#F1F5F9; border-radius:20px; padding:2px 8px; letter-spacing:0; }
-.palette-group-sub { font-size:0.8rem; color:#62748E; line-height:1.6; margin:-6px 0 18px; max-width:760px; }
-.palette-group-sub b { color:var(--slate-700); font-weight:700; }
-.palette-group-sub code { font-family:monospace; font-size:0.92em; background:#F1F5F9; color:var(--c-accent); padding:1px 6px; border-radius:5px; }
+
+
+
+
+
+.gh-count { margin-left:8px; font-size:0.6rem; font-weight:800; color:var(--slate-400); background:#F1F5F9; border-radius:20px; padding:2px 8px; letter-spacing:0; }
 .sem-card { transition: transform .15s, box-shadow .15s; }
 .tone { border:1px solid #E2E8F0; border-radius:16px; padding:18px; background:#FBFCFE; transition:background .25s, border-color .25s; }
 .tone-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
@@ -114,20 +98,16 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .badge-live .dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
 .tone.is-dark .spec { --sub:var(--dsub); --strong:var(--dstrong); }
 .ramp { display:flex; gap:5px; }
-.chip { flex:1; height:38px; border:1px solid rgba(15,23,43,0.10); border-radius:8px; background:var(--sw); cursor:pointer;
+.sw-chip { flex:1; height:38px; border:1px solid rgba(15,23,43,0.10); border-radius:8px; background:var(--sw); cursor:pointer;
       position:relative; display:flex; align-items:flex-end; justify-content:center; padding-bottom:4px; overflow:hidden; transition:transform .12s; }
-.chip:hover { transform:translateY(-2px); }
-.chip span { font-size:0.54rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:rgba(255,255,255,0.92);
+.sw-chip:hover { transform:translateY(-2px); }
+.sw-chip span { font-size:0.54rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:rgba(255,255,255,0.92);
       text-shadow:0 1px 2px rgba(0,0,0,0.35); }
-.chip em { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-family:monospace;
+.sw-chip em { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-family:monospace;
       font-size:0.6rem; font-weight:700; color:#fff; background:rgba(15,23,43,0.78); opacity:0; transition:opacity .14s; }
-.chip:hover em { opacity:1; }
-.chip:hover span { opacity:0; }
+.sw-chip:hover em { opacity:1; }
+.sw-chip:hover span { opacity:0; }
 @media (max-width:640px){ .spec-grid { grid-template-columns:1fr; } }
-.gh-count { font-size:0.6rem; font-weight:800; color:var(--slate-400); background:#F1F5F9; border-radius:20px; padding:2px 8px; letter-spacing:0; }
-.palette-group-sub { font-size:0.8rem; color:#62748E; line-height:1.6; margin:-6px 0 18px; max-width:760px; }
-.palette-group-sub b { color:var(--slate-700); font-weight:700; }
-.palette-group-sub code { font-family:monospace; font-size:0.92em; background:#F1F5F9; color:var(--c-accent); padding:1px 6px; border-radius:5px; }
 .sem-card { transition: transform .15s, box-shadow .15s; }
 .tone { border:1px solid #E2E8F0; border-radius:16px; padding:18px; background:#FBFCFE; transition:background .25s, border-color .25s; }
 .tone-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
@@ -155,19 +135,15 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .tone.is-dark .spec { --sub:var(--dsub); --strong:var(--dstrong); }
 .ramp { display:flex; gap:6px; }
 .rstep { flex:1; display:flex; flex-direction:column; gap:5px; }
-.chip { height:34px; border:1px solid rgba(15,23,43,0.10); border-radius:8px; background:var(--sw); cursor:pointer;
+.sw-chip { height:34px; border:1px solid rgba(15,23,43,0.10); border-radius:8px; background:var(--sw); cursor:pointer;
       position:relative; overflow:hidden; transition:transform .12s; }
-.chip:hover { transform:translateY(-2px); }
-.chip em { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-family:monospace;
+.sw-chip:hover { transform:translateY(-2px); }
+.sw-chip em { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-family:monospace;
       font-size:0.58rem; font-weight:700; color:#fff; background:rgba(15,23,43,0.80); opacity:0; transition:opacity .14s; }
-.chip:hover em { opacity:1; }
+.sw-chip:hover em { opacity:1; }
 .rlabel { font-size:0.55rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--slate-400); text-align:center; }
 .tone.is-dark .rlabel { color:#AB9DCC; }
 @media (max-width:640px){ .spec-grid { grid-template-columns:1fr; } }
-.gh-count { font-size:0.6rem; font-weight:800; color:var(--slate-400); background:#F1F5F9; border-radius:20px; padding:2px 8px; letter-spacing:0; }
-.palette-group-sub { font-size:0.8rem; color:#62748E; line-height:1.6; margin:-6px 0 18px; max-width:760px; }
-.palette-group-sub b { color:var(--slate-700); font-weight:700; }
-.palette-group-sub code { font-family:monospace; font-size:0.92em; background:#F1F5F9; color:var(--c-accent); padding:1px 6px; border-radius:5px; }
 .sem-card { transition: transform .15s, box-shadow .15s; }
 .tone { border:1px solid #E2E8F0; border-radius:16px; padding:18px; background:#FBFCFE; transition:background .25s, border-color .25s; }
 .tone-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
@@ -196,12 +172,12 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 .badge-live .dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
 .ramp { display:flex; gap:6px; }
 .rstep { flex:1; display:flex; flex-direction:column; gap:5px; }
-.chip { height:34px; border:1px solid rgba(15,23,43,0.10); border-radius:8px; background:var(--sw); cursor:pointer;
+.sw-chip { height:34px; border:1px solid rgba(15,23,43,0.10); border-radius:8px; background:var(--sw); cursor:pointer;
       position:relative; overflow:hidden; transition:transform .12s; }
-.chip:hover { transform:translateY(-2px); }
-.chip em { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-family:monospace;
+.sw-chip:hover { transform:translateY(-2px); }
+.sw-chip em { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-family:monospace;
       font-size:0.58rem; font-weight:700; color:#fff; background:rgba(15,23,43,0.80); opacity:0; transition:opacity .14s; }
-.chip:hover em { opacity:1; }
+.sw-chip:hover em { opacity:1; }
 .rlabel { font-size:0.55rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--slate-400); text-align:center; }
 .tone.is-dark .rlabel { color:#AB9DCC; }
 @media (max-width:640px){ .spec-grid { grid-template-columns:1fr; } }
@@ -265,22 +241,23 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </aside>
 
   <div class="main-content">
-    <div class="page-title">
-      <h1>🎯 Semantic Colors</h1>
-      <p>Colors assigned a purpose — not just a value. Maps each role (Primary, Text, Surface, Feedback) to its palette token so designers and developers always reach for the right color.</p>
-    </div>
     <div class="content">
-  <div class="palette-page-intro">
-    <div class="icon">🎯</div>
-    <div>
-      <h2>A colour with a job</h2>
-      <p>The <strong>Color Palette</strong> lists every raw shade (50–950). This page maps those shades to <strong>roles</strong> — a status, a surface, a border — so you reach for <code>--color-danger</code>, not <code>#E5242A</code>. Click any swatch to copy its token. Every value here is generated from <code>tokens.w3c.json</code>.</p>
+    <div class="page-title">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <ol>
+        <li>Foundations</li>
+        <li>Semantic Colors</li>
+        </ol>
+      </nav>
+      <h1>Semantic Colors</h1>
+      <p class="lead">Colors assigned a purpose — not just a value. Maps each role (Primary, Text, Surface, Feedback) to its palette token so designers and developers always reach for the right color.</p>
+      <p class="lead">The <strong>Color Palette</strong> lists every raw shade (50–950). This page maps those shades to <strong>roles</strong> — a status, a surface, a border — so you reach for <code>--color-danger</code>, not <code>#E5242A</code>. Click any swatch to copy its token. Every value here is generated from <code>tokens.w3c.json</code>.</p>
+      <div class="meta-chips"><span class="chip">Light + dark</span><span class="chip">Click to copy</span><span class="chip new">Token-driven</span></div>
     </div>
-  </div>
 
-  <div class="palette-group" id="status">
-    <h2 class="palette-group-header">Status &amp; Feedback<span class="gh-count">6</span></h2>
-    <div class="palette-group-sub">Every intent is a token trio — <b>subtle</b> fill, <b>strong</b> text, and a <b>solid</b> base — shown here in the badge shape they were built for. Flip the theme to see the dark-mode pairs swap in.</div>
+  <div class="sect" id="status">
+    <h2 class="sect-h">Status &amp; Feedback<span class="gh-count">6</span></h2>
+    <div class="sect-sub">Every intent is a token trio — <b>subtle</b> fill, <b>strong</b> text, and a <b>solid</b> base — shown here in the badge shape they were built for. Flip the theme to see the dark-mode pairs swap in.</div>
     <div class="tone" id="tone">
       <div class="tone-bar">
         <span class="tone-caption">Preview</span>
@@ -298,10 +275,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <span class="badge-live solid">Success</span>
       </div>
       <div class="ramp">
-        <div class="rstep"><button class="chip" style="--sw:#E8F6F1" onclick="copy('#E8F6F1','--color-success-subtle')"><em>#E8F6F1</em></button><span class="rlabel">subtle</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#63C1A0" onclick="copy('#63C1A0','--color-success')"><em>#63C1A0</em></button><span class="rlabel">base</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#53A085" onclick="copy('#53A085','--color-success-hover')"><em>#53A085</em></button><span class="rlabel">hover</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#345F50" onclick="copy('#345F50','--color-success-strong')"><em>#345F50</em></button><span class="rlabel">strong</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#E8F6F1" onclick="copy('#E8F6F1','--color-success-subtle')"><em>#E8F6F1</em></button><span class="rlabel">subtle</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#63C1A0" onclick="copy('#63C1A0','--color-success')"><em>#63C1A0</em></button><span class="rlabel">base</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#53A085" onclick="copy('#53A085','--color-success-hover')"><em>#53A085</em></button><span class="rlabel">hover</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#345F50" onclick="copy('#345F50','--color-success-strong')"><em>#345F50</em></button><span class="rlabel">strong</span></div>
       </div>
     </div>
     <div class="spec spec--warning"
@@ -312,10 +289,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <span class="badge-live solid">Warning</span>
       </div>
       <div class="ramp">
-        <div class="rstep"><button class="chip" style="--sw:#FFF2DA" onclick="copy('#FFF2DA','--color-warning-subtle')"><em>#FFF2DA</em></button><span class="rlabel">subtle</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#FDA509" onclick="copy('#FDA509','--color-warning')"><em>#FDA509</em></button><span class="rlabel">base</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#D2890A" onclick="copy('#D2890A','--color-warning-hover')"><em>#D2890A</em></button><span class="rlabel">hover</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#7B520B" onclick="copy('#7B520B','--color-warning-strong')"><em>#7B520B</em></button><span class="rlabel">strong</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#FFF2DA" onclick="copy('#FFF2DA','--color-warning-subtle')"><em>#FFF2DA</em></button><span class="rlabel">subtle</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#FDA509" onclick="copy('#FDA509','--color-warning')"><em>#FDA509</em></button><span class="rlabel">base</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#D2890A" onclick="copy('#D2890A','--color-warning-hover')"><em>#D2890A</em></button><span class="rlabel">hover</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#7B520B" onclick="copy('#7B520B','--color-warning-strong')"><em>#7B520B</em></button><span class="rlabel">strong</span></div>
       </div>
     </div>
     <div class="spec spec--error"
@@ -326,10 +303,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <span class="badge-live solid">Danger</span>
       </div>
       <div class="ramp">
-        <div class="rstep"><button class="chip" style="--sw:#FFE1E2" onclick="copy('#FFE1E2','--color-danger-subtle')"><em>#FFE1E2</em></button><span class="rlabel">subtle</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#E5242A" onclick="copy('#E5242A','--color-danger')"><em>#E5242A</em></button><span class="rlabel">base</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#C91D23" onclick="copy('#C91D23','--color-danger-hover')"><em>#C91D23</em></button><span class="rlabel">hover</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#A8181D" onclick="copy('#A8181D','--color-danger-strong')"><em>#A8181D</em></button><span class="rlabel">strong</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#FFE1E2" onclick="copy('#FFE1E2','--color-danger-subtle')"><em>#FFE1E2</em></button><span class="rlabel">subtle</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#E5242A" onclick="copy('#E5242A','--color-danger')"><em>#E5242A</em></button><span class="rlabel">base</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#C91D23" onclick="copy('#C91D23','--color-danger-hover')"><em>#C91D23</em></button><span class="rlabel">hover</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#A8181D" onclick="copy('#A8181D','--color-danger-strong')"><em>#A8181D</em></button><span class="rlabel">strong</span></div>
       </div>
     </div>
     <div class="spec spec--info"
@@ -340,10 +317,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <span class="badge-live solid">Info</span>
       </div>
       <div class="ramp">
-        <div class="rstep"><button class="chip" style="--sw:#DEEFFC" onclick="copy('#DEEFFC','--color-info-subtle')"><em>#DEEFFC</em></button><span class="rlabel">subtle</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#2693EC" onclick="copy('#2693EC','--color-info')"><em>#2693EC</em></button><span class="rlabel">base</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#217BC4" onclick="copy('#217BC4','--color-info-hover')"><em>#217BC4</em></button><span class="rlabel">hover</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#1D629B" onclick="copy('#1D629B','--color-info-strong')"><em>#1D629B</em></button><span class="rlabel">strong</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#DEEFFC" onclick="copy('#DEEFFC','--color-info-subtle')"><em>#DEEFFC</em></button><span class="rlabel">subtle</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#2693EC" onclick="copy('#2693EC','--color-info')"><em>#2693EC</em></button><span class="rlabel">base</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#217BC4" onclick="copy('#217BC4','--color-info-hover')"><em>#217BC4</em></button><span class="rlabel">hover</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#1D629B" onclick="copy('#1D629B','--color-info-strong')"><em>#1D629B</em></button><span class="rlabel">strong</span></div>
       </div>
     </div>
     <div class="spec spec--important"
@@ -354,9 +331,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <span class="badge-live solid">Important</span>
       </div>
       <div class="ramp">
-        <div class="rstep"><button class="chip" style="--sw:#E6E2F0" onclick="copy('#E6E2F0','--color-important-subtle')"><em>#E6E2F0</em></button><span class="rlabel">subtle</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#563B99" onclick="copy('#563B99','--color-important')"><em>#563B99</em></button><span class="rlabel">base</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#3B2A66" onclick="copy('#3B2A66','--color-important-strong')"><em>#3B2A66</em></button><span class="rlabel">strong</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#E6E2F0" onclick="copy('#E6E2F0','--color-important-subtle')"><em>#E6E2F0</em></button><span class="rlabel">subtle</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#563B99" onclick="copy('#563B99','--color-important')"><em>#563B99</em></button><span class="rlabel">base</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#3B2A66" onclick="copy('#3B2A66','--color-important-strong')"><em>#3B2A66</em></button><span class="rlabel">strong</span></div>
       </div>
     </div>
     <div class="spec spec--neutral"
@@ -367,18 +344,18 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <span class="badge-live solid">Neutral</span>
       </div>
       <div class="ramp">
-        <div class="rstep"><button class="chip" style="--sw:#F1F5F9" onclick="copy('#F1F5F9','--color-neutral-subtle')"><em>#F1F5F9</em></button><span class="rlabel">subtle</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#62748E" onclick="copy('#62748E','--color-neutral')"><em>#62748E</em></button><span class="rlabel">base</span></div>
-        <div class="rstep"><button class="chip" style="--sw:#314158" onclick="copy('#314158','--color-neutral-strong')"><em>#314158</em></button><span class="rlabel">strong</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#F1F5F9" onclick="copy('#F1F5F9','--color-neutral-subtle')"><em>#F1F5F9</em></button><span class="rlabel">subtle</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#62748E" onclick="copy('#62748E','--color-neutral')"><em>#62748E</em></button><span class="rlabel">base</span></div>
+        <div class="rstep"><button class="sw-chip" style="--sw:#314158" onclick="copy('#314158','--color-neutral-strong')"><em>#314158</em></button><span class="rlabel">strong</span></div>
       </div>
     </div>
       </div>
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Brand<span class="gh-count">12</span></h2>
-    <div class="palette-group-sub">The two brand hues and their states, plus four accents for data-vis and highlights.</div>
+  <div class="sect">
+    <h2 class="sect-h">Brand<span class="gh-count">12</span></h2>
+    <div class="sect-sub">The two brand hues and their states, plus four accents for data-vis and highlights.</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#E01A59','--color-primary')">
         <div class="sem-color" style="background:#E01A59;"></div>
@@ -502,9 +479,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Text · Light<span class="gh-count">18</span></h2>
-    <div class="palette-group-sub">Type colours on light surfaces. Contrast notes live in the token descriptions.</div>
+  <div class="sect">
+    <h2 class="sect-h">Text · Light<span class="gh-count">18</span></h2>
+    <div class="sect-sub">Type colours on light surfaces. Contrast notes live in the token descriptions.</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#171717','--color-text-heading')">
         <div class="sem-color" style="background:#171717;"></div>
@@ -688,9 +665,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Text · Dark<span class="gh-count">10</span></h2>
-    <div class="palette-group-sub">The same roles retuned for dark surfaces.</div>
+  <div class="sect">
+    <h2 class="sect-h">Text · Dark<span class="gh-count">10</span></h2>
+    <div class="sect-sub">The same roles retuned for dark surfaces.</div>
     <div class="semantic-grid">
       <div class="sem-card dark-surface" onclick="copy('#F5F5F5','--color-text-dark-heading')">
         <div class="sem-color" style="background:#F5F5F5;"></div>
@@ -794,9 +771,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Text · On colour<span class="gh-count">2</span></h2>
-    <div class="palette-group-sub">For type sitting on a brand-coloured band.</div>
+  <div class="sect">
+    <h2 class="sect-h">Text · On colour<span class="gh-count">2</span></h2>
+    <div class="sect-sub">For type sitting on a brand-coloured band.</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#FFFFFF','--color-text-on-dark-heading')">
         <div class="sem-color" style="background:#FFFFFF;"></div>
@@ -820,9 +797,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Surface · Light<span class="gh-count">9</span></h2>
-    <div class="palette-group-sub">Page, card and band backgrounds.</div>
+  <div class="sect">
+    <h2 class="sect-h">Surface · Light<span class="gh-count">9</span></h2>
+    <div class="sect-sub">Page, card and band backgrounds.</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#FFFFFF','--color-bg-base')">
         <div class="sem-color" style="background:#FFFFFF;"></div>
@@ -916,9 +893,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Surface · Dark<span class="gh-count">8</span></h2>
-    <div class="palette-group-sub">Dark-mode backgrounds — the Iron Violet family.</div>
+  <div class="sect">
+    <h2 class="sect-h">Surface · Dark<span class="gh-count">8</span></h2>
+    <div class="sect-sub">Dark-mode backgrounds — the Iron Violet family.</div>
     <div class="semantic-grid">
       <div class="sem-card dark-surface" onclick="copy('#260F27','--color-bg-dark')">
         <div class="sem-color" style="background:#260F27;"></div>
@@ -1002,9 +979,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Border · Light<span class="gh-count">8</span></h2>
-    <div class="palette-group-sub">Dividers, input edges, focus and selection outlines.</div>
+  <div class="sect">
+    <h2 class="sect-h">Border · Light<span class="gh-count">8</span></h2>
+    <div class="sect-sub">Dividers, input edges, focus and selection outlines.</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#E2E8F0','--color-border')">
         <div class="sem-color" style="background:#E2E8F0;"></div>
@@ -1088,9 +1065,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Border · Dark<span class="gh-count">7</span></h2>
-    <div class="palette-group-sub">Dark-mode borders stay in the Iron Violet family.</div>
+  <div class="sect">
+    <h2 class="sect-h">Border · Dark<span class="gh-count">7</span></h2>
+    <div class="sect-sub">Dark-mode borders stay in the Iron Violet family.</div>
     <div class="semantic-grid">
       <div class="sem-card dark-surface" onclick="copy('#6B3567','--color-border-dark')">
         <div class="sem-color" style="background:#6B3567;"></div>
@@ -1164,9 +1141,9 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     </div>
   </div>
 
-  <div class="palette-group">
-    <h2 class="palette-group-header">Button<span class="gh-count">10</span></h2>
-    <div class="palette-group-sub">Fill colours per button variant (light + dark outline).</div>
+  <div class="sect">
+    <h2 class="sect-h">Button<span class="gh-count">10</span></h2>
+    <div class="sect-sub">Fill colours per button variant (light + dark outline).</div>
     <div class="semantic-grid">
       <div class="sem-card" onclick="copy('#E01A59','--color-button-primary')">
         <div class="sem-color" style="background:#E01A59;"></div>

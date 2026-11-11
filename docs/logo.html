@@ -48,12 +48,19 @@
   <link rel="stylesheet" href="docs.css">
   <style>
 body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #171717; }
-.content { padding: 40px; max-width: 1200px; margin: 0 auto; }
-.section-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: #A1A1A1;
-      margin: 40px 0 24px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;
-    }
+.sidebar-link { display:flex; align-items:center; gap:10px; padding:8px 18px 8px 15px; font-size:0.81rem; font-weight:500; color:#62748E; text-decoration:none; border-left:3px solid transparent; transition:.14s; margin:1px 8px 1px 0; border-radius:0 8px 8px 0; }
+@media (max-width:768px){ .sidebar {position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .26s;z-index:60;box-shadow:4px 0 32px rgba(15,23,43,0.15);width:264px;} }
+.content { padding:0 0 60px; max-width:1200px; margin:0 auto; }
+.page-title { padding:40px 40px 28px; }
+.page-title h1 { font-size:2rem; font-weight: 800; letter-spacing:-0.5px; margin-bottom:8px; }
+.page-title .lead { font-size:0.95rem; color:#62748E; line-height:1.6; max-width:640px; }
+.page-title .lead + .lead { margin-top:12px; }
+.chip { font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:20px; background:#F1F5F9; color:#62748E; }
+@media (max-width:640px){ header {padding:12px 20px;} .page-title {padding:24px 20px 18px;} .page-title h1 {font-size:1.5rem;} }
+
+
+
+
 .mark-row { display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-start; }
 .clearspace-box {
       width: 240px; height: 240px;
@@ -169,48 +176,13 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       font-size: 0.56rem; font-weight: 700; letter-spacing: 0.14em;
       color: #737373; background: #F1F5F9; border-radius: 4px; padding: 3px 7px;
     }
-.sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 18px 8px 15px;
-      font-size: 0.81rem;
-      font-weight: 500;
-      color: #62748E;
-      text-decoration: none;
-      border-left: 3px solid transparent;
-      transition: color 0.14s, background 0.14s, border-color 0.14s;
-      margin: 1px 8px 1px 0;
-      border-radius: 0 8px 8px 0;
-    }
-@media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        top: 0; left: 0;
-        height: 100vh;
-        transform: translateX(-100%);
-        transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 60;
-        box-shadow: 4px 0 32px rgba(15, 23, 43, 0.15);
-        width: 264px;
-      }
-    }
-.page-title {
-      padding: 36px 40px 28px;
-      border-bottom: 1px solid #F1F5F9;
-    }
-.page-title h1 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #171717;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
-    }
+
+
+
+
 @media (max-width: 640px) {
-      .page-title { padding: 24px 16px 20px; }
-      .page-title h1 { font-size: 1.2rem; }
+      
+      
       .mark-row { gap: 20px; }
       .lockup-grid { gap: 20px; }
     }
@@ -275,13 +247,20 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
 <div class="main-content">
 <div class="content">
   <div class="page-title">
-    <h1>✳️ Logo</h1>
-    <p>The Iron Software mark is the foundation of every product identity across the suite. This page documents the primary mark, its size &amp; grid, the wordmark lockups, all 24 product marks in colour and mono, product-specific lockups, the illustrative product elements, and common misuse to avoid. Every asset here is exported from Figma — no CSS filters standing in for a real variant.</p>
-  </div>
+      <nav class="crumb" aria-label="Breadcrumb">
+        <ol>
+        <li>Foundations</li>
+        <li>Logo</li>
+        </ol>
+      </nav>
+      <h1>Logo</h1>
+      <p class="lead">The Iron Software mark is the foundation of every product identity across the suite. This page documents the primary mark, its size &amp; grid, the wordmark lockups, all 24 product marks in colour and mono, product-specific lockups, the illustrative product elements, and common misuse to avoid. Every asset here is exported from Figma — no CSS filters standing in for a real variant.</p>
+      <div class="meta-chips"><span class="chip">Exported from Figma</span><span class="chip">Colour + mono</span><span class="chip new">Token-driven</span></div>
+    </div>
 
   <!-- ═══════════════════════════ PRIMARY MARK ═══════════════════════════ -->
 
-  <div class="section-label">Clear Space &amp; Minimum Size</div>
+  <div class="sect"><h2 class="sect-h">Clear Space &amp; Minimum Size</h2>
 
   <div class="mark-row">
     <div>
@@ -311,8 +290,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <!-- ═══════════════════════════ WORDMARK LOCKUP ═══════════════════════════ -->
+  </div>
 
-  <div class="section-label">Size &amp; Grid</div>
+
+  <div class="sect"><h2 class="sect-h">Size &amp; Grid</h2>
 
   <div class="size-row">
     <div class="size-item">
@@ -335,8 +316,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   <p class="mark-caption" style="max-width:none;">The mark is drawn on an 8-unit grid at 192px. Each halving of the render size halves the grid unit, so edges stay on whole pixels at 96, 48 and 24px — the four sizes above are the only ones that land cleanly.</p>
 
   <!-- ═══════════════════════════ WORDMARK LOCKUPS ═══════════════════════════ -->
+  </div>
 
-  <div class="section-label">Wordmark Lockups</div>
+
+  <div class="sect"><h2 class="sect-h">Wordmark Lockups</h2>
 
   <div class="wm-stack">
     <div class="wm-card">
@@ -362,8 +345,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <!-- ═══════════════════════════ COLOR SPECIFICATIONS ═══════════════════════════ -->
+  </div>
 
-  <div class="section-label">Color Specifications</div>
+
+  <div class="sect"><h2 class="sect-h">Color Specifications</h2>
 
   <div class="color-grid">
     <div>
@@ -387,8 +372,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <!-- ═══════════════════════════ PRODUCT MARKS ═══════════════════════════ -->
+  </div>
 
-  <div class="section-label">Product Marks — Colour &amp; Mono</div>
+
+  <div class="sect"><h2 class="sect-h">Product Marks — Colour &amp; Mono</h2>
 
   <div class="mark-grid">
     <div class="mark-card">
@@ -478,8 +465,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <!-- ═══════════════════════════ PRODUCT LOCKUPS ═══════════════════════════ -->
+  </div>
 
-  <div class="section-label">Product-Specific Lockups</div>
+
+  <div class="sect"><h2 class="sect-h">Product-Specific Lockups</h2>
 
   <p class="mark-caption" style="max-width:none; margin:-8px 0 20px;">Classic and Universal share one mark — only the trailing wording differs (Universal adds the runtime, e.g. <em>for .NET</em>). One row per product, both editions listed.</p>
 
@@ -557,8 +546,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <!-- ═══════════════════════════ LOCKUP PATTERNS ═══════════════════════════ -->
+  </div>
 
-  <div class="section-label">Lockup Patterns</div>
+
+  <div class="sect"><h2 class="sect-h">Lockup Patterns</h2>
 
   <div class="lock-grid">
     <div class="lock-card">
@@ -578,8 +569,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <!-- ═══════════════════════════ PRODUCT ELEMENTS ═══════════════════════════ -->
+  </div>
 
-  <div class="section-label">Product Elements</div>
+
+  <div class="sect"><h2 class="sect-h">Product Elements</h2>
 
   <p class="mark-caption" style="max-width:none; margin:-8px 0 20px;">Illustrative marks used alongside — never instead of — the product logo: feature cards, empty states, docs headers. A separate family from the square product marks above.</p>
 
@@ -600,8 +593,10 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
   </div>
 
   <!-- ═══════════════════════════ DON'TS ═══════════════════════════ -->
+  </div>
 
-  <div class="section-label">Don'ts</div>
+
+  <div class="sect"><h2 class="sect-h">Don'ts</h2>
 
   <div class="donts-grid">
 
@@ -689,6 +684,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
       </div>
     </div>
 
+  </div>
   </div>
 
 </div>
