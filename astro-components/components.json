@@ -972,28 +972,32 @@
           "type": "number",
           "required": false,
           "default": "PASSWORD_MIN_LENGTH",
-          "description": "Minimum length, counted in characters (code points), not UTF-16 units."
+          "description": "Minimum length, counted in characters (code points), not UTF-16 units.",
+          "figma": "the `Label` and `Count` text of the `Length` line (\"At least 12 characters\", \"0 / 12\")"
         },
         {
           "name": "minTypes",
           "type": "number",
           "required": false,
           "default": "PASSWORD_MIN_TYPES",
-          "description": "How many of the four character types must be present."
+          "description": "How many of the four character types must be present.",
+          "figma": "the `Label` and `Count` text of the `Types rule` line (\"At least 3 of the following\", \"0 of 3\")"
         },
         {
           "name": "value",
           "type": "string",
           "required": false,
           "default": "''",
-          "description": "The value to render the list against on the server, e.g. a re-rendered form. The browser re-checks the live input either way."
+          "description": "The value to render the list against on the server, e.g. a re-rendered form. The browser re-checks the live input either way.",
+          "figma": "no value in Figma: set each of the six exposed lines' `State` (and the two `Count`s) to what the value would give"
         },
         {
           "name": "touched",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Start in the checked state, where unmet items are red — for a form re-rendered after a failed submit."
+          "description": "Start in the checked state, where unmet items are red — for a form re-rendered after a failed submit. Pass `error` to the Input as well when the value fails, so its danger border is in the first HTML rather than faded in when the script runs.",
+          "figma": "`State=Fail` on the `Length` / `Types rule` lines that have not passed, with the Input at `State=Error` and its error row hidden"
         },
         {
           "name": "class",

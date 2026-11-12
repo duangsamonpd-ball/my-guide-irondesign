@@ -365,7 +365,9 @@ Props: `for` (the input's id, required), `id` (default `<for>-rules`), `minLengt
 `minTypes` (default `3`), `value`, `touched`, `class`. The password rule as a checklist under a
 password Input: at least 12 characters, and at least 3 of lowercase, uppercase, number and special
 character. It ticks off while the user types and turns an unmet item red only after the field is
-left or the form submitted; `touched` starts it there for a form re-rendered after a failed submit.
+left or the form submitted; `touched` starts it there for a form re-rendered after a failed submit
+(pass `error` to the Input too when the value fails, so the danger border is in the first HTML instead of fading in
+when the script runs).
 It also sets the input's `setCustomValidity` and `aria-invalid`, so native validation and the field's
 danger border follow it. The rule is `checkPassword()` in `password.ts`, exported from the package
 (`@iron-software/astro-components/password`), so a submit handler or server code can use the same

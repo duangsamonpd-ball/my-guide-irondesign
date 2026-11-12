@@ -24,7 +24,7 @@
  * for — documented but impossible to produce. Dropped 2026-07-31 rather than
  * grown into a feature.
  */
-import { Input, PasswordChecklist } from '@iron-software/astro-components';
+import { Input, PasswordChecklist, checkPassword } from '@iron-software/astro-components';
 
 const states = [
   { props: { name: 'st-default', placeholder: 'Placeholder' }, lbl: 'Default' },
@@ -91,7 +91,7 @@ const pwStates = [
       {pwStates.map((s) => (
         <div class="cell">
           <div class="demo-field flex flex-col gap-xs">
-            <Input label="Password" id={s.id} name={s.id} placeholder="Create a password" value={s.value} describedby={`${s.id}-rules`} />
+            <Input label="Password" id={s.id} name={s.id} placeholder="Create a password" value={s.value} error={s.touched && !checkPassword(s.value).ok} describedby={`${s.id}-rules`} />
             <PasswordChecklist for={s.id} value={s.value} touched={s.touched} />
           </div>
           <div class="lbl">{s.lbl}<small>{s.note}</small></div>
