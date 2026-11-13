@@ -12,7 +12,7 @@
  * Running Tailwind yourself? You do not need this file — import
  * @iron-software/design-system/theme.css and compile your own.
  */
-/*! tailwindcss v4.3.4 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.3.5 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {

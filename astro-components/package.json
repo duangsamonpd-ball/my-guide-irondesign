@@ -5,7 +5,7 @@
   "type": "module",
   "peerDependencies": {
     "astro": ">=7.0.0",
-    "tailwindcss": "^4.3.4"
+    "tailwindcss": "^4.3.5"
   },
   "peerDependenciesMeta": {
     "tailwindcss": {

@@ -74,7 +74,7 @@
     "check:components-css": "node scripts/build-component-css.mjs --self-test && node scripts/build-component-css.mjs --check"
   },
   "peerDependencies": {
-    "tailwindcss": "^4.3.4"
+    "tailwindcss": "^4.3.5"
   },
   "peerDependenciesMeta": {
     "tailwindcss": {
@@ -85,10 +85,10 @@
     "@astrojs/check": "^0.9.10",
     "@astrojs/compiler": "^2.13.1",
     "@astrojs/compiler-rs": "^0.3.2",
-    "@tailwindcss/cli": "^4.3.4",
+    "@tailwindcss/cli": "^4.3.5",
     "@types/node": "^26.2.0",
-    "playwright-core": "^1.64.1",
-    "tailwindcss": "^4.3.4",
+    "playwright-core": "^1.65.0",
+    "tailwindcss": "^4.3.5",
     "typescript": "^6.0.3"
   },
   "//exports": "utilities.css is the compiled stylesheet for consumers who do NOT run Tailwind. It lives under docs/ because the docs site links it too; the path is an implementation detail and the specifier is the contract.",
