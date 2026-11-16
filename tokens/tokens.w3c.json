@@ -294,10 +294,10 @@
         "$type": "color",
         "$description": "Iron Red/700 — a field's error message and its icon (light). Figma text/default/danger. 7.46:1 on surface/input, 6.81:1 on surface/input-hover."
       },
-      "code": {
+      "code-inline": {
         "$value": "#BA174B",
         "$type": "color",
-        "$description": "Iron Pink/600 — inline code text (light), the ironpdf.com changelog's code highlight. Its pink-500 was 4.28:1 on surface/code, under AA; Ball chose /600 on 2026-11-16 — 5.76:1 on surface/code, 6.34:1 on white."
+        "$description": "Iron Pink/600 — inline code text (light). For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks. 5.76:1 on surface/code-inline, 6.34:1 on white; the ironpdf.com changelog's pink/500 was 4.28:1, under AA — Ball chose /600 on 2026-11-16."
       },
       "on-primary": {
         "$value": "#FFFFFF",
@@ -392,10 +392,10 @@
         "$type": "color",
         "$description": "Iron Red/300 — a field's error message and its icon (dark). 5.91:1 on surface-dark/card, the lowest of the surfaces a field can sit on."
       },
-      "code": {
+      "code-inline": {
         "$value": "#F08DAC",
         "$type": "color",
-        "$description": "Iron Pink/300 — inline code text (dark). 7.64:1 on surface-dark/code."
+        "$description": "Iron Pink/300 — inline code text (dark). 7.64:1 on surface-dark/code-inline. For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks."
       },
       "link": {
         "$value": "#67B3F2",
@@ -511,10 +511,10 @@
         "$type": "color",
         "$description": "Slate/50 — a disabled field's fill (light). Figma surface/input-disabled."
       },
-      "code": {
+      "code-inline": {
         "$value": "#FDF1F5",
         "$type": "color",
-        "$description": "Iron Pink/50 — inline code background (light). The changelog draws #F9F2F4, off our scale; /50 is the nearest step."
+        "$description": "Iron Pink/50 — inline code background (light). For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks. The changelog draws #F9F2F4, off our scale; /50 is the nearest step."
       }
     },
     "surface-dark": {
@@ -569,10 +569,10 @@
         "$type": "color",
         "$description": "Iron Violet/900 — a disabled field's fill (dark)."
       },
-      "code": {
+      "code-inline": {
         "$value": "#2E0E18",
         "$type": "color",
-        "$description": "Iron Pink/950 — inline code background (dark)."
+        "$description": "Iron Pink/950 — inline code background (dark). For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks."
       }
     },
     "border": {
@@ -1742,6 +1742,16 @@
           "letterSpacing": "0.8px"
         },
         "$description": "The review score in the footer bar — the number itself, e.g. \"4.9\". The \"/5\" beside it is smaller and lighter and stays on the generic steps. Added 2026-08-11 because Figma binds these values as loose variables and gives the role NO type style, so the code had been borrowing --fw-btn for the 600 and --letter-spacing-overline for the 0.8: right values, wrong names, and a change to either of those roles would have moved the score with it. Ball's call was to name the role here rather than draw a style in Figma, since the score is two sizes on one line and no single Figma style can cover it."
+      },
+      "code-inline": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{typography.font-family.mono}",
+          "fontSize": "16px",
+          "fontWeight": 400,
+          "lineHeight": "28px"
+        },
+        "$description": "Inline code inside article or document prose ONLY — the body's own 16/28, so a method named mid-sentence sits on the paragraph's line. Figma Typography/UI/code-inline (Ball, 2026-11-16). Pair with color text/code-inline on surface/code-inline. Block code keeps scale.code 14/24."
       }
     }
   },

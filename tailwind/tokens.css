@@ -270,7 +270,7 @@
   --color-text-disabled:        var(--neutral-400); /* #A1A1A1 — Disabled controls ONLY · exempt from contrast minimums; kept light so a disabled control reads as inert (5.86:1 away from body) */
   --color-text-support:         #1D629BE6;          /* iron-blue/700 at 90% — Support headlines, caption titles, field hints (Figma: text/default/support). Alpha in the variable, as placeholder: E6 = round-half-up .90 × 255. Composited 5.17:1 on --color-bg-card, 4.97:1 on --color-bg-section, 4.78:1 on --color-bg-shade. Ball asked for 70% on 2026-10-13; that composites to 3.35:1 on the card and fails AA, so 90% by his ruling. iron-blue/800 until 2026-10-13, slate-600 #45556C until 2026-09-30. */
   --color-text-danger:          var(--iron-red-700); /* #A8181D — a field's error message and its icon (Figma: text/default/danger) · 7.46:1 on --color-bg-input. Not --color-danger (#E5242A, 4.55:1): that is the status colour, this is text. */
-  --color-text-code:            var(--iron-pink-600); /* #BA174B — inline code text (Figma: text/default/code) · 5.76:1 on --color-bg-code, 6.34:1 on white. From the ironpdf.com changelog's code highlight, which uses pink-500 at 4.28:1 on its tint, under AA; Ball chose /600 on 2026-11-16 */
+  --color-text-code-inline:            var(--iron-pink-600); /* #BA174B — inline code text (Figma: text/default/code-inline) · 5.76:1 on --color-bg-code-inline, 6.34:1 on white. From the ironpdf.com changelog's code highlight, which uses pink-500 at 4.28:1 on its tint, under AA; Ball chose /600 on 2026-11-16 */
   --color-text-on-primary:      #FFFFFF;                 /* White text on CTA buttons (Figma: on action) */
   --color-text-on-action-hover:          var(--iron-pink-500); /* #E01A59 — brand/primary — text on a hovered action */
   --color-text-on-action-tertiary:       var(--iron-blue-500); /* #2693EC — text on tertiary / ghost action */
@@ -293,7 +293,7 @@
   --color-text-dark-disabled:    var(--neutral-500);  /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
   --color-text-dark-danger:      var(--iron-red-300);      /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card, the lowest surface a field sits on */
-  --color-text-dark-code:        var(--iron-pink-300);     /* #F08DAC — inline code text (dark) · 7.64:1 on --color-bg-dark-code */
+  --color-text-dark-code-inline:        var(--iron-pink-300);     /* #F08DAC — inline code text (dark) · 7.64:1 on --color-bg-dark-code-inline */
   --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
   --color-text-dark-link-hover:  var(--iron-pink-300);     /* #F08DAC — hovered / active link on dark surfaces · 5.08:1 on --color-bg-dark-card, 5.79 on -shade, 7.72 on --color-bg-dark. Back to /300 on 2026-10-13 (Ball): /400 #E95F8B failed AA on the card (3.61) and shade (4.12) */
   --color-text-dark-link-menu-alt: #FFFFFF;             /* white — link-menu-alt, dark column · 11.72:1 on --color-bg-dark-card. Its hover is the same pink in both modes, so it has no dark twin */
@@ -346,9 +346,14 @@
   --color-bg-input:          #FFFFFF;                 /* white — field fill */
   --color-bg-input-hover:    var(--slate-100);        /* #F1F5F9 — slate/100 — hovered field; hover shows by fill, not border */
   --color-bg-input-disabled: var(--slate-50);         /* #F8FAFC — slate/50 — disabled field */
-  /* Inline code's tint — a run of code inside prose, padded 4 and rounded 4. The
-     changelog draws #F9F2F4, which is off our scale; pink/50 is the nearest step. */
-  --color-bg-code:           var(--iron-pink-50);     /* #FDF1F5 — iron-pink/50 — inline code background */
+  /* Inline code — the pair --color-text-code-inline on --color-bg-code-inline,
+     padded 4 (--spacing-micro), rounded 4 (--rounded-sm), Roboto Mono 14.
+     FOR ARTICLE OR DOCUMENT PROSE ONLY: a method, class or value named inside a
+     sentence ("added SignToBytes"). Not for buttons, labels, badges, UI, or code
+     blocks — check:tokens fails a component that uses either token. Named
+     -inline so a block-code surface can be -block beside it. The changelog
+     draws #F9F2F4, off our scale; pink/50 is the nearest step. */
+  --color-bg-code-inline:           var(--iron-pink-50);     /* #FDF1F5 — iron-pink/50 — inline code background (Figma: surface/code-inline) */
   /* A FIXED light band, the mirror of --color-bg-footer's fixed dark one, and
      like it NEVER remapped in .dark — see the .dark block, which lists neither.
      ProductMenu's bar is Ball's case (2026-09-03): the product header keeps the
@@ -376,7 +381,7 @@
   --color-bg-dark-input:          var(--iron-violet-950); /* #260F27 — iron-violet/950 — field fill (dark) */
   --color-bg-dark-input-hover:    var(--iron-violet-850); /* #462244 — iron-violet/850 — hovered field (dark) */
   --color-bg-dark-input-disabled: var(--iron-violet-900); /* #391C39 — iron-violet/900 — disabled field (dark) */
-  --color-bg-dark-code:           var(--iron-pink-950);  /* #2E0E18 — iron-pink/950 — inline code background (dark) */
+  --color-bg-dark-code-inline:           var(--iron-pink-950);  /* #2E0E18 — iron-pink/950 — inline code background (dark) */
   --color-bg-dark-section:     var(--iron-violet-900); /* #391C39 — iron-violet/900 — neutral section band (dark), one rung above the page */
   /* section-alt crosses to the iron-purple ramp, because no violet rung is a
      tint and a purple one is — that is what keeps the pair "neutral vs tinted"
@@ -457,6 +462,7 @@
   --fw-body:      400;
   --fw-caption:   400;  /* Caption — regular, content scale */
   --fw-code:      400;  /* Code — regular, monospace */
+  --fw-code-inline: 400; /* Code inline — regular, monospace; article / document prose only */
   --fw-overline:  700;
   --fw-caption-sm:500;  /* Caption SM — medium, tooltip / footer */
   --fw-label:     500;  /* Label text — medium, form / UI labels */
@@ -584,6 +590,7 @@
   --font-size-label-lg:   var(--font-size-base);/* 16px — form / UI label, large */
   --font-size-overline: var(--font-size-sm);    /* 14px — uppercase category label, accent */
   --font-size-code:     var(--font-size-sm);    /* 14px — inline & block code, mono */
+  --font-size-code-inline: var(--font-size-base); /* 16px — inline code in article / document prose ONLY: the body's own size, so it sits on the paragraph's line (Figma Typography/UI/code-inline, Ball 2026-11-16) */
 
   /* ── Font sizes — UI scale (semantic → primitive) ── */
   --font-size-btn-lg:    var(--font-size-base);  /* 16px — hero / primary CTA */
@@ -652,6 +659,7 @@
   --line-height-label-lg:   var(--leading-5);   /* 20px — same leading as label, one size up */
   --line-height-overline: var(--leading-4);   /* 16px */
   --line-height-code:     var(--leading-6);   /* 24px */
+  --line-height-code-inline: var(--leading-7); /* 28px — the body's leading */
   --line-height-btn-lg:    1;                 /* Button · large — single-line (= 100%) */
   --line-height-review: var(--leading-5);    /* 20px */
   --line-height-btn:       var(--leading-4);  /* Button · default — 16px */
@@ -994,7 +1002,7 @@
   --color-text-disabled:    var(--color-text-dark-disabled);
   --color-text-support:     var(--color-text-dark-support);
   --color-text-danger:      var(--color-text-dark-danger);
-  --color-text-code:        var(--color-text-dark-code);
+  --color-text-code-inline:        var(--color-text-dark-code-inline);
   --color-text-link:        var(--color-text-dark-link);
   --color-text-link-hover:  var(--color-text-dark-link-hover);
   --color-text-link-menu-alt: var(--color-text-dark-link-menu-alt);
@@ -1010,7 +1018,7 @@
   --color-bg-input:          var(--color-bg-dark-input);
   --color-bg-input-hover:    var(--color-bg-dark-input-hover);
   --color-bg-input-disabled: var(--color-bg-dark-input-disabled);
-  --color-bg-code:           var(--color-bg-dark-code);
+  --color-bg-code-inline:           var(--color-bg-dark-code-inline);
 
   /* ── Borders ── */
   --color-border:        var(--color-border-dark);

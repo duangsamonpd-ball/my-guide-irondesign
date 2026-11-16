@@ -544,6 +544,7 @@ const COLORS = {
   'text.disabled': 'color-text-disabled',
   'text.support': 'color-text-support',
   'text.danger': 'color-text-danger',
+  'text.code-inline': 'color-text-code-inline',
   'text.on-primary': 'color-text-on-primary',
   'text.on-action-hover': 'color-text-on-action-hover',
   'text.on-action-tertiary': 'color-text-on-action-tertiary',
@@ -568,6 +569,7 @@ const COLORS = {
   'text-dark.disabled': 'color-text-dark-disabled',
   'text-dark.support': 'color-text-dark-support',
   'text-dark.danger': 'color-text-dark-danger',
+  'text-dark.code-inline': 'color-text-dark-code-inline',
   'text-dark.link': 'color-text-dark-link',
   'text-dark.link-hover': 'color-text-dark-link-hover',
   'text-dark.link-menu-alt': 'color-text-dark-link-menu-alt',
@@ -593,6 +595,7 @@ const COLORS = {
   'surface.input': 'color-bg-input',
   'surface.input-hover': 'color-bg-input-hover',
   'surface.input-disabled': 'color-bg-input-disabled',
+  'surface.code-inline': 'color-bg-code-inline',
   'surface-dark.background': 'color-bg-dark',
   'surface-dark.background-shade': 'color-bg-dark-shade',
   'surface-dark.card': 'color-bg-dark-card',
@@ -603,6 +606,7 @@ const COLORS = {
   'surface-dark.input': 'color-bg-dark-input',
   'surface-dark.input-hover': 'color-bg-dark-input-hover',
   'surface-dark.input-disabled': 'color-bg-dark-input-disabled',
+  'surface-dark.code-inline': 'color-bg-dark-code-inline',
 
   'border.default': 'color-border',
   'border.strong': 'color-border-strong',
@@ -765,6 +769,30 @@ for (const source of componentSources()) {
     for (const [raw] of line.matchAll(RAW_COLOUR)) {
       checks++;
       err('components', `${source.name}.astro:${i + 1}`, `hardcoded ${raw} — use a semantic token, or color-mix() over one for a tint`);
+    }
+  });
+}
+
+/* ── article-only tokens ─────────────────────────────────────────────────── */
+
+/**
+ * The code-inline tokens — `--color-{text,bg}-code-inline` and the type role
+ * `--{font-size,line-height,fw}-code-inline` — are for inline code inside ARTICLE OR DOCUMENT
+ * PROSE — "added `SignToBytes`" — and nothing else (Ball, 2026-11-16). A token
+ * cannot say where it may be used, so this does: no component may reference
+ * either one, by var() or by its Tailwind utility (`text-text-code-inline`,
+ * `bg-bg-code-inline`) — the substring `code-inline` catches every spelling.
+ * A future Article / Prose component is the one legitimate user; name it here.
+ */
+const ARTICLE_ONLY = /code-inline/g;
+const ARTICLE_COMPONENTS = new Set([]);
+for (const source of componentSources()) {
+  if (ARTICLE_COMPONENTS.has(source.name)) continue;
+  const src = blankComments(readSource(relative(ROOT, source.file)));
+  src.split('\n').forEach((line, i) => {
+    for (const _ of line.matchAll(ARTICLE_ONLY)) {
+      checks++;
+      err('components', `${source.name}.astro:${i + 1}`, 'uses a code-inline token — inline code in article or document prose only, not UI');
     }
   });
 }
@@ -972,6 +1000,15 @@ if (SELF_TEST) {
     ['COMPONENT — a hex inside a comment (control)',
       [['astro-components/components/Notice.astro', '</style>', '  /* was #FF0000 */\n</style>']],
       'clean', 'hardcoded #FF0000'],
+    ['COMPONENT — code-inline colour by var()',
+      [['astro-components/components/Notice.astro', '</style>', '  .zz { color: var(--color-text-code-inline); }\n</style>']],
+      'fail', 'code-inline token'],
+    ['COMPONENT — code-inline colour by Tailwind utility',
+      [['astro-components/components/Breadcrumb.astro', "'m-0 flex list-none", "'bg-bg-code-inline m-0 flex list-none"]],
+      'fail', 'code-inline token'],
+    ['COMPONENT — code-inline named in a comment (control)',
+      [['astro-components/components/Notice.astro', '</style>', '  /* not --color-bg-code-inline */\n</style>']],
+      'clean', 'code-inline token'],
     ['COMPONENT — color-mix() over a token (control)',
       [['astro-components/components/Notice.astro', '</style>',
         '  .zz { color: color-mix(in srgb, var(--color-primary) 50%, transparent); }\n</style>']],

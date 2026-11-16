@@ -510,7 +510,6 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
     <div class="type-preview">
       <div class="style-name">Code <span class="tag">Roboto Mono · Regular</span></div>
       <div style="font-size:0.875rem; font-weight:400; line-height:24px; font-family:'Roboto Mono','SF Mono',Consolas,monospace; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:6px; padding:10px 14px; color:#171717; overflow-wrap:anywhere;">var pdf = renderer.RenderHtmlAsPdf(html);</div>
-      <p style="margin:16px 0 0; font-size:1rem; line-height:1.75; color:var(--color-text-body);">Inline: added <code style="font-family:var(--font-mono); font-size:var(--font-size-code); font-weight:var(--fw-code); color:var(--color-text-code); background:var(--color-bg-code); padding:var(--spacing-micro); border-radius:var(--rounded-sm); overflow-wrap:anywhere;">SignToBytes</code> to return the signed PDF as bytes.</p>
     </div>
     <div class="type-meta">
       <table data-ds-table-exempt="key-value spec list inside a type specimen card, not a data table">
@@ -520,15 +519,34 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td>Font</td><td>Roboto Mono</td></tr>
         <tr><td>Tokens</td><td><code>--font-size-code</code> <code>--line-height-code</code> <code>--fw-code</code></td></tr>
         <tr><td>Utilities</td><td><code>text-code</code> <code>leading-code</code> <code>font-code</code></td></tr>
-        <tr><td>Colour</td><td>inline: <code>--color-text-code</code> on <code>--color-bg-code</code>, padding 4, radius 4</td></tr>
-        <tr><td>Use for</td><td>C# block code — light bg + thin border; inline code — the pink tint</td></tr>
+        <tr><td>Use for</td><td>C# block code — light bg + thin border. Inline code in an article takes Code inline, below</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Code inline -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Code inline <span class="tag">Roboto Mono · Regular</span></div>
+      <p style="margin:0; font:400 1rem/28px var(--font-sans); color:var(--color-text-body);">Added <code style="font-family:var(--font-mono); font-size:1rem; font-weight:400; line-height:28px; color:var(--color-text-code-inline); background:var(--color-bg-code-inline); padding:var(--spacing-micro); border-radius:var(--rounded-sm); overflow-wrap:anywhere;">SignToBytes</code> to return the signed PDF as bytes.</p>
+    </div>
+    <div class="type-meta">
+      <table data-ds-table-exempt="key-value spec list inside a type specimen card, not a data table">
+        <tr><td>Size</td><td>16px / 1rem — the body&rsquo;s own size</td></tr>
+        <tr><td>Line height</td><td>28px (token 7)</td></tr>
+        <tr><td>Weight</td><td>400 — Regular</td></tr>
+        <tr><td>Font</td><td>Roboto Mono</td></tr>
+        <tr><td>Colour</td><td><code>--color-text-code-inline</code> on <code>--color-bg-code-inline</code> · padding 4 · radius 4</td></tr>
+        <tr><td>Tokens</td><td><code>--font-size-code-inline</code> <code>--line-height-code-inline</code> <code>--fw-code-inline</code></td></tr>
+        <tr><td>Utilities</td><td><code>text-code-inline</code> <code>leading-code-inline</code> <code>font-code-inline</code></td></tr>
+        <tr><td>Use for</td><td>A method, class or value named inside a sentence — <b>article or document prose only</b>. Never on buttons, labels, badges or UI; <code>check:tokens</code> fails a component that uses it</td></tr>
       </table>
     </div>
   </div>
   </div>
 
 
-  <div class="sect"><h2 class="sect-h">UI Scale — Buttons &amp; Navigation</h2>
+  <div class="sect"><h2 class="sect-h">UI Scale — Buttons, Navigation &amp; Badges</h2>
   <p style="font-size:0.85rem; color:#62748E; margin:-4px 0 20px; max-width:680px;">UI text reuses the 16 / 14 / 12&nbsp;px content sizes but sets its own weight (600 buttons, 500 nav) and a tight line-height of 1, so it reads as interactive rather than as prose.</p>
 
   <!-- Button large -->
@@ -643,6 +661,44 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <tr><td>Tokens</td><td><code>--font-size-nav-label</code> <code>--line-height-nav-label</code> <code>--fw-nav-label</code> <code>--letter-spacing-nav-label</code></td></tr>
         <tr><td>Utilities</td><td><code>text-nav-label</code> <code>leading-nav-label</code> <code>font-nav-label</code> <code>tracking-nav-label</code></td></tr>
         <tr><td>Use for</td><td>Category headers in menus &amp; footer columns</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Badge -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Badge <span class="tag">Montserrat · Bold</span></div>
+      <div style="font-size:0.75rem; font-weight:700; line-height:16px; letter-spacing:0; color:var(--color-text-heading);">New in 2025.11</div>
+    </div>
+    <div class="type-meta">
+      <table data-ds-table-exempt="key-value spec list inside a type specimen card, not a data table">
+        <tr><td>Size</td><td>12px / 0.75rem</td></tr>
+        <tr><td>Line height</td><td>16px (token 4)</td></tr>
+        <tr><td>Weight</td><td>700 — Bold</td></tr>
+        <tr><td>Tracking</td><td>0 (normal)</td></tr>
+        <tr><td>Tokens</td><td><code>--font-size-badge</code> <code>--line-height-badge</code> <code>--fw-badge</code> <code>--letter-spacing-badge</code></td></tr>
+        <tr><td>Utilities</td><td><code>text-badge</code> <code>leading-badge</code> <code>font-badge</code> <code>tracking-badge</code></td></tr>
+        <tr><td>Use for</td><td>The default Badge — status and category labels. See <a href="component-badge.html">Badge</a></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Badge small -->
+  <div class="type-row">
+    <div class="type-preview">
+      <div class="style-name">Badge · small <span class="tag">Montserrat · Bold</span></div>
+      <div style="font-size:0.625rem; font-weight:700; line-height:12px; letter-spacing:0; color:var(--color-text-heading);">New in 2025.11</div>
+    </div>
+    <div class="type-meta">
+      <table data-ds-table-exempt="key-value spec list inside a type specimen card, not a data table">
+        <tr><td>Size</td><td>10px / 0.625rem</td></tr>
+        <tr><td>Line height</td><td>12px (token 3)</td></tr>
+        <tr><td>Weight</td><td>700 — Bold</td></tr>
+        <tr><td>Tracking</td><td>0 (normal)</td></tr>
+        <tr><td>Tokens</td><td><code>--font-size-badge-sm</code> <code>--line-height-badge-sm</code> <code>--fw-badge-sm</code> <code>--letter-spacing-badge-sm</code></td></tr>
+        <tr><td>Utilities</td><td><code>text-badge-sm</code> <code>leading-badge-sm</code> <code>font-badge-sm</code> <code>tracking-badge-sm</code></td></tr>
+        <tr><td>Use for</td><td>The <code>sm</code> Badge — compact labels in dense rows</td></tr>
       </table>
     </div>
   </div>
