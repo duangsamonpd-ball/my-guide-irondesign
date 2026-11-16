@@ -395,7 +395,7 @@
       "code-inline": {
         "$value": "#F08DAC",
         "$type": "color",
-        "$description": "Iron Pink/300 — inline code text (dark). 7.64:1 on surface-dark/code-inline. For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks."
+        "$description": "Iron Pink/300 — inline code text (dark). 6.67:1 on surface-dark/code-inline. For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks."
       },
       "link": {
         "$value": "#67B3F2",
@@ -570,9 +570,9 @@
         "$description": "Iron Violet/900 — a disabled field's fill (dark)."
       },
       "code-inline": {
-        "$value": "#2E0E18",
+        "$value": "#471022",
         "$type": "color",
-        "$description": "Iron Pink/950 — inline code background (dark). For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks."
+        "$description": "Iron Pink/900 — inline code background (dark). /900 not /950 (Ball, 2026-11-16): /950 was 1.01:1 against the dark page, invisible; /900 stands off the page 1.16 and the card 1.31. For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks."
       }
     },
     "border": {

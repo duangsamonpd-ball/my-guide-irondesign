@@ -293,7 +293,7 @@
   --color-text-dark-disabled:    var(--neutral-500);  /* #737373 — neutral/500 · exempt; 3.20:1 away from dark body text */
   --color-text-dark-support:     var(--iron-violet-300);   /* #CEA7C8 — iron-violet/300 */
   --color-text-dark-danger:      var(--iron-red-300);      /* #FF9DA1 — iron-red/300 · 5.91:1 on --color-bg-dark-card, the lowest surface a field sits on */
-  --color-text-dark-code-inline:        var(--iron-pink-300);     /* #F08DAC — inline code text (dark) · 7.64:1 on --color-bg-dark-code-inline */
+  --color-text-dark-code-inline:        var(--iron-pink-300);     /* #F08DAC — inline code text (dark) · 6.67:1 on --color-bg-dark-code-inline */
   --color-text-dark-link:        var(--iron-blue-400);     /* #67B3F2 — lighter than light mode; dark surfaces need a lighter hue · 5.19:1 on --color-bg-dark-card */
   --color-text-dark-link-hover:  var(--iron-pink-300);     /* #F08DAC — hovered / active link on dark surfaces · 5.08:1 on --color-bg-dark-card, 5.79 on -shade, 7.72 on --color-bg-dark. Back to /300 on 2026-10-13 (Ball): /400 #E95F8B failed AA on the card (3.61) and shade (4.12) */
   --color-text-dark-link-menu-alt: #FFFFFF;             /* white — link-menu-alt, dark column · 11.72:1 on --color-bg-dark-card. Its hover is the same pink in both modes, so it has no dark twin */
@@ -381,7 +381,7 @@
   --color-bg-dark-input:          var(--iron-violet-950); /* #260F27 — iron-violet/950 — field fill (dark) */
   --color-bg-dark-input-hover:    var(--iron-violet-850); /* #462244 — iron-violet/850 — hovered field (dark) */
   --color-bg-dark-input-disabled: var(--iron-violet-900); /* #391C39 — iron-violet/900 — disabled field (dark) */
-  --color-bg-dark-code-inline:           var(--iron-pink-950);  /* #2E0E18 — iron-pink/950 — inline code background (dark) */
+  --color-bg-dark-code-inline:    var(--iron-pink-900);   /* #471022 — iron-pink/900 — inline code background (dark). /900, not /950 (Ball, 2026-11-16): /950 stood off the dark page #260F27 at 1.01:1, invisible, and /800 vanished on the dark card #522950 at 1.00:1; /900 shows on both (1.16 page, 1.31 card) and keeps the text at 6.67:1 */
   --color-bg-dark-section:     var(--iron-violet-900); /* #391C39 — iron-violet/900 — neutral section band (dark), one rung above the page */
   /* section-alt crosses to the iron-purple ramp, because no violet rung is a
      tint and a purple one is — that is what keeps the pair "neutral vs tinted"
