@@ -294,6 +294,11 @@
         "$type": "color",
         "$description": "Iron Red/700 — a field's error message and its icon (light). Figma text/default/danger. 7.46:1 on surface/input, 6.81:1 on surface/input-hover."
       },
+      "code": {
+        "$value": "#BA174B",
+        "$type": "color",
+        "$description": "Iron Pink/600 — inline code text (light), the ironpdf.com changelog's code highlight. Its pink-500 was 4.28:1 on surface/code, under AA; Ball chose /600 on 2026-11-16 — 5.76:1 on surface/code, 6.34:1 on white."
+      },
       "on-primary": {
         "$value": "#FFFFFF",
         "$type": "color",
@@ -386,6 +391,11 @@
         "$value": "#FF9DA1",
         "$type": "color",
         "$description": "Iron Red/300 — a field's error message and its icon (dark). 5.91:1 on surface-dark/card, the lowest of the surfaces a field can sit on."
+      },
+      "code": {
+        "$value": "#F08DAC",
+        "$type": "color",
+        "$description": "Iron Pink/300 — inline code text (dark). 7.64:1 on surface-dark/code."
       },
       "link": {
         "$value": "#67B3F2",
@@ -500,6 +510,11 @@
         "$value": "#F8FAFC",
         "$type": "color",
         "$description": "Slate/50 — a disabled field's fill (light). Figma surface/input-disabled."
+      },
+      "code": {
+        "$value": "#FDF1F5",
+        "$type": "color",
+        "$description": "Iron Pink/50 — inline code background (light). The changelog draws #F9F2F4, off our scale; /50 is the nearest step."
       }
     },
     "surface-dark": {
@@ -553,6 +568,11 @@
         "$value": "#391C39",
         "$type": "color",
         "$description": "Iron Violet/900 — a disabled field's fill (dark)."
+      },
+      "code": {
+        "$value": "#2E0E18",
+        "$type": "color",
+        "$description": "Iron Pink/950 — inline code background (dark)."
       }
     },
     "border": {

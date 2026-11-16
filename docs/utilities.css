@@ -258,6 +258,7 @@
     --color-text-disabled: var(--neutral-400);
     --color-text-support: #1D629BE6;
     --color-text-danger: var(--iron-red-700);
+    --color-text-code: var(--iron-pink-600);
     --color-text-on-primary: #FFFFFF;
     --color-text-on-action-hover: var(--iron-pink-500);
     --color-text-on-action-tertiary: var(--iron-blue-500);
@@ -278,6 +279,7 @@
     --color-text-dark-disabled: var(--neutral-500);
     --color-text-dark-support: var(--iron-violet-300);
     --color-text-dark-danger: var(--iron-red-300);
+    --color-text-dark-code: var(--iron-pink-300);
     --color-text-dark-link: var(--iron-blue-400);
     --color-text-dark-link-hover: var(--iron-pink-300);
     --color-text-dark-link-menu-alt: #FFFFFF;
@@ -295,6 +297,7 @@
     --color-bg-input: #FFFFFF;
     --color-bg-input-hover: var(--slate-100);
     --color-bg-input-disabled: var(--slate-50);
+    --color-bg-code: var(--iron-pink-50);
     --color-bg-nav: #FFFFFF;
     --color-bg-nav-alt: var(--slate-50);
     --color-bg-footer: var(--neutral-900);
@@ -307,6 +310,7 @@
     --color-bg-dark-input: var(--iron-violet-950);
     --color-bg-dark-input-hover: var(--iron-violet-850);
     --color-bg-dark-input-disabled: var(--iron-violet-900);
+    --color-bg-dark-code: var(--iron-pink-950);
     --color-bg-dark-section: var(--iron-violet-900);
     --color-bg-dark-section-alt: var(--iron-purple-900);
     --color-border: var(--slate-200);
@@ -2838,6 +2842,7 @@
   --color-text-disabled: var(--color-text-dark-disabled);
   --color-text-support: var(--color-text-dark-support);
   --color-text-danger: var(--color-text-dark-danger);
+  --color-text-code: var(--color-text-dark-code);
   --color-text-link: var(--color-text-dark-link);
   --color-text-link-hover: var(--color-text-dark-link-hover);
   --color-text-link-menu-alt: var(--color-text-dark-link-menu-alt);
@@ -2849,6 +2854,7 @@
   --color-bg-input: var(--color-bg-dark-input);
   --color-bg-input-hover: var(--color-bg-dark-input-hover);
   --color-bg-input-disabled: var(--color-bg-dark-input-disabled);
+  --color-bg-code: var(--color-bg-dark-code);
   --color-bg-section: var(--color-bg-dark-section);
   --color-bg-section-alt: var(--color-bg-dark-section-alt);
   --color-border: var(--color-border-dark);
