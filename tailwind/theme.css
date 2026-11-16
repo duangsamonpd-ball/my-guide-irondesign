@@ -524,7 +524,7 @@
   --text-overline--line-height: var(--leading-overline);
   --text-overline--letter-spacing: var(--tracking-overline);
   --text-overline--font-weight: var(--font-weight-overline);
-  --text-code: var(--text-sm);                /* 14px — inline & block code, mono */
+  --text-code: var(--text-sm);                /* 14px — code BLOCKS, mono; inline code in an article is --font-size-code-inline */
   --text-code--line-height: var(--leading-code);
   --text-code--font-weight: var(--font-weight-code);
   --text-code-inline: var(--text-base);       /* 16px — inline code in article / document prose ONLY: the body's own size, so it sits on the paragraph's line (Figma Typography/UI/code-inline, Ball 2026-11-16) */

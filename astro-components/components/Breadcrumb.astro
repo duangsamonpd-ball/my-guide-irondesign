@@ -8,9 +8,10 @@
  * FRAMES, not a component set — `bread crumbs menu` node 1647:2501 on a light
  * page, and `bread crumb menu-footer` node 1647:2491, the 1440 strip. Both
  * stay as drawn. The component SET built from clones of them the same day is
- * `Breadcrumb` node 1649:17 — `variant=default|footer`, with `Root`, `Current`
- * and a `Back to top` text property — and carries every binding the frames do.
- * Its trail is an `Items` SLOT (Ball, same day: "slot + text changeable") that
+ * `Breadcrumb` node 1649:17 — `variant=default|footer`, an `Items` slot and a
+ * `Back to top` text property — and carries every binding the frames do.
+ * (A first draft had `Root` and `Current` text properties; the slot replaced
+ * them the same day.) Its trail is that `Items` SLOT (Ball, same day: "slot + text changeable") that
  * takes instances of `Breadcrumb item` node 1651:17 — the "/" and its label as
  * ONE piece, `Label` + a `Separator` switch, `state=link|current` ×
  * `variant=default|footer`. That is exactly this file's <li>: a crumb owns the

@@ -297,7 +297,7 @@
       "code-inline": {
         "$value": "#BA174B",
         "$type": "color",
-        "$description": "Iron Pink/600 — inline code text (light). For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks. 5.76:1 on surface/code-inline, 6.34:1 on white; the ironpdf.com changelog's pink/500 was 4.28:1, under AA — Ball chose /600 on 2026-11-16."
+        "$description": "Iron Pink/600 — inline code text (light). For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 16/28 (typography.ui.code-inline). Not for buttons, labels, badges, UI or code blocks. 5.76:1 on surface/code-inline, 6.34:1 on white; the ironpdf.com changelog's pink/500 was 4.28:1, under AA — Ball chose /600 on 2026-11-16."
       },
       "on-primary": {
         "$value": "#FFFFFF",
@@ -395,7 +395,7 @@
       "code-inline": {
         "$value": "#F08DAC",
         "$type": "color",
-        "$description": "Iron Pink/300 — inline code text (dark). 6.67:1 on surface-dark/code-inline. For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks."
+        "$description": "Iron Pink/300 — inline code text (dark). 6.67:1 on surface-dark/code-inline. For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 16/28 (typography.ui.code-inline). Not for buttons, labels, badges, UI or code blocks."
       },
       "link": {
         "$value": "#67B3F2",
@@ -514,7 +514,7 @@
       "code-inline": {
         "$value": "#FDF1F5",
         "$type": "color",
-        "$description": "Iron Pink/50 — inline code background (light). For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks. The changelog draws #F9F2F4, off our scale; /50 is the nearest step."
+        "$description": "Iron Pink/50 — inline code background (light). For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 16/28 (typography.ui.code-inline). Not for buttons, labels, badges, UI or code blocks. The changelog draws #F9F2F4, off our scale; /50 is the nearest step."
       }
     },
     "surface-dark": {
@@ -572,7 +572,7 @@
       "code-inline": {
         "$value": "#471022",
         "$type": "color",
-        "$description": "Iron Pink/900 — inline code background (dark). /900 not /950 (Ball, 2026-11-16): /950 was 1.01:1 against the dark page, invisible; /900 stands off the page 1.16 and the card 1.31. For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 14. Not for buttons, labels, badges, UI or code blocks."
+        "$description": "Iron Pink/900 — inline code background (dark). /900 not /950 (Ball, 2026-11-16): /950 was 1.01:1 against the dark page, invisible; /900 stands off the page 1.16 and the card 1.31. For inline code within article or document prose only — a method, class or value named in a sentence (\"added SignToBytes\"); padding 4, radius 4, Roboto Mono 16/28 (typography.ui.code-inline). Not for buttons, labels, badges, UI or code blocks."
       }
     },
     "border": {
@@ -1641,7 +1641,7 @@
           "fontWeight": 400,
           "lineHeight": "24px"
         },
-        "$description": "C# code, inline and block. Always monospace, light background, thin border to separate from prose."
+        "$description": "C# code BLOCKS. Always monospace, light background, thin border to separate from prose. Inline code inside an article takes typography.ui.code-inline (16/28) instead (2026-11-16)."
       }
     },
     "ui": {
