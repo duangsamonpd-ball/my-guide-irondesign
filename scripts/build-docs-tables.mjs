@@ -58,8 +58,13 @@ const dim = (s) => `\x1b[90m${s}\x1b[0m`;
 /** The docs use the dense size. */
 export const DOCS_TABLE = tableClass('sm');
 
-const WRAP_RE = /<div data-ds-table-wrap class="[^"]*"/g;
-const TABLE_RE = /<table data-ds-table="([^"]*)" class="[^"]*"/g;
+/* The class attribute is OPTIONAL in both patterns. Until 2026-11-16 they
+   required one, so a marked table written with NO class matched nothing: never
+   stamped, never stale, and `--check` called it current while it rendered bare —
+   component-videothumbnail.html shipped that way, and component-breadcrumb.html
+   was cloned from it. Ball saw it on the live page; no gate did. */
+const WRAP_RE = /<div data-ds-table-wrap(?: class="[^"]*")?(?=[\s>])/g;
+const TABLE_RE = /<table data-ds-table="([^"]*)"(?: class="[^"]*")?(?=[\s>])/g;
 
 export function stamp(html) {
   return html
@@ -97,6 +102,7 @@ if (SELF_TEST) {
     ['a table inside a demo region is not', unaccounted('<!-- demo:a --><table></table><!-- /demo:a -->').length === 0],
     ['a marked table with no wrapper is reported', unwrapped('<p><table data-ds-table="tok" class="x"></table>') === 1],
     ['a wrapped one is not', unwrapped(fresh) === 0],
+    ['a marked table with NO class is stamped, not called current', (() => { const bare = '<div data-ds-table-wrap><table data-ds-table="tok"><tr><td>x</td></tr></table></div>'; const out = stamp(bare); return out !== bare && out.includes(`${DOCS_TABLE} tok"`) && out.includes(`class="${tableWrap}"`); })()],
   ];
   let bad = 0;
   for (const [what, ok] of cases) { if (!ok) bad++; console.log(`${ok ? green('✓') : red('✖')} ${what}`); }
