@@ -1,0 +1,168 @@
+---
+/**
+ * A breadcrumb trail — where this page sits, root first — and, as `footer`, the
+ * dark strip between a page and its footer that carries the same trail plus
+ * "Back to top".
+ *
+ * From Figma's `breadcrumb menu` section, node 1647:2505 (2026-11-16): two
+ * FRAMES, not a component set — `bread crumbs menu` node 1647:2501 on a light
+ * page, and `bread crumb menu-footer` node 1647:2491, the 1440 strip. Both
+ * stay as drawn. The component SET built from clones of them the same day is
+ * `Breadcrumb` node 1649:17 — `variant=default|footer`, with `Root`, `Current`
+ * and a `Back to top` text property — and carries every binding the frames do.
+ * Its trail is an `Items` SLOT (Ball, same day: "slot + text changeable") that
+ * takes instances of `Breadcrumb item` node 1651:17 — the "/" and its label as
+ * ONE piece, `Label` + a `Separator` switch, `state=link|current` ×
+ * `variant=default|footer`. That is exactly this file's <li>: a crumb owns the
+ * separator in front of it (`li + li::before`), and the first has none.
+ *
+ * ── Where it came from ────────────────────────────────────────────────────
+ *
+ * Promoted from page-experiments' `shared/Breadcrumb.astro` (Ball, 2026-11-16:
+ * "the footer can come from the build page room"), which three pages use as
+ * the footer strip. Its markup and its reasoning are kept — an <ol>, the last
+ * crumb `aria-current`, the separator drawn by CSS so a screen reader reads
+ * crumbs and not "slash". What moved
+ * to match the frame, read off 1647:2491 rather than off the room's copy:
+ *   - a linked crumb is SemiBold (`weight/semibold`); the room set it in
+ *     caption-sm's Medium;
+ *   - the prop is `items`, not the room's `trail` — README's prop conventions
+ *     name every repeating-content array that way;
+ *   - the separator is its body colour at `opacity-75` on the strip and
+ *     `opacity-50` on a light page; the room drew it at full strength;
+ *   - "Back to top" is Font Awesome's `arrow-up` (U+F062) at 9x12 with an 8px
+ *     gap, as the frame draws it; the room typed `↑` in the text face. The path
+ *     is this package's `arrowDown` turned over — FA's two glyphs are the
+ *     same shape mirrored, so this is the glyph, not a lookalike.
+ * And two Ball ruled on the same day, after the first version shipped
+ * differently:
+ *   - a linked crumb HOVERS to `--color-text-link-hover` on both variants, the
+ *     `link-hover` colour token (Figma `text/default/link-hover`). This file
+ *     first gave the strip `--color-text-dark-link-hover`, because #E01A59 on
+ *     #171717 is 3.8:1, under AA for 12px text; Ball chose the token over the
+ *     ratio. The resting #2693EC is 5.5:1 there.
+ *   - the strip is 80 tall, not the 78 the frame was drawn at. The frame's own
+ *     auto layout said 32 + 16 + 32 with the height locked to 78; Ball picked
+ *     the padding.
+ *
+ * ── Why the crumbs are not TextLink ───────────────────────────────────────
+ *
+ * TextLink's `plain` matches the light crumb exactly, but its `dark` is
+ * #67B3F2 where the strip binds `text/default/link` #2693EC, and its arrow
+ * only points right. One component painting its links two ways would be worse
+ * than one painting them its own way, so both variants style the <a> here,
+ * with TextLink's focus ring.
+ *
+ * @figma-size crumbs
+ *   node   1647:2501
+ *   frame  bread crumbs menu
+ *   page   component-breadcrumb.html
+ *   region preview
+ *   select [data-part="trail"]
+ *   at     1440
+ *   height 16
+ *   why    one caption-sm line; the separator must not add to it
+ *
+ * @figma-size strip
+ *   node   1647:2491
+ *   frame  bread crumb menu-footer
+ *   page   component-breadcrumb.html
+ *   region footer
+ *   select [data-part="strip"]
+ *   at     1440
+ *   height 80
+ *   why    32 + 16 + 32, Ball's ruling; it was locked at 78 against its own padding
+ */
+import { icons } from '../icons';
+
+interface Props {
+  /**
+   * The crumbs, root first and the current page last. Every crumb but the last links when it has an `href`; the last is the page you are on and never links.
+   * @figma the `Items` slot — one `Breadcrumb item` instance per crumb, `Separator` off on the first
+   */
+  items: { label: string; href?: string }[];
+  /**
+   * `default` is the trail alone, in the page's own colours; `footer` is the full-width dark strip with the trail on the left and "Back to top" on the right.
+   * @figma `variant` on the `Breadcrumb` set — same two values, same default
+   */
+  variant?: 'default' | 'footer';
+  /** What a screen reader calls the landmark. Change it for a page in another language, or when a page has a second trail. */
+  label?: string;
+  /**
+   * The "Back to top" link's text, on `footer` only.
+   * @figma `Back to top`
+   */
+  backToTop?: string;
+  /** Extra classes on the outermost element, after the component's own. */
+  class?: string;
+}
+
+const { items, variant = 'default', label = 'Breadcrumb', backToTop = 'Back to top', class: className } = Astro.props;
+
+const footer = variant === 'footer';
+const last = items.length - 1;
+
+/* One string per role, both variants side by side, so a change to one is read
+   beside the other. Tailwind sees every literal here because it scans this file. */
+const ol = [
+  'm-0 flex list-none flex-wrap items-center gap-micro p-0 text-caption-sm',
+  "[&>li+li]:before:mr-micro [&>li+li]:before:content-['/']",
+  /* The two frames bind different opacities to the separator — `opacity-50` on
+     the light trail (1647:2503), `opacity-75` on the strip (1647:2495) — read
+     off the nodes, since `get_variable_defs` on the section lists only the 75. */
+  footer ? '[&>li+li]:before:text-text-on-dark-body [&>li+li]:before:opacity-75' : '[&>li+li]:before:text-text-body [&>li+li]:before:opacity-50',
+];
+const link = [
+  'rounded-[2px] font-semibold text-text-link no-underline transition-colors duration-[var(--duration-fast)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-text-link focus-visible:outline-solid',
+  'hover:text-text-link-hover',
+];
+const current = footer ? 'text-text-on-dark-heading' : 'text-text-heading';
+/* A crumb before the last with no `href` — a section with no page of its own.
+   Body colour, so it reads as neither a link nor the page you are on. */
+const plain = footer ? 'text-text-on-dark-body' : 'text-text-body';
+const tone = (crumb: { href?: string }, i: number) => (i === last ? current : crumb.href ? undefined : plain);
+---
+
+{/* 80 = 32 + a 16px line + 32, `spacing-2xl` each side as the frame binds it.
+    Figma strokes INSIDE, so its 1px top edge costs no height; a CSS border does,
+    so the top padding gives that pixel back and the line still sits at y=32.
+    Built from padding rather than pinned: `figma-size` arms by moving padding,
+    and a trail that wraps on a phone grows instead of overflowing. */}
+{footer ? (
+  <div
+    class:list={[
+      'box-border flex pt-[calc(var(--spacing-2xl)-1px)] pb-2xl items-center border-t border-t-[var(--transparent-white-10)] bg-bg-footer px-[var(--layout-margin)]',
+      className,
+    ]}
+    data-part="strip"
+  >
+    {/* 1232 = the 1440 canvas less 104 a side, so above 1440 the trail and the
+        link stop where they stop at 1440 instead of riding out to the edges. */}
+    <div class="mx-auto flex w-full max-w-[calc(var(--size-container-max)-2*var(--layout-margin-desktop))] flex-wrap items-center justify-between gap-x-md gap-y-xs">
+      <nav aria-label={label}>
+        <ol class:list={ol} data-part="trail">
+          {items.map((crumb, i) => (
+            <li class={tone(crumb, i)} aria-current={i === last ? 'page' : undefined}>
+              {crumb.href && i < last ? <a class:list={link} href={crumb.href}>{crumb.label}</a> : crumb.label}
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <a
+        class:list={[link, 'inline-flex items-center gap-xs text-btn-sm']}
+        href="#top"
+        data-part="back-to-top"
+      >{backToTop}<svg class="h-[1em] w-[0.75em] shrink-0 rotate-180" viewBox={icons.arrowDown.viewBox} fill="currentColor" aria-hidden="true" focusable="false"><path d={icons.arrowDown.path} /></svg></a>
+    </div>
+  </div>
+) : (
+  <nav aria-label={label} class={className}>
+    <ol class:list={ol} data-part="trail">
+      {items.map((crumb, i) => (
+        <li class={tone(crumb, i)} aria-current={i === last ? 'page' : undefined}>
+          {crumb.href && i < last ? <a class:list={link} href={crumb.href}>{crumb.label}</a> : crumb.label}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}

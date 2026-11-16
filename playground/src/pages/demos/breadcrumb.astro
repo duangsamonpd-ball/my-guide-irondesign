@@ -1,0 +1,40 @@
+---
+/**
+ * Demo source for docs/component-breadcrumb.html.
+ *
+ * The trails are the frame's own ("Iron Software / Suite", Figma 1647:2505)
+ * plus the two shapes the frame does not draw and a page will: a one-crumb
+ * trail on a root page, and a section crumb with no page of its own.
+ */
+import { Breadcrumb } from '@iron-software/astro-components';
+
+const suite = [
+  { label: 'Iron Software', href: 'https://ironsoftware.com/' },
+  { label: 'Suite' },
+];
+const deep = [
+  { label: 'Iron Software', href: 'https://ironsoftware.com/' },
+  { label: 'Products' },
+  { label: 'IronPDF', href: 'https://ironpdf.com/' },
+  { label: 'Licensing' },
+];
+---
+
+<html lang="en">
+  <body>
+    <div data-demo="preview">
+      <Breadcrumb items={suite} />
+    </div>
+
+    <div data-demo="footer">
+      <Breadcrumb variant="footer" items={suite} />
+    </div>
+
+    <div data-demo="trails">
+      <div class="demo-bc-stack">
+        <Breadcrumb items={[{ label: 'Iron Software' }]} label="Breadcrumb, root page" />
+        <Breadcrumb items={deep} label="Breadcrumb, four crumbs" />
+      </div>
+    </div>
+  </body>
+</html>

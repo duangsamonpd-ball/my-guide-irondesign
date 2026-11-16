@@ -23,6 +23,7 @@
  */
 
 export { default as Badge } from './components/Badge.astro';
+export { default as Breadcrumb } from './components/Breadcrumb.astro';
 export { default as Button } from './components/Button.astro';
 export { default as Checkbox } from './components/Checkbox.astro';
 export { default as FileUpload } from './components/FileUpload.astro';

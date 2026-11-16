@@ -830,6 +830,9 @@
 .min-h-\[var\(--size-btn-sm\)\] {
   min-height: var(--size-btn-sm);
 }
+.w-\[0\.75em\] {
+  width: 0.75em;
+}
 .w-\[3px\] {
   width: 3px;
 }
@@ -890,6 +893,9 @@
 .max-w-\[1200px\] {
   max-width: 1200px;
 }
+.max-w-\[calc\(var\(--size-container-max\)-2\*var\(--layout-margin-desktop\)\)\] {
+  max-width: calc(var(--size-container-max) - 2 * var(--layout-margin-desktop));
+}
 .max-w-\[var\(--size-container-content\)\] {
   max-width: var(--size-container-content);
 }
@@ -936,6 +942,9 @@
 .scale-x-\[-1\] {
   --tw-scale-x: -1;
   scale: var(--tw-scale-x) var(--tw-scale-y);
+}
+.rotate-180 {
+  rotate: 180deg;
 }
 .transform {
   transform: var(--tw-rotate-x, ) var(--tw-rotate-y, ) var(--tw-rotate-z, ) var(--tw-skew-x, ) var(--tw-skew-y, );
@@ -1039,6 +1048,9 @@
 .gap-x-\[2px\] {
   column-gap: 2px;
 }
+.gap-x-md {
+  column-gap: var(--spacing-md);
+}
 .gap-x-micro {
   column-gap: var(--spacing-micro);
 }
@@ -1057,6 +1069,9 @@
 .gap-y-micro {
   row-gap: var(--spacing-micro);
 }
+.gap-y-xs {
+  row-gap: var(--spacing-xs);
+}
 .overflow-clip {
   overflow: clip;
 }
@@ -1071,6 +1086,9 @@
 }
 .rounded-2xl {
   border-radius: var(--radius-2xl);
+}
+.rounded-\[2px\] {
+  border-radius: 2px;
 }
 .rounded-full {
   border-radius: var(--radius-full);
@@ -1107,6 +1125,10 @@
   border-style: var(--tw-border-style);
   border-width: var(--border-width-2);
 }
+.border-t {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
 .border-solid {
   --tw-border-style: solid;
   border-style: solid;
@@ -1135,6 +1157,9 @@
 .border-transparent {
   border-color: transparent;
 }
+.border-t-\[var\(--transparent-white-10\)\] {
+  border-top-color: var(--transparent-white-10);
+}
 .bg-\[color-mix\(in_srgb\,var\(--color-secondary\)_6\%\,transparent\)\] {
   background-color: var(--color-secondary);
   @supports (color: color-mix(in lab, red, red)) {
@@ -1158,6 +1183,9 @@
 }
 .bg-bg-dark-shade {
   background-color: var(--color-bg-dark-shade);
+}
+.bg-bg-footer {
+  background-color: var(--color-bg-footer);
 }
 .bg-bg-input {
   background-color: var(--color-bg-input);
@@ -1264,6 +1292,9 @@
 .px-\[32px\] {
   padding-inline: 32px;
 }
+.px-\[var\(--layout-margin\)\] {
+  padding-inline: var(--layout-margin);
+}
 .px-md {
   padding-inline: var(--spacing-md);
 }
@@ -1303,6 +1334,9 @@
 .pt-\[32px\] {
   padding-top: 32px;
 }
+.pt-\[calc\(var\(--spacing-2xl\)-1px\)\] {
+  padding-top: calc(var(--spacing-2xl) - 1px);
+}
 .pt-hero {
   padding-top: var(--spacing-hero);
 }
@@ -1311,6 +1345,9 @@
 }
 .pr-xl {
   padding-right: var(--spacing-xl);
+}
+.pb-2xl {
+  padding-bottom: var(--spacing-2xl);
 }
 .pb-xl {
   padding-bottom: var(--spacing-xl);
@@ -1681,6 +1718,9 @@
 }
 .text-text-heading {
   color: var(--color-text-heading);
+}
+.text-text-link {
+  color: var(--color-text-link);
 }
 .text-text-muted {
   color: var(--color-text-muted);
@@ -2117,6 +2157,9 @@
   .hover\:text-on-tertiary-hover:hover {
     color: var(--color-on-tertiary-hover);
   }
+  .hover\:text-text-link-hover:hover {
+    color: var(--color-text-link-hover);
+  }
   .hover\:opacity-85:hover {
     opacity: 85%;
   }
@@ -2186,6 +2229,9 @@
 }
 .focus-visible\:outline-border-selected:focus-visible {
   outline-color: var(--color-border-selected);
+}
+.focus-visible\:outline-text-link:focus-visible {
+  outline-color: var(--color-text-link);
 }
 .focus-visible\:outline-solid:focus-visible {
   --tw-outline-style: solid;
@@ -2406,6 +2452,30 @@
 }
 .\[\&\>img\]\:object-cover > img {
   object-fit: cover;
+}
+.\[\&\>li\+li\]\:before\:mr-micro > li + li::before {
+  content: var(--tw-content);
+  margin-right: var(--spacing-micro);
+}
+.\[\&\>li\+li\]\:before\:text-text-body > li + li::before {
+  content: var(--tw-content);
+  color: var(--color-text-body);
+}
+.\[\&\>li\+li\]\:before\:text-text-on-dark-body > li + li::before {
+  content: var(--tw-content);
+  color: var(--color-text-on-dark-body);
+}
+.\[\&\>li\+li\]\:before\:opacity-50 > li + li::before {
+  content: var(--tw-content);
+  opacity: 50%;
+}
+.\[\&\>li\+li\]\:before\:opacity-75 > li + li::before {
+  content: var(--tw-content);
+  opacity: 75%;
+}
+.\[\&\>li\+li\]\:before\:content-\[\'\/\'\] > li + li::before {
+  --tw-content: '/';
+  content: var(--tw-content);
 }
 :root {
   --iron-pink-50: #FDF1F5;

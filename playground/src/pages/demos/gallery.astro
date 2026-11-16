@@ -44,7 +44,7 @@ import { dirname, join } from 'node:path';
 
 import { NAV } from '../../../../scripts/lib/nav.mjs';
 import {
-  Badge, Button, Checkbox, FileUpload, Footer, FooterBar, FormCard,
+  Badge, Breadcrumb, Button, Checkbox, FileUpload, Footer, FooterBar, FormCard,
   Input, Logo, Notice, ProductMenu, Prose, Radio, Select, Table, Textarea, TextLink, Tooltip,
   NugetButton, PasswordChecklist, TopNav, TrialKeyCard, VideoThumbnail,
 } from '@iron-software/astro-components';
@@ -140,6 +140,7 @@ const cards: Record<string, { kind?: 'wide' | 'band' }> = {
   'component-logo.html': {},
   'component-topnav.html': { kind: 'band' },
   'component-productmenu.html': { kind: 'band' },
+  'component-breadcrumb.html': {},
   'component-footer.html': { kind: 'band' },
   'component-footerbar.html': { kind: 'band' },
   'component-tooltip.html': {},
@@ -306,6 +307,12 @@ const entries = [
                   language={{ label: 'EN', href: '#', caret: true }} />
               )}
               {c.href === 'component-productmenu.html' && <ProductMenu items={menuItems} />}
+              {c.href === 'component-breadcrumb.html' && (
+                <div class="gstack">
+                  <Breadcrumb items={[{ label: 'Iron Software', href: '#' }, { label: 'Suite' }]} label="Breadcrumb example" />
+                  <Breadcrumb variant="footer" items={[{ label: 'Iron Software', href: '#' }, { label: 'Suite' }]} label="Breadcrumb strip example" />
+                </div>
+              )}
               {c.href === 'component-footer.html' && (
                 /* Relative paths, for the reason written in demos/footer.astro:
                    the component defaults to site-root paths and these docs are

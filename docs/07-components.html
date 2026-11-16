@@ -172,6 +172,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: var(--
       <a href="component-logo.html" class="sidebar-link"><i class="sidebar-icon">✳️</i>Logo</a>
       <a href="component-topnav.html" class="sidebar-link"><i class="sidebar-icon">📍</i>Top Nav</a>
       <a href="component-productmenu.html" class="sidebar-link"><i class="sidebar-icon">🧭</i>Product Menu</a>
+      <a href="component-breadcrumb.html" class="sidebar-link"><i class="sidebar-icon">🍞</i>Breadcrumb</a>
       <a href="component-footer.html" class="sidebar-link"><i class="sidebar-icon">🦶</i>Product Footer</a>
       <a href="component-footerbar.html" class="sidebar-link"><i class="sidebar-icon">🧱</i>Footer Bar</a>
       <a href="component-tooltip.html" class="sidebar-link"><i class="sidebar-icon">💬</i>Tooltip</a>
@@ -203,7 +204,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: var(--
     <div class="sect-sub">Each card is the component itself, not a picture of it. Hover a card and follow its name to the full page.</div>
   <div class="gal-wrap">
     <!-- demo:gallery -->
-    <div class="gal-count">23 components, plus Flyout Menu (internal)</div>
+    <div class="gal-count">24 components, plus Flyout Menu (internal)</div>
     <div class="gal">
       <article class="gcard">
         <div class="gcard-stage">
@@ -692,6 +693,38 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: var(--
           <a class="gcard-name" href="component-productmenu.html"><i class="gcard-icon">🧭</i>Product Menu</a>
           <p class="gcard-desc">The full-width product header: brand lockup, main navigation, Search and Ask AI utilities, and the primary call-to-action.</p>
           <p class="gcard-hint">Pinned to its 1440px design width — scroll the frame. Narrowing it would show a layout no viewport produces.</p>
+        </div>
+      </article><article class="gcard">
+        <div class="gcard-stage">
+          <div class="gstack">
+            <nav aria-label="Breadcrumb example">
+              <ol class="m-0 flex list-none flex-wrap items-center gap-micro p-0 text-caption-sm [&amp;>li+li]:before:mr-micro [&amp;>li+li]:before:content-['/'] [&amp;>li+li]:before:text-text-body [&amp;>li+li]:before:opacity-50" data-part="trail">
+                <li>
+                  <a class="rounded-[2px] font-semibold text-text-link no-underline transition-colors duration-[var(--duration-fast)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-text-link focus-visible:outline-solid hover:text-text-link-hover" href="#">Iron Software</a>
+                </li><li class="text-text-heading" aria-current="page">
+                  Suite
+                </li>
+              </ol>
+            </nav>
+            <div class="box-border flex pt-[calc(var(--spacing-2xl)-1px)] pb-2xl items-center border-t border-t-[var(--transparent-white-10)] bg-bg-footer px-[var(--layout-margin)]" data-part="strip">
+              <div class="mx-auto flex w-full max-w-[calc(var(--size-container-max)-2*var(--layout-margin-desktop))] flex-wrap items-center justify-between gap-x-md gap-y-xs">
+                <nav aria-label="Breadcrumb strip example">
+                  <ol class="m-0 flex list-none flex-wrap items-center gap-micro p-0 text-caption-sm [&amp;>li+li]:before:mr-micro [&amp;>li+li]:before:content-['/'] [&amp;>li+li]:before:text-text-on-dark-body [&amp;>li+li]:before:opacity-75" data-part="trail">
+                    <li>
+                      <a class="rounded-[2px] font-semibold text-text-link no-underline transition-colors duration-[var(--duration-fast)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-text-link focus-visible:outline-solid hover:text-text-link-hover" href="#">Iron Software</a>
+                    </li><li class="text-text-on-dark-heading" aria-current="page">
+                      Suite
+                    </li>
+                  </ol>
+                </nav>
+                <a class="rounded-[2px] font-semibold text-text-link no-underline transition-colors duration-[var(--duration-fast)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-text-link focus-visible:outline-solid hover:text-text-link-hover inline-flex items-center gap-xs text-btn-sm" href="#top" data-part="back-to-top">Back to top<svg class="h-[1em] w-[0.75em] shrink-0 rotate-180" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true" focusable="false"><path d="M169.4 502.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 402.7 224 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 370.7-105.4-105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path></svg></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gcard-meta">
+          <a class="gcard-name" href="component-breadcrumb.html"><i class="gcard-icon">🍞</i>Breadcrumb</a>
+          <p class="gcard-desc">Where a page sits, root first, and the dark strip that carries the same trail above the footer with a way back to the top.</p>
         </div>
       </article><article class="gcard gcard-band">
         <div class="gcard-stage frame-scroll">

@@ -37,8 +37,8 @@ this package right now, and they do not have the same requirements:
 
 | | Styled by | You need |
 |---|---|---|
-| **Converted** (15 of 23) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
-| **Not yet converted** (8 of 23) | their own scoped `<style>` | the tokens, nothing else |
+| **Converted** (16 of 24) | Tailwind utility classes | Tailwind, or the pre-compiled stylesheet |
+| **Not yet converted** (8 of 24) | their own scoped `<style>` | the tokens, nothing else |
 
 Every converted component's section below carries a **Needs Tailwind** note, and
 `npm run check:exports` fails if one is missing or stale — the list above is not
@@ -751,6 +751,27 @@ Props: `label` (required — what a screen reader hears; the picture is decorati
 
 The edge is a 1.5px stroke of white at 50% (`--transparent-white-50`) on `--rounded-lg`. The disc is `--color-primary` under `--shadow-modal`. On hover and keyboard focus the edge goes white, the picture leans in to 1.03 and the disc to 1.1; the two scales stop under reduced motion. Ball's ruling of 2026-11-02 picked each part from one of the three hand-built copies it replaces: the homepage's edge, Why IronPDF's disc and hover. The slot can hold any picture, an `<img>`, an `<Image>` or several layers, and it all leans in together.
 
+### `Breadcrumb.astro`
+
+> **Needs Tailwind.** This component has no `<style>` of its own — every value
+> comes from a utility class. See [Setup](#setup) for the two ways to satisfy that.
+
+Where a page sits, root first: an `<ol>` inside a `<nav>` landmark, each crumb but the last a link, the last one `aria-current="page"`. `variant="footer"` is the dark strip that sits between a page and its footer — the same trail on the left, "Back to top" on the right, full width, 80 tall, its content held to the 1232 column the 1440 frame draws.
+
+```astro
+<Breadcrumb
+  variant="footer"
+  items={[
+    { label: 'Iron Software', href: '/' },
+    { label: 'Suite' },
+  ]}
+/>
+```
+
+Props: `items` (required — `{ label, href? }[]`, root first; the last crumb never links), `variant` (`'default' | 'footer'`, default `'default'`), `label` (the landmark's name, default `"Breadcrumb"`), `backToTop` (the strip's link text, default `"Back to top"`), `class`.
+
+From Figma's `breadcrumb menu` section (`1647:2505`), which draws two frames rather than a variant set, and promoted from page-experiments' `shared/Breadcrumb.astro`. A linked crumb is SemiBold `--color-text-link`; the separator is drawn by CSS, so a screen reader reads crumbs and not "slash", in the body colour at 50% on a page and 75% on the strip; the current page is the heading colour. A linked crumb hovers to `--color-text-link-hover` on both variants — the `link-hover` token, by Ball's ruling, although it is 3.8:1 on `--color-bg-footer`.
+
 ### `Logo.astro`
 
 > **Needs Tailwind.** This component has no `<style>` of its own — every value
@@ -1141,10 +1162,10 @@ survives a third option; `filled={true}` does not.
 ### Defaults and required props
 
 - **Give every prop a default that has an obvious "plain" value**, in the
-  destructure rather than the interface. Only 10 of 23 components take a required
+  destructure rather than the interface. Only 11 of 24 components take a required
   prop at all, and each one is genuinely un-defaultable content: `Notice.title`,
   `Select.options`, `Radio.name`/`value`, `TextLink.href`, `Footer.products`,
-  `Tooltip.body`, `VideoThumbnail.label`, `PasswordChecklist.for`, and the card components' labels.
+  `Tooltip.body`, `VideoThumbnail.label`, `PasswordChecklist.for`, `Breadcrumb.items`, and the card components' labels.
 - **A required prop must be un-defaultable.** `TrialKeyCard` requires five, which
   is the most in the library — it renders blank or throws without them.
   `footerNotes` is required for exactly this reason: it is read with `.length`.
@@ -1248,11 +1269,11 @@ There's no permanent Astro app in this repo to preview against. Before committin
 
 For a refactor that is meant to change nothing — the `icons.ts` extraction was one — save the rendered HTML **before** the change and diff it after. Two ids regenerate on every build and will always differ: `Select`'s `randomUUID()` and `Checkbox`'s `Math.random()` fallback. Normalise those two, and the rest of the document should match byte for byte.
 
-## 23 components ported
+## 24 components ported
 
 Button, NugetButton, TextLink, Prose, Input, PasswordChecklist, Textarea, FileUpload, Select, Checkbox,
 Radio, Badge, Notice, Table, Tooltip, FlyoutMenu, Product Footer, FooterBar, FormCard,
-TrialKeyCard, VideoThumbnail, Logo, TopNav and ProductMenu are all available. `TopNav` + `ProductMenu` together are the full
+TrialKeyCard, VideoThumbnail, Logo, TopNav, ProductMenu and Breadcrumb are all available. `TopNav` + `ProductMenu` together are the full
 two-bar site header, and `Footer` + `FooterBar` the full two-band site footer. If
 the design system docs (`docs/component-*.html`) gain a new
 variant or pattern, check it here too — the docs' own Code-tab samples have
