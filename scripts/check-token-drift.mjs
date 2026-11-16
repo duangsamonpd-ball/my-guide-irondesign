@@ -785,7 +785,7 @@ for (const source of componentSources()) {
  * A future Article / Prose component is the one legitimate user; name it here.
  */
 const ARTICLE_ONLY = /code-inline/g;
-const ARTICLE_COMPONENTS = new Set([]);
+const ARTICLE_COMPONENTS = new Set(['Prose']);  // inline code in a post (Ball, 2026-11-16)
 for (const source of componentSources()) {
   if (ARTICLE_COMPONENTS.has(source.name)) continue;
   const src = blankComments(readSource(relative(ROOT, source.file)));

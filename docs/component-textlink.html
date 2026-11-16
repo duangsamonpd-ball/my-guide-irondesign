@@ -364,7 +364,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <div class="ds-prose">
           <p style="margin:0;max-width:640px;font-size:1rem;line-height:1.75;color:var(--color-text-body);">
             Style elements on hover, focus and more using <a href="#">pseudo-classes</a>, like
-            <code style="font-family:'Roboto Mono',monospace;font-size:0.875em;">:hover</code> and <code style="font-family:'Roboto Mono',monospace;font-size:0.875em;">:focus</code>. Read the
+            <code>:hover</code> and <code>:focus</code>. Read the
             <a href="#">IronPDF docs</a> for the full list, or start from the <a href="#">HTML to PDF tutorial</a>.
           </p>
         </div>
@@ -375,7 +375,7 @@ body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; color: #17171
         <!-- demo:prose-dark -->
         <div class="ds-prose dark">
           <p style="margin:0;max-width:640px;font-size:1rem;line-height:1.75;color:var(--color-text-dark-body);">
-            On a dark band the links move to the dark tokens &mdash; see the <a href="#">release notes</a> for what changed.
+            On a dark band the links and <code>code</code> move to the dark tokens &mdash; see the <a href="#">release notes</a> for what changed.
           </p>
         </div>
         <!-- /demo:prose-dark -->
@@ -463,7 +463,7 @@ const { Content } = await render(post);
       <div class="sect-sub">The wrapper for Markdown and CMS content above.</div>
       <!-- props:Prose -->
       <div data-ds-table-wrap class="relative w-full overflow-x-auto rounded-xl border border-border bg-bg-card"><table data-ds-table="ptable" class="w-full border-collapse text-left font-sans text-caption leading-caption text-text-support [&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 [&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap [&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm ptable"><thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr></thead><tbody>
-        <tr><td class="ptable-name">dark</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Use the dark-surface colours — heading text on a dark band, the underline in its dark token.</td></tr>
+        <tr><td class="ptable-name">dark</td><td class="ptable-type">boolean</td><td class="ptable-default">false</td><td class="ptable-notes">Use the dark-surface colours — heading text on a dark band, the underline and inline code in their dark tokens.</td></tr>
         <tr><td class="ptable-name">class</td><td class="ptable-type">string</td><td class="ptable-default"><span class="ptable-none">—</span></td><td class="ptable-notes">Extra classes on the wrapper.</td></tr>
       </tbody></table></div>
       <!-- /props:Prose -->

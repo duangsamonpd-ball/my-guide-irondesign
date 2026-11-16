@@ -370,6 +370,23 @@
     text-decoration-color: var(--color-border-dark-alt);
   }
   .ds-prose.dark :where(a:focus-visible) { outline-color: var(--color-border-dark-alt); }
+  .ds-prose :where(:not(pre) > code) {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-code-inline);
+    line-height: var(--line-height-code-inline);
+    font-weight: var(--fw-code-inline);
+    color: var(--color-text-code-inline);
+    background: var(--color-bg-code-inline);
+    padding: var(--spacing-micro);
+    border-radius: var(--rounded-sm);
+    overflow-wrap: anywhere;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .ds-prose.dark :where(:not(pre) > code) {
+    color: var(--color-text-dark-code-inline);
+    background: var(--color-bg-dark-code-inline);
+  }
   @media (prefers-reduced-motion: reduce) {
     .ds-prose :where(a) { transition-duration: 1ms; }
   }

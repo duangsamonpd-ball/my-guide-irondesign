@@ -308,7 +308,10 @@ Markdown post, CMS HTML, release notes. Markdown writes its own `<a>`, and
 `TextLink`'s styles are scoped to the markup it renders, so a bare post gets the
 browser's links. Inside `Prose` they get the `TextLink variant="underline"`
 values: heading text at 600, a solid 1px underline in `--color-border-selected`,
-`21.5%` offset, thickening to 2px on hover, and the same focus ring.
+`21.5%` offset, thickening to 2px on hover, and the same focus ring. Inline
+`code` gets the `code-inline` tokens — pink/600 on pink/50, Roboto Mono 16/28,
+padding 4, radius 4 — the only component allowed them, since they are for
+article prose only; a code block (`<pre><code>`) is left alone.
 
 ```astro
 ---
@@ -324,8 +327,8 @@ const { Content } = await render(post);
 "Links in Markdown & CMS content") — it is how links look inside content you do
 not write, so it sits beside the link it imitates (Ball, 2026-10-01).
 
-**Links only, for now** (Ball, 2026-10-01). Headings, lists and code inside the
-content keep whatever the page gives them; a full article typography ramp waits
+**Links and inline code only** (Ball, 2026-10-01; code 2026-11-16). Headings,
+lists and code blocks inside the content keep whatever the page gives them; a full article typography ramp waits
 for a real article page to measure against. The class is `ds-prose`, not
 `prose`, so it cannot collide with `@tailwindcss/typography`. Its rules sit at
 one class of specificity (`:where(a)`), so any single class overrides a link and

@@ -19,12 +19,27 @@
  * once visited. Ball, 2026-10-01, asked for this after looking at how
  * tailwindcss.com's docs do it (the `prose` class of `@tailwindcss/typography`).
  *
- * ## Links only, for now — Ball's call, 2026-10-01
+ * ## Links and inline code — Ball's calls, 2026-10-01 and 2026-11-16
  *
- * It styles `a` and nothing else. Headings, lists and code inside a post keep
- * whatever the page gives them. The wider version — a full typography ramp for
- * articles — waits until a real article page exists to measure it against;
- * `ironpdf-blog` has posts but no page that renders one yet.
+ * It styles `a` and inline `code`, and nothing else. Headings, lists and code
+ * BLOCKS inside a post keep whatever the page gives them. The wider version — a
+ * full typography ramp for articles — waits until a real article page exists to
+ * measure it against; `ironpdf-blog` has posts but no page that renders one yet.
+ *
+ * ## Inline code is the `code-inline` tokens
+ *
+ * The ironpdf.com changelog's highlight, brought into the system on 2026-11-16:
+ * `--color-text-code-inline` on `--color-bg-code-inline`, padding 4, radius 4,
+ * the `code-inline` type role (Roboto Mono 16/28 — the body's own size, so a
+ * method named mid-sentence sits on the paragraph's line). Those tokens are for
+ * article and document prose ONLY, and `check:tokens` fails any component that
+ * uses them — except this one, which is named in its `ARTICLE_COMPONENTS`. That
+ * is the point of Prose: it is the article.
+ *
+ * `:not(pre) > code` leaves a code block alone — Markdown fences render as
+ * `<pre><code>`, and a block is not inline code. `box-decoration-break: clone`
+ * gives each line of a wrapped identifier its own padding and corners. In Figma
+ * this is the `Typography/UI/code-inline` text style.
  *
  * ## The link is `TextLink variant="underline"`, value for value
  *
@@ -55,7 +70,7 @@
  */
 
 interface Props {
-  /** Use the dark-surface colours — heading text on a dark band, the underline in its dark token. */
+  /** Use the dark-surface colours — heading text on a dark band, the underline and inline code in their dark tokens. */
   dark?: boolean;
   /** Extra classes on the wrapper. */
   class?: string;
@@ -89,6 +104,24 @@ const { dark = false, class: className } = Astro.props;
     text-decoration-color: var(--color-border-dark-alt);
   }
   .ds-prose.dark :where(a:focus-visible) { outline-color: var(--color-border-dark-alt); }
+
+  .ds-prose :where(:not(pre) > code) {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-code-inline);
+    line-height: var(--line-height-code-inline);
+    font-weight: var(--fw-code-inline);
+    color: var(--color-text-code-inline);
+    background: var(--color-bg-code-inline);
+    padding: var(--spacing-micro);
+    border-radius: var(--rounded-sm);
+    overflow-wrap: anywhere;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .ds-prose.dark :where(:not(pre) > code) {
+    color: var(--color-text-dark-code-inline);
+    background: var(--color-bg-dark-code-inline);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .ds-prose :where(a) { transition-duration: 1ms; }

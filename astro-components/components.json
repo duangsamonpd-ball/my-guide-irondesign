@@ -1233,7 +1233,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Use the dark-surface colours — heading text on a dark band, the underline in its dark token."
+          "description": "Use the dark-surface colours — heading text on a dark band, the underline and inline code in their dark tokens."
         },
         {
           "name": "class",
