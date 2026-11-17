@@ -46,10 +46,10 @@
  * Exits 1 when anything is a finding or an error, 0 only on a clean pass.
  */
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync, lstatSync, realpathSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, lstatSync, realpathSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { homedir } from 'node:os';
+import { homedir, tmpdir } from 'node:os';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SKILLS_REPO = join(homedir(), 'Projects/test-build-skills');
@@ -169,6 +169,28 @@ export function compare(prevIds, nowIds) {
   return { added: [...n].filter((x) => !p.has(x)), resolved: [...p].filter((x) => !n.has(x)), still: [...n].filter((x) => p.has(x)) };
 }
 
+/**
+ * Relative paths at which two skill folders disagree — a file only one has, or
+ * one whose bytes differ. Empty means the copy IS the repo's skill.
+ *
+ * The copies row used to ask only whether a copy EXISTED, and its advice was to
+ * remove it on claude.ai. That advice was wrong for this machine: the copies
+ * under `synced/` are how the claude.ai app has these skills at all — the
+ * symlinks reach Claude Code only — and Ball uses them there (2026-11-17). So
+ * a copy is not the fault; a copy that has fallen behind the repo is. On that
+ * day all 15 differed, uploaded 2026-07-20.
+ */
+export function treeDiff(a, b) {
+  const files = (root) => {
+    const out = new Map();
+    const walk = (d, rel) => { for (const e of readdirSync(d, { withFileTypes: true })) { if (e.name === '.DS_Store') continue; const r = rel ? `${rel}/${e.name}` : e.name; if (e.isDirectory()) walk(join(d, e.name), r); else out.set(r, readFileSync(join(d, e.name))); } };
+    walk(root, '');
+    return out;
+  };
+  const fa = files(a), fb = files(b);
+  return [...new Set([...fa.keys(), ...fb.keys()])].filter((k) => !fa.has(k) || !fb.has(k) || !fa.get(k).equals(fb.get(k))).sort();
+}
+
 /* ── self-test ────────────────────────────────────────────────────────────── */
 
 if (process.argv.includes('--self-test')) {
@@ -206,6 +228,16 @@ if (process.argv.includes('--self-test')) {
 
   const drift = installedDrift({ devDependencies: { astro: '^7', x: '^1' } }, { packages: { 'node_modules/astro': { version: '7.1.6' }, 'node_modules/x': { version: '1.0.0' } } }, (n) => ({ astro: '7.2.3', x: '1.0.0' })[n]);
   expect('node_modules disagreeing with the lockfile is caught (astro 7.2.3 vs 7.1.6, round 1)', drift.map((d) => d.id).join(), 'deps:installed:astro');
+
+  const td = mkdtempSync(join(tmpdir(), 'audit-tree-'));
+  try {
+    for (const side of ['repo', 'copy']) { mkdirSync(join(td, side, 'references'), { recursive: true }); writeFileSync(join(td, side, 'SKILL.md'), 'same'); writeFileSync(join(td, side, 'references/a.md'), 'same'); }
+    expect('a copy identical to the repo skill differs nowhere', treeDiff(join(td, 'copy'), join(td, 'repo')).length, 0);
+    writeFileSync(join(td, 'copy', 'SKILL.md'), 'older');
+    expect('a copy whose SKILL.md fell behind is named', treeDiff(join(td, 'copy'), join(td, 'repo')).join(), 'SKILL.md');
+    rmSync(join(td, 'copy', 'references'), { recursive: true });
+    expect('a copy missing a reference file the repo has is named too (design-to-code-workflow, 2026-11-17)', treeDiff(join(td, 'copy'), join(td, 'repo')).join(), 'SKILL.md,references/a.md');
+  } finally { rmSync(td, { recursive: true, force: true }); }
 
   const c = compare(['a', 'b'], ['b', 'c']);
   expect('compare: new / resolved / still', `${c.added}|${c.resolved}|${c.still}`, 'c|a|b');
@@ -291,8 +323,9 @@ if (!existsSync(join(SKILLS_REPO, 'scripts/check-drift.mjs'))) {
   else if (/move to nothing —/.test(nodeBlock)) row('skills', 'skills:radar-ahead', 'finding', `radar at ${ahead} has no Node to name`, tail(nodeBlock, 2));
   else row('skills', 'skills:radar-ahead', 'ok', `radar at ${ahead} still names a target`, dim(tail(nodeBlock, 1)));
 
-  // Wiring: every repo skill is a symlink into the repo, no copy of one sits
-  // anywhere else under ~/.claude/skills, and the plugin is not loading a third.
+  // Wiring: every repo skill is a symlink into the repo, any copy of one
+  // elsewhere under ~/.claude/skills is byte-identical to it (see treeDiff),
+  // and the plugin is not loading a third.
   const repoSkills = readdirSync(join(SKILLS_REPO, 'skills'), { withFileTypes: true }).filter((e) => e.isDirectory() && !e.name.startsWith('.')).map((e) => e.name);
   const bad = [];
   for (const n of repoSkills) {
@@ -309,7 +342,10 @@ if (!existsSync(join(SKILLS_REPO, 'scripts/check-drift.mjs'))) {
     const walk = (d, depth) => { for (const c of readdirSync(d, { withFileTypes: true })) { if (!c.isDirectory()) continue; if (repoSkills.includes(c.name)) copies.push(join(d, c.name).replace(homedir(), '~')); else if (depth < 2) walk(join(d, c.name), depth + 1); } };
     walk(join(LIVE_SKILLS, e.name), 0);
   }
-  row('skills', 'skills:copies', copies.length ? 'finding' : 'ok', copies.length ? `${copies.length} stale cop${copies.length > 1 ? 'ies' : 'y'} of repo skills load beside the symlinks` : 'no copy of a repo skill outside the repo', copies.length ? `e.g. ${copies[0]} — remove on claude.ai, not locally` : '');
+  const behind = copies.filter((c) => { try { return treeDiff(c.replace('~', homedir()), join(SKILLS_REPO, 'skills', c.split('/').pop())).length > 0; } catch { return true; } });
+  row('skills', 'skills:copies', behind.length ? 'finding' : 'ok',
+    behind.length ? `${behind.length} of ${copies.length} cop${copies.length > 1 ? 'ies' : 'y'} of repo skills differ from the repo` : copies.length ? `${copies.length} copies of repo skills outside the repo, each identical to it` : 'no copy of a repo skill outside the repo',
+    behind.length ? `${behind.map((c) => c.split('/').pop()).join(', ')} — re-upload dist/per-skill/<name>.zip on claude.ai (Customize → Skills); do not delete, the app has them no other way` : '');
 
   let pluginOn = false;
   try { pluginOn = JSON.parse(readFileSync(join(homedir(), '.claude/settings.json'), 'utf8')).enabledPlugins?.['figma-astro@figma-astro'] === true; } catch {}
