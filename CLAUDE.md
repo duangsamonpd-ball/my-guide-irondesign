@@ -42,10 +42,12 @@ for pixel, `npm run style-diff -- --ref HEAD` compares every computed value of e
 element at rest on every docs page — the one to reach for after a token change,
 since `state-diff` reports "nothing was compared" on a page with nothing to hover,
 `npm run overflow` sweeps every component across the widths in its `DEFAULT_WIDTHS`
-for anything that leaves its box, and `npm run wide` sweeps the two widths ABOVE the
+for anything that leaves its box, `npm run layout` asks the absolute questions
+`overflow` cannot — two things overlapping, one escaping its parent, one that does
+not fit — `npm run wide` sweeps the two widths ABOVE the
 canvas for anything that keeps growing, and `npm run figma-size` measures every
-band a component has DECLARED against the Figma node it comes from. All six
-exit non-zero on failure. None is in `npm run check`, which stays runnable
+band a component has DECLARED against the Figma node it comes from. Each
+exits non-zero on failure. None is in `npm run check`, which stays runnable
 anywhere Node runs.
 
 `figma-size` is the only one that asks whether a number is RIGHT rather than
@@ -66,10 +68,13 @@ not have found it, so do not reach for that instead.
 
 **CI does have a browser** — this file said otherwise until 2026-08-12 and it was
 never true. `ubuntu-latest` ships Google Chrome, and every browser harness
-launches `channel: 'chrome'`, which is that install. `overflow` and `npm run audit`
-(`preview.mjs --all`) both run there now, in the `render` job, because that job
-already pays for `npm ci` and the playground build the sweep reads. `state-diff`
-does not, and the reason is not the browser: it compares against a git ref.
+launches `channel: 'chrome'`, which is that install. `overflow`, `layout`,
+`figma-size` and `npm run audit` (`preview.mjs --all`) run there now, in the
+`render` job, because that job already pays for `npm ci` and the playground build
+the sweeps read. **Before offering a commit, run what that job runs — and read the
+steps off the workflow, not off this sentence**: it named two harnesses while the
+job ran more, and `layout` was the one walked past on 2026-11-11. `state-diff`
+does not run there, and the reason is not the browser: it compares against a git ref.
 
 `audit` gates two things nothing else can see — every `<img>` by its **painted
 pixels**, and every text run against WCAG AA as **composited and, over an image,
