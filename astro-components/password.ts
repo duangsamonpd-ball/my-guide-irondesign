@@ -2,73 +2,45 @@
  * The password rule, in one place: PasswordChecklist renders from it on the
  * server and re-checks with it in the browser, and a form's own submit handler
  * (or a server endpoint written in TS) can import the same function rather than
- * restate the rule.
+ * restate the rule. The backend has to agree with it, or a password the
+ * checklist ticks gets refused on submit.
  *
- * The rule is Ball's, 2026-09-21: at least 12 characters, AND at least 3 of the
- * 4 character types. Two definitions he settled on 2026-11-11, because the
- * backend has to agree with both or a password the checklist ticks gets
- * refused on submit:
+ * The rule is NIST SP 800-63B-4 (final, July 2025), adopted by Ball 2026-11-17:
+ * at least 15 characters, and nothing else.
  *
- *  · LENGTH counts code points (`[...value].length`), not UTF-16 units. An
- *    emoji is one character to the person typing it; `.length` would count
- *    most of them as two and pass an 11-character password.
- *  · SPECIAL is ASCII punctuation only — the 32 characters
- *    !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ . A space, a Thai letter or an accented
- *    letter is none of the four types. They are still ALLOWED in a password;
- *    they just do not count towards the 3.
+ *  · 15 is the minimum for a password used as the ONLY factor; 800-63B-4 allows
+ *    8 only inside multi-factor authentication. A form behind MFA may pass a
+ *    lower `minLength`; nothing here knows whether it is.
+ *  · NO composition rule. 800-63B-4 says verifiers SHALL NOT require a mix of
+ *    character types. The rule this replaced (Ball, 2026-09-21: 12 characters
+ *    AND 3 of lowercase/uppercase/number/special) is exactly that, and it is
+ *    what produces `Summer2026!`. Every character is allowed — spaces, Thai,
+ *    emoji — and every one counts.
+ *  · LENGTH counts code points (`[...value].length`), not UTF-16 units — as
+ *    800-63B-4 counts them, and as the person typing sees them. `.length` would
+ *    count most emoji as two and pass a 14-character password.
+ *
+ * What this function cannot do, and 800-63B-4 also requires (SHALL) of the
+ * backend: compare the password against a blocklist of breached and commonly
+ * used passwords. That needs the list, so it lives on the server.
  */
 
-export const PASSWORD_MIN_LENGTH = 12;
-export const PASSWORD_MIN_TYPES = 3;
-
-export interface PasswordType {
-  id: 'lower' | 'upper' | 'number' | 'special';
-  label: string;
-  test: RegExp;
-}
-
-export const passwordTypes: readonly PasswordType[] = [
-  { id: 'lower', label: 'Lowercase letter', test: /[a-z]/ },
-  { id: 'upper', label: 'Uppercase letter', test: /[A-Z]/ },
-  { id: 'number', label: 'Number', test: /[0-9]/ },
-  /* The four ASCII punctuation ranges: ! to /, : to @, [ to `, { to ~. */
-  { id: 'special', label: 'Special character', test: /[!-\/:-@[-`{-~]/ },
-];
+export const PASSWORD_MIN_LENGTH = 15;
 
 export interface PasswordResult {
+  /** Characters, counted as code points. */
   length: number;
-  lengthOk: boolean;
-  types: { id: PasswordType['id']; label: string; ok: boolean }[];
-  /** How many of the four types the value contains. */
-  have: number;
-  typesOk: boolean;
   ok: boolean;
 }
 
-export function checkPassword(
-  value: string,
-  minLength: number = PASSWORD_MIN_LENGTH,
-  minTypes: number = PASSWORD_MIN_TYPES,
-): PasswordResult {
+export function checkPassword(value: string, minLength: number = PASSWORD_MIN_LENGTH): PasswordResult {
   const length = [...value].length;
-  const types = passwordTypes.map((t) => ({ id: t.id, label: t.label, ok: t.test.test(value) }));
-  const have = types.filter((t) => t.ok).length;
-  const lengthOk = length >= minLength;
-  const typesOk = have >= minTypes;
-  return { length, lengthOk, types, have, typesOk, ok: lengthOk && typesOk };
+  return { length, ok: length >= minLength };
 }
 
 /** One sentence for a screen reader and for `setCustomValidity`. */
-export function passwordSummary(r: PasswordResult, minLength: number, minTypes: number): string {
-  if (r.ok) return 'Password meets all requirements.';
-  const miss: string[] = [];
-  if (!r.lengthOk) {
-    const n = minLength - r.length;
-    miss.push(`${n} more character${n === 1 ? '' : 's'}`);
-  }
-  if (!r.typesOk) {
-    const n = minTypes - r.have;
-    miss.push(`${n} more character type${n === 1 ? '' : 's'}`);
-  }
-  return `Password needs ${miss.join(' and ')}.`;
+export function passwordSummary(r: PasswordResult, minLength: number = PASSWORD_MIN_LENGTH): string {
+  if (r.ok) return 'Password meets the requirement.';
+  const n = minLength - r.length;
+  return `Password needs ${n} more character${n === 1 ? '' : 's'}.`;
 }

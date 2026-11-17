@@ -364,17 +364,19 @@ those, which is how a `PasswordChecklist` below the field gets read with it.
 <PasswordChecklist for="pw" />
 ```
 
-Props: `for` (the input's id, required), `id` (default `<for>-rules`), `minLength` (default `12`),
-`minTypes` (default `3`), `value`, `touched`, `class`. The password rule as a checklist under a
-password Input: at least 12 characters, and at least 3 of lowercase, uppercase, number and special
-character. It ticks off while the user types and turns an unmet item red only after the field is
+Props: `for` (the input's id, required), `id` (default `<for>-rules`), `minLength` (default `15`),
+`value`, `touched`, `class`. The password rule under a password Input: at least 15 characters and
+no composition rule, as NIST SP 800-63B-4 requires of a password that is the only factor (lower
+`minLength` only behind MFA, and only to what the backend enforces). It ticks off while the user types and turns an unmet item red only after the field is
 left or the form submitted; `touched` starts it there for a form re-rendered after a failed submit
 (pass `error` to the Input too when the value fails, so the danger border is in the first HTML instead of fading in
 when the script runs).
 It also sets the input's `setCustomValidity` and `aria-invalid`, so native validation and the field's
 danger border follow it. The rule is `checkPassword()` in `password.ts`, exported from the package
 (`@iron-software/astro-components/password`), so a submit handler or server code can use the same
-function: length counts characters (code points), and "special" is ASCII punctuation only. Documented
+function: length counts characters (code points), so a space, a Thai letter or an emoji is one each.
+The backend must enforce the same minimum, and 800-63B-4 also requires it to refuse breached and
+common passwords — a list this component cannot hold. Documented
 on the Input page, section *Password checklist*.
 
 ### `Textarea.astro`

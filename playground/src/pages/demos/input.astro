@@ -40,8 +40,8 @@ const states = [
 const pwStates = [
   { id: 'pw-empty', value: '', touched: false, lbl: 'Empty', note: 'the rule, before typing' },
   { id: 'pw-typing', value: 'ironpdf', touched: false, lbl: 'Typing', note: 'nothing red yet' },
-  { id: 'pw-short', value: 'IronPdf2026', touched: true, lbl: 'Left the field', note: '11 characters: only length fails' },
-  { id: 'pw-met', value: 'IronPdfs2026', touched: true, lbl: 'All met', note: 'no special character, and none needed' },
+  { id: 'pw-short', value: 'IronPdf2026!', touched: true, lbl: 'Left the field', note: '12 characters, every type: still short' },
+  { id: 'pw-met', value: 'iron pdf renders html', touched: true, lbl: 'Met', note: 'lowercase and spaces, and that is fine' },
 ];
 ---
 
@@ -76,7 +76,7 @@ const pwStates = [
         autocomplete="current-password"
         value="123"
         error
-        errorMessage="Must be at least 12 characters."
+        errorMessage="Must be at least 15 characters."
       />
     </div>
 

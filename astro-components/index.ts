@@ -51,9 +51,6 @@ export { icons, type Icon, type IconName } from './icons';
 export {
   checkPassword,
   passwordSummary,
-  passwordTypes,
   PASSWORD_MIN_LENGTH,
-  PASSWORD_MIN_TYPES,
   type PasswordResult,
-  type PasswordType,
 } from './password';
