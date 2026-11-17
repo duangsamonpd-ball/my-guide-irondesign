@@ -122,6 +122,13 @@ function extractRegion(html, name) {
  *    to a stable `<prefix>-demo-<n>`, which also fixes every `aria-` and `for`
  *    reference to it because the whole token is rewritten.
  *
+ *    The numbering is per PAGE, so the caller passes one `seen` map for every
+ *    region of a page. It used to be per region, which restarted at 1 each time:
+ *    component-select.html carried `sel-demo-1-trigger` six times, and an
+ *    `aria-labelledby` or `aria-describedby` in the sixth demo resolved to the
+ *    first one's element — the first match in tree order is the one a browser
+ *    takes. Measured 2026-11-17: 9 docs pages, every id-minting component.
+ *
  * The hoisted `<script type="module">` behaviour bundles are KEPT, so a demo in
  * the docs runs the component's real behaviour. They used to be stripped on the
  * assumption that the demos were static previews — which was wrong:
@@ -133,7 +140,7 @@ function extractRegion(html, name) {
  * lives on one line and is full of `<` and `>` (`i<n`, `=>`), which the tag
  * scanner would happily read as elements.
  */
-function normalise(html) {
+function normalise(html, seen) {
   const scripts = [];
   let out = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, (block) => {
     scripts.push(block);
@@ -145,7 +152,6 @@ function normalise(html) {
   // a stray `="true"` behind and wrote malformed HTML into the docs.
   out = out.replace(/\s+data-astro-cid-[a-z0-9]+(?:="[^"]*")?/g, '');
 
-  const seen = new Map();
   out = out.replace(/\b([a-z]{2,10})-([0-9a-f]{8})\b/g, (whole, prefix) => {
     if (!seen.has(whole)) seen.set(whole, `${prefix}-demo-${[...seen.keys()].filter((k) => k.startsWith(`${prefix}-`)).length + 1}`);
     return seen.get(whole);
@@ -227,6 +233,18 @@ function docsRegions(docs) {
   return [...docs.matchAll(/<!-- demo:([a-z0-9-]+) -->/g)].map((m) => m[1]);
 }
 
+/**
+ * Ids a docs page would carry more than once, hand-written ones included.
+ * Code samples are masked first: a `<pre>` shows `id="…"` as text, and the same
+ * snippet is legitimately printed beside the demo it describes.
+ */
+function duplicateIds(docs) {
+  const live = docs.replace(/<(script|template|pre|code)\b[\s\S]*?<\/\1>/gi, '');
+  const count = new Map();
+  for (const [, id] of live.matchAll(/\sid="([^"]+)"/g)) count.set(id, (count.get(id) ?? 0) + 1);
+  return [...count].filter(([, n]) => n > 1).map(([id, n]) => ({ id, count: n }));
+}
+
 /** Region names a rendered page provides. */
 function renderedRegions(html) {
   return [...html.matchAll(/<div[^>]*\sdata-demo="([a-z0-9-]+)"/g)].map((m) => m[1]);
@@ -278,6 +296,7 @@ for (const name of pages) {
     if (!provided.includes(r)) errors.push(`${name}: docs declares <!-- demo:${r} --> but the playground renders no such region`);
   }
 
+  const seenIds = new Map(); // one per page — see normalise()
   for (const region of provided) {
     if (!declared.includes(region)) continue;
     const raw = extractRegion(rendered, region);
@@ -287,7 +306,7 @@ for (const name of pages) {
     }
     let lines;
     try {
-      lines = normalise(raw);
+      lines = normalise(raw, seenIds);
     } catch (err) {
       errors.push(`${name}/${region}: ${err.message}`);
       continue;
@@ -300,6 +319,10 @@ for (const name of pages) {
     }
     docs = next;
     regionsDone++;
+  }
+
+  for (const dup of duplicateIds(docs)) {
+    errors.push(`${name}: docs/${docsFile(name)} would carry id="${dup.id}" ${dup.count} times — an aria-/for reference to it resolves to the first only`);
   }
 
   if (docs !== original) {
