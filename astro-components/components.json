@@ -888,7 +888,18 @@
       "file": "astro-components/components/Notice.astro",
       "docs": "docs/component-notice.html",
       "interactive": false,
-      "figmaNodes": [],
+      "figmaNodes": [
+        "1733:74",
+        "1733:84",
+        "1733:94",
+        "1733:104",
+        "1733:114",
+        "1733:81",
+        "1733:91",
+        "1733:101",
+        "1733:111",
+        "1733:121"
+      ],
       "props": [
         {
           "name": "variant",

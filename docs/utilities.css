@@ -224,6 +224,16 @@
     --color-neutral: var(--slate-500);
     --color-neutral-subtle: var(--slate-100);
     --color-neutral-strong: var(--slate-700);
+    --color-notice-info-fill: var(--iron-blue-50);
+    --color-notice-info-accent: var(--color-info);
+    --color-notice-success-fill: var(--iron-green-50);
+    --color-notice-success-accent: var(--color-success);
+    --color-notice-important-fill: var(--iron-purple-50);
+    --color-notice-important-accent: var(--color-important);
+    --color-notice-warning-fill: var(--iron-orange-50);
+    --color-notice-warning-accent: var(--color-warning);
+    --color-notice-danger-fill: var(--iron-red-50);
+    --color-notice-danger-accent: var(--color-danger);
     --color-success-subtle-dark: var(--iron-green-800);
     --color-success-strong-dark: var(--iron-green-300);
     --color-warning-subtle-dark: var(--iron-orange-900);

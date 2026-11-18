@@ -522,6 +522,19 @@ const COLORS = {
   'semantic.neutral': 'color-neutral',
   'semantic.neutral-subtle': 'color-neutral-subtle',
   'semantic.neutral-strong': 'color-neutral-strong',
+  // Notice's own fill + accent (2026-11-18). The dark values below map to the Badge
+  // *-dark tokens because that is what .dark aliases them to — there is no separate
+  // --color-notice-*-dark; the check is that the W3C dark value equals that token.
+  'semantic.notice-info-fill': 'color-notice-info-fill',
+  'semantic.notice-info-accent': 'color-notice-info-accent',
+  'semantic.notice-success-fill': 'color-notice-success-fill',
+  'semantic.notice-success-accent': 'color-notice-success-accent',
+  'semantic.notice-important-fill': 'color-notice-important-fill',
+  'semantic.notice-important-accent': 'color-notice-important-accent',
+  'semantic.notice-warning-fill': 'color-notice-warning-fill',
+  'semantic.notice-warning-accent': 'color-notice-warning-accent',
+  'semantic.notice-danger-fill': 'color-notice-danger-fill',
+  'semantic.notice-danger-accent': 'color-notice-danger-accent',
 
   'semantic-dark.success-subtle': 'color-success-subtle-dark',
   'semantic-dark.success-strong': 'color-success-strong-dark',
@@ -535,6 +548,16 @@ const COLORS = {
   'semantic-dark.important-strong': 'color-important-strong-dark',
   'semantic-dark.neutral-subtle': 'color-neutral-subtle-dark',
   'semantic-dark.neutral-strong': 'color-neutral-strong-dark',
+  'semantic-dark.notice-info-fill': 'color-info-subtle-dark',
+  'semantic-dark.notice-info-accent': 'color-info-strong-dark',
+  'semantic-dark.notice-success-fill': 'color-success-subtle-dark',
+  'semantic-dark.notice-success-accent': 'color-success-strong-dark',
+  'semantic-dark.notice-important-fill': 'color-important-subtle-dark',
+  'semantic-dark.notice-important-accent': 'color-important-strong-dark',
+  'semantic-dark.notice-warning-fill': 'color-warning-subtle-dark',
+  'semantic-dark.notice-warning-accent': 'color-warning-strong-dark',
+  'semantic-dark.notice-danger-fill': 'color-danger-subtle-dark',
+  'semantic-dark.notice-danger-accent': 'color-danger-strong-dark',
 
   'text.heading': 'color-text-heading',
   'text.heading-alt': 'color-text-heading-alt',

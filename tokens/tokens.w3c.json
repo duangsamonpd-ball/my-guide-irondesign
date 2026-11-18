@@ -187,6 +187,56 @@
         "$value": "#314158",
         "$type": "color",
         "$description": "Slate/700 — badge/neutral text, icons on the subtle fill"
+      },
+      "notice-info-fill": {
+        "$value": "#F2F9FE",
+        "$type": "color",
+        "$description": "Iron Blue/50 — notice/info-fill, the filled Notice card"
+      },
+      "notice-info-accent": {
+        "$value": "#2693EC",
+        "$type": "color",
+        "$description": "Iron Blue/500 — notice/info-accent, the Notice icon and bordered bar"
+      },
+      "notice-success-fill": {
+        "$value": "#F6FBF9",
+        "$type": "color",
+        "$description": "Iron Green/50 — notice/success-fill, the filled Notice card"
+      },
+      "notice-success-accent": {
+        "$value": "#63C1A0",
+        "$type": "color",
+        "$description": "Iron Green/500 — notice/success-accent, the Notice icon and bordered bar"
+      },
+      "notice-important-fill": {
+        "$value": "#F5F3F9",
+        "$type": "color",
+        "$description": "Iron Purple/50 — notice/important-fill, the filled Notice card"
+      },
+      "notice-important-accent": {
+        "$value": "#563B99",
+        "$type": "color",
+        "$description": "Iron Purple/500 — notice/important-accent, the Notice icon and bordered bar"
+      },
+      "notice-warning-fill": {
+        "$value": "#FFFAF0",
+        "$type": "color",
+        "$description": "Iron Orange/50 — notice/warning-fill, the filled Notice card"
+      },
+      "notice-warning-accent": {
+        "$value": "#FDA509",
+        "$type": "color",
+        "$description": "Iron Orange/500 — notice/warning-accent, the Notice icon and bordered bar"
+      },
+      "notice-danger-fill": {
+        "$value": "#FFF1F1",
+        "$type": "color",
+        "$description": "Iron Red/50 — notice/danger-fill, the filled Notice card"
+      },
+      "notice-danger-accent": {
+        "$value": "#E5242A",
+        "$type": "color",
+        "$description": "Iron Red/500 — notice/danger-accent, the Notice icon and bordered bar"
       }
     },
     "semantic-dark": {
@@ -250,6 +300,56 @@
         "$value": "#CAD5E2",
         "$type": "color",
         "$description": "Slate/300 — badge/neutral text (dark)"
+      },
+      "notice-info-fill": {
+        "$value": "#184A73",
+        "$type": "color",
+        "$description": "Iron Blue/800 — notice/info-fill (dark), Badge's dark fill"
+      },
+      "notice-info-accent": {
+        "$value": "#93C9F6",
+        "$type": "color",
+        "$description": "Iron Blue/300 — notice/info-accent (dark)"
+      },
+      "notice-success-fill": {
+        "$value": "#345F50",
+        "$type": "color",
+        "$description": "Iron Green/800 — notice/success-fill (dark), Badge's dark fill"
+      },
+      "notice-success-accent": {
+        "$value": "#B1E0D0",
+        "$type": "color",
+        "$description": "Iron Green/300 — notice/success-accent (dark)"
+      },
+      "notice-important-fill": {
+        "$value": "#3B2A66",
+        "$type": "color",
+        "$description": "Iron Purple/700 — notice/important-fill (dark), Badge's dark fill"
+      },
+      "notice-important-accent": {
+        "$value": "#AB9DCC",
+        "$type": "color",
+        "$description": "Iron Purple/300 — notice/important-accent (dark)"
+      },
+      "notice-warning-fill": {
+        "$value": "#4F370B",
+        "$type": "color",
+        "$description": "Iron Orange/900 — notice/warning-fill (dark), Badge's dark fill"
+      },
+      "notice-warning-accent": {
+        "$value": "#FED284",
+        "$type": "color",
+        "$description": "Iron Orange/300 — notice/warning-accent (dark)"
+      },
+      "notice-danger-fill": {
+        "$value": "#72181B",
+        "$type": "color",
+        "$description": "Iron Red/900 — notice/danger-fill (dark), Badge's dark fill"
+      },
+      "notice-danger-accent": {
+        "$value": "#FF9DA1",
+        "$type": "color",
+        "$description": "Iron Red/300 — notice/danger-accent (dark)"
       }
     },
     "text": {

@@ -298,6 +298,16 @@
   --color-neutral: var(--slate-500);          /* #62748E */
   --color-neutral-subtle: var(--slate-100);   /* #F1F5F9 — badge/neutral fill */
   --color-neutral-strong: var(--slate-700);   /* #314158 — badge/neutral text on the subtle fill */
+  --color-notice-info-fill: var(--iron-blue-50); /* #F2F9FE */
+  --color-notice-info-accent: var(--color-info); /* #2693EC */
+  --color-notice-success-fill: var(--iron-green-50); /* #F6FBF9 */
+  --color-notice-success-accent: var(--color-success); /* #63C1A0 */
+  --color-notice-important-fill: var(--iron-purple-50); /* #F5F3F9 */
+  --color-notice-important-accent: var(--color-important); /* #563B99 */
+  --color-notice-warning-fill: var(--iron-orange-50); /* #FFFAF0 */
+  --color-notice-warning-accent: var(--color-warning); /* #FDA509 */
+  --color-notice-danger-fill: var(--iron-red-50); /* #FFF1F1 */
+  --color-notice-danger-accent: var(--color-danger); /* #E5242A */
   --color-success-subtle-dark: var(--iron-green-800); /* #345F50 — badge/success fill (dark) */
   --color-success-strong-dark: var(--iron-green-300); /* #B1E0D0 — badge/success text (dark) */
   --color-warning-subtle-dark: var(--iron-orange-900); /* #4F370B — badge/warning fill (dark) */

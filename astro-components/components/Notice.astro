@@ -1,19 +1,118 @@
 ---
 /**
- * ── Why this component declares no `figma-size` band ──────────────────────
+ * Built to Figma's spec frame `852:1267` (↳ Notice), which Ball ruled the side to
+ * follow on 2026-11-18, and drawn there since as the `Notice` component set
+ * `1733:73` (variant × intent) — the spec frame now holds its instances.
  *
- * There IS a node, and this comment said otherwise for one commit. `852:1267`
- * on the ` ↳ Notice` page is a SPEC FRAME — `info-bordered` 645x85,
- * `info-filled` 645x168, `success-bordered` 645x61, and so on, one frame per
- * intent and fill. It is not a COMPONENT SET, which is why
- * `search_design_system` returned nothing: that searches published components,
- * and "not a published component" is not "not drawn". Same shape of mistake as
- * reading a variant set's absence as a missing design.
+ * The bands are measured on the docs page's `figma` region, which renders all
+ * ten at Figma's 645 with each frame's own copy: a notice's height IS its copy,
+ * so any other text would answer a different question.
  *
- * Not declared YET rather than undeclarable. A notice's height is its copy, so
- * each of those frames can only be compared against a demo carrying the text it
- * was drawn with — the caveat Tooltip's Action variant is already written up
- * under. That is work with a known answer, not a blocked item.
+ * All ten are declared, and agree to the pixel. Until Figma moved the bordered icon
+ * out of the text (2026-11-18), bordered could not be: a line holding a 20px glyph
+ * among 16px text grows by 1 in Figma (a glyph of 17 or less keeps it at 28), so
+ * Figma said 101 / 73 where a browser says 100 / 72. The icon is its own layer now,
+ * the text is indented 24 on its first line, and the lines are 28 on both sides.
+ *
+ * @figma-size info-filled
+ *   node   1733:74
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="info-filled"] > aside
+ *   at     1440
+ *   height 168
+ *   why    title 28 + 8 + three lines of 28 + 24 + 24
+ *
+ * @figma-size success-filled
+ *   node   1733:84
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="success-filled"] > aside
+ *   at     1440
+ *   height 112
+ *   why    title 28 + 8 + one line of 28 + 24 + 24
+ *
+ * @figma-size important-filled
+ *   node   1733:94
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="important-filled"] > aside
+ *   at     1440
+ *   height 140
+ *   why    title 28 + 8 + two lines of 28 + 24 + 24
+ *
+ * @figma-size warning-filled
+ *   node   1733:104
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="warning-filled"] > aside
+ *   at     1440
+ *   height 112
+ *   why    title 28 + 8 + one line of 28 + 24 + 24
+ *
+ * @figma-size danger-filled
+ *   node   1733:114
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="danger-filled"] > aside
+ *   at     1440
+ *   height 112
+ *   why    title 28 + 8 + one line of 28 + 24 + 24
+ *
+ * @figma-size info-bordered
+ *   node   1733:81
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="info-bordered"] > aside
+ *   at     1440
+ *   height 100
+ *   why    8 + three lines of 28 + 8
+ *
+ * @figma-size success-bordered
+ *   node   1733:91
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="success-bordered"] > aside
+ *   at     1440
+ *   height 72
+ *   why    8 + two lines of 28 + 8
+ *
+ * @figma-size important-bordered
+ *   node   1733:101
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="important-bordered"] > aside
+ *   at     1440
+ *   height 72
+ *   why    8 + two lines of 28 + 8
+ *
+ * @figma-size warning-bordered
+ *   node   1733:111
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="warning-bordered"] > aside
+ *   at     1440
+ *   height 72
+ *   why    8 + two lines of 28 + 8
+ *
+ * @figma-size danger-bordered
+ *   node   1733:121
+ *   frame  Notice
+ *   page   component-notice.html
+ *   region figma
+ *   select [data-figma="danger-bordered"] > aside
+ *   at     1440
+ *   height 72
+ *   why    8 + two lines of 28 + 8
  */
 interface Props {
   /** `filled` is a tinted card with the title on its own line; `bordered` is a left bar with the title leading into the text. */
@@ -45,28 +144,35 @@ const role = !live ? undefined : intent === 'danger' || intent === 'warning' ? '
 
 import { icons } from '../icons';
 
-// circle-check and triangle-exclamation are shared with FileUpload; the rest of the
-// set lives in ../icons too so the whole intent → icon map reads from one place.
-const iconPathFor = {
-  info: icons.circleInfo.path,
-  success: icons.circleCheck.path,
-  important: icons.circleExclamation.path,
-  warning: icons.triangleExclamation.path,
-  danger: icons.circleXmark.path,
+// Figma's five intent icons (FA 7 Pro Regular, exported from the `icon` frames on
+// ↳ Notice — see icons.ts). One 20x20 box each, ink centred, so filled and
+// bordered render the same pair at two sizes.
+const iconFor = {
+  info: icons.noticeInfo,
+  success: icons.noticeSuccess,
+  important: icons.noticeImportant,
+  warning: icons.noticeWarning,
+  danger: icons.noticeDanger,
 } as const;
+const icon = iconFor[intent];
+/* Bordered sets the icon inline at 20px of INK. The 20-box carries 2 units of air
+   on each side (ink 16, centred), so the inline icon crops to the ink box and
+   draws it at 20 — no negative margin, nothing outside the paragraph. important's
+   message tail reaches y=19, one unit past the crop: `overflow: visible` keeps it. */
+const INLINE_VIEWBOX = '2 2 16 16';
 ---
 
 <aside class:list={['notice', `notice--${variant}`, `notice--${intent}`, className]} role={role}>
   {variant === 'filled' ? (
     <>
       <p class="notice-header">
-        <svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d={iconPathFor[intent]} /></svg>
+        <svg class="notice-icon" viewBox={icon.viewBox} fill="currentColor" aria-hidden="true"><path d={icon.path} /></svg>
         <strong class="notice-title">{title}</strong>
       </p>
       <p class="notice-text">{text}</p>
     </>
   ) : (
-    <p class="notice-text"><svg class="notice-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d={iconPathFor[intent]} /></svg> <strong>{title}:</strong> {text}</p>
+    <p class="notice-text"><svg class="notice-icon" viewBox={INLINE_VIEWBOX} fill="currentColor" aria-hidden="true"><path d={icon.path} /></svg> <strong>{title}:</strong> {text}</p>
   )}
 </aside>
 
@@ -84,38 +190,46 @@ const iconPathFor = {
     reset was picking up the UA's 1em block margins on top of the flex `gap`, and
     the component cannot assume someone else zeroed them.
   */
-  .notice { display: flex; flex-direction: column; gap: 8px; padding: 24px; max-width: 560px; }
-  .notice-icon { width: 1rem; height: 1rem; flex-shrink: 0; vertical-align: -0.1em; }
-  .notice-header { display: flex; align-items: center; gap: 8px; margin: 0; }
-  .notice-title { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-title-lg); font-weight: 700; color: var(--color-text-heading); }
-  .notice-text { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); line-height: 1.6; margin: 0; }
+  /*
+    Every value below is read off Figma's spec frame `852:1267` (↳ Notice) on
+    2026-11-18, when Ball ruled Figma the side to follow:
+      · 645 wide — every frame, both variants.
+      · body 16/28 (Typography/body), title-lg 18/28 bold for the filled title,
+        body-title 16/28 bold for the bordered lead-in.
+      · filled: padding spacing-xl (24), gap spacing-xs (8), rounded-lg; icon in
+        a 20x20 box with 8 to the title, so the title starts at 28; text BODY.
+      · bordered: padding spacing-xs down (8) and spacing-xl across (24, counted
+        from the outer edge — so 20 after the 4px bar); the icon sits inline at
+        20px of ink, the 20-box cropped to its ink.
+  */
+  .notice { display: flex; flex-direction: column; gap: var(--spacing-xs); padding: var(--spacing-xl); max-width: 645px; box-sizing: border-box; }
+  .notice-icon { flex-shrink: 0; }
+  .notice-header { display: flex; align-items: center; gap: var(--spacing-xs); margin: 0; }
+  .notice-header .notice-icon { width: 20px; height: 20px; }
+  .notice-title { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-title-lg); line-height: var(--leading-7); font-weight: 700; color: var(--color-text-heading); }
+  .notice-text { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); line-height: var(--leading-7); margin: 0; color: var(--color-text-body); }
   .notice-text strong { font-weight: 700; }
+  /* inline: the ink box (viewBox 2 2 16 16) drawn at 20 — Figma's 20px glyph */
+  /* top of the 28px line, then 4 down: (28 - 20) / 2, as Figma places it. `relative`
+     moves the paint, not the line box, so the line stays 28. */
+  .notice-text .notice-icon { width: 20px; height: 20px; vertical-align: top; position: relative; top: 4px; overflow: visible; }
 
   /* filled — tinted rounded card, only the icon carries the intent colour */
   .notice--filled { border-radius: var(--rounded-lg); }
-  .notice--filled .notice-text { color: var(--color-text-heading); }
 
   /* bordered — no fill, a coloured left bar; icon carries the intent colour, text stays neutral */
-  .notice--bordered { border-left: var(--border-width-4) solid; padding: 0 0 0 20px; }
-  .notice--bordered .notice-text { color: var(--color-text-body); }
+  .notice--bordered { border-left: var(--border-width-4) solid; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-xs) calc(var(--spacing-xl) - var(--border-width-4)); }
 
-  .notice--info.notice--filled { background: var(--color-bg-card-alt); }
-  .notice--info .notice-icon { color: var(--color-info); }
-  .notice--info.notice--bordered { border-left-color: var(--color-info); }
-
-  .notice--success.notice--filled { background: var(--iron-green-50); }
-  .notice--success .notice-icon { color: var(--color-success); }
-  .notice--success.notice--bordered { border-left-color: var(--color-success); }
-
-  .notice--important.notice--filled { background: var(--iron-purple-50); }
-  .notice--important .notice-icon { color: var(--iron-purple-500); }
-  .notice--important.notice--bordered { border-left-color: var(--iron-purple-500); }
-
-  .notice--warning.notice--filled { background: var(--iron-orange-50); }
-  .notice--warning .notice-icon { color: var(--color-warning); }
-  .notice--warning.notice--bordered { border-left-color: var(--color-warning); }
-
-  .notice--danger.notice--filled { background: var(--iron-red-50); }
-  .notice--danger .notice-icon { color: var(--color-danger); }
-  .notice--danger.notice--bordered { border-left-color: var(--color-danger); }
+  /* Each intent reads its own fill and accent tokens (tokens.css "Notice"), which
+     re-theme under .dark to Badge's dark fills and */300 accents — Ball's option B,
+     2026-11-18. Before that the fills were bare */50 primitives that stayed light in
+     dark mode under light text: 1.19:1. */
+  .notice--info      { --notice-fill: var(--color-notice-info-fill);      --notice-accent: var(--color-notice-info-accent); }
+  .notice--success   { --notice-fill: var(--color-notice-success-fill);   --notice-accent: var(--color-notice-success-accent); }
+  .notice--important { --notice-fill: var(--color-notice-important-fill); --notice-accent: var(--color-notice-important-accent); }
+  .notice--warning   { --notice-fill: var(--color-notice-warning-fill);   --notice-accent: var(--color-notice-warning-accent); }
+  .notice--danger    { --notice-fill: var(--color-notice-danger-fill);    --notice-accent: var(--color-notice-danger-accent); }
+  .notice--filled { background: var(--notice-fill); }
+  .notice-icon { color: var(--notice-accent); }
+  .notice--bordered { border-left-color: var(--notice-accent); }
 </style>

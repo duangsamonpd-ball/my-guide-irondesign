@@ -514,7 +514,7 @@ The root is an `<aside>` — the HTML spec names "call-out boxes" as an aside, w
 
 Only the icon (and, on `bordered`, the left bar) carries the intent colour — the title and paragraph always stay neutral (`--color-text-heading` on `filled`, `--color-text-body` on `bordered`). `important` is a genuinely new intent (not one of the system's original 4 semantic colours) — it uses the `iron-purple-50`/`iron-purple-500` primitives directly since there's no `status/important` semantic token yet.
 
-Each intent's icon is an inline **Font Awesome Free Solid** SVG (`circle-info`, `circle-check`, `circle-exclamation`, `triangle-exclamation`, `circle-xmark`) — path data hard-coded in the component, `fill="currentColor"` so it inherits the intent color. No icon font or CDN dependency; see "Icon strategy" below.
+Each intent's icon is the one Figma draws — Font Awesome 7 Pro **Regular** `circle-info`, `lightbulb`, `message-exclamation`, `triangle-exclamation`, `octagon-exclamation` — **exported from Figma** as path data (`icons.ts`, `notice*`), `fill="currentColor"` so it inherits the intent color. No icon font or CDN dependency; see "Icon strategy" below. Since 2026-11-18 every value follows Figma's spec frame `852:1267`: 645 wide, body 16/28, a 20px icon box on filled and 20px of inline ink on bordered, bordered padded 8 down and 24 across.
 
 ### `Table.astro`
 

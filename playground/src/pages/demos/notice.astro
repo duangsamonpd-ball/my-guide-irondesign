@@ -2,7 +2,7 @@
 /**
  * Demo source for docs/component-notice.html.
  *
- * Preview only. Variants and Intents both set `max-width:none` on the notice
+ * Preview, and `figma` — all ten at Figma's own copy. Variants and Intents both set `max-width:none` on the notice
  * itself, and the Intents cells drop the body text the component always renders,
  * so neither can come from a real instance.
  */
@@ -10,6 +10,19 @@ import { Notice } from '@iron-software/astro-components';
 
 const LONG = 'Aspose, SyncFusion, and iText are registered trademarks of their respective owner. This site is not affiliated with, endorsed by, or sponsored by Aspose, SyncFusion, or iText.';
 const SHORT = 'Aspose, SyncFusion, and iText are registered trademarks of their respective owner.';
+
+/* Figma's spec frame 852:1267, word for word — title and text per intent and
+   variant — so each notice here is the same copy at the same 645 as the frame it
+   is measured against (Notice.astro's @figma-size bands). A notice's height IS
+   its copy; any other text would compare two different questions. */
+const LOREM = 'Paragraph lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+const figma = [
+  { intent: 'info', title: 'Please note', filled: `${LOREM} Mauris placerat pellentesque diam elementum auctor. Pellentesque tempus ipsum turpis, eu viverra tellus iaculis eu.`, bordered: `${LOREM} Mauris placerat pellentesque diam elementum auctor. Pellentesque tempus ipsum turpis, eu viverra tellus iaculis eu.` },
+  { intent: 'success', title: 'Tips', filled: LOREM, bordered: `${LOREM} Mauris placerat pellentesque.` },
+  { intent: 'important', title: 'Important', filled: `${LOREM} Mauris placerat pellentesque diam elementum auctor.`, bordered: `${LOREM} Mauris placerat pellentesque.` },
+  { intent: 'warning', title: 'Warning', filled: LOREM, bordered: `${LOREM} Mauris placerat pellentesque.` },
+  { intent: 'danger', title: 'Caution', filled: LOREM, bordered: `${LOREM} Mauris placerat pellentesque.` },
+] as const;
 ---
 
 <html lang="en">
@@ -17,6 +30,24 @@ const SHORT = 'Aspose, SyncFusion, and iText are registered trademarks of their 
     <div data-demo="preview">
       <Notice variant="filled" intent="info" title="Please note" text={LONG} />
       <Notice variant="bordered" intent="info" title="Please note" text={SHORT} />
+    </div>
+
+    <div data-demo="dark">
+      {figma.map((f) => (
+        <>
+          <Notice variant="filled" intent={f.intent} title={f.title} text={LOREM} live={false} />
+          <Notice variant="bordered" intent={f.intent} title={f.title} text={LOREM} live={false} />
+        </>
+      ))}
+    </div>
+
+    <div data-demo="figma">
+        {figma.map((f) => (
+          <>
+            <div data-figma={`${f.intent}-filled`}><Notice variant="filled" intent={f.intent} title={f.title} text={f.filled} live={false} /></div>
+            <div data-figma={`${f.intent}-bordered`}><Notice variant="bordered" intent={f.intent} title={f.title} text={f.bordered} live={false} /></div>
+          </>
+        ))}
     </div>
   </body>
 </html>

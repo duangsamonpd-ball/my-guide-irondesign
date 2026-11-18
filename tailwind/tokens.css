@@ -226,6 +226,23 @@
   --color-neutral-subtle:   var(--slate-100);       /* #F1F5F9 — badge/neutral fill */
   --color-neutral-strong:   var(--slate-700);       /* #314158 — badge/neutral text on the subtle fill */
 
+  /* Notice — the call-out's own fill and accent per intent (Figma: notice/<intent>-fill,
+     notice/<intent>-accent; Ball's ruling 2026-11-18, option B). fill = the filled card,
+     accent = its icon AND the bordered bar. Light: */50 and the intent colour, as the
+     spec frame 852:1267 draws them. Dark (.dark below): Badge's dark fills and */300
+     accents — the same pairs Badge uses, so the two re-theme as one system. Body text
+     (neutral/200) on the dark fills: 7.36 · 5.75 · 9.75 · 8.85 · 8.95 :1. */
+  --color-notice-info-fill:        var(--iron-blue-50);    /* #F2F9FE */
+  --color-notice-info-accent:      var(--color-info);      /* #2693EC */
+  --color-notice-success-fill:     var(--iron-green-50);   /* #F6FBF9 */
+  --color-notice-success-accent:   var(--color-success);   /* #63C1A0 */
+  --color-notice-important-fill:   var(--iron-purple-50);  /* #F5F3F9 */
+  --color-notice-important-accent: var(--color-important); /* #563B99 */
+  --color-notice-warning-fill:     var(--iron-orange-50);  /* #FFFAF0 */
+  --color-notice-warning-accent:   var(--color-warning);   /* #FDA509 */
+  --color-notice-danger-fill:      var(--iron-red-50);     /* #FFF1F1 */
+  --color-notice-danger-accent:    var(--color-danger);    /* #E5242A */
+
   /* Semantic — Dark Mode (Figma: badge, Dark Purple column). subtle = fill, strong = text.
      Swapped in under .dark so badges (and any subtle/strong consumer) re-theme automatically. */
   --color-success-subtle-dark:   var(--iron-green-800);  /* #345F50 — badge/success fill (dark) */
@@ -1045,6 +1062,18 @@
   --color-info-strong:      var(--color-info-strong-dark);
   --color-important-subtle: var(--color-important-subtle-dark);
   --color-important-strong: var(--color-important-strong-dark);
+
+  /* Notice — Badge's dark fills and */300 accents (see the light definitions). */
+  --color-notice-info-fill:        var(--color-info-subtle-dark);
+  --color-notice-info-accent:      var(--color-info-strong-dark);
+  --color-notice-success-fill:     var(--color-success-subtle-dark);
+  --color-notice-success-accent:   var(--color-success-strong-dark);
+  --color-notice-important-fill:   var(--color-important-subtle-dark);
+  --color-notice-important-accent: var(--color-important-strong-dark);
+  --color-notice-warning-fill:     var(--color-warning-subtle-dark);
+  --color-notice-warning-accent:   var(--color-warning-strong-dark);
+  --color-notice-danger-fill:      var(--color-danger-subtle-dark);
+  --color-notice-danger-accent:    var(--color-danger-strong-dark);
   --color-neutral-subtle:   var(--color-neutral-subtle-dark);
   --color-neutral-strong:   var(--color-neutral-strong-dark);
 }
