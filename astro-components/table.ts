@@ -41,15 +41,23 @@ const tableBase =
      turned the docs' `td.ptable-name` from its blue to body on 180 cells. A class
      on a cell beats an inherited value, so a consumer's coloured cell keeps its
      colour. Row headers keep heading (the rule above), header cells keep support. */
-  '[&_tbody]:text-text-body';
+  '[&_tbody]:text-text-body ' +
+  /* A summary row — a total, a sum — goes in <tfoot> (Ball, 2026-11-18): heading
+     colour, semibold, and the same divider above it that separates body rows.
+     Weight and colour are set on <tfoot> and INHERITED by its td, for the same
+     reason as the tbody colour above; its th needs the weight explicitly, because
+     the browser's own `th { font-weight: bold }` is a rule on the th and beats
+     anything inherited. */
+  '[&_tfoot]:font-semibold [&_tfoot]:text-text-heading [&_tfoot_th]:font-semibold ' +
+  '[&_tfoot_tr]:border-t [&_tfoot_tr]:border-border';
 
 /**
  * Cell padding per size. `md` is the reference's 24 across / 16 down with a
  * 12px header; `sm` is for dense reference tables — the docs use it.
  */
 const tablePad = {
-  md: '[&_th]:px-xl [&_td]:px-xl [&_thead_th]:py-sm [&_tbody_th]:py-md [&_td]:py-md',
-  sm: '[&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_td]:py-sm',
+  md: '[&_th]:px-xl [&_td]:px-xl [&_thead_th]:py-sm [&_tbody_th]:py-md [&_tfoot_th]:py-md [&_td]:py-md',
+  sm: '[&_th]:px-md [&_td]:px-md [&_thead_th]:py-xs [&_tbody_th]:py-sm [&_tfoot_th]:py-sm [&_td]:py-sm',
 } as const;
 
 export type TableSize = keyof typeof tablePad;

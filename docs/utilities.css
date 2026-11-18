@@ -2384,6 +2384,30 @@
 .\[\&_td\]\:py-sm td {
   padding-block: var(--spacing-sm);
 }
+.\[\&_tfoot\]\:font-semibold tfoot {
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+}
+.\[\&_tfoot\]\:text-text-heading tfoot {
+  color: var(--color-text-heading);
+}
+.\[\&_tfoot_th\]\:py-md tfoot th {
+  padding-block: var(--spacing-md);
+}
+.\[\&_tfoot_th\]\:py-sm tfoot th {
+  padding-block: var(--spacing-sm);
+}
+.\[\&_tfoot_th\]\:font-semibold tfoot th {
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+}
+.\[\&_tfoot_tr\]\:border-t tfoot tr {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
+.\[\&_tfoot_tr\]\:border-border tfoot tr {
+  border-color: var(--color-border);
+}
 .\[\&_th\]\:px-md th {
   padding-inline: var(--spacing-md);
 }

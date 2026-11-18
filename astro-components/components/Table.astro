@@ -44,6 +44,9 @@
  * INHERITS that (proven in Chrome 2026-11-18: left → right with the class). Figma:
  * `align=left|center|right` on `Table cell`.
  *
+ * A summary row (a total) goes in `<tfoot>`: semibold, heading colour, the body
+ * rows' divider above it. Figma: `type=summary` on `Table row` / `Table cell`.
+ *
  * Use `<th scope="row">` for the cell that names its row (the first column in
  * the reference): it takes the heading colour and medium weight, and a screen
  * reader announces it with every cell in the row.

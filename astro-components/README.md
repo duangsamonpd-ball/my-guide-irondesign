@@ -541,9 +541,11 @@ Props: `size` (`md` | `sm`, default `md`), `label` (an `aria-label` for the tabl
 
 Cells are left-aligned. To align a column, put `text-right` or `text-center` on its `<th>` and every `<td>` — the table sets `text-left` only on `<table>`, so a class on the cell wins. Right-align number columns, header included, so the digits line up. In Figma this is `align` on `Table cell`.
 
+Put a summary row — a total, a sum — in `<tfoot>`: it is set semibold in `--color-text-heading` with the body rows' divider above it, and its first cell is a `<th scope="row">` like any other row. In Figma it is `type=summary` on `Table row` and `Table cell`.
+
 Use `<th scope="row">` for the cell that names its row — it takes `--color-text-heading` at medium weight, and a screen reader reads it out with every cell in that row. A table wider than its container scrolls sideways inside the rounded box instead of widening the page; the box is `[data-part="scroller"]`.
 
-**No Figma node yet.** It is modelled on Flowbite's default table (Ball's reference, 2026-09-18), in system tokens: box `--rounded-xl` with a `--color-border` edge on `--color-bg-card`; header row `--color-bg-section`, medium weight, sentence case; body text `text-caption` (14/20) in `--color-text-support`; row dividers `--color-border`; padding `md` 24 across / 16 down (header 12), `sm` 16 / 12 (header 8). Check a drawing against these when one exists.
+It is modelled on Flowbite's default table (Ball's reference, 2026-09-18), in system tokens: box `--rounded-xl` with a `--color-border` edge on `--color-bg-card`; header row `--color-bg-section`, medium weight, sentence case; body text `text-caption` (14/20) — header cells in `--color-text-support`, body cells in `--color-text-body`, summary row semibold in `--color-text-heading`; row dividers `--color-border`; padding `md` 24 across / 16 down (header 12), `sm` 16 / 12 (header 8). Figma's `Table` set is drawn from these values and bound to the same variables.
 
 The class strings live in `table.ts`, not in the component, because **every table in `docs/` wears the same ones** — `build-docs-tables.mjs` stamps them onto the docs markup and `check:tables` fails if one differs. The styling is Tailwind descendant variants (`[&_th]:…`) rather than a `<style>` block, because the cells are the caller's markup: Astro's scoping never reaches slotted elements, and `:global()` is dropped by the browser on a docs page that carries the rule verbatim.
 
