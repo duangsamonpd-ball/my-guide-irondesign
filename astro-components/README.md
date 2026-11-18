@@ -530,7 +530,11 @@ A styled box for an ordinary HTML table. You write `<thead>`, `<tbody>`, `<tr>`,
   </thead>
   <tbody>
     <tr><th scope="row">IronPDF</th><td>PDF</td><td><Badge intent="success">$749</Badge></td></tr>
+    <tr><th scope="row">IronOCR</th><td>OCR</td><td>$749</td></tr>
   </tbody>
+  <tfoot>
+    <tr><th scope="row">Total</th><td></td><td>$1,498</td></tr>
+  </tfoot>
 </Table>
 
 <!-- dense reference tables -->

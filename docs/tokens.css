@@ -489,6 +489,7 @@
   --fw-caption-sm:500;  /* Caption SM — medium, tooltip / footer */
   --fw-label:     500;  /* Label text — medium, form / UI labels */
   --fw-label-lg:  500;  /* Label text LG — medium, the 16px label step */
+  --fw-label-strong: 600;  /* Label strong — semibold, a total row (Table <tfoot>); Figma Typography/UI/label-strong */
   --fw-btn-lg:    700;  /* Button · large — bold CTA */
   --fw-review:    600;  /* Review score — semibold. Its own name on purpose: this
                            was --fw-btn, which is the right number under the wrong
@@ -610,6 +611,7 @@
   --font-size-caption-sm: var(--font-size-xs);  /* 12px — tooltip, footer fine print */
   --font-size-label:      var(--font-size-sm);  /* 14px — form / UI label */
   --font-size-label-lg:   var(--font-size-base);/* 16px — form / UI label, large */
+  --font-size-label-strong: var(--font-size-sm); /* 14px — label, semibold: a total row */
   --font-size-overline: var(--font-size-sm);    /* 14px — uppercase category label, accent */
   --font-size-code:     var(--font-size-sm);    /* 14px — code BLOCKS, mono; inline code in an article is --font-size-code-inline */
   --font-size-code-inline: var(--font-size-base); /* 16px — inline code in article / document prose ONLY: the body's own size, so it sits on the paragraph's line (Figma Typography/UI/code-inline, Ball 2026-11-16) */
@@ -679,6 +681,7 @@
   --line-height-caption-sm: var(--leading-4);   /* 16px */
   --line-height-label:      var(--leading-5);   /* 20px */
   --line-height-label-lg:   var(--leading-5);   /* 20px — same leading as label, one size up */
+  --line-height-label-strong: var(--leading-5); /* 20px — same as label */
   --line-height-overline: var(--leading-4);   /* 16px */
   --line-height-code:     var(--leading-6);   /* 24px */
   --line-height-code-inline: var(--leading-7); /* 28px — the body's leading */
@@ -729,6 +732,7 @@
   --letter-spacing-body-title: var(--letter-spacing-normal);    /* normal  */
   --letter-spacing-label: var(--letter-spacing-normal);    /* normal  */
   --letter-spacing-label-lg: var(--letter-spacing-normal);    /* normal  */
+  --letter-spacing-label-strong: var(--letter-spacing-normal);    /* normal  */
   --letter-spacing-btn-lg: var(--letter-spacing-normal);    /* normal  */
   --letter-spacing-btn: var(--letter-spacing-normal);    /* normal  */
   --letter-spacing-btn-sm: var(--letter-spacing-wide);   /* wide    */

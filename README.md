@@ -214,6 +214,7 @@ Every row below is a **role token** in `tailwind/tokens.css` — `--font-size-h2
 | Label · Large | `label-lg` | 16px | 500 Medium | 20 | 0 |
 | Caption | `caption` | 14px | 400 Regular | 20 | — |
 | Label | `label` | 14px | 500 Medium | 20 | 0 |
+| Label · Strong | `label-strong` | 14px | 600 Semibold | 20 | 0 |
 | Overline | `overline` | 14px | 700 Bold · UPPER | 16 | 0.4 |
 | Code | `code` | 14px | Roboto Mono 400 | 24 | — |
 | Caption SM | `caption-sm` | 12px | 500 Medium | 16 | 0.4 |

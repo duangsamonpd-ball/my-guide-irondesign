@@ -359,6 +359,7 @@
     --font-weight-caption-sm: 500;
     --font-weight-label: 500;
     --font-weight-label-lg: 500;
+    --font-weight-label-strong: 600;
     --font-weight-btn-lg: 700;
     --font-weight-review: 600;
     --font-weight-btn: 600;
@@ -423,6 +424,10 @@
     --text-label-lg--line-height: var(--leading-label-lg);
     --text-label-lg--letter-spacing: var(--tracking-label-lg);
     --text-label-lg--font-weight: var(--font-weight-label-lg);
+    --text-label-strong: var(--text-sm);
+    --text-label-strong--line-height: var(--leading-label-strong);
+    --text-label-strong--letter-spacing: var(--tracking-label-strong);
+    --text-label-strong--font-weight: var(--font-weight-label-strong);
     --text-overline: var(--text-sm);
     --text-overline--line-height: var(--leading-overline);
     --text-overline--letter-spacing: var(--tracking-overline);
@@ -495,6 +500,7 @@
     --leading-caption-sm: var(--leading-4);
     --leading-label: var(--leading-5);
     --leading-label-lg: var(--leading-5);
+    --leading-label-strong: var(--leading-5);
     --leading-overline: var(--leading-4);
     --leading-code: var(--leading-6);
     --leading-code-inline: var(--leading-7);
@@ -517,6 +523,7 @@
     --tracking-body-title: var(--tracking-normal);
     --tracking-label: var(--tracking-normal);
     --tracking-label-lg: var(--tracking-normal);
+    --tracking-label-strong: var(--tracking-normal);
     --tracking-btn-lg: var(--tracking-normal);
     --tracking-btn: var(--tracking-normal);
     --tracking-btn-sm: var(--tracking-wide);
@@ -2384,9 +2391,9 @@
 .\[\&_td\]\:py-sm td {
   padding-block: var(--spacing-sm);
 }
-.\[\&_tfoot\]\:font-semibold tfoot {
-  --tw-font-weight: var(--font-weight-semibold);
-  font-weight: var(--font-weight-semibold);
+.\[\&_tfoot\]\:font-label-strong tfoot {
+  --tw-font-weight: var(--font-weight-label-strong);
+  font-weight: var(--font-weight-label-strong);
 }
 .\[\&_tfoot\]\:text-text-heading tfoot {
   color: var(--color-text-heading);
@@ -2397,9 +2404,12 @@
 .\[\&_tfoot_th\]\:py-sm tfoot th {
   padding-block: var(--spacing-sm);
 }
-.\[\&_tfoot_th\]\:font-semibold tfoot th {
-  --tw-font-weight: var(--font-weight-semibold);
-  font-weight: var(--font-weight-semibold);
+.\[\&_tfoot_th\]\:font-label-strong tfoot th {
+  --tw-font-weight: var(--font-weight-label-strong);
+  font-weight: var(--font-weight-label-strong);
+}
+.\[\&_tfoot_th\]\:whitespace-nowrap tfoot th {
+  white-space: nowrap;
 }
 .\[\&_tfoot_tr\]\:border-t tfoot tr {
   border-top-style: var(--tw-border-style);
@@ -2625,6 +2635,7 @@
   --fw-caption-sm: var(--font-weight-caption-sm);
   --fw-label: var(--font-weight-label);
   --fw-label-lg: var(--font-weight-label-lg);
+  --fw-label-strong: var(--font-weight-label-strong);
   --fw-btn-lg: var(--font-weight-btn-lg);
   --fw-review: var(--font-weight-review);
   --fw-btn: var(--font-weight-btn);
@@ -2677,6 +2688,7 @@
   --font-size-caption-sm: var(--text-caption-sm);
   --font-size-label: var(--text-label);
   --font-size-label-lg: var(--text-label-lg);
+  --font-size-label-strong: var(--text-label-strong);
   --font-size-overline: var(--text-overline);
   --font-size-code: var(--text-code);
   --font-size-code-inline: var(--text-code-inline);
@@ -2703,6 +2715,7 @@
   --line-height-caption-sm: var(--leading-caption-sm);
   --line-height-label: var(--leading-label);
   --line-height-label-lg: var(--leading-label-lg);
+  --line-height-label-strong: var(--leading-label-strong);
   --line-height-overline: var(--leading-overline);
   --line-height-code: var(--leading-code);
   --line-height-code-inline: var(--leading-code-inline);
@@ -2731,6 +2744,7 @@
   --letter-spacing-body-title: var(--tracking-body-title);
   --letter-spacing-label: var(--tracking-label);
   --letter-spacing-label-lg: var(--tracking-label-lg);
+  --letter-spacing-label-strong: var(--tracking-label-strong);
   --letter-spacing-btn-lg: var(--tracking-btn-lg);
   --letter-spacing-btn: var(--tracking-btn);
   --letter-spacing-btn-sm: var(--tracking-btn-sm);

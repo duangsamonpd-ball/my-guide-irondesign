@@ -43,12 +43,12 @@ const tableBase =
      colour. Row headers keep heading (the rule above), header cells keep support. */
   '[&_tbody]:text-text-body ' +
   /* A summary row — a total, a sum — goes in <tfoot> (Ball, 2026-11-18): heading
-     colour, semibold, and the same divider above it that separates body rows.
+     colour, the label-strong weight (600; Figma Typography/UI/label-strong), and the same divider above it that separates body rows.
      Weight and colour are set on <tfoot> and INHERITED by its td, for the same
      reason as the tbody colour above; its th needs the weight explicitly, because
      the browser's own `th { font-weight: bold }` is a rule on the th and beats
      anything inherited. */
-  '[&_tfoot]:font-semibold [&_tfoot]:text-text-heading [&_tfoot_th]:font-semibold ' +
+  '[&_tfoot]:font-label-strong [&_tfoot]:text-text-heading [&_tfoot_th]:font-label-strong [&_tfoot_th]:whitespace-nowrap ' +
   '[&_tfoot_tr]:border-t [&_tfoot_tr]:border-border';
 
 /**

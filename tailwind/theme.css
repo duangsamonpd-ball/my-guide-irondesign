@@ -435,6 +435,7 @@
   --font-weight-caption-sm: 500;              /* Caption SM — medium, tooltip / footer */
   --font-weight-label: 500;                   /* Label text — medium, form / UI labels */
   --font-weight-label-lg: 500;                /* Label text LG — medium, the 16px label step */
+  --font-weight-label-strong: 600;            /* Label strong — semibold, a total row (Table <tfoot>); Figma Typography/UI/label-strong */
   --font-weight-btn-lg: 700;                  /* Button · large — bold CTA */
   --font-weight-review: 600;
   --font-weight-btn: 600;                     /* Button · default / small — semibold */
@@ -530,6 +531,10 @@
   --text-label-lg--line-height: var(--leading-label-lg);
   --text-label-lg--letter-spacing: var(--tracking-label-lg);
   --text-label-lg--font-weight: var(--font-weight-label-lg);
+  --text-label-strong: var(--text-sm);        /* 14px — label, semibold: a total row */
+  --text-label-strong--line-height: var(--leading-label-strong);
+  --text-label-strong--letter-spacing: var(--tracking-label-strong);
+  --text-label-strong--font-weight: var(--font-weight-label-strong);
   --text-overline: var(--text-sm);            /* 14px — uppercase category label, accent */
   --text-overline--line-height: var(--leading-overline);
   --text-overline--letter-spacing: var(--tracking-overline);
@@ -602,6 +607,7 @@
   --leading-caption-sm: var(--leading-4);     /* 16px */
   --leading-label: var(--leading-5);          /* 20px */
   --leading-label-lg: var(--leading-5);       /* 20px — same leading as label, one size up */
+  --leading-label-strong: var(--leading-5);   /* 20px — same as label */
   --leading-overline: var(--leading-4);       /* 16px */
   --leading-code: var(--leading-6);           /* 24px */
   --leading-code-inline: var(--leading-7);    /* 28px — the body's leading */
@@ -630,6 +636,7 @@
   --tracking-body-title: var(--tracking-normal); /* normal */
   --tracking-label: var(--tracking-normal);   /* normal */
   --tracking-label-lg: var(--tracking-normal); /* normal */
+  --tracking-label-strong: var(--tracking-normal); /* normal */
   --tracking-btn-lg: var(--tracking-normal);  /* normal */
   --tracking-btn: var(--tracking-normal);     /* normal */
   --tracking-btn-sm: var(--tracking-wide);    /* wide */
@@ -775,6 +782,7 @@
   --fw-caption-sm: var(--font-weight-caption-sm);
   --fw-label: var(--font-weight-label);
   --fw-label-lg: var(--font-weight-label-lg);
+  --fw-label-strong: var(--font-weight-label-strong);
   --fw-btn-lg: var(--font-weight-btn-lg);
   --fw-review: var(--font-weight-review);
   --fw-btn: var(--font-weight-btn);
@@ -827,6 +835,7 @@
   --font-size-caption-sm: var(--text-caption-sm);
   --font-size-label: var(--text-label);
   --font-size-label-lg: var(--text-label-lg);
+  --font-size-label-strong: var(--text-label-strong);
   --font-size-overline: var(--text-overline);
   --font-size-code: var(--text-code);
   --font-size-code-inline: var(--text-code-inline);
@@ -853,6 +862,7 @@
   --line-height-caption-sm: var(--leading-caption-sm);
   --line-height-label: var(--leading-label);
   --line-height-label-lg: var(--leading-label-lg);
+  --line-height-label-strong: var(--leading-label-strong);
   --line-height-overline: var(--leading-overline);
   --line-height-code: var(--leading-code);
   --line-height-code-inline: var(--leading-code-inline);
@@ -881,6 +891,7 @@
   --letter-spacing-body-title: var(--tracking-body-title);
   --letter-spacing-label: var(--tracking-label);
   --letter-spacing-label-lg: var(--tracking-label-lg);
+  --letter-spacing-label-strong: var(--tracking-label-strong);
   --letter-spacing-btn-lg: var(--tracking-btn-lg);
   --letter-spacing-btn: var(--tracking-btn);
   --letter-spacing-btn-sm: var(--tracking-btn-sm);

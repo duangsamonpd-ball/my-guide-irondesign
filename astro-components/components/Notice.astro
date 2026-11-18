@@ -206,9 +206,9 @@ const INLINE_VIEWBOX = '2 2 16 16';
   .notice-icon { flex-shrink: 0; }
   .notice-header { display: flex; align-items: center; gap: var(--spacing-xs); margin: 0; }
   .notice-header .notice-icon { width: 20px; height: 20px; }
-  .notice-title { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-title-lg); line-height: var(--leading-7); font-weight: 700; color: var(--color-text-heading); }
-  .notice-text { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); line-height: var(--leading-7); margin: 0; color: var(--color-text-body); }
-  .notice-text strong { font-weight: 700; }
+  .notice-title { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-title-lg); line-height: var(--line-height-title-lg); font-weight: var(--fw-title-lg); color: var(--color-text-heading); }
+  .notice-text { font-family: 'Montserrat', sans-serif; font-size: var(--font-size-body); line-height: var(--line-height-body); font-weight: var(--fw-body); margin: 0; color: var(--color-text-body); }
+  .notice-text strong { font-weight: var(--fw-body-title); }
   /* inline: the ink box (viewBox 2 2 16 16) drawn at 20 — Figma's 20px glyph */
   /* top of the 28px line, then 4 down: (28 - 20) / 2, as Figma places it. `relative`
      moves the paint, not the line box, so the line stays 28. */

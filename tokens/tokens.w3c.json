@@ -1721,6 +1721,17 @@
         },
         "$description": "Large form and UI labels. 16px / 500 (medium) / line-height 20px (token 5). Added by Ball 2026-08-06 as Figma `Typography/Label text LG`; the ramp companion to Label text at the 16px step, used by the LG size of Checkbox and Radio."
       },
+      "label-strong": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{typography.font-family.body}",
+          "fontSize": "14px",
+          "fontWeight": 600,
+          "lineHeight": "20px",
+          "letterSpacing": "0px"
+        },
+        "$description": "A label one step heavier. 14px / 600 (semibold) / line-height 20px (token 5). Added 2026-11-18 as Figma `Typography/UI/label-strong` for the Table summary row (<tfoot>), where it sits under 14px body cells and must read as the total without changing size."
+      },
       "overline": {
         "$type": "typography",
         "$value": {
