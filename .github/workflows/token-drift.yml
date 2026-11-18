@@ -179,6 +179,15 @@ jobs:
       - name: docs/components.css is current with the component styles
         run: node scripts/build-component-css.mjs --check
 
+      # A `*/` written in a comment's prose (`*/300` for "any hue") ends the
+      # comment; the rest is parsed as CSS and silently drops the next rule or
+      # declaration. Notice's info intent lost its fill that way, every gate green.
+      - name: Check the stray-comment-closer detector can fail
+        run: node scripts/check-css-comments.mjs --self-test
+
+      - name: Every CSS comment closes where it means to
+        run: node scripts/check-css-comments.mjs
+
       # CI lists gates one by one, so a gate added to package.json alone ran only
       # on laptops — six did. This fails when `npm run check` and this file
       # disagree, which is the only way the list above stays complete.

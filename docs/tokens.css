@@ -232,8 +232,8 @@
 
   /* Notice — the call-out's own fill and accent per intent (Figma: notice/<intent>-fill,
      notice/<intent>-accent; Ball's ruling 2026-11-18, option B). fill = the filled card,
-     accent = its icon AND the bordered bar. Light: */50 and the intent colour, as the
-     spec frame 852:1267 draws them. Dark (.dark below): Badge's dark fills and */300
+     accent = its icon AND the bordered bar. Light: <hue>/50 and the intent colour, as the
+     spec frame 852:1267 draws them. Dark (.dark below): Badge's dark fills and <hue>/300
      accents — the same pairs Badge uses, so the two re-theme as one system. Body text
      (neutral/200) on the dark fills: 7.36 · 5.75 · 9.75 · 8.85 · 8.95 :1. */
   --color-notice-info-fill:        var(--iron-blue-50);    /* #F2F9FE */
@@ -1071,7 +1071,7 @@
   --color-important-subtle: var(--color-important-subtle-dark);
   --color-important-strong: var(--color-important-strong-dark);
 
-  /* Notice — Badge's dark fills and */300 accents (see the light definitions). */
+  /* Notice — Badge's dark fills and <hue>/300 accents (see the light definitions). */
   --color-notice-info-fill:        var(--color-info-subtle-dark);
   --color-notice-info-accent:      var(--color-info-strong-dark);
   --color-notice-success-fill:     var(--color-success-subtle-dark);

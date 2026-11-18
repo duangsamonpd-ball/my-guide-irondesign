@@ -239,9 +239,6 @@
   .notice-text .notice-icon { width: 20px; height: 20px; vertical-align: top; position: relative; top: 4px; overflow: visible; }
   .notice--filled { border-radius: var(--rounded-lg); }
   .notice--bordered { border-left: var(--border-width-4) solid; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-xs) calc(var(--spacing-xl) - var(--border-width-4)); }
-  300 accents — Ball's option B,
-     2026-11-18. Before that the fills were bare */50 primitives that stayed light in
-     dark mode under light text: 1.19:1. */
   .notice--info      { --notice-fill: var(--color-notice-info-fill);      --notice-accent: var(--color-notice-info-accent); }
   .notice--success   { --notice-fill: var(--color-notice-success-fill);   --notice-accent: var(--color-notice-success-accent); }
   .notice--important { --notice-fill: var(--color-notice-important-fill); --notice-accent: var(--color-notice-important-accent); }

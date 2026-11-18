@@ -337,7 +337,7 @@ Edit a `docs/*.html` page or a token file, refresh, done.
 `tokens/tokens.w3c.json` is the source of truth; `tailwind/tokens.css` and `tailwind/theme.css` must agree with it. Verify everything:
 
 ```bash
-npm run check          # 30 gates; the only thing that decides is the exit code
+npm run check          # 31 gates; the only thing that decides is the exit code
 ```
 
 **The list below is a summary — `npm run check` in `package.json` is the list.** Read the exit code, never the output: a gate that *crashes* prints a stack trace with no failure marker, so grepping the log for one reports success on the worst failure there is.
@@ -366,6 +366,7 @@ npm run check          # 30 gates; the only thing that decides is the exit code
 | `check:vars` | every `var(--…)` a component reads still resolves once Tailwind has compiled the theme |
 | `check:docs-css` | no docs page redefines a rule it should inherit from the shared `docs.css` shell |
 | `check:components-css` | `docs/components.css` is current with the component `<style>` blocks it is generated from |
+| `check:css-comments` | no CSS comment closes early — a `*/` in a comment's prose (`*/300` for "any hue") ends it, and the text after it silently drops the next rule or declaration |
 | `check:contrast` | every colour pair Badge paints meets WCAG AA, derived from `Badge.astro` and resolved through `tokens.css` |
 | `check:catalogue` | every colour value and every count the docs **write out by hand** still equals the thing it names |
 | `check:seo` | the generated description, canonical, OG and JSON-LD blocks are current on every docs page |

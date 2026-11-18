@@ -221,8 +221,8 @@ const INLINE_VIEWBOX = '2 2 16 16';
   .notice--bordered { border-left: var(--border-width-4) solid; padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-xs) calc(var(--spacing-xl) - var(--border-width-4)); }
 
   /* Each intent reads its own fill and accent tokens (tokens.css "Notice"), which
-     re-theme under .dark to Badge's dark fills and */300 accents — Ball's option B,
-     2026-11-18. Before that the fills were bare */50 primitives that stayed light in
+     re-theme under .dark to Badge's dark fills and <hue>/300 accents — Ball's option B,
+     2026-11-18. Before that the fills were bare <hue>/50 primitives that stayed light in
      dark mode under light text: 1.19:1. */
   .notice--info      { --notice-fill: var(--color-notice-info-fill);      --notice-accent: var(--color-notice-info-accent); }
   .notice--success   { --notice-fill: var(--color-notice-success-fill);   --notice-accent: var(--color-notice-success-accent); }

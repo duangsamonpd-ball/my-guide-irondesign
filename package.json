@@ -44,7 +44,7 @@
     "check:fonts": "node scripts/vendor-fonts.mjs --check",
     "vendor:fonts": "node scripts/vendor-fonts.mjs",
     "check:seo": "node scripts/build-seo.mjs --check",
-    "check": "npm run check:theme && npm run check:utilities && npm run check:class-collisions && npm run check:tokens && npm run check:alt-text && npm run check:logo-fills && npm run check:artwork-sync && npm run check:logo-grid && npm run check:parts && npm run check:type-scale && npm run check:type-weight && npm run check:specimens && npm run check:parity && npm run check:prose-parity && npm run check:props && npm run check:tables && npm run check:props-table && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:components-css && npm run check:contrast && npm run check:catalogue && npm run check:ci-coverage && npm run check:seo && npm run check:shell && npm run check:manifest && npm run check:fonts && npm run check:code && npm run check:render",
+    "check": "npm run check:theme && npm run check:utilities && npm run check:class-collisions && npm run check:tokens && npm run check:alt-text && npm run check:logo-fills && npm run check:artwork-sync && npm run check:logo-grid && npm run check:parts && npm run check:type-scale && npm run check:type-weight && npm run check:specimens && npm run check:parity && npm run check:prose-parity && npm run check:props && npm run check:tables && npm run check:props-table && npm run check:exports && npm run check:vars && npm run check:docs-css && npm run check:components-css && npm run check:css-comments && npm run check:contrast && npm run check:catalogue && npm run check:ci-coverage && npm run check:seo && npm run check:shell && npm run check:manifest && npm run check:fonts && npm run check:code && npm run check:render",
     "preview": "node scripts/preview.mjs",
     "audit": "node scripts/preview.mjs --all",
     "preview:self-test": "node scripts/preview.mjs --self-test",
@@ -71,6 +71,7 @@
     "check:peer-range": "node scripts/check-peer-range.mjs --self-test && node scripts/check-peer-range.mjs",
     "check:prose-classes": "node scripts/check-prose-classes.mjs --self-test && node scripts/check-prose-classes.mjs",
     "build:components-css": "node scripts/build-component-css.mjs",
+    "check:css-comments": "node scripts/check-css-comments.mjs --self-test && node scripts/check-css-comments.mjs",
     "check:components-css": "node scripts/build-component-css.mjs --self-test && node scripts/build-component-css.mjs --check"
   },
   "peerDependencies": {
