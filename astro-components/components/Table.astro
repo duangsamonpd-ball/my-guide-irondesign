@@ -7,7 +7,10 @@
  * Modelled on Flowbite's default table, Ball's reference 2026-09-18. Every
  * value is a system token picked to match the reference. Figma's `Table` set
  * (`1219:154`, page ` ↳ Table`) was drawn FROM this component on 2026-09-24, so
- * the bands below hold the two to each other rather than one to a mock-up. The
+ * the bands below hold the two to each other rather than one to a mock-up. Since
+ * 2026-11-18 it is built from `Table row` (`1726:313`) with slots — `Rows` on
+ * the table, `Cells` on a row, `Content` on a cell — so a designer adds rows,
+ * columns and components without detaching; the markup here was always free. The
  * class strings live in `../table.ts`, because the docs tables wear the same
  * ones — see that file for why.
  *
@@ -24,7 +27,7 @@
  *   select [data-part="scroller"]
  *   at     1440
  *   height 205
- *   why    header 45 + rows 53 / 53 / 52 (each row owns its 1px divider, the last none) + 2px of border
+ *   why    code: header 45 + rows 53 / 53 / 52 (each divider below its row, the last none); Figma since 2026-11-18: header 44 + rows 53 / 53 / 53 (each body row's divider on its TOP edge, so no last-row case) — same lines, same 205 with the 2px border
  *
  * @figma-size sm
  *   node   1219:98
@@ -34,7 +37,12 @@
  *   select [data-part="scroller"]
  *   at     1440
  *   height 173
- *   why    header 37 + rows 45 / 45 / 44 + 2px of border
+ *   why    code: header 37 + rows 45 / 45 / 44; Figma: header 36 + rows 45 / 45 / 45 (divider on top) — same 173 with the 2px border
+ *
+ * Alignment is the cell's own: `text-right` / `text-center` on a `<th>` or
+ * `<td>` beats the `text-left` this sets on `<table>`, because the cell only
+ * INHERITS that (proven in Chrome 2026-11-18: left → right with the class). Figma:
+ * `align=left|center|right` on `Table cell`.
  *
  * Use `<th scope="row">` for the cell that names its row (the first column in
  * the reference): it takes the heading colour and medium weight, and a screen
@@ -49,7 +57,7 @@ import { tableWrap, tableClass } from '../table';
 interface Props {
   /**
    * Cell padding — `md` is the reference's 24 across and 16 down; `sm` is 16 by 12 for dense reference tables.
-   * @figma `size` on both `Table` and `Table cell` — same two values, same default
+   * @figma `size` on `Table`, `Table row` and `Table cell` — same two values, same default
    */
   size?: 'md' | 'sm';
   /** Names the table for assistive tech when no visible heading does. */

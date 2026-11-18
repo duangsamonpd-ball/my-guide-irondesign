@@ -539,6 +539,8 @@ A styled box for an ordinary HTML table. You write `<thead>`, `<tbody>`, `<tr>`,
 
 Props: `size` (`md` | `sm`, default `md`), `label` (an `aria-label` for the table when no visible heading names it), `class` (on the scroll box).
 
+Cells are left-aligned. To align a column, put `text-right` or `text-center` on its `<th>` and every `<td>` — the table sets `text-left` only on `<table>`, so a class on the cell wins. Right-align number columns, header included, so the digits line up. In Figma this is `align` on `Table cell`.
+
 Use `<th scope="row">` for the cell that names its row — it takes `--color-text-heading` at medium weight, and a screen reader reads it out with every cell in that row. A table wider than its container scrolls sideways inside the rounded box instead of widening the page; the box is `[data-part="scroller"]`.
 
 **No Figma node yet.** It is modelled on Flowbite's default table (Ball's reference, 2026-09-18), in system tokens: box `--rounded-xl` with a `--color-border` edge on `--color-bg-card`; header row `--color-bg-section`, medium weight, sentence case; body text `text-caption` (14/20) in `--color-text-support`; row dividers `--color-border`; padding `md` 24 across / 16 down (header 12), `sm` 16 / 12 (header 8). Check a drawing against these when one exists.

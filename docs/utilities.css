@@ -2332,6 +2332,9 @@
     display: none;
   }
 }
+.\[\&_tbody\]\:text-text-body tbody {
+  color: var(--color-text-body);
+}
 .\[\&_tbody_th\]\:py-md tbody th {
   padding-block: var(--spacing-md);
 }

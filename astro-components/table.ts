@@ -34,7 +34,14 @@ const tableBase =
   'w-full border-collapse text-left font-sans text-caption leading-caption text-text-support ' +
   '[&_thead]:bg-bg-section [&_thead_th]:font-medium [&_thead_th]:border-b [&_thead_th]:border-border ' +
   '[&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr:last-child]:border-b-0 ' +
-  '[&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap';
+  '[&_tbody_th]:font-medium [&_tbody_th]:text-text-heading [&_tbody_th]:whitespace-nowrap ' +
+  /* Body cells in the body colour, not the table's support colour (Ball, 2026-11-18;
+     Figma `Table cell` type=body → text/default/body). Set on <tbody> and INHERITED,
+     never on td: `[&_td]` is (0,1,1) and beat every cell's own colour class — it
+     turned the docs' `td.ptable-name` from its blue to body on 180 cells. A class
+     on a cell beats an inherited value, so a consumer's coloured cell keeps its
+     colour. Row headers keep heading (the rule above), header cells keep support. */
+  '[&_tbody]:text-text-body';
 
 /**
  * Cell padding per size. `md` is the reference's 24 across / 16 down with a

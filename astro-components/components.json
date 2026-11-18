@@ -1460,7 +1460,7 @@
           "required": false,
           "default": "'md'",
           "description": "Cell padding — `md` is the reference's 24 across and 16 down; `sm` is 16 by 12 for dense reference tables.",
-          "figma": "`size` on both `Table` and `Table cell` — same two values, same default"
+          "figma": "`size` on `Table`, `Table row` and `Table cell` — same two values, same default"
         },
         {
           "name": "label",
