@@ -1088,8 +1088,8 @@
 
    The slope is written as a fraction, not a vw decimal: 80/672 is 104−24 over
    1440−768 (margin), 16/672 is 80−64 (section padding). A decimal cannot be
-   exact here (16/672 does not terminate), and a slope rounded down lands a hair under 80
-   or 120 at 1440. check:tokens evaluates both at 768, 1440 and 1920, so a mode
+   exact here (16/672 does not terminate), and a slope rounded down lands a hair under 104
+   or 80 at 1440. check:tokens evaluates both at 768, 1440 and 1920, so a mode
    token that moves without its fraction fails rather than drifting.
 
    Gutter and columns still step at 1280: they change together, with the grid. */

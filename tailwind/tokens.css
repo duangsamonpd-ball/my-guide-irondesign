@@ -962,8 +962,8 @@
 
      The values are Ball's agreed proposal of 2026-10-12, not measured off a
      shipped page. Tablet 24 and Mobile 16 are what footer-md and footer-sm
-     already use; Desktop 80 leaves --size-container-content (1280) inside the
-     1440 canvas. Every one is an existing --spacing-* step.
+     already use. Desktop was 80 then, measured to the container edge; it became
+     104, measured to the content like the other two, on 2026-10-20 (below).
 
      The h1 rungs Figma's `viewport` collection also holds are NOT here: in code
      they are the clamp() on --font-size-5xl / -6xl, which Figma samples at each
@@ -1105,8 +1105,8 @@
 
    The slope is written as a fraction, not a vw decimal: 80/672 is 104−24 over
    1440−768 (margin), 16/672 is 80−64 (section padding). A decimal cannot be
-   exact here (16/672 does not terminate), and a slope rounded down lands a hair under 80
-   or 120 at 1440. check:tokens evaluates both at 768, 1440 and 1920, so a mode
+   exact here (16/672 does not terminate), and a slope rounded down lands a hair under 104
+   or 80 at 1440. check:tokens evaluates both at 768, 1440 and 1920, so a mode
    token that moves without its fraction fails rather than drifting.
 
    Gutter and columns still step at 1280: they change together, with the grid. */
