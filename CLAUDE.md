@@ -219,6 +219,17 @@ the start.
   comparison against `HEAD` found both.
 - **Tailwind only scans `.astro` and the listed `.ts`.** A class string anywhere
   else is never compiled.
+- **A `*/` in a CSS comment's prose ends the comment.** Write `<hue>/300`, never
+  `*/300`. The rest of the comment is parsed as CSS and the browser recovers
+  silently: between rules it drops the NEXT RULE, inside a block the NEXT
+  DECLARATION. Notice's `info` intent lost its fill and accent in both themes that
+  way, with every gate green, until someone read the source.
+  `check:css-comments` enforces it.
+- **A diff against `HEAD` cannot see a fault that is already in `HEAD`.**
+  `style-diff` answers "did this change", not "is this right" — an end-of-day
+  review read "nothing renders differently" over that same broken Notice. When
+  reviewing a component, also check each variant against its siblings and its
+  declared token; four intents with a fill and one `transparent` is the finding.
 
 ## Attack your own instrument first
 
