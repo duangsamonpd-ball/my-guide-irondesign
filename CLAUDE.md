@@ -271,3 +271,11 @@ Both this repo and the skills repo work **direct to `main`**. Commit, push and
 similar steps happen **on an explicit request each time** — one step per
 request, not chained ahead. Commit messages here carry the reasoning and the
 measurements, not just the change.
+
+**This repo pushes to two places.** `duangsamonpd-ball/my-guide-irondesign` is
+where the work lives — issues, CI, Pages. `iron-software/my-guide-irondesign` is
+a private push-only mirror with Actions off, so the workflows and the deploy run
+once. `origin` carries both as push URLs, so one `git push` sends to both, one
+after the other. A push that reached only one leaves them apart, so after every
+push compare `git ls-remote` on both with `git rev-parse HEAD`. A new tag goes to
+the mirror the same way.
