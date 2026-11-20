@@ -273,7 +273,7 @@ request, not chained ahead. Commit messages here carry the reasoning and the
 measurements, not just the change.
 
 **This repo pushes to two places.** `duangsamonpd-ball/my-guide-irondesign` is
-where the work lives — issues, CI, Pages. `iron-software/my-guide-irondesign` is
+where the work lives — issues, CI, Pages. `iron-software/irondesign-system` is
 a private push-only mirror with Actions off, so the workflows and the deploy run
 once. `origin` carries both as push URLs, so one `git push` sends to both, one
 after the other. A push that reached only one leaves them apart, so after every
